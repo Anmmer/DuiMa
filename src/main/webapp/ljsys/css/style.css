@@ -1,0 +1,88 @@
+
+.MenuStyle{
+    width: 15%;
+    height: 100%;
+    float:left;
+    background-color: rgb(50,64,87);
+    margin:0px;
+    padding:0px;
+}
+.MenuItemStyle{
+    width: 100%;
+    height:100px;
+}
+.BodyStyle{
+    height:100%;
+    padding:0px;
+    margin:0px;
+}
+.ul_ListStyle{
+    list-style: none;
+    list-style-type: none;
+    padding-inline-start: 0px;
+    background-color: rgb(31,45,61);
+    margin:0px;
+    padding:0px;
+}
+.ul_TopListStyle{
+    list-style-type: none;
+    padding-inline-start: 0px;
+    list-style-image: url(http://101.37.32.123:8989/ljsys/pictures/right.png);
+    margin:0px;
+    padding:0px;
+}
+.li_ItemStyle{
+    width: 100%;
+    height:35px;
+    line-height: 35px;
+    list-style: none;
+    color:azure;
+    font-size:20px;
+    font-family: Simsun;
+    text-align: center;
+}
+li:hover{
+    background-color: lightblue;
+}
+.li_TopItemStyle{
+    width: 100%;
+    height:50px;
+    line-height: 50px;
+    color:azure;
+    font-size:30px;
+    font-family: Simsun;
+    background-color: rgb(50,64,87);
+}
+.TitleStyle{
+    text-align: center;
+    color:aliceblue;
+    font-size: 40px;
+    font-family: Simsun;
+}
+.LoginStyle{
+    background:url(../pictures/loginbackground.png);
+    width: 630px;
+    height:350px;
+    margin:0 auto;
+}
+/* 登陆输入框的样式 */
+.LoginInputStyle{
+    width: 350px;
+    height:300px;
+    margin:50px auto;
+}
+.FormInputStyle{
+    height:30px;
+    font-size: 20px;
+}
+.tdStyle{
+    vertical-align: middle;
+    text-align: center;
+    font-size: 20px;
+    font-family: Simsun;
+}
+.pStyle{
+    font-size:20px;
+    font-family: Simsun;
+    padding:0;
+}

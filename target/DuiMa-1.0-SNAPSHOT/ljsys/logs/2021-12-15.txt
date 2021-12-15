@@ -1,0 +1,3 @@
+11:14:25:admin(工号为1)执行操作[delete from project_item where pi_id=24;],信息:删除了项目字段(其编号为24)
+11:14:28:admin(工号为1)执行操作[delete from project_item where pi_id=23;],信息:删除了项目字段(其编号为23)
+11:18:58:工号为1登陆成功!
