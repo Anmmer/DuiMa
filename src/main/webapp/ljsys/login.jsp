@@ -38,7 +38,7 @@
                                 var functionList = JSON.parse(res.function);
                                 console.log(functionList)
                                 sessionStorage.setItem("authority",JSON.stringify(functionList))
-                                location.href = "index.jsp"
+                                location.href = "${pageContext.request.contextPath}/ljsys/index.jsp"
                             },
                             error:function(message){
                                 console.log(message)
