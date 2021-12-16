@@ -6,7 +6,7 @@ import java.util.*;
 import com.alibaba.fastjson.JSON;
 public class AddFactory extends HttpServlet {
 	static final String JDBC_DRIVER = "com.mysql.cj.jdbc.Driver";
-	static final String DB_URL = "jdbc:mysql://localhost:3306/lisys?useUnicode=true&characterEncoding=utf8&useSSL=true&serverTimezone=UTC";
+	static final String DB_URL = "jdbc:mysql://localhost:3306/ljsys?useUnicode=true&characterEncoding=utf8&useSSL=true&serverTimezone=UTC";
 	static final String USER = "root";
 	static final String PASS = "123456";
 
@@ -60,7 +60,7 @@ public class AddFactory extends HttpServlet {
 			}
 			ret.put("result","true");
 			ret.put("message","新增仓储组织成功!");
-			out.print(JSON.toJSONString(ret));	
+			out.print(JSON.toJSONString(ret));
 			SystemLog.log(name+"(工号为"+id+")新增仓储组织'"+factoryName+"'成功!");
 		}catch(Exception e) {
 			try{

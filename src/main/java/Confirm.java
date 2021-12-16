@@ -8,7 +8,7 @@ import java.text.*;
 // 让构件完成目前所在的工序
 public class Confirm extends HttpServlet {
 	static final String JDBC_DRIVER = "com.mysql.cj.jdbc.Driver";
-	static final String DB_URL = "jdbc:mysql://localhost:3306/lisys?useUnicode=true&characterEncoding=utf8&useSSL=true&serverTimezone=UTC";
+	static final String DB_URL = "jdbc:mysql://localhost:3306/ljsys?useUnicode=true&characterEncoding=utf8&useSSL=true&serverTimezone=UTC";
 	static final String USER = "root";
 	static final String PASS = "123456";
 
@@ -58,7 +58,7 @@ public class Confirm extends HttpServlet {
 					}
 				}
 				else{
-					System.out.println("no rs.next()");	
+					System.out.println("no rs.next()");
 				}
 				String produceId = productId+"_"+processId;
 				java.util.Date now = new java.util.Date();

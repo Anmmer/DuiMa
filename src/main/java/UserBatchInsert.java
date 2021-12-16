@@ -10,7 +10,7 @@ import com.alibaba.fastjson.JSON;
 
 public class UserBatchInsert extends HttpServlet {
 	static final String JDBC_DRIVER = "com.mysql.cj.jdbc.Driver";
-	static final String DB_URL = "jdbc:mysql://localhost:3306/lisys?useUnicode=true&characterEncoding=utf8&useSSL=true&serverTimezone=UTC";
+	static final String DB_URL = "jdbc:mysql://localhost:3306/ljsys?useUnicode=true&characterEncoding=utf8&useSSL=true&serverTimezone=UTC";
 	static final String USER = "root";
 	static final String PASS = "123456";
 
@@ -97,7 +97,7 @@ public class UserBatchInsert extends HttpServlet {
 							SystemLog.log("管理员给'"+userName+"'(工号为"+userId+")设置群组'"+groupName+"'(群组编号"+groupId+")失败!原因:数据库系统错误!");
 							continue;
 						}
-					}	
+					}
 				}
 			}
 			ret.add("完成批量新增!");

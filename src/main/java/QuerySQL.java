@@ -7,7 +7,7 @@ import com.alibaba.fastjson.JSON;
 
 public class QuerySQL extends HttpServlet {
 	static final String JDBC_DRIVER = "com.mysql.cj.jdbc.Driver";
-	static final String DB_URL = "jdbc:mysql://localhost:3306/lisys?useUnicode=true&characterEncoding=utf8&useSSL=true&serverTimezone=UTC";
+	static final String DB_URL = "jdbc:mysql://localhost:3306/ljsys?useUnicode=true&characterEncoding=utf8&useSSL=true&serverTimezone=UTC";
 	static final String USER = "root";
 	static final String PASS = "123456";
 
@@ -40,7 +40,7 @@ public class QuerySQL extends HttpServlet {
 			pageMax = Integer.parseInt(pageMaxStr);
 		}catch(Exception e3) {
 			e3.printStackTrace();
-		} 
+		}
 		if(pageMax == 0 || pageCur == 0) {
 			out.print("ERROR!");
 		}
