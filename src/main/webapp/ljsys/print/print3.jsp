@@ -51,7 +51,8 @@
         <div class="pop_title title_1">上传Excel</div>
         <div class="close_btn"><img src="./img/close.png" onclick="closePop()"></div>
         <div style="width: 90%;margin: 0 auto">
-            <h3 style="text-align: center;margin-top: 0;">已导入计划列表</h3>
+            <input type="file" id="file1" style="position: relative;top:10px">
+            <h3 style="text-align: center;margin-top: 0;">导入预览</h3>
             <div style="height: 400px;border: 1px solid #000">
                 <table class="table" cellspacing="0" cellpadding="0" width="100%" align="center" border="1">
                     <tr>
@@ -63,7 +64,7 @@
                     </tbody>
                 </table>
             </div>
-            <div style="height:40px;margin-top: 2%">
+            <div style="height:35px;margin-top: 1%">
                 <div style="width:33%;float: left;">
                     <button type="button" style="font-family: Simsun;font-size:20px;" onclick="jumpToNewPage(1)">第一页
                     </button>
@@ -96,7 +97,7 @@
 </body>
 <script>
     var data = null;
-
+    var pop_num = 1;
     function openPop() {
         $(".pop_up").show();
     }
