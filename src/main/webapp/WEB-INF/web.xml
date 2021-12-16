@@ -60,6 +60,9 @@
     <taglib-location>/WEB-INF/x-rt.tld</taglib-location>
     </taglib>
   </jsp-config>
+  <welcome-file-list>
+      <welcome-file>ljsys/login.jsp</welcome-file>
+  </welcome-file-list>
   <servlet>
 		  <servlet-name>HelloWorld</servlet-name>
 		  <servlet-class>HelloWorld</servlet-class>

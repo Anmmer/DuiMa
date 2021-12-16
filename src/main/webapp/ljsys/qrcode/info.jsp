@@ -70,7 +70,7 @@
         pi_value : "STRING"
     }
     $.ajax({
-        url:"http://8.142.26.93:8989/DuiMa_war_exploded/QuerySQL",
+        url:"http://localhost:8989/DuiMa_war_exploded/QuerySQL",
         type:'post',
         dataType:'json',
         contentType:'application/x-www-form-urlencoded;charset=utf-8',
@@ -172,7 +172,7 @@
             fa = document.getElementById("draw")
             child = document.getElementById("draw"+id)
             fa.removeChild(child)
-            
+
         })
         $("#item"+cnt).append(contentspan,content,xspan,xvalue,yspan,yvalue,itemButton)
         // 画布上新增
@@ -284,7 +284,7 @@
     console.log(qrcodeId)
     function startpage(){
         $.ajax({
-            url:"http://8.142.26.93:8989/DuiMa_war_exploded/GetQRCode",
+            url:"http://localhost:8989/DuiMa_war_exploded/GetQRCode",
             type:'post',
             dataType:'json',
             contentType:'application/x-www-form-urlencoded;charset=utf-8',
@@ -348,7 +348,7 @@
                     }
                 }
             }
-        })        
+        })
     }
 
     function submitQRcode(){
@@ -362,7 +362,7 @@
         qrcodestyle['xsize']=$("#xsize").val()
         qrcodestyle['ysize']=$("#ysize").val()
         var qRCode = {}
-        var contentlist = 
+        var contentlist =
         qRCode['qRCodeContent'] = []
         var len = document.getElementById("valuesTo").length
         for(var i = 0; i < len; i++){
@@ -370,7 +370,7 @@
             console.log(document.getElementById("valuesTo").options[i].value)
         }
         qRCode['xsituation'] = $("#xvalue0").val()
-        qRCode['ysituation'] = $("#yvalue0").val()  
+        qRCode['ysituation'] = $("#yvalue0").val()
         qrcodestyle['qRCode'] = qRCode
         // 设置items
         var items = []
@@ -388,7 +388,7 @@
         console.log(qrcodestyle)
         var qrcodestylestr = JSON.stringify(qrcodestyle)
         $.ajax({
-            url:"http://8.142.26.93:8989/DuiMa_war_exploded/SetQRCode",
+            url:"http://localhost:8989/DuiMa_war_exploded/SetQRCode",
             type:'post',
             dataType:'json',
             contentType:'application/x-www-form-urlencoded;charset=utf-8',
@@ -444,7 +444,7 @@
             taskname:"test"
         }
         $.ajax({
-            url:"http://8.142.26.93:8989/DuiMa_war_exploded/PrintLabel",
+            url:"http://localhost:8989/DuiMa_war_exploded/PrintLabel",
             type:'post',
             dataType:'json',
             contentType:'application/x-www-form-urlencoded;charset=utf-8',
@@ -465,7 +465,7 @@
             return;
         }
         $.ajax({
-            url:"http://8.142.26.93:8989/DuiMa_war_exploded/ExecuteSQL",
+            url:"http://localhost:8989/DuiMa_war_exploded/ExecuteSQL",
                 type:'post',
                 dataType:'json',
                 contentType:'application/x-www-form-urlencoded;charset=utf-8',

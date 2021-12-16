@@ -102,7 +102,7 @@
         pageMax:10000
     };
     $.ajax({
-        url:"http://8.142.26.93:8989/DuiMa_war_exploded/QuerySQL",
+        url:"http://localhost:8989/DuiMa_war_exploded/QuerySQL",
         type:'post',
         dataType:'json',
         contentType:'application/x-www-form-urlencoded;charset=utf-8',
@@ -135,7 +135,7 @@
             pageMax:1000
         }
         $.ajax({
-            url:"http://8.142.26.93:8989/DuiMa_war_exploded/QuerySQL",
+            url:"http://localhost:8989/DuiMa_war_exploded/QuerySQL",
             type:'post',
             dataType:'json',
             contentType:'application/x-www-form-urlencoded;charset=utf-8',
@@ -171,7 +171,7 @@
             pageMax:1000
         }
         $.ajax({
-            url:"http://8.142.26.93:8989/DuiMa_war_exploded/QuerySQL",
+            url:"http://localhost:8989/DuiMa_war_exploded/QuerySQL",
             type:'post',
             dataType:'json',
             contentType:'application/x-www-form-urlencoded;charset=utf-8',
@@ -207,7 +207,7 @@
         pageMax:1000
     }
     $.ajax({
-        url:"http://8.142.26.93:8989/DuiMa_war_exploded/QuerySQL",
+        url:"http://localhost:8989/DuiMa_war_exploded/QuerySQL",
         type:'post',
         dataType:'json',
         contentType:'application/x-www-form-urlencoded;charset=utf-8',
@@ -240,7 +240,7 @@
         pageMax:1000
     }
     $.ajax({
-        url:"http://8.142.26.93:8989/DuiMa_war_exploded/QuerySQL",
+        url:"http://localhost:8989/DuiMa_war_exploded/QuerySQL",
         type:'post',
         dataType:'json',
         contentType:'application/x-www-form-urlencoded;charset=utf-8',
@@ -276,7 +276,7 @@
             name : sessionStorage.getItem("userName")
         }
         $.ajax({
-            url:"http://8.142.26.93:8989/DuiMa_war_exploded/AddGroupFunction",
+            url:"http://localhost:8989/DuiMa_war_exploded/AddGroupFunction",
             type:'post',
             dataType:'json',
             contentType:'application/x-www-form-urlencoded;charset=utf-8',
@@ -309,7 +309,7 @@
             name : sessionStorage.getItem("userName")
         }
         $.ajax({
-            url:"http://8.142.26.93:8989/DuiMa_war_exploded/AddGroupProcessContent",
+            url:"http://localhost:8989/DuiMa_war_exploded/AddGroupProcessContent",
             type:'post',
             dataType:'json',
             contentType:'application/x-www-form-urlencoded;charset=utf-8',
@@ -342,7 +342,7 @@
             message:"移除了编号为"+groupId+"的群组的功能权限(编号为"+id+")"
         }
         $.ajax({
-            url:"http://8.142.26.93:8989/DuiMa_war_exploded/ExecuteSQL",
+            url:"http://localhost:8989/DuiMa_war_exploded/ExecuteSQL",
                 type:'post',
                 dataType:'json',
                 contentType:'application/x-www-form-urlencoded;charset=utf-8',
@@ -373,7 +373,7 @@
             message:"移除了群组(编号为"+groupId+")的权限(编号为"+id+")"
         }
         $.ajax({
-            url:"http://8.142.26.93:8989/DuiMa_war_exploded/ExecuteSQL",
+            url:"http://localhost:8989/DuiMa_war_exploded/ExecuteSQL",
                 type:'post',
                 dataType:'json',
                 contentType:'application/x-www-form-urlencoded;charset=utf-8',

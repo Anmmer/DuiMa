@@ -5,8 +5,8 @@
     <head>
         <meta charset="utf-8">
         <title>相城绿建堆码后台管理系统</title>
-        <link rel="stylesheet" href="css/style.css" type="text/css">
-        <script type="text/javascript" src="./js/jquery-3.3.1.min.js"></script>
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/ljsys/css/style.css" type="text/css">
+        <script type="text/javascript" src="${pageContext.request.contextPath}/ljsys/js/jquery-3.3.1.min.js"></script>
     </head>
     <script type="text/javascript">
         function clickBtn(){
@@ -15,7 +15,7 @@
                 userPwd: document.forms["login"]["userPwd"].value
             };
             $.ajax({
-                url:"http://8.142.26.93:8989/DuiMa_war_exploded/LoginCheck",
+                url:"http://localhost:8989/DuiMa_war_exploded/LoginCheck",
                 type:'post',
                 dataType:'json',
                 contentType:'application/x-www-form-urlencoded;charset=utf-8',
@@ -27,7 +27,7 @@
                         sessionStorage.setItem("userName",res.userName);
                         // 获取权限
                         $.ajax({
-                            url:"http://8.142.26.93:8989/DuiMa_war_exploded/GetAuthority",
+                            url:"http://localhost:8989/DuiMa_war_exploded/GetAuthority",
                             type:'post',
                             dataType:'json',
                             contentType:'application/x-www-form-urlencoded;charset=utf-8',
@@ -44,7 +44,7 @@
                                 console.log(message)
                             }
                         })
-                        
+
                     }
                 },
                 error:function(message){

@@ -113,7 +113,7 @@
                 pageMax:15
             };
             $.ajax({
-                url:"http://8.142.26.93:8989/DuiMa_war_exploded/QuerySQL",
+                url:"http://localhost:8989/DuiMa_war_exploded/QuerySQL",
                 type:'post',
                 dataType:'json',
                 contentType:'application/x-www-form-urlencoded;charset=utf-8',
@@ -126,8 +126,8 @@
                     var jsonobj = JSON.parse(res.data);
                     console.log(jsonobj)
                     for( var i = 0; i < jsonobj.length; i++) {
-                        str +="<tr><td class='tdStyle'>" + jsonobj[i]['warehouse_id'] + 
-                            "</td><td class='tdStyle'>" + jsonobj[i]['warehouse_name'] + 
+                        str +="<tr><td class='tdStyle'>" + jsonobj[i]['warehouse_id'] +
+                            "</td><td class='tdStyle'>" + jsonobj[i]['warehouse_name'] +
                             "</td><td class='tdStyle'>";
                         // 查询
                         str += "<a href='warehouseInfoQueryAll.jsp?warehouseId="+jsonobj[i]['warehouse_id']+"&warehouseName="+encodeURIComponent(jsonobj[i]['warehouse_name'])+"'>详情</a>"
@@ -139,11 +139,11 @@
                     var tipStr = "共查询到"+res.cnt+"条记录,结果共有"+res.pageAll+"页!"
                     $("#resultTip").html(tipStr);
                     // 重置查询为第一页
-                    pageCur = newpage;                 
+                    pageCur = newpage;
                     // 重置总页数
-                    pageAll = parseInt(res.pageAll);  
+                    pageAll = parseInt(res.pageAll);
                     var tipStr2 = pageCur+"/"+pageAll;
-                    $("#resultTip2").html(tipStr2)     
+                    $("#resultTip2").html(tipStr2)
                 },
                 error:function(message){
                     console.log(json)
@@ -189,7 +189,7 @@
                 pageMax:15
             };
             $.ajax({
-                url:"http://8.142.26.93:8989/DuiMa_war_exploded/QuerySQL",
+                url:"http://localhost:8989/DuiMa_war_exploded/QuerySQL",
                 type:'post',
                 dataType:'json',
                 contentType:'application/x-www-form-urlencoded;charset=utf-8',
@@ -200,8 +200,8 @@
                     var jsonobj = JSON.parse(res.data);
                     console.log(jsonobj)
                     for( var i = 0; i < jsonobj.length; i++) {
-                        str +="<tr><td class='tdStyle'>" + jsonobj[i]['warehouse_id'] + 
-                            "</td><td class='tdStyle'>" + jsonobj[i]['warehouse_name'] + 
+                        str +="<tr><td class='tdStyle'>" + jsonobj[i]['warehouse_id'] +
+                            "</td><td class='tdStyle'>" + jsonobj[i]['warehouse_name'] +
                             "</td><td class='tdStyle'>";
                         // 查询
                         str += "详情"
@@ -211,11 +211,11 @@
                     // 提示语
                     var tipStr = "共查询到"+res.cnt+"条记录,结果共有"+res.pageAll+"页!"
                     $("#resultTip").html(tipStr);
-                    pageCur = newpage;                 
+                    pageCur = newpage;
                     // 重置总页数
-                    pageAll = parseInt(res.pageAll);       
+                    pageAll = parseInt(res.pageAll);
                     var tipStr2 = pageCur+"/"+pageAll;
-                    $("#resultTip2").html(tipStr2)     
+                    $("#resultTip2").html(tipStr2)
                 },
                 error:function(message){
                     console.log(json)
@@ -246,7 +246,7 @@
                 pageMax:15
             };
             $.ajax({
-                url:"http://8.142.26.93:8989/DuiMa_war_exploded/QuerySQL",
+                url:"http://localhost:8989/DuiMa_war_exploded/QuerySQL",
                 type:'post',
                 dataType:'json',
                 contentType:'application/x-www-form-urlencoded;charset=utf-8',
@@ -257,8 +257,8 @@
                     var jsonobj = JSON.parse(res.data);
                     console.log(jsonobj)
                     for( var i = 0; i < jsonobj.length; i++) {
-                        str +="<tr><td class='tdStyle'>" + jsonobj[i]['warehouse_id'] + 
-                            "</td><td class='tdStyle'>" + jsonobj[i]['warehouse_name'] + 
+                        str +="<tr><td class='tdStyle'>" + jsonobj[i]['warehouse_id'] +
+                            "</td><td class='tdStyle'>" + jsonobj[i]['warehouse_name'] +
                             "</td><td class='tdStyle'>";
                         // 查询
                         str += "详情"
@@ -268,11 +268,11 @@
                     // 提示语
                     var tipStr = "共查询到"+res.cnt+"条记录,结果共有"+res.pageAll+"页!"
                     $("#resultTip").html(tipStr);
-                    pageCur = newpage;                 
+                    pageCur = newpage;
                     // 重置总页数
-                    pageAll = parseInt(res.pageAll);       
+                    pageAll = parseInt(res.pageAll);
                     var tipStr2 = pageCur+"/"+pageAll;
-                    $("#resultTip2").html(tipStr2)     
+                    $("#resultTip2").html(tipStr2)
                 },
                 error:function(message){
                     console.log(json)
@@ -295,7 +295,7 @@
                 name : sessionStorage.getItem("userName")
             }
             $.ajax({
-                url:"http://8.142.26.93:8989/DuiMa_war_exploded/AddWarehouse",
+                url:"http://localhost:8989/DuiMa_war_exploded/AddWarehouse",
                 type:'post',
                 dataType:'json',
                 contentType:'application/x-www-form-urlencoded;charset=utf-8',
@@ -323,7 +323,7 @@
                 product_id:"STRING"
             }
             $.ajax({
-                url:"http://8.142.26.93:8989/DuiMa_war_exploded/QuerySQL",
+                url:"http://localhost:8989/DuiMa_war_exploded/QuerySQL",
                 type:'post',
                 dataType:'json',
                 contentType:'application/x-www-form-urlencoded;charset=utf-8',
@@ -337,7 +337,7 @@
                     console.log(res.cnt)
                     if(res.cnt == "0"){
                         $.ajax({
-                            url:"http://8.142.26.93:8989/DuiMa_war_exploded/ExecuteSQL",
+                            url:"http://localhost:8989/DuiMa_war_exploded/ExecuteSQL",
                             type:'post',
                             dataType:'json',
                             contentType:'application/x-www-form-urlencoded;charset=utf-8',

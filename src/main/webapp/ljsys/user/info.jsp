@@ -22,12 +22,12 @@
         return(false);
     }
     var userId = getQueryVariable("userId");
-    
+
     var userName = decodeURIComponent(getQueryVariable("userName"));
 
     let fieldNamestmp = {
         gp_id:"INT",
-        gp_name:"STRING" 
+        gp_name:"STRING"
     }
     var fieldNamesStr = JSON.stringify(fieldNamestmp);
     var sqlStrtmp = "select gp.gp_id,gp_name from gp,user_gp where gp.gp_id = user_gp.gp_id and user_id="+userId+";";
@@ -38,7 +38,7 @@
         pageMax:100
     };
     $.ajax({
-        url:"http://8.142.26.93:8989/DuiMa_war_exploded/QuerySQL",
+        url:"http://localhost:8989/DuiMa_war_exploded/QuerySQL",
         type:'post',
         dataType:'json',
         contentType:'application/x-www-form-urlencoded;charset=utf-8',
@@ -106,7 +106,7 @@
         userId:userId
     }
     $.ajax({
-        url:"http://8.142.26.93:8989/DuiMa_war_exploded/GetAuthority",
+        url:"http://localhost:8989/DuiMa_war_exploded/GetAuthority",
         type:'post',
         dataType:'json',
         contentType:'application/x-www-form-urlencoded;charset=utf-8',

@@ -75,7 +75,7 @@
                 warehouseId:warehouseId
             };
             $.ajax({
-                url:"http://8.142.26.93:8989/DuiMa_war_exploded/GetWarehouseInfo",
+                url:"http://localhost:8989/DuiMa_war_exploded/GetWarehouseInfo",
                 type:'post',
                 dataType:'json',
                 contentType:'application/x-www-form-urlencoded;charset=utf-8',
@@ -86,8 +86,8 @@
                     console.log(res)
                     var str = "";
                     for( var i = 0; i < res.length; i++) {
-                        str +="<tr><td class='tdStyle'>" + res[i]['wiTime'] + 
-                            "</td><td class='tdStyle'>" + res[i]['productId'] + 
+                        str +="<tr><td class='tdStyle'>" + res[i]['wiTime'] +
+                            "</td><td class='tdStyle'>" + res[i]['productId'] +
                             "</td><td class='tdStyle'>" + res[i]['userName'] +
                             "</td>";
                     }

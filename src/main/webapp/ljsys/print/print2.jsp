@@ -24,7 +24,7 @@
             <form name="resetprint" enctype="multipart/form-data" style="float:left">
                 <input type="file" id="file2" style="float:left">
                 <input type="button" value="上传" onclick="resetPrint()">
-            </form>     
+            </form>
         </div>
         <div id="messages" style="width:50%;height:100%;float:left;background-color: azure;overflow-y: auto;">
         </div>
@@ -73,7 +73,7 @@
             qrcode_name:"STRING"
         }
         $.ajax({
-            url:"http://8.142.26.93:8989/DuiMa_war_exploded/QuerySQL",
+            url:"http://localhost:8989/DuiMa_war_exploded/QuerySQL",
             type:'post',
             dataType:'json',
             contentType:'application/x-www-form-urlencoded;charset=utf-8',
@@ -106,7 +106,7 @@
             qrcode_content:"STRING"
         }
         $.ajax({
-            url:"http://8.142.26.93:8989/DuiMa_war_exploded/QuerySQL",
+            url:"http://localhost:8989/DuiMa_war_exploded/QuerySQL",
             type:'post',
             dataType:'json',
             contentType:'application/x-www-form-urlencoded;charset=utf-8',
@@ -217,7 +217,7 @@
             pi_value : "STRING"
         }
         $.ajax({
-            url:"http://8.142.26.93:8989/DuiMa_war_exploded/QuerySQL",
+            url:"http://localhost:8989/DuiMa_war_exploded/QuerySQL",
             type:'post',
             dataType:'json',
             contentType:'application/x-www-form-urlencoded;charset=utf-8',
@@ -242,7 +242,7 @@
         var formData = new FormData();
         formData.append(type,$("#file1")[0].files[0]);
         $.ajax({
-            url:"http://8.142.26.93:8989/DuiMa_war_exploded/GetPrintDataByExcel",
+            url:"http://localhost:8989/DuiMa_war_exploded/GetPrintDataByExcel",
             type:'post',
             data:formData,
             processData:false,
@@ -278,7 +278,7 @@
         var formData = new FormData();
         formData.append(type,$("#file2")[0].files[0]);
         $.ajax({
-            url:"http://8.142.26.93:8989/DuiMa_war_exploded/ResetPrint",
+            url:"http://localhost:8989/DuiMa_war_exploded/ResetPrint",
             type:'post',
             data:formData,
             processData:false,
@@ -302,7 +302,7 @@
 	console.log(productids)
 	console.log(window.pdata.length)
         $.ajax({
-            url:"http://8.142.26.93:8989/DuiMa_war_exploded/PrintProduct",
+            url:"http://localhost:8989/DuiMa_war_exploded/PrintProduct",
             type:'post',
             dataType:'json',
             contentType:'application/x-www-form-urlencoded;charset=utf-8',
