@@ -1,6 +1,6 @@
 -- MySQL dump 10.13  Distrib 8.0.23, for Linux (x86_64)
 --
--- Host: localhost    Database: ljsys
+-- Host: localhost    Database: lisys
 -- ------------------------------------------------------
 -- Server version	8.0.23-0ubuntu0.20.04.1
 

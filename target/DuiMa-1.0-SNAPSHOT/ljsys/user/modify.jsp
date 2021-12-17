@@ -62,7 +62,7 @@
 <script type="text/javascript">
     let fieldNamestmp = {
         gp_id:"INT",
-        gp_name:"STRING" 
+        gp_name:"STRING"
     }
     var fieldNamesStr = JSON.stringify(fieldNamestmp);
     var sqlStrtmp = "select gp.gp_id,gp_name from gp,user_gp where gp.gp_id = user_gp.gp_id and user_id="+userId+";";
@@ -73,7 +73,7 @@
         pageMax:100
     };
     $.ajax({
-        url:"http://8.142.26.93:8989/DuiMa_war_exploded/QuerySQL",
+        url:"http://localhost:8989/DuiMa_war_exploded/QuerySQL",
         type:'post',
         dataType:'json',
         contentType:'application/x-www-form-urlencoded;charset=utf-8',
@@ -113,7 +113,7 @@
         pageMax:100
     };
     $.ajax({
-        url:"http://8.142.26.93:8989/DuiMa_war_exploded/QuerySQL",
+        url:"http://localhost:8989/DuiMa_war_exploded/QuerySQL",
         type:'post',
         dataType:'json',
         contentType:'application/x-www-form-urlencoded;charset=utf-8',
@@ -137,7 +137,7 @@
     fieldNamesStr = JSON.stringify(fieldNamestmp)
     sqlStrtmp = "select gp.gp_id, gp.gp_name from gp,user_gp where user_gp.gp_id = gp.gp_id and user_id = " +userId + ";";
     $.ajax({
-        url:"http://8.142.26.93:8989/DuiMa_war_exploded/QuerySQL",
+        url:"http://localhost:8989/DuiMa_war_exploded/QuerySQL",
         type:'post',
         dataType:'json',
         contentType:'application/x-www-form-urlencoded;charset=utf-8',
@@ -180,7 +180,7 @@
                 message:"修改了用户'"+userName+"'的姓名，新姓名为'"+newName+"'"
             }
             $.ajax({
-                url:"http://8.142.26.93:8989/DuiMa_war_exploded/ExecuteSQL",
+                url:"http://localhost:8989/DuiMa_war_exploded/ExecuteSQL",
                 type:'post',
                 dataType:'json',
                 contentType:'application/x-www-form-urlencoded;charset=utf-8',
@@ -203,7 +203,7 @@
             if(flag){
                 // 需要新增
                 $.ajax({
-                    url:"http://8.142.26.93:8989/DuiMa_war_exploded/AddUserGp",
+                    url:"http://localhost:8989/DuiMa_war_exploded/AddUserGp",
                     type:'post',
                     dataType:'json',
                     data:{
@@ -234,7 +234,7 @@
             if(flag){
                 // 需要删除
                 $.ajax({
-                    url:"http://8.142.26.93:8989/DuiMa_war_exploded/ExecuteSQL",
+                    url:"http://localhost:8989/DuiMa_war_exploded/ExecuteSQL",
                     type:'post',
                     dataType:'json',
                     contentType:'application/x-www-form-urlencoded;charset=utf-8',
@@ -289,5 +289,5 @@
             newgpids.push(id)
         }
     }
-    
+
 </script>

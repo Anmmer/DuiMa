@@ -31,7 +31,7 @@
             <input type="file" name="file1" id="file1" style="width:65%;height:40px;float:left;font-size:20px;font-family: Simsun;"><br/>
             <div style="width:100%;height:30px;float:left;"></div>
             <input type="button" value="批量新增" style="float:left;font-size: 20px;font-family: Simsun;" onclick="addBatch()">
-        </form>   
+        </form>
         </div>
 
         <div style="float: left;width: 100%;"><span class="pStyle">信息面板:</span></div>
@@ -68,7 +68,7 @@
         pageMax:100
     };
     $.ajax({
-        url:"http://8.142.26.93:8989/DuiMa_war_exploded/QuerySQL",
+        url:"http://localhost:8989/DuiMa_war_exploded/QuerySQL",
         type:'post',
         dataType:'json',
         contentType:'application/x-www-form-urlencoded;charset=utf-8',
@@ -101,7 +101,7 @@
         // 使用新增Servlet
         // 修改新增的后端
         $.ajax({
-            url:"http://8.142.26.93:8989/DuiMa_war_exploded/AddUser",
+            url:"http://localhost:8989/DuiMa_war_exploded/AddUser",
             type:'post',
             dataType:'json',
             contentType:'application/x-www-form-urlencoded;charset=utf-8',
@@ -130,7 +130,7 @@
         formData.append(type,$("#file1")[0].files[0]);
         // 使用批量新增的Servlet
         $.ajax({
-                url:"http://8.142.26.93:8989/DuiMa_war_exploded/UserBatchInsert",
+                url:"http://localhost:8989/DuiMa_war_exploded/UserBatchInsert",
                 type:'post',
                 data:formData,
                 processData:false,
@@ -161,7 +161,7 @@
         if(flag){
             var item = $("<div class='pStyle' id='gpname_"+gpid+"'><button onclick='removegp("+gpid+")'>删除</button>&nbsp&nbsp"+gpname+"</ br></div>")
             $("#addgp").append(item)
-            newgpids.push(gpid)            
+            newgpids.push(gpid)
         }
     }
     function removegp(gpid){

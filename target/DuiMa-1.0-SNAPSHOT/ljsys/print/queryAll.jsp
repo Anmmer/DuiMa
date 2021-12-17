@@ -89,7 +89,7 @@
                 pageMax:15
             };
             $.ajax({
-                url:"http://8.142.26.93:8989/DuiMa_war_exploded/QuerySQL",
+                url:"http://localhost:8989/DuiMa_war_exploded/QuerySQL",
                 type:'post',
                 dataType:'json',
                 contentType:'application/x-www-form-urlencoded;charset=utf-8',
@@ -100,25 +100,25 @@
                     var jsonobj = JSON.parse(res.data);
                     console.log(jsonobj)
                     for( var i = 0; i < jsonobj.length; i++) {
-                        str +="<tr><td class='tdStyle'>" + jsonobj[i]['pt_id'] + 
-                            "</td><td class='tdStyle'>" + jsonobj[i]['pt_name'] + 
-                            "</td><td class='tdStyle'>" + jsonobj[i]['pt_status'] + 
-                            "</td><td class='tdStyle'>" + jsonobj[i]['pt_time'] + 
+                        str +="<tr><td class='tdStyle'>" + jsonobj[i]['pt_id'] +
+                            "</td><td class='tdStyle'>" + jsonobj[i]['pt_name'] +
+                            "</td><td class='tdStyle'>" + jsonobj[i]['pt_status'] +
+                            "</td><td class='tdStyle'>" + jsonobj[i]['pt_time'] +
                             "</td><td class='tdStyle'>";
                         // 查询
                         str += "<a href='/ljsys/pictures/zips/"+jsonobj[i]['pt_id']+".zip' download='"+jsonobj[i]['pt_id']+"'>下载</a>"
-                        str += "</td></tr>"                     
+                        str += "</td></tr>"
                     }
                     $("#tableText").html(str);
                     // 提示语
                     var tipStr = "共查询到"+res.cnt+"条记录,结果共有"+res.pageAll+"页!"
                     $("#resultTip").html(tipStr);
                     // 重置查询为第一页
-                    pageCur = newpage;                 
+                    pageCur = newpage;
                     // 重置总页数
-                    pageAll = parseInt(res.pageAll);  
+                    pageAll = parseInt(res.pageAll);
                     var tipStr2 = pageCur+"/"+pageAll;
-                    $("#resultTip2").html(tipStr2)     
+                    $("#resultTip2").html(tipStr2)
                 },
                 error:function(message){
                     console.log(json)
@@ -166,7 +166,7 @@
                 pageMax:15
             };
             $.ajax({
-                url:"http://8.142.26.93:8989/DuiMa_war_exploded/QuerySQL",
+                url:"http://localhost:8989/DuiMa_war_exploded/QuerySQL",
                 type:'post',
                 dataType:'json',
                 contentType:'application/x-www-form-urlencoded;charset=utf-8',
@@ -177,24 +177,24 @@
                     var jsonobj = JSON.parse(res.data);
                     console.log(jsonobj)
                     for( var i = 0; i < jsonobj.length; i++) {
-                        str +="<tr><td class='tdStyle'>" + jsonobj[i]['pt_id'] + 
-                            "</td><td class='tdStyle'>" + jsonobj[i]['pt_name'] + 
-                            "</td><td class='tdStyle'>" + jsonobj[i]['pt_status'] + 
-                            "</td><td class='tdStyle'>" + jsonobj[i]['pt_time'] + 
+                        str +="<tr><td class='tdStyle'>" + jsonobj[i]['pt_id'] +
+                            "</td><td class='tdStyle'>" + jsonobj[i]['pt_name'] +
+                            "</td><td class='tdStyle'>" + jsonobj[i]['pt_status'] +
+                            "</td><td class='tdStyle'>" + jsonobj[i]['pt_time'] +
                             "</td><td class='tdStyle'>";
                         // 查询
                         str += "详情"
-                        str += "</td></tr>"      
+                        str += "</td></tr>"
                     }
                     $("#tableText").html(str);
                     // 提示语
                     var tipStr = "共查询到"+res.cnt+"条记录,结果共有"+res.pageAll+"页!"
                     $("#resultTip").html(tipStr);
-                    pageCur = newpage;                 
+                    pageCur = newpage;
                     // 重置总页数
-                    pageAll = parseInt(res.pageAll);       
+                    pageAll = parseInt(res.pageAll);
                     var tipStr2 = pageCur+"/"+pageAll;
-                    $("#resultTip2").html(tipStr2)     
+                    $("#resultTip2").html(tipStr2)
                 },
                 error:function(message){
                     console.log(json)
@@ -227,7 +227,7 @@
                 pageMax:15
             };
             $.ajax({
-                url:"http://8.142.26.93:8989/DuiMa_war_exploded/QuerySQL",
+                url:"http://localhost:8989/DuiMa_war_exploded/QuerySQL",
                 type:'post',
                 dataType:'json',
                 contentType:'application/x-www-form-urlencoded;charset=utf-8',
@@ -238,24 +238,24 @@
                     var jsonobj = JSON.parse(res.data);
                     console.log(jsonobj)
                     for( var i = 0; i < jsonobj.length; i++) {
-                        str +="<tr><td class='tdStyle'>" + jsonobj[i]['pt_id'] + 
-                            "</td><td class='tdStyle'>" + jsonobj[i]['pt_name'] + 
-                            "</td><td class='tdStyle'>" + jsonobj[i]['pt_status'] + 
-                            "</td><td class='tdStyle'>" + jsonobj[i]['pt_time'] + 
+                        str +="<tr><td class='tdStyle'>" + jsonobj[i]['pt_id'] +
+                            "</td><td class='tdStyle'>" + jsonobj[i]['pt_name'] +
+                            "</td><td class='tdStyle'>" + jsonobj[i]['pt_status'] +
+                            "</td><td class='tdStyle'>" + jsonobj[i]['pt_time'] +
                             "</td><td class='tdStyle'>";
                         // 查询
                         str += "详情"
-                        str += "</td></tr>"      
+                        str += "</td></tr>"
                     }
                     $("#tableText").html(str);
                     // 提示语
                     var tipStr = "共查询到"+res.cnt+"条记录,结果共有"+res.pageAll+"页!"
                     $("#resultTip").html(tipStr);
-                    pageCur = newpage;                 
+                    pageCur = newpage;
                     // 重置总页数
-                    pageAll = parseInt(res.pageAll);       
+                    pageAll = parseInt(res.pageAll);
                     var tipStr2 = pageCur+"/"+pageAll;
-                    $("#resultTip2").html(tipStr2)     
+                    $("#resultTip2").html(tipStr2)
                 },
                 error:function(message){
                     console.log(json)
@@ -295,7 +295,7 @@
                 pageMax:1000
             };
             $.ajax({
-                url:"http://8.142.26.93:8989/DuiMa_war_exploded/QuerySQL",
+                url:"http://localhost:8989/DuiMa_war_exploded/QuerySQL",
                 type:'post',
                 dataType:'json',
                 contentType:'application/x-www-form-urlencoded;charset=utf-8',
@@ -308,7 +308,7 @@
                         tmp.val(jsonobj[i]['qrcode_id'])
                         tmp.text(jsonobj[i]['qrcode_id']+"."+jsonobj[i]['qrcode_name'])
                         $("#qrcodestyles").append(tmp)
-                    }   
+                    }
                 },
                 error:function(message){
                     console.log(json)
@@ -350,7 +350,7 @@
             data1['taskname'] = $("#newtaskname").val()
             console.log(data1)
             $.ajax({
-                url:"http://8.142.26.93:8989/DuiMa_war_exploded/PrintLabel",
+                url:"http://localhost:8989/DuiMa_war_exploded/PrintLabel",
                 type:'post',
                 dataType:'json',
                 contentType:'application/x-www-form-urlencoded;charset=utf-8',

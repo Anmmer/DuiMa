@@ -73,7 +73,7 @@
                 pageMax:15
             };
             $.ajax({
-                url:"http://8.142.26.93:8989/DuiMa_war_exploded/QuerySQL",
+                url:"http://localhost:8989/DuiMa_war_exploded/QuerySQL",
                 type:'post',
                 dataType:'json',
                 contentType:'application/x-www-form-urlencoded;charset=utf-8',
@@ -85,8 +85,8 @@
                     var jsonobj = JSON.parse(res.data);
                     console.log(jsonobj)
                     for( var i = 0; i < jsonobj.length; i++) {
-                        str +="<tr><td class='tdStyle'>" + jsonobj[i]['user_id'] + 
-                            "</td><td class='tdStyle'>" + jsonobj[i]['user_name'] + 
+                        str +="<tr><td class='tdStyle'>" + jsonobj[i]['user_id'] +
+                            "</td><td class='tdStyle'>" + jsonobj[i]['user_name'] +
                             "</td><td class='tdStyle'>";
                         // 查询
                         str +="<a href='userInfo.jsp?userId="+jsonobj[i]['user_id']+"&userName="+jsonobj[i]['user_name']+"'>详情</a>&nbsp";
@@ -99,11 +99,11 @@
                     var tipStr = "共查询到"+res.cnt+"条记录,结果共有"+res.pageAll+"页!"
                     $("#resultTip").html(tipStr);
                     // 重置查询为第一页
-                    pageCur = newpage;                 
+                    pageCur = newpage;
                     // 重置总页数
-                    pageAll = parseInt(res.pageAll);  
+                    pageAll = parseInt(res.pageAll);
                     var tipStr2 = pageCur+"/"+pageAll;
-                    $("#resultTip2").html(tipStr2)     
+                    $("#resultTip2").html(tipStr2)
                 },
                 error:function(message){
                     console.log(json)
@@ -149,7 +149,7 @@
                 pageMax:15
             };
             $.ajax({
-                url:"http://8.142.26.93:8989/DuiMa_war_exploded/QuerySQL",
+                url:"http://localhost:8989/DuiMa_war_exploded/QuerySQL",
                 type:'post',
                 dataType:'json',
                 contentType:'application/x-www-form-urlencoded;charset=utf-8',
@@ -160,8 +160,8 @@
                     var jsonobj = JSON.parse(res.data);
                     console.log(jsonobj)
                     for( var i = 0; i < jsonobj.length; i++) {
-                        str +="<tr><td class='tdStyle'>" + jsonobj[i]['user_id'] + 
-                            "</td><td class='tdStyle'>" + jsonobj[i]['user_name'] + 
+                        str +="<tr><td class='tdStyle'>" + jsonobj[i]['user_id'] +
+                            "</td><td class='tdStyle'>" + jsonobj[i]['user_name'] +
                             "</td><td class='tdStyle'>";
                         // 查询
                         str +="<a href='userInfo.jsp?userId="+jsonobj[i]['user_id']+"&userName="+jsonobj[i]['user_name']+"'>详情</a>&nbsp";
@@ -174,11 +174,11 @@
                     var tipStr = "共查询到"+res.cnt+"条记录,结果共有"+res.pageAll+"页!"
                     $("#resultTip").html(tipStr);
                     // 重置查询为第一页
-                    pageCur = newpage;                 
+                    pageCur = newpage;
                     // 重置总页数
-                    pageAll = parseInt(res.pageAll);  
+                    pageAll = parseInt(res.pageAll);
                     var tipStr2 = pageCur+"/"+pageAll;
-                    $("#resultTip2").html(tipStr2)      
+                    $("#resultTip2").html(tipStr2)
                 },
                 error:function(message){
                     console.log(json)
@@ -209,7 +209,7 @@
                 pageMax:15
             };
             $.ajax({
-                url:"http://8.142.26.93:8989/DuiMa_war_exploded/QuerySQL",
+                url:"http://localhost:8989/DuiMa_war_exploded/QuerySQL",
                 type:'post',
                 dataType:'json',
                 contentType:'application/x-www-form-urlencoded;charset=utf-8',
@@ -220,8 +220,8 @@
                     var jsonobj = JSON.parse(res.data);
                     console.log(jsonobj)
                     for( var i = 0; i < jsonobj.length; i++) {
-                        str +="<tr><td class='tdStyle'>" + jsonobj[i]['user_id'] + 
-                            "</td><td class='tdStyle'>" + jsonobj[i]['user_name'] + 
+                        str +="<tr><td class='tdStyle'>" + jsonobj[i]['user_id'] +
+                            "</td><td class='tdStyle'>" + jsonobj[i]['user_name'] +
                             "</td><td class='tdStyle'>";
                         // 查询
                         str +="<a href='userInfo.jsp?userId="+jsonobj[i]['user_id']+"&userName="+jsonobj[i]['user_name']+"'>详情</a>&nbsp";
@@ -234,11 +234,11 @@
                     var tipStr = "共查询到"+res.cnt+"条记录,结果共有"+res.pageAll+"页!"
                     $("#resultTip").html(tipStr);
                     // 重置查询为第一页
-                    pageCur = newpage;                 
+                    pageCur = newpage;
                     // 重置总页数
-                    pageAll = parseInt(res.pageAll);  
+                    pageAll = parseInt(res.pageAll);
                     var tipStr2 = pageCur+"/"+pageAll;
-                    $("#resultTip2").html(tipStr2)    
+                    $("#resultTip2").html(tipStr2)
                 },
                 error:function(message){
                     console.log(json)
@@ -251,7 +251,7 @@
             var formData = new FormData();
             formData.append(type,$("#file1")[0].files[0]);
             $.ajax({
-                url:"http://8.142.26.93:8989/DuiMa_war_exploded/UserBatchInsert",
+                url:"http://localhost:8989/DuiMa_war_exploded/UserBatchInsert",
                 type:'post',
                 data:formData,
                 processData:false,
@@ -272,7 +272,7 @@
             }
             var sqlStr = "update user set user_status = 0 where user_id ="+userid+";";
             $.ajax({
-            url:"http://8.142.26.93:8989/DuiMa_war_exploded/ExecuteSQL",
+            url:"http://localhost:8989/DuiMa_war_exploded/ExecuteSQL",
                 type:'post',
                 dataType:'json',
                 contentType:'application/x-www-form-urlencoded;charset=utf-8',
