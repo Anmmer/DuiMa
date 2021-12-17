@@ -6,7 +6,7 @@ import com.alibaba.fastjson.JSON;
 
 public class IsExist extends HttpServlet {
 	static final String JDBC_DRIVER = "com.mysql.cj.jdbc.Driver";
-	static final String DB_URL = "jdbc:mysql://localhost:3306/ljsys?useUnicode=true&characterEncoding=utf8&useSSL=true&serverTimezone=UTC";
+	static final String DB_URL = "jdbc:mysql://8.142.26.93:3306/lisys?useUnicode=true&characterEncoding=utf8&useSSL=true&serverTimezone=UTC";
 	static final String USER = "root";
 	static final String PASS = "123456";
 
@@ -22,8 +22,8 @@ public class IsExist extends HttpServlet {
 		String filename = new String(request.getParameter("filename"));
 		// 连接数据库查询
 		try{
-//			File file = new File("src/main/webapp/ljsys/logs/"+filename);
-			File file = new File("C:\\Project\\DuiMa\\src\\main\\webapp\\ljsys\\logs\\"+filename);
+//			File file = new File("src/main/webapp/lisys/logs/"+filename);
+			File file = new File("C:\\Project\\DuiMa\\src\\main\\webapp\\lisys\\logs\\"+filename);
 			if(file.exists()) out.print("true");
 			else out.print("false");
 		}

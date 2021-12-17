@@ -9,16 +9,16 @@
 <div style="height: 95%;width: 100%">
     <div style="height: 10%;width: 100%">
         <button style="position:relative;top: 40%;left: 15%;font-family: Simsun;font-size:20px;" onclick="openPop()">上传文件</button>
-        <button style="position:relative;top: 40%;left: 74%">保存数据</button>
     </div>
     <div style="width: 70%;margin: 0 auto">
         <h3 style="text-align: center;margin-top: 0;">已导入计划列表</h3>
         <div style="height: 480px;border: 1px solid #000">
             <table class="table" cellspacing="0" cellpadding="0" width="100%" align="center" border="1">
                 <tr>
-                    <td class='tdStyle'>二维码编号</td>
-                    <td class='tdStyle'>二维码名</td>
-                    <td class='tdStyle'>查看详情</td>
+                    <td class='tdStyle'>计划名称</td>
+                    <td class='tdStyle'>公司</td>
+                    <td class='tdStyle'>工厂</td>
+                    <td class='tdStyle'>操作</td>
                 </tr>
                 <tbody id="tableText">
                 </tbody>
@@ -56,9 +56,9 @@
             <div style="height: 400px;border: 1px solid #000">
                 <table class="table" cellspacing="0" cellpadding="0" width="100%" align="center" border="1">
                     <tr>
-                        <td class='tdStyle'>二维码编号</td>
-                        <td class='tdStyle'>二维码名</td>
-                        <td class='tdStyle'>查看详情</td>
+                        <td class='tdStyle'>计划名称</td>
+                        <td class='tdStyle'>公司</td>
+                        <td class='tdStyle'>工厂</td>
                     </tr>
                     <tbody id="tableText">
                     </tbody>
@@ -124,8 +124,9 @@
     function updateTable(jsonObj, detail, num) {
         var str = "";
         for (var i = num; i < jsonObj.length; i++) {
-            str += "<tr><td class='tdStyle'>" + jsonObj[i]['qrcode_id'] +
-                "</td><td class='tdStyle'>" + jsonObj[i]['qrcode_name'] +
+            str += "<tr><td class='tdStyle'>" + jsonObj[i]['projectname'] +
+                "</td><td class='tdStyle'>" + jsonObj[i]['company'] +
+                "</td><td class='tdStyle'>"+ jsonObj[i]['plant']+
                 "</td><td class='tdStyle'>";
             // 查询
             if (detail) {
