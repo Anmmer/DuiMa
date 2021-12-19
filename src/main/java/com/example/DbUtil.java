@@ -11,6 +11,13 @@ public class DbUtil {
     static final String user = "root";
     static final String pwd = "123456";
 
+    public static Connection getCon() throws ClassNotFoundException, SQLException {
+        //        1.注册驱动，将mysql驱动包加载到内存
+        Class.forName(jdbcDriver);
+        //          2.通过驱动管理获得连接对象
+        return DriverManager.getConnection(url,user,pwd);
+    }
+
     public static void main(String[] args) throws ClassNotFoundException, SQLException {
 /**
  * 1.注册驱动

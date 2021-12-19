@@ -9,13 +9,13 @@
 	<id>DuiMa</id>
 
 	<classpath>
-		<dir name="D:/program/idea/DuiMa/target/classes">
+		<dir name="D:/Program/IdeaProjects/DuiMa/target/classes">
 		</dir>
 	</classpath>
 
 	<web>
 		<link target="/">
-			<dir name="D:/program/idea/DuiMa/src/main/webapp">
+			<dir name="D:/Program/IdeaProjects/DuiMa/src/main/webapp">
 			</dir>
 		</link>
 	</web>
