@@ -9,7 +9,7 @@
 </head>
 <body>
 <div style="height: 95%;width: 100%">
-    <div style="height: 15%;width: 100%">
+    <div style="height: 10%;width: 100%">
         <button style="position:relative;top: 50%;left: 15%;font-family: Simsun;font-size:20px;" onclick="openPop()">
             上传文件
         </button>
@@ -54,17 +54,17 @@
     <div class="pop_up">
         <div class="pop_title title_1">上传Excel</div>
         <div class="close_btn"><img src="./img/close.png" onclick="closePop()"></div>
-        <div style="width: 90%;margin: 0 auto">
+        <div style="width: 90%;height: 80%;margin: 0 auto">
             <input type="file" id="excel-file"
                    accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.ms-excel"
                    style="position: relative;top:20px">
             <h3 style="position: absolute;left: 45%;top: 7%;">导入预览</h3>
-            <div style="margin-top: 40px; margin-bottom: 10px;">
+            <div style="margin-top: 4%; margin-bottom: 1%;">
                 <label for="planname">计划名：</label><input id="planname" disabled>
                 <label for="company">公司：</label><input id="company" disabled>
                 <label for="plant">工厂：</label><input id="plant" disabled>
             </div>
-            <div style="height: 400px;border: 1px solid #000">
+            <div style="height: 70%;border: 1px solid #000">
                 <table class="table" cellspacing="0" cellpadding="0" width="100%" align="center" border="1">
                     <tr>
                         <td class='tdStyle'>物料编号</td>
@@ -137,10 +137,11 @@
     }
 
     function reset() {
-        $("#planname").val();
-        $("#company").val();
-        $("#plant").val();
-        $("#detailTableText").html()
+        $("#planname").val('');
+        $("#company").val('');
+        $("#plant").val('');
+        $('#excel-file').val('')
+        $("#detailTableText").html('')
         $('#pop_next').attr('disabled', true);
         $('#pop_pre').attr('disabled', true);
         $('#fist').attr('disabled', true);
@@ -151,12 +152,18 @@
     }
 
     $('.save-btn').click(function () {
-        console.log(excelData)
-        $.post("http://localhost:8989/DuiMa_war_exploded/addPlan", {str: JSON.stringify(excelData)}, function (result) {
-            alert(result.message);
-            // closePop();
-            // getTableData();
-        })
+        if (Object.keys(excelData).length !== 0) {
+            $.post("http://localhost:8989/DuiMa_war_exploded/addPlan", {str: JSON.stringify(excelData)}, function (result) {
+                let jsonObject = JSON.parse(result)
+                alert(jsonObject.message);
+                if (jsonObject.flag) {
+                    closePop();
+                    getTableData();
+                }
+            })
+        } else {
+            alert('请上传excel！');
+        }
     })
 
     function getTableData() {
