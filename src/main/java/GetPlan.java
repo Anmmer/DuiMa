@@ -16,7 +16,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class getPlan extends HttpServlet {
+public class GetPlan extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         super.doGet(req, resp);
@@ -32,10 +32,11 @@ public class getPlan extends HttpServlet {
             String sql = "select planid,planname,company,plant from plan";
             PreparedStatement ps = con.prepareStatement(sql);
             ResultSet rs = ps.executeQuery();
-            Map<String,List<Map<String,String>>> data = new HashMap<>();
-            List<Map<String,String>> list = new ArrayList<>();
-            while (!rs.next()) {
-                Map<String,String> map = new HashMap<>();
+            Map<String,Object> data = new HashMap<>();
+            List<Map<String, Object>> list = new ArrayList<>();
+            while (rs.next()) {
+                Map<String,Object> map = new HashMap<>();
+                map.put("planid",rs.getInt("planid"));
                 map.put("planname",rs.getString("planname"));
                 map.put("company",rs.getString("company"));
                 map.put("plant",rs.getString("plant"));
@@ -43,8 +44,11 @@ public class getPlan extends HttpServlet {
             }
             data.put("data",list);
             out.write(JSON.toJSONString(data));
+            rs.close();
+            ps.close();
             out.close();
         } catch (ClassNotFoundException | SQLException e) {
+            System.out.println("111111");
             e.printStackTrace();
         } finally {
             if (con != null) {

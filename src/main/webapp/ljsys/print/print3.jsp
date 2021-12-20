@@ -53,12 +53,15 @@
     </div>
     <div class="pop_up">
         <div class="pop_title title_1">上传Excel</div>
+        <div class="pop_title title_2">详情</div>
         <div class="close_btn"><img src="./img/close.png" onclick="closePop()"></div>
         <div style="width: 90%;height: 80%;margin: 0 auto">
             <input type="file" id="excel-file"
                    accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.ms-excel"
-                   style="position: relative;top:20px">
-            <h3 style="position: absolute;left: 45%;top: 7%;">导入预览</h3>
+                   style="position: relative;top:3.5%">
+            <button type="button" id="print" style="position: relative;top:3.5%">打印数据</button>
+            <h3 id="inputDetail" style="position: absolute;left: 45%;top: 6%;">导入预览</h3>
+            <h3 id="preProduct" style="position: absolute;left: 45%;top: 6%;">构件列表</h3>
             <div style="margin-top: 4%; margin-bottom: 1%;">
                 <label for="planname">计划名：</label><input id="planname" disabled>
                 <label for="company">公司：</label><input id="company" disabled>
@@ -129,6 +132,13 @@
 
     function openPop() {
         $(".pop_up").show();
+        $(".title_1").show();
+        $(".title_2").hide();
+        $("#excel-file").show();
+        $("#print").hide();
+        $("#inputDetail").show();
+        $("#preProduct").hide();
+
     }
 
     function closePop() {
@@ -146,9 +156,9 @@
         $('#pop_pre').attr('disabled', true);
         $('#fist').attr('disabled', true);
         $('#last').attr('disabled', true);
-        pop_num = 0;
-        pop_count = 0;
-        excelData = [];
+        pop_num = 1;
+        pop_count = 1;
+        excelData = {};
     }
 
     $('.save-btn').click(function () {
@@ -168,20 +178,38 @@
 
     function getTableData() {
         $.ajax({
-            url: "http://localhost:8989/DuiMa_war_exploded/getPlan",
+            url: "http://localhost:8989/DuiMa_war_exploded/GetPlan",
             type: 'post',
             dataType: 'json',
             contentType: 'application/x-www-form-urlencoded;charset=utf-8',
             success: function (res) {
                 if (res.data.length !== 0) {
-                    jsonObj = JSON.parse(res.data);
+                    jsonObj = res.data;
                     updateTable(false);
                 }
             }
         })
     }
 
-    function delTableData() {
+    function getDetailData(planid, i) {
+        $.post("http://localhost:8989/DuiMa_war_exploded/GetPreProduct", {'planid': planid}, function (result) {
+            result = JSON.parse(result);
+            if (result.data.length !== 0) {
+                excelData.preProduct = result.data;
+                excelData.plan = jsonObj[i];
+                $(".pop_up").show();
+                $("#excel-file").hide();
+                $(".title_1").hide();
+                $(".title_2").show();
+                $("#print").show();
+                $("#inputDetail").hide();
+                $("#preProduct").show();
+                updateTable(true);
+            }
+        })
+    }
+
+    function delTableData(planid) {
 
     }
 
@@ -211,7 +239,7 @@
                 str += "<tr><td class='tdStyle'>" + jsonObj[i]['planname'] +
                     "</td><td class='tdStyle'>" + jsonObj[i]['company'] +
                     "</td><td class='tdStyle'>" + jsonObj[i]['plant'] +
-                    "</td><td class='tdStyle'><a onclick='getTableData()'>详情</a><a onclick='delTableData()'>删除</a></tr>";
+                    "</td><td class='tdStyle'><a href='#' onclick='getDetailData(" + jsonObj[i]['planid'] + "," + i + ")'>详情</a><a href='#' onclick='delTableData(" + jsonObj[i]['planid'] + ")'>删除</a></tr>";
                 $("#planTableText").html(str);
             }
         }

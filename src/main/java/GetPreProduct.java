@@ -21,7 +21,7 @@ import java.util.Map;
  * @author:
  * @createDate: 2021/12/20
  */
-public class getPreProduct extends HttpServlet {
+public class GetPreProduct extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -31,23 +31,23 @@ public class getPreProduct extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         resp.setContentType("text/html;charset=UTF-8");
-        String index = req.getParameter("index");
+        String planid = req.getParameter("planid");
         Connection con = null;
         try {
             PrintWriter out = resp.getWriter();
             con = DbUtil.getCon();
             String sql = "select projectname,materialcode,preproductid,size,volume,weigh,qc,build,time,print,planid from preproduct";
-            if (index != null) {
-                sql += "while planid = ?";
+            if (planid != null) {
+                sql += " where planid = ?";
             }
             PreparedStatement ps = con.prepareStatement(sql);
-            if(index !=null){
-                ps.setInt(1,Integer.parseInt(index));
+            if(planid !=null){
+                ps.setInt(1,Integer.parseInt(planid));
             }
             ResultSet rs = ps.executeQuery();
             Map<String, List<Map<String, String>>> data = new HashMap<>();
             List<Map<String, String>> list = new ArrayList<>();
-            while (!rs.next()) {
+            while (rs.next()) {
                 Map<String, String> map = new HashMap<>();
                 map.put("projectname", rs.getString("projectname"));
                 map.put("materialcode", rs.getString("materialcode"));
@@ -65,6 +65,7 @@ public class getPreProduct extends HttpServlet {
             data.put("data", list);
             out.write(JSON.toJSONString(data));
             ps.close();
+            rs.close();
             out.close();
         } catch (ClassNotFoundException | SQLException e) {
             e.printStackTrace();

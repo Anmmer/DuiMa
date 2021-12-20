@@ -337,18 +337,26 @@
     </servlet-mapping>
     <servlet>
         <servlet-name>addPlan</servlet-name>
-        <servlet-class>addPlan</servlet-class>
+        <servlet-class>AddPlan</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>addPlan</servlet-name>
-        <url-pattern>/addPlan</url-pattern>
+        <url-pattern>/AddPlan</url-pattern>
     </servlet-mapping>
     <servlet>
         <servlet-name>getPlan</servlet-name>
-        <servlet-class>getPlan</servlet-class>
+        <servlet-class>GetPlan</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>getPlan</servlet-name>
-        <url-pattern>/getPlan</url-pattern>
+        <url-pattern>/GetPlan</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>getPreProduct</servlet-name>
+        <servlet-class>GetPreProduct</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>getPreProduct</servlet-name>
+        <url-pattern>/GetPreProduct</url-pattern>
     </servlet-mapping>
 </web-app>
