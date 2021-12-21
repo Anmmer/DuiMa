@@ -19,10 +19,10 @@
         <div style="height: 480px;border: 1px solid #000">
             <table class="table" cellspacing="0" cellpadding="0" width="100%" align="center" border="1">
                 <tr>
-                    <td class='tdStyle'>计划名称</td>
-                    <td class='tdStyle'>公司</td>
-                    <td class='tdStyle'>工厂</td>
-                    <td class='tdStyle'>操作</td>
+                    <td class='tdStyle_title'>计划名称</td>
+                    <td class='tdStyle_title'>公司</td>
+                    <td class='tdStyle_title'>工厂</td>
+                    <td class='tdStyle_title'>操作</td>
                 </tr>
                 <tbody id="planTableText">
                 </tbody>
@@ -70,15 +70,15 @@
             <div style="height: 70%;border: 1px solid #000">
                 <table class="table" cellspacing="0" cellpadding="0" width="100%" align="center" border="1">
                     <tr>
-                        <td class='tdStyle'>物料编号</td>
-                        <td class='tdStyle'>项目名称</td>
-                        <td class='tdStyle'>楼栋楼层</td>
-                        <td class='tdStyle'>构件尺寸</td>
-                        <td class='tdStyle'>构件编号</td>
-                        <td class='tdStyle'>体积</td>
-                        <td class='tdStyle'>质量</td>
-                        <td class='tdStyle'>质检员</td>
-                        <td class='tdStyle'>日期</td>
+                        <td class='tdStyle_title' style="width: 10%">物料编号</td>
+                        <td class='tdStyle_title' style="width: 10%">项目名称</td>
+                        <td class='tdStyle_title' style="width: 10%">楼栋楼层</td>
+                        <td class='tdStyle_title' style="width: 10%">构件尺寸</td>
+                        <td class='tdStyle_title' style="width: 10%">构件编号</td>
+                        <td class='tdStyle_title' style="width: 10%">体积</td>
+                        <td class='tdStyle_title' style="width: 10%">质量</td>
+                        <td class='tdStyle_title' style="width: 10%">质检员</td>
+                        <td class='tdStyle_title' style="width: 10%">日期</td>
                     </tr>
                     <tbody id="detailTableText">
                     </tbody>
@@ -221,25 +221,25 @@
             $("#company").val(excelData.plan.company);
             $("#plant").val(excelData.plan.plant);
             for (let i = (pop_num - 1) * 15; i < pop_num * 15 && i < preProductData.length; i++) {
-                str += "<tr><td class='tdStyle'>" + preProductData[i]['materialcode'] +
-                    "</td><td class='tdStyle'>" + preProductData[i]['projectname'] +
-                    "</td><td class='tdStyle'>" + preProductData[i]['build'] +
-                    "</td><td class='tdStyle'>" + preProductData[i]['size'] +
-                    "</td><td class='tdStyle'>" + preProductData[i]['preproductid'] +
-                    "</td><td class='tdStyle'>" + preProductData[i]['volume'] +
-                    "</td><td class='tdStyle'>" + parseFloat(preProductData[i]['weigh']).toFixed(2) +
-                    "</td><td class='tdStyle'>" + preProductData[i]['qc'] +
-                    "</td><td class='tdStyle'>" + preProductData[i]['time'] +
+                str += "<tr><td class='tdStyle_body'>" + preProductData[i]['materialcode'] +
+                    "</td><td class='tdStyle_body'>" + preProductData[i]['projectname'] +
+                    "</td><td class='tdStyle_body'>" + preProductData[i]['build'] +
+                    "</td><td class='tdStyle_body'>" + preProductData[i]['size'] +
+                    "</td><td class='tdStyle_body'>" + preProductData[i]['preproductid'] +
+                    "</td><td class='tdStyle_body'>" + preProductData[i]['volume'] +
+                    "</td><td class='tdStyle_body'>" + parseFloat(preProductData[i]['weigh']).toFixed(2) +
+                    "</td><td class='tdStyle_body'>" + preProductData[i]['qc'] +
+                    "</td><td class='tdStyle_body'>" + preProductData[i]['time'] +
                     "</td></tr>";
 
                 $("#detailTableText").html(str);
             }
         } else {
             for (let i = (num - 1) * 15; i < num * 15 && i < jsonObj.length; i++) {
-                str += "<tr><td class='tdStyle'>" + jsonObj[i]['planname'] +
-                    "</td><td class='tdStyle'>" + jsonObj[i]['company'] +
-                    "</td><td class='tdStyle'>" + jsonObj[i]['plant'] +
-                    "</td><td class='tdStyle'><a href='#' onclick='getDetailData(" + jsonObj[i]['planid'] + "," + i + ")'>详情</a><a href='#' onclick='delTableData(" + jsonObj[i]['planid'] + ")'>删除</a></tr>";
+                str += "<tr><td class='tdStyle_body'>" + jsonObj[i]['planname'] +
+                    "</td><td class='tdStyle_body'>" + jsonObj[i]['company'] +
+                    "</td><td class='tdStyle_body'>" + jsonObj[i]['plant'] +
+                    "</td><td class='tdStyle_body'><a href='#' onclick='getDetailData(" + jsonObj[i]['planid'] + "," + i + ")'>详情</a><a href='#' onclick='delTableData(" + jsonObj[i]['planid'] + ")'>删除</a></tr>";
                 $("#planTableText").html(str);
             }
         }

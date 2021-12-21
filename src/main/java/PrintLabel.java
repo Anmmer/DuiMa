@@ -13,7 +13,7 @@ import java.text.SimpleDateFormat;
 // 打印标签
 public class PrintLabel extends HttpServlet {
 	static final String JDBC_DRIVER = "com.mysql.cj.jdbc.Driver";
-	static final String DB_URL = "jdbc:mysql://8.142.26.93:3306/lisys?useUnicode=true&characterEncoding=utf8&useSSL=true&serverTimezone=UTC";
+	static final String DB_URL = "jdbc:mysql://localhost:3306/ljsys?useUnicode=true&characterEncoding=utf8&useSSL=true&serverTimezone=UTC";
 	static final String USER = "root";
 	static final String PASS = "123456";
 
@@ -90,7 +90,7 @@ public class PrintLabel extends HttpServlet {
 				infoStr = infoStr + productInfo.get(content.get(j)) + "\n";
 			}
 			// 绘制二维码
-			String path = "C:\\apache-tomcat\\webapps\\ROOT\\lisys\\pictures\\QRCodes\\product_"+productInfo.get("productId")+".png";
+			String path = "C:\\apache-tomcat\\webapps\\ROOT\\ljsys\\pictures\\QRCodes\\product_"+productInfo.get("productId")+".png";
 			try{
 				QRCodeGenerator.generateQRCodeImage(infoStr,150,150,path);
 				// 绘制画布
@@ -121,7 +121,7 @@ public class PrintLabel extends HttpServlet {
 						}
 					}
 				}
-				String labelpath =  "C:\\apache-tomcat\\webapps\\ROOT\\lisys\\pictures\\Labels\\label_"+productInfo.get("productId")+".png";
+				String labelpath =  "C:\\apache-tomcat\\webapps\\ROOT\\ljsys\\pictures\\Labels\\label_"+productInfo.get("productId")+".png";
 				ImageIO.write(bi,"PNG",new FileOutputStream(labelpath));
 			} catch(Exception e3) {
 				e3.printStackTrace();
@@ -130,7 +130,7 @@ public class PrintLabel extends HttpServlet {
 		// 压缩图片
 		MyZip pictures = new MyZip();
 		try{
-			pictures.zip("C:\\apache-tomcat\\webapps\\ROOT\\lisys\\pictures\\zips\\"+ptId+".zip",new File("C:\\apache-tomcat\\webapps\\ROOT\\lisys\\pictures\\Labels"));
+			pictures.zip("C:\\apache-tomcat\\webapps\\ROOT\\ljsys\\pictures\\zips\\"+ptId+".zip",new File("C:\\apache-tomcat\\webapps\\ROOT\\ljsys\\pictures\\Labels"));
 			Class.forName(JDBC_DRIVER);
 			conn = DriverManager.getConnection(DB_URL,USER,PASS);
 			stmt = conn.createStatement();

@@ -16,7 +16,7 @@ public class DownloadZip extends HttpServlet {
 		response.setHeader("Content-Disposition","attachment; filename="+ptId+".zip");
 		ServletOutputStream out = response.getOutputStream();
 		// 打开文件
-		File f = new File("C:\\Users\\Administrator\\Desktop\\堆码项目源代码\\tomcat\\webapps\\ROOT\\lisys\\pictures\\zips\\"+ptId+".zip");
+		File f = new File("C:\\Users\\Administrator\\Desktop\\堆码项目源代码\\tomcat\\webapps\\ROOT\\ljsys\\pictures\\zips\\"+ptId+".zip");
 		if(f.exists()){
 			FileInputStream fis = new FileInputStream(f);
 			byte[] b = new byte[fis.available()];

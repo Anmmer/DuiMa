@@ -9,7 +9,7 @@ import java.text.SimpleDateFormat;
 
 public class DbUtil {
     static final String jdbcDriver = "com.mysql.cj.jdbc.Driver";
-    static final String url = "jdbc:mysql://8.142.26.93:3306/lisys?useUnicode=true&characterEncoding=utf8&useSSL=true&serverTimezone=UTC";
+    static final String url = "jdbc:mysql://localhost:3306/ljsys?useUnicode=true&characterEncoding=utf8&useSSL=true&serverTimezone=UTC";
     static final String user = "root";
     static final String pwd = "123456";
 

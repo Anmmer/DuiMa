@@ -9,11 +9,11 @@ public class SystemLog{
 			SimpleDateFormat infoSdf = new SimpleDateFormat();
 			infoSdf.applyPattern("HH:mm:ss");
 			Date date = new Date();
-//			File file = new File("/root/tomcat/apache-tomcat-9.0.50/webapps/ROOT/lisys/logs/"+filenameSdf.format(date)+".txt");
-//			File file = new File(System.getProperty("user.dir")+"\\src\\main\\webapp\\lisys\\logs\\"+filenameSdf.format(date)+".txt");
+//			File file = new File("/root/tomcat/apache-tomcat-9.0.50/webapps/ROOT/ljsys/logs/"+filenameSdf.format(date)+".txt");
+//			File file = new File(System.getProperty("user.dir")+"\\src\\main\\webapp\\ljsys\\logs\\"+filenameSdf.format(date)+".txt");
 //			if(!file.exists()) file.createNewFile();
-//			FileWriter fw = new FileWriter("/root/tomcat/apache-tomcat-9.0.50/webapps/ROOT/lisys/logs/"+file.getName(),true);
-//			FileWriter fw = new FileWriter(System.getProperty("user.dir")+"\\src\\main\\webapp\\lisys\\logs\\"+file.getName(),true);
+//			FileWriter fw = new FileWriter("/root/tomcat/apache-tomcat-9.0.50/webapps/ROOT/ljsys/logs/"+file.getName(),true);
+//			FileWriter fw = new FileWriter(System.getProperty("user.dir")+"\\src\\main\\webapp\\ljsys\\logs\\"+file.getName(),true);
 //			System.out.println(file.getName());
 //			BufferedWriter bw = new BufferedWriter(fw);
 //			bw.write(infoSdf.format(date)+":"+info+"\n");

@@ -81,6 +81,21 @@ li:hover{
     font-size: 20px;
     font-family: Simsun;
 }
+.tdStyle_title{
+    vertical-align: middle;
+    text-align: center;
+    font-size: 18px;
+    font-family: Simsun;
+    font-weight: bolder;
+    line-height: 30px;
+}
+.tdStyle_body{
+    vertical-align: middle;
+    text-align: center;
+    font-size: 16px;
+    font-family: Simsun;
+    line-height: 25px;
+}
 .pStyle{
     font-size:20px;
     font-family: Simsun;

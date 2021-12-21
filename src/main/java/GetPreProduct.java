@@ -45,10 +45,10 @@ public class GetPreProduct extends HttpServlet {
                 ps.setInt(1,Integer.parseInt(planid));
             }
             ResultSet rs = ps.executeQuery();
-            Map<String, List<Map<String, String>>> data = new HashMap<>();
-            List<Map<String, String>> list = new ArrayList<>();
+            Map<String, List<Map<String, Object>>> data = new HashMap<>();
+            List<Map<String, Object>> list = new ArrayList<>();
             while (rs.next()) {
-                Map<String, String> map = new HashMap<>();
+                Map<String, Object> map = new HashMap<>();
                 map.put("projectname", rs.getString("projectname"));
                 map.put("materialcode", rs.getString("materialcode"));
                 map.put("preproductid", rs.getString("preproductid"));
@@ -57,7 +57,7 @@ public class GetPreProduct extends HttpServlet {
                 map.put("weigh", rs.getString("weigh"));
                 map.put("qc", rs.getString("qc"));
                 map.put("build", rs.getString("build"));
-                map.put("time", rs.getString("time"));
+                map.put("time", rs.getDate("time"));
                 map.put("print", rs.getString("print"));
                 map.put("planid", rs.getString("planid"));
                 list.add(map);

@@ -27,7 +27,7 @@ public class AddPlan extends HttpServlet {
         Map<String, Object> result = new HashMap<>();
         JSONObject plan = (JSONObject) map.get("plan");
         JSONArray preProduct = (JSONArray) map.get("preProduct");
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         Connection con = null;
         try {
             con = DbUtil.getCon();
