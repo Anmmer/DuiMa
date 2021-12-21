@@ -119,7 +119,7 @@
         </div>
     </div>
     <!--打印主界面-->
-    <div style="width:100%;height:70%;;margin:auto;float: left;">
+    <div style="width:100%;height:70%;margin:auto;float: left;display: none">
         <div id="printArea" style="width:80%;height:100%;margin: auto;background-color: azure;overflow-y: auto;"></div>
 
     </div>
@@ -209,6 +209,7 @@
                 $(".pop_footer").hide();
                 getStyleList();
                 updateTable(true);
+                getFieldMap();
             }
         })
     }
@@ -382,6 +383,8 @@
             success: function (res) {
                 var jsonobj = JSON.parse(res.data);
                 var qrcodestyles = document.getElementById("qrcodestyles")
+                $('#qrcodestyles').empty();
+                qrcodestyles.options.add(new Option('', 0));
                 for (var i = 0; i < jsonobj.length; i++) {
                     qrcodestyles.options.add(new Option(jsonobj[i].qrcode_name, jsonobj[i].qrcode_id))
                 }
@@ -395,6 +398,10 @@
     }
 
     function checkdata() {
+        if ($("#qrcodestyles option:selected").val() === '0') {
+            alert("请选择一个样式！");
+            return;
+        }
         var preProductIds = []
         for (var i = 0; i < excelData.preProduct.length; i++) {
             preProductIds.push(excelData.preProduct[i].pid)
@@ -409,9 +416,8 @@
             },
             success: function (res) {
                 // var jsonobj = JSON.parse(res.data)
-                console.log(res)
                 // 原来的data中去除已打印部分
-                getStyle()
+                printLabels()
             },
         })
     }
@@ -419,7 +425,10 @@
     // 获取样式
     function getStyle() {
         // 把样式设定为目前选中的样式
-        var qrcodeid = $("#qrcodestyles :selected").val()
+        let qrcodeid = $("#qrcodestyles :selected").val()
+        if (qrcodeid === '0') {
+            return
+        }
         var fieldNames = {
             qrcode_content: "STRING"
         }
@@ -440,7 +449,6 @@
                 printData()
             },
             error: function (message) {
-                console.log(message)
             }
         })
 
@@ -465,7 +473,6 @@
             },
             success: function (res) {
                 var jsonobj = JSON.parse(res.data)
-                fieldmap = {}
                 for (var i = 0; i < jsonobj.length; i++) {
                     fieldmap[jsonobj[i].pi_key] = jsonobj[i].pi_value
                 }
@@ -513,7 +520,7 @@
             getQRCode(i, qrcodeContent)
         }
         var enditem = $(endStr)
-        // $("#printArea").append(enditem)
+        $("#printArea").append(enditem)
     }
 
     function getQRCode(idx, str) {
@@ -525,11 +532,11 @@
             colorLight: "#ffffff",
             correctLevel: QRCode.CorrectLevel.H
         })
-        printLabels();
     }
 
     // 打印标签
     function printLabels() {
+
         var bdhtml = window.document.body.innerHTML;
         var sprnstr = "<!--startprint-->";
         var eprnstr = "<!--endprint-->";
@@ -538,6 +545,7 @@
         window.document.body.innerHTML = prnhtml;
         window.print();
         window.document.body.innerHTML = bdhtml;
+        closePop();
     }
 
 
