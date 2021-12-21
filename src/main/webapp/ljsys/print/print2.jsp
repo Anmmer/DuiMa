@@ -36,21 +36,24 @@
 
 </div>
 <div style="width:80%;margin:auto">
-    <div class='pStyle' style="float:left;"><a href="./files/QRCodeDataTemplate.xls" download="QRCodeDataTemplate.xls">EXCEL导入模板</a>&nbsp;&nbsp;</div>
-    <div class='pStyle' style="float:left;"><a href="./files/ResetPrintTemplate.xls" download="ResetPrintTemplate.xls">重置打印次数模板</a></div>
+    <div class='pStyle' style="float:left;"><a href="./files/QRCodeDataTemplate.xls" download="QRCodeDataTemplate.xls">EXCEL导入模板</a>&nbsp;&nbsp;
+    </div>
+    <div class='pStyle' style="float:left;"><a href="./files/ResetPrintTemplate.xls" download="ResetPrintTemplate.xls">重置打印次数模板</a>
+    </div>
 </div>
 
 <script type="text/javascript">
     // 公共变量
-    function checkAuthority(au){
+    function checkAuthority(au) {
         var authority = JSON.parse(sessionStorage.getItem("authority"))
         flag = false;
-        for(var i = 0; i < authority.length; i++){
-            if(authority[i].fa_name == au) flag = true;
+        for (var i = 0; i < authority.length; i++) {
+            if (authority[i].fa_name == au) flag = true;
         }
         return flag;
     }
-    if(!checkAuthority("打印二维码标签")){
+
+    if (!checkAuthority("打印二维码标签")) {
         window.alert("您无打印二维码标签的权限")
         window.history.go(-1)
     }
@@ -67,63 +70,64 @@
     //printData()
     // 函数
     // 获取所有样式并放入select
-    function getStyleList(){
+    function getStyleList() {
         var fieldNames = {
-            qrcode_id:"INT",
-            qrcode_name:"STRING"
+            qrcode_id: "INT",
+            qrcode_name: "STRING"
         }
         $.ajax({
-            url:"http://localhost:8989/DuiMa_war_exploded/QuerySQL",
-            type:'post',
-            dataType:'json',
-            contentType:'application/x-www-form-urlencoded;charset=utf-8',
-            data:{
+            url: "http://localhost:8989/DuiMa_war_exploded/QuerySQL",
+            type: 'post',
+            dataType: 'json',
+            contentType: 'application/x-www-form-urlencoded;charset=utf-8',
+            data: {
                 sqlStr: "select qrcode_id, qrcode_name from qrcode where qrcode_status=1;",
-                fieldNames:JSON.stringify(fieldNames),
-                pageCur:1,
-                pageMax:1000
+                fieldNames: JSON.stringify(fieldNames),
+                pageCur: 1,
+                pageMax: 1000
             },
-            success:function(res){
+            success: function (res) {
                 var jsonobj = JSON.parse(res.data);
                 var qrcodestyles = document.getElementById("qrcodestyles")
-                for(var i = 0; i < jsonobj.length; i++){
-                    qrcodestyles.options.add(new Option(jsonobj[i].qrcode_name,jsonobj[i].qrcode_id))
+                for (var i = 0; i < jsonobj.length; i++) {
+                    qrcodestyles.options.add(new Option(jsonobj[i].qrcode_name, jsonobj[i].qrcode_id))
                 }
                 // 测试
                 //getStyle()
             },
-            error:function(message){
+            error: function (message) {
                 console.log(message)
             }
         })
     }
+
     // 获取样式
-    function getStyle(){
+    function getStyle() {
         // 把样式设定为目前选中的样式
         var qrcodeid = $("#qrcodestyles :selected").val()
         console.log(qrcodeid)
         var fieldNames = {
-            qrcode_content:"STRING"
+            qrcode_content: "STRING"
         }
         $.ajax({
-            url:"http://localhost:8989/DuiMa_war_exploded/QuerySQL",
-            type:'post',
-            dataType:'json',
-            contentType:'application/x-www-form-urlencoded;charset=utf-8',
-            data:{
-                sqlStr: "select qrcode_content from qrcode where qrcode_id="+qrcodeid+";",
-                fieldNames:JSON.stringify(fieldNames),
-                pageCur:1,
-                pageMax:1000
+            url: "http://localhost:8989/DuiMa_war_exploded/QuerySQL",
+            type: 'post',
+            dataType: 'json',
+            contentType: 'application/x-www-form-urlencoded;charset=utf-8',
+            data: {
+                sqlStr: "select qrcode_content from qrcode where qrcode_id=" + qrcodeid + ";",
+                fieldNames: JSON.stringify(fieldNames),
+                pageCur: 1,
+                pageMax: 1000
             },
-            success:function(res){
+            success: function (res) {
                 var datatmp = JSON.parse(res.data)[0]
                 qrstyle = JSON.parse(datatmp.qrcode_content)
                 console.log(qrstyle)
-		styleReady = true
+                styleReady = true
                 printData()
             },
-            error:function(message){
+            error: function (message) {
                 console.log(message)
             }
         })
@@ -132,12 +136,12 @@
 
     // 在打印区域生成内容
     // 每个子div都需要style="page-break-after:always;"
-    function printData(){
-        if(!styleReady){
+    function printData() {
+        if (!styleReady) {
             window.alert("加载中，请过几秒再尝试一次!")
             return
         }
-        if(!dataReady){
+        if (!dataReady) {
             window.alert("未加载数据，请从接口获取数据或者上传excel!")
             return
         }
@@ -149,26 +153,26 @@
         var startitem = $(startStr)
         $("#printArea").empty()
         $("#printArea").append(startitem)
-        console.log("data length:"+window.pdata.length)
-        for(var i = 0; i < window.pdata.length; i++){
-            console.log("loop "+i)
+        console.log("data length:" + window.pdata.length)
+        for (var i = 0; i < window.pdata.length; i++) {
+            console.log("loop " + i)
             // 已判断是否都已获取
             // 先填充内容，后设置位置
-            var item = "<div style='page-break-after:always;position:relative;width:"+xsize+"px;height:"+ysize+"px;'>"
+            var item = "<div style='page-break-after:always;position:relative;width:" + xsize + "px;height:" + ysize + "px;'>"
             // start
             // 放置二维码,后续需要往里面填充内容
             var xsituation = qrstyle.qRCode['xsituation']
             var ysituation = qrstyle.qRCode['ysituation']
-            item += "<div id='qrcode_"+i+"' style='position: absolute;width:150px;height:150px;left:"+xsituation+"px;top:"+ysituation+"px;'></div>"
+            item += "<div id='qrcode_" + i + "' style='position: absolute;width:150px;height:150px;left:" + xsituation + "px;top:" + ysituation + "px;'></div>"
             // 放置其他各项
-            for(var j = 0; j < qrstyle.items.length; j++){
+            for (var j = 0; j < qrstyle.items.length; j++) {
                 var node = qrstyle.items[j]
                 var nodevalue = node.content;
                 xsituation = node.xsituation
                 ysituation = node.ysituation
                 console.log(window.pdata[i])
                 var nodestr = fieldmap[nodevalue] + ":" + window.pdata[i][nodevalue]
-                item += "<span class='pStyle' style='position: absolute;left:"+xsituation+"px;top:"+ysituation+"px;'>" + nodestr + "</span>"
+                item += "<span class='pStyle' style='position: absolute;left:" + xsituation + "px;top:" + ysituation + "px;'>" + nodestr + "</span>"
             }
             // end
             item += "</div>"
@@ -179,160 +183,164 @@
             console.log(qrstyle)
             console.log(qrstyle.qRCode.qRCodeContent)
             var tmp = qrstyle.qRCode.qRCodeContent
-            for(var j = 0; j < tmp.length; j++){
+            for (var j = 0; j < tmp.length; j++) {
                 qrcodeContent += fieldmap[tmp[j]] + ":" + window.pdata[i][tmp[j]] + "\n"
             }
-            getQRCode(i,qrcodeContent)
+            getQRCode(i, qrcodeContent)
         }
         var enditem = $(endStr)
         $("#printArea").append(enditem)
     }
 
-    function getQRCode(idx,str){
-        new QRCode(document.getElementById("qrcode_"+idx),{
-            text:str,
-            width:150,
-            height:150,
-            colorDark:"#000000",
-            colorLight:"#ffffff",
-            correctLevel : QRCode.CorrectLevel.H
+    function getQRCode(idx, str) {
+        new QRCode(document.getElementById("qrcode_" + idx), {
+            text: str,
+            width: 150,
+            height: 150,
+            colorDark: "#000000",
+            colorLight: "#ffffff",
+            correctLevel: QRCode.CorrectLevel.H
         })
     }
+
     // 打印标签
-    function printLabels(){
+    function printLabels() {
         var bdhtml = window.document.body.innerHTML;
         var sprnstr = "<!--startprint-->";
         var eprnstr = "<!--endprint-->";
-        var prnhtml = bdhtml.substr(bdhtml.indexOf(sprnstr)+17);
-        prnhtml = prnhtml.substring(0,prnhtml.indexOf(eprnstr));
-        window.document.body.innerHTML=prnhtml;
+        var prnhtml = bdhtml.substr(bdhtml.indexOf(sprnstr) + 17);
+        prnhtml = prnhtml.substring(0, prnhtml.indexOf(eprnstr));
+        window.document.body.innerHTML = prnhtml;
         window.print();
-        window.document.body.innerHTML=bdhtml;
+        window.document.body.innerHTML = bdhtml;
     }
 
     // 获取字段映射
-    function getFieldMap(){
+    function getFieldMap() {
         var fieldNames = {
-            pi_key : "STRING",
-            pi_value : "STRING"
+            pi_key: "STRING",
+            pi_value: "STRING"
         }
         $.ajax({
-            url:"http://localhost:8989/DuiMa_war_exploded/QuerySQL",
-            type:'post',
-            dataType:'json',
-            contentType:'application/x-www-form-urlencoded;charset=utf-8',
-            data:{
+            url: "http://localhost:8989/DuiMa_war_exploded/QuerySQL",
+            type: 'post',
+            dataType: 'json',
+            contentType: 'application/x-www-form-urlencoded;charset=utf-8',
+            data: {
                 sqlStr: "select pi_key,pi_value from project_item;",
-                fieldNames:JSON.stringify(fieldNames),
-                pageCur:1,
-                pageMax:1000
+                fieldNames: JSON.stringify(fieldNames),
+                pageCur: 1,
+                pageMax: 1000
             },
-            success:function(res){
+            success: function (res) {
                 var jsonobj = JSON.parse(res.data)
                 fieldmap = {}
-                for(var i = 0; i < jsonobj.length; i++){
+                for (var i = 0; i < jsonobj.length; i++) {
                     fieldmap[jsonobj[i].pi_key] = jsonobj[i].pi_value
                 }
                 console.log(fieldmap)
             }
         })
     }
-    function getPrintDataByExcel(){
-        var type="file";
+
+    function getPrintDataByExcel() {
+        var type = "file";
         var formData = new FormData();
-        formData.append(type,$("#file1")[0].files[0]);
+        formData.append(type, $("#file1")[0].files[0]);
         $.ajax({
-            url:"http://localhost:8989/DuiMa_war_exploded/GetPrintDataByExcel",
-            type:'post',
-            data:formData,
-            processData:false,
-            contentType:false,
-            success:function(res){
+            url: "http://localhost:8989/DuiMa_war_exploded/GetPrintDataByExcel",
+            type: 'post',
+            data: formData,
+            processData: false,
+            contentType: false,
+            success: function (res) {
                 console.log(res)
                 console.log(JSON.parse(res))
                 var jsonobj = JSON.parse(res)
-	        console.log(jsonobj.data)
-	        console.log(jsonobj.info)
-	        window.pdata = []
-	    console.log(jsonobj.data.length)
+                console.log(jsonobj.data)
+                console.log(jsonobj.info)
+                window.pdata = []
+                console.log(jsonobj.data.length)
 
-	    for(var i = 0; i < jsonobj.data.length; i++){
-	        console.log(jsonobj.data[i]);
-	        window.pdata.push(jsonobj.data[i]);
-	    }
+                for (var i = 0; i < jsonobj.data.length; i++) {
+                    console.log(jsonobj.data[i]);
+                    window.pdata.push(jsonobj.data[i]);
+                }
                 console.log(window.pdata)
                 // 完成后自动触发生成标签
                 checkdata()
             },
-            error:function(message){
+            error: function (message) {
                 console.log(message)
             }
         })
     }
-    function resetPrint(){
-        if(!checkAuthority("重置打印次数")){
+
+    function resetPrint() {
+        if (!checkAuthority("重置打印次数")) {
             window.alert("您无重置打印次数的权限")
             return
         }
-        var type="file";
+        var type = "file";
         var formData = new FormData();
-        formData.append(type,$("#file2")[0].files[0]);
+        formData.append(type, $("#file2")[0].files[0]);
         $.ajax({
-            url:"http://localhost:8989/DuiMa_war_exploded/ResetPrint",
-            type:'post',
-            data:formData,
-            processData:false,
-            contentType:false,
-            success:function(res){
+            url: "http://localhost:8989/DuiMa_war_exploded/ResetPrint",
+            type: 'post',
+            data: formData,
+            processData: false,
+            contentType: false,
+            success: function (res) {
                 console.log(res)
                 $("#messages").html(res)
             },
-            error:function(message){
+            error: function (message) {
                 console.log(message)
             }
         })
     }
-    function checkdata(){
-        var productids = []
-	console.log(window.pdata.length)
 
-        for(var i = 0; i < window.pdata.length; i++){
+    function checkdata() {
+        var productids = []
+        console.log(window.pdata.length)
+
+        for (var i = 0; i < window.pdata.length; i++) {
             productids.push(window.pdata[i].productId)
         }
-	console.log(productids)
-	console.log(window.pdata.length)
+        console.log(productids)
+        console.log(window.pdata.length)
         $.ajax({
-            url:"http://localhost:8989/DuiMa_war_exploded/PrintProduct",
-            type:'post',
-            dataType:'json',
-            contentType:'application/x-www-form-urlencoded;charset=utf-8',
-            data:{
-                id:sessionStorage.getItem("userId"),
-                name:sessionStorage.getItem("userName"),
-                productIds:JSON.stringify(productids)
+            url: "http://localhost:8989/DuiMa_war_exploded/PrintProduct",
+            type: 'post',
+            dataType: 'json',
+            contentType: 'application/x-www-form-urlencoded;charset=utf-8',
+            data: {
+                id: sessionStorage.getItem("userId"),
+                name: sessionStorage.getItem("userName"),
+                productIds: JSON.stringify(productids)
             },
-            success:function(res){
+            success: function (res) {
                 console.log(res)
                 $("#messages").html(res.message)
                 var jsonobj = JSON.parse(res.data)
                 console.log(jsonobj)
                 // 原来的data中去除已打印部分
                 var deleteidxs = []     // 需要删除的下标
-                for(var i = 0; i < window.pdata.length; i++){
+                for (var i = 0; i < window.pdata.length; i++) {
                     var flag = true
-                    for(var j =0 ; j < jsonobj.length; j++){
-                        if(window.pdata[i].productId ==jsonobj[j]) flag = false;
+                    for (var j = 0; j < jsonobj.length; j++) {
+                        if (window.pdata[i].productId == jsonobj[j]) flag = false;
                     }
-                    if(flag) deleteidxs.push(i)
+                    if (flag) deleteidxs.push(i)
                 }
-                for(var i = deleteidxs.length-1; i >= 0; i--){
-                    window.pdata.splice(deleteidxs[i],1)
+                for (var i = deleteidxs.length - 1; i >= 0; i--) {
+                    window.pdata.splice(deleteidxs[i], 1)
                 }
-	    	dataReady = true
-	        console.log(pdata)
+                dataReady = true
+                console.log(pdata)
                 getStyle()
             },
-            error:function(message){
+            error: function (message) {
                 console.log(message)
             }
         })

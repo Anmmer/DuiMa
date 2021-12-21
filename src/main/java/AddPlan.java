@@ -82,6 +82,13 @@ public class AddPlan extends HttpServlet {
             out.write(JSON.toJSONString(result));
         } finally {
             out.close();
+            if (con!=null){
+                try {
+                    con.close();
+                } catch (SQLException throwables) {
+                    throwables.printStackTrace();
+                }
+            }
         }
     }
 }

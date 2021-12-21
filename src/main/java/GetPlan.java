@@ -23,40 +23,45 @@ public class GetPlan extends HttpServlet {
     }
 
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) {
         resp.setContentType("text/html;charset=UTF-8");
         Connection con = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        PrintWriter out = null;
         try {
-            PrintWriter out=resp.getWriter();
+            out = resp.getWriter();
             con = DbUtil.getCon();
             String sql = "select planid,planname,company,plant from plan";
-            PreparedStatement ps = con.prepareStatement(sql);
-            ResultSet rs = ps.executeQuery();
-            Map<String,Object> data = new HashMap<>();
+            ps = con.prepareStatement(sql);
+            rs = ps.executeQuery();
+            Map<String, Object> data = new HashMap<>();
             List<Map<String, Object>> list = new ArrayList<>();
             while (rs.next()) {
-                Map<String,Object> map = new HashMap<>();
-                map.put("planid",rs.getInt("planid"));
-                map.put("planname",rs.getString("planname"));
-                map.put("company",rs.getString("company"));
-                map.put("plant",rs.getString("plant"));
+                Map<String, Object> map = new HashMap<>();
+                map.put("planid", rs.getInt("planid"));
+                map.put("planname", rs.getString("planname"));
+                map.put("company", rs.getString("company"));
+                map.put("plant", rs.getString("plant"));
                 list.add(map);
             }
-            data.put("data",list);
+            data.put("data", list);
             out.write(JSON.toJSONString(data));
-            rs.close();
-            ps.close();
-            out.close();
-        } catch (ClassNotFoundException | SQLException e) {
-            System.out.println("111111");
+        } catch (Exception e) {
             e.printStackTrace();
         } finally {
-            if (con != null) {
-                try {
+            try {
+                if (con != null)
                     con.close();
-                } catch (SQLException throwables) {
-                    throwables.printStackTrace();
-                }
+                if (rs != null)
+                    rs.close();
+                if (ps != null)
+                    ps.close();
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
+            if (out != null) {
+                out.close();
             }
         }
     }

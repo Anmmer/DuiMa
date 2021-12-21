@@ -359,4 +359,12 @@
         <servlet-name>getPreProduct</servlet-name>
         <url-pattern>/GetPreProduct</url-pattern>
     </servlet-mapping>
+    <servlet>
+        <servlet-name>printPreProduct</servlet-name>
+        <servlet-class>PrintPreProduct</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>printPreProduct</servlet-name>
+        <url-pattern>/PrintPreProduct</url-pattern>
+    </servlet-mapping>
 </web-app>

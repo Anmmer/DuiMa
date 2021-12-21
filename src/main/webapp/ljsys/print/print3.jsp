@@ -1,13 +1,4 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
-<html>
-<head>
-    <title>Title</title>
-    <link rel="stylesheet" type="text/css" href="./css/pop_up.css">
-    <script type="text/javascript" src="./js/jquery-3.3.1.min.js"></script>
-    <script src="https://cdn.bootcss.com/xlsx/0.11.5/xlsx.core.min.js"></script>
-    <script type="text/javascript" src="./js/util.js"></script>
-</head>
-<body>
 <div style="height: 95%;width: 100%">
     <div style="height: 10%;width: 100%">
         <button style="position:relative;top: 50%;left: 15%;font-family: Simsun;font-size:20px;" onclick="openPop()">
@@ -53,19 +44,30 @@
     </div>
     <div class="pop_up">
         <div class="pop_title title_1">上传Excel</div>
-        <div class="pop_title title_2">详情</div>
+        <div class="pop_title title_2">构件列表</div>
         <div class="close_btn"><img src="./img/close.png" onclick="closePop()"></div>
         <div style="width: 90%;height: 80%;margin: 0 auto">
-            <input type="file" id="excel-file"
-                   accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.ms-excel"
-                   style="position: relative;top:3.5%">
-            <button type="button" id="print" style="position: relative;top:3.5%">打印数据</button>
-            <h3 id="inputDetail" style="position: absolute;left: 45%;top: 6%;">导入预览</h3>
-            <h3 id="preProduct" style="position: absolute;left: 45%;top: 6%;">构件列表</h3>
-            <div style="margin-top: 4%; margin-bottom: 1%;">
+            <div id="pop_print" style="width: 100%;height: 12%">
+                <label class="label" style="position: relative;margin-top: 2%;" for="qrcodestyles">选择一个样式:</label>
+                <select id="qrcodestyles" style="position: relative;margin-top: 2%;width: 15%"
+                        onchange="getStyle()"></select>
+                <button type="button" id="print_data" style="position: relative;margin-top: 2%;margin-left: 1%"
+                        onclick="checkdata()">打印数据
+                </button>
+                <button type="button" id="print_datas" style="position: relative;margin-top: 2%; margin-left: 1%"
+                        onclick="checkdata()">全部打印
+                </button>
+            </div>
+            <div id="pop_input" style="width: 100%;height: 12%">
+                <input type="file" id="excel-file"
+                       accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.ms-excel"
+                       style="position: relative;margin-top: 2%;">
+                <h3 id="inputDetail" style="position: absolute;left: 45%;top: 7%;">导入预览</h3>
+            </div>
+            <div style=" margin-bottom: 1%;">
                 <label for="planname">计划名：</label><input id="planname" disabled>
-                <label for="company">公司：</label><input id="company" disabled>
-                <label for="plant">工厂：</label><input id="plant" disabled>
+                <label for="company" style="margin-left: 1%">公司：</label><input id="company" disabled>
+                <label for="plant" style="margin-left: 1%">工厂：</label><input id="plant" disabled>
             </div>
             <div style="height: 70%;border: 1px solid #000">
                 <table class="table" cellspacing="0" cellpadding="0" width="100%" align="center" border="1">
@@ -116,9 +118,12 @@
             <button type="reset" class="recover-btn">重置</button>
         </div>
     </div>
-</div>
+    <!--打印主界面-->
+    <div style="width:100%;height:70%;;margin:auto;float: left;">
+        <div id="printArea" style="width:80%;height:100%;margin: auto;background-color: azure;overflow-y: auto;"></div>
 
-</body>
+    </div>
+</div>
 <script>
     let num = 1;
     let count = 1;
@@ -134,11 +139,9 @@
         $(".pop_up").show();
         $(".title_1").show();
         $(".title_2").hide();
-        $("#excel-file").show();
-        $("#print").hide();
-        $("#inputDetail").show();
-        $("#preProduct").hide();
-
+        $("#pop_print").hide();
+        $("#pop_input").show();
+        $(".pop_footer").show();
     }
 
     function closePop() {
@@ -161,6 +164,7 @@
         excelData = {};
     }
 
+    //保存
     $('.save-btn').click(function () {
         if (Object.keys(excelData).length !== 0) {
             $.post("http://localhost:8989/DuiMa_war_exploded/addPlan", {str: JSON.stringify(excelData)}, function (result) {
@@ -198,12 +202,12 @@
                 excelData.preProduct = result.data;
                 excelData.plan = jsonObj[i];
                 $(".pop_up").show();
-                $("#excel-file").hide();
                 $(".title_1").hide();
                 $(".title_2").show();
-                $("#print").show();
-                $("#inputDetail").hide();
-                $("#preProduct").show();
+                $("#pop_print").show();
+                $("#pop_input").hide();
+                $(".pop_footer").hide();
+                getStyleList();
                 updateTable(true);
             }
         })
@@ -221,6 +225,7 @@
             $("#company").val(excelData.plan.company);
             $("#plant").val(excelData.plan.plant);
             for (let i = (pop_num - 1) * 15; i < pop_num * 15 && i < preProductData.length; i++) {
+                let time = preProductData[i]['time'] === undefined ? '' : preProductData[i]['time']
                 str += "<tr><td class='tdStyle_body'>" + preProductData[i]['materialcode'] +
                     "</td><td class='tdStyle_body'>" + preProductData[i]['projectname'] +
                     "</td><td class='tdStyle_body'>" + preProductData[i]['build'] +
@@ -229,7 +234,7 @@
                     "</td><td class='tdStyle_body'>" + preProductData[i]['volume'] +
                     "</td><td class='tdStyle_body'>" + parseFloat(preProductData[i]['weigh']).toFixed(2) +
                     "</td><td class='tdStyle_body'>" + preProductData[i]['qc'] +
-                    "</td><td class='tdStyle_body'>" + preProductData[i]['time'] +
+                    "</td><td class='tdStyle_body'>" + time +
                     "</td></tr>";
 
                 $("#detailTableText").html(str);
@@ -350,6 +355,191 @@
             $('#first').attr('disabled', false)
         }
     }
+
+
+    // 二维码样式
+    var qrstyle = {}
+    // 字段映射
+    var fieldmap = {}
+
+    // 获取所有样式并放入select
+    function getStyleList() {
+        var fieldNames = {
+            qrcode_id: "INT",
+            qrcode_name: "STRING"
+        }
+        $.ajax({
+            url: "http://localhost:8989/DuiMa_war_exploded/QuerySQL",
+            type: 'post',
+            dataType: 'json',
+            contentType: 'application/x-www-form-urlencoded;charset=utf-8',
+            data: {
+                sqlStr: "select qrcode_id, qrcode_name from qrcode where qrcode_status=1;",
+                fieldNames: JSON.stringify(fieldNames),
+                pageCur: 1,
+                pageMax: 1000
+            },
+            success: function (res) {
+                var jsonobj = JSON.parse(res.data);
+                var qrcodestyles = document.getElementById("qrcodestyles")
+                for (var i = 0; i < jsonobj.length; i++) {
+                    qrcodestyles.options.add(new Option(jsonobj[i].qrcode_name, jsonobj[i].qrcode_id))
+                }
+                // 测试
+                //getStyle()
+            },
+            error: function (message) {
+                console.log(message)
+            }
+        })
+    }
+
+    function checkdata() {
+        var preProductIds = []
+        for (var i = 0; i < excelData.preProduct.length; i++) {
+            preProductIds.push(excelData.preProduct[i].pid)
+        }
+        $.ajax({
+            url: "http://localhost:8989/DuiMa_war_exploded/PrintPreProduct",
+            type: 'post',
+            dataType: 'json',
+            contentType: 'application/x-www-form-urlencoded;charset=utf-8',
+            data: {
+                productIds: JSON.stringify(preProductIds)
+            },
+            success: function (res) {
+                // var jsonobj = JSON.parse(res.data)
+                console.log(res)
+                // 原来的data中去除已打印部分
+                getStyle()
+            },
+        })
+    }
+
+    // 获取样式
+    function getStyle() {
+        // 把样式设定为目前选中的样式
+        var qrcodeid = $("#qrcodestyles :selected").val()
+        var fieldNames = {
+            qrcode_content: "STRING"
+        }
+        $.ajax({
+            url: "http://localhost:8989/DuiMa_war_exploded/QuerySQL",
+            type: 'post',
+            dataType: 'json',
+            contentType: 'application/x-www-form-urlencoded;charset=utf-8',
+            data: {
+                sqlStr: "select qrcode_content from qrcode where qrcode_id=" + qrcodeid + ";",
+                fieldNames: JSON.stringify(fieldNames),
+                pageCur: 1,
+                pageMax: 1000
+            },
+            success: function (res) {
+                var datatmp = JSON.parse(res.data)[0]
+                qrstyle = JSON.parse(datatmp.qrcode_content)
+                printData()
+            },
+            error: function (message) {
+                console.log(message)
+            }
+        })
+
+    }
+
+    // 获取字段映射
+    function getFieldMap() {
+        var fieldNames = {
+            pi_key: "STRING",
+            pi_value: "STRING"
+        }
+        $.ajax({
+            url: "http://localhost:8989/DuiMa_war_exploded/QuerySQL",
+            type: 'post',
+            dataType: 'json',
+            contentType: 'application/x-www-form-urlencoded;charset=utf-8',
+            data: {
+                sqlStr: "select pi_key,pi_value from project_item;",
+                fieldNames: JSON.stringify(fieldNames),
+                pageCur: 1,
+                pageMax: 1000
+            },
+            success: function (res) {
+                var jsonobj = JSON.parse(res.data)
+                fieldmap = {}
+                for (var i = 0; i < jsonobj.length; i++) {
+                    fieldmap[jsonobj[i].pi_key] = jsonobj[i].pi_value
+                }
+            }
+        })
+    }
+
+    function printData() {
+        var startStr = "<!--startprint-->"
+        var endStr = "<!--endprint-->"
+        // 获取样式中的长宽
+        var xsize = qrstyle.xsize
+        var ysize = qrstyle.ysize
+        var startitem = $(startStr)
+        $("#printArea").empty()
+        $("#printArea").append(startitem)
+        for (var i = 0; i < excelData.preProduct.length; i++) {
+            // 已判断是否都已获取
+            // 先填充内容，后设置位置
+            var item = "<div style='page-break-after:always;position:relative;width:" + xsize + "px;height:" + ysize + "px;'>"
+            // start
+            // 放置二维码,后续需要往里面填充内容
+            var xsituation = qrstyle.qRCode['xsituation']
+            var ysituation = qrstyle.qRCode['ysituation']
+            item += "<div id='qrcode_" + i + "' style='position: absolute;width:150px;height:150px;left:" + xsituation + "px;top:" + ysituation + "px;'></div>"
+            // 放置其他各项
+            for (var j = 0; j < qrstyle.items.length; j++) {
+                var node = qrstyle.items[j]
+                var nodevalue = node.content;
+                xsituation = node.xsituation
+                ysituation = node.ysituation
+                var nodestr = fieldmap[nodevalue] + ":" + excelData.preProduct[i][nodevalue]
+                item += "<span class='pStyle' style='position: absolute;left:" + xsituation + "px;top:" + ysituation + "px;'>" + nodestr + "</span>"
+            }
+            // end
+            item += "</div>"
+            var newItem = $(item)
+            $("#printArea").append(newItem)
+            // 设置二维码内容
+            var qrcodeContent = ""
+            var tmp = qrstyle.qRCode.qRCodeContent
+            for (var j = 0; j < tmp.length; j++) {
+                qrcodeContent += fieldmap[tmp[j]] + ":" + excelData.preProduct[i][tmp[j]] + "\n"
+            }
+            getQRCode(i, qrcodeContent)
+        }
+        var enditem = $(endStr)
+        // $("#printArea").append(enditem)
+    }
+
+    function getQRCode(idx, str) {
+        new QRCode(document.getElementById("qrcode_" + idx), {
+            text: str,
+            width: 150,
+            height: 150,
+            colorDark: "#000000",
+            colorLight: "#ffffff",
+            correctLevel: QRCode.CorrectLevel.H
+        })
+        printLabels();
+    }
+
+    // 打印标签
+    function printLabels() {
+        var bdhtml = window.document.body.innerHTML;
+        var sprnstr = "<!--startprint-->";
+        var eprnstr = "<!--endprint-->";
+        var prnhtml = bdhtml.substr(bdhtml.indexOf(sprnstr) + 17);
+        prnhtml = prnhtml.substring(0, prnhtml.indexOf(eprnstr));
+        window.document.body.innerHTML = prnhtml;
+        window.print();
+        window.document.body.innerHTML = bdhtml;
+    }
+
 
 </script>
 </html>
