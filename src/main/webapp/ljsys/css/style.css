@@ -1,81 +1,93 @@
 
-.MenuStyle{
+.MenuStyle {
     width: 15%;
     height: 100%;
-    float:left;
-    background-color: rgb(50,64,87);
-    margin:0px;
-    padding:0px;
+    float: left;
+    background-color: rgb(50, 64, 87);
+    margin: 0px;
+    padding: 0px;
 }
-.MenuItemStyle{
+
+.MenuItemStyle {
     width: 100%;
-    height:100px;
+    height: 100px;
 }
-.BodyStyle{
-    height:100%;
-    padding:0px;
-    margin:0px;
+
+.BodyStyle {
+    height: 100%;
+    padding: 0px;
+    margin: 0px;
 }
-.ul_ListStyle{
+
+.ul_ListStyle {
     list-style: none;
     list-style-type: none;
     padding-inline-start: 0px;
-    background-color: rgb(31,45,61);
-    margin:0px;
-    padding:0px;
+    background-color: rgb(31, 45, 61);
+    margin: 0px;
+    padding: 0px;
 }
-.ul_TopListStyle{
+
+.ul_TopListStyle {
     list-style-type: none;
     padding-inline-start: 0px;
     list-style-image: url(http://101.37.32.123:8989/ljsys/pictures/right.png);
-    margin:0px;
-    padding:0px;
+    margin: 0px;
+    padding: 0px;
 }
-.li_ItemStyle{
+
+.li_ItemStyle {
     width: 100%;
-    height:35px;
+    height: 35px;
     line-height: 35px;
     list-style: none;
-    color:azure;
-    font-size:20px;
+    color: azure;
+    font-size: 20px;
     font-family: Simsun;
     text-align: center;
 }
-li:hover{
+
+li:hover {
     background-color: lightblue;
 }
-.li_TopItemStyle{
+
+.li_TopItemStyle {
     width: 100%;
-    height:50px;
+    height: 50px;
     line-height: 50px;
-    color:azure;
-    font-size:30px;
+    color: azure;
+    font-size: 30px;
     font-family: Simsun;
-    background-color: rgb(50,64,87);
+    background-color: rgb(50, 64, 87);
 }
-.TitleStyle{
+
+.TitleStyle {
     text-align: center;
-    color:aliceblue;
+    color: aliceblue;
     font-size: 40px;
     font-family: Simsun;
 }
-.LoginStyle{
-    background:url(../pictures/loginbackground.png);
+
+.LoginStyle {
+    background: url(../pictures/loginbackground.png);
     width: 630px;
-    height:350px;
-    margin:0 auto;
+    height: 350px;
+    margin: 0 auto;
 }
+
 /* 登陆输入框的样式 */
-.LoginInputStyle{
+.LoginInputStyle {
     width: 350px;
-    height:300px;
-    margin:50px auto;
+    height: 300px;
+    margin: 50px auto;
 }
-.FormInputStyle{
-    height:30px;
+
+.FormInputStyle {
+    height: 30px;
     font-size: 20px;
 }
-.tdStyle{
+
+.tdStyle {
     vertical-align: middle;
     text-align: center;
     font-size: 16px;
@@ -83,13 +95,15 @@ li:hover{
     font-family: Simsun;
     line-height: 30px;
 }
-.pStyle{
-    font-size:16px;
+
+.pStyle {
+    font-size: 16px;
     font-family: Simsun;
-    padding:0;
+    padding: 0;
     font-family: Simsun;
 }
-.tdStyle_title{
+
+.tdStyle_title {
     vertical-align: middle;
     text-align: center;
     font-size: 16px;
@@ -97,7 +111,8 @@ li:hover{
     font-weight: bolder;
     line-height: 30px;
 }
-.tdStyle_body{
+
+.tdStyle_body {
     vertical-align: middle;
     text-align: center;
     font-size: 16px;
@@ -105,4 +120,24 @@ li:hover{
     line-height: 25px;
     white-space: nowrap;
 }
+
+.gif {
+    position: absolute; /*声明绝对定位*/
+    left: 0; /*在页面最左侧对齐*/
+    top: 0; /*在页面最上方对齐*/
+    height: 100vh; /*高度是相对屏幕高度的100%*/
+    width: 100vw; /*宽度是相对屏幕宽度的100%*/
+    z-index: 2; /*设置元素优先级为1级*/
+    display: none; /*设置元素隐藏*/
+    align-items: center; /*让子元素横向居中(声明flex后有效)*/
+    justify-content: center; /*让子元素垂直居中(声明flex后有效)*/
+    background-color: rgba(0, 0, 0, 0.5); /*设置背景颜色为黑色，并给0.5透明度*/
+}
+
+/*设置gif下的img元素样式*/
+.gif > img {
+    /*height: 5%;*/
+    width: 5%;
+}
+
 
