@@ -32,30 +32,30 @@
     <div style="width:40%;height:100%;margin: 0 auto;">
         <div style="width:100%;height:50px;"></div>
         <!--展示用户信息及其群组信息-->
-        <p style="font-size: 20px;font-family: Simsun;font-weight: bolder;">原信息:</p>
+        <p style="font-size: 16px;font-family: Simsun;font-weight: bolder;">原信息:</p>
         <div style="width:100%;height:220px;float: left;">
             </br>
-            <span style="font-size: 20px;font-family: Simsun;font-weight: bolder;">工号:</span><span id="userId" class="pStyle">userId</span></br></br>
-            <span style="font-size: 20px;font-family: Simsun;font-weight: bolder;">姓名:</span><span id="userName" class="pStyle">userId</span></br></br>
-            <span style="font-size: 20px;font-family: Simsun;font-weight: bolder;">所属群组角色编号:</span><span id="groupId1" class="pStyle">userId</span></br></br>
-            <span style="font-size: 20px;font-family: Simsun;font-weight: bolder;">所属群组角色名:</span><span id="groupName1" class="pStyle">userId</span></br></br>
+            <span style="font-size: 16px;font-family: Simsun;font-weight: bolder;">工号:</span><span id="userId" class="pStyle">userId</span></br></br>
+            <span style="font-size: 16px;font-family: Simsun;font-weight: bolder;">姓名:</span><span id="userName" class="pStyle">userId</span></br></br>
+            <span style="font-size: 16px;font-family: Simsun;font-weight: bolder;">所属群组角色编号:</span><span id="groupId1" class="pStyle">userId</span></br></br>
+            <span style="font-size: 16px;font-family: Simsun;font-weight: bolder;">所属群组角色名:</span><span id="groupName1" class="pStyle">userId</span></br></br>
         </div>
         <div style="width:100%;height:3px;background-color: cornflowerblue;float:left;"></div>
         <div style="width:100%;height:30px;float:left"></div>
-        <p style="font-size: 20px;font-family: Simsun;font-weight: bolder;">在下方进行修改后点击提交</p>
+        <p style="font-size: 16px;font-family: Simsun;font-weight: bolder;">在下方进行修改后点击提交</p>
         <div name="modify">
             <span class="pStyle" style="width:30%;height:30px;float:left;line-height: 30px;">姓名:</span>
             <input type="text" name="name" id="name" style="width:55%;height:27px;float:left;" class="FormInputStyle">
             <div style="width:100%;height:30px;float:left;"></div>
             <span class="pStyle" style="width:30%;height:30px;float:left;line-height: 30px;">角色群组:</span>
-            <select id="groupNames" name="groupNames" size="1" style="width:35%;float:left;font-size:20px;font-family:Simsun;">
+            <select id="groupNames" name="groupNames" size="1" style="width:35%;float:left;font-size:16px;font-family:Simsun;">
             </select>
             <button style="float:left" onclick="addGroup()">添加角色</button>
             <div style="width:100%;height:30px;float:left;"></div>
             <div style="width:100%;height:30px;float:left;">修改后所属分组：</div>
             <div id="newGroups" style="width:100%;height:150px;float:left;overflow-y: auto;"></div>
             <div style="width:100%;height:30px;float:left;"></div>
-            <input type="button" value="提交修改" style="float:left;font-size:20px;font-family:Simsun;" onclick="modify1()">
+            <input type="button" value="提交修改" style="float:left;font-size:16px;font-family:Simsun;" onclick="modify1()">
         </div>
     </div>
 </div>

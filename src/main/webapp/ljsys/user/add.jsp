@@ -3,20 +3,20 @@
 <div style="height: 95%;width:100%;background-color:white;">
     <div style="width:40%;height:100%;margin: 0 auto;">
         <div style="width:100%;height:150px;"></div>
-        <span style="font-size: 20px;font-family: Simsun;font-weight: bolder;">新增:</span>
+        <span style="font-size: 16px;font-family: Simsun;font-weight: bolder;">新增:</span>
         <div style="width:100%;height:30px;float:left"></div>
         <div name="add">
             <span class="pStyle" style="width:30%;height:30px;float:left;line-height: 30px;">姓名:</span>
             <input type="text" name="name" id="name" style="width:55%;height:27px;float:left;" class="FormInputStyle">
             <div style="width:100%;height:30px;float:left;"></div>
             <span class="pStyle" style="width:30%;height:30px;float:left;line-height: 30px;">角色群组:</span>
-            <select id="groupName" name="groupName" size="1" style="width:35%;float:left;font-size:20px;font-family:Simsun;">
+            <select id="groupName" name="groupName" size="1" style="width:35%;float:left;font-size:16px;font-family:Simsun;">
             </select>
             <button style="float:left" onclick="addgp()">新增</button>
             <div style="width:100%;height:30px;float:left;" class="pStyle">群组:</div>
             <div id="addgp" style="width:100%;height:100px;float:left;overflow-y: auto;" class="pStyle"></div>
             <div style="width:100%;height: 30px;float:left;"></div>
-            <input type="button" value="提交新增" style="float:left;font-size:20px;font-family:Simsun;" onclick="addOne()">
+            <input type="button" value="提交新增" style="float:left;font-size:16px;font-family:Simsun;" onclick="addOne()">
         </div>
         <div style="width:100%;height:30px;float:left"></div>
         <div style="width:100%;height:3px;background-color: cornflowerblue;float:left;"></div>
@@ -24,13 +24,13 @@
         <div style="float: left;">
                  <form name="batchAdd" enctype="multipart/form-data">
             <div style="width:100%;height:30px;float:left;"></div>
-            <span style="font-size: 20px;font-family: Simsun;font-weight: bolder;float: left;">批量新增:</span>
+            <span style="font-size: 16px;font-family: Simsun;font-weight: bolder;float: left;">批量新增:</span>
             <div style="width:100%;height:30px;float:left;"></div>
             <!--批量新增-->
-            <span class="pStyle" style="width:30%;height:30px;float:left;line-height:30px;font-size: 20px;font-family:Simsun;">请选择文件:</span>
-            <input type="file" name="file1" id="file1" style="width:65%;height:40px;float:left;font-size:20px;font-family: Simsun;"><br/>
+            <span class="pStyle" style="width:30%;height:30px;float:left;line-height:30px;font-size: 16px;font-family:Simsun;">请选择文件:</span>
+            <input type="file" name="file1" id="file1" style="width:65%;height:40px;float:left;font-size:16px;font-family: Simsun;"><br/>
             <div style="width:100%;height:30px;float:left;"></div>
-            <input type="button" value="批量新增" style="float:left;font-size: 20px;font-family: Simsun;" onclick="addBatch()">
+            <input type="button" value="批量新增" style="float:left;font-size: 16px;font-family: Simsun;" onclick="addBatch()">
         </form>
         </div>
 

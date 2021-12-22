@@ -71,10 +71,10 @@
         <div style="width:50%;height:250px;float: left;">
             </br>
             </br>
-            <span style="font-size: 20px;font-family: Simsun;font-weight: bolder;">工号:</span><span id="userId" class="pStyle">userId</span></br></br>
-            <span style="font-size: 20px;font-family: Simsun;font-weight: bolder;">姓名:</span><span id="userName" class="pStyle">userId</span></br></br>
-            <span style="font-size: 20px;font-family: Simsun;font-weight: bolder;">所属群组角色编号:</span><span id="groupId" class="pStyle">userId</span></br></br>
-            <span style="font-size: 20px;font-family: Simsun;font-weight: bolder;">所属群组角色名:</span><span id="groupName" class="pStyle">userId</span></br></br>
+            <span style="font-size: 16px;font-family: Simsun;font-weight: bolder;">工号:</span><span id="userId" class="pStyle">userId</span></br></br>
+            <span style="font-size: 16px;font-family: Simsun;font-weight: bolder;">姓名:</span><span id="userName" class="pStyle">userId</span></br></br>
+            <span style="font-size: 16px;font-family: Simsun;font-weight: bolder;">所属群组角色编号:</span><span id="groupId" class="pStyle">userId</span></br></br>
+            <span style="font-size: 16px;font-family: Simsun;font-weight: bolder;">所属群组角色名:</span><span id="groupName" class="pStyle">userId</span></br></br>
         </div>
         <!--头像图片-->
         <div style="width:50%;height:250px;float:left;">
@@ -84,17 +84,17 @@
         <div style="width:100%;height:30px;float:left;"></div>
         <!--权限信息-->
         <div style="width:50%;height:400px;float: left;overflow-y:auto;">
-            <p style="font-size: 20px;font-family: Simsun;font-weight: bolder;">拥有功能权限如下:</p>
+            <p style="font-size: 16px;font-family: Simsun;font-weight: bolder;">拥有功能权限如下:</p>
             <div id="function">
             </div>
         </div>
         <div style="width:50%;height:400px;float:left;overflow-y:auto;">
-            <p style="font-size:20px;font-family: Simsun;font-weight: bolder;">拥有工序权限如下:</p>
+            <p style="font-size:16px;font-family: Simsun;font-weight: bolder;">拥有工序权限如下:</p>
             <div id="processContent">
             </div>
         </div>
         <div style="width:100%;height:50px;float:left;">
-            <button type="button" style="font-family: Simsun;font-size:20px;float:right;">修改个人信息</button>
+            <button type="button" style="font-family: Simsun;font-size:16px;float:right;">修改个人信息</button>
         </div>
     </div>
 </div>

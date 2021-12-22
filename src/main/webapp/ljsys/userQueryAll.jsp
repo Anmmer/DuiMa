@@ -14,7 +14,7 @@
         <div style="height:100%;width:85%;background-color: aqua;float:left;">
             <!-- 顶部消息 -->
             <div style="height: 5%;width:100%;background-color: rgb(239,242,247);">
-                <p id="userInfo" style="margin: 0 0;float: right;font-family: 宋体;font-size:20px;line-height: 40px;">TEXT</p>
+                <p id="userInfo" style="margin: 0 0;float: right;font-family: 宋体;font-size:16px;line-height: 40px;">TEXT</p>
             </div>
             <!-- 内容窗口 -->
             <%@ include file="./user/queryAll.jsp" %>

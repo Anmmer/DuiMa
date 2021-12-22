@@ -14,8 +14,8 @@
 </script>
 <div style="height: 95%;width:100%;background-color:white;">
     <div style="width:100%;height:10%;">
-        <form name="query" style="font-family: Simsun;font-size:20px;">
-            <div style="width:100%;height: 20px;float: left;"></div>
+        <form name="query" style="font-family: Simsun;font-size:16px;">
+            <div style="width:100%;height: 16px;float: left;"></div>
             <div style="width:70%;margin:0 auto;">
                 <div style="width:40%;float: left;">
                     <span>仓库组织编号:</span><input type="text" name="factoryId" class="FormInputStyle">
@@ -23,7 +23,7 @@
                 <div style="width:40%;float: left;">
                     <span>仓库组织名:</span><input type="text" name="factoryName" class="FormInputStyle">
                 </div>
-                <button type="button" style="font-family: Simsun;font-size:20px;" onclick="updateTable(1)">模糊查询</button>
+                <button type="button" style="font-family: Simsun;font-size:16px;" onclick="updateTable(1)">模糊查询</button>
             </div>
         </form>
     </div>
@@ -31,43 +31,43 @@
         <!--表格显示-->
         <div style="width:70%;height:80%;margin:0 auto;">
             <!--结果显示提示：一共有多少记录，共几页-->
-            <p id="resultTip" style="margin-top: 0px;font-family: Simsun;font-size: 20px">请在上方输入框内输入相应信息并点击“模糊查询按钮”</p>
-            <form name="jumpPage"  style="font-family: Simsun;font-size:20px;" onsubmit="return false;">
+            <p id="resultTip" style="margin-top: 0px;font-family: Simsun;font-size: 16px">请在上方输入框内输入相应信息并点击“模糊查询按钮”</p>
+            <form name="jumpPage"  style="font-family: Simsun;font-size:16px;" onsubmit="return false;">
                 <span>输入页码进行跳转:</span><input type="text" name="page" class="FormInputStyle">
-                <button type="button" style="font-family: Simsun;font-size:20px;" onclick="jumpToNewPage2()">跳转</button>
+                <button type="button" style="font-family: Simsun;font-size:16px;" onclick="jumpToNewPage2()">跳转</button>
             </form>
             <div style="width:100%;height:30px;"></div>
             <table class="table" cellspacing="0" cellpadding="0" width="100%" align="center" border="1">
                 <tr>
-                    <td class='tdStyle'>仓库组织编号</td>
-                    <td class='tdStyle'>仓库组织名</td>
-                    <td class='tdStyle'>仓库组织地址</td>
-                    <td class='tdStyle'>操作</td>
+                    <td class='tdStyle_title'>仓库组织编号</td>
+                    <td class='tdStyle_title'>仓库组织名</td>
+                    <td class='tdStyle_title'>仓库组织地址</td>
+                    <td class='tdStyle_title'>操作</td>
                 </tr>
                 <tbody id="tableText">
                 </tbody>
             </table>
             <div style="width:100%;height:30px;"></div>
             <div style="width:33%;float: left;">
-                <button type="button" style="font-family: Simsun;font-size:20px;" onclick="jumpToNewPage(1)">第一页</button>
-                <button type="button" style="font-family: Simsun;font-size:20px;" onclick="jumpToNewPage(2)">前一页</button>
+                <button type="button" style="font-family: Simsun;font-size:16px;" onclick="jumpToNewPage(1)">第一页</button>
+                <button type="button" style="font-family: Simsun;font-size:16px;" onclick="jumpToNewPage(2)">前一页</button>
             </div>
             <div style="width:33%;float: left;">
-                <p id="resultTip2" style="margin-top: 0px;font-family: Simsun;font-size: 20px;text-align: center;">1/1</p>
+                <p id="resultTip2" style="margin-top: 0px;font-family: Simsun;font-size: 16px;text-align: center;">1/1</p>
             </div>
             <div style="width:33%;float: left;">
-                <button type="button" style="font-family: Simsun;font-size:20px;float:right;" onclick="jumpToNewPage(4)">最后一页</button>
-                <button type="button" style="font-family: Simsun;font-size:20px;float:right;" onclick="jumpToNewPage(3)">后一页</button>
+                <button type="button" style="font-family: Simsun;font-size:16px;float:right;" onclick="jumpToNewPage(4)">最后一页</button>
+                <button type="button" style="font-family: Simsun;font-size:16px;float:right;" onclick="jumpToNewPage(3)">后一页</button>
             </div>
         </div>
         <div style="width:70%;height:2px;background-color: black;margin: 0 auto;"></div>
-        <div style="width:70%;height:20px;margin:0 auto;"></div>
+        <div style="width:70%;height:16px;margin:0 auto;"></div>
         <div style="width:70%;height:17%;margin:0 auto;">
             <form name="newFactory" id="newFactory">
                 <span class="pStyle">新增仓库组织名:</span><input type="text" name="newFactoryName" id="newFactoryName">
                 <span class="pStyle">新增仓库组织地址:</span><input type="text" name="newFactoryAddress" id="newFactoryAddress">
                 <span class="pStyle">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
-                <button type="button" style="font-size: 20px;font-family: Simsun;" onclick="addFactory()">提交新增</button>
+                <button type="button" style="font-size: 16px;font-family: Simsun;" onclick="addFactory()">提交新增</button>
             </form>
         </div>
     </div>
@@ -103,10 +103,10 @@
                     var jsonobj = JSON.parse(res.data);
                     console.log(jsonobj)
                     for( var i = 0; i < jsonobj.length; i++) {
-                        str +="<tr><td class='tdStyle'>" + jsonobj[i]['factory_id'] +
-                            "</td><td class='tdStyle'>" + jsonobj[i]['factory_name'] +
-                            "</td><td class='tdStyle'>" + jsonobj[i]['factory_address'] +
-                            "</td><td class='tdStyle'>";
+                        str +="<tr><td class='tdStyle_body'>" + jsonobj[i]['factory_id'] +
+                            "</td><td class='tdStyle_body'>" + jsonobj[i]['factory_name'] +
+                            "</td><td class='tdStyle_body'>" + jsonobj[i]['factory_address'] +
+                            "</td><td class='tdStyle_body'>";
                         // 查询
 
                         str += "<a href='warehouseQueryAll.jsp?factoryId="+jsonobj[i]['factory_id']+"&factoryName="+jsonobj[i]['factory_name']+"'>详情</a>&nbsp"
@@ -181,10 +181,10 @@
                     var jsonobj = JSON.parse(res.data);
                     console.log(jsonobj)
                     for( var i = 0; i < jsonobj.length; i++) {
-                        str +="<tr><td class='tdStyle'>" + jsonobj[i]['factory_id'] +
-                            "</td><td class='tdStyle'>" + jsonobj[i]['factory_name'] +
-                            "</td><td class='tdStyle'>" + jsonobj[i]['factory_address'] +
-                            "</td><td class='tdStyle'>";
+                        str +="<tr><td class='tdStyle_body'>" + jsonobj[i]['factory_id'] +
+                            "</td><td class='tdStyle_body'>" + jsonobj[i]['factory_name'] +
+                            "</td><td class='tdStyle_body'>" + jsonobj[i]['factory_address'] +
+                            "</td><td class='tdStyle_body'>";
                         // 查询
                         str += "<a href='warehouseQueryAll.jsp?factoryId="+jsonobj[i]['factory_id']+"&factoryName="+jsonobj[i]['factory_name']+"'>详情</a>&nbsp"
                         str += "<a href='javascript:void(0);' onclick='removeFactory("+jsonobj[i]['factory_id']+")'>删除</a>"
@@ -243,10 +243,10 @@
                     var jsonobj = JSON.parse(res.data);
                     console.log(jsonobj)
                     for( var i = 0; i < jsonobj.length; i++) {
-                        str +="<tr><td class='tdStyle'>" + jsonobj[i]['factory_id'] +
-                            "</td><td class='tdStyle'>" + jsonobj[i]['factory_name'] +
-                            "</td><td class='tdStyle'>" + jsonobj[i]['factory_address'] +
-                            "</td><td class='tdStyle'>";
+                        str +="<tr><td class='tdStyle_body'>" + jsonobj[i]['factory_id'] +
+                            "</td><td class='tdStyle_body'>" + jsonobj[i]['factory_name'] +
+                            "</td><td class='tdStyle_body'>" + jsonobj[i]['factory_address'] +
+                            "</td><td class='tdStyle_body'>";
                         // 查询
                         str += "<a href='warehouseQueryAll.jsp?factoryId="+jsonobj[i]['factory_id']+"&factoryName="+jsonobj[i]['factory_name']+"'>详情</a>&nbsp"
                         str += "<a href='javascript:void(0);' onclick='removeFactory("+jsonobj[i]['factory_id']+")'>删除</a>"

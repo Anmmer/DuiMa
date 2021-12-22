@@ -35,9 +35,9 @@
         <div style="height:200px;width:90%;float:left;">
             <form name="addFunction">
                 <span class="pStyle">新增功能权限:</span>
-                <select id="chooseFunction" name="chooseFunction" size="5" style="width:200px;font-size:20px;font-family:Simsun;"></select>
+                <select id="chooseFunction" name="chooseFunction" size="5" style="width:200px;font-size:16px;font-family:Simsun;"></select>
                 <div style="width:100%;height:30px;"></div>
-                <button type="button" style="font-size: 20px;font-family: Simsun;" onclick="addGroupFunction()">提交新增</button>
+                <button type="button" style="font-size: 16px;font-family: Simsun;" onclick="addGroupFunction()">提交新增</button>
             </form>
         </div>
     </div>
@@ -54,9 +54,9 @@
         <div style="height:200px;width:90%;float:left;">
             <form name="addProcessContent">
                 <span class="pStyle">新增工序权限:</span>
-                <select id="chooseProcessContent" name="chooseProcessContent" size="5" style="width:200px;font-size:20px;font-family:Simsun;"></select>
+                <select id="chooseProcessContent" name="chooseProcessContent" size="5" style="width:200px;font-size:16px;font-family:Simsun;"></select>
                 <div style="width:100%;height:30px;"></div>
-                <button type="button" style="font-size: 20px;font-family: Simsun;" onclick="addGroupProcessContent()">提交新增</button>
+                <button type="button" style="font-size: 16px;font-family: Simsun;" onclick="addGroupProcessContent()">提交新增</button>
             </form>
         </div>
     </div>

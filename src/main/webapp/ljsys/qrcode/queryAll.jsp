@@ -38,9 +38,9 @@
             <div style="width:100%;height:30px;"></div>
             <table class="table" cellspacing="0" cellpadding="0" width="100%" align="center" border="1">
                 <tr>
-                    <td class='tdStyle'>二维码编号</td>
-                    <td class='tdStyle'>二维码名</td>
-                    <td class='tdStyle'>查看详情</td>
+                    <td class='tdStyle_title'>二维码编号</td>
+                    <td class='tdStyle_title'>二维码名</td>
+                    <td class='tdStyle_title'>查看详情</td>
                 </tr>
                 <tbody id="tableText">
                 </tbody>
@@ -95,9 +95,9 @@
                     var jsonobj = JSON.parse(res.data);
                     console.log(jsonobj)
                     for( var i = 0; i < jsonobj.length; i++) {
-                        str +="<tr><td class='tdStyle'>" + jsonobj[i]['qrcode_id'] +
-                            "</td><td class='tdStyle'>" + jsonobj[i]['qrcode_name'] +
-                            "</td><td class='tdStyle'>";
+                        str +="<tr><td class='tdStyle_body'>" + jsonobj[i]['qrcode_id'] +
+                            "</td><td class='tdStyle_body'>" + jsonobj[i]['qrcode_name'] +
+                            "</td><td class='tdStyle_body'>";
                         // 查询
                         str += "<a href='qrcodeInfo.jsp?qrcodeId="+jsonobj[i]['qrcode_id']+"&qrcodeName="+encodeURIComponent(jsonobj[i]['qrcode_name'])+"'>详情</a>"
                         str += "</td></tr>"
@@ -169,9 +169,9 @@
                     var jsonobj = JSON.parse(res.data);
                     console.log(jsonobj)
                     for( var i = 0; i < jsonobj.length; i++) {
-                        str +="<tr><td class='tdStyle'>" + jsonobj[i]['qrcode_id'] +
-                            "</td><td class='tdStyle'>" + jsonobj[i]['qrcode_name'] +
-                            "</td><td class='tdStyle'>";
+                        str +="<tr><td class='tdStyle_body'>" + jsonobj[i]['qrcode_id'] +
+                            "</td><td class='tdStyle_body'>" + jsonobj[i]['qrcode_name'] +
+                            "</td><td class='tdStyle_body'>";
                         // 查询
                         str += "详情"
                         str += "</td></tr>"
@@ -226,9 +226,9 @@
                     var jsonobj = JSON.parse(res.data);
                     console.log(jsonobj)
                     for( var i = 0; i < jsonobj.length; i++) {
-                        str +="<tr><td class='tdStyle'>" + jsonobj[i]['qrcode_id'] +
-                            "</td><td class='tdStyle'>" + jsonobj[i]['qrcode_name'] +
-                            "</td><td class='tdStyle'>";
+                        str +="<tr><td class='tdStyle_body'>" + jsonobj[i]['qrcode_id'] +
+                            "</td><td class='tdStyle_body'>" + jsonobj[i]['qrcode_name'] +
+                            "</td><td class='tdStyle_body'>";
                         // 查询
                         str += "详情"
                         str += "</td></tr>"

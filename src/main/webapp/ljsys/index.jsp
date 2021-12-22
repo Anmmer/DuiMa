@@ -45,9 +45,9 @@
                             <div id="projectitems" style="overflow-y: auto;width:97%;height:95%;">
                                 <table class="table" cellspacing="0" cellpadding="0" width="100%" align="center" border="1">
                                     <tr>
-                                        <td class='tdStyle'>项目字段名</td>
-                                        <td class='tdStyle'>项目字段值</td>
-                                        <td class='tdStyle'>操作</td>
+                                        <td class='tdStyle_title'>项目字段名</td>
+                                        <td class='tdStyle_title'>项目字段值</td>
+                                        <td class='tdStyle_title'>操作</td>
                                     </tr>
                                     <tbody id="tableText">
                                     </tbody>
@@ -197,9 +197,9 @@
                         console.log(jsonobj)
                         var str = ""
                         for(var i = 0; i < jsonobj.length; i++){
-                            str += "<tr><td class='tdStyle'>"+jsonobj[i]['pi_value'] +
-                                "</td><td class='tdStyle'>" + jsonobj[i]['pi_key'] +
-                                "</td><td class='tdStyle'>"
+                            str += "<tr><td class='tdStyle_body'>"+jsonobj[i]['pi_value'] +
+                                "</td><td class='tdStyle_body'>" + jsonobj[i]['pi_key'] +
+                                "</td><td class='tdStyle_body'>"
                             str += "<a href='javascript:void(0);' onclick='deleteItem("+jsonobj[i]['pi_id']+")'>删除</a>";
                             str += "</td></tr>"
                         }

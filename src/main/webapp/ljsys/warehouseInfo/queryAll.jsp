@@ -35,9 +35,9 @@
             <div style="width:100%;height:300px;overflow-y: auto;">
                 <table class="table" cellspacing="0" cellpadding="0" width="100%" align="center" border="1">
                     <tr>
-                        <td class='tdStyle'>入库时间</td>
-                        <td class='tdStyle'>入库构件号</td>
-                        <td class='tdStyle'>入库操作人</td>
+                        <td class='tdStyle_title'>入库时间</td>
+                        <td class='tdStyle_title'>入库构件号</td>
+                        <td class='tdStyle_title'>入库操作人</td>
                     </tr>
                     <tbody id="tableText">
                     </tbody>
@@ -86,9 +86,9 @@
                     console.log(res)
                     var str = "";
                     for( var i = 0; i < res.length; i++) {
-                        str +="<tr><td class='tdStyle'>" + res[i]['wiTime'] +
-                            "</td><td class='tdStyle'>" + res[i]['productId'] +
-                            "</td><td class='tdStyle'>" + res[i]['userName'] +
+                        str +="<tr><td class='tdStyle_body'>" + res[i]['wiTime'] +
+                            "</td><td class='tdStyle_body'>" + res[i]['productId'] +
+                            "</td><td class='tdStyle_body'>" + res[i]['userName'] +
                             "</td>";
                     }
                     $("#tableText").html(str);

@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <div style="height: 95%;width: 100%">
     <div style="height: 10%;width: 100%">
-        <button style="position:relative;top: 50%;left: 15%;font-family: Simsun;font-size:20px;" onclick="openPop()">
+        <button style="position:relative;top: 50%;left: 15%;font-family: Simsun;font-size:16px;" onclick="openPop()">
             上传文件
         </button>
     </div>
@@ -21,21 +21,21 @@
         </div>
         <div style="height:30px;margin-top: 2%">
             <div style="width:33%;float: left;">
-                <button type="button" style="font-family: Simsun;font-size:20px;" onclick="jumpToNewPage(1)">第一页
+                <button type="button" style="font-family: Simsun;font-size:16px;" onclick="jumpToNewPage(1)">第一页
                 </button>
-                <button type="button" style="font-family: Simsun;font-size:20px;" onclick="jumpToNewPage(2)">最后一页
+                <button type="button" style="font-family: Simsun;font-size:16px;" onclick="jumpToNewPage(2)">最后一页
                 </button>
             </div>
             <div style="width:34%;float: left;">
-                <p id="planResultTip" style="margin-top: 0px;font-family: Simsun;font-size: 20px;text-align: center;">
+                <p id="planResultTip" style="margin-top: 0px;font-family: Simsun;font-size: 16px;text-align: center;">
                     1/1</p>
             </div>
             <div style="width:33%;float: left;">
-                <button type="button" style="font-family: Simsun;font-size:20px;float:right;margin-left: 5px"
+                <button type="button" style="font-family: Simsun;font-size:16px;float:right;margin-left: 5px"
                         onclick="jumpToNewPage(4)">
                     后一页
                 </button>
-                <button type="button" style="font-family: Simsun;font-size:20px;float:right;"
+                <button type="button" style="font-family: Simsun;font-size:16px;float:right;"
                         onclick="jumpToNewPage(3)">
                     前一页
                 </button>
@@ -70,17 +70,19 @@
                 <label for="plant" style="margin-left: 1%">工厂：</label><input id="plant" disabled>
             </div>
             <div style="height: 70%;border: 1px solid #000">
-                <table class="table" cellspacing="0" cellpadding="0" width="100%" align="center" border="1">
-                    <tr>
+                <table class="pop_table" cellspacing="0" cellpadding="0" width="100%" align="center" border="1">
+                    <tr id="table_tr">
+                        <td class='table_tr_print tdStyle_title' style="width: 4%;"><input type="checkbox"></td>
                         <td class='tdStyle_title' style="width: 10%">物料编号</td>
                         <td class='tdStyle_title' style="width: 10%">项目名称</td>
-                        <td class='tdStyle_title' style="width: 10%">楼栋楼层</td>
+                        <td class='tdStyle_title' style="width: 8%">楼栋楼层</td>
                         <td class='tdStyle_title' style="width: 10%">构件尺寸</td>
-                        <td class='tdStyle_title' style="width: 10%">构件编号</td>
-                        <td class='tdStyle_title' style="width: 10%">体积</td>
-                        <td class='tdStyle_title' style="width: 10%">质量</td>
-                        <td class='tdStyle_title' style="width: 10%">质检员</td>
-                        <td class='tdStyle_title' style="width: 10%">日期</td>
+                        <td class='tdStyle_title' style="width: 8%">构件编号</td>
+                        <td class='tdStyle_title' style="width: 6%">体积</td>
+                        <td class='tdStyle_title' style="width: 6%">质量</td>
+                        <td class='tdStyle_title' style="width: 7%">质检员</td>
+                        <td class='tdStyle_title' style="width: 5%;">日期</td>
+                        <td class='table_tr_print tdStyle_title' style='width: 6%'>打印数</td>
                     </tr>
                     <tbody id="detailTableText">
                     </tbody>
@@ -88,25 +90,25 @@
             </div>
             <div style="height:35px;margin-top: 15px">
                 <div style="width:33%;float: left;">
-                    <button id="pop_first" type="button" disabled style="font-family: Simsun;font-size:20px;"
+                    <button id="pop_first" type="button" disabled style="font-family: Simsun;font-size:16px;"
                             onclick="jumpToNewPage(1,true)">第一页
                     </button>
-                    <button id="pop_last" type="button" disabled style="font-family: Simsun;font-size:20px;"
+                    <button id="pop_last" type="button" disabled style="font-family: Simsun;font-size:16px;"
                             onclick="jumpToNewPage(2,true)">最后一页
                     </button>
                 </div>
                 <div style="width:34%;float: left;">
                     <p id="detailResultTip"
-                       style="margin-top: 0px;font-family: Simsun;font-size: 20px;text-align: center;">
+                       style="margin-top: 0px;font-family: Simsun;font-size: 16px;text-align: center;">
                         1/1</p>
                 </div>
                 <div style="width:33%;float: left;">
                     <button id="pop_next" type="button" disabled
-                            style="font-family: Simsun;font-size:20px;float:right;margin-left: 5px"
+                            style="font-family: Simsun;font-size:16px;float:right;margin-left: 5px"
                             onclick="jumpToNewPage(4,true)">
                         后一页
                     </button>
-                    <button id="pop_pre" type="button" disabled style="font-family: Simsun;font-size:20px;float:right;"
+                    <button id="pop_pre" type="button" disabled style="font-family: Simsun;font-size:16px;float:right;"
                             onclick="jumpToNewPage(3,true)">
                         前一页
                     </button>
@@ -125,16 +127,17 @@
     </div>
 </div>
 <script>
-    let num = 1;
-    let count = 1;
-    let pop_num = 1;
-    let pop_count = 1;
-    let excelData = {};
-    let jsonObj = [];
-
+    let num = 1;        //分页当前页
+    let count = 1;      //分页总页数
+    let pop_num = 1;    //弹框分页当前页
+    let pop_count = 1;  //弹框分页总页数
+    let excelData = {}; //excel数据
+    let jsonObj = [];   //plan数据
+    let print = false;
 
     window.onload = getTableData();
 
+    //打开弹窗
     function openPop() {
         $(".pop_up").show();
         $(".title_1").show();
@@ -142,13 +145,17 @@
         $("#pop_print").hide();
         $("#pop_input").show();
         $(".pop_footer").show();
+        $('.table_tr_print').hide();
+        print = false;
     }
 
+    //关闭弹窗
     function closePop() {
         $(".pop_up").hide();
         reset();
     }
 
+    //重置弹窗
     function reset() {
         $("#planname").val('');
         $("#company").val('');
@@ -180,6 +187,7 @@
         }
     })
 
+    //查询plan表数据
     function getTableData() {
         $.ajax({
             url: "http://localhost:8989/DuiMa_war_exploded/GetPlan",
@@ -195,6 +203,7 @@
         })
     }
 
+    //获取明细数据
     function getDetailData(planid, i) {
         $.post("http://localhost:8989/DuiMa_war_exploded/GetPreProduct", {'planid': planid}, function (result) {
             result = JSON.parse(result);
@@ -208,16 +217,20 @@
                 $("#pop_input").hide();
                 $(".pop_footer").hide();
                 getStyleList();
+                $('.table_tr_print').show();
+                print = true;
                 updateTable(true);
                 getFieldMap();
             }
         })
     }
 
+    //删除plan数据
     function delTableData(planid) {
 
     }
 
+    //更新表格
     function updateTable(detail) {
         let preProductData = excelData.preProduct;
         let str = "";
@@ -227,7 +240,12 @@
             $("#plant").val(excelData.plan.plant);
             for (let i = (pop_num - 1) * 15; i < pop_num * 15 && i < preProductData.length; i++) {
                 let time = preProductData[i]['time'] === undefined ? '' : preProductData[i]['time']
-                str += "<tr><td class='tdStyle_body'>" + preProductData[i]['materialcode'] +
+                if (print){
+                   str += "<tr><td class='tdStyle_body'><input type='checkbox'></td>"
+                }else {
+                    str+="<tr>"
+                }
+                str += "<td class='tdStyle_body'>" + preProductData[i]['materialcode'] +
                     "</td><td class='tdStyle_body'>" + preProductData[i]['projectname'] +
                     "</td><td class='tdStyle_body'>" + preProductData[i]['build'] +
                     "</td><td class='tdStyle_body'>" + preProductData[i]['size'] +
@@ -235,9 +253,12 @@
                     "</td><td class='tdStyle_body'>" + preProductData[i]['volume'] +
                     "</td><td class='tdStyle_body'>" + parseFloat(preProductData[i]['weigh']).toFixed(2) +
                     "</td><td class='tdStyle_body'>" + preProductData[i]['qc'] +
-                    "</td><td class='tdStyle_body'>" + time +
-                    "</td></tr>";
-
+                    "</td><td class='tdStyle_body'>" + time;
+                if (print) {
+                    str += "</td><td class='tdStyle_body'>" + preProductData[i]['print'] + "</td></tr>"
+                } else {
+                    str += "</td></tr>"
+                }
                 $("#detailTableText").html(str);
             }
         } else {
@@ -276,6 +297,7 @@
         reader.readAsBinaryString(file);
     });
 
+    //上一页、下一页
     function jumpToNewPage(index, detail) {
         if (detail) {
             if (index === 1) {
@@ -397,6 +419,7 @@
         })
     }
 
+    //检查数据并打印
     function checkdata() {
         if ($("#qrcodestyles option:selected").val() === '0') {
             alert("请选择一个样式！");
@@ -415,9 +438,11 @@
                 productIds: JSON.stringify(preProductIds)
             },
             success: function (res) {
-                // var jsonobj = JSON.parse(res.data)
-                // 原来的data中去除已打印部分
-                printLabels()
+                if (res.flag) {
+                    printLabels()
+                } else {
+                    alert("打印失败！")
+                }
             },
         })
     }
@@ -480,6 +505,7 @@
         })
     }
 
+    //设置打印内容
     function printData() {
         var startStr = "<!--startprint-->"
         var endStr = "<!--endprint-->"
@@ -523,6 +549,7 @@
         $("#printArea").append(enditem)
     }
 
+    //生成二维码
     function getQRCode(idx, str) {
         new QRCode(document.getElementById("qrcode_" + idx), {
             text: str,
@@ -536,7 +563,6 @@
 
     // 打印标签
     function printLabels() {
-
         var bdhtml = window.document.body.innerHTML;
         var sprnstr = "<!--startprint-->";
         var eprnstr = "<!--endprint-->";
@@ -550,4 +576,3 @@
 
 
 </script>
-</html>
