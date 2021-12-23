@@ -21,9 +21,13 @@
         </div>
         <div style="height:30px;margin-top: 2%">
             <div style="width:33%;float: left;">
-                <button type="button" style="font-family: Simsun;font-size:16px;" onclick="jumpToNewPage(1)">第一页
+                <button id="first" type="button" style="font-family: Simsun;font-size:16px;"
+                        onclick="jumpToNewPage(1,false)">
+                    第一页
                 </button>
-                <button type="button" style="font-family: Simsun;font-size:16px;" onclick="jumpToNewPage(2)">最后一页
+                <button id="last" type="button" style="font-family: Simsun;font-size:16px;"
+                        onclick="jumpToNewPage(2,false)">
+                    最后一页
                 </button>
             </div>
             <div style="width:34%;float: left;">
@@ -31,12 +35,12 @@
                     1/1</p>
             </div>
             <div style="width:33%;float: left;">
-                <button type="button" style="font-family: Simsun;font-size:16px;float:right;margin-left: 5px"
-                        onclick="jumpToNewPage(4)">
+                <button id="next" type="button" style="font-family: Simsun;font-size:16px;float:right;margin-left: 5px"
+                        onclick="jumpToNewPage(4,false)">
                     后一页
                 </button>
-                <button type="button" style="font-family: Simsun;font-size:16px;float:right;"
-                        onclick="jumpToNewPage(3)">
+                <button id="pre" type="button" style="font-family: Simsun;font-size:16px;float:right;"
+                        onclick="jumpToNewPage(3,false)">
                     前一页
                 </button>
             </div>
@@ -124,7 +128,7 @@
                     onclick="checkdata()">全部打印
             </button>
         </div>
-        <div class="pop_footer" style="height: 8%;display: flex;align-items: center;justify-content: center;">
+        <div class="pop_footer" style="height: 7%;display: flex;align-items: center;justify-content: center;">
             <button type="submit" class="saveo save-btn">保存</button>
             <button type="reset" class="recover-btn">重置</button>
         </div>
@@ -212,6 +216,7 @@
                 if (res.data.length !== 0) {
                     jsonObj = res.data;
                     updateTable(false);
+                    setFooter();
                 }
             }
         })
@@ -323,6 +328,21 @@
             let data = event.target.result;
             let workbook = XLSX.read(data, {type: 'binary'});
             excelData = outputWorkbook(workbook)
+            if (excelData.preProduct.length === 0) {
+                return
+            }
+            let str = ''
+            $.post("http://localhost:8989/DuiMa_war_exploded/GetPreProduct", null, function (result) {
+                result = JSON.parse(result);
+                excelData.preProduct.forEach((item) => {
+                    result.data.forEach((res_item) => {
+                        if (item.preproductid === res_item.preproductid) {
+                            str += item.preproductid;
+                        }
+                    })
+                });
+
+            });
             pop_count = Math.ceil(excelData.preProduct.length / 15);
             updateTable(true);
             setFooter();
@@ -380,8 +400,10 @@
     }
 
     function setFooter() {
-        let str = pop_num + '/' + pop_count;
-        $('#detailResultTip').text(str);
+        let pop_str = pop_num + '/' + pop_count;
+        let str = num + '/' + count;
+        $('#detailResultTip').text(pop_str);
+        $('#planResultTip').text(str);
         if (pop_count === pop_num) {
             $('#pop_next').attr('disabled', true);
             $('#pop_last').attr('disabled', true);
@@ -403,8 +425,8 @@
             $('#next').attr('disabled', false);
             $('#last').attr('disabled', false);
         }
-        if (pop_num === 1) {
-            $('#_pre').attr('disabled', true);
+        if (num === 1) {
+            $('#pre').attr('disabled', true);
             $('#first').attr('disabled', true)
         } else {
             $('#pre').attr('disabled', false);
@@ -461,7 +483,7 @@
         let pids = []
         if (!isAll) {
             $('#detailTableText').find('input:checked').each(function () {
-                pids.push($(this).attr('data-id'));   //找到对应checkbox中data-id属性值，然后push给空数组pids
+                pids.push({pid: $(this).attr('data-id')});   //找到对应checkbox中data-id属性值，然后push给空数组pids
             });
             if (pids.length === 0) {
                 alert("请勾选！");
@@ -472,7 +494,6 @@
                     return item.pid = val;
                 }));
             })
-
         } else {
             for (let i = 0; i < excelData.preProduct.length; i++) {
                 pids.push(excelData.preProduct[i].pid)
@@ -481,26 +502,36 @@
                 alert("暂无打印数据");
                 return;
             }
-            excelData.preProduct.push(excelData.plan);
             printsData = excelData.preProduct;
         }
-        // $.ajax({
-        //     url: "http://localhost:8989/DuiMa_war_exploded/PrintPreProduct",
-        //     type: 'post',
-        //     dataType: 'json',
-        //     contentType: 'application/x-www-form-urlencoded;charset=utf-8',
-        //     data: {
-        //         productIds: JSON.stringify(preProductIds)
-        //     },
-        //     success: function (res) {
-        //         if (res.flag) {
-        getStyle()
-        // printLabels()
-        // } else {
-        //     alert("打印失败！")
-        // }
-        // },
-        // })
+        let str = ''
+        printsData.forEach((item) => {
+            if (item.print > 0) {
+                str += item.preproductid + '，';
+            }
+        })
+        if (str !== '') {
+            let r = confirm("亲，构建编号：" + str + " 已经打印过，确定重复打印？");
+            if (r === false) {
+                return;
+            }
+        }
+        $.ajax({
+            url: "http://localhost:8989/DuiMa_war_exploded/PrintPreProduct",
+            type: 'post',
+            dataType: 'json',
+            contentType: 'application/x-www-form-urlencoded;charset=utf-8',
+            data: {
+                productIds: JSON.stringify(pids)
+            },
+            success: function (res) {
+                if (res.flag) {
+                    getStyle()
+                } else {
+                    alert("打印失败！")
+                }
+            },
+        })
     }
 
     // 获取样式

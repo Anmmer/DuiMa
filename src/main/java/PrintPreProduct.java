@@ -30,7 +30,7 @@ public class PrintPreProduct extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         resp.setContentType("text/html;charset=UTF-8");
-        String preProductIds = req.getParameter("preProductIds");
+        String preProductIds = req.getParameter("productIds");
         JSONArray jsonArray = JSONObject.parseArray(preProductIds);
         Connection con = null;
         PreparedStatement ps = null;
