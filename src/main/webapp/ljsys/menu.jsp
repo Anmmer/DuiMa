@@ -1,15 +1,15 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <script>
-    function ShowOrHide(str){
+    function ShowOrHide(str) {
         var element = document.getElementById(str)
-        if(element.style.display =="block"){
+        if (element.style.display == "block") {
             element.style.display = "none"
-        }
-        else {
+        } else {
             element.style.display = "block"
         }
     }
-    function jumpTo(str){
+
+    function jumpTo(str) {
         location.href = str
     }
 </script>
@@ -17,11 +17,11 @@
     <!--用户管理-->
     <ul class="ul_TopListStyle">
         <li class="li_TopItemStyle" onclick="ShowOrHide('User')">
-            <div style="height:50px;width:50px;float:left">
-                <div style="height:5px;width:100%;float:left"></div>
+            <div style="height:30px;width:50px;float:left">
+                <div style="height:2px;width:100%;float:left"></div>
                 <img src="pictures/right.png">
             </div>
-            用户管理
+            <span>用户管理</span>
         </li>
         <ul class="ul_ListStyle" id="User">
             <li class="li_ItemStyle" onclick="jumpTo('userQueryAll.jsp')">查询用户</li>
@@ -32,8 +32,8 @@
     <!--群组管理-->
     <ul class="ul_TopListStyle">
         <li class="li_TopItemStyle" onclick="ShowOrHide('Group')">
-            <div style="height:50px;width:50px;float:left">
-                <div style="height:5px;width:100%;float:left"></div>
+            <div style="height:30px;width:50px;float:left">
+                <div style="height:2px;width:100%;float:left"></div>
                 <img src="pictures/right.png">
             </div>
             群组管理
@@ -45,8 +45,8 @@
     <!--工厂管理-->
     <ul class="ul_TopListStyle">
         <li class="li_TopItemStyle" onclick="ShowOrHide('Factory')">
-            <div style="height:50px;width:50px;float:left">
-                <div style="height:5px;width:100%;float:left"></div>
+            <div style="height:30px;width:50px;float:left">
+                <div style="height:2px;width:100%;float:left"></div>
                 <img src="pictures/right.png">
             </div>
             库存管理
@@ -57,9 +57,9 @@
     </ul>
     <!--二维码-->
     <ul class="ul_TopListStyle">
-        <li class="li_TopItemStyle" onclick="ShowOrHide('Factory')">
-            <div style="height:50px;width:50px;float:left">
-                <div style="height:5px;width:100%;float:left"></div>
+        <li class="li_TopItemStyle" onclick="ShowOrHide('Equipment')">
+            <div style="height:30px;width:50px;float:left">
+                <div style="height:2px;width:100%;float:left"></div>
                 <img src="pictures/right.png">
             </div>
             二维码管理
@@ -68,16 +68,16 @@
             <li class="li_ItemStyle" onclick="jumpTo('qrcodeQueryAll.jsp')">信息查询</li>
         </ul>
     </ul>
-    <!--二维码-->
+    <!--打印管理-->
     <ul class="ul_TopListStyle">
-        <li class="li_TopItemStyle" onclick="ShowOrHide('Factory')">
-            <div style="height:50px;width:50px;float:left">
-                <div style="height:5px;width:100%;float:left"></div>
+        <li class="li_TopItemStyle" onclick="ShowOrHide('rqCode')">
+            <div style="height:30px;width:50px;float:left">
+                <div style="height:2px;width:100%;float:left"></div>
                 <img src="pictures/right.png">
             </div>
             打印管理
         </li>
-        <ul class="ul_ListStyle" id="Equipment">
+        <ul class="ul_ListStyle" id="rqCode">
             <!--<li class="li_ItemStyle" onclick="jumpTo('printQueryAll.jsp')">信息查询</li>-->
             <li class="li_ItemStyle" onclick="jumpTo('print2.jsp')">打印界面</li>
         </ul>

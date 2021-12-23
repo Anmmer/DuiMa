@@ -192,7 +192,7 @@
     //保存
     $('.save-btn').click(function () {
         if (Object.keys(excelData).length !== 0) {
-            $.post("http://localhost:8989/DuiMa_war_exploded/addPlan", {str: JSON.stringify(excelData)}, function (result) {
+            $.post("http://localhost:8989/DuiMa_war_exploded/AddPlan", {str: JSON.stringify(excelData)}, function (result) {
                 let jsonObject = JSON.parse(result)
                 alert(jsonObject.message);
                 if (jsonObject.flag) {
@@ -240,13 +240,16 @@
     }
 
     //获取明细数据
-    function getDetailData(id, i) {
-        planid = id;
-        $.post("http://localhost:8989/DuiMa_war_exploded/GetPreProduct", {'planid': id}, function (result) {
+    function getDetailData(planid) {
+        $.post("http://localhost:8989/DuiMa_war_exploded/GetPreProduct", {'planid': planid}, function (result) {
             result = JSON.parse(result);
             if (result.data.length !== 0) {
                 excelData.preProduct = result.data;
-                excelData.plan = jsonObj[i];
+                excelData.plan = jsonObj.find((item)=>{
+                    return item.planid === planid;
+                });
+                pop_count = Math.ceil(excelData.preProduct.length / 15);
+                setFooter();
                 $(".pop_up").show();
                 $(".title_1").hide();
                 $(".title_2").show();
@@ -265,7 +268,17 @@
 
     //删除plan数据
     function delTableData(planid) {
-
+        let r = confirm("亲，确认删除！");
+        if (r === false) {
+            return;
+        }
+        $.post("http://localhost:8989/DuiMa_war_exploded/DeletePlan", {'planid': planid}, function (result) {
+            result = JSON.parse(result);
+            alert(result.message);
+            if (result.flag){
+                getTableData();
+            }
+        });
     }
 
     //更新表格
@@ -304,7 +317,7 @@
                 str += "<tr><td class='tdStyle_body'>" + jsonObj[i]['planname'] +
                     "</td><td class='tdStyle_body'>" + jsonObj[i]['company'] +
                     "</td><td class='tdStyle_body'>" + jsonObj[i]['plant'] +
-                    "</td><td class='tdStyle_body'><a href='#' onclick='getDetailData(" + jsonObj[i]['planid'] + "," + i + ")'>详情</a><a href='#' onclick='delTableData(" + jsonObj[i]['planid'] + ")'>删除</a></tr>";
+                    "</td><td class='tdStyle_body'><a href='#' onclick='getDetailData(" + jsonObj[i]['planid'] + ")'>详情</a><a href='#' onclick='delTableData(" + jsonObj[i]['planid'] + ")'>删除</a></tr>";
             }
             $("#planTableText").html(str);
         }
@@ -331,21 +344,42 @@
             if (excelData.preProduct.length === 0) {
                 return
             }
-            let str = ''
+            let str = '';
+            let flag = excelData.preProduct.some((val, index) => {
+                for (let i = index + 1; i < excelData.preProduct.length; i++) {
+                    if (val.preproductid === excelData.preProduct[i].preproductid) {
+                        return true;
+                    }
+                }
+            })
+            if (flag) {
+                alert('构件号：' + str + '重复');
+                return;
+            }
             $.post("http://localhost:8989/DuiMa_war_exploded/GetPreProduct", null, function (result) {
                 result = JSON.parse(result);
                 excelData.preProduct.forEach((item) => {
                     result.data.forEach((res_item) => {
                         if (item.preproductid === res_item.preproductid) {
-                            str += item.preproductid;
+                            if (str === '') {
+                                str += item.preproductid
+                            } else {
+                                str += '，' + item.preproductid;
+                            }
                         }
                     })
                 });
-
+            }).then(function () {
+                if (str !== '') {
+                    excelData = {};
+                    $('#excel-file').val('');
+                    alert('构件号：' + str + ']已存在');
+                    return;
+                }
+                pop_count = Math.ceil(excelData.preProduct.length / 15);
+                updateTable(true);
+                setFooter();
             });
-            pop_count = Math.ceil(excelData.preProduct.length / 15);
-            updateTable(true);
-            setFooter();
         }
         reader.readAsBinaryString(file);
     });

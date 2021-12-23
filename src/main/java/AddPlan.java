@@ -65,24 +65,24 @@ public class AddPlan extends HttpServlet {
             }
             int[] rs2 = ps2.executeBatch();
             if (rs2.length < 1) {
-            result.put("flag", false);
-            result.put("message", "录入失败");
-            out.write(JSON.toJSONString(result));
+                result.put("flag", false);
+                result.put("message", "录入失败");
+                out.write(JSON.toJSONString(result));
             } else {
                 result.put("message", "录入成功");
                 out.write(JSON.toJSONString(result));
-            result.put("flag", false);
+                result.put("flag", true);
             }
             ps1.close();
             ps2.close();
         } catch (Exception e) {
             e.printStackTrace();
-            result.put("flag",false);
+            result.put("flag", false);
             result.put("message", "录入失败");
             out.write(JSON.toJSONString(result));
         } finally {
             out.close();
-            if (con!=null){
+            if (con != null) {
                 try {
                     con.close();
                 } catch (SQLException throwables) {

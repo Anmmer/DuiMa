@@ -7,7 +7,7 @@
         <div style="width:100%;height:30px;float:left"></div>
         <div name="add">
             <span class="pStyle" style="width:30%;height:30px;float:left;line-height: 30px;">姓名:</span>
-            <input type="text" name="name" id="name" style="width:55%;height:27px;float:left;" class="FormInputStyle">
+            <input type="text" name="name" id="name" style="width:55%;float:left;" class="FormInputStyle">
             <div style="width:100%;height:30px;float:left;"></div>
             <span class="pStyle" style="width:30%;height:30px;float:left;line-height: 30px;">角色群组:</span>
             <select id="groupName" name="groupName" size="1" style="width:35%;float:left;font-size:16px;font-family:Simsun;">
@@ -15,7 +15,6 @@
             <button style="float:left" onclick="addgp()">新增</button>
             <div style="width:100%;height:30px;float:left;" class="pStyle">群组:</div>
             <div id="addgp" style="width:100%;height:100px;float:left;overflow-y: auto;" class="pStyle"></div>
-            <div style="width:100%;height: 30px;float:left;"></div>
             <input type="button" value="提交新增" style="float:left;font-size:16px;font-family:Simsun;" onclick="addOne()">
         </div>
         <div style="width:100%;height:30px;float:left"></div>

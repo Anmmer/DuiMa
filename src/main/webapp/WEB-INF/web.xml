@@ -367,4 +367,12 @@
         <servlet-name>printPreProduct</servlet-name>
         <url-pattern>/PrintPreProduct</url-pattern>
     </servlet-mapping>
+    <servlet>
+        <servlet-name>deletePlan</servlet-name>
+        <servlet-class>DeletePlan</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>deletePlan</servlet-name>
+        <url-pattern>/DeletePlan</url-pattern>
+    </servlet-mapping>
 </web-app>
