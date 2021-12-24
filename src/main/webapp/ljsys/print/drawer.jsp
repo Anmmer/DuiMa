@@ -40,7 +40,7 @@
                 //getStyle()
             },
             error: function (message) {
-                console.log(message)
+                (message)
             }
         })
     }
@@ -48,7 +48,7 @@
     function getStyle() {
         // 把样式设定为目前选中的样式
         var qrcodeid = $("#qrcodestyles :selected").val()
-        console.log(qrcodeid)
+        (qrcodeid)
         var fieldNames = {
             qrcode_content: "STRING"
         }
@@ -66,12 +66,12 @@
             success: function (res) {
                 var datatmp = JSON.parse(res.data)[0]
                 qrstyle = JSON.parse(datatmp.qrcode_content)
-                console.log(qrstyle)
+                (qrstyle)
                 styleReady = true
                 printData()
             },
             error: function (message) {
-                console.log(message)
+                (message)
             }
         })
 
@@ -90,9 +90,9 @@
         var startitem = $(startStr)
         $("#printArea").empty()
         $("#printArea").append(startitem)
-        console.log("data length:" + window.pdata.length)
+        ("data length:" + window.pdata.length)
         for (var i = 0; i < window.pdata.length; i++) {
-            console.log("loop " + i)
+            ("loop " + i)
             // 已判断是否都已获取
             // 先填充内容，后设置位置
             var item = "<div style='page-break-after:always;position:relative;width:" + xsize + "px;height:" + ysize + "px;'>"
@@ -107,7 +107,7 @@
                 var nodevalue = node.content;
                 xsituation = node.xsituation
                 ysituation = node.ysituation
-                console.log(window.pdata[i])
+                (window.pdata[i])
                 var nodestr = fieldmap[nodevalue] + ":" + window.pdata[i][nodevalue]
                 item += "<span class='pStyle' style='position: absolute;left:" + xsituation + "px;top:" + ysituation + "px;'>" + nodestr + "</span>"
             }
@@ -117,8 +117,8 @@
             $("#printArea").append(newItem)
             // 设置二维码内容
             var qrcodeContent = ""
-            console.log(qrstyle)
-            console.log(qrstyle.qRCode.qRCodeContent)
+            (qrstyle)
+            (qrstyle.qRCode.qRCodeContent)
             var tmp = qrstyle.qRCode.qRCodeContent
             for (var j = 0; j < tmp.length; j++) {
                 qrcodeContent += fieldmap[tmp[j]] + ":" + window.pdata[i][tmp[j]] + "\n"

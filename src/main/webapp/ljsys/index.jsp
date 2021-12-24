@@ -101,9 +101,7 @@
                 var newpwd = $("#newpwd").val()
                 var checkpwd = $("#checkpwd").val()
                 if(newpwd == checkpwd){
-                    console.log(newpwd)
                     var str = "update user set user_pwd='"+newpwd+"' where user_id="+sessionStorage.getItem("userId")+";";
-                    console.log(str)
                     if(isValid(newpwd)){
                         $.ajax({
                             url:"http://localhost:8989/DuiMa_war_exploded/ExecuteSQL",
@@ -117,7 +115,6 @@
                                 message:"修改了自身密码"
                             },
                             success:function(res){
-                                console.log(res)
                                 window.alert("密码修改成功")
                                 $("#newpwd").val("")
                                 $("#checkpwd").val("")
@@ -135,7 +132,6 @@
             // 日志input onchange
             function logdatechange(){
                 var logdate = $("#logdate").val()
-                console.log(logdate)
                 // 查询是否存在该日志，不存在将该downloadurl设置为空字符串
                 // 若存在则设定downloadurl并清空display，显示下载按钮
                 $.ajax({
@@ -147,7 +143,6 @@
                         filename:logdate+".txt"
                     },
                     success:function(res){
-                        console.log(res)
                         if(res){
                             downloadurl = "./logs/"+logdate+".txt"
                             document.getElementById("downloadurl").style.display = ""
@@ -160,7 +155,6 @@
                         }
                     },
                     error:function(message){
-                        console.log(message)
                     }
                 })
             }
@@ -192,9 +186,7 @@
                         pageMax:1000
                     },
                     success:function(res){
-                        console.log(res)
                         var jsonobj = JSON.parse(res.data)
-                        console.log(jsonobj)
                         var str = ""
                         for(var i = 0; i < jsonobj.length; i++){
                             str += "<tr><td class='tdStyle_body'>"+jsonobj[i]['pi_value'] +
@@ -220,12 +212,10 @@
                         message:"删除了项目字段(其编号为"+id+")"
                     },
                     success:function(res){
-                        console.log(res)
                         window.alert("删除成功!")
                         updateProjectItem()
                     },
                     error:function(message){
-                        console.log(message)
                         window.alert("删除失败!请联系系统管理员或查看本机网络状态")
                     }
                 })
@@ -242,10 +232,6 @@
                     window.alert("新增的字段名不合法，可以由中文，英文，下划线，数字组成!")
                     return
                 }
-                console.log(newkey)
-                console.log(newvalue)
-                console.log(sessionStorage.getItem("userId"))
-                console.log(sessionStorage.getItem("userName"))
                 $.ajax({
                     url:"http://localhost:8989/DuiMa_war_exploded/AddProjectItem",
                     type:'post',
@@ -258,12 +244,10 @@
                         pivalue:newvalue
                     },
                     success:function(res){
-                        console.log(res)
                         window.alert(res.message)
                         updateProjectItem()
                     },
                     error:function(message){
-                        console.log(message)
                         window.alert("新增失败!")
                     }
                 })

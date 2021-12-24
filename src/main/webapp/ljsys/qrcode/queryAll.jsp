@@ -101,7 +101,6 @@
                     // 将结果输出到table
                     var str = "";
                     var jsonobj = JSON.parse(res.data);
-                    console.log(jsonobj)
                     for (var i = 0; i < jsonobj.length; i++) {
                         str += "<tr><td class='tdStyle_body'>" + jsonobj[i]['qrcode_id'] +
                             "</td><td class='tdStyle_body'>" + jsonobj[i]['qrcode_name'] +
@@ -123,8 +122,6 @@
                     $("#resultTip2").html(tipStr2)
                 },
                 error: function (message) {
-                    console.log(json)
-                    console.log(message)
                 }
             });
         }
@@ -189,7 +186,6 @@
                     // 将结果输出到table
                     var str = "";
                     var jsonobj = JSON.parse(res.data);
-                    console.log(jsonobj)
                     for (var i = 0; i < jsonobj.length; i++) {
                         str += "<tr><td class='tdStyle_body'>" + jsonobj[i]['qrcode_id'] +
                             "</td><td class='tdStyle_body'>" + jsonobj[i]['qrcode_name'] +
@@ -209,8 +205,6 @@
                     $("#resultTip2").html(tipStr2)
                 },
                 error: function (message) {
-                    console.log(json)
-                    console.log(message)
                 }
             });
         }
@@ -226,7 +220,6 @@
             var sqlStrtmp = "select qrcode_id,qrcode_name from qrcode where qrcode_status = 1 and qrcode_id like '%" + qrcodeId + "%' and qrcode_name like '%" + qrcodeName + "%';";
             var newpageStr = document.forms["jumpPage"]["page"].value;
             var newpage = parseInt(newpageStr)
-            console.log(newpage)
             if (newpage <= 0 || newpage > pageAll || isNaN(newpage)) {
                 window.alert("请输入一个在范围内的正确页码数字!")
                 return
@@ -247,7 +240,6 @@
                     // 将结果输出到table
                     var str = "";
                     var jsonobj = JSON.parse(res.data);
-                    console.log(jsonobj)
                     for (var i = 0; i < jsonobj.length; i++) {
                         str += "<tr><td class='tdStyle_body'>" + jsonobj[i]['qrcode_id'] +
                             "</td><td class='tdStyle_body'>" + jsonobj[i]['qrcode_name'] +
@@ -267,8 +259,6 @@
                     $("#resultTip2").html(tipStr2)
                 },
                 error: function (message) {
-                    console.log(json)
-                    console.log(message)
                 }
             });
         }
@@ -290,12 +280,10 @@
                     name: sessionStorage.getItem("userName")
                 },
                 success: function (res) {
-                    console.log(res)
                     window.alert(res.message)
                     updateTable(pageAll)
                 },
                 error: function (message) {
-                    console.log(message)
                 }
             })
         }

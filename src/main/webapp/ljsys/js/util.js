@@ -82,11 +82,11 @@ function outputWorkbook2(workbook) {
     for (var sheet in workbook.Sheets) {
         if (workbook.Sheets.hasOwnProperty(sheet)) {
             fromTo = workbook.Sheets[sheet]['!ref'];
-            console.log(fromTo);
+            (fromTo);
             persons = persons.concat(XLSX.utils.sheet_to_json(workbook.Sheets[sheet]));
             // break; // 如果只取第一张表，就取消注释这行
         }
     }
-    console.log(persons)
+    (persons)
 
 }

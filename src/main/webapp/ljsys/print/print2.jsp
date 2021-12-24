@@ -96,7 +96,6 @@
                 //getStyle()
             },
             error: function (message) {
-                console.log(message)
             }
         })
     }
@@ -105,7 +104,6 @@
     function getStyle() {
         // 把样式设定为目前选中的样式
         var qrcodeid = $("#qrcodestyles :selected").val()
-        console.log(qrcodeid)
         var fieldNames = {
             qrcode_content: "STRING"
         }
@@ -123,12 +121,10 @@
             success: function (res) {
                 var datatmp = JSON.parse(res.data)[0]
                 qrstyle = JSON.parse(datatmp.qrcode_content)
-                console.log(qrstyle)
                 styleReady = true
                 printData()
             },
             error: function (message) {
-                console.log(message)
             }
         })
 
@@ -153,9 +149,7 @@
         var startitem = $(startStr)
         $("#printArea").empty()
         $("#printArea").append(startitem)
-        console.log("data length:" + window.pdata.length)
         for (var i = 0; i < window.pdata.length; i++) {
-            console.log("loop " + i)
             // 已判断是否都已获取
             // 先填充内容，后设置位置
             var item = "<div style='page-break-after:always;position:relative;width:" + xsize + "px;height:" + ysize + "px;'>"
@@ -170,7 +164,6 @@
                 var nodevalue = node.content;
                 xsituation = node.xsituation
                 ysituation = node.ysituation
-                console.log(window.pdata[i])
                 var nodestr = fieldmap[nodevalue] + ":" + window.pdata[i][nodevalue]
                 item += "<span class='pStyle' style='position: absolute;left:" + xsituation + "px;top:" + ysituation + "px;'>" + nodestr + "</span>"
             }
@@ -180,8 +173,6 @@
             $("#printArea").append(newItem)
             // 设置二维码内容
             var qrcodeContent = ""
-            console.log(qrstyle)
-            console.log(qrstyle.qRCode.qRCodeContent)
             var tmp = qrstyle.qRCode.qRCodeContent
             for (var j = 0; j < tmp.length; j++) {
                 qrcodeContent += fieldmap[tmp[j]] + ":" + window.pdata[i][tmp[j]] + "\n"
@@ -238,7 +229,6 @@
                 for (var i = 0; i < jsonobj.length; i++) {
                     fieldmap[jsonobj[i].pi_key] = jsonobj[i].pi_value
                 }
-                console.log(fieldmap)
             }
         })
     }
@@ -254,24 +244,16 @@
             processData: false,
             contentType: false,
             success: function (res) {
-                console.log(res)
-                console.log(JSON.parse(res))
                 var jsonobj = JSON.parse(res)
-                console.log(jsonobj.data)
-                console.log(jsonobj.info)
                 window.pdata = []
-                console.log(jsonobj.data.length)
 
                 for (var i = 0; i < jsonobj.data.length; i++) {
-                    console.log(jsonobj.data[i]);
                     window.pdata.push(jsonobj.data[i]);
                 }
-                console.log(window.pdata)
                 // 完成后自动触发生成标签
                 checkdata()
             },
             error: function (message) {
-                console.log(message)
             }
         })
     }
@@ -291,24 +273,19 @@
             processData: false,
             contentType: false,
             success: function (res) {
-                console.log(res)
                 $("#messages").html(res)
             },
             error: function (message) {
-                console.log(message)
             }
         })
     }
 
     function checkdata() {
         var productids = []
-        console.log(window.pdata.length)
 
         for (var i = 0; i < window.pdata.length; i++) {
             productids.push(window.pdata[i].productId)
         }
-        console.log(productids)
-        console.log(window.pdata.length)
         $.ajax({
             url: "http://localhost:8989/DuiMa_war_exploded/PrintProduct",
             type: 'post',
@@ -320,10 +297,8 @@
                 productIds: JSON.stringify(productids)
             },
             success: function (res) {
-                console.log(res)
                 $("#messages").html(res.message)
                 var jsonobj = JSON.parse(res.data)
-                console.log(jsonobj)
                 // 原来的data中去除已打印部分
                 var deleteidxs = []     // 需要删除的下标
                 for (var i = 0; i < window.pdata.length; i++) {
@@ -337,11 +312,9 @@
                     window.pdata.splice(deleteidxs[i], 1)
                 }
                 dataReady = true
-                console.log(pdata)
                 getStyle()
             },
             error: function (message) {
-                console.log(message)
             }
         })
     }

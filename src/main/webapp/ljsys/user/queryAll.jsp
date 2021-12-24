@@ -27,7 +27,7 @@
                 <span>输入页码进行跳转:</span><input type="text" name="page" class="FormInputStyle">
                 <button type="button" style="font-family: Simsun;font-size:16px;" onclick="jumpToNewPage2()">跳转</button>
             </form>
-            <div style="width:100%;height:30px;"></div>
+            <div style="width:100%;height:20px;"></div>
             <table class="table" cellspacing="0" cellpadding="0" width="100%" align="center" border="1">
                 <tr>
                     <td class='tdStyle_title'>工号</td>
@@ -57,7 +57,7 @@
                     </button>
                 </div>
             </div>
-            <form type="multipart/form-data">
+            <form style="width: 50%" type="multipart/form-data">
                 <input type="file" id="file1">
                 <button type="button" value="提交" onclick="test()">提交</button>
             </form>
@@ -90,9 +90,9 @@
                 success: function (res) {
                     // 将结果输出到table
                     var str = "";
-                    console.log(res)
+                    (res)
                     var jsonobj = JSON.parse(res.data);
-                    console.log(jsonobj)
+                    (jsonobj)
                     for (var i = 0; i < jsonobj.length; i++) {
                         str += "<tr><td class='tdStyle_body'>" + jsonobj[i]['user_id'] +
                             "</td><td class='tdStyle_body'>" + jsonobj[i]['user_name'] +
@@ -115,8 +115,8 @@
                     $("#resultTip2").html(tipStr2)
                 },
                 error: function (message) {
-                    console.log(json)
-                    console.log(message)
+                    (json)
+                    (message)
                 }
             });
         }
@@ -167,7 +167,7 @@
                     // 将结果输出到table
                     var str = "";
                     var jsonobj = JSON.parse(res.data);
-                    console.log(jsonobj)
+                    (jsonobj)
                     for (var i = 0; i < jsonobj.length; i++) {
                         str += "<tr><td class='tdStyle_body'>" + jsonobj[i]['user_id'] +
                             "</td><td class='tdStyle_body'>" + jsonobj[i]['user_name'] +
@@ -190,8 +190,8 @@
                     $("#resultTip2").html(tipStr2)
                 },
                 error: function (message) {
-                    console.log(json)
-                    console.log(message)
+                    (json)
+                    (message)
                 }
             });
         }
@@ -207,7 +207,7 @@
             var sqlStrtmp = "select user_id,user_name from user where user_status = 1 and user_id like '%" + userId + "%' and user_name like '%" + userName + "%';";
             var newpageStr = document.forms["jumpPage"]["page"].value;
             var newpage = parseInt(newpageStr)
-            console.log(newpage)
+            (newpage)
             if (newpage <= 0 || newpage > pageAll || isNaN(newpage)) {
                 window.alert("请输入一个在范围内的正确页码数字!")
                 return
@@ -228,7 +228,7 @@
                     // 将结果输出到table
                     var str = "";
                     var jsonobj = JSON.parse(res.data);
-                    console.log(jsonobj)
+                    (jsonobj)
                     for (var i = 0; i < jsonobj.length; i++) {
                         str += "<tr><td class='tdStyle_body'>" + jsonobj[i]['user_id'] +
                             "</td><td class='tdStyle_body'>" + jsonobj[i]['user_name'] +
@@ -251,8 +251,8 @@
                     $("#resultTip2").html(tipStr2)
                 },
                 error: function (message) {
-                    console.log(json)
-                    console.log(message)
+                    (json)
+                    (message)
                 }
             });
         }
@@ -269,10 +269,10 @@
                 contentType: false,
                 success: function (res) {
                     // 将结果输出到table
-                    console.log(res)
+                    (res)
                 },
                 error: function (message) {
-                    console.log(message)
+                    (message)
                 }
             });
         }
@@ -295,11 +295,11 @@
                     message: "删除了用户(编号为" + userid + ")"
                 },
                 success: function (res) {
-                    console.log(res)
+                    (res)
                     updateTable(pageCur)
                 },
                 error: function (message) {
-                    console.log(message)
+                    (message)
                 }
             });
         }

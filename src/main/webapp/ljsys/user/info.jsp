@@ -44,9 +44,7 @@
         contentType:'application/x-www-form-urlencoded;charset=utf-8',
         data:json,
         success:function(res){
-            console.log(res)
             var jsonobj = JSON.parse(res.data);
-            console.log(jsonobj)
             // 循环取角色分组编号和分组名
             var gpids = jsonobj[0].gp_id
             var gpnames = jsonobj[0].gp_name
@@ -58,8 +56,6 @@
             $("#groupName").text(gpnames);
         },
         error:function(message){
-            console.log(json)
-            console.log(message)
         }
     });
 
@@ -112,7 +108,6 @@
         contentType:'application/x-www-form-urlencoded;charset=utf-8',
         data:json,
         success:function(res){
-            console.log(res)
             var functionList = JSON.parse(res.function);
             var processContentList = JSON.parse(res.processContent);
             var strtmp = "";
@@ -127,9 +122,6 @@
             $("#processContent").html(strtmp);
         },
         error:function(message){
-            console.log(json)
-            console.log(message)
         }
     });
-    console.log(userId)
 </script>

@@ -71,8 +71,6 @@
             var fieldNamesStr = JSON.stringify(fieldNamestmp);
             var equipmentId = $("#equipmentId").text();
             var equipmentName = $("#equipmentName").text();
-            console.log(equipmentId)
-            console.log(equipmentName)
             var sqlStrtmp = "select equipment_id,equipment_name from equipment where equipment_status = 1 and equipment_id like '%"+equipmentId+"%' and equipment_name like '%"+equipmentName+"%';";
             let json = {
                 sqlStr: sqlStrtmp,
@@ -88,11 +86,8 @@
                 data:json,
                 success:function(res){
                     // 将结果输出到table
-                    console.log(json)
-                    console.log(res)
                     var str = "";
                     var jsonobj = JSON.parse(res.data);
-                    console.log(jsonobj)
                     for( var i = 0; i < jsonobj.length; i++) {
                         str +="<tr><td class='tdStyle_body'>" + jsonobj[i]['equipment_id'] +
                             "</td><td class='tdStyle_body'>" + jsonobj[i]['equipment_name'] +
@@ -113,8 +108,6 @@
                     $("#resultTip2").html(tipStr2)
                 },
                 error:function(message){
-                    console.log(json)
-                    console.log(message)
                 }
             });
         }
@@ -165,7 +158,6 @@
                     // 将结果输出到table
                     var str = "";
                     var jsonobj = JSON.parse(res.data);
-                    console.log(jsonobj)
                     for( var i = 0; i < jsonobj.length; i++) {
                         str +="<tr><td class='tdStyle_body'>" + jsonobj[i]['equipment_id'] +
                             "</td><td class='tdStyle_body'>" + jsonobj[i]['equipment_name'] +
@@ -185,8 +177,6 @@
                     $("#resultTip2").html(tipStr2)
                 },
                 error:function(message){
-                    console.log(json)
-                    console.log(message)
                 }
             });
         }
@@ -201,7 +191,6 @@
             var sqlStrtmp = "select equipment_id,equipment_name from equipment where equipment_status = 1 and equipment_id like '%"+equipmentId+"%' and equipment_name like '%"+equipmentName+"%';";
             var newpageStr = document.forms["jumpPage"]["page"].value;
             var newpage = parseInt(newpageStr)
-            console.log(newpage)
             if(newpage <= 0 || newpage > pageAll || isNaN(newpage)) {
                 window.alert("请输入一个在范围内的正确页码数字!")
                 return
@@ -222,7 +211,6 @@
                     // 将结果输出到table
                     var str = "";
                     var jsonobj = JSON.parse(res.data);
-                    console.log(jsonobj)
                     for( var i = 0; i < jsonobj.length; i++) {
                         str +="<tr><td class='tdStyle_body'>" + jsonobj[i]['equipment_id'] +
                             "</td><td class='tdStyle_body'>" + jsonobj[i]['equipment_name'] +
@@ -242,8 +230,6 @@
                     $("#resultTip2").html(tipStr2)
                 },
                 error:function(message){
-                    console.log(json)
-                    console.log(message)
                 }
             });
         }
@@ -259,12 +245,9 @@
                 contentType:'application/x-www-form-urlencoded;charset=utf-8',
                 data:json,
                 success:function(res){
-                    console.log(res)
                     updateTable(1)
                 },
                 error:function(message){
-                    console.log(json)
-                    console.log(message)
                 }
             });
         }

@@ -82,8 +82,6 @@
                 data:json,
                 success:function(res){
                     // 将结果输出到table
-                    console.log(json)
-                    console.log(res)
                     var str = "";
                     for( var i = 0; i < res.length; i++) {
                         str +="<tr><td class='tdStyle_body'>" + res[i]['wiTime'] +
@@ -95,8 +93,6 @@
                     $("#resultTip").text("库房中共有"+res.length+"个构件!")
                 },
                 error:function(message){
-                    console.log(json)
-                    console.log(message)
                 }
             });
         }

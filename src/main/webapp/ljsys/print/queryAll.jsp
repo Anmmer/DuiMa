@@ -98,7 +98,6 @@
                     // 将结果输出到table
                     var str = "";
                     var jsonobj = JSON.parse(res.data);
-                    console.log(jsonobj)
                     for( var i = 0; i < jsonobj.length; i++) {
                         str +="<tr><td class='tdStyle_body'>" + jsonobj[i]['pt_id'] +
                             "</td><td class='tdStyle_body'>" + jsonobj[i]['pt_name'] +
@@ -121,8 +120,6 @@
                     $("#resultTip2").html(tipStr2)
                 },
                 error:function(message){
-                    console.log(json)
-                    console.log(message)
                 }
             });
         }
@@ -175,7 +172,6 @@
                     // 将结果输出到table
                     var str = "";
                     var jsonobj = JSON.parse(res.data);
-                    console.log(jsonobj)
                     for( var i = 0; i < jsonobj.length; i++) {
                         str +="<tr><td class='tdStyle_body'>" + jsonobj[i]['pt_id'] +
                             "</td><td class='tdStyle_body'>" + jsonobj[i]['pt_name'] +
@@ -197,8 +193,6 @@
                     $("#resultTip2").html(tipStr2)
                 },
                 error:function(message){
-                    console.log(json)
-                    console.log(message)
                 }
             });
         }
@@ -215,7 +209,6 @@
             var sqlStrtmp = "select pt_id,pt_name,pt_status,pt_time from printtask where pt_id like '%"+ptId+"%' and pt_name like '%"+ptName+"%' and pt_user_id="+userId+";";
             var newpageStr = document.forms["jumpPage"]["page"].value;
             var newpage = parseInt(newpageStr)
-            console.log(newpage)
             if(newpage <= 0 || newpage > pageAll || isNaN(newpage)) {
                 window.alert("请输入一个在范围内的正确页码数字!")
                 return
@@ -236,7 +229,6 @@
                     // 将结果输出到table
                     var str = "";
                     var jsonobj = JSON.parse(res.data);
-                    console.log(jsonobj)
                     for( var i = 0; i < jsonobj.length; i++) {
                         str +="<tr><td class='tdStyle_body'>" + jsonobj[i]['pt_id'] +
                             "</td><td class='tdStyle_body'>" + jsonobj[i]['pt_name'] +
@@ -258,8 +250,6 @@
                     $("#resultTip2").html(tipStr2)
                 },
                 error:function(message){
-                    console.log(json)
-                    console.log(message)
                 }
             });
         }
@@ -273,10 +263,8 @@
                     ptId:taskId
                 },
                 success:function(res){
-                    console.log(res)
                 },
                 error:function(message){
-                    console.log(message)
                 }
             })
         }
@@ -311,8 +299,6 @@
                     }
                 },
                 error:function(message){
-                    console.log(json)
-                    console.log(message)
                 }
             });
         }
@@ -348,7 +334,6 @@
             data1['turnover'] = parseInt($("#isturnover option:selected").val())
             data1['userid'] = userId
             data1['taskname'] = $("#newtaskname").val()
-            console.log(data1)
             $.ajax({
                 url:"http://localhost:8989/DuiMa_war_exploded/PrintLabel",
                 type:'post',
@@ -358,10 +343,8 @@
                     data:JSON.stringify(data1)
                 },
                 success:function(res){
-                    console.log(res)
                 },
                 error:function(message){
-                    console.log(message)
                 }
             })
         }

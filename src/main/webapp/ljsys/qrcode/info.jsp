@@ -93,7 +93,6 @@
             startpage()
         },
         error:function(message){
-            console.log(message)
         }
     })
     // 两个Select增加Option
@@ -136,7 +135,6 @@
             var elem = event.target
             var id = elem.id.substring(6,elem.id.length)
             var drawelem = document.getElementById("draw"+id)
-            console.log($("#"+elem.id).val())
             drawelem.style.left = $("#"+elem.id).val()+"px"
         })
         var yspan = $("<span class='pStyle'></span>").text("Y坐标:")
@@ -164,7 +162,6 @@
                 itemlist.splice(idx,1)
                 itemValues.splice(idx,1)
             }
-            console.log(itemlist)
             // 删除元素
             var fa = document.getElementById("ItemList")
             var child = document.getElementById("item"+id)
@@ -186,12 +183,8 @@
             oldxposition = event.pageX
             oldyposition = event.pageY
             var targetid = event.target.id
-            console.log("drag " + targetid + " start !")
-            console.log("X:"+oldxposition)
-            console.log("Y:"+oldyposition)
         })
         $("#draw"+cnt).bind("dragend",function(event){
-            console.log("====================")
             var Xoffset = event.pageX-oldxposition
             var Yoffset = event.pageY-oldyposition
             var elem = event.target
@@ -229,7 +222,6 @@
             var elem = event.target
             var id = elem.id.substring(6,elem.id.length)
             var drawelem = document.getElementById("draw"+id)
-            console.log($("#"+elem.id).val())
             drawelem.style.left = $("#"+elem.id).val()+"px"
         })
         var yspan = $("<span class='pStyle'></span>").text("Y坐标:")
@@ -252,12 +244,8 @@
             oldxposition = event.pageX
             oldyposition = event.pageY
             var targetid = event.target.id
-            console.log("drag " + targetid + " start !")
-            console.log("X:"+oldxposition)
-            console.log("Y:"+oldyposition)
         })
         $("#draw"+cnt).bind("dragend",function(event){
-            console.log("====================")
             var Xoffset = event.pageX-oldxposition
             var Yoffset = event.pageY-oldyposition
             var elem = event.target
@@ -281,7 +269,6 @@
         cnt = cnt + 1;
     }
     // 面板设置ajax读取,如果qrcode_content有数据则根据数据来，否则直接增加二维码
-    console.log(qrcodeId)
     function startpage(){
         $.ajax({
             url:"http://localhost:8989/DuiMa_war_exploded/GetQRCode",
@@ -292,7 +279,6 @@
                 qrcodeId:qrcodeId
             },
             success:function(res){
-                console.log(res)
                 if(res==null) addQRcode();
                 else{
                     // res即最终的qrcodestyle
@@ -330,14 +316,11 @@
                         var valuestmp = document.getElementById("itemNames")
                         var valueslen = valuestmp.length
                         for(var j = 0; j < valueslen; j++) {
-                            console.log("v:"+valuestmp.options[j].value)
-                            console.log("c:"+res.items[i].content)
                             if(valuestmp.options[j].value == res.items[i].content) {
                                 valuestmp.options[j].selected = true
                                 newItem()
                                 // 设置新项的位置
                                 var cnttmp = cnt - 1
-                                console.log(cnttmp)
                                 var drawtmp = document.getElementById("draw"+cnttmp)
                                 drawtmp.style.left = res.items[i].xsituation + "px"
                                 drawtmp.style.top = res.items[i].ysituation + "px"
@@ -357,7 +340,6 @@
             return;
         }
         // 点击提交的事件
-        console.log(itemlist)
         var qrcodestyle = {}
         qrcodestyle['xsize']=$("#xsize").val()
         qrcodestyle['ysize']=$("#ysize").val()
@@ -367,7 +349,6 @@
         var len = document.getElementById("valuesTo").length
         for(var i = 0; i < len; i++){
             qRCode['qRCodeContent'].push(document.getElementById("valuesTo").options[i].value)
-            console.log(document.getElementById("valuesTo").options[i].value)
         }
         qRCode['xsituation'] = $("#xvalue0").val()
         qRCode['ysituation'] = $("#yvalue0").val()
@@ -381,11 +362,8 @@
             item['xsituation'] = $("#xvalue"+idxtmp).val()
             item['ysituation'] = $("#yvalue"+idxtmp).val()
             items.push(item)
-            console.log(itemValues[i])
         }
         qrcodestyle['items'] = items;
-        console.log(len)
-        console.log(qrcodestyle)
         var qrcodestylestr = JSON.stringify(qrcodestyle)
         $.ajax({
             url:"http://localhost:8989/DuiMa_war_exploded/SetQRCode",
@@ -397,7 +375,6 @@
                 qrcodestyle:qrcodestylestr
             },
             success:function(res){
-                console.log(res)
             }
         })
 
@@ -406,8 +383,6 @@
         // 添加内容
         var selectedValue = $("#valuesFrom").val();
         var selectedContent = $("#valuesFrom option:selected").text();
-        console.log(selectedValue)
-        console.log(selectedContent)
         var newOption = $("<option></option>").attr("value",selectedValue)
         newOption.text(selectedContent)
         $("#valuesTo").append(newOption);
@@ -452,10 +427,8 @@
                 data:JSON.stringify(data1)
             },
             success:function(res){
-                console.log(res)
             },
             error:function(message){
-                console.log(message)
             }
         })
     }
@@ -476,12 +449,10 @@
                     message:"删除了二维码样式'"+qrcodeName+"'(编号为"+qrcodeId+")"
                 },
                 success:function(res){
-                    console.log(res)
                     window.alert("删除成功!")
                     location.href = "qrcodeQueryAll.jsp"
                 },
                 error:function(message){
-                    console.log(message)
                 }
         });
     }

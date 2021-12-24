@@ -94,7 +94,6 @@
             }
             return(false);
         }
-        console.log(getQueryVariable("factoryName"))
         $("#factoryName").html(decodeURIComponent(getQueryVariable("factoryName")))
         factoryId = getQueryVariable("factoryId")
         function updateTable(newpage) {
@@ -120,11 +119,8 @@
                 data:json,
                 success:function(res){
                     // 将结果输出到table
-                    console.log(json)
-                    console.log(res)
                     var str = "";
                     var jsonobj = JSON.parse(res.data);
-                    console.log(jsonobj)
                     for( var i = 0; i < jsonobj.length; i++) {
                         str +="<tr><td class='tdStyle_body'>" + jsonobj[i]['warehouse_id'] +
                             "</td><td class='tdStyle_body'>" + jsonobj[i]['warehouse_name'] +
@@ -146,8 +142,6 @@
                     $("#resultTip2").html(tipStr2)
                 },
                 error:function(message){
-                    console.log(json)
-                    console.log(message)
                 }
             });
         }
@@ -198,7 +192,6 @@
                     // 将结果输出到table
                     var str = "";
                     var jsonobj = JSON.parse(res.data);
-                    console.log(jsonobj)
                     for( var i = 0; i < jsonobj.length; i++) {
                         str +="<tr><td class='tdStyle_body'>" + jsonobj[i]['warehouse_id'] +
                             "</td><td class='tdStyle_body'>" + jsonobj[i]['warehouse_name'] +
@@ -218,8 +211,6 @@
                     $("#resultTip2").html(tipStr2)
                 },
                 error:function(message){
-                    console.log(json)
-                    console.log(message)
                 }
             });
         }
@@ -234,7 +225,6 @@
             var sqlStrtmp = "select warehouse_id,warehouse_name from warehouse where factory_id="+factoryId+" and warehouse_id like '%"+warehouseId+"%' and warehouse_name like '%"+warehouseName+"%' and warehouse_status = 1;";
             var newpageStr = document.forms["jumpPage"]["page"].value;
             var newpage = parseInt(newpageStr)
-            console.log(newpage)
             if(newpage <= 0 || newpage > pageAll || isNaN(newpage)) {
                 window.alert("请输入一个在范围内的正确页码数字!")
                 return
@@ -255,7 +245,6 @@
                     // 将结果输出到table
                     var str = "";
                     var jsonobj = JSON.parse(res.data);
-                    console.log(jsonobj)
                     for( var i = 0; i < jsonobj.length; i++) {
                         str +="<tr><td class='tdStyle_body'>" + jsonobj[i]['warehouse_id'] +
                             "</td><td class='tdStyle_body'>" + jsonobj[i]['warehouse_name'] +
@@ -275,8 +264,6 @@
                     $("#resultTip2").html(tipStr2)
                 },
                 error:function(message){
-                    console.log(json)
-                    console.log(message)
                 }
             });
         }
@@ -286,8 +273,6 @@
                 return;
             }
             var newWarehouseName = $("#newWarehouseName").val();
-            console.log(factoryId);
-            console.log(newWarehouseName);
             var json = {
                 factoryId: factoryId,
                 warehouseName : newWarehouseName,
@@ -301,13 +286,10 @@
                 contentType:'application/x-www-form-urlencoded;charset=utf-8',
                 data:json,
                 success:function(res){
-                    console.log(res)
                     updateTable(1)
                     window.alert(res.message)
                 },
                 error:function(message){
-                    console.log(json)
-                    console.log(message)
                     window.alert("新建货位失败!")
                 }
             });
@@ -334,7 +316,6 @@
                     pageMax:100
                 },
                 success:function(res){
-                    console.log(res.cnt)
                     if(res.cnt == "0"){
                         $.ajax({
                             url:"http://localhost:8989/DuiMa_war_exploded/ExecuteSQL",
@@ -348,12 +329,10 @@
                                 message:"删除了库位(编号为"+warehouseid+")"
                             },
                             success:function(res){
-                                console.log(res)
                                 window.alert("删除成功!")
                                 updateTable(pageCur)
                             },
                             error:function(message){
-                                console.log(message)
                                 window.alert("删除失败")
                             }
                         })
@@ -363,7 +342,6 @@
                     }
                 },
                 error:function(message){
-                    console.log(message)
                     window.alert("删除失败!请查看您的网络状态或联系运维人员!")
                 }
             })

@@ -15,7 +15,7 @@
 
 
 .pop_up .pop_title {
-    background: #4A90E2;
+    background-color: rgb(50, 64, 87);
     padding: 15px 15px;
     font-family: 'PingFang SC Bold', 'PingFang SC';
     font-weight: 650;
@@ -57,6 +57,6 @@
 
 
 .save-btn {
-    background: #4A90E2;
+    background-color: rgb(50, 64, 87);
     color: #fff;
 }

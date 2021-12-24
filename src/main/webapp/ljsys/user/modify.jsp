@@ -79,9 +79,9 @@
         contentType:'application/x-www-form-urlencoded;charset=utf-8',
         data:json,
         success:function(res){
-            console.log(res)
+            (res)
             var jsonobj = JSON.parse(res.data);
-            console.log(jsonobj)
+            (jsonobj)
             var gpids = jsonobj[0]['gp_id']
             var gpnames = jsonobj[0]['gp_name']
             for(var i = 1; i < jsonobj.length; i++) {
@@ -92,8 +92,8 @@
             $("#groupName1").text(gpnames);
         },
         error:function(message){
-            console.log(json)
-            console.log(message)
+            (json)
+            (message)
         }
     });
     $("#userId").text(userId);
@@ -120,13 +120,13 @@
         data:json,
         success:function(res){
             var jsonobj = JSON.parse(res.data);
-            console.log(jsonobj)
+            (jsonobj)
             for(var i = 0; i < jsonobj.length; i++) {
                 groupNames.options.add(new Option(jsonobj[i].gp_name,jsonobj[i]['gp_id']));
             }
         },
         error:function(message){
-            console.log(message)
+            (message)
         }
     });
     // 获取已有分组
@@ -149,7 +149,7 @@
         },
         success:function(res){
             var jsonobj = JSON.parse(res.data);
-            console.log(console.log)
+            ()
             // 循环放入div中并放入两个数组中
             var groupdiv = $("#newGroups")
             for(var i = 0; i < jsonobj.length; i++){
@@ -160,7 +160,7 @@
             }
         },
         error:function(message){
-            console.log(message)
+            (message)
         }
     });
     function modify1(){
@@ -186,10 +186,10 @@
                 contentType:'application/x-www-form-urlencoded;charset=utf-8',
                 data:json,
                 success:function(res){
-                    console.log(res)
+                    (res)
                 },
                 error:function(message){
-                    console.log(message)
+                    (message)
                 }
             });
         }
@@ -213,10 +213,10 @@
                         name:sessionStorage.getItem("userName")
                     },
                     success:function(res){
-                        console.log(res)
+                        (res)
                     },
                     error:function(message){
-                        console.log(message)
+                        (message)
                     }
                 })
                 var start = (new Date()).getTime();
@@ -245,10 +245,10 @@
                         message:"从群组(编号为"+oldgpids[i]+")中移除了用户(工号为"+userId+");"
                     },
                     success:function(res){
-                        console.log(res)
+                        (res)
                     },
                     error:function(message){
-                        console.log(message)
+                        (message)
                     }
                 });
             }

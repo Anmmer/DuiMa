@@ -108,7 +108,6 @@
         contentType:'application/x-www-form-urlencoded;charset=utf-8',
         data:json,
         success:function(res){
-            console.log(res)
             var jsonobj = JSON.parse(res.data)
             var strtmp = ""
             for( var i = 0; i < jsonobj.length; i++) {
@@ -117,7 +116,6 @@
             $("#users").html(strtmp)
         },
         error:function(message){
-            console.log(message)
         }
     });
     // 功能权限数据获取
@@ -141,7 +139,6 @@
             contentType:'application/x-www-form-urlencoded;charset=utf-8',
             data:json,
             success:function(res){
-                console.log(res)
                 var jsonobj = JSON.parse(res.data)
                 var str=""
                 for(var i = 0; i < jsonobj.length; i++) {
@@ -152,7 +149,6 @@
                 $("#functions").html(str);
             },
             error:function(message){
-                console.log(message)
             }
         });
     }
@@ -177,7 +173,6 @@
             contentType:'application/x-www-form-urlencoded;charset=utf-8',
             data:json,
             success:function(res){
-                console.log(res)
                 var jsonobj = JSON.parse(res.data)
                 var str=""
                 for(var i = 0; i < jsonobj.length; i++) {
@@ -188,7 +183,6 @@
                 $("#processContents").html(str);
             },
             error:function(message){
-                console.log(message)
             }
         });
     }
@@ -213,7 +207,6 @@
         contentType:'application/x-www-form-urlencoded;charset=utf-8',
         data:json,
         success:function(res){
-            console.log(res)
             var jsonobj = JSON.parse(res.data)
             var str=""
             var functionLists = document.getElementById("chooseFunction")
@@ -223,7 +216,6 @@
             }
         },
         error:function(message){
-            console.log(message)
         }
     });
     // 新增工序权限获取数据
@@ -246,7 +238,6 @@
         contentType:'application/x-www-form-urlencoded;charset=utf-8',
         data:json,
         success:function(res){
-            console.log(res)
             var jsonobj = JSON.parse(res.data)
             var str=""
             var functionLists = document.getElementById("chooseProcessContent")
@@ -256,7 +247,6 @@
             }
         },
         error:function(message){
-            console.log(message)
         }
     });
     // 新增groupfunction
@@ -267,8 +257,6 @@
         }
         var groupId = $("#groupId").text();
         var faId = $("#chooseFunction").val();
-        console.log(groupId)
-        console.log(faId)
         json = {
             groupId : groupId,
             faId : faId,
@@ -282,13 +270,11 @@
             contentType:'application/x-www-form-urlencoded;charset=utf-8',
             data:json,
             success:function(res){
-                console.log(res)
                 window.alert(res.message)
                 // 刷新功能权限
                 getFunctions();
             },
             error:function(message){
-                console.log(message.responseText)
             }
         });
     }
@@ -300,8 +286,6 @@
         }
         var groupId = $("#groupId").text();
         var pcId = $("#chooseProcessContent").val();
-        console.log(groupId)
-        console.log(pcId)
         json = {
             groupId : groupId,
             pcId : pcId,
@@ -315,13 +299,11 @@
             contentType:'application/x-www-form-urlencoded;charset=utf-8',
             data:json,
             success:function(res){
-                console.log(res)
                 window.alert(res.message)
                 // 刷新功能权限
                 getProcessContents();
             },
             error:function(message){
-                console.log(message.responseText)
             }
         });
     }
@@ -332,8 +314,6 @@
             return
         }
         var groupId = $("#groupId").text()
-        console.log(groupId)
-        console.log(id)
         var sqlStr = "delete from gp_function_authority where gp_id="+groupId+" and fa_id="+id+";";
         var json = {
             sqlStr:sqlStr,
@@ -348,11 +328,9 @@
                 contentType:'application/x-www-form-urlencoded;charset=utf-8',
                 data:json,
                 success:function(res){
-                    console.log(res)
                     getFunctions()
                 },
                 error:function(message){
-                    console.log(message)
                 }
         });
     }
@@ -363,8 +341,6 @@
             return
         }
         var groupId = $("#groupId").text()
-        console.log(groupId)
-        console.log(id)
         var sqlStr = "delete from gp_process_content where gp_id="+groupId+" and pc_id="+id+";";
         var json = {
             sqlStr:sqlStr,
@@ -379,11 +355,9 @@
                 contentType:'application/x-www-form-urlencoded;charset=utf-8',
                 data:json,
                 success:function(res){
-                    console.log(res)
                     getProcessContents()
                 },
                 error:function(message){
-                    console.log(message)
                 }
         });
     }
