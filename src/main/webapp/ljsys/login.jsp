@@ -15,7 +15,7 @@
             userPwd: document.forms["login"]["userPwd"].value
         };
         $.ajax({
-            url: "http://localhost:8989/DuiMa_war_exploded/LoginCheck",
+            url: "http://101.132.73.7:8989/DuiMa_war_exploded/LoginCheck",
             type: 'post',
             dataType: 'json',
             contentType: 'application/x-www-form-urlencoded;charset=utf-8',
@@ -26,7 +26,7 @@
                     sessionStorage.setItem("userName", res.userName);
                     // 获取权限
                     $.ajax({
-                        url: "http://localhost:8989/DuiMa_war_exploded/GetAuthority",
+                        url: "http://101.132.73.7:8989/DuiMa_war_exploded/GetAuthority",
                         type: 'post',
                         dataType: 'json',
                         contentType: 'application/x-www-form-urlencoded;charset=utf-8',
@@ -53,7 +53,7 @@
 <script type="text/javascript">
     sessionStorage.clear()
 </script>
-<body class="BodyStyle" style="background-color: rgb(50, 64, 87);">
+<body class="BodyStyle" style="background-color: #134887">
 <div style="width:100%;height:20%"></div>
 <div class="LoginStyle">
     <div style="width:100%;margin:0 auto;">

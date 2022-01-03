@@ -51,6 +51,8 @@ function outputWorkbook(workbook) {
         col = 66;
         let keys = Object.keys(worksheet);
         let num = parseInt(keys[keys.length - 3].match(/[0-9]+/g));
+        if(isNaN(num))
+            num = parseInt(keys[keys.length - 4].match(/[0-9]+/g));
         let preProduct = [];
         do {
             let object = {};

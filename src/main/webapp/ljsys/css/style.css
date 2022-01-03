@@ -70,10 +70,6 @@ li:hover {
 }
 
 .LoginStyle {
-    /*background: url(../pictures/loginbackground.png);*/
-    /*width: 630px;*/
-    /*height: 350px;*/
-    /*margin: 0 auto;*/
     background: #fff;
     border-radius: 2px;
     padding: 50px;
@@ -94,7 +90,6 @@ li:hover {
 }
 
 .FormInputStyle {
-    /*height: 30px;*/
     font-size: 16px;
 }
 

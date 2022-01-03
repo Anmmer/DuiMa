@@ -75,7 +75,7 @@
                 warehouseId:warehouseId
             };
             $.ajax({
-                url:"http://localhost:8989/DuiMa_war_exploded/GetWarehouseInfo",
+                url:"http://101.132.73.7:8989/DuiMa_war_exploded/GetWarehouseInfo",
                 type:'post',
                 dataType:'json',
                 contentType:'application/x-www-form-urlencoded;charset=utf-8',

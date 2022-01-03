@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <div style="height: 95%;width: 100%">
     <div style="height: 10%;width: 100%">
+        <div class='pStyle' style="float:left;">
+            <a href="./files/importTemplate.xlsx" download="importTemplate.xlsx">导入模板</a>
         <button style="position:relative;top: 50%;left: 15%;font-family: Simsun;font-size:16px;" onclick="openPop()">
             上传文件
         </button>
@@ -52,7 +54,7 @@
         <div class="close_btn"><img src="./img/close.png" onclick="closePop()"></div>
         <div style="width: 90%;height: 80%;margin: 0 auto">
             <div id="pop_query" style="width: 100%;height: 12%">
-                <label style="position: relative;margin-top: 2.5%;" for="preproductid">构建号：</label><input
+                <label style="position: relative;margin-top: 2.5%;" for="preproductid">构件号：</label><input
                     id="preproductid" style="position: relative;margin-top: 2.5%;">
                 <label style="position: relative;margin-top: 2%;margin-left: 1%;" for="build" style="margin-left: 1%">楼栋楼层：</label><input
                     id="build" style="position: relative;margin-top: 2%;">
@@ -120,12 +122,12 @@
         </div>
         <div id="pop_print" style="width: 90%;height: 10%;margin: 0 auto">
             <label class="label" style="position: relative;margin-top: 2%;" for="qrcodestyles">选择一个样式:</label>
-            <select id="qrcodestyles" style="position: relative;margin-top: 2%;width: 15%"></select>
-            <button type="button" id="print_data" style="position: relative;margin-top: 2%;margin-left: 1%"
-                    onclick="checkdata()">打印数据
+            <select id="qrcodestyles" style="position: relative;margin-top: 2%;width: 15%;"></select>
+            <button type="button" id="print_data" style="position: relative;margin-top: 2%;margin-left: 1%;height: 23px;"
+                    onclick="checkdata(false)">打印数据
             </button>
             <button type="button" id="print_datas" style="position: relative;margin-top: 2%; margin-left: 1%"
-                    onclick="checkdata()">全部打印
+                    onclick="checkdata(true)">全部打印
             </button>
         </div>
         <div class="pop_footer" style="height: 7%;display: flex;align-items: center;justify-content: center;">
@@ -192,7 +194,7 @@
     //保存
     $('.save-btn').click(function () {
         if (Object.keys(excelData).length !== 0) {
-            $.post("http://localhost:8989/DuiMa_war_exploded/AddPlan", {str: JSON.stringify(excelData)}, function (result) {
+            $.post("http://101.132.73.7:8989/DuiMa_war_exploded/AddPlan", {str: JSON.stringify(excelData)}, function (result) {
                 let jsonObject = JSON.parse(result)
                 alert(jsonObject.message);
                 if (jsonObject.flag) {
@@ -205,10 +207,14 @@
         }
     })
 
+    $('.recover-btn').click(() => {
+        reset();
+    })
+
     //查询plan表数据
     function getTableData() {
         $.ajax({
-            url: "http://localhost:8989/DuiMa_war_exploded/GetPlan",
+            url: "http://101.132.73.7:8989/DuiMa_war_exploded/GetPlan",
             type: 'post',
             dataType: 'json',
             contentType: 'application/x-www-form-urlencoded;charset=utf-8',
@@ -232,7 +238,7 @@
             'print': print,
             'planid': planid
         }
-        $.post("http://localhost:8989/DuiMa_war_exploded/GetPreProduct", obj, function (result) {
+        $.post("http://101.132.73.7:8989/DuiMa_war_exploded/GetPreProduct", obj, function (result) {
             result = JSON.parse(result);
             excelData.preProduct = result.data;
             updateTable(true);
@@ -241,11 +247,11 @@
 
     //获取明细数据
     function getDetailData(planid) {
-        $.post("http://localhost:8989/DuiMa_war_exploded/GetPreProduct", {'planid': planid}, function (result) {
+        $.post("http://101.132.73.7:8989/DuiMa_war_exploded/GetPreProduct", {'planid': planid}, function (result) {
             result = JSON.parse(result);
             if (result.data.length !== 0) {
                 excelData.preProduct = result.data;
-                excelData.plan = jsonObj.find((item)=>{
+                excelData.plan = jsonObj.find((item) => {
                     return item.planid === planid;
                 });
                 pop_count = Math.ceil(excelData.preProduct.length / 15);
@@ -272,10 +278,10 @@
         if (r === false) {
             return;
         }
-        $.post("http://localhost:8989/DuiMa_war_exploded/DeletePlan", {'planid': planid}, function (result) {
+        $.post("http://101.132.73.7:8989/DuiMa_war_exploded/DeletePlan", {'planid': planid}, function (result) {
             result = JSON.parse(result);
             alert(result.message);
-            if (result.flag){
+            if (result.flag) {
                 getTableData();
             }
         });
@@ -356,7 +362,7 @@
                 alert('构件号：' + str + '重复');
                 return;
             }
-            $.post("http://localhost:8989/DuiMa_war_exploded/GetPreProduct", null, function (result) {
+            $.post("http://101.132.73.7:8989/DuiMa_war_exploded/GetPreProduct", null, function (result) {
                 result = JSON.parse(result);
                 excelData.preProduct.forEach((item) => {
                     result.data.forEach((res_item) => {
@@ -481,7 +487,7 @@
             qrcode_name: "STRING"
         }
         $.ajax({
-            url: "http://localhost:8989/DuiMa_war_exploded/QuerySQL",
+            url: "http://101.132.73.7:8989/DuiMa_war_exploded/QuerySQL",
             type: 'post',
             dataType: 'json',
             contentType: 'application/x-www-form-urlencoded;charset=utf-8',
@@ -530,7 +536,7 @@
             })
         } else {
             for (let i = 0; i < excelData.preProduct.length; i++) {
-                pids.push(excelData.preProduct[i].pid)
+                pids.push({pid: excelData.preProduct[i].pid})
             }
             if (pids.length === 0) {
                 alert("暂无打印数据");
@@ -551,7 +557,7 @@
             }
         }
         $.ajax({
-            url: "http://localhost:8989/DuiMa_war_exploded/PrintPreProduct",
+            url: "http://101.132.73.7:8989/DuiMa_war_exploded/PrintPreProduct",
             type: 'post',
             dataType: 'json',
             contentType: 'application/x-www-form-urlencoded;charset=utf-8',
@@ -579,7 +585,7 @@
             qrcode_content: "STRING"
         }
         $.ajax({
-            url: "http://localhost:8989/DuiMa_war_exploded/QuerySQL",
+            url: "http://101.132.73.7:8989/DuiMa_war_exploded/QuerySQL",
             type: 'post',
             dataType: 'json',
             contentType: 'application/x-www-form-urlencoded;charset=utf-8',
@@ -608,7 +614,7 @@
             pi_value: "STRING"
         }
         $.ajax({
-            url: "http://localhost:8989/DuiMa_war_exploded/QuerySQL",
+            url: "http://101.132.73.7:8989/DuiMa_war_exploded/QuerySQL",
             type: 'post',
             dataType: 'json',
             contentType: 'application/x-www-form-urlencoded;charset=utf-8',
@@ -697,6 +703,7 @@
         window.print();
         window.document.body.innerHTML = bdhtml;
         closePop();
+        printsData = []
     }
 
 

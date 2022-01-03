@@ -72,7 +72,7 @@
         pageMax: 100
     };
     $.ajax({
-        url: "http://localhost:8989/DuiMa_war_exploded/QuerySQL",
+        url: "http://101.132.73.7:8989/DuiMa_war_exploded/QuerySQL",
         type: 'post',
         dataType: 'json',
         contentType: 'application/x-www-form-urlencoded;charset=utf-8',
@@ -103,7 +103,7 @@
         // 使用新增Servlet
         // 修改新增的后端
         $.ajax({
-            url: "http://localhost:8989/DuiMa_war_exploded/AddUser",
+            url: "http://101.132.73.7:8989/DuiMa_war_exploded/AddUser",
             type: 'post',
             dataType: 'json',
             contentType: 'application/x-www-form-urlencoded;charset=utf-8',
@@ -130,7 +130,7 @@
         formData.append(type, $("#file1")[0].files[0]);
         // 使用批量新增的Servlet
         $.ajax({
-            url: "http://localhost:8989/DuiMa_war_exploded/UserBatchInsert",
+            url: "http://101.132.73.7:8989/DuiMa_war_exploded/UserBatchInsert",
             type: 'post',
             data: formData,
             processData: false,

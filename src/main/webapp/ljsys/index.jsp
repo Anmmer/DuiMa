@@ -104,7 +104,7 @@
                     var str = "update user set user_pwd='"+newpwd+"' where user_id="+sessionStorage.getItem("userId")+";";
                     if(isValid(newpwd)){
                         $.ajax({
-                            url:"http://localhost:8989/DuiMa_war_exploded/ExecuteSQL",
+                            url:"http://101.132.73.7:8989/DuiMa_war_exploded/ExecuteSQL",
                             type:'post',
                             dataType:'json',
                             contentType:'application/x-www-form-urlencoded;charset=utf-8',
@@ -135,7 +135,7 @@
                 // 查询是否存在该日志，不存在将该downloadurl设置为空字符串
                 // 若存在则设定downloadurl并清空display，显示下载按钮
                 $.ajax({
-                    url:"http://localhost:8989/DuiMa_war_exploded/IsExist",
+                    url:"http://101.132.73.7:8989/DuiMa_war_exploded/IsExist",
                     type:'post',
                     dataType:'json',
                     contentType:'application/x-www-form-urlencoded;charset=utf-8',
@@ -175,7 +175,7 @@
                     pi_value : "STRING"
                 }
                 $.ajax({
-                    url:"http://localhost:8989/DuiMa_war_exploded/QuerySQL",
+                    url:"http://101.132.73.7:8989/DuiMa_war_exploded/QuerySQL",
                     type:'post',
                     dataType:'json',
                     contentType:'application/x-www-form-urlencoded;charset=utf-8',
@@ -201,7 +201,7 @@
             }
             function deleteItem(id){
                 $.ajax({
-                    url:"http://localhost:8989/DuiMa_war_exploded/ExecuteSQL",
+                    url:"http://101.132.73.7:8989/DuiMa_war_exploded/ExecuteSQL",
                     type:'post',
                     dataType:'json',
                     contentType:'application/x-www-form-urlencoded;charset=utf-8',
@@ -233,7 +233,7 @@
                     return
                 }
                 $.ajax({
-                    url:"http://localhost:8989/DuiMa_war_exploded/AddProjectItem",
+                    url:"http://101.132.73.7:8989/DuiMa_war_exploded/AddProjectItem",
                     type:'post',
                     dataType:'json',
                     contentType:'application/x-www-form-urlencoded;charset=utf-8',

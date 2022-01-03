@@ -58,7 +58,7 @@ public class AddPlan extends HttpServlet {
                 ps2.setDouble(6, Double.parseDouble(jsonObject.getString("weigh")));
                 ps2.setString(7, jsonObject.getString("qc"));
                 ps2.setString(8, jsonObject.getString("build"));
-                ps2.setDate(9, "".equals(jsonObject.getString("time")) ? null : (Date) sdf.parse(jsonObject.getString("time")));
+                ps2.setDate(9, "".equals(jsonObject.getString("time")) ? null : new Date(sdf.parse(jsonObject.getString("time")).getTime()) );
                 ps2.setInt(10, 0);
                 ps2.setInt(11, index);
                 ps2.addBatch();
@@ -70,8 +70,8 @@ public class AddPlan extends HttpServlet {
                 out.write(JSON.toJSONString(result));
             } else {
                 result.put("message", "录入成功");
-                out.write(JSON.toJSONString(result));
                 result.put("flag", true);
+                out.write(JSON.toJSONString(result));
             }
             ps1.close();
             ps2.close();

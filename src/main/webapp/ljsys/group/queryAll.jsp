@@ -87,7 +87,7 @@
                 pageMax: 15
             };
             $.ajax({
-                url: "http://localhost:8989/DuiMa_war_exploded/QuerySQL",
+                url: "http://101.132.73.7:8989/DuiMa_war_exploded/QuerySQL",
                 type: 'post',
                 dataType: 'json',
                 contentType: 'application/x-www-form-urlencoded;charset=utf-8',
@@ -162,7 +162,7 @@
                 pageMax: 15
             };
             $.ajax({
-                url: "http://localhost:8989/DuiMa_war_exploded/QuerySQL",
+                url: "http://101.132.73.7:8989/DuiMa_war_exploded/QuerySQL",
                 type: 'post',
                 dataType: 'json',
                 contentType: 'application/x-www-form-urlencoded;charset=utf-8',
@@ -223,7 +223,7 @@
                 pageMax: 15
             };
             $.ajax({
-                url: "http://localhost:8989/DuiMa_war_exploded/QuerySQL",
+                url: "http://101.132.73.7:8989/DuiMa_war_exploded/QuerySQL",
                 type: 'post',
                 dataType: 'json',
                 contentType: 'application/x-www-form-urlencoded;charset=utf-8',
@@ -274,7 +274,7 @@
                 name: sessionStorage.getItem("userName")
             }
             $.ajax({
-                url: "http://localhost:8989/DuiMa_war_exploded/AddGroup",
+                url: "http://101.132.73.7:8989/DuiMa_war_exploded/AddGroup",
                 type: 'post',
                 dataType: 'json',
                 contentType: 'application/x-www-form-urlencoded;charset=utf-8',
@@ -297,7 +297,7 @@
             }
             var sqlStr = "update gp set gp_status = 0 where gp_id = " + gpid + ";";
             $.ajax({
-                url: "http://localhost:8989/DuiMa_war_exploded/ExecuteSQL",
+                url: "http://101.132.73.7:8989/DuiMa_war_exploded/ExecuteSQL",
                 type: 'post',
                 dataType: 'json',
                 contentType: 'application/x-www-form-urlencoded;charset=utf-8',

@@ -38,7 +38,7 @@
         pageMax:100
     };
     $.ajax({
-        url:"http://localhost:8989/DuiMa_war_exploded/QuerySQL",
+        url:"http://101.132.73.7:8989/DuiMa_war_exploded/QuerySQL",
         type:'post',
         dataType:'json',
         contentType:'application/x-www-form-urlencoded;charset=utf-8',
@@ -102,7 +102,7 @@
         userId:userId
     }
     $.ajax({
-        url:"http://localhost:8989/DuiMa_war_exploded/GetAuthority",
+        url:"http://101.132.73.7:8989/DuiMa_war_exploded/GetAuthority",
         type:'post',
         dataType:'json',
         contentType:'application/x-www-form-urlencoded;charset=utf-8',

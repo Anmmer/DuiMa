@@ -92,7 +92,7 @@
                 pageMax: 15
             };
             $.ajax({
-                url: "http://localhost:8989/DuiMa_war_exploded/QuerySQL",
+                url: "http://101.132.73.7:8989/DuiMa_war_exploded/QuerySQL",
                 type: 'post',
                 dataType: 'json',
                 contentType: 'application/x-www-form-urlencoded;charset=utf-8',
@@ -177,7 +177,7 @@
                 pageMax: 15
             };
             $.ajax({
-                url: "http://localhost:8989/DuiMa_war_exploded/QuerySQL",
+                url: "http://101.132.73.7:8989/DuiMa_war_exploded/QuerySQL",
                 type: 'post',
                 dataType: 'json',
                 contentType: 'application/x-www-form-urlencoded;charset=utf-8',
@@ -231,7 +231,7 @@
                 pageMax: 15
             };
             $.ajax({
-                url: "http://localhost:8989/DuiMa_war_exploded/QuerySQL",
+                url: "http://101.132.73.7:8989/DuiMa_war_exploded/QuerySQL",
                 type: 'post',
                 dataType: 'json',
                 contentType: 'application/x-www-form-urlencoded;charset=utf-8',
@@ -270,7 +270,7 @@
             }
             var newqrcodeName = $("#newStyleName").val()
             $.ajax({
-                url: "http://localhost:8989/DuiMa_war_exploded/AddQRCodeStyle",
+                url: "http://101.132.73.7:8989/DuiMa_war_exploded/AddQRCodeStyle",
                 type: 'post',
                 dataType: 'json',
                 contentType: 'application/x-www-form-urlencoded;charset=utf-8',
