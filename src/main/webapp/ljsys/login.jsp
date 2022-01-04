@@ -77,17 +77,17 @@
                 <input class="ant-input" placeholder="密码" type="password" name="userPwd">
             </div>
             <div style="width:100%;height:40px;"></div>
-            <div style="width:210px;height:55px;margin:0 auto;">
+            <div style="width:100%;height:55px;margin:0 auto;">
                 <button type="button"
-                        style="width:200px;height:36px;font-size:20px;font-family: 宋体;"
+                        style="width:100%;height:36px;font-size:20px;font-family: 宋体;"
                         onclick="clickBtn()">登陆
                 </button>
             </div>
         </form>
     </div>
 </div>
-<div style="position:absolute; top:80%;width:366px;left:38%;height:10%">
-    <p class="TitleStyle">相城绿建堆码后台管理系统</p>
+<div style="width: 100%;position: fixed;bottom: 20%;text-align: center;">
+    <span style="width: 576px;height: 13px;font-size: 14px;font-weight: normal;font-stretch: normal;line-height: 90px;letter-spacing: 0px; color: #ffffff;">相城绿建堆码后台管理系统</span>
 </div>
 </body>
 </html>
