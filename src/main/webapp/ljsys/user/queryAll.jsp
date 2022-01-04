@@ -82,7 +82,7 @@
                 pageMax: 15
             };
             $.ajax({
-                url: "http://101.132.73.7:8989/DuiMa_war_exploded/QuerySQL",
+                url: "${pageContext.request.contextPath}/QuerySQL",
                 type: 'post',
                 dataType: 'json',
                 contentType: 'application/x-www-form-urlencoded;charset=utf-8',
@@ -158,7 +158,7 @@
                 pageMax: 15
             };
             $.ajax({
-                url: "http://101.132.73.7:8989/DuiMa_war_exploded/QuerySQL",
+                url: "${pageContext.request.contextPath}/QuerySQL",
                 type: 'post',
                 dataType: 'json',
                 contentType: 'application/x-www-form-urlencoded;charset=utf-8',
@@ -219,7 +219,7 @@
                 pageMax: 15
             };
             $.ajax({
-                url: "http://101.132.73.7:8989/DuiMa_war_exploded/QuerySQL",
+                url: "${pageContext.request.contextPath}/QuerySQL",
                 type: 'post',
                 dataType: 'json',
                 contentType: 'application/x-www-form-urlencoded;charset=utf-8',
@@ -262,7 +262,7 @@
             var formData = new FormData();
             formData.append(type, $("#file1")[0].files[0]);
             $.ajax({
-                url: "http://101.132.73.7:8989/DuiMa_war_exploded/UserBatchInsert",
+                url: "${pageContext.request.contextPath}/UserBatchInsert",
                 type: 'post',
                 data: formData,
                 processData: false,
@@ -284,7 +284,7 @@
             }
             var sqlStr = "update user set user_status = 0 where user_id =" + userid + ";";
             $.ajax({
-                url: "http://101.132.73.7:8989/DuiMa_war_exploded/ExecuteSQL",
+                url: "${pageContext.request.contextPath}/ExecuteSQL",
                 type: 'post',
                 dataType: 'json',
                 contentType: 'application/x-www-form-urlencoded;charset=utf-8',

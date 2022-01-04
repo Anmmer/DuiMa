@@ -98,7 +98,7 @@
                 pageMax: 15
             };
             $.ajax({
-                url: "http://101.132.73.7:8989/DuiMa_war_exploded/QuerySQL",
+                url: "${pageContext.request.contextPath}/QuerySQL",
                 type: 'post',
                 dataType: 'json',
                 contentType: 'application/x-www-form-urlencoded;charset=utf-8',
@@ -171,7 +171,7 @@
                 pageMax: 15
             };
             $.ajax({
-                url: "http://101.132.73.7:8989/DuiMa_war_exploded/QuerySQL",
+                url: "${pageContext.request.contextPath}/QuerySQL",
                 type: 'post',
                 dataType: 'json',
                 contentType: 'application/x-www-form-urlencoded;charset=utf-8',
@@ -228,7 +228,7 @@
                 pageMax: 15
             };
             $.ajax({
-                url: "http://101.132.73.7:8989/DuiMa_war_exploded/QuerySQL",
+                url: "${pageContext.request.contextPath}/QuerySQL",
                 type: 'post',
                 dataType: 'json',
                 contentType: 'application/x-www-form-urlencoded;charset=utf-8',
@@ -277,7 +277,7 @@
                 name: sessionStorage.getItem("userName")
             }
             $.ajax({
-                url: "http://101.132.73.7:8989/DuiMa_war_exploded/AddFactory",
+                url: "${pageContext.request.contextPath}/AddFactory",
                 type: 'post',
                 dataType: 'json',
                 contentType: 'application/x-www-form-urlencoded;charset=utf-8',
@@ -302,7 +302,7 @@
                 warehouse_id: "INT"
             }
             $.ajax({
-                url: "http://101.132.73.7:8989/DuiMa_war_exploded/QuerySQL",
+                url: "${pageContext.request.contextPath}/QuerySQL",
                 type: 'post',
                 dataType: 'json',
                 contentType: 'application/x-www-form-urlencoded;charset=utf-8',
@@ -316,7 +316,7 @@
                     if (res.cnt == 0) {
                         // 可以删除工厂
                         $.ajax({
-                            url: "http://101.132.73.7:8989/DuiMa_war_exploded/ExecuteSQL",
+                            url: "${pageContext.request.contextPath}/ExecuteSQL",
                             type: 'post',
                             dataType: 'json',
                             contentType: 'application/x-www-form-urlencoded;charset=utf-8',

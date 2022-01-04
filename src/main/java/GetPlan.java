@@ -25,24 +25,33 @@ public class GetPlan extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) {
         resp.setContentType("text/html;charset=UTF-8");
+        String plannumber = req.getParameter("plannumber");
         Connection con = null;
         PreparedStatement ps = null;
         ResultSet rs = null;
         PrintWriter out = null;
+        String sql = null;
         try {
             out = resp.getWriter();
             con = DbUtil.getCon();
-            String sql = "select planid,planname,company,plant from plan";
+            if (plannumber != null) {
+                sql = "select plannumber,printstate,plant,plantime,line,planname,build,tasksqure,tasknum from plan where plannumber = ?";
+            }else{
+                sql = "select plannumber,printstate,plant,plantime,line,planname,build,tasksqure,tasknum from plan ";
+            }
+
             ps = con.prepareStatement(sql);
+
             rs = ps.executeQuery();
             Map<String, Object> data = new HashMap<>();
             List<Map<String, Object>> list = new ArrayList<>();
             while (rs.next()) {
                 Map<String, Object> map = new HashMap<>();
-                map.put("planid", rs.getInt("planid"));
+                map.put("plannumber", rs.getInt("plannumber"));
+                map.put("printstate", rs.getInt("printstate"));
+                map.put("plant", rs.getString("plant"));
                 map.put("planname", rs.getString("planname"));
                 map.put("company", rs.getString("company"));
-                map.put("plant", rs.getString("plant"));
                 list.add(map);
             }
             data.put("data", list);

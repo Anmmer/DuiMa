@@ -76,7 +76,7 @@
             qrcode_name: "STRING"
         }
         $.ajax({
-            url: "http://101.132.73.7:8989/DuiMa_war_exploded/QuerySQL",
+            url: "${pageContext.request.contextPath}/QuerySQL",
             type: 'post',
             dataType: 'json',
             contentType: 'application/x-www-form-urlencoded;charset=utf-8',
@@ -108,7 +108,7 @@
             qrcode_content: "STRING"
         }
         $.ajax({
-            url: "http://101.132.73.7:8989/DuiMa_war_exploded/QuerySQL",
+            url: "${pageContext.request.contextPath}/QuerySQL",
             type: 'post',
             dataType: 'json',
             contentType: 'application/x-www-form-urlencoded;charset=utf-8',
@@ -213,7 +213,7 @@
             pi_value: "STRING"
         }
         $.ajax({
-            url: "http://101.132.73.7:8989/DuiMa_war_exploded/QuerySQL",
+            url: "${pageContext.request.contextPath}/QuerySQL",
             type: 'post',
             dataType: 'json',
             contentType: 'application/x-www-form-urlencoded;charset=utf-8',
@@ -238,7 +238,7 @@
         var formData = new FormData();
         formData.append(type, $("#file1")[0].files[0]);
         $.ajax({
-            url: "http://101.132.73.7:8989/DuiMa_war_exploded/GetPrintDataByExcel",
+            url: "${pageContext.request.contextPath}/GetPrintDataByExcel",
             type: 'post',
             data: formData,
             processData: false,
@@ -267,7 +267,7 @@
         var formData = new FormData();
         formData.append(type, $("#file2")[0].files[0]);
         $.ajax({
-            url: "http://101.132.73.7:8989/DuiMa_war_exploded/ResetPrint",
+            url: "${pageContext.request.contextPath}/ResetPrint",
             type: 'post',
             data: formData,
             processData: false,
@@ -287,7 +287,7 @@
             productids.push(window.pdata[i].productId)
         }
         $.ajax({
-            url: "http://101.132.73.7:8989/DuiMa_war_exploded/PrintProduct",
+            url: "${pageContext.request.contextPath}/PrintProduct",
             type: 'post',
             dataType: 'json',
             contentType: 'application/x-www-form-urlencoded;charset=utf-8',

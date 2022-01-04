@@ -1,9 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <div style="height: 95%;width: 100%">
-    <div style="height: 10%;width: 100%">
-        <div class='pStyle' style="float:left;">
-            <a href="./files/importTemplate.xlsx" download="importTemplate.xlsx">导入模板</a>
-        <button style="position:relative;top: 50%;left: 15%;font-family: Simsun;font-size:16px;" onclick="openPop()">
+    <div style="position:relative;top: 4.2%;left: 15%;width:15%;font-family: Simsun;font-size:16px;">
+        <a href="./files/importTemplate.xlsx" download="importTemplate.xlsx">导入模板</a>
+        <button onclick="openPop()">
             上传文件
         </button>
     </div>
@@ -123,7 +122,8 @@
         <div id="pop_print" style="width: 90%;height: 10%;margin: 0 auto">
             <label class="label" style="position: relative;margin-top: 2%;" for="qrcodestyles">选择一个样式:</label>
             <select id="qrcodestyles" style="position: relative;margin-top: 2%;width: 15%;"></select>
-            <button type="button" id="print_data" style="position: relative;margin-top: 2%;margin-left: 1%;height: 23px;"
+            <button type="button" id="print_data"
+                    style="position: relative;margin-top: 2%;margin-left: 1%;height: 23px;"
                     onclick="checkdata(false)">打印数据
             </button>
             <button type="button" id="print_datas" style="position: relative;margin-top: 2%; margin-left: 1%"
@@ -194,7 +194,7 @@
     //保存
     $('.save-btn').click(function () {
         if (Object.keys(excelData).length !== 0) {
-            $.post("http://101.132.73.7:8989/DuiMa_war_exploded/AddPlan", {str: JSON.stringify(excelData)}, function (result) {
+            $.post("${pageContext.request.contextPath}/AddPlan", {str: JSON.stringify(excelData)}, function (result) {
                 let jsonObject = JSON.parse(result)
                 alert(jsonObject.message);
                 if (jsonObject.flag) {
@@ -214,7 +214,7 @@
     //查询plan表数据
     function getTableData() {
         $.ajax({
-            url: "http://101.132.73.7:8989/DuiMa_war_exploded/GetPlan",
+            url: "${pageContext.request.contextPath}/GetPlan",
             type: 'post',
             dataType: 'json',
             contentType: 'application/x-www-form-urlencoded;charset=utf-8',
@@ -238,7 +238,7 @@
             'print': print,
             'planid': planid
         }
-        $.post("http://101.132.73.7:8989/DuiMa_war_exploded/GetPreProduct", obj, function (result) {
+        $.post("${pageContext.request.contextPath}/GetPreProduct", obj, function (result) {
             result = JSON.parse(result);
             excelData.preProduct = result.data;
             updateTable(true);
@@ -247,7 +247,7 @@
 
     //获取明细数据
     function getDetailData(planid) {
-        $.post("http://101.132.73.7:8989/DuiMa_war_exploded/GetPreProduct", {'planid': planid}, function (result) {
+        $.post("${pageContext.request.contextPath}/GetPreProduct", {'planid': planid}, function (result) {
             result = JSON.parse(result);
             if (result.data.length !== 0) {
                 excelData.preProduct = result.data;
@@ -278,7 +278,7 @@
         if (r === false) {
             return;
         }
-        $.post("http://101.132.73.7:8989/DuiMa_war_exploded/DeletePlan", {'planid': planid}, function (result) {
+        $.post("${pageContext.request.contextPath}/DeletePlan", {'planid': planid}, function (result) {
             result = JSON.parse(result);
             alert(result.message);
             if (result.flag) {
@@ -362,7 +362,7 @@
                 alert('构件号：' + str + '重复');
                 return;
             }
-            $.post("http://101.132.73.7:8989/DuiMa_war_exploded/GetPreProduct", null, function (result) {
+            $.post("${pageContext.request.contextPath}/GetPreProduct", null, function (result) {
                 result = JSON.parse(result);
                 excelData.preProduct.forEach((item) => {
                     result.data.forEach((res_item) => {
@@ -487,7 +487,7 @@
             qrcode_name: "STRING"
         }
         $.ajax({
-            url: "http://101.132.73.7:8989/DuiMa_war_exploded/QuerySQL",
+            url: "${pageContext.request.contextPath}/QuerySQL",
             type: 'post',
             dataType: 'json',
             contentType: 'application/x-www-form-urlencoded;charset=utf-8',
@@ -557,7 +557,7 @@
             }
         }
         $.ajax({
-            url: "http://101.132.73.7:8989/DuiMa_war_exploded/PrintPreProduct",
+            url: "${pageContext.request.contextPath}/PrintPreProduct",
             type: 'post',
             dataType: 'json',
             contentType: 'application/x-www-form-urlencoded;charset=utf-8',
@@ -585,7 +585,7 @@
             qrcode_content: "STRING"
         }
         $.ajax({
-            url: "http://101.132.73.7:8989/DuiMa_war_exploded/QuerySQL",
+            url: "${pageContext.request.contextPath}/QuerySQL",
             type: 'post',
             dataType: 'json',
             contentType: 'application/x-www-form-urlencoded;charset=utf-8',
@@ -614,7 +614,7 @@
             pi_value: "STRING"
         }
         $.ajax({
-            url: "http://101.132.73.7:8989/DuiMa_war_exploded/QuerySQL",
+            url: "${pageContext.request.contextPath}/QuerySQL",
             type: 'post',
             dataType: 'json',
             contentType: 'application/x-www-form-urlencoded;charset=utf-8',

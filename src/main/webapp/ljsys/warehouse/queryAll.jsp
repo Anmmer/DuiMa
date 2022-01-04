@@ -112,7 +112,7 @@
                 pageMax:15
             };
             $.ajax({
-                url:"http://101.132.73.7:8989/DuiMa_war_exploded/QuerySQL",
+                url:"${pageContext.request.contextPath}/QuerySQL",
                 type:'post',
                 dataType:'json',
                 contentType:'application/x-www-form-urlencoded;charset=utf-8',
@@ -183,7 +183,7 @@
                 pageMax:15
             };
             $.ajax({
-                url:"http://101.132.73.7:8989/DuiMa_war_exploded/QuerySQL",
+                url:"${pageContext.request.contextPath}/QuerySQL",
                 type:'post',
                 dataType:'json',
                 contentType:'application/x-www-form-urlencoded;charset=utf-8',
@@ -236,7 +236,7 @@
                 pageMax:15
             };
             $.ajax({
-                url:"http://101.132.73.7:8989/DuiMa_war_exploded/QuerySQL",
+                url:"${pageContext.request.contextPath}/QuerySQL",
                 type:'post',
                 dataType:'json',
                 contentType:'application/x-www-form-urlencoded;charset=utf-8',
@@ -280,7 +280,7 @@
                 name : sessionStorage.getItem("userName")
             }
             $.ajax({
-                url:"http://101.132.73.7:8989/DuiMa_war_exploded/AddWarehouse",
+                url:"${pageContext.request.contextPath}/AddWarehouse",
                 type:'post',
                 dataType:'json',
                 contentType:'application/x-www-form-urlencoded;charset=utf-8',
@@ -305,7 +305,7 @@
                 product_id:"STRING"
             }
             $.ajax({
-                url:"http://101.132.73.7:8989/DuiMa_war_exploded/QuerySQL",
+                url:"${pageContext.request.contextPath}/QuerySQL",
                 type:'post',
                 dataType:'json',
                 contentType:'application/x-www-form-urlencoded;charset=utf-8',
@@ -318,7 +318,7 @@
                 success:function(res){
                     if(res.cnt == "0"){
                         $.ajax({
-                            url:"http://101.132.73.7:8989/DuiMa_war_exploded/ExecuteSQL",
+                            url:"${pageContext.request.contextPath}/ExecuteSQL",
                             type:'post',
                             dataType:'json',
                             contentType:'application/x-www-form-urlencoded;charset=utf-8',

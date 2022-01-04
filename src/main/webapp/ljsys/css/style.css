@@ -116,6 +116,13 @@ li:hover {
     font-family: Simsun;
     font-weight: bolder;
     line-height: 30px;
+
+    /*background: #F5F7FA;*/
+    /*-webkit-transition: background 0.3s ease;*/
+    /*transition: background 0.3s ease;*/
+    /*color: rgba(0, 0, 0, 0.85);*/
+    /*font-weight: 500;*/
+    /*border-bottom: 1px solid #EBEEF5;*/
 }
 
 .tdStyle_body {

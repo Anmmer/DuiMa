@@ -70,7 +70,7 @@
         pi_value : "STRING"
     }
     $.ajax({
-        url:"http://101.132.73.7:8989/DuiMa_war_exploded/QuerySQL",
+        url:"${pageContext.request.contextPath}/QuerySQL",
         type:'post',
         dataType:'json',
         contentType:'application/x-www-form-urlencoded;charset=utf-8',
@@ -271,7 +271,7 @@
     // 面板设置ajax读取,如果qrcode_content有数据则根据数据来，否则直接增加二维码
     function startpage(){
         $.ajax({
-            url:"http://101.132.73.7:8989/DuiMa_war_exploded/GetQRCode",
+            url:"${pageContext.request.contextPath}/GetQRCode",
             type:'post',
             dataType:'json',
             contentType:'application/x-www-form-urlencoded;charset=utf-8',
@@ -366,7 +366,7 @@
         qrcodestyle['items'] = items;
         var qrcodestylestr = JSON.stringify(qrcodestyle)
         $.ajax({
-            url:"http://101.132.73.7:8989/DuiMa_war_exploded/SetQRCode",
+            url:"${pageContext.request.contextPath}/SetQRCode",
             type:'post',
             dataType:'json',
             contentType:'application/x-www-form-urlencoded;charset=utf-8',
@@ -419,7 +419,7 @@
             taskname:"test"
         }
         $.ajax({
-            url:"http://101.132.73.7:8989/DuiMa_war_exploded/PrintLabel",
+            url:"${pageContext.request.contextPath}/PrintLabel",
             type:'post',
             dataType:'json',
             contentType:'application/x-www-form-urlencoded;charset=utf-8',
@@ -438,7 +438,7 @@
             return;
         }
         $.ajax({
-            url:"http://101.132.73.7:8989/DuiMa_war_exploded/ExecuteSQL",
+            url:"${pageContext.request.contextPath}/ExecuteSQL",
                 type:'post',
                 dataType:'json',
                 contentType:'application/x-www-form-urlencoded;charset=utf-8',

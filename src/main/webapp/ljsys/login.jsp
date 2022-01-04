@@ -15,7 +15,7 @@
             userPwd: document.forms["login"]["userPwd"].value
         };
         $.ajax({
-            url: "http://101.132.73.7:8989/DuiMa_war_exploded/LoginCheck",
+            url: "${pageContext.request.contextPath}/LoginCheck",
             type: 'post',
             dataType: 'json',
             contentType: 'application/x-www-form-urlencoded;charset=utf-8',
@@ -26,7 +26,7 @@
                     sessionStorage.setItem("userName", res.userName);
                     // 获取权限
                     $.ajax({
-                        url: "http://101.132.73.7:8989/DuiMa_war_exploded/GetAuthority",
+                        url: "${pageContext.request.contextPath}/GetAuthority",
                         type: 'post',
                         dataType: 'json',
                         contentType: 'application/x-www-form-urlencoded;charset=utf-8',
@@ -53,7 +53,7 @@
 <script type="text/javascript">
     sessionStorage.clear()
 </script>
-<body class="BodyStyle" style="background-color: #134887">
+<body class="BodyStyle" style="background-color: #1B65B9">
 <div style="width:100%;height:20%"></div>
 <div class="LoginStyle">
     <div style="width:100%;margin:0 auto;">
@@ -86,7 +86,7 @@
         </form>
     </div>
 </div>
-<div style="position:absolute; top:80%;width:100%;height:10%">
+<div style="position:absolute; top:80%;width:366px;left:38%;height:10%">
     <p class="TitleStyle">相城绿建堆码后台管理系统</p>
 </div>
 </body>
