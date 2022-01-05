@@ -375,4 +375,36 @@
         <servlet-name>deletePlan</servlet-name>
         <url-pattern>/DeletePlan</url-pattern>
     </servlet-mapping>
+    <servlet>
+        <servlet-name>addArchives</servlet-name>
+        <servlet-class>AddArchives</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>addArchives</servlet-name>
+        <url-pattern>/AddArchives</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>updateArchives</servlet-name>
+        <servlet-class>UpdateArchives</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>updateArchives</servlet-name>
+        <url-pattern>/UpdateArchives</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>deleteArchives</servlet-name>
+        <servlet-class>DeleteArchives</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>deleteArchives</servlet-name>
+        <url-pattern>/DeleteArchives</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>getArchives</servlet-name>
+        <servlet-class>GetArchives</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>getArchives</servlet-name>
+        <url-pattern>/GetArchives</url-pattern>
+    </servlet-mapping>
 </web-app>
