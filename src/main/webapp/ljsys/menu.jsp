@@ -62,10 +62,11 @@
                 <div style="height:2px;width:100%;float:left"></div>
                 <img src="pictures/right.png">
             </div>
-            二维码管理
+            基础档案管理
         </li>
         <ul class="ul_ListStyle" id="Equipment">
-            <li class="li_ItemStyle" onclick="jumpTo('qrcodeQueryAll.jsp')">信息查询</li>
+            <li class="li_ItemStyle" onclick="jumpTo('qrcodeQueryAll.jsp')">二维码设置</li>
+            <li class="li_ItemStyle" onclick="jumpTo('archivesMg.jsp')">档案信息管理</li>
         </ul>
     </ul>
     <!--打印管理-->

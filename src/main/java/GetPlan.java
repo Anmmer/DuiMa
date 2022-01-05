@@ -7,10 +7,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -25,23 +23,49 @@ public class GetPlan extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) {
         resp.setContentType("text/html;charset=UTF-8");
-        String plannumber = req.getParameter("plannumber");
+        String startDate = req.getParameter("startDate");
+        String endDate = req.getParameter("endDate");
+        String planname = req.getParameter("planname");
+        String materialcode = req.getParameter("materialcode");
         Connection con = null;
         PreparedStatement ps = null;
         ResultSet rs = null;
         PrintWriter out = null;
-        String sql = null;
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        int i = 0;
         try {
             out = resp.getWriter();
             con = DbUtil.getCon();
-            if (plannumber != null) {
-                sql = "select plannumber,printstate,plant,plantime,line,planname,build,tasksqure,tasknum from plan where plannumber = ?";
-            }else{
-                sql = "select plannumber,printstate,plant,plantime,line,planname,build,tasksqure,tasknum from plan ";
+            String sql = "select plannumber,printstate,plant,plantime,line,planname,build,tasksqure,tasknum,updatedate from plan where isdelete = 0 ";
+            if (!"".equals(startDate) && startDate != null) {
+                sql += " and plantime >= ?";
+                i++;
             }
-
+            if (!"".equals(endDate) && endDate != null) {
+                sql += " and plantime <= ?";
+                i++;
+            }
+            if (!"".equals(planname) && planname != null) {
+                sql += " and planname = ?";
+                i++;
+            }
+            if (!"".equals(materialcode) && materialcode != null) {
+                sql += " and plannumber in (select plannumber from preproduct where materialcode = ?)";
+                i++;
+            }
             ps = con.prepareStatement(sql);
-
+            if (!"".equals(materialcode) && materialcode != null) {
+                ps.setString(i--, materialcode);
+            }
+            if (!"".equals(planname) && planname != null) {
+                ps.setString(i--, planname);
+            }
+            if (!"".equals(endDate) && endDate != null) {
+                ps.setDate(i--, new Date(sdf.parse(endDate).getTime()));
+            }
+            if (!"".equals(startDate) && startDate != null) {
+                ps.setDate(i, new Date(sdf.parse(startDate).getTime()));
+            }
             rs = ps.executeQuery();
             Map<String, Object> data = new HashMap<>();
             List<Map<String, Object>> list = new ArrayList<>();
@@ -50,8 +74,13 @@ public class GetPlan extends HttpServlet {
                 map.put("plannumber", rs.getInt("plannumber"));
                 map.put("printstate", rs.getInt("printstate"));
                 map.put("plant", rs.getString("plant"));
+                map.put("plantime", rs.getDate("plantime"));
+                map.put("line", rs.getString("line"));
                 map.put("planname", rs.getString("planname"));
-                map.put("company", rs.getString("company"));
+                map.put("build", rs.getString("build"));
+                map.put("tasksqure", rs.getString("tasksqure"));
+                map.put("tasknum", rs.getString("tasknum"));
+                map.put("updatedate", rs.getString("updatedate"));
                 list.add(map);
             }
             data.put("data", list);

@@ -73,12 +73,18 @@ li:hover {
     background: #fff;
     border-radius: 2px;
     padding: 50px;
-    width: 19%;
+    height: 339px;
+    width: 366px;
     -webkit-box-sizing: border-box;
     box-sizing: border-box;
     position: absolute;
-    right: 40%;
-    top: 25%;
+    /*right: 40%;*/
+    /*top: 25%;*/
+    left:0;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    margin: auto;
 }
 
 

@@ -54,7 +54,6 @@
     sessionStorage.clear()
 </script>
 <body class="BodyStyle" style="background-color: #1B65B9">
-<div style="width:100%;height:20%"></div>
 <div class="LoginStyle">
     <div style="width:100%;margin:0 auto;">
         <form name="login">
@@ -76,7 +75,7 @@
                 </span>
                 <input class="ant-input" placeholder="密码" type="password" name="userPwd">
             </div>
-            <div style="width:100%;height:40px;"></div>
+            <div style="width:100%;height:45px;"></div>
             <div style="width:100%;height:55px;margin:0 auto;">
                 <button type="button"
                         style="width:100%;height:36px;font-size:20px;font-family: 宋体;"
@@ -86,7 +85,7 @@
         </form>
     </div>
 </div>
-<div style="width: 100%;position: fixed;bottom: 20%;text-align: center;">
+<div style="width: 100%;position: fixed;bottom: 10%;text-align: center;">
     <span style="width: 576px;height: 13px;font-size: 14px;font-weight: normal;font-stretch: normal;line-height: 90px;letter-spacing: 0px; color: #ffffff;">相城绿建堆码后台管理系统</span>
 </div>
 </body>

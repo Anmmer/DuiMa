@@ -24,16 +24,27 @@ public class DeletePlan extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         resp.setContentType("text/html;charset=UTF-8");
-        String planid = req.getParameter("planid");
+        String plannumbers = req.getParameter("plannumbers");
+        JSONArray jsonArray = JSONObject.parseArray(plannumbers);
         Connection con = null;
         PreparedStatement ps = null;
         PrintWriter out = resp.getWriter();
-        String sql = "delete from plan where planid = ?";
+        StringBuilder sql = new StringBuilder("update plan set isdelete = 1 where plannumber in (");
+        if (jsonArray.size() == 1) {
+            sql.append("?)");
+        } else {
+            for (int j = 0; j < jsonArray.size() - 1; j++) {
+                sql.append("? , ");
+            }
+            sql.append("?)");
+        }
         Map<String, Object> map = new HashMap<>();
         try {
             con = DbUtil.getCon();
-            ps = con.prepareStatement(sql);
-            ps.setInt(1, Integer.parseInt(planid));
+            ps = con.prepareStatement(sql.toString());
+            for (int j = 0; j < jsonArray.size(); j++) {
+                ps.setInt(j + 1, Integer.parseInt((String) jsonArray.get(j)));
+            }
             int i = ps.executeUpdate();
             if (i < 0) {
                 map.put("flag", false);

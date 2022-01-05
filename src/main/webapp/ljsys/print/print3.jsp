@@ -1,20 +1,35 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <div style="height: 95%;width: 100%">
-    <div style="position:relative;top: 4.2%;left: 15%;width:15%;font-family: Simsun;font-size:16px;">
-        <a href="./files/importTemplate.xlsx" download="importTemplate.xlsx">导入模板</a>
-        <button onclick="openPop()">
-            上传文件
-        </button>
+    <div style="position:relative;top: 5%;left: 15%;height:10%;width:70%;font-family: Simsun;font-size:16px;">
+        <label for="startDate">开始时间:</label><input id="startDate" type="date" style="width: 12%;">
+        <label for="endDate">结束时间:</label><input id="endDate" type="date" style="width: 12%;">
+        <label for="planname">项目名称:</label><input id="planname" style="width: 12%;">
+        <label for="materialcode">物料编号:</label><input id="materialcode" style="width: 12%;">
+        <button style="position: absolute;right: 0;width: 8%" onclick="getTableData()">查 询</button>
     </div>
-    <div style="width: 70%;margin: 0 auto">
+    <div style="width: 70%;height:85%;margin: 0 auto">
+        <div style="position:relative;top: 4%;width: 20%">
+            <a href="./files/importTemplate.xlsx" download="importTemplate.xlsx">导入模板</a>
+            <button onclick="openPop()">
+                上传文件
+            </button>
+        </div>
+        <button style="position:relative;top: 0;left: 92%;width: 8%" onclick="delTableData()">批量删除</button>
         <h3 style="text-align: center;margin-top: 0;">已导入计划列表</h3>
-        <div style="height: 480px;border: 1px solid #000">
+        <div style="height: 70%;">
             <table class="table" cellspacing="0" cellpadding="0" width="100%" align="center" border="1">
                 <tr>
-                    <td class='tdStyle_title'>计划名称</td>
-                    <td class='tdStyle_title'>公司</td>
-                    <td class='tdStyle_title'>工厂</td>
-                    <td class='tdStyle_title'>操作</td>
+                    <td class='tdStyle_title' style="width: 3%;"><input type="checkbox"></td>
+                    <td class='tdStyle_title' style="width: 10%">计划编号</td>
+                    <td class='tdStyle_title' style="width: 10%">项目名称</td>
+                    <td class='tdStyle_title' style="width: 8%">打印状态</td>
+                    <td class='tdStyle_title' style="width: 10%">工厂</td>
+                    <td class='tdStyle_title' style="width: 8%">生产日期</td>
+                    <td class='tdStyle_title' style="width: 8%">产线</td>
+                    <td class='tdStyle_title' style="width: 8%">楼栋楼层</td>
+                    <td class='tdStyle_title' style="width: 10%">构建数(个)</td>
+                    <td class='tdStyle_title' style="width: 8%">合计方量</td>
+                    <td class='tdStyle_title' style="width: 8%">操作</td>
                 </tr>
                 <tbody id="planTableText">
                 </tbody>
@@ -69,7 +84,7 @@
                 <h3 id="inputDetail" style="position: absolute;left: 45%;top: 7%;">导入预览</h3>
             </div>
             <div style=" margin-bottom: 1%;">
-                <label for="planname">计划名：</label><input id="planname" disabled>
+                <label for="pop_planname">计划名：</label><input id="pop_planname" disabled>
                 <label for="company" style="margin-left: 1%">公司：</label><input id="company" disabled>
                 <label for="plant" style="margin-left: 1%">工厂：</label><input id="plant" disabled>
             </div>
@@ -213,17 +228,38 @@
 
     //查询plan表数据
     function getTableData() {
+        let startDate = $('#startDate').val();
+        let endDate = $('#endDate').val();
+        let planname = $('#planname').val();
+        let materialcode = $('#materialcode').val();
+        let obj = {
+            'startDate': startDate,
+            'endDate': endDate,
+            'planname': planname,
+            'materialcode': materialcode
+        }
         $.ajax({
             url: "${pageContext.request.contextPath}/GetPlan",
             type: 'post',
             dataType: 'json',
+            data: obj,
             contentType: 'application/x-www-form-urlencoded;charset=utf-8',
             success: function (res) {
                 if (res.data.length !== 0) {
                     jsonObj = res.data;
                     updateTable(false);
                     setFooter();
+                } else {
+                    jsonObj = []
+                    updateTable(false);
+                    setFooter();
                 }
+            },
+            error: function () {
+                jsonObj = [];
+                updateTable(false);
+                alert("查询失败！")
+                setFooter();
             }
         })
     }
@@ -244,6 +280,7 @@
             updateTable(true);
         });
     }
+
 
     //获取明细数据
     function getDetailData(planid) {
@@ -274,11 +311,23 @@
 
     //删除plan数据
     function delTableData(planid) {
+        let obj = [];
+        if (planid === undefined) { //批量删除
+            $('#planTableText').find('input:checked').each(function () {
+                obj.push($(this).attr('data-id'));   //找到对应checkbox中data-id属性值，然后push给空数组pids
+            });
+            if (obj.length === 0) {
+                alert("请勾选！")
+                return;
+            }
+        } else {
+            obj.push(planid);
+        }
         let r = confirm("亲，确认删除！");
         if (r === false) {
             return;
         }
-        $.post("${pageContext.request.contextPath}/DeletePlan", {'planid': planid}, function (result) {
+        $.post("${pageContext.request.contextPath}/DeletePlan", {plannumbers: JSON.stringify(obj)}, function (result) {
             result = JSON.parse(result);
             alert(result.message);
             if (result.flag) {
@@ -286,6 +335,7 @@
             }
         });
     }
+
 
     //更新表格
     function updateTable(detail) {
@@ -295,7 +345,7 @@
             $("#planname").val(excelData.plan.planname);
             $("#company").val(excelData.plan.company);
             $("#plant").val(excelData.plan.plant);
-            for (let i = (pop_num - 1) * 15; i < pop_num * 15 && i < preProductData.length; i++) {
+            for (let i = (pop_num - 1) * 10; i < pop_num * 10 && i < preProductData.length; i++) {
                 let time = preProductData[i]['time'] === undefined ? '' : preProductData[i]['time']
                 if (print) {
                     str += "<tr><td class='tdStyle_body'><input type='checkbox' data-id=" + preProductData[i]["pid"] + "></td>"
@@ -320,10 +370,26 @@
             $("#detailTableText").html(str);
         } else {
             for (let i = (num - 1) * 15; i < num * 15 && i < jsonObj.length; i++) {
-                str += "<tr><td class='tdStyle_body'>" + jsonObj[i]['planname'] +
-                    "</td><td class='tdStyle_body'>" + jsonObj[i]['company'] +
+                let style = ''
+                let state = ''
+                if (jsonObj[i]['printstate'] === 0) {
+                    state = '打印中'
+                    style = "style='background-color: rgb(0,176,80);'"
+                } else {
+                    state = '未打印'
+                    style = "style='background-color: red;'"
+                }
+                str += "<tr><td class='tdStyle_body'><input type='checkbox' data-id=" + jsonObj[i]["plannumber"] + ">" +
+                    "</td><td class='tdStyle_body'>" + jsonObj[i]['plannumber'] +
+                    "</td><td class='tdStyle_body'>" + jsonObj[i]['planname'] +
+                    "</td><td class='tdStyle_body'" + style + ">" + state +
                     "</td><td class='tdStyle_body'>" + jsonObj[i]['plant'] +
-                    "</td><td class='tdStyle_body'><a href='#' onclick='getDetailData(" + jsonObj[i]['planid'] + ")'>详情</a><a href='#' onclick='delTableData(" + jsonObj[i]['planid'] + ")'>删除</a></tr>";
+                    "</td><td class='tdStyle_body'>" + jsonObj[i]['plantime'] +
+                    "</td><td class='tdStyle_body'>" + jsonObj[i]['line'] +
+                    "</td><td class='tdStyle_body'>" + jsonObj[i]['build'] +
+                    "</td><td class='tdStyle_body'>" + jsonObj[i]['tasknum'] +
+                    "</td><td class='tdStyle_body'>" + jsonObj[i]['tasksqure'] +
+                    "</td><td class='tdStyle_body'><a href='#' onclick='getDetailData(" + jsonObj[i]['plannumber'] + ")'>详情</a> <a href='#' onclick='delTableData(" + jsonObj[i]['planid'] + ")'>删除</a></td></tr>";
             }
             $("#planTableText").html(str);
         }
