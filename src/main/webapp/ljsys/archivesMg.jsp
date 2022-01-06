@@ -68,11 +68,11 @@
                     </button>
                 </div>
             </div>
-            <div class="pop_up" style="width: 25%;left: 43%;top:23%;height: 40%">
+            <div class="pop_up" style="width: 25%;left: 43%;top:23%;height: auto">
                 <div class="pop_title title1">档案信息新增</div>
                 <div class="pop_title title2">档案信息修改</div>
                 <div class="close_btn"><img src="./img/close.png" onclick="closePop()"></div>
-                <div style="width: 60%;height: 65%;margin: 0 auto">
+                <div style="width: 80%;margin: 0 auto">
                     <form id="form" method="post" action="">
                         <label for="pop_planname">
                             项目名称:
@@ -92,7 +92,7 @@
                         <input name="qc" id="pop_qc" style="margin-top: 10%">
                     </form>
                 </div>
-                <div class="pop_footer" style="height: 12%;display: flex;align-items: center;justify-content: center;">
+                <div class="pop_footer" style="display: flex;align-items: center;justify-content: center;">
                     <button type="submit" class="saveo save-btn">保存</button>
                     <button type="reset" class="recover-btn">重置</button>
                 </div>
@@ -235,7 +235,7 @@
             plant: $('#plant').val(),
             qc: $('#pop_qc').val(),
         }
-        if (obj.planname === '' && obj.line === '' && obj.plant === '' && obj.pop_qc === '') {
+        if (obj.planname === '' && obj.line === '' && obj.plant === '' && obj.qc === '') {
             alert("请输入！");
             return;
         }
