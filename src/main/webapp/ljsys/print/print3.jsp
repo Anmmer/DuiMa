@@ -68,39 +68,35 @@
         <div class="close_btn"><img src="./img/close.png" onclick="closePop()"></div>
         <div style="width: 90%;height: 80%;margin: 0 auto">
             <div id="pop_query" style="width: 100%;height: 12%">
-                <label style="position: relative;margin-top: 2.5%;" for="preproductid">构件号：</label><input
-                    id="preproductid" style="position: relative;margin-top: 2.5%;">
-                <label style="position: relative;margin-top: 2%;margin-left: 1%;" for="build" style="margin-left: 1%">楼栋楼层：</label><input
-                    id="build" style="position: relative;margin-top: 2%;">
-                <label style="position: relative;margin-top: 2%;margin-left: 1%;" for="print" style="margin-left: 1%">打印次数：</label><input
-                    id="print" style="position: relative;margin-top: 2%;"
-                    onkeyup="this.value=this.value.replace(/\D/g,'')">
-                <button style="width: 7%;margin-left: 2%;" onclick="query()">查询</button>
+
             </div>
-            <div id="pop_input" style="width: 100%;height: 12%">
+            <div id="pop_input" style="width: 100%;height: 15%">
                 <input type="file" id="excel-file"
                        accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.ms-excel"
                        style="position: relative;margin-top: 2%;">
                 <h3 id="inputDetail" style="position: absolute;left: 45%;top: 7%;">导入预览</h3>
+                <div style=" margin-bottom: 1%;margin-top: 2%">
+                    <label for="build">楼栋楼层：</label><input id="build" style="width: 10%">
+                    <label for="pop_planname" style="margin-left: 1%">项目名称：</label><input id="pop_planname"
+                                                                                          style="width: 10%" disabled>
+                    <label for="line" style="margin-left: 1%">产线：</label><input id="line" style="width: 10%" disabled>
+                    <label for="liner" style="margin-left: 1%">线长：</label><input id="liner" style="width: 10%" disabled>
+                    <label for="plantime" style="margin-left: 1%">计划生产时间：</label><input id="plantime" style="width: 10%"
+                                                                                        disabled>
+                </div>
             </div>
-            <div style=" margin-bottom: 1%;">
-                <label for="pop_planname">计划名：</label><input id="pop_planname" disabled>
-                <label for="company" style="margin-left: 1%">公司：</label><input id="company" disabled>
-                <label for="plant" style="margin-left: 1%">工厂：</label><input id="plant" disabled>
-            </div>
-            <div style="height: 70%;border: 1px solid #000">
+            <div style="height: 70%;">
                 <table class="pop_table" cellspacing="0" cellpadding="0" width="100%" align="center" border="1">
                     <tr id="table_tr">
                         <td class='table_tr_print tdStyle_title' style="width: 4%;"><input id="" type="checkbox"></td>
                         <td class='tdStyle_title' style="width: 10%">物料编号</td>
-                        <td class='tdStyle_title' style="width: 10%">项目名称</td>
-                        <td class='tdStyle_title' style="width: 8%">楼栋楼层</td>
-                        <td class='tdStyle_title' style="width: 10%">构件尺寸</td>
-                        <td class='tdStyle_title' style="width: 8%">构件编号</td>
-                        <td class='tdStyle_title' style="width: 6%">体积</td>
-                        <td class='tdStyle_title' style="width: 6%">质量</td>
-                        <td class='tdStyle_title' style="width: 7%">质检员</td>
-                        <td class='tdStyle_title' style="width: 5%;">日期</td>
+                        <td class='tdStyle_title' style="width: 10%">物料名称</td>
+                        <td class='tdStyle_title' style="width: 8%">构建编号</td>
+                        <td class='tdStyle_title' style="width: 10%">规格</td>
+                        <td class='tdStyle_title' style="width: 8%">方量</td>
+                        <td class='tdStyle_title' style="width: 6%">重量</td>
+                        <td class='tdStyle_title' style="width: 6%">质检员</td>
+                        <td class='tdStyle_title' style="width: 7%">砼标号</td>
                         <td class='table_tr_print tdStyle_title' style='width: 6%'>打印数</td>
                     </tr>
                     <tbody id="detailTableText">
@@ -167,7 +163,7 @@
     let jsonObj = [];   //plan数据
     let printsData = [] //打印的数据
     let print = false;  //是否显示打印勾选按钮
-    let planid = null; //
+    let plannumber = null; //
 
     window.onload = getTableData();
 
@@ -192,9 +188,11 @@
 
     //重置弹窗
     function reset() {
-        $("#planname").val('');
-        $("#company").val('');
-        $("#plant").val('');
+        $("#pop_planname").val('');
+        $("#build").val('');
+        $("#line").val('');
+        $("#liner").val('');
+        $("#plantime").val('');
         $('#excel-file').val('')
         $("#detailTableText").html('')
         $('#pop_next').attr('disabled', true);
@@ -208,6 +206,10 @@
 
     //保存
     $('.save-btn').click(function () {
+        if ($('#build').val() === '') {
+            alert("请输入楼栋楼层！")
+            return;
+        }
         if (Object.keys(excelData).length !== 0) {
             $.post("${pageContext.request.contextPath}/AddPlan", {str: JSON.stringify(excelData)}, function (result) {
                 let jsonObject = JSON.parse(result)
@@ -272,7 +274,7 @@
             'preproductid': preproductid,
             'build': build,
             'print': print,
-            'planid': planid
+            'plannumber': plannumber
         }
         $.post("${pageContext.request.contextPath}/GetPreProduct", obj, function (result) {
             result = JSON.parse(result);
@@ -283,15 +285,19 @@
 
 
     //获取明细数据
-    function getDetailData(planid) {
-        $.post("${pageContext.request.contextPath}/GetPreProduct", {'planid': planid}, function (result) {
+    function getDetailData(plannumber) {
+        $.post("${pageContext.request.contextPath}/GetPreProduct", {'plannumber': plannumber}, function (result) {
             result = JSON.parse(result);
-            if (result.data.length !== 0) {
+            if (result.data !== undefined) {
                 excelData.preProduct = result.data;
                 excelData.plan = jsonObj.find((item) => {
-                    return item.planid === planid;
+                    return item.plannumber === plannumber;
                 });
-                pop_count = Math.ceil(excelData.preProduct.length / 15);
+                if (excelData.preProduct.length === 0) {
+                    pop_count = 1;
+                } else {
+                    pop_count = Math.ceil(excelData.preProduct.length / 10);
+                }
                 setFooter();
                 $(".pop_up").show();
                 $(".title_1").hide();
@@ -309,10 +315,36 @@
         })
     }
 
-    //删除plan数据
-    function delTableData(planid) {
+    function delDetailData(pid) {
         let obj = [];
-        if (planid === undefined) { //批量删除
+        if (pid === undefined) { //批量删除
+            $('#detailTableText').find('input:checked').each(function () {
+                obj.push($(this).attr('data-id'));   //找到对应checkbox中data-id属性值，obj
+            });
+            if (obj.length === 0) {
+                alert("请勾选！")
+                return;
+            }
+        } else {
+            obj.push(pid);
+        }
+        let r = confirm("亲，确认删除！");
+        if (r === false) {
+            return;
+        }
+        $.post("${pageContext.request.contextPath}/DeletePreProduct", {pids: JSON.stringify(obj)}, function (result) {
+            result = JSON.parse(result);
+            alert(result.message);
+            if (result.flag) {
+                getTableData();
+            }
+        });
+    }
+
+    //删除plan数据
+    function delTableData(plannumber) {
+        let obj = [];
+        if (plannumber === undefined) { //批量删除
             $('#planTableText').find('input:checked').each(function () {
                 obj.push($(this).attr('data-id'));   //找到对应checkbox中data-id属性值，然后push给空数组pids
             });
@@ -321,7 +353,7 @@
                 return;
             }
         } else {
-            obj.push(planid);
+            obj.push(plannumber);
         }
         let r = confirm("亲，确认删除！");
         if (r === false) {
@@ -342,9 +374,6 @@
         let preProductData = excelData.preProduct;
         let str = "";
         if (detail) {
-            $("#planname").val(excelData.plan.planname);
-            $("#company").val(excelData.plan.company);
-            $("#plant").val(excelData.plan.plant);
             for (let i = (pop_num - 1) * 10; i < pop_num * 10 && i < preProductData.length; i++) {
                 let time = preProductData[i]['time'] === undefined ? '' : preProductData[i]['time']
                 if (print) {
@@ -353,16 +382,17 @@
                     str += "<tr>"
                 }
                 str += "<td class='tdStyle_body'>" + preProductData[i]['materialcode'] +
-                    "</td><td class='tdStyle_body'>" + preProductData[i]['projectname'] +
-                    "</td><td class='tdStyle_body'>" + preProductData[i]['build'] +
-                    "</td><td class='tdStyle_body'>" + preProductData[i]['size'] +
+                    "</td><td class='tdStyle_body'>" + preProductData[i]['materialname'] +
                     "</td><td class='tdStyle_body'>" + preProductData[i]['preproductid'] +
-                    "</td><td class='tdStyle_body'>" + preProductData[i]['volume'] +
+                    "</td><td class='tdStyle_body'>" + preProductData[i]['standard'] +
+                    "</td><td class='tdStyle_body'>" + preProductData[i]['fangliang'] +
                     "</td><td class='tdStyle_body'>" + parseFloat(preProductData[i]['weigh']).toFixed(2) +
                     "</td><td class='tdStyle_body'>" + preProductData[i]['qc'] +
-                    "</td><td class='tdStyle_body'>" + time;
+                    "</td><td class='tdStyle_body'>" + preProductData[i]['concretegrade'];
                 if (print) {
-                    str += "</td><td class='tdStyle_body'>" + preProductData[i]['print'] + "</td></tr>"
+                    str += "</td><td class='tdStyle_body'>" + preProductData[i]['print'] +
+                        "</td><td class='tdStyle_body'><a href='#' onclick='delDetailData(" + preProductData[i]['pid'] + ")'>删除</a>" +
+                        "</td></tr>"
                 } else {
                     str += "</td></tr>"
                 }
@@ -389,7 +419,7 @@
                     "</td><td class='tdStyle_body'>" + jsonObj[i]['build'] +
                     "</td><td class='tdStyle_body'>" + jsonObj[i]['tasknum'] +
                     "</td><td class='tdStyle_body'>" + jsonObj[i]['tasksqure'] +
-                    "</td><td class='tdStyle_body'><a href='#' onclick='getDetailData(" + jsonObj[i]['plannumber'] + ")'>详情</a> <a href='#' onclick='delTableData(" + jsonObj[i]['planid'] + ")'>删除</a></td></tr>";
+                    "</td><td class='tdStyle_body'><a href='#' onclick='getDetailData(" + jsonObj[i]['plannumber'] + ")'>详情</a> <a href='#' onclick='delTableData(" + jsonObj[i]['plannumber'] + ")'>删除</a></td></tr>";
             }
             $("#planTableText").html(str);
         }
@@ -448,10 +478,14 @@
                     alert('构件号：' + str + ']已存在');
                     return;
                 }
-                pop_count = Math.ceil(excelData.preProduct.length / 15);
+                pop_count = Math.ceil(excelData.preProduct.length / 10);
                 updateTable(true);
                 setFooter();
             });
+            $('#pop_planname').val(excelData.plan.planname);
+            $('#line').val(excelData.plan.line);
+            $('#plantime').val(excelData.plan.plantime);
+            $('#liner').val(excelData.plan.liner);
         }
         reader.readAsBinaryString(file);
     });

@@ -27,6 +27,7 @@ public class GetArchives extends HttpServlet {
         resp.setContentType("text/html;charset=UTF-8");
         PrintWriter out = resp.getWriter();
         String planname = req.getParameter("planname");
+        String plant = req.getParameter("plant");
         String qc = req.getParameter("qc");
         String id = req.getParameter("id");
         Map<String, Object> result = new HashMap<>();
@@ -50,7 +51,14 @@ public class GetArchives extends HttpServlet {
                 sql += " and qc = ?";
                 i++;
             }
+            if (plant != null && !"".equals(plant)) {
+                sql += " and plant = ?";
+                i++;
+            }
             ps = con.prepareStatement(sql);
+            if (plant != null && !"".equals(plant)) {
+                ps.setString(i--, plant);
+            }
             if (qc != null && !"".equals(qc)) {
                 ps.setString(i--, qc);
             }

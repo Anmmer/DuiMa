@@ -15,7 +15,7 @@ import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
 
-public class DeletePlan extends HttpServlet {
+public class DeletePreProduct extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         super.doGet(req, resp);
@@ -24,43 +24,28 @@ public class DeletePlan extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         resp.setContentType("text/html;charset=UTF-8");
-        String plannumbers = req.getParameter("plannumbers");
-        JSONArray jsonArray = JSONObject.parseArray(plannumbers);
+        String pids = req.getParameter("pids");
+        JSONArray jsonArray = JSONObject.parseArray(pids);
         Connection con = null;
-        PreparedStatement ps1 = null;
-        PreparedStatement ps2 = null;
+        PreparedStatement ps = null;
         PrintWriter out = resp.getWriter();
-        StringBuilder sql_plan = new StringBuilder("update plan set isdelete = 1 where plannumber in (");
-        StringBuilder sql_pre = new StringBuilder("update preproduct set isdelete = 1 where plannumber in (");
+        StringBuilder sql = new StringBuilder("update preproduct set isdelete = 1 where pid in (");
         if (jsonArray.size() == 1) {
-            sql_plan.append("?)");
+            sql.append("?)");
         } else {
             for (int j = 0; j < jsonArray.size() - 1; j++) {
-                sql_plan.append("? , ");
+                sql.append("? , ");
             }
-            sql_plan.append("?)");
-        }
-        if (jsonArray.size() == 1) {
-            sql_pre.append("?)");
-        } else {
-            for (int j = 0; j < jsonArray.size() - 1; j++) {
-                sql_pre.append("? , ");
-            }
-            sql_pre.append("?)");
+            sql.append("?)");
         }
         Map<String, Object> map = new HashMap<>();
         try {
             con = DbUtil.getCon();
-            ps1 = con.prepareStatement(sql_plan.toString());
-            ps2 = con.prepareStatement(sql_plan.toString());
+            ps = con.prepareStatement(sql.toString());
             for (int j = 0; j < jsonArray.size(); j++) {
-                ps1.setInt(j + 1, Integer.parseInt((String) jsonArray.get(j)));
+                ps.setInt(j + 1, Integer.parseInt((String) jsonArray.get(j)));
             }
-            for (int j = 0; j < jsonArray.size(); j++) {
-                ps2.setInt(j + 1, Integer.parseInt((String) jsonArray.get(j)));
-            }
-            int i = ps1.executeUpdate();
-            ps2.executeUpdate();
+            int i = ps.executeUpdate();
             if (i < 0) {
                 map.put("flag", false);
                 map.put("message", "删除失败");
@@ -74,8 +59,7 @@ public class DeletePlan extends HttpServlet {
         } finally {
             try {
                 con.close();
-                ps1.close();
-                ps2.close();
+                ps.close();
                 out.close();
             } catch (SQLException throwables) {
                 throwables.printStackTrace();

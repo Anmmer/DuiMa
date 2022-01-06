@@ -31,36 +31,38 @@ public class AddPlan extends HttpServlet {
         Connection con = null;
         try {
             con = DbUtil.getCon();
-            String sql1 = "insert into plan(planname,company,plant) values(?,?,?)";
-            String sql2 = "insert into preproduct(projectname,materialcode,preproductid,size,volume,weigh,qc,build,time,print,planid) values(?,?,?,?,?,?,?,?,?,?,?)";
+            String sql1 = "insert into plan(plannumber,printstate,plant,plantime,line,liner,planname,build,tasksqure,tasknum,isdelete) values(?,0,?,?,?,?,?,?,?,?,0)";
+            String sql2 = "insert into preproduct(preproductid,materialcode,weigh,fangliang,standard,materialname,qc,print,plannumber,concretegrade,isdelete) values(?,?,?,?,?,?,?,0,?,?,0)";
             PreparedStatement ps1 = con.prepareStatement(sql1, Statement.RETURN_GENERATED_KEYS);
-            ps1.setString(1, plan.getString("planname"));
-            ps1.setString(2, plan.getString("company"));
-            ps1.setString(3, plan.getString("plant"));
-            ps1.execute();
-            ResultSet res1 = ps1.getGeneratedKeys();
-            if (!res1.next()) {
-                System.err.println("获取ID失败");
-                result.put("message", "获取ID失败");
+            ps1.setString(1, plan.getString("plannumber"));
+            ps1.setString(2, plan.getString("plant"));
+            ps1.setDate(3, "".equals(plan.getString("plantime")) ? null : new Date(sdf.parse(plan.getString("plantime")).getTime()));
+            ps1.setString(3, plan.getString("line"));
+            ps1.setString(3, plan.getString("liner"));
+            ps1.setString(3, plan.getString("planname"));
+            ps1.setString(3, plan.getString("build"));
+            ps1.setString(3, plan.getString("tasksqure"));
+            ps1.setString(3, plan.getString("tasknum"));
+            boolean res = ps1.execute();
+            if (!res) {
+                result.put("flag", false);
+                result.put("message", "录入失败");
                 out.write(JSON.toJSONString(result));
                 return;
             }
             final int CUSTOMER_ID_COLUMN_INDEX = 1;
-            int index = res1.getInt(CUSTOMER_ID_COLUMN_INDEX);
             PreparedStatement ps2 = con.prepareStatement(sql2);
             for (Object o : preProduct) {
                 JSONObject jsonObject = (JSONObject) o;
-                ps2.setString(1, jsonObject.getString("projectname"));
+                ps2.setString(1, jsonObject.getString("preproductid"));
                 ps2.setString(2, jsonObject.getString("materialcode"));
-                ps2.setString(3, jsonObject.getString("preproductid"));
-                ps2.setString(4, jsonObject.getString("size"));
-                ps2.setDouble(5, Double.parseDouble(jsonObject.getString("volume")));
-                ps2.setDouble(6, Double.parseDouble(jsonObject.getString("weigh")));
+                ps2.setString(3, jsonObject.getString("weigh"));
+                ps2.setString(4, jsonObject.getString("fangliang"));
+                ps2.setDouble(5, Double.parseDouble(jsonObject.getString("standard")));
+                ps2.setDouble(6, Double.parseDouble(jsonObject.getString("materialname")));
                 ps2.setString(7, jsonObject.getString("qc"));
-                ps2.setString(8, jsonObject.getString("build"));
-                ps2.setDate(9, "".equals(jsonObject.getString("time")) ? null : new Date(sdf.parse(jsonObject.getString("time")).getTime()) );
-                ps2.setInt(10, 0);
-                ps2.setInt(11, index);
+                ps2.setInt(8, Integer.parseInt(jsonObject.getString("plannumber")));
+                ps2.setString(9, jsonObject.getString("concretegrade"));
                 ps2.addBatch();
             }
             int[] rs2 = ps2.executeBatch();
