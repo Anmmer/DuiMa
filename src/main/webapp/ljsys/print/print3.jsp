@@ -70,22 +70,22 @@
             <div id="pop_query" style="width: 100%;height: 12%">
 
             </div>
-            <div id="pop_input" style="width: 100%;height: 15%">
+            <div id="pop_input" style="width: 100%;height: 25%">
                 <input type="file" id="excel-file"
                        accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.ms-excel"
                        style="position: relative;margin-top: 2%;">
                 <h3 id="inputDetail" style="position: absolute;left: 45%;top: 7%;">导入预览</h3>
                 <div style=" margin-bottom: 1%;margin-top: 2%">
-                    <label for="build">楼栋楼层：</label><input id="build" style="width: 10%">
-                    <label for="pop_planname" style="margin-left: 1%">项目名称：</label><input id="pop_planname"
-                                                                                          style="width: 10%" disabled>
-                    <label for="line" style="margin-left: 1%">产线：</label><input id="line" style="width: 10%" disabled>
-                    <label for="liner" style="margin-left: 1%">线长：</label><input id="liner" style="width: 10%" disabled>
-                    <label for="plantime" style="margin-left: 1%">计划生产时间：</label><input id="plantime" style="width: 10%"
+                    <label for="build">楼栋楼层：</label><input id="build" style="width: 15%">
+                    <label for="pop_planname" style="margin-left: 1%">项&nbsp;&nbsp;目&nbsp;&nbsp;名&nbsp;称&nbsp;&nbsp;：</label><input id="pop_planname"
+                                                                                          style="width: 15%" disabled>
+                    <label for="line" style="margin-left: 1%">产线：</label><input id="line" style="width: 15%" disabled><br>
+                    <label for="liner" >线&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;长：</label><input id="liner" style="width: 15%;margin-top: 1%;" disabled>
+                    <label for="plantime" style="margin-left: 1%">计划生产时间：</label><input id="plantime" style="width: 15%"
                                                                                         disabled>
                 </div>
             </div>
-            <div style="height: 70%;">
+            <div style="height: 60%;">
                 <table class="pop_table" cellspacing="0" cellpadding="0" width="100%" align="center" border="1">
                     <tr id="table_tr">
                         <td class='table_tr_print tdStyle_title' style="width: 4%;"><input id="" type="checkbox"></td>
@@ -98,12 +98,13 @@
                         <td class='tdStyle_title' style="width: 6%">质检员</td>
                         <td class='tdStyle_title' style="width: 7%">砼标号</td>
                         <td class='table_tr_print tdStyle_title' style='width: 6%'>打印数</td>
+                        <td class='table_tr_print tdStyle_title' style="width: 4%;">操作</td>
                     </tr>
                     <tbody id="detailTableText">
                     </tbody>
                 </table>
             </div>
-            <div style="height:35px;margin-top: 15px">
+            <div style="height:10%;margin-top: 4%">
                 <div style="width:33%;float: left;">
                     <button id="pop_first" type="button" disabled style="font-family: Simsun;font-size:16px;"
                             onclick="jumpToNewPage(1,true)">第一页

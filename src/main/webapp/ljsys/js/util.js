@@ -9,6 +9,7 @@ function outputWorkbook(workbook) {
     let worksheet = workbook.Sheets[sheetNames[0]]; // 只能通过工作表名称来获取指定工作表
     //检测excel表格式
     let plan = {};
+    console.log(worksheet)
     if (worksheet['A8'] !== undefined) {
         plan.planname = worksheet['A8'].v.split('：')[1];
     } else {
