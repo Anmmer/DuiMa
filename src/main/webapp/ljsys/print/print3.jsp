@@ -68,7 +68,8 @@
         <div class="close_btn"><img src="./img/close.png" onclick="closePop()"></div>
         <div style="width: 90%;height: 80%;margin: 0 auto">
             <div id="pop_query" style="width: 100%;height: 25%">
-                <label for="print_build">楼栋楼层：</label><input id="print_build" style="width: 15%;margin-top: 4%" disabled>
+                <label for="print_build">楼栋楼层：</label><input id="print_build" style="width: 15%;margin-top: 4%"
+                                                             disabled>
                 <label for="print_line" style="margin-left: 1%">产线：</label><input id="print_line" style="width: 15%"
                                                                                   disabled>
                 <label for="updatedate" style="margin-left: 1%">最后修改时间：</label><input id="updatedate" style="width: 15%"
@@ -286,18 +287,9 @@
             }
         })
     }
-
+    //构建删除刷新页面
     function query() {
-        let preproductid = $('#preproductid').val();
-        let build = $('#build').val();
-        let print = $('#print').val();
-        let obj = {
-            'preproductid': preproductid,
-            'build': build,
-            'print': print,
-            'plannumber': plannumber
-        }
-        $.post("${pageContext.request.contextPath}/GetPreProduct", obj, function (result) {
+        $.post("${pageContext.request.contextPath}/GetPreProduct", {plannumber: plannumber}, function (result) {
             result = JSON.parse(result);
             excelData.preProduct = result.data;
             updateTable(true);
@@ -306,8 +298,9 @@
 
 
     //获取明细数据
-    function getDetailData(plannumber) {
-        $.post("${pageContext.request.contextPath}/GetPreProduct", {'plannumber': plannumber}, function (result) {
+    function getDetailData(plannumber_p) {
+        plannumber = plannumber_p;
+        $.post("${pageContext.request.contextPath}/GetPreProduct", {'plannumber': plannumber_p}, function (result) {
             result = JSON.parse(result);
             if (result.data !== undefined) {
                 excelData.preProduct = result.data;
@@ -361,7 +354,7 @@
             result = JSON.parse(result);
             alert(result.message);
             if (result.flag) {
-                getDetailData();
+                query();
             }
         });
     }
