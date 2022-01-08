@@ -67,25 +67,41 @@
         <div class="pop_title title_2">构件列表</div>
         <div class="close_btn"><img src="./img/close.png" onclick="closePop()"></div>
         <div style="width: 90%;height: 80%;margin: 0 auto">
-            <div id="pop_query" style="width: 100%;height: 12%">
-
+            <div id="pop_query" style="width: 100%;height: 25%">
+                <label for="print_build">楼栋楼层：</label><input id="print_build" style="width: 15%;margin-top: 4%" disabled>
+                <label for="print_line" style="margin-left: 1%">产线：</label><input id="print_line" style="width: 15%"
+                                                                                  disabled>
+                <label for="updatedate" style="margin-left: 1%">最后修改时间：</label><input id="updatedate" style="width: 15%"
+                                                                                      disabled><br>
+                <label for="print_planname">项目名称：</label><input id="print_planname" style="width: 15%" disabled>
+                <label for="print_liner" style="margin-left: 1%">线长：</label><input id="print_liner"
+                                                                                   style="width: 15%;margin-top: 4%;"
+                                                                                   disabled>
+                <label for="print_plantime" style="margin-left: 1%">计划生产时间：</label><input id="print_plantime"
+                                                                                          style="width: 15%" disabled>
             </div>
             <div id="pop_input" style="width: 100%;height: 25%">
                 <input type="file" id="excel-file"
                        accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.ms-excel"
-                       style="position: relative;margin-top: 2%;">
-                <h3 id="inputDetail" style="position: absolute;left: 45%;top: 7%;">导入预览</h3>
-                <div style=" margin-bottom: 1%;margin-top: 2%">
+                       style="position: relative;margin-top: 3%;">
+                <h3 id="inputDetail" style="position: absolute;left: 45%;top: 8%;">导入预览</h3>
+                <div style="margin-top: 2%">
                     <label for="build">楼栋楼层：</label><input id="build" style="width: 15%">
-                    <label for="pop_planname" style="margin-left: 1%">项&nbsp;&nbsp;目&nbsp;&nbsp;名&nbsp;称&nbsp;&nbsp;：</label><input id="pop_planname"
-                                                                                          style="width: 15%" disabled>
-                    <label for="line" style="margin-left: 1%">产线：</label><input id="line" style="width: 15%" disabled><br>
-                    <label for="liner" >线&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;长：</label><input id="liner" style="width: 15%;margin-top: 1%;" disabled>
+                    <label for="pop_planname"
+                           style="margin-left: 1%">项&nbsp;&nbsp;目&nbsp;&nbsp;名&nbsp;称&nbsp;&nbsp;：</label><input
+                        id="pop_planname" style="width: 15%" disabled>
+                    <label for="line" style="margin-left: 1%">产&nbsp;&nbsp;&nbsp;线：</label><input id="line"
+                                                                                                  style="width: 15%"
+                                                                                                  disabled><br>
+                    <label for="liner">线&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;长：</label><input id="liner"
+                                                                                                   style="width: 15%;margin-top: 2%;"
+                                                                                                   disabled>
                     <label for="plantime" style="margin-left: 1%">计划生产时间：</label><input id="plantime" style="width: 15%"
                                                                                         disabled>
+                    <label for="qc" style="margin-left: 1%">质检员：</label><input id="qc" style="width: 15%" disabled>
                 </div>
             </div>
-            <div style="height: 60%;">
+            <div style="height: 60%;margin-top: 2%">
                 <table class="pop_table" cellspacing="0" cellpadding="0" width="100%" align="center" border="1">
                     <tr id="table_tr">
                         <td class='table_tr_print tdStyle_title' style="width: 4%;"><input id="" type="checkbox"></td>
@@ -95,7 +111,6 @@
                         <td class='tdStyle_title' style="width: 10%">规格</td>
                         <td class='tdStyle_title' style="width: 8%">方量</td>
                         <td class='tdStyle_title' style="width: 6%">重量</td>
-                        <td class='tdStyle_title' style="width: 6%">质检员</td>
                         <td class='tdStyle_title' style="width: 7%">砼标号</td>
                         <td class='table_tr_print tdStyle_title' style='width: 6%'>打印数</td>
                         <td class='table_tr_print tdStyle_title' style="width: 4%;">操作</td>
@@ -104,7 +119,7 @@
                     </tbody>
                 </table>
             </div>
-            <div style="height:10%;margin-top: 4%">
+            <div style="height:8%;">
                 <div style="width:33%;float: left;">
                     <button id="pop_first" type="button" disabled style="font-family: Simsun;font-size:16px;"
                             onclick="jumpToNewPage(1,true)">第一页
@@ -141,8 +156,11 @@
             <button type="button" id="print_datas" style="position: relative;margin-top: 2%; margin-left: 1%"
                     onclick="checkdata(true)">全部打印
             </button>
+            <button type="button" style="position: relative;margin-top: 2%; margin-left: 1%"
+                    onclick="delDetailData()">批量删除
+            </button>
         </div>
-        <div class="pop_footer" style="height: 7%;display: flex;align-items: center;justify-content: center;">
+        <div class="pop_footer" style="height: 10%;display: flex;align-items: center;justify-content: center;">
             <button type="submit" class="saveo save-btn">保存</button>
             <button type="reset" class="recover-btn">重置</button>
         </div>
@@ -195,6 +213,7 @@
         $("#liner").val('');
         $("#plantime").val('');
         $('#excel-file').val('')
+        $('#qc').val('')
         $("#detailTableText").html('')
         $('#pop_next').attr('disabled', true);
         $('#pop_pre').attr('disabled', true);
@@ -211,6 +230,7 @@
             alert("请输入楼栋楼层！")
             return;
         }
+        excelData.plan.build = $('#build').val();
         if (Object.keys(excelData).length !== 0) {
             $.post("${pageContext.request.contextPath}/AddPlan", {str: JSON.stringify(excelData)}, function (result) {
                 let jsonObject = JSON.parse(result)
@@ -299,6 +319,10 @@
                 } else {
                     pop_count = Math.ceil(excelData.preProduct.length / 10);
                 }
+                $('#print_build').val(jsonObj[0].build);
+                $('#print_line').val(jsonObj[0].line);
+                $('#updatedate').val(jsonObj[0].updatedate);
+                $('#print_planname').val(jsonObj[0].planname);
                 setFooter();
                 $(".pop_up").show();
                 $(".title_1").hide();
@@ -337,7 +361,7 @@
             result = JSON.parse(result);
             alert(result.message);
             if (result.flag) {
-                getTableData();
+                getDetailData();
             }
         });
     }
@@ -388,7 +412,6 @@
                     "</td><td class='tdStyle_body'>" + preProductData[i]['standard'] +
                     "</td><td class='tdStyle_body'>" + preProductData[i]['fangliang'] +
                     "</td><td class='tdStyle_body'>" + parseFloat(preProductData[i]['weigh']).toFixed(2) +
-                    "</td><td class='tdStyle_body'>" + preProductData[i]['qc'] +
                     "</td><td class='tdStyle_body'>" + preProductData[i]['concretegrade'];
                 if (print) {
                     str += "</td><td class='tdStyle_body'>" + preProductData[i]['print'] +
@@ -479,17 +502,51 @@
                     alert('构件号：' + str + ']已存在');
                     return;
                 }
+                let qc = getArchives(excelData.plan.planname, excelData.plan.line, excelData.plan.plant);
+                if (qc === null) {
+                    return;
+                }
+                excelData.plan.qc = qc;
+                $('#qc').val(qc);
+                $('#pop_planname').val(excelData.plan.planname);
+                $('#line').val(excelData.plan.line);
+                $('#plantime').val(excelData.plan.plantime);
+                $('#liner').val(excelData.plan.liner);
                 pop_count = Math.ceil(excelData.preProduct.length / 10);
                 updateTable(true);
                 setFooter();
             });
-            $('#pop_planname').val(excelData.plan.planname);
-            $('#line').val(excelData.plan.line);
-            $('#plantime').val(excelData.plan.plantime);
-            $('#liner').val(excelData.plan.liner);
         }
         reader.readAsBinaryString(file);
     });
+
+    function getArchives(planname, line, plant) {
+        let obj = {
+            'planname': planname,
+            'line': line,
+            'plant': plant
+        }
+        let qc = null;
+        $.ajax({
+            url: "${pageContext.request.contextPath}/GetArchives",
+            type: 'post',
+            dataType: 'json',
+            async: false,
+            data: obj,
+            contentType: 'application/x-www-form-urlencoded;charset=utf-8',
+            success: function (res) {
+                if (res.data.length !== 0) {
+                    qc = res.data[0].qc;
+                } else {
+                    alert("该项目产线质检员不存在！，请先在基础档案管理录入质检员信息")
+                }
+            },
+            error: function () {
+                alert("查询失败！")
+            }
+        });
+        return qc;
+    }
 
     //上一页、下一页
     function jumpToNewPage(index, detail) {

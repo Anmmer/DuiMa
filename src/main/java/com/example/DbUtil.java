@@ -4,8 +4,11 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.UUID;
 
 public class DbUtil {
     static final String jdbcDriver = "com.mysql.cj.jdbc.Driver";
@@ -21,8 +24,12 @@ public class DbUtil {
     }
 
     public static void main(String[] args) throws Exception {
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        System.out.println(sdf.parse(null));
+//        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        DateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmssSSS");
+        System.out.println(sdf.format(new Date()).substring(2));
+        System.out.println(new java.sql.Date(new Date().getTime()));
+        System.out.println(UUID.randomUUID().toString().toUpperCase().replace("-",""));
+
     }
 
 }
