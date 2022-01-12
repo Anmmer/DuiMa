@@ -71,7 +71,7 @@ public class GetPlan extends HttpServlet {
             List<Map<String, Object>> list = new ArrayList<>();
             while (rs.next()) {
                 Map<String, Object> map = new HashMap<>();
-                map.put("plannumber", rs.getInt("plannumber"));
+                map.put("plannumber", rs.getString("plannumber"));
                 map.put("printstate", rs.getInt("printstate"));
                 map.put("plant", rs.getString("plant"));
                 map.put("plantime", rs.getDate("plantime"));
@@ -80,7 +80,7 @@ public class GetPlan extends HttpServlet {
                 map.put("build", rs.getString("build"));
                 map.put("tasksqure", rs.getString("tasksqure"));
                 map.put("tasknum", rs.getString("tasknum"));
-                map.put("updatedate", rs.getString("updatedate"));
+                map.put("updatedate", rs.getDate("updatedate"));
                 list.add(map);
             }
             data.put("data", list);

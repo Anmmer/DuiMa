@@ -68,33 +68,31 @@
                     </button>
                 </div>
             </div>
-            <div class="pop_up" style="width: 25%;left: 43%;top:23%;height: auto">
+            <div class="pop_up" style="width: 20%;left: 47%;top:23%;height: auto">
                 <div class="pop_title title1">档案信息新增</div>
                 <div class="pop_title title2">档案信息修改</div>
                 <div class="close_btn"><img src="./img/close.png" onclick="closePop()"></div>
-                <div style="width: 80%;margin: 0 auto">
-                    <form id="form" method="post" action="">
-                        <label for="pop_planname">
-                            项目名称:
-                        </label>
-                        <input name="pop_planname" id="pop_planname" style="margin-top: 10%"><br>
-                        <label for="line">
-                            产线信息:
-                        </label>
-                        <input name="line" id="line" style="margin-top: 10%"><br>
-                        <label style="width: 68px; display: inline-block;" for="plant">
-                            工&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;厂:
-                        </label>
-                        <input name="plant" id="plant" style="margin-top: 10%"><br>
-                        <label style="width: 68px; display: inline-block;" for="pop_qc">
-                            质&nbsp;&nbsp;检&nbsp;员:
-                        </label>
-                        <input name="qc" id="pop_qc" style="margin-top: 10%">
-                    </form>
+                <div style="position: relative;left: 15%">
+                    <label for="pop_planname">
+                        项目名称:
+                    </label>
+                    <input name="pop_planname" id="pop_planname" style="margin-top: 5%"><br>
+                    <label for="line">
+                        产线信息:
+                    </label>
+                    <input name="line" id="line" style="margin-top: 5%"><br>
+                    <label style="width: 68px; display: inline-block;" for="plant">
+                        工&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;厂:
+                    </label>
+                    <input name="plant" id="plant" style="margin-top: 5%"><br>
+                    <label style="width: 68px; display: inline-block;" for="pop_qc">
+                        质&nbsp;&nbsp;检&nbsp;员:
+                    </label>
+                    <input name="qc" id="pop_qc" style="margin-top: 5%;margin-bottom: 2%">
                 </div>
                 <div class="pop_footer" style="display: flex;align-items: center;justify-content: center;">
-                    <button type="submit" class="saveo save-btn">保存</button>
-                    <button type="reset" class="recover-btn">重置</button>
+                    <button id="save" class="saveo save-btn">保存</button>
+                    <button class="recover-btn">重置</button>
                 </div>
             </div>
         </div>
@@ -121,7 +119,7 @@
         $(".pop_up").show();
         $(".title1").show();
         $(".title2").hide();
-        $()
+        $("#save").attr('onclick', 'save()');
     }
 
     //打开修改弹窗
@@ -130,11 +128,13 @@
         $(".pop_up").show();
         $(".title1").hide();
         $(".title2").show();
+        $("#save").attr('onclick', 'edit(' + id + ')');
     }
 
     //关闭弹窗
     function closePop() {
         $(".pop_up").hide();
+        pop_id = 0;
         reset();
     }
 
@@ -204,7 +204,6 @@
                     $('#line').val(res.data[0].line);
                     $('#plant').val(res.data[0].plant);
                     $('#pop_qc').val(res.data[0].qc);
-                    openPop();
                 }
             },
             error: function () {
@@ -228,7 +227,7 @@
         });
     }
 
-    $('.save-btn').click(function () {
+    function save() {
         let obj = {
             planname: $('#pop_planname').val(),
             line: $('#line').val(),
@@ -246,8 +245,30 @@
                 closePop();
                 getTableData();
             }
+        })
+    }
+
+    function edit(id) {
+        let obj = {
+            planname: $('#pop_planname').val(),
+            line: $('#line').val(),
+            plant: $('#plant').val(),
+            qc: $('#pop_qc').val(),
+            id: id
+        }
+        if (obj.planname === '' && obj.line === '' && obj.plant === '' && obj.qc === '') {
+            alert("请输入！");
+            return;
+        }
+        $.post("${pageContext.request.contextPath}/UpdateArchives", obj, function (result) {
+            result = JSON.parse(result);
+            alert(result.message);
+            if (result.flag) {
+                closePop();
+                getTableData();
+            }
         });
-    })
+    }
 
     $('.recover-btn').click(function () {
         reset();

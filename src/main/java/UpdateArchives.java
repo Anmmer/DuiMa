@@ -35,20 +35,20 @@ public class UpdateArchives extends HttpServlet {
         try {
             con = DbUtil.getCon();
             String sql = "update basicarchives set ";
-            if (planname != null && !"".equals(planname)) {
-                sql += "planname = ?";
+            if (planname != null) {
+                sql += " planname = ?,";
                 i++;
             }
-            if (line != null && !"".equals(line)) {
-                sql += "line = ?";
+            if (line != null ) {
+                sql += " line = ?,";
                 i++;
             }
-            if (plant != null && !"".equals(plant)) {
-                sql += "plant = ?";
+            if (plant != null ) {
+                sql += " plant = ?,";
                 i++;
             }
-            if (qc != null && !"".equals(qc)) {
-                sql += "qc = ?";
+            if (qc != null ) {
+                sql += " qc = ?";
                 i++;
             }
             sql += " where id = ?";
@@ -78,6 +78,9 @@ public class UpdateArchives extends HttpServlet {
                 out.write(JSON.toJSONString(result));
             }
         } catch (Exception e) {
+            result.put("message", "修改失败");
+            result.put("flag", false);
+            out.write(JSON.toJSONString(result));
             e.printStackTrace();
         } finally {
             out.close();

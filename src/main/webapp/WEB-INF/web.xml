@@ -407,4 +407,12 @@
         <servlet-name>getArchives</servlet-name>
         <url-pattern>/GetArchives</url-pattern>
     </servlet-mapping>
+    <servlet>
+        <servlet-name>deletePreProduct</servlet-name>
+        <servlet-class>DeletePreProduct</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>deletePreProduct</servlet-name>
+        <url-pattern>/DeletePreProduct</url-pattern>
+    </servlet-mapping>
 </web-app>
