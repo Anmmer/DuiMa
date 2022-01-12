@@ -23,6 +23,7 @@ public class DbUtil {
     public static void main(String[] args) throws Exception {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         System.out.println(sdf.parse(null));
+
     }
 
 }

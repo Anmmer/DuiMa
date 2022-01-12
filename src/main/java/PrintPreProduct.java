@@ -9,10 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -31,21 +28,34 @@ public class PrintPreProduct extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         resp.setContentType("text/html;charset=UTF-8");
         String preProductIds = req.getParameter("productIds");
+        String plannumber = req.getParameter("plannumber");
         JSONArray jsonArray = JSONObject.parseArray(preProductIds);
         Connection con = null;
-        PreparedStatement ps = null;
+        PreparedStatement ps1 = null;
+        PreparedStatement ps2 = null;
         PrintWriter out = resp.getWriter();
-        String sql = "update preproduct set print = print +1 where pid = ?";
+        String sql1 = "update preproduct set print = print +1 where pid = ?";
+        String sql2 = "update plan set plantime =?";
         Map<String, Object> map = new HashMap<>();
         try {
             con = DbUtil.getCon();
-            ps = con.prepareStatement(sql);
+            ps1 = con.prepareStatement(sql1);
             for (Object o : jsonArray) {
                 JSONObject jsonObject = (JSONObject) o;
-                ps.setInt(1, Integer.parseInt(jsonObject.getString("pid")));
-                ps.addBatch();
+                ps1.setInt(1, Integer.parseInt(jsonObject.getString("pid")));
+                ps1.addBatch();
             }
-            int[] is = ps.executeBatch();
+            int[] is = ps1.executeBatch();
+
+            Boolean flag = getPrintState(plannumber);
+            if (flag) {
+                sql2 += ",printstate = 1";
+            }
+            sql2 += " where plannumber = ?";
+            ps2 = con.prepareStatement(sql2);
+            ps2.setDate(1, new Date(new java.util.Date().getTime()));
+            ps2.setString(2, plannumber);
+            ps2.executeUpdate();
             if (is.length < 1)
                 map.put("flag", false);
             else
@@ -57,11 +67,53 @@ public class PrintPreProduct extends HttpServlet {
             try {
                 if (con != null)
                     con.close();
-                if (ps != null)
-                    ps.close();
+                if (ps1 != null)
+                    ps1.close();
             } catch (SQLException throwables) {
                 throwables.printStackTrace();
             }
         }
+    }
+
+    public static boolean getPrintState(String plannumber) {
+        Connection con = null;
+        PreparedStatement ps1 = null;
+        PreparedStatement ps2 = null;
+        String sql1 = "select count(print) print from preproduct where plannumber = ? and isdelete = 0 and print>0";
+        String sql2 = "select tasknum from plan where plannumber = ? and isdelete = 0";
+        try {
+            con = DbUtil.getCon();
+            ps1 = con.prepareStatement(sql1);
+            ps1.setString(1,plannumber);
+            ResultSet rs1 = ps1.executeQuery();
+            Integer print = null;
+            while (rs1.next()){
+                print = rs1.getInt("print");
+            }
+            ps2 = con.prepareStatement(sql2);
+            ps2.setString(1,plannumber);
+            ResultSet rs2 = ps2.executeQuery();
+            Integer num = null;
+            while (rs2.next()){
+                num = rs2.getInt("tasknum");
+            }
+            if(print.equals(num)){
+                return true;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (con != null)
+                    con.close();
+                if (ps1 != null)
+                    ps1.close();
+                if (ps2 != null)
+                    ps2.close();
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
+        }
+        return false;
     }
 }
