@@ -32,6 +32,7 @@ public class GetPreProduct extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         resp.setContentType("text/html;charset=UTF-8");
         String plannumber = req.getParameter("plannumber");
+        String materialcode = req.getParameter("materialcode");
         Connection con = null;
         int i = 0;
         try {
@@ -40,10 +41,18 @@ public class GetPreProduct extends HttpServlet {
             String sql = "select pid,materialcode,preproductid,standard,materialname,weigh,qc,fangliang,plannumber,print,concretegrade from preproduct where isdelete = 0 ";
             if (plannumber != null && !"".equals(plannumber)) {
                 sql += "and plannumber = ?";
+                i++;
+            }
+            if (materialcode != null && !"".equals(materialcode)) {
+                sql += " and materialcode = ?";
+                i++;
             }
             PreparedStatement ps = con.prepareStatement(sql);
+            if (materialcode != null && !"".equals(materialcode)) {
+                ps.setString(i--, materialcode);
+            }
             if (plannumber != null && !"".equals(plannumber)) {
-                ps.setInt(1, Integer.parseInt(plannumber));
+                ps.setString(i, plannumber);
             }
             ResultSet rs = ps.executeQuery();
             Map<String, List<Map<String, Object>>> data = new HashMap<>();

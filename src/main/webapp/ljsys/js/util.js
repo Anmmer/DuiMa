@@ -9,7 +9,6 @@ function outputWorkbook(workbook) {
     let worksheet = workbook.Sheets[sheetNames[0]]; // 只能通过工作表名称来获取指定工作表
     //检测excel表格式
     let plan = {};
-    console.log(worksheet)
     if (worksheet['A8'] !== undefined) {
         plan.planname = worksheet['A8'].v.split('：')[1];
     } else {
@@ -36,7 +35,8 @@ function outputWorkbook(workbook) {
     if (worksheet['G9'] !== undefined) {
         plan.liner = worksheet['G9'].v;
     } else {
-        plan.liner = '';
+        alert("线长不能为空！");
+        return
     }
 
     let row = 10;
@@ -69,8 +69,8 @@ function outputWorkbook(workbook) {
         col = 67;
         preProduct.push(object);
     } while (row < num)
-    plan.tasksqure = worksheet['G' + num]
-    plan.tasknum = worksheet['H' + num]
+    plan.tasksqure = worksheet['G' + num].v;
+    plan.tasknum = preProduct.length;
     excelData.plan = plan;
     excelData.preProduct = preProduct;
     // excelDatas.push(excelData);

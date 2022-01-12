@@ -19,7 +19,7 @@
         <div style="height: 70%;">
             <table class="table" cellspacing="0" cellpadding="0" width="100%" align="center" border="1">
                 <tr>
-                    <td class='tdStyle_title' style="width: 3%;"><input type="checkbox"></td>
+                    <td class='tdStyle_title' style="width: 3%;"><input id="plan_checkbok" type="checkbox"></td>
                     <td class='tdStyle_title' style="width: 10%">计划编号</td>
                     <td class='tdStyle_title' style="width: 10%">项目名称</td>
                     <td class='tdStyle_title' style="width: 8%">打印状态</td>
@@ -73,13 +73,18 @@
                 <label for="print_line" style="margin-left: 1%">产线：</label><input id="print_line" style="width: 15%"
                                                                                   disabled>
                 <label for="updatedate" style="margin-left: 1%">最后修改时间：</label><input id="updatedate" style="width: 15%"
-                                                                                      disabled><br>
+                                                                                      disabled>
+                <label for="print_materialcode" style="margin-left: 1%">物料编码：</label><input id="print_materialcode"
+                                                                                            style="width: 14%">
                 <label for="print_planname">项目名称：</label><input id="print_planname" style="width: 15%" disabled>
                 <label for="print_liner" style="margin-left: 1%">线长：</label><input id="print_liner"
                                                                                    style="width: 15%;margin-top: 3%;"
                                                                                    disabled>
                 <label for="print_plantime" style="margin-left: 1%">计划生产时间：</label><input id="print_plantime"
                                                                                           style="width: 15%" disabled>
+                <button id="pop_query_button" onclick="query()" style="margin-left:16%;width: 8%">查&nbsp;&nbsp;询
+                </button>
+
             </div>
             <div id="pop_input" style="width: 100%;height: 23%">
                 <input type="file" id="excel-file"
@@ -103,19 +108,21 @@
                 </div>
             </div>
             <div style="height: 62%;margin-top: 2%">
-                <table class="pop_table" cellspacing="0" cellpadding="0" width="100%" align="center" border="1">
+                <table class="hiddenTDOverFlowContent" cellspacing="0" cellpadding="0" width="100%" align="center"
+                       border="1">
                     <tr id="table_tr">
-                        <td class='table_tr_print tdStyle_title' style="width: 4%;"><input id="" type="checkbox"></td>
-                        <td class='tdStyle_title' style="width: 10%">物料编号</td>
-                        <td class='tdStyle_title' style="width: 10%">物料名称</td>
-                        <td class='tdStyle_title' style="width: 8%">构建编号</td>
+                        <td class='table_tr_print tdStyle_title' style="width: 2%;"><input id="detail_checkbok"
+                                                                                           type="checkbox"></td>
+                        <td class='tdStyle_title' style="width: 14%">物料编号</td>
+                        <td class='tdStyle_title' style="width: 20%">物料名称</td>
+                        <td class='tdStyle_title' style="width: 10%">构建编号</td>
                         <td class='tdStyle_title' style="width: 10%">规格</td>
-                        <td class='tdStyle_title' style="width: 8%">方量</td>
+                        <td class='tdStyle_title' style="width: 6%">方量</td>
                         <td class='tdStyle_title' style="width: 6%">重量</td>
-                        <td class='tdStyle_title' style="width: 7%">砼标号</td>
+                        <td class='tdStyle_title' style="width: 6%">砼标号</td>
                         <td class='table_tr_print tdStyle_title' style="width: 6%">质检员</td>
                         <td class='table_tr_print tdStyle_title' style='width: 6%'>打印数</td>
-                        <td class='table_tr_print tdStyle_title' style="width: 4%;">操作</td>
+                        <td class='table_tr_print tdStyle_title' style="width: 5%;">操作</td>
                     </tr>
                     <tbody id="detailTableText">
                     </tbody>
@@ -185,6 +192,8 @@
     let printsData = [] //打印的数据
     let print = false;  //是否显示打印勾选按钮
     let plannumber = null; //
+    let plan_i = 0;       //两个函数的绑定
+    let det_i = 0;        ////两个函数的绑定
 
     window.onload = getTableData();
 
@@ -204,6 +213,8 @@
     //关闭弹窗
     function closePop() {
         $(".pop_up").hide();
+        $("#detail_checkbok").prop("checked", false);
+        det_i = 0;
         reset();
     }
 
@@ -257,6 +268,12 @@
         let endDate = $('#endDate').val();
         let planname = $('#planname').val();
         let materialcode = $('#materialcode').val();
+        if (startDate !== '' && endDate !== '') {
+            if (startDate > endDate) {
+                alert("开始时间不能大于结束时间！");
+                return;
+            }
+        }
         let obj = {
             'startDate': startDate,
             'endDate': endDate,
@@ -288,9 +305,14 @@
             }
         })
     }
+
     //构建删除刷新页面
     function query() {
-        $.post("${pageContext.request.contextPath}/GetPreProduct", {plannumber: plannumber}, function (result) {
+        let materialcode = $('#print_materialcode').val();
+        $.post("${pageContext.request.contextPath}/GetPreProduct", {
+            plannumber: plannumber,
+            materialcode: materialcode
+        }, function (result) {
             result = JSON.parse(result);
             excelData.preProduct = result.data;
             updateTable(true);
@@ -336,6 +358,33 @@
         })
     }
 
+
+    //全选
+    $("#plan_checkbok").on("click", function () {
+        if (plan_i == 0) {
+            //把所有复选框选中
+            $("#planTableText td :checkbox").prop("checked", true);
+            plan_i = 1;
+        } else {
+            $("#planTableText td :checkbox").prop("checked", false);
+            plan_i = 0;
+        }
+
+    });
+
+    //全选
+    $("#detail_checkbok").on("click", function () {
+        if (det_i == 0) {
+            //把所有复选框选中
+            $("#detailTableText td :checkbox").prop("checked", true);
+            det_i = 1;
+        } else {
+            $("#detailTableText td :checkbox").prop("checked", false);
+            det_i = 0;
+        }
+
+    });
+
     function delDetailData(pid) {
         let obj = [];
         if (pid === undefined) { //批量删除
@@ -353,7 +402,10 @@
         if (r === false) {
             return;
         }
-        $.post("${pageContext.request.contextPath}/DeletePreProduct", {pids: JSON.stringify(obj),plannumber:excelData.plan.plannumber}, function (result) {
+        $.post("${pageContext.request.contextPath}/DeletePreProduct", {
+            pids: JSON.stringify(obj),
+            plannumber: excelData.plan.plannumber
+        }, function (result) {
             result = JSON.parse(result);
             alert(result.message);
             if (result.flag) {
@@ -404,16 +456,16 @@
                 } else {
                     str += "<tr>"
                 }
-                str += "<td class='tdStyle_body'>" + preProductData[i]['materialcode'] +
-                    "</td><td class='tdStyle_body'>" + preProductData[i]['materialname'] +
-                    "</td><td class='tdStyle_body'>" + preProductData[i]['preproductid'] +
-                    "</td><td class='tdStyle_body'>" + preProductData[i]['standard'] +
-                    "</td><td class='tdStyle_body'>" + preProductData[i]['fangliang'] +
-                    "</td><td class='tdStyle_body'>" + parseFloat(preProductData[i]['weigh']).toFixed(2) +
-                    "</td><td class='tdStyle_body'>" + preProductData[i]['concretegrade'];
+                str += "<td class='tdStyle_body' title='" + preProductData[i]['materialcode'] + "'>" + preProductData[i]['materialcode'] +
+                    "</td><td class='tdStyle_body' title='" + preProductData[i]['materialname'] + "'>" + preProductData[i]['materialname'] +
+                    "</td><td class='tdStyle_body' title='" + preProductData[i]['preproductid'] + "'>" + preProductData[i]['preproductid'] +
+                    "</td><td class='tdStyle_body' title='" + preProductData[i]['standard'] + "'>" + preProductData[i]['standard'] +
+                    "</td><td class='tdStyle_body' title='" + preProductData[i]['fangliang'] + "'>" + preProductData[i]['fangliang'] +
+                    "</td><td class='tdStyle_body' title='" + preProductData[i]['weigh'] + "'>" + preProductData[i]['weigh'] +
+                    "</td><td class='tdStyle_body' title='" + preProductData[i]['concretegrade'] + "'>" + preProductData[i]['concretegrade'];
                 if (print) {
-                    str +="</td><td class='tdStyle_body'>" + preProductData[i]['qc'] +
-                        "</td><td class='tdStyle_body'>" + preProductData[i]['print'] +
+                    str += "</td><td class='tdStyle_body' title='" + preProductData[i]['qc'] + "'>" + preProductData[i]['qc'] +
+                        "</td><td class='tdStyle_body' title='" + preProductData[i]['print'] + "'>" + preProductData[i]['print'] +
                         "</td><td class='tdStyle_body'><a href='#' onclick='delDetailData(" + preProductData[i]['pid'] + ")'>删除</a>" +
                         "</td></tr>"
                 } else {
@@ -433,15 +485,15 @@
                     style = "style='background-color: red;'"
                 }
                 str += "<tr><td class='tdStyle_body'><input type='checkbox' data-id=" + jsonObj[i]["plannumber"] + ">" +
-                    "</td><td class='tdStyle_body'>" + jsonObj[i]['plannumber'] +
-                    "</td><td class='tdStyle_body'>" + jsonObj[i]['planname'] +
-                    "</td><td class='tdStyle_body'" + style + ">" + state +
-                    "</td><td class='tdStyle_body'>" + jsonObj[i]['plant'] +
-                    "</td><td class='tdStyle_body'>" + jsonObj[i]['plantime'] +
-                    "</td><td class='tdStyle_body'>" + jsonObj[i]['line'] +
-                    "</td><td class='tdStyle_body'>" + jsonObj[i]['build'] +
-                    "</td><td class='tdStyle_body'>" + jsonObj[i]['tasknum'] +
-                    "</td><td class='tdStyle_body'>" + jsonObj[i]['tasksqure'] +
+                    "</td><td class='tdStyle_body' title='" + jsonObj[i]['plannumber'] + "'>" + jsonObj[i]['plannumber'] +
+                    "</td><td class='tdStyle_body' title='" + jsonObj[i]['plannumber'] + "'>" + jsonObj[i]['planname'] +
+                    "</td><td class='tdStyle_body' title='" + jsonObj[i]['state'] + "'" + style + ">" + state +
+                    "</td><td class='tdStyle_body' title='" + jsonObj[i]['plant'] + "'>" + jsonObj[i]['plant'] +
+                    "</td><td class='tdStyle_body' title='" + jsonObj[i]['plantime'] + "'>" + jsonObj[i]['plantime'] +
+                    "</td><td class='tdStyle_body' title='" + jsonObj[i]['line'] + "'>" + jsonObj[i]['line'] +
+                    "</td><td class='tdStyle_body' title='" + jsonObj[i]['build'] + "'>" + jsonObj[i]['build'] +
+                    "</td><td class='tdStyle_body' title='" + jsonObj[i]['tasknum'] + "'>" + jsonObj[i]['tasknum'] +
+                    "</td><td class='tdStyle_body' title='" + jsonObj[i]['tasksqure'] + "'>" + jsonObj[i]['tasksqure'] +
                     "</td><td class='tdStyle_body'><a href='#' onclick='getDetailData(" + jsonObj[i]['plannumber'] + ")'>详情</a> <a href='#' onclick='delTableData(" + jsonObj[i]['plannumber'] + ")'>删除</a></td></tr>";
             }
             $("#planTableText").html(str);
@@ -723,7 +775,7 @@
             data: {
                 productIds: JSON.stringify(pids),
                 plannumber: printsData[0].plannumber,
-                tasknum:printsData[0].tasknum
+                tasknum: printsData[0].tasknum
             },
             success: function (res) {
                 if (res.flag) {
