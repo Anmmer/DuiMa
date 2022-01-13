@@ -9,8 +9,11 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -30,6 +33,7 @@ public class GetLine extends HttpServlet {
         PrintWriter out = resp.getWriter();
         String id = req.getParameter("id");
         Map<String, Object> result = new HashMap<>();
+        List<Map<String, Object>> list = new ArrayList<>();
         Connection con = null;
         PreparedStatement ps = null;
         try {
@@ -42,17 +46,15 @@ public class GetLine extends HttpServlet {
             if (id != null && !"".equals(id)) {
                 ps.setString(1, id);
             }
-            int i = ps.executeUpdate();
-            if (i > 0) {
-                result.put("message", "录入成功");
-                result.put("flag", true);
-                out.write(JSON.toJSONString(result));
-            } else {
-                result.put("message", "录入成功");
-                result.put("flag", true);
-                out.write(JSON.toJSONString(result));
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                Map<String, Object> map = new HashMap<>();
+                map.put("line",rs.getString("line"));
+                map.put("id",rs.getString("id"));
+                list.add(map);
             }
-
+            result.put("data", list);
+            out.write(JSON.toJSONString(result));
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
