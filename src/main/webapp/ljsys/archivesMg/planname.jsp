@@ -112,14 +112,12 @@
     }
 
     function getTableData() {
-        let planname = $('#planname').val();
-        let qc = $('#qc').val();
+        let query_planname = $('#query_planname').val();
         let obj = {
-            'planname': planname,
-            'qc': qc,
+            'planname': query_planname,
         }
         $.ajax({
-            url: "${pageContext.request.contextPath}/GetArchives",
+            url: "${pageContext.request.contextPath}/GetPlanName",
             type: 'post',
             dataType: 'json',
             data: obj,
@@ -155,7 +153,7 @@
 
     function queryData(id) {
         $.ajax({
-            url: "${pageContext.request.contextPath}/GetArchives",
+            url: "${pageContext.request.contextPath}/GetPlanName",
             type: 'post',
             dataType: 'json',
             data: {id: id},
@@ -176,7 +174,7 @@
         if (r === false) {
             return;
         }
-        $.post("${pageContext.request.contextPath}/DeleteArchives", {id: id}, function (result) {
+        $.post("${pageContext.request.contextPath}/DeletePlanName", {id: id}, function (result) {
             result = JSON.parse(result);
             alert(result.message);
             if (result.flag) {
@@ -194,7 +192,7 @@
             alert("请输入！");
             return;
         }
-        $.post("${pageContext.request.contextPath}/AddArchives", obj, function (result) {
+        $.post("${pageContext.request.contextPath}/AddPlanName", obj, function (result) {
             result = JSON.parse(result);
             alert(result.message);
             if (result.flag) {
@@ -207,12 +205,13 @@
     function edit(id) {
         let obj = {
             planname: $('#pop_planname').val(),
+            id: id
         }
         if (obj.planname === '') {
             alert("请输入！");
             return;
         }
-        $.post("${pageContext.request.contextPath}/UpdateArchives", obj, function (result) {
+        $.post("${pageContext.request.contextPath}/UpdatePlanName", obj, function (result) {
             result = JSON.parse(result);
             alert(result.message);
             if (result.flag) {

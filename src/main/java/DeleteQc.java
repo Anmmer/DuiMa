@@ -39,11 +39,11 @@ public class DeleteQc extends HttpServlet {
             ps.setString(1, id);
             int i = ps.executeUpdate();
             if (i > 0) {
-                result.put("message", "录入成功");
+                result.put("message", "删除成功");
                 result.put("flag", true);
                 out.write(JSON.toJSONString(result));
             } else {
-                result.put("message", "录入成功");
+                result.put("message", "删除成功");
                 result.put("flag", true);
                 out.write(JSON.toJSONString(result));
             }
