@@ -66,7 +66,10 @@
         </li>
         <ul class="ul_ListStyle" id="Equipment">
             <li class="li_ItemStyle" onclick="jumpTo('qrcodeQueryAll.jsp')">二维码设置</li>
-            <li class="li_ItemStyle" onclick="jumpTo('archivesMg.jsp')">档案信息管理</li>
+            <li class="li_ItemStyle" onclick="jumpTo('archivesPlanName.jsp')">项目管理</li>
+            <li class="li_ItemStyle" onclick="jumpTo('archivesLine.jsp')">产线管理</li>
+            <li class="li_ItemStyle" onclick="jumpTo('archivesPlant.jsp')">工厂管理</li>
+            <li class="li_ItemStyle" onclick="jumpTo('archivesQc.jsp')">质检员管理</li>
         </ul>
     </ul>
     <!--打印管理-->
