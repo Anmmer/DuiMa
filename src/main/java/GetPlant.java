@@ -32,25 +32,35 @@ public class GetPlant extends HttpServlet {
         resp.setContentType("text/html;charset=UTF-8");
         PrintWriter out = resp.getWriter();
         String id = req.getParameter("id");
+        String plant = req.getParameter("plant");
         Map<String, Object> result = new HashMap<>();
         List<Map<String, Object>> list = new ArrayList<>();
         Connection con = null;
         PreparedStatement ps = null;
+        int i = 0;
         try {
             con = DbUtil.getCon();
             String sql = "select plant,id from plant where isdelete = 0";
+            if (plant != null && !"".equals(plant)) {
+                sql += " and plant = ?";
+                i++;
+            }
             if (id != null && !"".equals(id)) {
-                sql += "and id = ?";
+                sql += " and id = ?";
+                i++;
             }
             ps = con.prepareStatement(sql);
             if (id != null && !"".equals(id)) {
-                ps.setString(1, id);
+                ps.setInt(i--, Integer.parseInt(id));
+            }
+            if (plant != null && !"".equals(plant)) {
+                ps.setString(i, plant);
             }
             ResultSet rs = ps.executeQuery();
-            if (rs.next()) {
+            while (rs.next()) {
                 Map<String, Object> map = new HashMap<>();
-                map.put("plant",rs.getString("plant"));
-                map.put("id",rs.getString("id"));
+                map.put("plant", rs.getString("plant"));
+                map.put("id", rs.getString("id"));
                 list.add(map);
             }
             result.put("data", list);

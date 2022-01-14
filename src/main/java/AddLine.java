@@ -55,7 +55,7 @@ public class AddLine extends HttpServlet {
             try {
                 if (con != null)
                     con.close();
-                if (ps!=null)
+                if (ps != null)
                     ps.close();
             } catch (SQLException throwables) {
                 throwables.printStackTrace();

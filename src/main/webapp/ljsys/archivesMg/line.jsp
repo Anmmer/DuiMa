@@ -51,10 +51,10 @@
             <div class="pop_title title2">产线信息修改</div>
             <div class="close_btn"><img src="./img/close.png" onclick="closePop()"></div>
             <div style="position: relative;left: 15%">
-                <label for="line">
+                <label for="pop_line">
                     产线信息:
                 </label>
-                <input name="line" id="line" style="margin-top: 5%"><br>
+                <input name="pop_line" id="pop_line" style="margin-top: 6%;margin-bottom: 5%"><br>
             </div>
             <div class="pop_footer" style="display: flex;align-items: center;justify-content: center;">
                 <button id="save" class="saveo save-btn">保存</button>
@@ -98,22 +98,18 @@
     //关闭弹窗
     function closePop() {
         $(".pop_up").hide();
-        pop_id = 0;
         reset();
     }
 
     //重置弹窗
     function reset() {
-        $('#pop_planname').val('');
-        $('#line').val('');
-        $('#plant').val('');
-        $('#pop_qc').val('');
+        $('#pop_line').val('');
     }
 
     function getTableData() {
         let query_line = $('#query_line').val();
         let obj = {
-            'planname': query_line,
+            'line': query_line,
         }
         $.ajax({
             url: "${pageContext.request.contextPath}/GetLine",
@@ -159,7 +155,7 @@
             contentType: 'application/x-www-form-urlencoded;charset=utf-8',
             success: function (res) {
                 if (res.data.length !== 0) {
-                    $('#pop_planname').val(res.data[0].planname);
+                    $('#pop_line').val(res.data[0].line);
                 }
             },
             error: function () {
@@ -203,10 +199,10 @@
 
     function edit(id) {
         let obj = {
-            pop_line: $('#pop_line').val(),
+            line: $('#pop_line').val(),
             id: id
         }
-        if (obj.planname === '') {
+        if (obj.line === '') {
             alert("请输入！");
             return;
         }

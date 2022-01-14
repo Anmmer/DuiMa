@@ -51,10 +51,10 @@
             <div class="pop_title title2">工厂信息修改</div>
             <div class="close_btn"><img src="./img/close.png" onclick="closePop()"></div>
             <div style="position: relative;left: 15%">
-                <label for="plant">
+                <label for="pop_plant">
                     工厂信息:
                 </label>
-                <input name="plant" id="plant" style="margin-top: 5%"><br>
+                <input name="pop_plant" id="pop_plant" style="margin-top: 6%;margin-bottom: 5%"><br>
             </div>
             <div class="pop_footer" style="display: flex;align-items: center;justify-content: center;">
                 <button id="save" class="saveo save-btn">保存</button>
@@ -104,8 +104,7 @@
 
     //重置弹窗
     function reset() {
-        $('#pop_planname').val('');
-        $('#plant').val('');
+        $('#pop_plant').val('');
     }
 
     function getTableData() {
@@ -157,7 +156,7 @@
             contentType: 'application/x-www-form-urlencoded;charset=utf-8',
             success: function (res) {
                 if (res.data.length !== 0) {
-                    $('#pop_planname').val(res.data[0].planname);
+                    $('#pop_plant').val(res.data[0].plant);
                 }
             },
             error: function () {
@@ -201,10 +200,10 @@
 
     function edit(id) {
         let obj = {
-            pop_plant: $('#pop_plant').val(),
+            plant: $('#pop_plant').val(),
             id: id
         }
-        if (obj.planname === '') {
+        if (obj.plant === '') {
             alert("请输入！");
             return;
         }

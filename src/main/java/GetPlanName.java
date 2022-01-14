@@ -32,22 +32,32 @@ public class GetPlanName extends HttpServlet {
         resp.setContentType("text/html;charset=UTF-8");
         PrintWriter out = resp.getWriter();
         String id = req.getParameter("id");
+        String planname = req.getParameter("planname");
         Map<String, Object> result = new HashMap<>();
         List<Map<String, Object>> list = new ArrayList<>();
         Connection con = null;
         PreparedStatement ps = null;
+        int i = 0;
         try {
             con = DbUtil.getCon();
             String sql = "select planname,id from planname where isdelete = 0";
+            if (planname != null && !"".equals(planname)) {
+                sql += " and planname = ?";
+                i++;
+            }
             if (id != null && !"".equals(id)) {
-                sql += "and id = ?";
+                sql += " and id = ?";
+                i++;
             }
             ps = con.prepareStatement(sql);
             if (id != null && !"".equals(id)) {
-                ps.setString(1, id);
+                ps.setInt(i--, Integer.parseInt(id));
+            }
+            if (planname != null && !"".equals(planname)) {
+                ps.setString(i, planname);
             }
             ResultSet rs = ps.executeQuery();
-            if (rs.next()) {
+            while (rs.next()) {
                 Map<String, Object> map = new HashMap<>();
                 map.put("planname",rs.getString("planname"));
                 map.put("id",rs.getString("id"));

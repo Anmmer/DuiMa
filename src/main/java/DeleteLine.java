@@ -25,7 +25,7 @@ public class DeleteLine extends HttpServlet {
     }
 
     @Override
-    protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         resp.setContentType("text/html;charset=UTF-8");
         PrintWriter out = resp.getWriter();
         String id = req.getParameter("id");
@@ -34,7 +34,7 @@ public class DeleteLine extends HttpServlet {
         PreparedStatement ps = null;
         try {
             con = DbUtil.getCon();
-            String sql = "update qc set isdelete = 1 where id = ?";
+            String sql = "update line set isdelete = 1 where id = ?";
             ps = con.prepareStatement(sql);
             ps.setString(1, id);
             int i = ps.executeUpdate();

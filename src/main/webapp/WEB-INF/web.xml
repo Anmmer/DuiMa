@@ -511,4 +511,36 @@
         <servlet-name>updateQc</servlet-name>
         <url-pattern>/UpdateQc</url-pattern>
     </servlet-mapping>
+    <servlet>
+        <servlet-name>getLine</servlet-name>
+        <servlet-class>GetLine</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>getLine</servlet-name>
+        <url-pattern>/GetLine</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>getPlanName</servlet-name>
+        <servlet-class>GetPlanName</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>getPlanName</servlet-name>
+        <url-pattern>/GetPlanName</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>getPlant</servlet-name>
+        <servlet-class>GetPlant</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>getPlant</servlet-name>
+        <url-pattern>/GetPlant</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>getQc</servlet-name>
+        <servlet-class>GetQc</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>getQc</servlet-name>
+        <url-pattern>/GetQc</url-pattern>
+    </servlet-mapping>
 </web-app>

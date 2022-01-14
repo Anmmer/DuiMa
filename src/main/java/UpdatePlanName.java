@@ -38,7 +38,7 @@ public class UpdatePlanName extends HttpServlet {
             String sql = "update planname set planname = ? where id = ?";
             ps = con.prepareStatement(sql);
             ps.setString(1, planname);
-            ps.setString(2, id);
+            ps.setInt(2, Integer.parseInt(id));
             int i = ps.executeUpdate();
             if (i > 0) {
                 result.put("message", "修改成功");

@@ -32,25 +32,35 @@ public class GetLine extends HttpServlet {
         resp.setContentType("text/html;charset=UTF-8");
         PrintWriter out = resp.getWriter();
         String id = req.getParameter("id");
+        String line = req.getParameter("line");
         Map<String, Object> result = new HashMap<>();
         List<Map<String, Object>> list = new ArrayList<>();
         Connection con = null;
         PreparedStatement ps = null;
+        int i = 0;
         try {
             con = DbUtil.getCon();
             String sql = "select line,id from line where isdelete = 0";
             if (id != null && !"".equals(id)) {
-                sql += "and id = ?";
+                sql += " and id = ?";
+                i++;
+            }
+            if (line != null && !"".equals(line)) {
+                sql += " and line = ?";
+                i++;
             }
             ps = con.prepareStatement(sql);
+            if (line != null && !"".equals(line)) {
+                ps.setString(i--, line);
+            }
             if (id != null && !"".equals(id)) {
-                ps.setString(1, id);
+                ps.setInt(i, Integer.parseInt(id));
             }
             ResultSet rs = ps.executeQuery();
-            if (rs.next()) {
+            while (rs.next()) {
                 Map<String, Object> map = new HashMap<>();
-                map.put("line",rs.getString("line"));
-                map.put("id",rs.getString("id"));
+                map.put("line", rs.getString("line"));
+                map.put("id", rs.getString("id"));
                 list.add(map);
             }
             result.put("data", list);

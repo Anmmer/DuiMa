@@ -24,7 +24,8 @@ function outputWorkbook(workbook) {
     if (worksheet['H7'] !== undefined) {
         plan.line = worksheet['H7'].v;
     } else {
-        plan.line = '';
+        alert("产线不能为空！")
+        return;
     }
     if (worksheet['G8'] !== undefined) {
         plan.plantime = worksheet['G8'].v.split('：')[1];

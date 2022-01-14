@@ -52,10 +52,10 @@
             <div class="pop_title title2">项目信息修改</div>
             <div class="close_btn"><img src="./img/close.png" onclick="closePop()"></div>
             <div style="position: relative;left: 15%">
-                <label for="line">
+                <label for="pop_planname">
                     项目信息:
                 </label>
-                <input name="line" id="line" style="margin-top: 5%"><br>
+                <input name="pop_planname" id="pop_planname" style="margin-top: 6%;margin-bottom: 5%"><br>
             </div>
             <div class="pop_footer" style="display: flex;align-items: center;justify-content: center;">
                 <button id="save" class="saveo save-btn">保存</button>
@@ -99,16 +99,12 @@
     //关闭弹窗
     function closePop() {
         $(".pop_up").hide();
-        pop_id = 0;
         reset();
     }
 
     //重置弹窗
     function reset() {
         $('#pop_planname').val('');
-        $('#line').val('');
-        $('#plant').val('');
-        $('#pop_qc').val('');
     }
 
     function getTableData() {

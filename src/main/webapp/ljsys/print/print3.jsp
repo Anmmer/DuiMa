@@ -104,7 +104,7 @@
                                                                                                    disabled>
                     <label for="plantime" style="margin-left: 1%">计划生产时间：</label><input id="plantime" style="width: 15%"
                                                                                         disabled>
-                    <label for="qc" style="margin-left: 1%">质检员：</label><input id="qc" style="width: 15%" disabled>
+                    <label for="qc" style="margin-left: 1%">质检员：</label><select id="qc" style="width: 15%"></select>
                 </div>
             </div>
             <div style="height: 62%;margin-top: 2%">
@@ -207,6 +207,7 @@
         $(".pop_footer").show();
         $('.table_tr_print').hide();
         $('#pop_query').hide();
+        getArchives();
         print = false;
     }
 
@@ -243,8 +244,13 @@
             alert("请输入楼栋楼层！")
             return;
         }
-        excelData.plan.build = $('#build').val();
+        if ($('#qc option:selected').val() == 0) {
+            alert('请选择质检员！');
+            return;
+        }
         if (Object.keys(excelData).length !== 0) {
+            excelData.plan.qc = $('#qc option:selected').val();
+            excelData.plan.build = $('#build').val();
             $.post("${pageContext.request.contextPath}/AddPlan", {str: JSON.stringify(excelData)}, function (result) {
                 let jsonObject = JSON.parse(result)
                 alert(jsonObject.message);
@@ -553,12 +559,6 @@
                     alert('构件号：' + str + ']已存在');
                     return;
                 }
-                let qc = getArchives(excelData.plan.planname, excelData.plan.line, excelData.plan.plant);
-                if (qc === null) {
-                    return;
-                }
-                excelData.plan.qc = qc;
-                $('#qc').val(qc);
                 $('#pop_planname').val(excelData.plan.planname);
                 $('#line').val(excelData.plan.line);
                 $('#plantime').val(excelData.plan.plantime);
@@ -571,32 +571,30 @@
         reader.readAsBinaryString(file);
     });
 
-    function getArchives(planname, line, plant) {
-        let obj = {
-            'planname': planname,
-            'line': line,
-            'plant': plant
-        }
-        let qc = null;
+    function getArchives() {
         $.ajax({
-            url: "${pageContext.request.contextPath}/GetArchives",
+            url: "${pageContext.request.contextPath}/GetQc",
             type: 'post',
             dataType: 'json',
-            async: false,
-            data: obj,
+            data: null,
             contentType: 'application/x-www-form-urlencoded;charset=utf-8',
             success: function (res) {
                 if (res.data.length !== 0) {
-                    qc = res.data[0].qc;
+                    let data = res.data;
+                    let qc = document.getElementById("qc");
+                    $('#qc').empty();
+                    qc.options.add(new Option('', 0));
+                    for (let i = 0; i < data.length; i++) {
+                        qc.options.add(new Option(data[i].qc, data[i].qc))
+                    }
                 } else {
-                    alert("该项目产线质检员不存在！，请先在基础档案管理录入质检员信息")
+                    alert("产线质检员不存在！，请先在基础档案管理录入质检员信息")
                 }
             },
             error: function () {
                 alert("查询失败！")
             }
         });
-        return qc;
     }
 
     //上一页、下一页

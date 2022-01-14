@@ -50,10 +50,10 @@
             <div class="pop_title title2">质检员信息修改</div>
             <div class="close_btn"><img src="./img/close.png" onclick="closePop()"></div>
             <div style="position: relative;left: 15%">
-                <label for="qc">
+                <label for="pop_qc">
                     质检员信息:
                 </label>
-                <input name="qc" id="qc" style="margin-top: 5%"><br>
+                <input name="pop_qc" id="pop_qc" style="margin-top: 6%;margin-bottom: 5%"><br>
             </div>
             <div class="pop_footer" style="display: flex;align-items: center;justify-content: center;">
                 <button id="save" class="saveo save-btn">保存</button>
@@ -97,7 +97,6 @@
     //关闭弹窗
     function closePop() {
         $(".pop_up").hide();
-        pop_id = 0;
         reset();
     }
 
@@ -109,7 +108,7 @@
     function getTableData() {
         let query_qc = $('#query_qc').val();
         let obj = {
-            'qc': query_qc,
+            qc: query_qc,
         }
         $.ajax({
             url: "${pageContext.request.contextPath}/GetQc",

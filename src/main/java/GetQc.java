@@ -32,25 +32,35 @@ public class GetQc extends HttpServlet {
         resp.setContentType("text/html;charset=UTF-8");
         PrintWriter out = resp.getWriter();
         String id = req.getParameter("id");
+        String qc = req.getParameter("qc");
         Map<String, Object> result = new HashMap<>();
         List<Map<String, Object>> list = new ArrayList<>();
         Connection con = null;
         PreparedStatement ps = null;
+        int i = 0;
         try {
             con = DbUtil.getCon();
             String sql = "select qc,id from qc where isdelete = 0";
+            if (qc != null && !"".equals(qc)) {
+                sql += " and qc = ?";
+                i++;
+            }
             if (id != null && !"".equals(id)) {
-                sql += "and id = ?";
+                sql += " and id = ?";
+                i++;
             }
             ps = con.prepareStatement(sql);
             if (id != null && !"".equals(id)) {
-                ps.setString(1, id);
+                ps.setInt(i--, Integer.parseInt(id));
+            }
+            if (qc != null && !"".equals(qc)) {
+                ps.setString(i, qc);
             }
             ResultSet rs = ps.executeQuery();
-            if (rs.next()) {
+            while (rs.next()) {
                 Map<String, Object> map = new HashMap<>();
-                map.put("qc",rs.getString("qc"));
-                map.put("id",rs.getString("id"));
+                map.put("qc", rs.getString("qc"));
+                map.put("id", rs.getString("id"));
                 list.add(map);
             }
             result.put("data", list);
