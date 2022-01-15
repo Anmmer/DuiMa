@@ -46,11 +46,11 @@
                 </button>
             </div>
         </div>
-        <div class="pop_up" style="width: 20%;left: 47%;top:23%;height: auto">
+        <div class="pop_up" style="width: 25%;left: 47%;top:23%;height: 25%">
             <div class="pop_title title1">工厂信息新增</div>
             <div class="pop_title title2">工厂信息修改</div>
             <div class="close_btn"><img src="./img/close.png" onclick="closePop()"></div>
-            <div style="position: relative;left: 15%">
+            <div style="position: relative;left: 15%;height: 40%;margin: 0 auto">
                 <label for="pop_plant">
                     工厂信息:
                 </label>

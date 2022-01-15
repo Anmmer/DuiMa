@@ -215,6 +215,8 @@
     function closePop() {
         $(".pop_up").hide();
         $("#detail_checkbok").prop("checked", false);
+        $("#print_materialcode")
+        $("#detailTableText td :checkbox").prop("checked", false);
         det_i = 0;
         reset();
     }
@@ -336,7 +338,6 @@
                 excelData.plan = jsonObj.find((item) => {
                     return item.plannumber == plannumber_p;
                 });
-                console.log(excelData.plan)
                 if (excelData.preProduct.length === 0) {
                     pop_count = 1;
                 } else {
@@ -501,7 +502,7 @@
                     "</td><td class='tdStyle_body' title='" + jsonObj[i]['build'] + "'>" + jsonObj[i]['build'] +
                     "</td><td class='tdStyle_body' title='" + jsonObj[i]['tasknum'] + "'>" + jsonObj[i]['tasknum'] +
                     "</td><td class='tdStyle_body' title='" + jsonObj[i]['tasksqure'] + "'>" + jsonObj[i]['tasksqure'] +
-                    "</td><td class='tdStyle_body'><a href='#' onclick='getDetailData(" + jsonObj[i]['plannumber'] + ")'>详情</a> <a href='#' onclick='delTableData(" + jsonObj[i]['plannumber'] + ")'>删除</a></td></tr>";
+                    "</td><td class='tdStyle_body'><a href='#' onclick='getDetailData(" + jsonObj[i]['plannumber'] + ")'>详情</a></td></tr>";
             }
             $("#planTableText").html(str);
         }
@@ -584,7 +585,7 @@
                     let data = res.data;
                     let qc = document.getElementById("qc");
                     $('#qc').empty();
-                    qc.options.add(new Option('', 0));
+                    // qc.options.add(new Option('', 0));
                     for (let i = 0; i < data.length; i++) {
                         qc.options.add(new Option(data[i].qc, data[i].qc))
                     }
@@ -753,7 +754,8 @@
             printsData = excelData.preProduct;
         }
         let str = ''
-        console.log(printsData)
+
+
         printsData.forEach((item) => {
             if (item.print > 0) {
                 str += item.preproductid + '，';
@@ -914,8 +916,7 @@
         window.document.body.innerHTML = prnhtml;
         window.print();
         window.document.body.innerHTML = bdhtml;
-        closePop();
-        getTableData();
+        location.reload();
         printsData = []
     }
 

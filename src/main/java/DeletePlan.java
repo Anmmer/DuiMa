@@ -52,12 +52,12 @@ public class DeletePlan extends HttpServlet {
         try {
             con = DbUtil.getCon();
             ps1 = con.prepareStatement(sql_plan.toString());
-            ps2 = con.prepareStatement(sql_plan.toString());
+            ps2 = con.prepareStatement(sql_pre.toString());
             for (int j = 0; j < jsonArray.size(); j++) {
-                ps1.setInt(j + 1, Integer.parseInt((String) jsonArray.get(j)));
+                ps1.setString(j + 1, jsonArray.getString(j));
             }
             for (int j = 0; j < jsonArray.size(); j++) {
-                ps2.setInt(j + 1, Integer.parseInt((String) jsonArray.get(j)));
+                ps2.setString(j + 1, jsonArray.getString(j));
             }
             int i = ps1.executeUpdate();
             ps2.executeUpdate();

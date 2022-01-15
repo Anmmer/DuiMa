@@ -6,11 +6,11 @@
     </div>
     <div style="width: 70%;height:85%;margin: 0 auto">
         <button style="position:absolute;top: 19%;width: 5%" onclick="openAddPop()">新 增</button>
-        <h3 style="text-align: center;margin-top: 0;">工厂列表</h3>
+        <h3 style="text-align: center;margin-top: 0;">质检员列表</h3>
         <div style="height: 70%;">
             <table class="table" cellspacing="0" cellpadding="0" width="100%" align="center" border="1">
                 <tr>
-                    <td class='tdStyle_title'>工厂信息</td>
+                    <td class='tdStyle_title'>质检员信息</td>
                     <td class='tdStyle_title' style="width: 20%">操作</td>
                 </tr>
                 <tbody id="archTableText">
@@ -45,11 +45,11 @@
                 </button>
             </div>
         </div>
-        <div class="pop_up" style="width: 20%;left: 47%;top:23%;height: auto">
+        <div class="pop_up" style="width: 25%;left: 47%;top:23%;height: 25%">
             <div class="pop_title title1">质检员信息新增</div>
             <div class="pop_title title2">质检员信息修改</div>
             <div class="close_btn"><img src="./img/close.png" onclick="closePop()"></div>
-            <div style="position: relative;left: 15%">
+            <div style="position: relative;left: 15%;height: 40%;margin: 0 auto">
                 <label for="pop_qc">
                     质检员信息:
                 </label>
