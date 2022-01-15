@@ -17,7 +17,7 @@
                 <p id="userInfo" style="margin: 0 0;float: right;font-family: 宋体;font-size:16px;line-height: 40px;">TEXT</p>
             </div>
             <!-- 内容窗口 -->
-            <%@ include file="./qrcode/info.jsp" %>
+            <%@ include file="qrcode/info.jsp" %>
         </div>
         <script type="text/javascript">
             if(sessionStorage.getItem("userName")==null){

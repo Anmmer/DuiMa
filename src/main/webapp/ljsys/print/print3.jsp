@@ -75,7 +75,7 @@
                 <label for="updatedate" style="margin-left: 1%">最后修改时间：</label><input id="updatedate" style="width: 15%"
                                                                                       disabled>
                 <label for="print_materialcode" style="margin-left: 1%">物料编码：</label><input id="print_materialcode"
-                                                                                            style="width: 14%">
+                                                                                            style="width: 14%"><br>
                 <label for="print_planname">项目名称：</label><input id="print_planname" style="width: 15%" disabled>
                 <label for="print_liner" style="margin-left: 1%">线长：</label><input id="print_liner"
                                                                                    style="width: 15%;margin-top: 3%;"
@@ -336,6 +336,7 @@
                 excelData.plan = jsonObj.find((item) => {
                     return item.plannumber == plannumber_p;
                 });
+                console.log(excelData.plan)
                 if (excelData.preProduct.length === 0) {
                     pop_count = 1;
                 } else {

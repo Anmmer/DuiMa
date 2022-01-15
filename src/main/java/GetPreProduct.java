@@ -69,7 +69,7 @@ public class GetPreProduct extends HttpServlet {
                 map.put("fangliang", rs.getString("fangliang"));
                 map.put("concretegrade", rs.getString("concretegrade"));
                 map.put("print", rs.getInt("print"));
-                map.put("plannumber", rs.getInt("plannumber"));
+                map.put("plannumber", rs.getString("plannumber"));
                 list.add(map);
             }
             data.put("data", list);

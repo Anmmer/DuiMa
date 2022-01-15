@@ -36,7 +36,7 @@ public class GetPlan extends HttpServlet {
         try {
             out = resp.getWriter();
             con = DbUtil.getCon();
-            String sql = "select plannumber,printstate,plant,plantime,line,planname,build,tasksqure,tasknum,updatedate from plan where isdelete = 0 ";
+            String sql = "select plannumber,printstate,plant,plantime,line,liner,planname,build,tasksqure,tasknum,updatedate from plan where isdelete = 0 ";
             if (!"".equals(startDate) && startDate != null) {
                 sql += " and plantime >= ?";
                 i++;
@@ -76,6 +76,7 @@ public class GetPlan extends HttpServlet {
                 map.put("plant", rs.getString("plant"));
                 map.put("plantime", rs.getDate("plantime"));
                 map.put("line", rs.getString("line"));
+                map.put("liner", rs.getString("liner"));
                 map.put("planname", rs.getString("planname"));
                 map.put("build", rs.getString("build"));
                 map.put("tasksqure", rs.getString("tasksqure"));
