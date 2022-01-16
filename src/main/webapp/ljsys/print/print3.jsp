@@ -585,6 +585,27 @@
         reader.readAsBinaryString(file);
     });
 
+    function getPlanName() {
+        $.ajax({
+            url: "${pageContext.request.contextPath}/GetDefaultQc",
+            type: 'post',
+            dataType: 'json',
+            data: null,
+            contentType: 'application/x-www-form-urlencoded;charset=utf-8',
+            success: function (res) {
+                if (res.data.length !== 0) {
+                    let data = res.data;
+                    $('#qc').find("option[value=" + data[0].qc + "]").attr('selected', true);
+                } else {
+                    alert("产线默认质检员不存在！，请先在基础档案管理设置默认质检员信息")
+                }
+            },
+            error: function () {
+                alert("查询失败！")
+            }
+        });
+    }
+
     function getDefaultQc() {
         $.ajax({
             url: "${pageContext.request.contextPath}/GetDefaultQc",
