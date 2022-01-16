@@ -403,6 +403,16 @@
                 alert("请勾选！")
                 return;
             }
+            let preproduct = excelData.preProduct;
+            fangliang = 0;
+            preproduct.forEach((item)=>{
+                obj.forEach((val)=>{
+                    if(item.pid ==val ){
+                        console.log()
+                        fangliang+=item.fangliang;
+                    }
+                })
+            })
         } else {
             obj.push(pid);
         }
@@ -410,6 +420,7 @@
         if (r === false) {
             return;
         }
+        console.log(fangliang)
         $.post("${pageContext.request.contextPath}/DeletePreProduct", {
             pids: JSON.stringify(obj),
             plannumber: excelData.plan.plannumber,

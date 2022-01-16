@@ -46,7 +46,7 @@ public class GetPlan extends HttpServlet {
                 i++;
             }
             if (!"".equals(planname) && planname != null) {
-                sql += " and planname = ?";
+                sql += " and planname like ?";
                 i++;
             }
             if (!"".equals(materialcode) && materialcode != null) {

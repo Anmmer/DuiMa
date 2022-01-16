@@ -64,9 +64,9 @@ public class GetPreProduct extends HttpServlet {
                 map.put("preproductid", rs.getString("preproductid"));
                 map.put("standard", rs.getString("standard"));
                 map.put("materialname", rs.getString("materialname"));
-                map.put("weigh", rs.getDouble("weigh"));
+                map.put("weigh", rs.getBigDecimal("weigh"));
                 map.put("qc", rs.getString("qc"));
-                map.put("fangliang", rs.getString("fangliang"));
+                map.put("fangliang", rs.getBigDecimal("fangliang"));
                 map.put("concretegrade", rs.getString("concretegrade"));
                 map.put("print", rs.getInt("print"));
                 map.put("plannumber", rs.getString("plannumber"));
