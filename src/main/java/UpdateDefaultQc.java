@@ -9,64 +9,41 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-/**
- * @description:
- * @author:
- * @createDate: 2022/1/13
- */
-public class AddQc extends HttpServlet {
+public class UpdateDefaultQc extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        super.doPost(req, resp);
+        super.doGet(req, resp);
     }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         resp.setContentType("text/html;charset=UTF-8");
         PrintWriter out = resp.getWriter();
-        String qc = req.getParameter("qc");
+        String id = req.getParameter("id");
         Map<String, Object> result = new HashMap<>();
         Connection con = null;
         PreparedStatement ps = null;
-        PreparedStatement ps2 = null;
         try {
             con = DbUtil.getCon();
-            String sql = "insert into qc(qc,isdelete) values(?,0)";
-            String sql2 = "select qc from qc where isdelete = 0";
+            String sql = "update default_qc set qc_id = ? where id = 1";
             ps = con.prepareStatement(sql);
-            ps.setString(1, qc);
-            ps2 = con.prepareStatement(sql2);
-            ResultSet rs = ps2.executeQuery();
-            List<String> list = new ArrayList<>();
-            while (rs.next()) {
-                list.add(rs.getString("qc"));
-            }
-            for (String str : list) {
-                if (str.equals(qc)) {
-                    result.put("message", "质检员信息重复");
-                    result.put("flag", false);
-                    out.write(JSON.toJSONString(result));
-                    return;
-                }
-            }
+            ps.setInt(1,Integer.parseInt(id));
             int i = ps.executeUpdate();
             if (i > 0) {
-                result.put("message", "录入成功");
+                result.put("message", "设置成功");
                 result.put("flag", true);
                 out.write(JSON.toJSONString(result));
             } else {
-                result.put("message", "录入成功");
-                result.put("flag", true);
+                result.put("message", "设置失败");
+                result.put("flag", false);
                 out.write(JSON.toJSONString(result));
             }
-
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
@@ -74,7 +51,7 @@ public class AddQc extends HttpServlet {
             try {
                 if (con != null)
                     con.close();
-                if (ps!=null)
+                if (ps != null)
                     ps.close();
             } catch (SQLException throwables) {
                 throwables.printStackTrace();

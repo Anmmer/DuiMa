@@ -55,10 +55,10 @@ public class GetPlan extends HttpServlet {
             }
             ps = con.prepareStatement(sql);
             if (!"".equals(materialcode) && materialcode != null) {
-                ps.setString(i--, materialcode);
+                ps.setString(i--, materialcode.trim());
             }
             if (!"".equals(planname) && planname != null) {
-                ps.setString(i--, "%"+planname+"%");
+                ps.setString(i--, "%"+planname.trim()+"%");
             }
             if (!"".equals(endDate) && endDate != null) {
                 ps.setDate(i--, new Date(sdf.parse(endDate).getTime()));

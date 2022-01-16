@@ -49,7 +49,7 @@ public class GetPreProduct extends HttpServlet {
             }
             PreparedStatement ps = con.prepareStatement(sql);
             if (materialcode != null && !"".equals(materialcode)) {
-                ps.setString(i--, materialcode);
+                ps.setString(i--, materialcode.trim());
             }
             if (plannumber != null && !"".equals(plannumber)) {
                 ps.setString(i, plannumber);

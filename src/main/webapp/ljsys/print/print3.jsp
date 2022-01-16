@@ -393,7 +393,7 @@
 
     });
 
-    function delDetailData(pid) {
+    function delDetailData(pid, fangliang) {
         let obj = [];
         if (pid === undefined) { //批量删除
             $('#detailTableText').find('input:checked').each(function () {
@@ -412,7 +412,8 @@
         }
         $.post("${pageContext.request.contextPath}/DeletePreProduct", {
             pids: JSON.stringify(obj),
-            plannumber: excelData.plan.plannumber
+            plannumber: excelData.plan.plannumber,
+            fangliang: fangliang
         }, function (result) {
             result = JSON.parse(result);
             alert(result.message);
@@ -474,7 +475,7 @@
                 if (print) {
                     str += "</td><td class='tdStyle_body' title='" + preProductData[i]['qc'] + "'>" + preProductData[i]['qc'] +
                         "</td><td class='tdStyle_body' title='" + preProductData[i]['print'] + "'>" + preProductData[i]['print'] +
-                        "</td><td class='tdStyle_body'><a href='#' onclick='delDetailData(" + preProductData[i]['pid'] + ")'>删除</a>" +
+                        "</td><td class='tdStyle_body'><a href='#' onclick='delDetailData(" + preProductData[i]['pid'] + "," + preProductData[i]['fangliang'] + ")'>删除</a>" +
                         "</td></tr>"
                 } else {
                     str += "</td></tr>"
@@ -573,6 +574,27 @@
         reader.readAsBinaryString(file);
     });
 
+    function getDefaultQc() {
+        $.ajax({
+            url: "${pageContext.request.contextPath}/GetDefaultQc",
+            type: 'post',
+            dataType: 'json',
+            data: null,
+            contentType: 'application/x-www-form-urlencoded;charset=utf-8',
+            success: function (res) {
+                if (res.data.length !== 0) {
+                    let data = res.data;
+                    $('#qc').find("option[value=" + data[0].qc + "]").attr('selected', true);
+                } else {
+                    alert("产线默认质检员不存在！，请先在基础档案管理设置默认质检员信息")
+                }
+            },
+            error: function () {
+                alert("查询失败！")
+            }
+        });
+    }
+
     function getArchives() {
         $.ajax({
             url: "${pageContext.request.contextPath}/GetQc",
@@ -596,6 +618,8 @@
             error: function () {
                 alert("查询失败！")
             }
+        }).then(() => {
+            getDefaultQc();
         });
     }
 

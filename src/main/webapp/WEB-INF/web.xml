@@ -543,4 +543,20 @@
         <servlet-name>getQc</servlet-name>
         <url-pattern>/GetQc</url-pattern>
     </servlet-mapping>
+    <servlet>
+        <servlet-name>updateDefaultQc</servlet-name>
+        <servlet-class>UpdateDefaultQc</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>updateDefaultQc</servlet-name>
+        <url-pattern>/UpdateDefaultQc</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>getDefaultQc</servlet-name>
+        <servlet-class>GetDefaultQc</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>getDefaultQc</servlet-name>
+        <url-pattern>/GetDefaultQc</url-pattern>
+    </servlet-mapping>
 </web-app>

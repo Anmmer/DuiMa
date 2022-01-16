@@ -10,6 +10,7 @@
         <div style="height: 70%;">
             <table class="table" cellspacing="0" cellpadding="0" width="100%" align="center" border="1">
                 <tr>
+                    <td class='tdStyle_title' style="width: 20%">默认质检员</td>
                     <td class='tdStyle_title'>质检员信息</td>
                     <td class='tdStyle_title' style="width: 20%">操作</td>
                 </tr>
@@ -74,6 +75,7 @@
     let num = 1;        //分页当前页
     let count = 1;      //分页总页数
     let jsonObj = [];   //档案信息
+    let checked = null;
 
     window.onload = getTableData();
 
@@ -133,16 +135,62 @@
                 alert("查询失败！")
                 setFooter();
             }
+        }).then(() => {
+            getDefaultQc();
+        })
+    }
+
+    function getDefaultQc() {
+        $.ajax({
+            url: "${pageContext.request.contextPath}/GetDefaultQc",
+            type: 'post',
+            dataType: 'json',
+            data: null,
+            contentType: 'application/x-www-form-urlencoded;charset=utf-8',
+            success: function (res) {
+                if (res.data !== undefined) {
+                    checked = res.data[0].id;
+                    console.log(checked)
+                    $("#checkbox_" + checked).prop("checked", true);
+                }
+            },
+            error: function () {
+                alert("查询失败！")
+            }
         })
     }
 
     function updateTable() {
         let str = '';
         for (let i = (num - 1) * 15; i < num * 15 && i < jsonObj.length; i++) {
-            str += "<tr><td class='tdStyle_body'>" + jsonObj[i]['qc'] +
+            str += "<tr><td class='tdStyle_body'><input type='checkbox' id='checkbox_" + jsonObj[i]['id'] + "' onchange='setDefaultQc(" + jsonObj[i]['id'] + ")'>" +
+                "</td><td class='tdStyle_body'>" + jsonObj[i]['qc'] +
                 "</td><td class='tdStyle_body'><a href='#' onclick='openEditPop(" + jsonObj[i]['id'] + ")'>修改</a> <a href='#' onclick='delTableData(" + jsonObj[i]['id'] + ")'>删除</a></td></tr>";
         }
         $("#archTableText").html(str);
+    }
+
+
+    function setDefaultQc(id) {
+        if (checked != null) {
+            $("#checkbox_" + checked).prop("checked", false);
+        }
+        checked = id;
+        $.ajax({
+            url: "${pageContext.request.contextPath}/UpdateDefaultQc",
+            type: 'post',
+            dataType: 'json',
+            data: {id: id},
+            contentType: 'application/x-www-form-urlencoded;charset=utf-8',
+            success: function (res) {
+                if (res.flag) {
+                    alert(res.message)
+                }
+            },
+            error: function () {
+                alert("查询失败！")
+            }
+        })
     }
 
     function queryData(id) {

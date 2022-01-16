@@ -1,16 +1,17 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <div style="height: 95%;width: 100%">
     <div style="position:relative;top: 5%;left: 15%;height:15%;width:70%;font-family: Simsun;font-size:16px;">
-        <label for="query_qc">质检员名称:</label><input id="query_qc" style="width: 15%;">
+        <label for="query_line" >产线:</label><input id="query_line" style="width: 15%;">
         <button style="width: 8%;margin-left: 5%" onclick="getTableData()">查 询</button>
+
     </div>
     <div style="width: 70%;height:85%;margin: 0 auto">
         <button style="position:absolute;top: 19%;width: 5%" onclick="openAddPop()">新 增</button>
-        <h3 style="text-align: center;margin-top: 0;">质检员列表</h3>
+        <h3 style="text-align: center;margin-top: 0;">产线列表</h3>
         <div style="height: 70%;">
             <table class="table" cellspacing="0" cellpadding="0" width="100%" align="center" border="1">
                 <tr>
-                    <td class='tdStyle_title'>质检员信息</td>
+                    <td class='tdStyle_title'>产线信息</td>
                     <td class='tdStyle_title' style="width: 20%">操作</td>
                 </tr>
                 <tbody id="archTableText">
@@ -46,14 +47,14 @@
             </div>
         </div>
         <div class="pop_up" style="width: 25%;left: 47%;top:23%;height: 25%">
-            <div class="pop_title title1">质检员信息新增</div>
-            <div class="pop_title title2">质检员信息修改</div>
+            <div class="pop_title title1">产线信息新增</div>
+            <div class="pop_title title2">产线信息修改</div>
             <div class="close_btn"><img src="./img/close.png" onclick="closePop()"></div>
             <div style="position: relative;left: 15%;height: 40%;margin: 0 auto">
-                <label for="pop_qc">
-                    质检员信息:
+                <label for="pop_line">
+                    产线信息:
                 </label>
-                <input name="pop_qc" id="pop_qc" style="margin-top: 6%;margin-bottom: 5%"><br>
+                <input name="pop_line" id="pop_line" style="margin-top: 6%;margin-bottom: 5%"><br>
             </div>
             <div class="pop_footer" style="display: flex;align-items: center;justify-content: center;">
                 <button id="save" class="saveo save-btn">保存</button>
@@ -102,16 +103,16 @@
 
     //重置弹窗
     function reset() {
-        $('#pop_qc').val('');
+        $('#pop_line').val('');
     }
 
     function getTableData() {
-        let query_qc = $('#query_qc').val();
+        let query_line = $('#query_line').val();
         let obj = {
-            qc: query_qc,
+            'line': query_line,
         }
         $.ajax({
-            url: "${pageContext.request.contextPath}/GetQc",
+            url: "${pageContext.request.contextPath}/GetLine",
             type: 'post',
             dataType: 'json',
             data: obj,
@@ -139,7 +140,7 @@
     function updateTable() {
         let str = '';
         for (let i = (num - 1) * 15; i < num * 15 && i < jsonObj.length; i++) {
-            str += "<tr><td class='tdStyle_body'>" + jsonObj[i]['qc'] +
+            str += "<tr><td class='tdStyle_body'>" + jsonObj[i]['line'] +
                 "</td><td class='tdStyle_body'><a href='#' onclick='openEditPop(" + jsonObj[i]['id'] + ")'>修改</a> <a href='#' onclick='delTableData(" + jsonObj[i]['id'] + ")'>删除</a></td></tr>";
         }
         $("#archTableText").html(str);
@@ -147,14 +148,14 @@
 
     function queryData(id) {
         $.ajax({
-            url: "${pageContext.request.contextPath}/GetQc",
+            url: "${pageContext.request.contextPath}/GetLine",
             type: 'post',
             dataType: 'json',
             data: {id: id},
             contentType: 'application/x-www-form-urlencoded;charset=utf-8',
             success: function (res) {
                 if (res.data.length !== 0) {
-                    $('#pop_qc').val(res.data[0].qc);
+                    $('#pop_line').val(res.data[0].line);
                 }
             },
             error: function () {
@@ -168,7 +169,7 @@
         if (r === false) {
             return;
         }
-        $.post("${pageContext.request.contextPath}/DeleteQc", {id: id}, function (result) {
+        $.post("${pageContext.request.contextPath}/DeleteLine", {id: id}, function (result) {
             result = JSON.parse(result);
             alert(result.message);
             if (result.flag) {
@@ -180,13 +181,13 @@
 
     function save() {
         let obj = {
-            qc: $('#pop_qc').val(),
+            line: $('#pop_line').val(),
         }
-        if (obj.qc === '') {
+        if (obj.line === '') {
             alert("请输入！");
             return;
         }
-        $.post("${pageContext.request.contextPath}/AddQc", obj, function (result) {
+        $.post("${pageContext.request.contextPath}/AddLine", obj, function (result) {
             result = JSON.parse(result);
             alert(result.message);
             if (result.flag) {
@@ -198,14 +199,14 @@
 
     function edit(id) {
         let obj = {
-            qc: $('#pop_qc').val(),
+            line: $('#pop_line').val(),
             id: id
         }
-        if (obj.qc === '') {
+        if (obj.line === '') {
             alert("请输入！");
             return;
         }
-        $.post("${pageContext.request.contextPath}/UpdateQc", obj, function (result) {
+        $.post("${pageContext.request.contextPath}/UpdateLine", obj, function (result) {
             result = JSON.parse(result);
             alert(result.message);
             if (result.flag) {

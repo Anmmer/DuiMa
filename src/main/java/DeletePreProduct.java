@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
@@ -28,6 +29,7 @@ public class DeletePreProduct extends HttpServlet {
         resp.setContentType("text/html;charset=UTF-8");
         String pids = req.getParameter("pids");
         String plannumber = req.getParameter("plannumber");
+        String fangliang = req.getParameter("fangliang");
         JSONArray jsonArray = JSONObject.parseArray(pids);
         Connection con = null;
         PreparedStatement ps1 = null;
@@ -36,7 +38,7 @@ public class DeletePreProduct extends HttpServlet {
         PrintWriter out = resp.getWriter();
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         StringBuilder sql1 = new StringBuilder("update preproduct set isdelete = 1 where pid in (");
-        String sql2 = "update plan set tasknum = tasknum - ? where plannumber = ?";
+        String sql2 = "update plan set tasknum = tasknum - ? , tasksqure = tasksqure - ? where plannumber = ?";
         StringBuilder sql3 = new StringBuilder("update plan set updatedate = ?");
         if (jsonArray.size() == 1) {
             sql1.append("?)");
@@ -52,22 +54,23 @@ public class DeletePreProduct extends HttpServlet {
             con = DbUtil.getCon();
             ps1 = con.prepareStatement(sql1.toString());
             ps2 = con.prepareStatement(sql2);
-            ps2.setInt(1,jsonArray.size());
-            ps2.setString(2,plannumber);
+            ps2.setInt(1, jsonArray.size());
+            ps2.setBigDecimal(2, new BigDecimal(fangliang));
+            ps2.setString(3, plannumber);
             for (int j = 0; j < jsonArray.size(); j++) {
                 ps1.setInt(j + 1, jsonArray.getInteger(j));
             }
             int i = ps1.executeUpdate();
             ps2.executeUpdate();
-            if(PrintPreProduct.getPrintState(plannumber)){
+            if (PrintPreProduct.getPrintState(plannumber)) {
                 sql3.append(",printstate = 1");
-            }else{
+            } else {
                 sql3.append(",printstate = 0");
             }
             sql3.append(" where plannumber = ?");
             ps3 = con.prepareStatement(sql3.toString());
-            ps3.setDate(1,new Date(new java.util.Date().getTime()));
-            ps3.setString(2,plannumber);
+            ps3.setDate(1, new Date(new java.util.Date().getTime()));
+            ps3.setString(2, plannumber);
             ps3.executeUpdate();
             if (i < 0) {
                 map.put("flag", false);

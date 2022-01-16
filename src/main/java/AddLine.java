@@ -9,8 +9,11 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -32,11 +35,27 @@ public class AddLine extends HttpServlet {
         Map<String, Object> result = new HashMap<>();
         Connection con = null;
         PreparedStatement ps = null;
+        PreparedStatement ps2 = null;
         try {
             con = DbUtil.getCon();
             String sql = "insert into line(line,isdelete) values(?,0)";
+            String sql2 = "select line from line where isdelete = 0";
             ps = con.prepareStatement(sql);
             ps.setString(1, line);
+            ps2 = con.prepareStatement(sql2);
+            ResultSet rs = ps2.executeQuery();
+            List<String> list = new ArrayList<>();
+            while (rs.next()) {
+                list.add(rs.getString("line"));
+            }
+            for (String str : list) {
+                if (str.equals(line)) {
+                    result.put("message", "产线重复");
+                    result.put("flag", false);
+                    out.write(JSON.toJSONString(result));
+                    return;
+                }
+            }
             int i = ps.executeUpdate();
             if (i > 0) {
                 result.put("message", "录入成功");
