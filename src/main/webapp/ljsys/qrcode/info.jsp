@@ -402,20 +402,28 @@
     function addContent() {
         // 添加内容
         let selectedValue = $("#valuesFrom").val();
-        let selectedContent = $("#valuesFrom option:selected").text();
-        let newOption = $("<option></option>").attr("value", selectedValue)
-        newOption.text(selectedContent)
-        $("#valuesFrom option[value = " + selectedValue + "]").remove();
-        $("#valuesTo").append(newOption);
+        if (selectedValue !== null) {
+            let selectedContent = $("#valuesFrom option:selected").text();
+            let newOption = $("<option></option>").attr("value", selectedValue)
+            newOption.text(selectedContent)
+            $("#valuesFrom option[value = " + selectedValue + "]").remove();
+            $("#valuesTo").append(newOption);
+        } else {
+            alert("请选择！")
+        }
     }
 
     function delContent() {
         let selectedValue = $("#valuesTo").val();
-        let selectedContent = $("#valuesTo option:selected").text();
-        $("#valuesTo option[value = " + selectedValue + "]").remove();
-        let newOption = $("<option></option>").attr("value", selectedValue)
-        newOption.text(selectedContent)
-        $("#valuesFrom").append(newOption);
+        if (selectedValue !== null) {
+            let selectedContent = $("#valuesTo option:selected").text();
+            $("#valuesTo option[value = " + selectedValue + "]").remove();
+            let newOption = $("<option></option>").attr("value", selectedValue)
+            newOption.text(selectedContent)
+            $("#valuesFrom").append(newOption);
+        } else {
+            alert("请选择！")
+        }
     }
 
     function printLabel() {
