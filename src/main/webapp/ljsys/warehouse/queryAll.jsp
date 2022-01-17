@@ -21,7 +21,7 @@
 <div style="height:10%;width:100%;background-color: white;">
     <div style="width:70%;height:100%;margin:0 auto;background-color: white;">
         <div style="height:20px;width:100%"></div>
-        <button>返回</button>
+        <button onclick="returnLastPage()">返回</button>
         <div style="height:20px;width:100%"></div>
         <div>
             <span class="pStyle">仓库组织名:</span><span class="pStyle" id="factoryName"></span>
@@ -360,6 +360,10 @@
                     window.alert("删除失败!请查看您的网络状态或联系运维人员!")
                 }
             })
+        }
+
+        function returnLastPage() {
+            window.history.go(-1);
         }
     </script>
 </div>

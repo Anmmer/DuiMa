@@ -192,8 +192,8 @@
     let printsData = [] //打印的数据
     let print = false;  //是否显示打印勾选按钮
     let plannumber = null; //
-    let plan_i = 0;       //两个函数的绑定
-    let det_i = 0;        ////两个函数的绑定
+    let plan_i = 0;       //两个函数的绑定全选
+    let det_i = 0;        //两个函数的绑定全选
 
     window.onload = getTableData();
 

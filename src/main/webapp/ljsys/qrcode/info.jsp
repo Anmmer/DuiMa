@@ -29,10 +29,10 @@
 </script>
 <!--版面样式-->
 <div style="height: 95%;width:100%;background-color:white;">
-    <div style="height:100%;width: 80%;margin: 0 auto;">
+    <div style="height:100%;width: 100%;">
         <!--控制台-->
-        <div style="height:100%;width:49%;float: left">
-            <div style="height:5%;width:100%;"></div>
+        <div style="height:100%;width:49%;float: left;margin-left: 10%">
+            <div style="height:4%;width:100%;"></div>
             <!--信息展示-->
             <div style="height:15%;width:100%;">
                 <span class="pStyle">二维码样式名：</span><span class="pStyle" id="qrcodeName"></span><br/>
@@ -43,7 +43,7 @@
                 <span class="pStyle">画布横宽：</span><input type="text" style="width: 40% " id="xsize"><br/>
                 <span class="pStyle">画布纵长：</span><input type="text" style="width: 40% " id="ysize"><br/><br/>
             </div>
-            <div style="position:absolute;left:37%;top:15.5%;height:17%;width:50%;">
+            <div style="position:absolute;left:40%;top:16%;height:17%;width:50%;">
                 <select id="valuesFrom" size="4" style="width:11%;height: 80% ">
                 </select>
                 <button type="button" style="margin-left: 1%" onclick="addContent()">添加</button>
@@ -57,17 +57,17 @@
 
             </div>
             <div style="margin-top: 2%">
+                <select id="itemNames" style="height: 13%"></select>
+                <button type="button" onclick="newItem()">新增一项</button>
+                <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
                 <button type="button" onclick="submitQRcode()">提交修改</button>
                 <span>&nbsp;&nbsp;&nbsp;&nbsp;</span>
                 <button type="button" onclick="deleteStyle()">删除该样式</button>
-                <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
-                <select id="itemNames" style="height: 13%"></select>
-                <button type="button" onclick="newItem()">新增一项</button>
                 <%--                <button type="button" onclick="printLabel()" style="width: 10%;margin-left: 5%">打 印</button>--%>
             </div>
         </div>
         <div style="height:100%;width:2px;background-color:black;float: left"></div>
-        <div style="height:100%;width:50.5%;top:0;background-color: rgb(224, 221, 221);float: left">
+        <div style="height:99%;width:40.5%;top:0;background-color: rgb(224, 221, 221);float: left">
             <div id="draw" style="height:600px;width:400px;background-color: white;position:relative;"></div>
         </div>
     </div>
@@ -136,7 +136,7 @@
         $("#ItemList").append(divstr)
         // 新增item中的元素
         let content = $("<div class='hiddenTDOverFlowContent' style='width: 18%;display: inline-table' title='" + itemValue + "' id='content" + cnt + "'>" + itemValue + "，" + "</div>")
-        let xspan = $("<label for='xvalue'" + cnt + ">" + "X坐标：</label>")
+        let xspan = $("<label class='pStyle' for='xvalue'" + cnt + ">" + "X坐标：</label>")
         let xvalue = $("<input type='text' style='width: 20%' value='0' id='xvalue" + cnt + "'>")
         xvalue.bind("blur", function (event) {
             // 修改内容则修改draw
@@ -226,7 +226,7 @@
         $("#qr_code").append($("<div style='height:2px;width:95%;float:left;margin-bottom:4%;background-color: black;'></div>"))
         // 新增item中的元素
         let xspan = $("<div class='hiddenTDOverFlowContent' style='width: 18%;display: inline-table'>二维码，</div>")
-        let xvalue = $("<label>X坐标：</label><input type='text' style='width: 20%' value='0' id='xvalue" + cnt + "'>")
+        let xvalue = $("<label class='pStyle'>X坐标：</label><input type='text' style='width: 20%' value='0' id='xvalue" + cnt + "'>")
         xvalue.bind("blur", function (event) {
             // 修改内容则修改draw
             // 获取编号
