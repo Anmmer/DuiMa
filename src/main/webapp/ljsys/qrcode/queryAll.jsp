@@ -12,7 +12,7 @@
         return flag;
     }
 </script>
-<div style="height: 95%;width:100%;background-color:white;">
+<div style="height: 100%;width:100%;background-color:white;">
     <div style="width:100%;height:10%;">
         <form name="query" style="font-family: Simsun;font-size:16px;">
             <div style="width:100%;height: 16px;float: left;"></div>
@@ -27,16 +27,16 @@
             </div>
         </form>
     </div>
-    <div style="width:100%;height:80%;">
+    <div style="width:100%;height:85%;">
         <!--表格显示-->
-        <div style="width:70%;height:90%;margin:0 auto;">
+        <div style="width:70%;height:100%;margin:0 auto;">
             <!--结果显示提示：一共有多少记录，共几页-->
             <p id="resultTip" style="margin-top: 0px;font-family: Simsun;font-size: 16px">请在上方输入框内输入相应信息并点击“模糊查询按钮”</p>
             <form name="jumpPage" style="font-family: Simsun;font-size:16px;" onsubmit="return false;">
                 <span>输入页码进行跳转:</span><input type="text" name="page" class="FormInputStyle">
                 <button type="button" style="font-family: Simsun;font-size:16px;" onclick="jumpToNewPage2()">跳转</button>
             </form>
-            <div style="width:100%;height:30px;"></div>
+            <div style="width:100%;height:15px;"></div>
             <table class="table" cellspacing="0" cellpadding="0" width="100%" align="center" border="1">
                 <tr>
                     <td class='tdStyle_title'>二维码编号</td>
@@ -46,7 +46,7 @@
                 <tbody id="tableText">
                 </tbody>
             </table>
-            <div style="width:100%;height:30px;"></div>
+            <div style="width:100%;height:15px;"></div>
             <div style="width:33%;float: left;">
                 <button type="button" style="font-family: Simsun;font-size:16px;" onclick="jumpToNewPage(1)">第一页
                 </button>
@@ -67,7 +67,7 @@
             </div>
         </div>
     </div>
-    <div style="width:70%;height:10%;margin:auto;">
+    <div style="width:70%;height:5%;margin:auto;">
         <form id="newQRCode">
             <span class="pStyle">新样式名称</span>
             <input type="text" id="newStyleName">

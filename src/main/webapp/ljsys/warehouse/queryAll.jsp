@@ -28,7 +28,7 @@
         </div>
     </div>
 </div>
-<div style="height:85%;width:100%;background-color:white;">
+<div style="height:90%;width:100%;background-color:white;">
     <div style="width:100%;height:10%;">
         <form name="query" style="font-family: Simsun;font-size:16px;">
             <div style="width:100%;height: 20px;float: left;"></div>
@@ -45,7 +45,7 @@
     </div>
     <div style="width:100%;height:90%;">
         <!--表格显示-->
-        <div style="width:70%;height:80%;margin:0 auto;">
+        <div style="width:70%;height:85%;margin:0 auto;">
             <!--结果显示提示：一共有多少记录，共几页-->
             <p id="resultTip" style="margin-top: 0px;font-family: Simsun;font-size: 16px">请在上方输入框内输入相应信息并点击“模糊查询按钮”</p>
             <form name="jumpPage" style="font-family: Simsun;font-size:16px;" onsubmit="return false;">
@@ -84,7 +84,7 @@
         </div>
         <div style="width:70%;height:2px;background-color: black;margin: 0 auto;"></div>
         <div style="width:70%;height:20px;margin:0 auto;"></div>
-        <div style="width:70%;height:17%;margin:0 auto;">
+        <div style="width:70%;height:10%;margin:0 auto;">
             <form name="newFactory" id="newFactory">
                 <span class="pStyle">新增货位名:</span><input type="text" name="newWarehouseName" id="newWarehouseName">
                 <span class="pStyle">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
@@ -116,7 +116,6 @@
             var fieldNamesStr = JSON.stringify(fieldNamestmp);
             var warehouseId = $("#warehouseId").val()
             var warehouseName = $("#warehouseName").val()
-            console.log(warehouseName);
             var sqlStrtmp = "select warehouse_id,warehouse_name from warehouse where factory_id=" + factoryId + " and warehouse_id like '%" + warehouseId + "%' and warehouse_name like '%" + warehouseName + "%' and warehouse_status = 1;";
             let json = {
                 sqlStr: sqlStrtmp,

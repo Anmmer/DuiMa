@@ -26,11 +26,16 @@
     }
     let qrcodeId = getQueryVariable("qrcodeId");
     let qrcodeName = decodeURIComponent(getQueryVariable("qrcodeName"))
+
+    function returnLastPage() {
+        window.history.go(-1);
+    }
 </script>
 <!--版面样式-->
-<div style="height: 95%;width:100%;background-color:white;">
+<div style="height: 100%;width:100%;background-color:white;">
     <div style="height:100%;width: 100%;">
         <!--控制台-->
+        <button style="position: absolute;left: 6%;top:4%" onclick="returnLastPage()">返回</button>
         <div style="height:100%;width:49%;float: left;margin-left: 10%">
             <div style="height:4%;width:100%;"></div>
             <!--信息展示-->
@@ -43,11 +48,11 @@
                 <span class="pStyle">画布横宽：</span><input type="text" style="width: 40% " id="xsize"><br/>
                 <span class="pStyle">画布纵长：</span><input type="text" style="width: 40% " id="ysize"><br/><br/>
             </div>
-            <div style="position:absolute;left:40%;top:16%;height:17%;width:50%;">
-                <select id="valuesFrom" size="4" style="width:11%;height: 80% ">
+            <div style="position:absolute;left:28%;top:9%;height:22%;width:30%;">
+                <select id="valuesFrom" size="4" style="width:30%;height: 80% ">
                 </select>
-                <button type="button" style="margin-left: 1%" onclick="addContent()">添加</button>
-                <select id="valuesTo" style="margin-left: 1%;width:11%;height: 80%" size="4">
+                <button type="button" style="margin-left: 2%" onclick="addContent()">添加</button>
+                <select id="valuesTo" style="margin-left: 2%;width:30%;height: 80%" size="4">
                 </select>
                 <button type="button" style="margin-left: 2%" onclick="delContent()">删除</button>
             </div>
@@ -57,7 +62,7 @@
 
             </div>
             <div style="margin-top: 2%">
-                <select id="itemNames" style="height: 13%"></select>
+                <select id="itemNames"></select>
                 <button type="button" onclick="newItem()">新增一项</button>
                 <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
                 <button type="button" onclick="submitQRcode()">提交修改</button>
@@ -67,7 +72,7 @@
             </div>
         </div>
         <div style="height:100%;width:2px;background-color:black;float: left"></div>
-        <div style="height:99%;width:40.5%;top:0;background-color: rgb(224, 221, 221);float: left">
+        <div style="height:100%;width:40.5%;top:0;background-color: rgb(224, 221, 221);float: left">
             <div id="draw" style="height:600px;width:400px;background-color: white;position:relative;"></div>
         </div>
     </div>

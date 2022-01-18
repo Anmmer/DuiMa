@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <!--查询具体群组-->
-<div style="height: 95%;width:100%;background-color:white;">
+<div style="height: 100%;width:100%;background-color:white;">
     <!--左栏-->
     <div style="height: 100%;width: 8%;float: left;"></div>
     <div style="height:100%; width:28%;float: left;">
@@ -28,11 +28,11 @@
         <div style="height:100%;width:10%;float: left;"></div>
         <div style="height:70px;width:90%;float:left;"></div>
         <span class="pStyle" style="font-weight: bolder;width: 90%;">该群组的功能权限为:</span>
-        <div style="height:550px;width:85%;float:left;overflow-y: auto;" id="functions" name="functions">
+        <div style="height:350px;width:85%;float:left;overflow-y: auto;" id="functions" name="functions">
             <span class="pStyle" style="color:red;">√&nbsp;</span><span class="pStyle">功能权限1&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="pStyle">-</span><br/>
         </div>
         <div style="height:50px;width:90%;float:left;"></div>
-        <div style="height:200px;width:90%;float:left;">
+        <div style="height:180px;width:90%;float:left;">
             <form name="addFunction">
                 <span class="pStyle">新增功能权限:</span>
                 <select id="chooseFunction" name="chooseFunction" size="5" style="width:200px;font-size:16px;font-family:Simsun;"></select>
@@ -47,11 +47,11 @@
         <div style="height:100%;width:10%;float: left;"></div>
         <div style="height:70px;width:90%;float:left;"></div>
         <span class="pStyle" style="font-weight: bolder;width: 90%;">该群组的工序权限为:</span>
-        <div style="height:550px;width:85%;float:left;overflow-y: auto;" id="processContents" name="processContents">
+        <div style="height:350px;width:85%;float:left;overflow-y: auto;" id="processContents" name="processContents">
             <span class="pStyle" style="color:red;">√&nbsp;</span><span class="pStyle">工序权限1&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="pStyle">-</span><br/>
         </div>
         <div style="height:50px;width:90%;float:left;"></div>
-        <div style="height:200px;width:90%;float:left;">
+        <div style="height:180px;width:90%;float:left;">
             <form name="addProcessContent">
                 <span class="pStyle">新增工序权限:</span>
                 <select id="chooseProcessContent" name="chooseProcessContent" size="5" style="width:200px;font-size:16px;font-family:Simsun;"></select>

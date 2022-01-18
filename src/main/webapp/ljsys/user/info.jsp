@@ -60,11 +60,11 @@
     });
 
 </script>
-<div style="height: 95%;width:100%;background-color:white;">
-    <div style="width:70%;height:100%;margin: 0 auto;">
+<div style="height: 100%;width:100%;background-color:white;">
+    <div style="width:100%;height:100%;margin: 0 auto;">
         <div style="width:100%;height:50px;"></div>
         <!--展示用户信息及其群组信息-->
-        <div style="width:50%;height:250px;float: left;">
+        <div style="width:50%;height:200px;float: left;">
             </br>
             </br>
             <span style="font-size: 16px;font-family: Simsun;font-weight: bolder;">工号:</span><span id="userId" class="pStyle">userId</span></br></br>
@@ -73,18 +73,18 @@
             <span style="font-size: 16px;font-family: Simsun;font-weight: bolder;">所属群组角色名:</span><span id="groupName" class="pStyle">userId</span></br></br>
         </div>
         <!--头像图片-->
-        <div style="width:50%;height:250px;float:left;">
+        <div style="width:50%;height:200px;float:left;">
             <img src="./pictures/avator.png" alt="头像" style="margin:0 auto;float: right;"/>
         </div>
         <div style="width:100%;height:3px;background-color: cornflowerblue;float:left;"></div>
         <div style="width:100%;height:30px;float:left;"></div>
         <!--权限信息-->
-        <div style="width:50%;height:400px;float: left;overflow-y:auto;">
+        <div style="width:50%;height:300px;float: left;overflow-y:auto;">
             <p style="font-size: 16px;font-family: Simsun;font-weight: bolder;">拥有功能权限如下:</p>
             <div id="function">
             </div>
         </div>
-        <div style="width:50%;height:400px;float:left;overflow-y:auto;">
+        <div style="width:50%;height:300px;float:left;overflow-y:auto;">
             <p style="font-size:16px;font-family: Simsun;font-weight: bolder;">拥有工序权限如下:</p>
             <div id="processContent">
             </div>
