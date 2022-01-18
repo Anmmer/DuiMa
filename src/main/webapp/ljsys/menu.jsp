@@ -1,24 +1,32 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
-<script>
-    function ShowOrHide(str,id) {
-        var element = document.getElementById(str)
-        if (element.style.display === "block") {
-            element.style.display = "none"
-        } else {
-            element.style.display = "block"
+<html class="BodyStyle">
+<head>
+    <meta charset="utf-8">
+    <title>菜单</title>
+    <link rel="stylesheet" href="css/style.css" type="text/css">
+    <script type="text/javascript" src="./js/jquery-3.3.1.min.js"></script>
+    <script>
+        function ShowOrHide(str, id) {
+            var element = document.getElementById(str)
+            if (element.style.display === "block") {
+                element.style.display = "none"
+            } else {
+                element.style.display = "block"
+            }
+            let picture = $('#' + id).attr('src');
+            if (picture === 'pictures/right.png') {
+                $('#' + id).attr('src', 'pictures/down.png');
+            } else {
+                $('#' + id).attr('src', 'pictures/right.png');
+            }
         }
-        let picture = $('#'+id).attr('src');
-        if (picture === 'pictures/right.png') {
-            $('#'+id).attr('src', 'pictures/down.png');
-        } else {
-            $('#'+id).attr('src', 'pictures/right.png');
-        }
-    }
 
-    function jumpTo(str) {
-        location.href = str
-    }
-</script>
+        function jumpTo(str) {
+            window.parent.jumpTo(str);
+        }
+    </script>
+</head>
+<body class="BodyStyle">
 <div class="MenuStyle">
     <div class="li_TopItemStyle" style="height: 5%;text-align: center">
         相城绿建堆码
@@ -60,7 +68,7 @@
             </div>
             库存管理
         </li>
-        <ul class="ul_ListStyle"  style="display: block;" id="Factory">
+        <ul class="ul_ListStyle" style="display: block;" id="Factory">
             <li class="li_ItemStyle" onclick="jumpTo('factoryQueryAll.jsp')">信息查询</li>
         </ul>
     </ul>
@@ -96,3 +104,5 @@
         </ul>
     </ul>
 </div>
+</body>
+</html>

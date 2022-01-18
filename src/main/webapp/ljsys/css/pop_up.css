@@ -3,13 +3,13 @@
     clear: both;
     display: none;
     border-radius: 4px;
-    width: 70%;
+    width: 80%;
     background: #fff;
     border: 1px solid #ccc;
     position: absolute;
-    left: 22%;
+    left: 10%;
     height: 90%;
-    top: 8%;
+    top: 4%;
     z-index: 1;
 }
 
@@ -40,8 +40,8 @@
 
 .pop_footer {
     text-align: center;
-    margin: 10px 0;
-    padding: 10px 5px 0;
+    /*margin: 10px 0;*/
+    padding: 5px 5px 0;
     border-top: 1px solid #CCCCCC;
     height: 36px;
 }

@@ -36,7 +36,7 @@
                         success: function (res) {
                             var functionList = JSON.parse(res.function);
                             sessionStorage.setItem("authority", JSON.stringify(functionList))
-                            location.href = "${pageContext.request.contextPath}/ljsys/index.jsp"
+                            location.href = "${pageContext.request.contextPath}/ljsys/ljsys.html"
                         },
                         error: function (message) {
                         }

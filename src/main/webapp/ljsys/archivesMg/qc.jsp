@@ -5,7 +5,7 @@
         <button style="width: 8%;margin-left: 5%" onclick="getTableData()">查 询</button>
     </div>
     <div style="width: 70%;height:85%;margin: 0 auto">
-        <button style="position:absolute;top: 19%;width: 5%" onclick="openAddPop()">新 增</button>
+        <button style="position:absolute;top: 15%;width: 5%" onclick="openAddPop()">新 增</button>
         <h3 style="text-align: center;margin-top: 0;">质检员列表</h3>
         <div style="height: 70%;">
             <table class="table" cellspacing="0" cellpadding="0" width="100%" align="center" border="1">
@@ -67,9 +67,6 @@
     if (sessionStorage.getItem("userName") == null) {
         location.href = "login.jsp"
         window.alert("您未登陆，请先登陆！")
-    } else {
-        var userInfo = document.getElementById("userInfo");
-        userInfo.innerHTML = sessionStorage.getItem("userName").toString() + ",您好,欢迎使用相城绿建堆码后台管理系统!<a href='login.jsp'>点击登出</a>";
     }
 
     let num = 1;        //分页当前页

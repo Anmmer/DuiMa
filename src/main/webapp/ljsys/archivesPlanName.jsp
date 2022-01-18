@@ -8,16 +8,13 @@
     <script type="text/javascript" src="${pageContext.request.contextPath}/ljsys/js/jquery-3.3.1.min.js"></script>
 </head>
 <body class="BodyStyle">
-<!-- 左边的菜单栏 -->
-<%@ include file="menu.jsp" %>
-<!-- 右边-->
-<div style="height:100%;width:85%;background-color: white;float:left;">
-    <!-- 顶部消息 -->
-    <div style="height: 5%;width:100%;background-color: rgb(239,242,247);">
-        <p id="userInfo" style="margin: 0 0;float: right;font-family: 宋体;font-size:20px;line-height: 40px;">TEXT</p>
-    </div>
-    <!-- 内容窗口 -->
-    <%@include file="archivesMg/planname.jsp"%>
-</div>
+<!-- 内容窗口 -->
+<%@include file="archivesMg/planname.jsp" %>
+<script type="text/javascript">
+    if (sessionStorage.getItem("userName") == null) {
+        location.href = "login.jsp"
+        window.alert("您未登陆，请先登陆！")
+    }
+</script>
 </body>
 </html>

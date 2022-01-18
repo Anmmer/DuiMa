@@ -75,14 +75,14 @@
                 <label for="updatedate" style="margin-left: 1%">最后修改时间：</label><input id="updatedate" style="width: 15%"
                                                                                       disabled>
                 <label for="print_materialcode" style="margin-left: 1%">物料编码：</label><input id="print_materialcode"
-                                                                                            style="width: 14%"><br>
+                                                                                            style="width: 13%"><br>
                 <label for="print_planname">项目名称：</label><input id="print_planname" style="width: 15%" disabled>
                 <label for="print_liner" style="margin-left: 1%">线长：</label><input id="print_liner"
                                                                                    style="width: 15%;margin-top: 3%;"
                                                                                    disabled>
                 <label for="print_plantime" style="margin-left: 1%">计划生产时间：</label><input id="print_plantime"
                                                                                           style="width: 15%" disabled>
-                <button id="pop_query_button" onclick="query()" style="margin-left:16%;width: 8%">查&nbsp;&nbsp;询
+                <button id="pop_query_button" onclick="query()" style="margin-left:15%;width: 8%">查&nbsp;&nbsp;询
                 </button>
 
             </div>
@@ -128,7 +128,7 @@
                     </tbody>
                 </table>
             </div>
-            <div style="height:5%;margin-top: 1%;">
+            <div style="height:4%;margin-top: 1%;">
                 <div style="width:33%;float: left;">
                     <button id="pop_first" type="button" disabled style="font-family: Simsun;font-size:16px;"
                             onclick="jumpToNewPage(1,true)">第一页
