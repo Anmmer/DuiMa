@@ -2,8 +2,13 @@
 <html class="BodyStyle" lang="en">
 <head>
     <meta charset="utf-8">
+    <meta http-equiv="pragma" content="no-cache"/>
+    <meta http-equiv="cache-control" content="no-cache"/>
+    <meta http-equiv="expires" content="0"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=8; IE=9; IE=10"/>
     <title>相城绿建堆码后台管理系统</title>
-    <link rel="stylesheet" href="css/style.css" type="text/css">
+    <link rel="stylesheet" href="css/style.css" type="text/css"/>
+    <link rel="stylesheet" href="dist/css/bootstrap.min.css" type="text/css"/>
     <script type="text/javascript" src="./js/jquery-3.3.1.min.js"></script>
     <script type="text/javascript">
         function jumpTo(str) {
@@ -47,20 +52,6 @@
         return flag;
     }
 
-    function ShowOrHide(str, id) {
-        var element = document.getElementById(str)
-        if (element.style.display === "block") {
-            element.style.display = "none"
-        } else {
-            element.style.display = "block"
-        }
-        let picture = $('#' + id).attr('src');
-        if (picture === 'pictures/right.png') {
-            $('#' + id).attr('src', 'pictures/down.png');
-        } else {
-            $('#' + id).attr('src', 'pictures/right.png');
-        }
-    }
 
 </script>
 </body>

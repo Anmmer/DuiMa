@@ -544,24 +544,24 @@
             let str = '';
             let flag = excelData.preProduct.some((val, index) => {
                 for (let i = index + 1; i < excelData.preProduct.length; i++) {
-                    if (val.preproductid === excelData.preProduct[i].preproductid) {
+                    if (val.materialcode === excelData.preProduct[i].materialcode) {
                         return true;
                     }
                 }
             })
             if (flag) {
-                alert('构件号：' + str + '重复');
+                alert('物料编码：' + str + '重复');
                 return;
             }
             $.post("${pageContext.request.contextPath}/GetPreProduct", null, function (result) {
                 result = JSON.parse(result);
                 excelData.preProduct.forEach((item) => {
                     result.data.forEach((res_item) => {
-                        if (item.preproductid === res_item.preproductid) {
+                        if (item.materialcode === res_item.materialcode) {
                             if (str === '') {
-                                str += item.preproductid
+                                str += item.materialcode
                             } else {
-                                str += '，' + item.preproductid;
+                                str += '，' + item.materialcode;
                             }
                         }
                     })
@@ -570,7 +570,7 @@
                 if (str !== '') {
                     excelData = {};
                     $('#excel-file').val('');
-                    alert('构件号：' + str + ']已存在');
+                    alert('物料编码：' + str + ']已存在');
                     return;
                 }
                 $('#pop_planname').val(excelData.plan.planname);
