@@ -53,7 +53,7 @@
 <script type="text/javascript">
     sessionStorage.clear()
 </script>
-<body class="BodyStyle" style="background-color: #1B65B9">
+<body class="BodyStyle" style="background-color: #337ab7">
 <div class="LoginStyle">
     <div style="width:100%;margin:0 auto;">
         <form name="login">

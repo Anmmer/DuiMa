@@ -40,14 +40,16 @@
     line-height: 35px;
     list-style: none;
     color: azure;
+    border: none;
     font-size: 16px;
     font-family: Simsun;
+    background-color: rgb(31, 45, 61);
     text-align: center;
 }
 
-li:hover {
-    background-color: lightblue;
-}
+/*li:hover {*/
+/*    background-color: lightblue;*/
+/*}*/
 
 .li_TopItemStyle {
     width: 100%;

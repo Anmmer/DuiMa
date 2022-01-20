@@ -8,8 +8,9 @@
     <meta http-equiv="X-UA-Compatible" content="IE=8; IE=9; IE=10"/>
     <title>相城绿建堆码后台管理系统</title>
     <link rel="stylesheet" href="css/style.css" type="text/css"/>
-    <link rel="stylesheet" href="dist/css/bootstrap.min.css" type="text/css"/>
+    <link rel="stylesheet" href="dist/css/bootstrap.css" type="text/css"/>
     <script type="text/javascript" src="./js/jquery-3.3.1.min.js"></script>
+    <script type="text/javascript" src="dist/js/bootstrap.js"></script>
     <script type="text/javascript">
         function jumpTo(str) {
             document.getElementById("iframe").src = str;
@@ -18,15 +19,32 @@
 </head>
 <body class="BodyStyle">
 <!-- 左边的菜单栏 -->
-<div style="height: 100%;width: 15%;float: left" >
+<div style="height: 100%;width: 15%;float: left">
     <iframe style="height: 100%;width: 100%" frameborder="0" src="menu.jsp"></iframe>
 </div>
 <!-- 右边-->
 <div style="height:100%;width:85%;background-color: white;float:left;">
     <!-- 顶部消息 -->
-    <div style="height: 5%;width:100%;background-color: rgb(239,242,247);">
-        <p id="userInfo" style="margin: 0 0;float: right;font-family: 宋体;font-size:20px;line-height: 40px;">TEXT</p>
-    </div>
+    <nav class="navbar navbar-default" style="height: 5%;margin-bottom: 0px;">
+        <div class="container-fluid">
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a><span class="glyphicon glyphicon-user"></span></a></li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" id="userInfo" data-toggle="dropdown" role="button"
+                           aria-haspopup="true" aria-expanded="false"></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="#" >个人信息</a></li>
+                            <li><a href="#">修改密码</a></li>
+                            <li><a href="#" onclick="login_out()">退出登录</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div><!-- /.navbar-collapse -->
+        </div><!-- /.container-fluid -->
+    </nav>
     <!-- 内容窗口 -->
     <iframe id="iframe" style="height: 93%;width: 100%;" frameborder="0" src="index.jsp"></iframe>
 </div>
@@ -36,10 +54,17 @@
         window.alert("您未登陆，请先登陆！")
     } else {
         var userInfo = document.getElementById("userInfo");
-        userInfo.innerHTML = sessionStorage.getItem("userName").toString() + ",您好,欢迎使用相城绿建堆码后台管理系统!<a href='login.jsp'>点击登出</a>";
+        userInfo.innerHTML = sessionStorage.getItem("userName").toString()+'<span class="caret"></span>' ;
         if (!checkAuthority("网页登陆")) {
             window.alert("您无网页端登陆权限!")
             location.href = "login.jsp"
+        }
+    }
+
+    function login_out() {
+        if (sessionStorage.getItem("userName") !== null) {
+            sessionStorage.removeItem("userName");
+            location.href = 'login.jsp';
         }
     }
 
@@ -55,4 +80,9 @@
 
 </script>
 </body>
+<style>
+    .navbar-collapse > ul > li >a :hover{
+        /*background-color: #eeeeee;*/
+    }
+</style>
 </html>
