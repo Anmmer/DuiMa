@@ -29,7 +29,7 @@
 .ul_TopListStyle {
     list-style-type: none;
     padding-inline-start: 0px;
-    list-style-image: url(http://101.37.32.123:8989/ljsys/pictures/right.png);
+    /*list-style-image: url(http://101.37.32.123:8989/ljsys/pictures/right.png);*/
     margin: 0px;
     padding: 0px;
 }
@@ -40,7 +40,7 @@
     line-height: 35px;
     list-style: none;
     color: azure;
-    font-size: 20px;
+    font-size: 16px;
     font-family: Simsun;
     text-align: center;
 }
@@ -54,9 +54,9 @@ li:hover {
     height: 40px;
     line-height: 40px;
     color: azure;
-    font-size: 20px;
+    font-size: 16px;
     font-family: Simsun;
-    align-content: center;
+    /*align-content: center;*/
     background-color: rgb(50, 64, 87);
 }
 

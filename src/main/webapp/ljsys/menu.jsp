@@ -4,6 +4,7 @@
     <meta charset="utf-8">
     <title>菜单</title>
     <link rel="stylesheet" href="css/style.css" type="text/css">
+    <link rel="stylesheet" href="dist/css/bootstrap.min.css" type="text/css"/>
     <script type="text/javascript" src="./js/jquery-3.3.1.min.js"></script>
     <script>
         function ShowOrHide(str, id) {
@@ -34,11 +35,9 @@
     <!--用户管理-->
     <ul class="ul_TopListStyle">
         <li class="li_TopItemStyle" onclick="ShowOrHide('User','usr_pic')">
-            <div style="height:30px;width:50px;float:left">
-                <div style="height:2px;width:100%;float:left"></div>
-                <img id="usr_pic" style="margin-left: 10px" src="pictures/right.png">
-            </div>
-            <span>用户管理</span>
+            <button style="width: 100%;height:40px;background-color: rgb(50, 64, 87);border: none">
+                <span class="glyphicon glyphicon-menu-down"></span>用户管理
+            </button>
         </li>
         <ul class="ul_ListStyle" style="display: block;" id="User">
             <li class="li_ItemStyle" onclick="jumpTo('userQueryAll.jsp')">查询用户</li>
@@ -51,9 +50,9 @@
         <li class="li_TopItemStyle" onclick="ShowOrHide('Group','group_pic')">
             <div style="height:30px;width:50px;float:left">
                 <div style="height:2px;width:100%;float:left"></div>
-                <img id="group_pic" style="margin-left: 10px" src="pictures/right.png">
+                <%--                <img id="group_pic" style="margin-left: 10px" src="pictures/right.png">--%>
             </div>
-            群组管理
+            <span class="glyphicon glyphicon-menu-down"></span>群组管理
         </li>
         <ul class="ul_ListStyle" style="display: block;" id="Group">
             <li class="li_ItemStyle" onclick="jumpTo('groupQueryAll.jsp')">查询/新增群组</li>
@@ -64,9 +63,9 @@
         <li class="li_TopItemStyle" onclick="ShowOrHide('Factory','factory_pic')">
             <div style="height:30px;width:50px;float:left">
                 <div style="height:2px;width:100%;float:left"></div>
-                <img id="factory_pic" style="margin-left: 10px" src="pictures/right.png">
+                <%--                <img id="factory_pic" style="margin-left: 10px" src="pictures/right.png">--%>
             </div>
-            库存管理
+            <span class="glyphicon glyphicon-menu-down"></span>库存管理
         </li>
         <ul class="ul_ListStyle" style="display: block;" id="Factory">
             <li class="li_ItemStyle" onclick="jumpTo('factoryQueryAll.jsp')">信息查询</li>
@@ -77,9 +76,9 @@
         <li class="li_TopItemStyle" onclick="ShowOrHide('Equipment','equipment_pic')">
             <div style="height:30px;width:50px;float:left">
                 <div style="height:2px;width:100%;float:left"></div>
-                <img id="equipment_pic" style="margin-left: 10px" src="pictures/right.png">
+                <%--                <img id="equipment_pic" style="margin-left: 10px" src="pictures/right.png">--%>
             </div>
-            基础档案管理
+            <span class="glyphicon glyphicon-menu-down"></span>基础档案管理
         </li>
         <ul class="ul_ListStyle" style="display: block;" id="Equipment">
             <li class="li_ItemStyle" onclick="jumpTo('qrcodeQueryAll.jsp')">二维码设置</li>
@@ -94,9 +93,9 @@
         <li class="li_TopItemStyle" onclick="ShowOrHide('rqCode','rqCode_pic')">
             <div style="height:30px;width:50px;float:left">
                 <div style="height:2px;width:100%;float:left"></div>
-                <img id="rqCode_pic" style="margin-left: 10px" src="pictures/right.png">
+                <%--                <img id="rqCode_pic" style="margin-left: 10px" src="pictures/right.png">--%>
             </div>
-            打印管理
+            <span class="glyphicon glyphicon-menu-down"></span>打印管理
         </li>
         <ul class="ul_ListStyle" style="display: block;" id="rqCode">
             <!--<li class="li_ItemStyle" onclick="jumpTo('printQueryAll.jsp')">信息查询</li>-->
