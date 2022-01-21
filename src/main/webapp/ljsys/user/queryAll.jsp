@@ -4,7 +4,7 @@
     var pageAll = 1;
 </script>
 <div style="height: 100%;width:100%;background-color:white;overflow: hidden">
-    <form name="query" class="form-inline" style="width:70%;height:10%;margin: 2% auto 0">
+    <form name="query" class="form-inline" style="width:70%;height:8%;margin: 2% auto 0">
         <div class="form-group">
             <label>工号：</label><input type="text" name="userId"
                                      style="height:10%;" class="form-control">
@@ -25,16 +25,20 @@
         <%--                <span>输入页码进行跳转:</span><input type="text" name="page" class="FormInputStyle">--%>
         <%--                <button type="button" style="font-family: Simsun;font-size:16px;" onclick="jumpToNewPage2()">跳转</button>--%>
         <%--            </form>--%>
-        <div style="width:100%;height:5%;text-align: center"><h4 style="margin-top: 0px">用户信息</h4></div>
-        <table class="table table-hover" style="height: 75%;font-size: 15px">
-            <tr>
-                <td style="width: 35%">工号</td>
-                <td style="width: 35%">姓名</td>
-                <td style="width: 30%;text-align: center">操作</td>
-            </tr>
-            <tbody id="tableText">
-            </tbody>
-        </table>
+        <div class="page-header" style="margin-top: 0;margin-bottom: 1%">
+            <h3 style="margin-bottom: 0;margin-top: 0"><small>用户信息</small></h3>
+        </div>
+        <div style="height: 85%">
+            <table class="table table-hover" style="font-size: 15px;text-align: left">
+                <tr>
+                    <td class="active" style="width: 35%">工号</td>
+                    <td class="active" style="width: 35%">姓名</td>
+                    <td class="active" style="width: 30%;text-align: center">操作</td>
+                </tr>
+                <tbody id="tableText">
+                </tbody>
+            </table>
+        </div>
         <nav aria-label="Page navigation" style="margin-left:50%;width:80%;height:10%;">
             <ul class="pagination" style="margin-top: 0;width: 70%">
                 <li><span id="total" style="width: 15%"></span></li>
@@ -43,11 +47,11 @@
                         <span aria-hidden="true">&laquo;</span>
                     </a>
                 </li>
-                <li><a href="#">1</a></li>
-                <li><a href="#">2</a></li>
-                <li><a href="#">3</a></li>
-                <li><a href="#">4</a></li>
-                <li><a href="#">5</a></li>
+                <li id="li_1"><a id="a_1" href="#">1</a></li>
+                <li id="li_2"><a id="a_2" href="#">2</a></li>
+                <li id="li_3"><a id="a_3" href="#">3</a></li>
+                <li id="li_4"><a id="a_4" href="#">4</a></li>
+                <li id="li_0"><a id="a_0" href="#">5</a></li>
                 <li>
                     <a href="#" onclick="jumpToNewPage(3)" aria-label="Next">
                         <span aria-hidden="true">&raquo;</span>
@@ -55,9 +59,9 @@
                 </li>
                 <li style="border: none"><span>跳转：</span></li>
                 <li class="input-group">
-                    <input type="text" class="form-control" style="width: 10%">
+                    <input type="text" id="jump_to" class="form-control" style="width: 10%">
                 </li>
-                <li><a>go!</a></li>
+                <li><a href="#" onclick="jumpToNewPage2()">go!</a></li>
             </ul>
         </nav>
 
@@ -104,7 +108,7 @@
             sqlStr: sqlStrtmp,
             fieldNames: fieldNamesStr,
             pageCur: newpage,
-            pageMax: 10
+            pageMax: 15
         };
         $.ajax({
             url: "${pageContext.request.contextPath}/QuerySQL",
@@ -130,6 +134,7 @@
                 // 提示语
                 var tipStr = "共查询到" + res.cnt + "条记录,结果共有" + res.pageAll + "页!"
                 $('#total').html('共' + res.pageAll + "页");
+                $('#li_1').addClass('active');
                 $("#resultTip").html(tipStr);
                 // 重置查询为第一页
                 pageCur = newpage;
@@ -193,9 +198,9 @@
                 var jsonobj = JSON.parse(res.data);
                 (jsonobj)
                 for (var i = 0; i < jsonobj.length; i++) {
-                    str += "<tr><td class='tdStyle_body'>" + jsonobj[i]['user_id'] +
-                        "</td><td class='tdStyle_body'>" + jsonobj[i]['user_name'] +
-                        "</td><td class='tdStyle_body'>";
+                    str += "<tr><td >" + jsonobj[i]['user_id'] +
+                        "</td><td >" + jsonobj[i]['user_name'] +
+                        "</td><td style='text-align: center'>";
                     // 查询
                     str += "<a href='userInfo.jsp?userId=" + jsonobj[i]['user_id'] + "&userName=" + jsonobj[i]['user_name'] + "'>详情</a>&nbsp";
                     str += "<a href='userModify.jsp?userId=" + jsonobj[i]['user_id'] + "&userName=" + jsonobj[i]['user_name'] + "'>修改</a>&nbsp";
@@ -203,6 +208,12 @@
                     str += "</td></tr>"
                 }
                 $("#tableText").html(str);
+                if (newpageCode === 3) {
+                    setFooter(3, res.pageAll, pageCur, newpage);
+                }
+                if (newpageCode === 2) {
+                    setFooter(2, res.pageAll, pageCur, newpage);
+                }
                 // 提示语
                 var tipStr = "共查询到" + res.cnt + "条记录,结果共有" + res.pageAll + "页!"
                 $("#resultTip").html(tipStr);
@@ -229,9 +240,8 @@
         var userId = document.forms["query"]["userId"].value;
         var userName = document.forms["query"]["userName"].value;
         var sqlStrtmp = "select user_id,user_name from user where user_status = 1 and user_id like '%" + userId + "%' and user_name like '%" + userName + "%';";
-        var newpageStr = document.forms["jumpPage"]["page"].value;
+        var newpageStr = $('#jump_to').val();
         var newpage = parseInt(newpageStr)
-        (newpage)
         if (newpage <= 0 || newpage > pageAll || isNaN(newpage)) {
             window.alert("请输入一个在范围内的正确页码数字!")
             return
@@ -252,11 +262,10 @@
                 // 将结果输出到table
                 var str = "";
                 var jsonobj = JSON.parse(res.data);
-                (jsonobj)
                 for (var i = 0; i < jsonobj.length; i++) {
-                    str += "<tr><td class='tdStyle_body'>" + jsonobj[i]['user_id'] +
-                        "</td><td class='tdStyle_body'>" + jsonobj[i]['user_name'] +
-                        "</td><td class='tdStyle_body'>";
+                    str += "<tr><td>" + jsonobj[i]['user_id'] +
+                        "</td><td>" + jsonobj[i]['user_name'] +
+                        "</td><td style='text-align: center'>";
                     // 查询
                     str += "<a href='userInfo.jsp?userId=" + jsonobj[i]['user_id'] + "&userName=" + jsonobj[i]['user_name'] + "'>详情</a>&nbsp";
                     str += "<a href='userModify.jsp?userId=" + jsonobj[i]['user_id'] + "&userName=" + jsonobj[i]['user_name'] + "'>修改</a>&nbsp";
@@ -264,6 +273,7 @@
                     str += "</td></tr>"
                 }
                 $("#tableText").html(str);
+                jump2(newpage, res.pageAll);
                 // 提示语
                 var tipStr = "共查询到" + res.cnt + "条记录,结果共有" + res.pageAll + "页!"
                 $("#resultTip").html(tipStr);
@@ -279,6 +289,78 @@
                 (message)
             }
         });
+    }
+
+    function jump2(newpage, pageAll) {
+        if (newpage <= 5) {
+            for (let i = 1; i < 6; i++) {
+                let k = i % 5;
+                if (k === 0) {
+                    $('#a_' + k).text(5);
+                    continue;
+                }
+                if (k > pageAll) {
+                    $('#a_' + k).text('.');
+                } else {
+                    $('#a_' + k).text(k);
+                }
+            }
+            $('#li_' + newpage % 5).addClass('active');
+            $('#li_' + pageCur % 5).removeClass('active');
+        } else {
+            let j = Math.floor(newpage / 5);
+            let m = j * 5;
+            for (let i = 1; i < 6; i++) {
+                let k = i % 5;
+                if (++m > pageAll) {
+                    $('#a_' + k).text('.');
+                } else {
+                    $('#a_' + k).text(m);
+                }
+            }
+            $('#li_' + newpage % 5).addClass('active');
+        }
+    }
+
+    function setFooter(newpageCode, pageAll, pageCur, newpage) {
+        if (newpageCode === 3) {
+            if (pageCur % 5 === 0) {
+                let j = Math.floor(newpage / 5);
+                let m = j * 5;
+                for (let i = 1; i < 6; i++) {
+                    let k = i % 5;
+                    if (++m > pageAll) {
+                        $('#a_' + k).text('.');
+                    } else {
+                        $('#a_' + k).text(m);
+                    }
+                }
+
+            }
+            $('#li_' + newpage % 5).addClass('active');
+            $('#li_' + pageCur % 5).removeClass('active');
+
+        } else {
+            if (pageCur % 5 === 1) {
+                let j = Math.floor(newpage / 5);
+                let m
+                if (j < 0) {
+                    m = 5;    //5*1
+                } else {
+                    m = j * 5;
+                }
+                for (let i = 5; i > 0; i--) {
+                    let k = i % 5;
+                    if (m > pageAll) {
+                        $('#a_' + k).text('');
+                    } else {
+                        $('#a_' + k).text(m--);
+                    }
+                }
+            }
+            $('#li_' + newpage % 5).addClass('active');
+            $('#li_' + pageCur % 5).removeClass('active');
+        }
     }
 
     function test() {
@@ -337,3 +419,5 @@
         return flag;
     }
 </script>
+<style>
+</style>
