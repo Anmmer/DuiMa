@@ -53,7 +53,12 @@ function outputWorkbook(workbook) {
 
     row++;
     col = 67;
-    let num = worksheet['!rows'].length;
+    let num;
+    if (worksheet['!rows'] === undefined) {
+        num = worksheet['!ref'].split(':')[1].match(/[0-9]+/ig);
+    } else {
+        num = worksheet['!rows'].length;
+    }
     let preProduct = [];
     do {
         let object = {};

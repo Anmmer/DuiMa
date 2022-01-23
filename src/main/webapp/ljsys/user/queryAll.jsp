@@ -419,5 +419,3 @@
         return flag;
     }
 </script>
-<style>
-</style>
