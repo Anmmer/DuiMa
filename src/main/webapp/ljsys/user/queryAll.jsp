@@ -13,11 +13,11 @@
             <label>姓名：</label><input type="text" name="userName"
                                      style="height:10%;" class="form-control">
         </div>
-        <button type="button" class="btn btn-primary" style="height:50%;margin-left: 5%" onclick="updateTable(1)">
+        <button type="button" class="btn btn-primary" style="height:60%;margin-left: 5%" onclick="updateTable(1)">
             模糊查询
         </button>
     </form>
-    <div style="width:70%;height:90%;margin:0 auto;">
+    <div style="width:70%;height:80%;margin:0 auto;">
         <!--表格显示-->
         <%--            <!--结果显示提示：一共有多少记录，共几页-->--%>
         <%--            <p id="resultTip" style="margin-top: 0px;font-family: Simsun;font-size: 16px">请在上方输入框内输入相应信息并点击“模糊查询按钮”</p>--%>
@@ -108,7 +108,7 @@
             sqlStr: sqlStrtmp,
             fieldNames: fieldNamesStr,
             pageCur: newpage,
-            pageMax: 15
+            pageMax: 10
         };
         $.ajax({
             url: "${pageContext.request.contextPath}/QuerySQL",
@@ -132,16 +132,25 @@
                 }
                 $("#tableText").html(str);
                 // 提示语
-                var tipStr = "共查询到" + res.cnt + "条记录,结果共有" + res.pageAll + "页!"
                 $('#total').html('共' + res.pageAll + "页");
                 $('#li_1').addClass('active');
-                $("#resultTip").html(tipStr);
                 // 重置查询为第一页
                 pageCur = newpage;
                 // 重置总页数
                 pageAll = parseInt(res.pageAll);
-                var tipStr2 = pageCur + "/" + pageAll;
-                $("#resultTip2").html(tipStr2)
+                for (let i = 1; i < 6; i++) {
+                    let k = i % 5;
+                    if (k === 0) {
+                        $('#a_' + k).text(5);
+                        $('#a_' + k).attr('onclick', 'jumpToNewPage1(5)');
+                        continue;
+                    }
+                    if (k > pageAll) {
+                        $('#a_' + k).text('.');
+                    } else {
+                        $('#a_' + k).attr('onclick', 'jumpToNewPage1(' + k + ')');
+                    }
+                }
             },
             error: function (message) {
                 (json)
@@ -184,7 +193,7 @@
             sqlStr: sqlStrtmp,
             fieldNames: fieldNamesStr,
             pageCur: newpage,
-            pageMax: 15
+            pageMax: 10
         };
         $.ajax({
             url: "${pageContext.request.contextPath}/QuerySQL",
@@ -231,6 +240,58 @@
         });
     }
 
+    function jumpToNewPage1(newPage) {
+        if (newPage == pageCur) {
+            return;
+        }
+        let fieldNamestmp = {
+            user_id: "INT",
+            user_name: "STRING"
+        };
+        var fieldNamesStr = JSON.stringify(fieldNamestmp);
+        var userId = document.forms["query"]["userId"].value;
+        var userName = document.forms["query"]["userName"].value;
+        var sqlStrtmp = "select user_id,user_name from user where user_status = 1 and user_id like '%" + userId + "%' and user_name like '%" + userName + "%';";
+        if (newPage <= 0 || newPage > pageAll || isNaN(newPage)) {
+            window.alert("请输入一个在范围内的正确页码数字!")
+            return
+        }
+        let json = {
+            sqlStr: sqlStrtmp,
+            fieldNames: fieldNamesStr,
+            pageCur: newPage,
+            pageMax: 10
+        };
+        $.ajax({
+            url: "${pageContext.request.contextPath}/QuerySQL",
+            type: 'post',
+            dataType: 'json',
+            contentType: 'application/x-www-form-urlencoded;charset=utf-8',
+            data: json,
+            success: function (res) {
+                // 将结果输出到table
+                var str = "";
+                var jsonobj = JSON.parse(res.data);
+                for (var i = 0; i < jsonobj.length; i++) {
+                    str += "<tr><td>" + jsonobj[i]['user_id'] +
+                        "</td><td>" + jsonobj[i]['user_name'] +
+                        "</td><td style='text-align: center'>";
+                    // 查询
+                    str += "<a href='userInfo.jsp?userId=" + jsonobj[i]['user_id'] + "&userName=" + jsonobj[i]['user_name'] + "'>详情</a>&nbsp";
+                    str += "<a href='userModify.jsp?userId=" + jsonobj[i]['user_id'] + "&userName=" + jsonobj[i]['user_name'] + "'>修改</a>&nbsp";
+                    str += "<a href='javascript:void(0);' onclick='deleteUser(" + jsonobj[i]['user_id'] + ")'>删除</a>";
+                    str += "</td></tr>"
+                }
+                $("#tableText").html(str);
+                $('#li_' + newPage % 5).addClass('active');
+                $('#li_' + pageCur % 5).removeClass('active');
+                pageCur = newPage;
+            },
+            error: function (message) {
+            }
+        });
+    }
+
     function jumpToNewPage2() {
         let fieldNamestmp = {
             user_id: "INT",
@@ -250,7 +311,7 @@
             sqlStr: sqlStrtmp,
             fieldNames: fieldNamesStr,
             pageCur: newpage,
-            pageMax: 15
+            pageMax: 10
         };
         $.ajax({
             url: "${pageContext.request.contextPath}/QuerySQL",
@@ -303,6 +364,7 @@
                     $('#a_' + k).text('.');
                 } else {
                     $('#a_' + k).text(k);
+                    $('#a_' + k).attr('onclick', 'jumpToNewPage1(' + k + ')');
                 }
             }
             $('#li_' + newpage % 5).addClass('active');
@@ -316,6 +378,7 @@
                     $('#a_' + k).text('.');
                 } else {
                     $('#a_' + k).text(m);
+                    $('#a_' + k).attr('onclick', 'jumpToNewPage1(' + m + ')');
                 }
             }
             $('#li_' + newpage % 5).addClass('active');
@@ -333,13 +396,13 @@
                         $('#a_' + k).text('.');
                     } else {
                         $('#a_' + k).text(m);
+                        $('#a_' + k).attr('onclick', 'jumpToNewPage1(' + m + ')');
                     }
                 }
 
             }
             $('#li_' + newpage % 5).addClass('active');
             $('#li_' + pageCur % 5).removeClass('active');
-
         } else {
             if (pageCur % 5 === 1) {
                 let j = Math.floor(newpage / 5);
@@ -353,8 +416,10 @@
                     let k = i % 5;
                     if (m > pageAll) {
                         $('#a_' + k).text('');
+                        m--;
                     } else {
-                        $('#a_' + k).text(m--);
+                        $('#a_' + k).text(m);
+                        $('#a_' + k).attr('onclick', 'jumpToNewPage1(' + m-- + ')');
                     }
                 }
             }

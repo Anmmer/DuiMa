@@ -32,33 +32,34 @@
 </script>
 <div style="height: 95%;width:100%;background-color:white;">
     <div style="width:40%;height:100%;margin: 0 auto;">
-        <div style="width:100%;height:50px;">
+        <div style="width:100%;height:5%;">
         </div>
-        <button style="position: absolute;left: 20%;" class="btn btn-primary">返回</button>
+        <button style="position: absolute;left: 20%;" onclick="returnLastPage()" class="btn btn-primary">返回</button>
         <!--展示用户信息及其群组信息-->
-        <p style="font-size: 16px;">用户信息修改:</p>
-        <div class="form-horizontal" style="width:100%;height:25%;float: left;">
+        <p style="font-size:17px;font-weight: bolder">用户信息修改:</p>
+        <div class="form-horizontal" style="width:100%;height:30%;float: left;">
             </br>
-            <div class="form-group">
-                <label for="userId" style="width: 14%;text-align: left" class="col-sm-2 control-label">工&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;号:</label>
-                <input type="email" style="width: 40%" class="form-control" id="userId" disabled placeholder="工号"><br>
-                <label for="userName" style="width: 14%;text-align: left" class="col-sm-2 control-label">姓&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;名:</label>
-                <input type="email" style="width: 40%" class="form-control" id="userName" placeholder="姓名"><br>
-                <label for="groupNames" style="width: 14%;text-align: left" class="col-sm-2 control-label">添加角色:</label>
+            <div class="form-group" style="height: 100%">
+                <label for="userId" style="width: 16%;text-align: left" class="col-sm-2 control-label">工&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;号:</label>
+                <input  style="width: 40%" class="form-control" id="userId" disabled placeholder="工号"><br>
+                <label for="userName" style="width: 16%;text-align: left" class="col-sm-2 control-label">姓&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;名:</label>
+                <input style="width: 40%" class="form-control" id="userName" placeholder="姓名"><br>
+                <label for="groupNames" style="width: 16%;text-align: left;padding-right: 0"
+                       class="col-sm-2 control-label">添加角色:</label>
                 <select class="form-control" style="width: 40%" id="groupNames" name="groupNames" size="1"
                         style="width:35%;">
                 </select>
-                <button style="position: absolute;left: 54%;top:25%" class="btn btn-primary" onclick="addGroup()">添加
+                <button style="position: absolute;left: 54%;top:208px" class="btn btn-primary" onclick="addGroup()">添加
                 </button>
             </div>
             <%--            <span>所属群组角色名:</span><span id="groupName1" class="pStyle">userId</span></br></br>--%>
         </div>
-        <div class="panel panel-default" style="width:55%;height:50%;overflow-y:hidden;">
+        <div class="panel panel-default" style="width:56%;height:50%;overflow-y:hidden;">
             <div class="panel-heading">拥有功能权限如下:</div>
             <div id="newGroups" class="panel-body" style="height:100%;overflow-y:scroll;">
             </div>
         </div>
-        <input type="button" value="提交修改" class="btn btn-primary" style="margin-top: 3%" onclick="modify1()">
+        <input type="button" value="提交修改" class="btn btn-primary" style="margin-top: 0%" onclick="modify1()">
         <%--        <div style="width:100%;height:3px;background-color: cornflowerblue;float:left;"></div>--%>
         <%--        <div style="width:100%;height:30px;float:left"></div>--%>
         <%--        <p style="font-size: 16px;font-family: Simsun;font-weight: bolder;">在下方进行修改后点击提交</p>--%>
@@ -172,7 +173,7 @@
             for (var i = 0; i < jsonobj.length; i++) {
                 oldgpids.push(jsonobj[i]['gp_id'])
                 newgpids.push(jsonobj[i]['gp_id'])
-                var newitem = $("<div id='gpname_" + jsonobj[i]['gp_id'] + "'>" + "<p class='pStyle' style='width:85%;height:30px;float:left;'>" + jsonobj[i]['gp_name'] + "</p>" + "<button style='width:15%;height:30px;float:left;' class='btn btn-primary btn-sm' onclick='removeGroup(" + jsonobj[i]['gp_id'] + ")'>删除</button></br></div>")
+                var newitem = $("<div id='gpname_" + jsonobj[i]['gp_id'] + "'>" + "<p class='pStyle' style='width:80%;height:30px;float:left;'>" + jsonobj[i]['gp_name'] + "</p>" + "<button style='width:20%;height:30px;float:left;' class='btn btn-primary btn-sm' onclick='removeGroup(" + jsonobj[i]['gp_id'] + ")'>删除</button></br></div>")
                 groupdiv.append(newitem)
             }
         },
@@ -308,6 +309,10 @@
             groupdiv.append(newitem)
             newgpids.push(id)
         }
+    }
+
+    function returnLastPage() {
+        window.history.go(-1);
     }
 
 </script>

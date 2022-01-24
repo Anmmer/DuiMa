@@ -1,46 +1,43 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
-
-<div style="height: 95%;width:100%;background-color:white;">
-    <div style="width:40%;height:100%;margin: 0 auto;">
-        <div style="width:100%;height: 16px;float: left;"></div>
-        <span style="font-size: 16px;font-family: Simsun;font-weight: bolder;">新增:</span>
-        <div style="width:100%;height:30px;float:left"></div>
-        <div name="add" style="width: 100%">
-            <label class="pStyle" for="name" style="margin-right: 10%">姓名:</label>
-            <input type="text" name="name" id="name" style="width:55%;" class="FormInputStyle">
-            <div style="width:100%;height:30px;"></div>
-            <label class="pStyle" for="groupName" style="margin-right: 4%">角色群组:</label>
-            <select id="groupName" name="groupName" size="1"
-                    style="width:55%;font-size:16px;font-family:Simsun;height: 24.4px">
-            </select><br>
-            <%--            <button style="float:left" onclick="addgp()">新增</button>--%>
-            <%--            <div style="width:100%;height:30px;float:left;" class="pStyle">群组:</div>--%>
-            <button style="font-size:16px;font-family:Simsun;margin-top: 30px;" onclick="addOne()">提交新增
+<div style="width:40%;height:100%;background-color:white;margin: 0 auto;">
+    <p style="margin-top: 6%;font-size:17px;font-weight: bolder">新增:</p>
+    <br>
+    <div class="form-horizontal" style="width:100%;height:28%;float: left;">
+        <div class="form-group" style="height: 100%">
+            <label for="name" style="width: 16%;text-align: left" class="col-sm-2 control-label">姓&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;名:</label>
+            <input style="width: 40%" class="form-control" id="name" placeholder="姓名"><br>
+            <label for="groupName" style="width: 16%;text-align: left;padding-right: 0"
+                   class="col-sm-2 control-label">添加角色:</label>
+            <select class="form-control" style="width: 40%" id="groupName" name="groupName" size="1"
+                    style="width:35%;">
+            </select>
+            <button style="margin-top: 5%;margin-left: 2%;" class="btn btn-primary" onclick="addOne()">提交新增
             </button>
         </div>
-        <div style="width:100%;height:30px;float:left"></div>
-        <div style="width:100%;height:3px;background-color: cornflowerblue;float:left;"></div>
-        <div style="width:100%;height:10px;float: left;"></div>
-        <div style="float: left;">
-            <form name="batchAdd" enctype="multipart/form-data">
-                <div style="width:100%;height:30px;float:left;"></div>
-                <span style="font-size: 16px;font-family: Simsun;font-weight: bolder;float: left;">批量新增:</span>
-                <div style="width:100%;height:30px;float:left;"></div>
-                <!--批量新增-->
-                <span class="pStyle"
-                      style="width:30%;height:30px;float:left;line-height:30px;font-size: 16px;font-family:Simsun;">请选择文件:</span>
-                <input type="file" name="file1" id="file1"
-                       style="width:65%;height:40px;float:left;font-size:16px;font-family: Simsun;"><br/>
-                <div style="width:100%;height:30px;float:left;"></div>
-                <input type="button" value="批量新增" style="float:left;font-size: 16px;font-family: Simsun;"
-                       onclick="addBatch()">
-            </form>
-        </div>
-
-        <div style="float: left;width: 100%;"><span class="pStyle">信息面板:</span></div>
-        <div id="errorInfo" style="width:100%;height:100px;overflow-y: auto;float:left;background-color: azure;"></div>
-        <div class='pStyle' style="float:left;"><a href="./files/Template.xls" download="Template.xls">模板</a></div>
     </div>
+    <div style="width:100%;height:3px;background-color: cornflowerblue;float:left;"></div>
+    <div style="width:100%;height:10px;float: left;"></div>
+    <div style="float: left;height:30%">
+        <form name="batchAdd" enctype="multipart/form-data">
+            <div class="form-horizontal" style="width:100%;height:28%;float: left;">
+                <div style="width:100%;height:30px;float:left;"></div>
+                <span style="margin-top: 6%;font-size:17px;font-weight: bolder">批量新增:</span>
+                <div style="width:100%;height:30px;float:left;"></div>
+                <div class="form-group" style="height: 100%">
+                    <label for="file1" style="width: 28%;text-align: left;padding-right: 0"
+                           class="col-sm-2 control-label">上传Excel:</label>
+                    <input style="width: 60%" type="file" name="file1" id="file1"><br>
+                    <button style="margin-top: 5%;margin-left: 2%;" class="btn btn-primary" onclick="addBatch()">
+                        批量新增
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <div style="float: left;width: 100%;"><span class="pStyle">信息面板:</span></div>
+    <div id="errorInfo" style="width:100%;height:10%;overflow-y: auto;float:left;background-color: azure;"></div>
+    <div class='pStyle' style="float:left;"><a href="./files/Template.xls" download="Template.xls">模板</a></div>
 </div>
 <script type="text/javascript">
     function checkAuthority(au) {
@@ -127,7 +124,12 @@
         }
         var type = "file";
         var formData = new FormData();
-        formData.append(type, $("#file1")[0].files[0]);
+        let file = $("#file1")[0].files[0];
+        if (file == null) {
+            alert('请上传Excel');
+            return;
+        }
+        formData.append(type, file);
         // 使用批量新增的Servlet
         $.ajax({
             url: "${pageContext.request.contextPath}/UserBatchInsert",

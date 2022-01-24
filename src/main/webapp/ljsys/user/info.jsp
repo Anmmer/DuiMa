@@ -64,15 +64,14 @@
 
 </script>
 <div style="width:70%;height:100%;margin: 0 auto;background-color:white;">
-    <div style="width:100%;height:5%;"></div>
+    <div style="width:100%;height:2%;"></div>
+    <button style="position: absolute;left: 8%;top: 8%" onclick="returnLastPage()" class="btn btn-primary">返回</button>
     <!--展示用户信息及其群组信息-->
-    <div style="width:100%;height:30%;">
+    <div style="width:100%;height:38%;">
         </br>
         </br>
         <!--头像图片-->
-        <div style="margin-right: 5%;height:200px;float: left;">
-            <img class="img-rounded" src="./pictures/avator.png" alt="头像"/>
-        </div>
+        <img style="margin-right: 5%;float: left;" class="img-rounded" src="./pictures/avator.png" alt="头像"/>
         <div style="width:52%;float: left">
             <span>工&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;号：</span><span id="userId"
                                                                                   class="pStyle">userId</span></br></br>
@@ -81,7 +80,7 @@
             <span>角&nbsp;&nbsp;色&nbsp;&nbsp;名：</span><span id="groupName" class="pStyle">userId</span></br></br>
             <span>角色编号：</span><span id="groupId" class="pStyle">userId</span></br></br>
         </div>
-        <button style="position: relative;left: 20%" class="btn btn-primary" onclick="gotoModify()" type="button">
+        <button style="float: right;" class="btn btn-primary" onclick="gotoModify()" type="button">
             修改个人信息
         </button>
     </div>
@@ -134,4 +133,8 @@
         error: function (message) {
         }
     });
+
+    function returnLastPage() {
+        window.history.go(-1);
+    }
 </script>

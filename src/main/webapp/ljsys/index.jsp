@@ -5,19 +5,38 @@
     <meta charset="utf-8">
     <title>主页</title>
     <link rel="stylesheet" href="css/style.css" type="text/css">
+    <link rel="stylesheet" href="dist/css/bootstrap.css" type="text/css"/>
     <script type="text/javascript" src="./js/jquery-3.3.1.min.js"></script>
 </head>
 <body class="BodyStyle">
-<div style="height:100%;width:80%;margin: auto;">
-    <div style="height: 35%;width:100%;float:left;">
-        <p class="pStyle" style="font-weight: bolder;">密码修改(可以由数字，字母，下划线组成，长度在6到20位):</p>
-        <p class="pStyle">新密码:</p><input id="newpwd" class="pStyle" type="password">
-        <p class="pStyle">请再输入一遍:</p><input id="checkpwd" class="pStyle" type="password"></br></br>
-        <button onclick="updatePwd()">确定修改</button>
-        </br>
+<div style="height:100%;width:60%;margin: 0 auto;">
+    <div style="height: 40%;width:100%;float:left;margin-top: 5%">
+        <p style="font-size:17px;font-weight: bolder">密码修改(可以由数字，字母，下划线组成，长度在6到20位):</p>
+        <div class="form-horizontal" style="width:70%;height:30%;float: left;">
+            </br>
+            <div class="form-group" style="height: 100%">
+                <label for="userName" style="width: 16%;text-align: left" class="col-sm-2 control-label">姓&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;名:</label>
+                <input style="width: 40%" class="form-control" id="userName" disabled placeholder="姓名"><br>
+                <label for="newpwd" style="width: 16%;text-align: left" class="col-sm-2 control-label">新密码:</label>
+                <input style="width: 40%" class="form-control" id="newpwd" type="password"
+                       placeholder="请输入器密码！"><br>
+                <label for="checkpwd" style="width: 16%;text-align: left" class="col-sm-2 control-label">确认密码:</label>
+                <input style="width: 40%" class="form-control" id="checkpwd" type="password"
+                       placeholder="请输入器密码！"><br>
+                <button style="margin-left: 42%" class="btn btn-primary" onclick="updatePwd()">
+                    确定修改
+                </button>
+            </div>
+            <%--            <span>所属群组角色名:</span><span id="groupName1" class="pStyle">userId</span></br></br>--%>
+        </div>
+        <%--        <p class="pStyle" style="font-weight: bolder;">密码修改(可以由数字，字母，下划线组成，长度在6到20位):</p>--%>
+        <%--        <p class="pStyle">新密码:</p><input id="newpwd" class="pStyle" type="password">--%>
+        <%--        <p class="pStyle">请再输入一遍:</p><input id="checkpwd" class="pStyle" type="password"></br></br>--%>
+        <%--        <button onclick="updatePwd()">确定修改</button>--%>
+        <%--        </br>--%>
     </div>
     <div style="height:10px;width:100%;float:left;background-color: white;"></div>
-    <div style="height:2px;width:100%;float:left;background-color: black;"></div>
+    <div style="height:2px;width:100%;float:left;background-color: cornflowerblue;"></div>
     <div style="height:10px;width:100%;float:left;background-color: white;"></div>
     <div style="height: 15%;width: 100%;float:left;">
         <!--日志下载-->
@@ -26,33 +45,33 @@
         <a id="downloadurl" href="" download="" style="display: none;" onclick="downloadlog()">下载</a>
         <!--<button id="downloadlog" style="display: none;" onclick="downloadlog()">下载</button>-->
     </div>
-    <div style="height:2px;width:100%;float:left;background-color: black;"></div>
-    <div style="height:10px;width:100%;float:left;background-color: white;"></div>
-    <div style="height: 40%;width: 100%;float:left;">
-        <!--项目字段维护-->
-        <!--左边显示和删除-->
-        <div style="height:100%;width:45%;float:left;">
-            <span class="pStyle" style="font-weight: bolder;">项目字段:</span>
-            <div id="projectitems" style="overflow: auto;width:97%;height:95%;">
-                <table class="table" cellspacing="0" cellpadding="0" width="100%" align="center" border="1">
-                    <tr>
-                        <td class='tdStyle_title'>项目字段名</td>
-                        <td class='tdStyle_title'>项目字段值</td>
-                        <td class='tdStyle_title'>操作</td>
-                    </tr>
-                    <tbody id="tableText">
-                    </tbody>
-                </table>
-            </div>
-        </div>
-        <%--        <div style="height:100%;width:9%;float:left;background-color: white;"></div>--%>
-        <!--右边添加-->
-        <div style="height:100%;width:45%;float:left;">
-            <p class='pStyle'>新增字段名:</p><input id="newvalue">
-            <p class='pStyle'>新增字段值:</p><input id="newkey">
-            <button onclick="addItem()">提交</button>
-        </div>
-    </div>
+<%--    <div style="height:2px;width:100%;float:left;background-color: black;"></div>--%>
+<%--    <div style="height:10px;width:100%;float:left;background-color: white;"></div>--%>
+    <%--    <div style="height: 40%;width: 100%;float:left;">--%>
+    <%--        <!--项目字段维护-->--%>
+    <%--        <!--左边显示和删除-->--%>
+    <%--        <div style="height:100%;width:45%;float:left;">--%>
+    <%--            <span class="pStyle" style="font-weight: bolder;">项目字段:</span>--%>
+    <%--            <div id="projectitems" style="overflow: auto;width:97%;height:95%;">--%>
+    <%--                <table class="table" cellspacing="0" cellpadding="0" width="100%" align="center" border="1">--%>
+    <%--                    <tr>--%>
+    <%--                        <td class='tdStyle_title'>项目字段名</td>--%>
+    <%--                        <td class='tdStyle_title'>项目字段值</td>--%>
+    <%--                        <td class='tdStyle_title'>操作</td>--%>
+    <%--                    </tr>--%>
+    <%--                    <tbody id="tableText">--%>
+    <%--                    </tbody>--%>
+    <%--                </table>--%>
+    <%--            </div>--%>
+    <%--        </div>--%>
+    <%--        &lt;%&ndash;        <div style="height:100%;width:9%;float:left;background-color: white;"></div>&ndash;%&gt;--%>
+    <%--        <!--右边添加-->--%>
+    <%--&lt;%&ndash;        <div style="height:100%;width:45%;float:left;">&ndash;%&gt;--%>
+    <%--&lt;%&ndash;            <p class='pStyle'>新增字段名:</p><input id="newvalue">&ndash;%&gt;--%>
+    <%--&lt;%&ndash;            <p class='pStyle'>新增字段值:</p><input id="newkey">&ndash;%&gt;--%>
+    <%--&lt;%&ndash;            <button onclick="addItem()">提交</button>&ndash;%&gt;--%>
+    <%--&lt;%&ndash;        </div>&ndash;%&gt;--%>
+    <%--    </div>--%>
 </div>
 <!--密码修改-->
 <!--日志下载-->
@@ -68,6 +87,8 @@
         if (!checkAuthority("网页登陆")) {
             window.alert("您无网页端登陆权限!")
             location.href = "login.jsp"
+        } else {
+            $('#userName').val(sessionStorage.getItem('userName'))
         }
     }
     updateProjectItem()

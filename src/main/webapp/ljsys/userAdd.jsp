@@ -5,6 +5,7 @@
     <meta charset="utf-8">
     <title>用户新增</title>
     <link rel="stylesheet" href="css/style.css" type="text/css">
+    <link rel="stylesheet" href="dist/css/bootstrap.min.css" type="text/css"/>
     <script type="text/javascript" src="./js/jquery-3.3.1.min.js"></script>
 </head>
 <body class="BodyStyle">
