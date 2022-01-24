@@ -18,18 +18,11 @@
         </button>
     </form>
     <div style="width:70%;height:80%;margin:0 auto;">
-        <!--表格显示-->
-        <%--            <!--结果显示提示：一共有多少记录，共几页-->--%>
-        <%--            <p id="resultTip" style="margin-top: 0px;font-family: Simsun;font-size: 16px">请在上方输入框内输入相应信息并点击“模糊查询按钮”</p>--%>
-        <%--            <form name="jumpPage" style="font-family: Simsun;font-size:16px;" onsubmit="return false;">--%>
-        <%--                <span>输入页码进行跳转:</span><input type="text" name="page" class="FormInputStyle">--%>
-        <%--                <button type="button" style="font-family: Simsun;font-size:16px;" onclick="jumpToNewPage2()">跳转</button>--%>
-        <%--            </form>--%>
         <div class="page-header" style="margin-top: 0;margin-bottom: 1%">
             <h3 style="margin-bottom: 0;margin-top: 0"><small>用户信息</small></h3>
         </div>
         <div style="height: 85%">
-            <table class="table table-hover" style="font-size: 15px;text-align: left">
+            <table class="table table-hover" style="text-align: left">
                 <tr>
                     <td class="active" style="width: 35%">工号</td>
                     <td class="active" style="width: 35%">姓名</td>
@@ -41,7 +34,7 @@
         </div>
         <nav aria-label="Page navigation" style="margin-left:50%;width:80%;height:10%;">
             <ul class="pagination" style="margin-top: 0;width: 70%">
-                <li><span id="total" style="width: 15%"></span></li>
+                <li><span id="total" style="width: 18%"></span></li>
                 <li>
                     <a href="#" onclick="jumpToNewPage(2)" aria-label="Previous">
                         <span aria-hidden="true">&laquo;</span>
@@ -132,7 +125,7 @@
                 }
                 $("#tableText").html(str);
                 // 提示语
-                $('#total').html('共' + res.pageAll + "页");
+                $('#total').html(res.cnt + "条，共" + res.pageAll + "页");
                 $('#li_1').addClass('active');
                 // 重置查询为第一页
                 pageCur = newpage;
@@ -140,15 +133,16 @@
                 pageAll = parseInt(res.pageAll);
                 for (let i = 1; i < 6; i++) {
                     let k = i % 5;
-                    if (k === 0) {
-                        $('#a_' + k).text(5);
-                        $('#a_' + k).attr('onclick', 'jumpToNewPage1(5)');
-                        continue;
-                    }
                     if (k > pageAll) {
                         $('#a_' + k).text('.');
                     } else {
-                        $('#a_' + k).attr('onclick', 'jumpToNewPage1(' + k + ')');
+                        if (k === 0) {
+                            $('#a_' + k).text(5);
+                            $('#a_' + k).attr('onclick', 'jumpToNewPage1(5)');
+                            continue;
+                        } else {
+                            $('#a_' + k).attr('onclick', 'jumpToNewPage1(' + k + ')');
+                        }
                     }
                 }
             },
@@ -223,15 +217,10 @@
                 if (newpageCode === 2) {
                     setFooter(2, res.pageAll, pageCur, newpage);
                 }
-                // 提示语
-                var tipStr = "共查询到" + res.cnt + "条记录,结果共有" + res.pageAll + "页!"
-                $("#resultTip").html(tipStr);
                 // 重置查询为第一页
                 pageCur = newpage;
                 // 重置总页数
                 pageAll = parseInt(res.pageAll);
-                var tipStr2 = pageCur + "/" + pageAll;
-                $("#resultTip2").html(tipStr2)
             },
             error: function (message) {
                 (json)
@@ -335,15 +324,10 @@
                 }
                 $("#tableText").html(str);
                 jump2(newpage, res.pageAll);
-                // 提示语
-                var tipStr = "共查询到" + res.cnt + "条记录,结果共有" + res.pageAll + "页!"
-                $("#resultTip").html(tipStr);
                 // 重置查询为第一页
                 pageCur = newpage;
                 // 重置总页数
                 pageAll = parseInt(res.pageAll);
-                var tipStr2 = pageCur + "/" + pageAll;
-                $("#resultTip2").html(tipStr2)
             },
             error: function (message) {
                 (json)
@@ -452,6 +436,10 @@
         if (!checkAuthority("删除用户")) {
             window.alert("您无删除用户的权限!")
             return
+        }
+        let r = confirm("亲，确认删除！");
+        if (r === false) {
+            return;
         }
         var sqlStr = "update user set user_status = 0 where user_id =" + userid + ";";
         $.ajax({

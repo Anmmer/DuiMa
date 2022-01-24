@@ -420,7 +420,6 @@
         if (r === false) {
             return;
         }
-        console.log(fangliang)
         $.post("${pageContext.request.contextPath}/DeletePreProduct", {
             pids: JSON.stringify(obj),
             plannumber: excelData.plan.plannumber,

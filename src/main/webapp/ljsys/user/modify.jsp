@@ -173,7 +173,7 @@
             for (var i = 0; i < jsonobj.length; i++) {
                 oldgpids.push(jsonobj[i]['gp_id'])
                 newgpids.push(jsonobj[i]['gp_id'])
-                var newitem = $("<div id='gpname_" + jsonobj[i]['gp_id'] + "'>" + "<p class='pStyle' style='width:80%;height:30px;float:left;'>" + jsonobj[i]['gp_name'] + "</p>" + "<button style='width:20%;height:30px;float:left;' class='btn btn-primary btn-sm' onclick='removeGroup(" + jsonobj[i]['gp_id'] + ")'>删除</button></br></div>")
+                var newitem = $("<div id='gpname_" + jsonobj[i]['gp_id'] + "'>" + "<p class='pStyle' style='width:80%;height:30px;float:left;'>" + jsonobj[i]['gp_name'] + "</p>" + "<button style='width:15%;height:30px;float:left;' class='btn btn-primary btn-sm' onclick='removeGroup(" + jsonobj[i]['gp_id'] + ")'>删除</button></br></div>")
                 groupdiv.append(newitem)
             }
         },
@@ -305,7 +305,7 @@
         }
         if (!flag) {
             var groupdiv = $("#newGroups")
-            var newitem = $("<div id='gpname_" + id + "'>" + "<p class='pStyle' style='width:85%;height:30px;float:left;'>" + name + "</p>" + "<button style='width:15%;height:30px;float:left;' class='btn btn-primary btn-sm' onclick='removeGroup(" + id + ")'>删除</button></br></div>")
+            var newitem = $("<div id='gpname_" + id + "'>" + "<p class='pStyle' style='width:80%;height:30px;float:left;'>" + name + "</p>" + "<button style='width:15%;height:30px;float:left;' class='btn btn-primary btn-sm' onclick='removeGroup(" + id + ")'>删除</button></br></div>")
             groupdiv.append(newitem)
             newgpids.push(id)
         }
