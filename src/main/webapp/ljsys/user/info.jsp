@@ -64,12 +64,11 @@
 
 </script>
 <div style="width:70%;height:100%;margin: 0 auto;background-color:white;">
-    <div style="width:100%;height:2%;"></div>
-    <button style="position: absolute;left: 8%;top: 8%" onclick="returnLastPage()" class="btn btn-primary">返回</button>
+    <button style="position: absolute;left: 8%;top: 6%" onclick="returnLastPage()" class="btn btn-primary">返回</button>
     <!--展示用户信息及其群组信息-->
-    <div style="width:100%;height:38%;">
-        </br>
-        </br>
+    <div style="width:100%;height:34%;">
+        <br>
+        <br>
         <!--头像图片-->
         <img style="margin-right: 5%;float: left;" class="img-rounded" src="./pictures/avator.png" alt="头像"/>
         <div style="width:52%;float: left">

@@ -11,7 +11,7 @@
             <select class="form-control" style="width: 40%" id="groupName" name="groupName" size="1"
                     style="width:35%;">
             </select>
-            <button style="margin-top: 5%;margin-left: 2%;" class="btn btn-primary" onclick="addOne()">提交新增
+            <button style="margin-top: 5%;margin-left: 2%;" class="btn btn-primary btn-sm" onclick="addOne()">提交新增
             </button>
         </div>
     </div>
@@ -27,7 +27,7 @@
                     <label for="file1" style="width: 28%;text-align: left;padding-right: 0"
                            class="col-sm-2 control-label">上传Excel:</label>
                     <input style="width: 60%" type="file" name="file1" id="file1"><br>
-                    <button style="margin-top: 5%;margin-left: 2%;" class="btn btn-primary" onclick="addBatch()">
+                    <button style="margin-top: 5%;margin-left: 2%;" class="btn btn-primary btn-sm" onclick="addBatch()">
                         批量新增
                     </button>
                 </div>

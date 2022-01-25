@@ -34,7 +34,7 @@
     <div style="width:40%;height:100%;margin: 0 auto;">
         <div style="width:100%;height:5%;">
         </div>
-        <button style="position: absolute;left: 20%;" onclick="returnLastPage()" class="btn btn-primary">返回</button>
+        <button style="position: absolute;left: 20%;" onclick="returnLastPage()" class="btn btn-primary btn-sm">返回</button>
         <!--展示用户信息及其群组信息-->
         <p style="font-size:17px;font-weight: bolder">用户信息修改:</p>
         <div class="form-horizontal" style="width:100%;height:30%;float: left;">
@@ -49,7 +49,7 @@
                 <select class="form-control" style="width: 40%" id="groupNames" name="groupNames" size="1"
                         style="width:35%;">
                 </select>
-                <button style="position: absolute;left: 54%;top:208px" class="btn btn-primary" onclick="addGroup()">添加
+                <button style="position: absolute;left: 54%;top:29%" class="btn btn-primary btn-sm" onclick="addGroup()">添加
                 </button>
             </div>
             <%--            <span>所属群组角色名:</span><span id="groupName1" class="pStyle">userId</span></br></br>--%>
@@ -59,7 +59,7 @@
             <div id="newGroups" class="panel-body" style="height:100%;overflow-y:scroll;">
             </div>
         </div>
-        <input type="button" value="提交修改" class="btn btn-primary" style="margin-top: 0%" onclick="modify1()">
+        <input type="button" value="提交修改" class="btn btn-primary btn-sm" style="margin-top: 0%" onclick="modify1()">
         <%--        <div style="width:100%;height:3px;background-color: cornflowerblue;float:left;"></div>--%>
         <%--        <div style="width:100%;height:30px;float:left"></div>--%>
         <%--        <p style="font-size: 16px;font-family: Simsun;font-weight: bolder;">在下方进行修改后点击提交</p>--%>
@@ -173,7 +173,7 @@
             for (var i = 0; i < jsonobj.length; i++) {
                 oldgpids.push(jsonobj[i]['gp_id'])
                 newgpids.push(jsonobj[i]['gp_id'])
-                var newitem = $("<div id='gpname_" + jsonobj[i]['gp_id'] + "'>" + "<p class='pStyle' style='width:80%;height:30px;float:left;'>" + jsonobj[i]['gp_name'] + "</p>" + "<button style='width:15%;height:30px;float:left;' class='btn btn-primary btn-sm' onclick='removeGroup(" + jsonobj[i]['gp_id'] + ")'>删除</button></br></div>")
+                var newitem = $("<div id='gpname_" + jsonobj[i]['gp_id'] + "'>" + "<p class='pStyle' style='width:80%;height:30px;float:left;'>" + jsonobj[i]['gp_name'] + "</p>" + "<button style='width:15%;height:30px;float:left;' class='btn btn-primary  btn-xs' onclick='removeGroup(" + jsonobj[i]['gp_id'] + ")'>删除</button></br></div>")
                 groupdiv.append(newitem)
             }
         },
@@ -305,7 +305,7 @@
         }
         if (!flag) {
             var groupdiv = $("#newGroups")
-            var newitem = $("<div id='gpname_" + id + "'>" + "<p class='pStyle' style='width:80%;height:30px;float:left;'>" + name + "</p>" + "<button style='width:15%;height:30px;float:left;' class='btn btn-primary btn-sm' onclick='removeGroup(" + id + ")'>删除</button></br></div>")
+            var newitem = $("<div id='gpname_" + id + "'>" + "<p class='pStyle' style='width:80%;height:30px;float:left;'>" + name + "</p>" + "<button style='width:15%;height:30px;float:left;' class='btn btn-primary  btn-xs' onclick='removeGroup(" + id + ")'>删除</button></br></div>")
             groupdiv.append(newitem)
             newgpids.push(id)
         }

@@ -24,34 +24,16 @@
                 <label>群组角色名：</label><input type="text" name="gpName"
                                             style="height:10%;" class="form-control">
             </div>
-            <button type="button" class="btn btn-primary" style="height:60%;margin-left: 5%" onclick="updateTable(1)">
+            <button type="button" class="btn btn-primary btn-sm" style="height:60%;margin-left: 5%"
+                    onclick="updateTable(1)">
                 模糊查询
             </button>
         </form>
-        <%--        <form name="query" style="font-family: Simsun;font-size:16px;">--%>
-        <%--            <div style="width:100%;height: 16px;float: left;"></div>--%>
-        <%--            <div style="width:70%;margin:0 auto;">--%>
-        <%--                <div style="width:40%;float: left;">--%>
-        <%--                    <span>群组编号:</span><input type="text" name="gpId" class="FormInputStyle">--%>
-        <%--                </div>--%>
-        <%--                <div style="width:40%;float: left;">--%>
-        <%--                    <span>群组角色名:</span><input type="text" name="gpName" class="FormInputStyle">--%>
-        <%--                </div>--%>
-        <%--                <button type="button" style="font-family: Simsun;font-size:16px;" onclick="updateTable(1)">模糊查询</button>--%>
-        <%--            </div>--%>
-        <%--        </form>--%>
     </div>
     <div style="width:70%;height:80%;margin:0 auto;">
-        <!--表格显示-->
-        <%--        <label for="page" class="pStyle">输入页码进行跳转:</label><input type="text" id="page" class="FormInputStyle">--%>
-        <%--        <button type="button" style="font-family: Simsun;font-size:16px;" onclick="jumpToNewPage2()">跳转</button>--%>
-        <%--        <label for="newGroupName" class="pStyle" style="margin-left: 5%">新增群组名:</label>--%>
-        <%--        <input type="text" id="newGroupName" name="newGroupName" style="font-size: 16px;font-family: Simsum;">--%>
-        <%--        <button type="button" style="font-size: 16px;font-family: Simsun;margin-left: 4%" onclick="addGroup()">提交新增--%>
-        <%--        </button>--%>
         <div class="page-header" style="margin-top: 3%;margin-bottom: 1%;width: 100%">
             <h3 style="margin-bottom: 0;margin-top: 0;margin-right:0;width: 50% "><small>角色信息</small></h3>
-            <button type="button" style="position: absolute;right: 15%;top:11%" class="btn btn-primary"
+            <button type="button" style="position: absolute;right: 15%;top:11%" class="btn btn-primary btn-sm"
                     data-toggle="modal"
                     data-target="#myModal">
                 添加角色
@@ -61,17 +43,17 @@
         <div style="height: 85%">
             <table class="table table-hover" style="text-align: center">
                 <tr>
-                    <td class="active" style="width: 35%">群组编号</td>
-                    <td class="active" style="width: 35%">群组角色名</td>
-                    <td class="active" style="width: 30%;">操作</td>
+                    <td class="tdStyle_title active" style="width: 35%">群组编号</td>
+                    <td class="tdStyle_title active" style="width: 35%">群组角色名</td>
+                    <td class="tdStyle_title active" style="width: 30%;">操作</td>
                 </tr>
                 <tbody id="tableText">
                 </tbody>
             </table>
         </div>
-        <nav aria-label="Page navigation" style="margin-left:50%;width:80%;height:10%;">
+        <nav aria-label="Page navigation" style="margin-left:51%;width:80%;height:10%;">
             <ul class="pagination" style="margin-top: 0;width: 70%">
-                <li><span id="total" style="width: 18%"></span></li>
+                <li><span id="total" style="width: 22%"></span></li>
                 <li>
                     <a href="#" onclick="jumpToNewPage(2)" aria-label="Previous">
                         <span aria-hidden="true">&laquo;</span>
@@ -96,7 +78,7 @@
         </nav>
     </div>
     <!-- Modal -->
-    <div class="modal fade" id="myModal" tabindex="-1" style="position: absolute;left: 1%;top: 12%;" role="dialog"
+    <div class="modal fade" id="myModal" tabindex="-1" style="position: absolute;left: 15%;top: 12%;" role="dialog"
          data-backdrop="false"
          aria-labelledby="myModalLabel">
         <div class="modal-dialog" role="document">
@@ -385,19 +367,19 @@
         if (newpage <= 5) {
             for (let i = 1; i < 6; i++) {
                 let k = i % 5;
-                if (k === 0) {
-                    $('#a_' + k).text(5);
-                    continue;
-                }
                 if (k > pageAll) {
                     $('#a_' + k).text('.');
                 } else {
-                    $('#a_' + k).text(k);
-                    $('#a_' + k).attr('onclick', 'jumpToNewPage1(' + k + ')');
+                    if (k === 0) {
+                        $('#a_' + k).text(5);
+                    } else {
+                        $('#a_' + k).text(k);
+                        $('#a_' + k).attr('onclick', 'jumpToNewPage1(' + k + ')');
+                    }
                 }
             }
-            $('#li_' + newpage % 5).addClass('active');
             $('#li_' + pageCur % 5).removeClass('active');
+            $('#li_' + newpage % 5).addClass('active');
         } else {
             let j = Math.floor(newpage / 5);
             let m = j * 5;
@@ -410,6 +392,7 @@
                     $('#a_' + k).attr('onclick', 'jumpToNewPage1(' + m + ')');
                 }
             }
+            $('#li_' + pageCur % 5).removeClass('active');
             $('#li_' + newpage % 5).addClass('active');
         }
     }
@@ -463,6 +446,10 @@
             return;
         }
         var newGroupName = $("#newGroupName").val()
+        if (newGroupName === '') {
+            alert('请输入');
+            return;
+        }
         var json = {
             groupName: newGroupName,
             id: sessionStorage.getItem("userId"),

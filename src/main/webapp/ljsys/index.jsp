@@ -23,7 +23,7 @@
                 <label for="checkpwd" style="width: 16%;text-align: left" class="col-sm-2 control-label">确认密码:</label>
                 <input style="width: 40%" class="form-control" id="checkpwd" type="password"
                        placeholder="请输入器密码！"><br>
-                <button style="margin-left: 42%" class="btn btn-primary" onclick="updatePwd()">
+                <button style="margin-left: 44%" class="btn btn-primary btn-sm" onclick="updatePwd()">
                     确定修改
                 </button>
             </div>

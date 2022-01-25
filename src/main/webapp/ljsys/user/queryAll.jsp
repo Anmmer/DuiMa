@@ -13,7 +13,8 @@
             <label>姓名：</label><input type="text" name="userName"
                                      style="height:10%;" class="form-control">
         </div>
-        <button type="button" class="btn btn-primary" style="height:60%;margin-left: 5%" onclick="updateTable(1)">
+        <button type="button" class="btn btn-primary btn-sm" style="height:60%;margin-left: 5%"
+                onclick="updateTable(1)">
             模糊查询
         </button>
     </form>
@@ -22,11 +23,11 @@
             <h3 style="margin-bottom: 0;margin-top: 0"><small>用户信息</small></h3>
         </div>
         <div style="height: 85%">
-            <table class="table table-hover" style="text-align: left">
+            <table class="table table-hover" style="text-align: center">
                 <tr>
-                    <td class="active" style="width: 35%">工号</td>
-                    <td class="active" style="width: 35%">姓名</td>
-                    <td class="active" style="width: 30%;text-align: center">操作</td>
+                    <td class="tdStyle_title active" style="width: 35%">工号</td>
+                    <td class="tdStyle_title active" style="width: 35%">姓名</td>
+                    <td class="tdStyle_title active" style="width: 30%;text-align: center">操作</td>
                 </tr>
                 <tbody id="tableText">
                 </tbody>
@@ -34,7 +35,7 @@
         </div>
         <nav aria-label="Page navigation" style="margin-left:50%;width:80%;height:10%;">
             <ul class="pagination" style="margin-top: 0;width: 70%">
-                <li><span id="total" style="width: 18%"></span></li>
+                <li><span id="total" style="width: 22%"></span></li>
                 <li>
                     <a href="#" onclick="jumpToNewPage(2)" aria-label="Previous">
                         <span aria-hidden="true">&laquo;</span>
@@ -133,7 +134,7 @@
                 pageAll = parseInt(res.pageAll);
                 for (let i = 1; i < 6; i++) {
                     let k = i % 5;
-                    if (k > pageAll) {
+                    if (i > pageAll) {
                         $('#a_' + k).text('.');
                     } else {
                         if (k === 0) {
@@ -340,19 +341,19 @@
         if (newpage <= 5) {
             for (let i = 1; i < 6; i++) {
                 let k = i % 5;
-                if (k === 0) {
-                    $('#a_' + k).text(5);
-                    continue;
-                }
-                if (k > pageAll) {
+                if (i > pageAll) {
                     $('#a_' + k).text('.');
                 } else {
-                    $('#a_' + k).text(k);
-                    $('#a_' + k).attr('onclick', 'jumpToNewPage1(' + k + ')');
+                    if (k === 0) {
+                        $('#a_' + k).text(5);
+                    } else {
+                        $('#a_' + k).text(k);
+                        $('#a_' + k).attr('onclick', 'jumpToNewPage1(' + k + ')');
+                    }
                 }
             }
-            $('#li_' + newpage % 5).addClass('active');
             $('#li_' + pageCur % 5).removeClass('active');
+            $('#li_' + newpage % 5).addClass('active');
         } else {
             let j = Math.floor(newpage / 5);
             let m = j * 5;
@@ -365,6 +366,7 @@
                     $('#a_' + k).attr('onclick', 'jumpToNewPage1(' + m + ')');
                 }
             }
+            $('#li_' + pageCur % 5).removeClass('active');
             $('#li_' + newpage % 5).addClass('active');
         }
     }

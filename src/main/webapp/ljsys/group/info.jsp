@@ -7,34 +7,25 @@
         <div style="height: 30%;width:100%;float: left;">
             <div style="height:70px;width: 100%;float:left;">
                 <div style="height:30%;width:100%;float:left;"></div>
-                <button onclick="returnLastPage()" class="btn btn-primary">返回</button>
+                <button onclick="returnLastPage()" class="btn btn-primary btn-sm">返回</button>
             </div>
             <div class="form-horizontal" style="width:100%;height:30%;float: left;">
                 </br>
                 <div class="form-group" style="height: 100%">
-                    <label for="groupId" style="width: 21%;text-align: left"
+                    <label for="groupId" style="width: 26%;text-align: left"
                            class="col-sm-2 control-label">角色编号:</label>
                     <input style="width: 40%" class="form-control" id="groupId" disabled placeholder="群组编号"><br>
-                    <label for="groupName" style="width: 21%;text-align: left"
+                    <label for="groupName" style="width: 26%;text-align: left"
                            class="col-sm-2 control-label">角色名称:</label>
                     <input style="width: 40%" class="form-control" id="groupName" disabled placeholder="角色名称:"><br>
                 </div>
             </div>
-            <%--            <span class="pStyle" style="width:30%;height:30px;line-height:30px;float:left;font-weight: bolder;">群组编号:</span>--%>
-            <%--            <span class="pStyle" style="width:70%;height:30px;line-height: 30px;float: left;" name="groupId" id="groupId">Id</span>--%>
-            <%--            <div style="height:30px;width: 100%;float:left;"></div>--%>
-            <%--            <span class="pStyle" style="width:30%;height:30px;line-height:30px;float: left;font-weight: bolder;">群组名:</span>--%>
-            <%--            <span class="pStyle" style="width:70%;height:30px;line-height: 30px;float: left;" name="groupName" id="groupName">Name</span>--%>
         </div>
         <div class="panel panel-default" style="height: 60%;width: 80%;float: left;overflow-y:hidden;">
             <div class="panel-heading">所属于该群组的用户:</div>
             <div id="users" class="panel-body" style="height:100%;overflow-y:auto;">
             </div>
         </div>
-        <%--        <span class="pStyle" style="width: 100%;float: left;font-weight: bolder;">所属于该群组的用户:</span>--%>
-        <%--        <div style="width:80%;height:80%;overflow-y:auto;" name="users" id="users">--%>
-        <%--            <span class="pStyle" style="color: blueviolet;">⚪&nbsp;</span><span class="pStyle">用户1</span><br/>--%>
-        <%--        </div>--%>
     </div>
     <!--中栏-->
     <div style="height:100%; width:2px;background-color: cornflowerblue;float: left;"></div>
@@ -45,17 +36,17 @@
                 <br>
                 <br>
                 <div class="form-group" style="height: 100%">
-                    <label for="chooseFunction" style="width: 25%;text-align: left"
+                    <label for="chooseFunction" style="width: 30%;text-align: left"
                            class="col-sm-2 control-label">角色编号:</label>
                     <select style="width: 45%" class="form-control" id="chooseFunction"
                             name="chooseFunction"></select><br>
-                    <button type="button" style="position: absolute;left: 56%;top: 17%" class="btn btn-primary"
+                    <button type="button" style="position: absolute;left: 58%;top: 20%" class="btn btn-primary btn-sm"
                             onclick="addGroupFunction()">新增
                     </button>
                 </div>
             </form>
         </div>
-        <div class="panel panel-default" style="height: 60%;width: 70%;overflow-y:hidden;margin: 0 auto;">
+        <div class="panel panel-default" style="height: 60%;width: 75%;overflow-y:hidden;margin: 0 auto;">
             <div class="panel-heading">该群组的功能权限为:</div>
             <div id="functions" class="panel-body" style="height:100%;overflow-y:auto;">
             </div>
@@ -79,7 +70,7 @@
                            class="col-sm-2 control-label">工序权限:</label>
                     <select style="width: 45%" class="form-control" id="chooseProcessContent"
                             name="chooseFunction"></select><br>
-                    <button type="button" style="position: absolute;left: 86%;top: 17%" class="btn btn-primary"
+                    <button type="button" style="position: absolute;left: 87%;top: 20%" class="btn btn-primary btn-sm"
                             onclick="addGroupProcessContent()">新增
                     </button>
                 </div>
@@ -90,25 +81,6 @@
             <div id="processContents" class="panel-body" style="height:100%;overflow-y:auto;">
             </div>
         </div>
-        <%--        <div style="height:100%;width:10%;float: left;"></div>--%>
-        <%--        <div style="height:70px;width:90%;float:left;"></div>--%>
-        <%--        <span class="pStyle" style="font-weight: bolder;width: 90%;">该群组的工序权限为:</span>--%>
-        <%--        <div style="height:350px;width:85%;float:left;overflow-y: auto;" id="processContents" name="processContents">--%>
-        <%--            <span class="pStyle" style="color:red;">√&nbsp;</span><span--%>
-        <%--                class="pStyle">工序权限1&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="pStyle">-</span><br/>--%>
-        <%--        </div>--%>
-        <%--        <div style="height:50px;width:90%;float:left;"></div>--%>
-        <%--        <div style="height:180px;width:90%;float:left;">--%>
-        <%--            <form name="addProcessContent">--%>
-        <%--                <span class="pStyle">新增工序权限:</span>--%>
-        <%--                <select id="chooseProcessContent" name="chooseProcessContent" size="5"--%>
-        <%--                        style="width:200px;font-size:16px;font-family:Simsun;"></select>--%>
-        <%--                <div style="width:100%;height:30px;"></div>--%>
-        <%--                <button type="button" style="font-size: 16px;font-family: Simsun;" onclick="addGroupProcessContent()">--%>
-        <%--                    提交新增--%>
-        <%--                </button>--%>
-        <%--            </form>--%>
-        <%--        </div>--%>
     </div>
 </div>
 <script type="text/javascript">
@@ -195,7 +167,7 @@
             success: function (res) {
                 var jsonobj = JSON.parse(res.data)
                 for (var i = 0; i < jsonobj.length; i++) {
-                    var newitem = $("<div></p><p style='width:80%;height:30px;float:left;'>" + jsonobj[i]['fa_name'] + "</p>" + "<button style='width:15%;height:30px;float:left;' class='btn btn-primary btn-sm' onclick='deleteGroupFunction(" + jsonobj[i]['fa_id'] + ")'>删除</button></br></div>")
+                    var newitem = $("<div style='height:40px;'><p style='width:85%;height:30px;float:left;'>" + jsonobj[i]['fa_name'] + "</p>" + "<button style='width:15%;height:30px;float:left;' class='btn btn-primary btn-xs' onclick='deleteGroupFunction(" + jsonobj[i]['fa_id'] + ")'>删除</button></br></div>")
                     $("#functions").append(newitem);
                 }
             },
@@ -228,7 +200,7 @@
             success: function (res) {
                 var jsonobj = JSON.parse(res.data)
                 for (var i = 0; i < jsonobj.length; i++) {
-                    var newitem = $("<div></p><p style='width:80%;height:30px;float:left;'>" + jsonobj[i]['pc_name'] + "</p>" + "<button style='width:15%;height:30px;float:left;' class='btn btn-primary btn-sm' onclick='deleteGroupFunction(" + jsonobj[i]['pc_id'] + ")'>删除</button></br></div>")
+                    var newitem = $("<div style='height: 40px'><p style='width:85%;height:30px;float:left;'>" + jsonobj[i]['pc_name'] + "</p>" + "<button style='width:15%;height:30px;float:left;' class='btn btn-primary btn-xs' onclick='deleteGroupFunction(" + jsonobj[i]['pc_id'] + ")'>删除</button></br></div>")
                     $("#processContents").append(newitem);
                 }
             },
