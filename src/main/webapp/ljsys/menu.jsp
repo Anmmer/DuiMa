@@ -42,11 +42,11 @@
     <!--用户管理-->
     <ul class="ul_TopListStyle">
         <li class="li_TopItemStyle" onclick="ShowOrHide('User','user_icon')">
-            <button style="width: 100%;height:40px;background-color: rgb(50, 64, 87);border: none; text-align:left">
-                <span style="margin-left: 10%;margin-right: 5%;"
-                      class="glyphicon glyphicon-tree-conifer"></span>用户管理<span id="user_icon"
-                                                                                style="position: relative;right: -40%"
-                                                                                class="glyphicon glyphicon-menu-down"></span>
+            <button style="width: 100%;height:40px;background-color: rgb(50, 64, 87);border: none;">
+                <div style="float: left;margin-left: 10%;width: 80%;text-align: left"><span style="margin-right: 5%;"
+                                                                                            class="glyphicon glyphicon-tree-conifer"></span>用户管理
+                </div>
+                <span id="user_icon" style="float: right;margin-top: 4%" class="glyphicon glyphicon-menu-down"></span>
             </button>
         </li>
         <ul class="ul_ListStyle" style="display: block;" id="User">
@@ -70,11 +70,14 @@
     <!--群组管理-->
     <ul class="ul_TopListStyle">
         <li class="li_TopItemStyle" onclick="ShowOrHide('Group','group_icon')">
-            <button style="width: 100%;height:40px;background-color: rgb(50, 64, 87);border: none;text-align:left">
-                <span style="margin-left: 10%;margin-right: 5%;"
-                      class="glyphicon glyphicon-tree-conifer"></span>群组管理<span id="group_icon"
-                                                                                style="position: relative;right: -40%"
-                                                                                class="glyphicon glyphicon-menu-down"></span>
+            <button style="width: 100%;height:40px;background-color: rgb(50, 64, 87);border: none;">
+                <div style="float: left;margin-left: 10%;width: 80%;text-align: left">
+                <span style="margin-right: 5%;"
+                      class="glyphicon glyphicon-tree-conifer"></span>群组管理
+                </div>
+                <span id="group_icon"
+                      style="float: right;margin-top: 4%"
+                      class="glyphicon glyphicon-menu-down"></span>
             </button>
         </li>
         <ul class="ul_ListStyle" style="display: block;" id="Group">
@@ -88,11 +91,13 @@
     <!--工厂管理-->
     <ul class="ul_TopListStyle">
         <li class="li_TopItemStyle" onclick="ShowOrHide('Factory','factory_icon')">
-            <button style="width: 100%;height:40px;background-color: rgb(50, 64, 87);border: none;text-align:left">
-                <span style="margin-left: 10%;margin-right: 5%;"
-                      class="glyphicon glyphicon-tree-conifer"></span>库存管理<span id="factory_icon"
-                                                                                style="position: relative;right: -40%"
-                                                                                class="glyphicon glyphicon-menu-down"></span>
+            <button style="width: 100%;height:40px;background-color: rgb(50, 64, 87);border: none;">
+                <div style="float: left;margin-left: 10%;width: 80%;text-align: left">
+                <span style="margin-right: 5%;"
+                      class="glyphicon glyphicon-tree-conifer"></span>库存管理
+                </div>
+                <span id="factory_icon" style="float: right;margin-top: 4%"
+                      class="glyphicon glyphicon-menu-down"></span>
             </button>
         </li>
         <ul class="ul_ListStyle" style="display: block;" id="Factory">
@@ -107,10 +112,12 @@
     <ul class="ul_TopListStyle">
         <li class="li_TopItemStyle" onclick="ShowOrHide('Equipment','equipment_icon')">
             <button style="width: 100%;height:40px;background-color: rgb(50, 64, 87);border: none;text-align:left">
-                <span style="margin-left: 10%;margin-right: 5%;"
-                      class="glyphicon glyphicon-tree-conifer"></span>基础档案管理<span id="equipment_icon"
-                                                                                  style="position: relative;right: -27%"
-                                                                                  class="glyphicon glyphicon-menu-down"></span>
+                <div style="float: left;margin-left: 10%;width: 80%;text-align: left">
+                <span style="margin-right: 5%;"
+                      class="glyphicon glyphicon-tree-conifer"></span>基础档案管理
+                </div>
+                <span id="equipment_icon" style="float: right;margin-top: 4%"
+                      class="glyphicon glyphicon-menu-down"></span>
             </button>
         </li>
         <ul class="ul_ListStyle" style="display: block;" id="Equipment">
@@ -145,10 +152,11 @@
     <ul class="ul_TopListStyle">
         <li class="li_TopItemStyle" onclick="ShowOrHide('rqCode','rqCode_icon')">
             <button style="width: 100%;height:40px;background-color: rgb(50, 64, 87);border: none;text-align:left">
-                <span style="margin-left: 10%;margin-right: 5%;"
-                      class="glyphicon glyphicon-tree-conifer"></span>打印管理<span id="rqCode_icon"
-                                                                                style="position: relative;right: -40%"
-                                                                                class="glyphicon glyphicon-menu-down"></span>
+                <div style="float: left;margin-left: 10%;width: 80%;text-align: left">
+                <span style="margin-right: 5%;"
+                      class="glyphicon glyphicon-tree-conifer"></span>打印管理
+                </div>
+                <span id="rqCode_icon" style="float: right;margin-top: 4%" class="glyphicon glyphicon-menu-down"></span>
             </button>
         </li>
         <ul class="ul_ListStyle" style="display: block;" id="rqCode">

@@ -5,7 +5,9 @@
     <meta charset="utf-8">
     <title>相城绿建堆码后台管理系统</title>
     <link rel="stylesheet" href="css/style.css" type="text/css">
+    <link rel="stylesheet" href="dist/css/bootstrap.min.css" type="text/css"/>
     <script type="text/javascript" src="./js/jquery-3.3.1.min.js"></script>
+    <script type="text/javascript" src="dist/js/bootstrap.js"></script>
 </head>
 <body class="BodyStyle">
 <%@ include file="./warehouse/queryAll.jsp" %>

@@ -13,9 +13,9 @@
             <label>姓名：</label><input type="text" name="userName"
                                      style="height:10%;" class="form-control">
         </div>
-        <button type="button" class="btn btn-primary btn-sm" style="height:60%;margin-left: 5%"
+        <button type="button" class="btn btn-primary btn-sm" style="margin-left: 5%"
                 onclick="updateTable(1)">
-            模糊查询
+            查 询
         </button>
     </form>
     <div style="width:70%;height:80%;margin:0 auto;">
@@ -125,7 +125,6 @@
                     str += "</td></tr>"
                 }
                 $("#tableText").html(str);
-                // 提示语
                 $('#total').html(res.cnt + "条，共" + res.pageAll + "页");
                 $('#li_1').addClass('active');
                 // 重置查询为第一页

@@ -5,23 +5,24 @@
     <div style="height: 100%;width: 10%;float: left;"></div>
     <div style="height:100%; width:25%;float: left;">
         <div style="height: 30%;width:100%;float: left;">
-            <div style="height:70px;width: 100%;float:left;">
-                <div style="height:30%;width:100%;float:left;"></div>
+            <div style="margin-top:10%;margin-bottom:5%;width: 100%;">
                 <button onclick="returnLastPage()" class="btn btn-primary btn-sm">返回</button>
             </div>
-            <div class="form-horizontal" style="width:100%;height:30%;float: left;">
-                </br>
-                <div class="form-group" style="height: 100%">
-                    <label for="groupId" style="width: 26%;text-align: left"
-                           class="col-sm-2 control-label">角色编号:</label>
-                    <input style="width: 40%" class="form-control" id="groupId" disabled placeholder="群组编号"><br>
-                    <label for="groupName" style="width: 26%;text-align: left"
-                           class="col-sm-2 control-label">角色名称:</label>
-                    <input style="width: 40%" class="form-control" id="groupName" disabled placeholder="角色名称:"><br>
+            <div class="form-inline" style="width:100%;">
+                <br>
+                <div class="form-group">
+                    <label for="groupId">角色编号：</label>
+                    <input style="width: 60%" class="form-control" id="groupId" disabled placeholder="群组编号">
+                </div>
+                <br>
+                <br>
+                <div class="form-group">
+                    <label for="groupName">角色名称：</label>
+                    <input style="width: 60%" class="form-control" id="groupName" disabled placeholder="角色名称:">
                 </div>
             </div>
         </div>
-        <div class="panel panel-default" style="height: 60%;width: 80%;float: left;overflow-y:hidden;">
+        <div class="panel panel-default" style="height: 60%;width: 80%;overflow-y:hidden;">
             <div class="panel-heading">所属于该群组的用户:</div>
             <div id="users" class="panel-body" style="height:100%;overflow-y:auto;">
             </div>
@@ -32,18 +33,17 @@
     <div style="height:100%; width:30%;float: left;">
         <div style="height:16%;width:70%;margin:  18% auto 5% auto;">
             <span style="font-size:17px;font-weight: bolder">新增功能权限:</span>
-            <form class="form-horizontal" style="width:100%;height:30%;" name="addFunction">
+            <form class="form-inline" style="width:100%;" name="addFunction">
                 <br>
                 <br>
-                <div class="form-group" style="height: 100%">
-                    <label for="chooseFunction" style="width: 30%;text-align: left"
-                           class="col-sm-2 control-label">角色编号:</label>
-                    <select style="width: 45%" class="form-control" id="chooseFunction"
+                <div class="form-group" style="width: 80%;">
+                    <label for="chooseFunction">角色编号:</label>
+                    <select style="width: 60%" class="form-control" id="chooseFunction"
                             name="chooseFunction"></select><br>
-                    <button type="button" style="position: absolute;left: 58%;top: 20%" class="btn btn-primary btn-sm"
-                            onclick="addGroupFunction()">新增
-                    </button>
                 </div>
+                <button type="button" class="btn btn-primary btn-sm"
+                        onclick="addGroupFunction()">新增
+                </button>
             </form>
         </div>
         <div class="panel panel-default" style="height: 60%;width: 75%;overflow-y:hidden;margin: 0 auto;">
@@ -51,29 +51,23 @@
             <div id="functions" class="panel-body" style="height:100%;overflow-y:auto;">
             </div>
         </div>
-        <%--        <span class="pStyle" style="font-weight: bolder;width: 90%;">该群组的功能权限为:</span>--%>
-        <%--        <div style="height:350px;width:85%;float:left;overflow-y: auto;" id="functions" name="functions">--%>
-        <%--            <span class="pStyle" style="color:red;">√&nbsp;</span><span--%>
-        <%--                class="pStyle">功能权限1&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="pStyle">-</span><br/>--%>
-        <%--        </div>--%>
     </div>
     <!--右栏-->
     <div style="height:100%; width:2px;background-color: cornflowerblue;float: left;"></div>
     <div style="height:100%;width: 30%;float: left;">
         <div style="height:16%;width:70%;margin:  18% auto 5% auto;">
             <span style="font-size:17px;font-weight: bolder">新增工序权限:</span>
-            <form class="form-horizontal" style="width:100%;height:30%;" name="addFunction">
+            <form class="form-inline" style="width:100%;" name="addFunction">
                 <br>
                 <br>
-                <div class="form-group" style="height: 100%">
-                    <label for="chooseProcessContent" style="width: 25%;text-align: left"
-                           class="col-sm-2 control-label">工序权限:</label>
-                    <select style="width: 45%" class="form-control" id="chooseProcessContent"
+                <div class="form-group" style="width: 80%">
+                    <label for="chooseFunction">工序权限:</label>
+                    <select style="width: 60%" class="form-control" id="chooseProcessContent"
                             name="chooseFunction"></select><br>
-                    <button type="button" style="position: absolute;left: 87%;top: 20%" class="btn btn-primary btn-sm"
-                            onclick="addGroupProcessContent()">新增
-                    </button>
                 </div>
+                <button type="button" style="" class="btn btn-primary btn-sm"
+                        onclick="addGroupProcessContent()">新增
+                </button>
             </form>
         </div>
         <div class="panel panel-default" style="height: 60%;width: 70%;overflow-y:hidden;margin: 0 auto;">

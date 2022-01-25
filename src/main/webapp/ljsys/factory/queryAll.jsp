@@ -23,7 +23,7 @@
             <label>仓库名：</label><input type="text" name="factoryName"
                                       style="height:10%;" class="form-control">
         </div>
-        <button type="button" class="btn btn-primary btn-sm" style="height:60%;margin-left: 5%"
+        <button type="button" class="btn btn-primary btn-sm" style="margin-left: 5%"
                 onclick="updateTable(1)">
             查 询
         </button>

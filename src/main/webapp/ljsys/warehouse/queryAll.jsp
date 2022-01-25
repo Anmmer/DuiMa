@@ -18,83 +18,116 @@
         window.history.go(-1)
     }
 </script>
-<div style="height:10%;width:100%;background-color: white;">
-    <div style="width:70%;height:100%;margin:0 auto;background-color: white;">
-        <div style="height:20px;width:100%"></div>
-        <button onclick="returnLastPage()">返回</button>
-        <div style="height:20px;width:100%"></div>
-        <div>
-            <span class="pStyle">仓库组织名:</span><span class="pStyle" id="factoryName"></span>
+<div style="height:100%;width:100%;background-color: white;">
+    <button onclick="returnLastPage()" style="position: relative;left: 10%;top: 5%" class="btn btn-primary btn-sm">返回
+    </button>
+    <div style="width: 70%;margin: 1% auto; font-size:17px;font-weight: bolder">
+        <span>仓库组织名：</span><span id="factoryName"></span>
+    </div>
+    <form name="query" class="form-inline" style="width:70%;height:8%;margin: 2% auto 0">
+        <div class="form-group">
+            <label>货位编号：</label><input type="text" id="warehouseId" name="warehouseId"
+                                       style="height:10%;" class="form-control">
         </div>
-    </div>
-</div>
-<div style="height:90%;width:100%;background-color:white;">
-    <div style="width:100%;height:10%;">
-        <form name="query" style="font-family: Simsun;font-size:16px;">
-            <div style="width:100%;height: 20px;float: left;"></div>
-            <div style="width:70%;margin:0 auto;">
-                <div style="width:40%;float: left;">
-                    <span>货位编号:</span><input type="text" name="warehouseId" id="warehouseId" class="FormInputStyle">
-                </div>
-                <div style="width:40%;float: left;">
-                    <span>货位名:</span><input type="text" name="warehouseName" id="warehouseName" class="FormInputStyle">
-                </div>
-                <button type="button" style="font-family: Simsun;font-size:16px;" onclick="updateTable(1)">模糊查询</button>
-            </div>
-        </form>
-    </div>
-    <div style="width:100%;height:90%;">
-        <!--表格显示-->
-        <div style="width:70%;height:85%;margin:0 auto;">
-            <!--结果显示提示：一共有多少记录，共几页-->
-            <p id="resultTip" style="margin-top: 0px;font-family: Simsun;font-size: 16px">请在上方输入框内输入相应信息并点击“模糊查询按钮”</p>
-            <form name="jumpPage" style="font-family: Simsun;font-size:16px;" onsubmit="return false;">
-                <span>输入页码进行跳转:</span><input type="text" name="page" class="FormInputStyle">
-                <button type="button" style="font-family: Simsun;font-size:16px;" onclick="jumpToNewPage2()">跳转</button>
-            </form>
-            <div style="width:100%;height:30px;"></div>
-            <table class="table" cellspacing="0" cellpadding="0" width="100%" align="center" border="1">
+        <div class="form-group" style="margin-left:5%;">
+            <label>货位名：</label><input type="text" id="warehouseName" name="warehouseName"
+                                      style="height:10%;" class="form-control">
+        </div>
+        <button type="button" class="btn btn-primary btn-sm" style="margin-left: 5%"
+                onclick="updateTable(1)">
+            查 询
+        </button>
+    </form>
+    <%--    <form name="query" style="font-family: Simsun;font-size:16px;">--%>
+    <%--        <div style="width:100%;height: 20px;float: left;"></div>--%>
+    <%--        <div style="width:70%;margin:0 auto;">--%>
+    <%--            <div style="width:40%;float: left;">--%>
+    <%--                <span>货位编号:</span><input type="text" name="warehouseId" id="warehouseId" class="FormInputStyle">--%>
+    <%--            </div>--%>
+    <%--            <div style="width:40%;float: left;">--%>
+    <%--                <span>货位名:</span><input type="text" name="warehouseName" id="warehouseName" class="FormInputStyle">--%>
+    <%--            </div>--%>
+    <%--            <button type="button" style="font-family: Simsun;font-size:16px;" onclick="updateTable(1)">模糊查询</button>--%>
+    <%--        </div>--%>
+    <%--    </form>--%>
+    <div style="width:70%;height:80%;margin:0 auto;">
+        <div class="page-header" style="margin-top: 0;margin-bottom: 1%">
+            <h3 style="margin-bottom: 0;margin-top: 0"><small>货位信息</small></h3>
+            <button type="button" style="position: absolute;right: 15%;top:20%" class="btn btn-primary btn-sm"
+                    data-toggle="modal"
+                    data-target="#myModal">
+                添加货位
+            </button>
+        </div>
+        <div style="height: 70%">
+            <table class="table table-hover" style="text-align: center">
                 <tr>
-                    <td class='tdStyle_title'>货位编号</td>
-                    <td class='tdStyle_title'>货位名</td>
-                    <td class='tdStyle_title'>操作</td>
+                    <td class="tdStyle_title active" style="width: 35%">货位编号</td>
+                    <td class="tdStyle_title active" style="width: 35%">货位名称</td>
+                    <td class="tdStyle_title active" style="width: 30%;text-align: center">操作</td>
                 </tr>
                 <tbody id="tableText">
                 </tbody>
             </table>
-            <div style="width:100%;height:30px;"></div>
-            <div style="width:33%;float: left;">
-                <button type="button" style="font-family: Simsun;font-size:16px;" onclick="jumpToNewPage(1)">第一页
-                </button>
-                <button type="button" style="font-family: Simsun;font-size:16px;" onclick="jumpToNewPage(2)">前一页
-                </button>
-            </div>
-            <div style="width:33%;float: left;">
-                <p id="resultTip2" style="margin-top: 0px;font-family: Simsun;font-size: 16px;text-align: center;">
-                    1/1</p>
-            </div>
-            <div style="width:33%;float: left;">
-                <button type="button" style="font-family: Simsun;font-size:16px;float:right;"
-                        onclick="jumpToNewPage(4)">最后一页
-                </button>
-                <button type="button" style="font-family: Simsun;font-size:16px;float:right;"
-                        onclick="jumpToNewPage(3)">后一页
-                </button>
-            </div>
         </div>
-        <div style="width:70%;height:2px;background-color: black;margin: 0 auto;"></div>
-        <div style="width:70%;height:20px;margin:0 auto;"></div>
-        <div style="width:70%;height:10%;margin:0 auto;">
-            <form name="newFactory" id="newFactory">
-                <span class="pStyle">新增货位名:</span><input type="text" name="newWarehouseName" id="newWarehouseName">
-                <span class="pStyle">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
-                <button type="button" style="font-size: 16px;font-family: Simsun;" onclick="addWarehouse()">提交新增
-                </button>
-            </form>
+        <nav aria-label="Page navigation" style="margin-left:50%;width:80%;height:10%;">
+            <ul class="pagination" style="margin-top: 0;width: 70%">
+                <li><span id="total" style="width: 22%"></span></li>
+                <li>
+                    <a href="#" onclick="jumpToNewPage(2)" aria-label="Previous">
+                        <span aria-hidden="true">&laquo;</span>
+                    </a>
+                </li>
+                <li id="li_1"><a id="a_1" href="#">1</a></li>
+                <li id="li_2"><a id="a_2" href="#">2</a></li>
+                <li id="li_3"><a id="a_3" href="#">3</a></li>
+                <li id="li_4"><a id="a_4" href="#">4</a></li>
+                <li id="li_0"><a id="a_0" href="#">5</a></li>
+                <li>
+                    <a href="#" onclick="jumpToNewPage(3)" aria-label="Next">
+                        <span aria-hidden="true">&raquo;</span>
+                    </a>
+                </li>
+                <li style="border: none"><span>跳转：</span></li>
+                <li class="input-group">
+                    <input type="text" id="jump_to" class="form-control" style="width: 10%">
+                </li>
+                <li><a href="#" onclick="jumpToNewPage2()">go!</a></li>
+            </ul>
+        </nav>
+    </div>
+    <!-- Modal -->
+    <div class="modal fade" id="myModal" tabindex="-1" style="position: absolute;left: 15%;top: 12%;" role="dialog"
+         data-backdrop="false"
+         aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content" style="width:60%">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">添加货位</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="form-horizontal">
+                        <div class="form-group" style="height: 100%;margin-top: 5%">
+                            <label for="newWarehouseName" style="width: 28%;text-align: left;padding-right: 0"
+                                   class="col-sm-2 control-label">货位名:</label>
+                            <input type="text" class="form-control" style="width:50%;" id="newWarehouseName"
+                                   name="newWarehouseName">
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" onclick="reset()">重置</button>
+                    <button type="button" class="btn btn-primary" onclick="addWarehouse()()">保存</button>
+                </div>
+            </div>
         </div>
     </div>
-    <!-- 查询所有群组 -->
     <script type="text/javascript">
+        function reset() {
+            $('#newWarehouseName').val('')
+        }
         function getQueryVariable(variable) {
             var query = window.location.search.substring(1);
             var vars = query.split("&");
@@ -121,7 +154,7 @@
                 sqlStr: sqlStrtmp,
                 fieldNames: fieldNamesStr,
                 pageCur: newpage,
-                pageMax: 15
+                pageMax: 10
             };
             $.ajax({
                 url: "${pageContext.request.contextPath}/QuerySQL",
@@ -143,15 +176,26 @@
                         str += "</td></tr>"
                     }
                     $("#tableText").html(str);
-                    // 提示语
-                    var tipStr = "共查询到" + res.cnt + "条记录,结果共有" + res.pageAll + "页!"
-                    $("#resultTip").html(tipStr);
+                    $('#total').html(res.cnt + "条，共" + res.pageAll + "页");
+                    $('#li_1').addClass('active');
                     // 重置查询为第一页
                     pageCur = newpage;
                     // 重置总页数
                     pageAll = parseInt(res.pageAll);
-                    var tipStr2 = pageCur + "/" + pageAll;
-                    $("#resultTip2").html(tipStr2)
+                    for (let i = 1; i < 6; i++) {
+                        let k = i % 5;
+                        if (i > pageAll) {
+                            $('#a_' + k).text('.');
+                        } else {
+                            if (k === 0) {
+                                $('#a_' + k).text(5);
+                                $('#a_' + k).attr('onclick', 'jumpToNewPage1(5)');
+                                continue;
+                            } else {
+                                $('#a_' + k).attr('onclick', 'jumpToNewPage1(' + k + ')');
+                            }
+                        }
+                    }
                 },
                 error: function (message) {
                 }
@@ -192,7 +236,7 @@
                 sqlStr: sqlStrtmp,
                 fieldNames: fieldNamesStr,
                 pageCur: newpage,
-                pageMax: 15
+                pageMax: 10
             };
             $.ajax({
                 url: "${pageContext.request.contextPath}/QuerySQL",
@@ -209,18 +253,71 @@
                             "</td><td class='tdStyle_body'>" + jsonobj[i]['warehouse_name'] +
                             "</td><td class='tdStyle_body'>";
                         // 查询
-                        str += "详情"
+                        str += "<a href='warehouseInfoQueryAll.jsp?warehouseId=" + jsonobj[i]['warehouse_id'] + "&warehouseName=" + encodeURIComponent(jsonobj[i]['warehouse_name']) + "'>详情</a>"
+                        str += "&nbsp<a href='javascript:void(0);' onclick='removeWarehouse(" + jsonobj[i]['warehouse_id'] + ")'>删除</a>"
                         str += "</td></tr>"
                     }
                     $("#tableText").html(str);
-                    // 提示语
-                    var tipStr = "共查询到" + res.cnt + "条记录,结果共有" + res.pageAll + "页!"
-                    $("#resultTip").html(tipStr);
+                    if (newpageCode === 3) {
+                        setFooter(3, res.pageAll, pageCur, newpage);
+                    }
+                    if (newpageCode === 2) {
+                        setFooter(2, res.pageAll, pageCur, newpage);
+                    }
                     pageCur = newpage;
                     // 重置总页数
                     pageAll = parseInt(res.pageAll);
-                    var tipStr2 = pageCur + "/" + pageAll;
-                    $("#resultTip2").html(tipStr2)
+                },
+                error: function (message) {
+                }
+            });
+        }
+
+        function jumpToNewPage1(newPage) {
+            if (newPage == pageCur) {
+                return;
+            }
+            let fieldNamestmp = {
+                warehouse_id: "INT",
+                warehouse_name: "STRING"
+            };
+            var fieldNamesStr = JSON.stringify(fieldNamestmp);
+            var warehouseId = $("#warehouseId").text()
+            var warehouseName = $("#warehouseName").text()
+            var sqlStrtmp = "select warehouse_id,warehouse_name from warehouse where factory_id=" + factoryId + " and warehouse_id like '%" + warehouseId + "%' and warehouse_name like '%" + warehouseName + "%' and warehouse_status = 1;";
+            if (newPage <= 0 || newPage > pageAll || isNaN(newPage)) {
+                window.alert("请输入一个在范围内的正确页码数字!")
+                return
+            }
+            let json = {
+                sqlStr: sqlStrtmp,
+                fieldNames: fieldNamesStr,
+                pageCur: newPage,
+                pageMax: 10
+            };
+            $.ajax({
+                url: "${pageContext.request.contextPath}/QuerySQL",
+                type: 'post',
+                dataType: 'json',
+                contentType: 'application/x-www-form-urlencoded;charset=utf-8',
+                data: json,
+                success: function (res) {
+                    // 将结果输出到table
+                    var str = "";
+                    var jsonobj = JSON.parse(res.data);
+                    for (var i = 0; i < jsonobj.length; i++) {
+                        str += "<tr><td class='tdStyle_body'>" + jsonobj[i]['warehouse_id'] +
+                            "</td><td class='tdStyle_body'>" + jsonobj[i]['warehouse_name'] +
+                            "</td><td class='tdStyle_body'>";
+                        // 查询
+                        str += "<a href='warehouseInfoQueryAll.jsp?warehouseId=" + jsonobj[i]['warehouse_id'] + "&warehouseName=" + encodeURIComponent(jsonobj[i]['warehouse_name']) + "'>详情</a>"
+                        str += "&nbsp<a href='javascript:void(0);' onclick='removeWarehouse(" + jsonobj[i]['warehouse_id'] + ")'>删除</a>"
+                        str += "</td></tr>"
+                    }
+                    $("#tableText").html(str);
+                    $('#li_' + newPage % 5).addClass('active');
+                    $('#li_' + pageCur % 5).removeClass('active');
+                    pageCur = newPage;
                 },
                 error: function (message) {
                 }
@@ -234,9 +331,9 @@
             };
             var fieldNamesStr = JSON.stringify(fieldNamestmp);
             var warehouseId = $("#warehouseId").text()
-            var warehouseName = $("warehouseName").text()
+            var warehouseName = $("#warehouseName").text()
             var sqlStrtmp = "select warehouse_id,warehouse_name from warehouse where factory_id=" + factoryId + " and warehouse_id like '%" + warehouseId + "%' and warehouse_name like '%" + warehouseName + "%' and warehouse_status = 1;";
-            var newpageStr = document.forms["jumpPage"]["page"].value;
+            var newpageStr = $('#jump_to').val();
             var newpage = parseInt(newpageStr)
             if (newpage <= 0 || newpage > pageAll || isNaN(newpage)) {
                 window.alert("请输入一个在范围内的正确页码数字!")
@@ -246,7 +343,7 @@
                 sqlStr: sqlStrtmp,
                 fieldNames: fieldNamesStr,
                 pageCur: newpage,
-                pageMax: 15
+                pageMax: 10
             };
             $.ajax({
                 url: "${pageContext.request.contextPath}/QuerySQL",
@@ -263,22 +360,96 @@
                             "</td><td class='tdStyle_body'>" + jsonobj[i]['warehouse_name'] +
                             "</td><td class='tdStyle_body'>";
                         // 查询
-                        str += "详情"
+                        str += "<a href='warehouseInfoQueryAll.jsp?warehouseId=" + jsonobj[i]['warehouse_id'] + "&warehouseName=" + encodeURIComponent(jsonobj[i]['warehouse_name']) + "'>详情</a>"
+                        str += "&nbsp<a href='javascript:void(0);' onclick='removeWarehouse(" + jsonobj[i]['warehouse_id'] + ")'>删除</a>"
                         str += "</td></tr>"
                     }
                     $("#tableText").html(str);
-                    // 提示语
-                    var tipStr = "共查询到" + res.cnt + "条记录,结果共有" + res.pageAll + "页!"
-                    $("#resultTip").html(tipStr);
+                    jump2(newpage, res.pageAll);
                     pageCur = newpage;
                     // 重置总页数
                     pageAll = parseInt(res.pageAll);
-                    var tipStr2 = pageCur + "/" + pageAll;
-                    $("#resultTip2").html(tipStr2)
                 },
                 error: function (message) {
                 }
             });
+        }
+
+        function jump2(newpage, pageAll) {
+            if (newpage <= 5) {
+                for (let i = 1; i < 6; i++) {
+                    let k = i % 5;
+                    if (i > pageAll) {
+                        $('#a_' + k).text('.');
+                    } else {
+                        if (k === 0) {
+                            $('#a_' + k).text(5);
+                        } else {
+                            $('#a_' + k).text(k);
+                            $('#a_' + k).attr('onclick', 'jumpToNewPage1(' + k + ')');
+                        }
+                    }
+                }
+                $('#li_' + pageCur % 5).removeClass('active');
+                $('#li_' + newpage % 5).addClass('active');
+            } else {
+                let j = Math.floor(newpage / 5);
+                let m = j * 5;
+                for (let i = 1; i < 6; i++) {
+                    let k = i % 5;
+                    if (++m > pageAll) {
+                        $('#a_' + k).text('.');
+                    } else {
+                        $('#a_' + k).text(m);
+                        $('#a_' + k).attr('onclick', 'jumpToNewPage1(' + m + ')');
+                    }
+                }
+                $('#li_' + pageCur % 5).removeClass('active');
+                $('#li_' + newpage % 5).addClass('active');
+            }
+        }
+
+        function setFooter(newpageCode, pageAll, pageCur, newpage) {
+            if (newpageCode === 3) {
+                if (pageCur % 5 === 0) {
+                    let j = Math.floor(newpage / 5);
+                    let m = j * 5;
+                    for (let i = 1; i < 6; i++) {
+                        let k = i % 5;
+                        if (++m > pageAll) {
+                            $('#a_' + k).text('.');
+                        } else {
+                            $('#a_' + k).text(m);
+                            $('#a_' + k).attr('onclick', 'jumpToNewPage1(' + m + ')');
+                        }
+                    }
+
+                }
+                $('#li_' + newpage % 5).addClass('active');
+                $('#li_' + pageCur % 5).removeClass('active');
+            } else {
+                if (pageCur % 5 === 1) {
+                    let j = Math.floor(newpage / 5);
+                    let m
+                    if (j < 0) {
+                        m = 5;    //5*1
+                    } else {
+                        m = j * 5;
+                    }
+                    for (let i = 5; i > 0; i--) {
+                        let k = i % 5;
+                        if (m > pageAll) {
+                            $('#a_' + k).text('');
+                            m--;
+                        } else {
+                            $('#a_' + k).text(m);
+                            $('#a_' + k).attr('onclick', 'jumpToNewPage1(' + m-- + ')');
+                        }
+                    }
+                }
+                $('#li_' + newpage % 5).addClass('active');
+                $('#li_' + pageCur % 5).removeClass('active');
+            }
         }
 
         function addWarehouse() {

@@ -37,19 +37,17 @@
         <button style="position: absolute;left: 20%;" onclick="returnLastPage()" class="btn btn-primary btn-sm">返回</button>
         <!--展示用户信息及其群组信息-->
         <p style="font-size:17px;font-weight: bolder">用户信息修改:</p>
-        <div class="form-horizontal" style="width:100%;height:30%;float: left;">
+        <div class="form-inline" style="width:100%;height:30%;float: left;">
             </br>
-            <div class="form-group" style="height: 100%">
-                <label for="userId" style="width: 16%;text-align: left" class="col-sm-2 control-label">工&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;号:</label>
-                <input  style="width: 40%" class="form-control" id="userId" disabled placeholder="工号"><br>
-                <label for="userName" style="width: 16%;text-align: left" class="col-sm-2 control-label">姓&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;名:</label>
-                <input style="width: 40%" class="form-control" id="userName" placeholder="姓名"><br>
-                <label for="groupNames" style="width: 16%;text-align: left;padding-right: 0"
-                       class="col-sm-2 control-label">添加角色:</label>
-                <select class="form-control" style="width: 40%" id="groupNames" name="groupNames" size="1"
-                        style="width:35%;">
+            <div class="form-group" style="width: 50%">
+                <label for="userId" class="">工&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;号：</label>
+                <input  style="width: 50%" class="form-control" id="userId" disabled placeholder="工号"><br><br>
+                <label for="userName">姓&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;名：</label>
+                <input style="width: 50%" class="form-control" id="userName" placeholder="姓名"><br><br>
+                <label for="groupNames">添加角色：</label>
+                <select class="form-control" style="width: 50%" id="groupNames" name="groupNames" size="1">
                 </select>
-                <button style="position: absolute;left: 54%;top:29%" class="btn btn-primary btn-sm" onclick="addGroup()">添加
+                <button style="margin-left: 6%" class="btn btn-primary btn-sm" onclick="addGroup()">添加
                 </button>
             </div>
             <%--            <span>所属群组角色名:</span><span id="groupName1" class="pStyle">userId</span></br></br>--%>
@@ -60,24 +58,6 @@
             </div>
         </div>
         <input type="button" value="提交修改" class="btn btn-primary btn-sm" style="margin-top: 0%" onclick="modify1()">
-        <%--        <div style="width:100%;height:3px;background-color: cornflowerblue;float:left;"></div>--%>
-        <%--        <div style="width:100%;height:30px;float:left"></div>--%>
-        <%--        <p style="font-size: 16px;font-family: Simsun;font-weight: bolder;">在下方进行修改后点击提交</p>--%>
-        <%--        <div name="modify">--%>
-        <%--            <span class="pStyle" style="width:30%;height:30px;float:left;line-height: 30px;">姓名:</span>--%>
-        <%--            <input type="text" name="name" id="name" style="width:55%;height:27px;float:left;" class="FormInputStyle">--%>
-        <%--            <div style="width:100%;height:30px;float:left;"></div>--%>
-        <%--            <span class="pStyle" style="width:30%;height:30px;float:left;line-height: 30px;">角色群组:</span>--%>
-        <%--                    <select id="groupNames" name="groupNames" size="1"--%>
-        <%--                            style="width:35%;float:left;font-size:16px;font-family:Simsun;">--%>
-        <%--                    </select>--%>
-        <%--                    <button style="float:left" onclick="addGroup()">添加角色</button>--%>
-        <%--            <div style="width:100%;height:30px;float:left;"></div>--%>
-        <%--            <div style="width:100%;height:30px;float:left;">修改后所属分组：</div>--%>
-        <%--            <div id="newGroups" style="width:100%;height:150px;float:left;overflow-y: auto;"></div>--%>
-        <%--            <div style="width:100%;height:30px;float:left;"></div>--%>
-        <%--                    <input type="button" value="提交修改" style="float:left;font-size:16px;font-family:Simsun;" onclick="modify1()">--%>
-        <%--        </div>--%>
     </div>
 </div>
 <script type="text/javascript">
