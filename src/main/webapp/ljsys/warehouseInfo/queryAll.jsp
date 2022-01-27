@@ -25,12 +25,12 @@
 <div style="height: 100%;width:100%;background-color:white;">
     <button onclick="returnLastPage()" style="position: relative;left: 10%;top: 5%" class="btn btn-primary btn-sm">返回
     </button>
-    <div style="width:70%;height:23%;margin:1% auto 0 auto;">
-        <p style="padding: 0px;margin:0;width:50%;float: left;font-size:17px;font-weight: bolder" id="warehouseName">
+    <div style="width:70%;height:22%;margin: 0 auto;">
+        <p style="padding: 0;margin:0;width:50%;float: left;font-size:17px;font-weight: bolder" id="warehouseName">
             库房名:</p>
-        <div style="width:50%;height:180px;float: left;">
+        <div style="width:50%;height:150px;float: left;">
             <p style="padding:0px;margin:0;" class="pStyle">库房二维码:</p>
-            <div id="QRCode" style="width:150px;height:150px;">
+            <div id="QRCode" style="width:100px;height:100px;">
             </div>
         </div>
     </div>
@@ -114,8 +114,8 @@
     $("#warehouseName").text("库房名:" + warehouseName)
     new QRCode(document.getElementById("QRCode"), {
         text: "货位号:" + warehouseId + "\n货位名:" + warehouseName + "\n",
-        width: 150,
-        height: 150,
+        width: 120,
+        height: 120,
         colorDark: "#000000",
         colorLight: "#ffffff",
         correctLevel: QRCode.CorrectLevel.H

@@ -58,32 +58,6 @@
                 <li><a href="#" onclick="jumpToNewPage2()">go!</a></li>
             </ul>
         </nav>
-
-        <%--        <div style="width:100%;height:10%;">--%>
-
-        <%--            <div style="width:33%;float: left;">--%>
-        <%--                <button type="button" style="font-family: Simsun;font-size:16px;" onclick="jumpToNewPage(1)">第一页--%>
-        <%--                </button>--%>
-        <%--                <button type="button" style="font-family: Simsun;font-size:16px;" onclick="jumpToNewPage(2)">前一页--%>
-        <%--                </button>--%>
-        <%--            </div>--%>
-        <%--            <div style="width:33%;float: left;">--%>
-        <%--                <p id="resultTip2" style="margin-top: 0px;font-family: Simsun;font-size: 16px;text-align: center;">--%>
-        <%--                    1/1</p>--%>
-        <%--            </div>--%>
-        <%--            <div style="width:33%;float: left;">--%>
-        <%--                <button type="button" style="font-family: Simsun;font-size:16px;float:right;"--%>
-        <%--                        onclick="jumpToNewPage(4)">最后一页--%>
-        <%--                </button>--%>
-        <%--                <button type="button" style="font-family: Simsun;font-size:16px;float:right;"--%>
-        <%--                        onclick="jumpToNewPage(3)">后一页--%>
-        <%--                </button>--%>
-        <%--            </div>--%>
-        <%--        </div>--%>
-        <%--        <form style="width: 100%;height: 10%" type="multipart/form-data">--%>
-        <%--            <input type="file" id="file1">--%>
-        <%--            <button type="button" value="提交" onclick="test()">提交</button>--%>
-        <%--        </form>--%>
     </div>
 </div>
 

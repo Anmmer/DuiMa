@@ -21,7 +21,7 @@
 <div style="height:100%;width:100%;background-color: white;">
     <button onclick="returnLastPage()" style="position: relative;left: 10%;top: 5%" class="btn btn-primary btn-sm">返回
     </button>
-    <div style="width: 70%;margin: 1% auto; font-size:17px;font-weight: bolder">
+    <div style="width: 70%;margin: 0 auto; font-size:17px;font-weight: bolder">
         <span>仓库组织名：</span><span id="factoryName"></span>
     </div>
     <form name="query" class="form-inline" style="width:70%;height:8%;margin: 2% auto 0">
@@ -59,7 +59,7 @@
                 添加货位
             </button>
         </div>
-        <div style="height: 70%">
+        <div style="height: 80%">
             <table class="table table-hover" style="text-align: center">
                 <tr>
                     <td class="tdStyle_title active" style="width: 35%">货位编号</td>

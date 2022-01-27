@@ -13,279 +13,404 @@
     }
 </script>
 <div style="height: 100%;width:100%;background-color:white;">
-    <div style="width:100%;height:10%;">
-        <form name="query" style="font-family: Simsun;font-size:16px;">
-            <div style="width:100%;height: 16px;float: left;"></div>
-            <div style="width:70%;margin:0 auto;">
-                <div style="width:40%;float: left;">
-                    <span>二维码编号:</span><input type="text" name="qrcodeId" class="FormInputStyle">
-                </div>
-                <div style="width:40%;float: left;">
-                    <span>二维码名:</span><input type="text" name="qrcodeName" class="FormInputStyle">
-                </div>
-                <button type="button" style="font-family: Simsun;font-size:16px;" onclick="updateTable(1)">模糊查询</button>
-            </div>
-        </form>
-    </div>
-    <div style="width:100%;height:85%;">
-        <!--表格显示-->
-        <div style="width:70%;height:100%;margin:0 auto;">
-            <!--结果显示提示：一共有多少记录，共几页-->
-            <p id="resultTip" style="margin-top: 0px;font-family: Simsun;font-size: 16px">请在上方输入框内输入相应信息并点击“模糊查询按钮”</p>
-            <form name="jumpPage" style="font-family: Simsun;font-size:16px;" onsubmit="return false;">
-                <span>输入页码进行跳转:</span><input type="text" name="page" class="FormInputStyle">
-                <button type="button" style="font-family: Simsun;font-size:16px;" onclick="jumpToNewPage2()">跳转</button>
-            </form>
-            <div style="width:100%;height:15px;"></div>
-            <table class="table" cellspacing="0" cellpadding="0" width="100%" align="center" border="1">
+    <form name="query" class="form-inline" style="width:70%;height:8%;margin: 2% auto 0">
+        <div class="form-group">
+            <label>二维码编号：</label><input type="text" name="qrcodeId"
+                                        style="height:10%;" class="form-control">
+        </div>
+        <div class="form-group" style="margin-left:5%;">
+            <label>二维码名：</label><input type="text" name="qrcodeName"
+                                       style="height:10%;" class="form-control">
+        </div>
+        <button type="button" class="btn btn-primary btn-sm" style="margin-left: 5%"
+                onclick="updateTable(1)">
+            查 询
+        </button>
+    </form>
+    <div style="width:70%;height:80%;margin:0 auto;">
+        <div class="page-header" style="margin-top: 0;margin-bottom: 1%">
+            <h3 style="margin-bottom: 0;margin-top: 0"><small>二维码信息</small></h3>
+            <button type="button" style="position: absolute;right: 15%;top:11%" class="btn btn-primary btn-sm"
+                    data-toggle="modal"
+                    data-target="#myModal">
+                添加角色
+            </button>
+        </div>
+        <div style="height: 85%">
+            <table class="table table-hover" style="text-align: center">
                 <tr>
-                    <td class='tdStyle_title'>二维码编号</td>
-                    <td class='tdStyle_title'>二维码名</td>
-                    <td class='tdStyle_title'>查看详情</td>
+                    <td class="tdStyle_title active" style="width: 35%">二维码编号</td>
+                    <td class="tdStyle_title active" style="width: 35%">二维码名</td>
+                    <td class="tdStyle_title active" style="width: 30%;text-align: center">查看详情</td>
                 </tr>
                 <tbody id="tableText">
                 </tbody>
             </table>
-            <div style="width:100%;height:15px;"></div>
-            <div style="width:33%;float: left;">
-                <button type="button" style="font-family: Simsun;font-size:16px;" onclick="jumpToNewPage(1)">第一页
-                </button>
-                <button type="button" style="font-family: Simsun;font-size:16px;" onclick="jumpToNewPage(2)">前一页
-                </button>
-            </div>
-            <div style="width:33%;float: left;">
-                <p id="resultTip2" style="margin-top: 0px;font-family: Simsun;font-size: 16px;text-align: center;">
-                    1/1</p>
-            </div>
-            <div style="width:33%;float: left;">
-                <button type="button" style="font-family: Simsun;font-size:16px;float:right;"
-                        onclick="jumpToNewPage(4)">最后一页
-                </button>
-                <button type="button" style="font-family: Simsun;font-size:16px;float:right;"
-                        onclick="jumpToNewPage(3)">后一页
-                </button>
+        </div>
+        <nav aria-label="Page navigation" style="margin-left:50%;width:80%;height:10%;">
+            <ul class="pagination" style="margin-top: 0;width: 70%">
+                <li><span id="total" style="width: 22%"></span></li>
+                <li>
+                    <a href="#" onclick="jumpToNewPage(2)" aria-label="Previous">
+                        <span aria-hidden="true">&laquo;</span>
+                    </a>
+                </li>
+                <li id="li_1"><a id="a_1" href="#">1</a></li>
+                <li id="li_2"><a id="a_2" href="#">2</a></li>
+                <li id="li_3"><a id="a_3" href="#">3</a></li>
+                <li id="li_4"><a id="a_4" href="#">4</a></li>
+                <li id="li_0"><a id="a_0" href="#">5</a></li>
+                <li>
+                    <a href="#" onclick="jumpToNewPage(3)" aria-label="Next">
+                        <span aria-hidden="true">&raquo;</span>
+                    </a>
+                </li>
+                <li style="border: none"><span>跳转：</span></li>
+                <li class="input-group">
+                    <input type="text" id="jump_to" class="form-control" style="width: 10%">
+                </li>
+                <li><a href="#" onclick="jumpToNewPage2()">go!</a></li>
+            </ul>
+        </nav>
+    </div>
+    <!-- Modal -->
+    <div class="modal fade" id="myModal" tabindex="-1" style="position: absolute;left: 15%;top: 12%;" role="dialog"
+         data-backdrop="false"
+         aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content" style="width:60%">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">添加二维码</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="form-horizontal">
+                        <div class="form-group" style="height: 100%;margin-top: 5%">
+                            <label for="newStyleName" style="width: 28%;text-align: left;padding-right: 0"
+                                   class="col-sm-2 control-label">二维码名称:</label>
+                            <input type="text" class="form-control" style="width:50%;" id="newStyleName"
+                                   name="newGroupName">
+                            <%--                            <button type="button" class="btn btn-primary">提交新增</button>--%>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" onclick="reset()">重置</button>
+                    <button type="button" class="btn btn-primary" onclick="addQRCodeStyle()">保存</button>
+                </div>
             </div>
         </div>
     </div>
-    <div style="width:70%;height:5%;margin:auto;">
-        <form id="newQRCode">
-            <span class="pStyle">新样式名称</span>
-            <input type="text" id="newStyleName">
-            <button type="button" onclick="addQRCodeStyle()">新增</button>
-        </form>
-    </div>
-    <!-- 查询所有用户 -->
-    <script type="text/javascript">
-        function updateTable(newpage) {
-            let fieldNamestmp = {
-                qrcode_id: "INT",
-                qrcode_name: "STRING"
-            };
-            var fieldNamesStr = JSON.stringify(fieldNamestmp);
-            var qrcodeId = document.forms["query"]["qrcodeId"].value;
-            var qrcodeName = document.forms["query"]["qrcodeName"].value;
-            var sqlStrtmp = "select qrcode_id,qrcode_name from qrcode where qrcode_status = 1 and qrcode_id like '%" + qrcodeId + "%' and qrcode_name like '%" + qrcodeName + "%';";
-            let json = {
-                sqlStr: sqlStrtmp,
-                fieldNames: fieldNamesStr,
-                pageCur: newpage,
-                pageMax: 15
-            };
-            $.ajax({
-                url: "${pageContext.request.contextPath}/QuerySQL",
-                type: 'post',
-                dataType: 'json',
-                contentType: 'application/x-www-form-urlencoded;charset=utf-8',
-                data: json,
-                success: function (res) {
-                    // 将结果输出到table
-                    var str = "";
-                    var jsonobj = JSON.parse(res.data);
-                    for (var i = 0; i < jsonobj.length; i++) {
-                        str += "<tr><td class='tdStyle_body'>" + jsonobj[i]['qrcode_id'] +
-                            "</td><td class='tdStyle_body'>" + jsonobj[i]['qrcode_name'] +
-                            "</td><td class='tdStyle_body'>";
-                        // 查询
-                        str += "<a href='qrcodeInfo.jsp?qrcodeId=" + jsonobj[i]['qrcode_id'] + "&qrcodeName=" + encodeURIComponent(jsonobj[i]['qrcode_name']) + "'>详情</a>"
-                        str += "</td></tr>"
-
-                    }
-                    $("#tableText").html(str);
-                    // 提示语
-                    var tipStr = "共查询到" + res.cnt + "条记录,结果共有" + res.pageAll + "页!"
-                    $("#resultTip").html(tipStr);
-                    // 重置查询为第一页
-                    pageCur = newpage;
-                    // 重置总页数
-                    pageAll = parseInt(res.pageAll);
-                    var tipStr2 = pageCur + "/" + pageAll;
-                    $("#resultTip2").html(tipStr2)
-                },
-                error: function (message) {
-                }
-            });
-        }
-
-        updateTable(1);
-
-        function jumpToNewPage(newpageCode) {
-            let fieldNamestmp = {
-                qrcode_id: "INT",
-                qrcode_name: "STRING"
-            };
-            var fieldNamesStr = JSON.stringify(fieldNamestmp);
-            var qrcodeId = document.forms["query"]["qrcodeId"].value;
-            var qrcodeName = document.forms["query"]["qrcodeName"].value;
-            var sqlStrtmp = "select qrcode_id,qrcode_name from qrcode where qrcode_status = 1 and qrcode_id like '%" + qrcodeId + "%' and qrcode_name like '%" + qrcodeName + "%';";
-            var newpage = 1;
-            if (newpageCode == 1) {
-                if (pageCur == 1) {
-                    window.alert("已经在第一页!");
-                    return
-                } else {
-                    newpage = pageCur;
-                }
-            };
-            if (newpageCode == 2) {
-                if (pageCur == 1) {
-                    window.alert("已经在第一页!");
-                    return
-                } else {
-                    newpage = pageCur - 1;
-                }
-            }
-            if (newpageCode == 4) {
-                if (pageCur == pageAll) {
-                    window.alert("已经在最后一页!");
-                    return
-                } else {
-                    newpage = pageCur + 1;
-                }
-            }
-            if (newpageCode == 3) {
-                if (pageCur == pageAll) {
-                    window.alert("已经在第最后一页!");
-                    return
-                } else {
-                    newpage = pageCur + 1;
-                }
-            }
-            let json = {
-                sqlStr: sqlStrtmp,
-                fieldNames: fieldNamesStr,
-                pageCur: newpage,
-                pageMax: 15
-            };
-            $.ajax({
-                url: "${pageContext.request.contextPath}/QuerySQL",
-                type: 'post',
-                dataType: 'json',
-                contentType: 'application/x-www-form-urlencoded;charset=utf-8',
-                data: json,
-                success: function (res) {
-                    // 将结果输出到table
-                    var str = "";
-                    var jsonobj = JSON.parse(res.data);
-                    for (var i = 0; i < jsonobj.length; i++) {
-                        str += "<tr><td class='tdStyle_body'>" + jsonobj[i]['qrcode_id'] +
-                            "</td><td class='tdStyle_body'>" + jsonobj[i]['qrcode_name'] +
-                            "</td><td class='tdStyle_body'>";
-                        // 查询
-                        str += "详情"
-                        str += "</td></tr>"
-                    }
-                    $("#tableText").html(str);
-                    // 提示语
-                    var tipStr = "共查询到" + res.cnt + "条记录,结果共有" + res.pageAll + "页!"
-                    $("#resultTip").html(tipStr);
-                    pageCur = newpage;
-                    // 重置总页数
-                    pageAll = parseInt(res.pageAll);
-                    var tipStr2 = pageCur + "/" + pageAll;
-                    $("#resultTip2").html(tipStr2)
-                },
-                error: function (message) {
-                }
-            });
-        }
-
-        function jumpToNewPage2() {
-            let fieldNamestmp = {
-                qrcode_id: "INT",
-                qrcode_name: "STRING"
-            };
-            var fieldNamesStr = JSON.stringify(fieldNamestmp);
-            var qrcodeId = document.forms["query"]["qrcodeId"].value;
-            var qrcodeName = document.forms["query"]["qrcodeName"].value;
-            var sqlStrtmp = "select qrcode_id,qrcode_name from qrcode where qrcode_status = 1 and qrcode_id like '%" + qrcodeId + "%' and qrcode_name like '%" + qrcodeName + "%';";
-            var newpageStr = document.forms["jumpPage"]["page"].value;
-            var newpage = parseInt(newpageStr)
-            if (newpage <= 0 || newpage > pageAll || isNaN(newpage)) {
-                window.alert("请输入一个在范围内的正确页码数字!")
-                return
-            }
-            let json = {
-                sqlStr: sqlStrtmp,
-                fieldNames: fieldNamesStr,
-                pageCur: newpage,
-                pageMax: 15
-            };
-            $.ajax({
-                url: "${pageContext.request.contextPath}/QuerySQL",
-                type: 'post',
-                dataType: 'json',
-                contentType: 'application/x-www-form-urlencoded;charset=utf-8',
-                data: json,
-                success: function (res) {
-                    // 将结果输出到table
-                    var str = "";
-                    var jsonobj = JSON.parse(res.data);
-                    for (var i = 0; i < jsonobj.length; i++) {
-                        str += "<tr><td class='tdStyle_body'>" + jsonobj[i]['qrcode_id'] +
-                            "</td><td class='tdStyle_body'>" + jsonobj[i]['qrcode_name'] +
-                            "</td><td class='tdStyle_body'>";
-                        // 查询
-                        str += "详情"
-                        str += "</td></tr>"
-                    }
-                    $("#tableText").html(str);
-                    // 提示语
-                    var tipStr = "共查询到" + res.cnt + "条记录,结果共有" + res.pageAll + "页!"
-                    $("#resultTip").html(tipStr);
-                    pageCur = newpage;
-                    // 重置总页数
-                    pageAll = parseInt(res.pageAll);
-                    var tipStr2 = pageCur + "/" + pageAll;
-                    $("#resultTip2").html(tipStr2)
-                },
-                error: function (message) {
-                }
-            });
-        }
-
-        function addQRCodeStyle() {
-            if (!checkAuthority("新增二维码样式")) {
-                window.alert("您无新增二维码样式的权限!")
-                return
-            }
-            var newqrcodeName = $("#newStyleName").val()
-            $.ajax({
-                url: "${pageContext.request.contextPath}/AddQRCodeStyle",
-                type: 'post',
-                dataType: 'json',
-                contentType: 'application/x-www-form-urlencoded;charset=utf-8',
-                data: {
-                    qrcodeName: newqrcodeName,
-                    id: sessionStorage.getItem("userId"),
-                    name: sessionStorage.getItem("userName")
-                },
-                success: function (res) {
-                    window.alert(res.message)
-                    updateTable(pageAll)
-                },
-                error: function (message) {
-                }
-            })
-        }
-    </script>
+    <%--    <div style="width:70%;height:5%;margin:auto;">--%>
+    <%--        <form id="newQRCode">--%>
+    <%--            <span class="pStyle">新样式名称</span>--%>
+    <%--            <input type="text" id="newStyleName">--%>
+    <%--            <button type="button" onclick="addQRCodeStyle()">新增</button>--%>
+    <%--        </form>--%>
+    <%--    </div>--%>
 </div>
+<!-- 查询所有用户 -->
+<script type="text/javascript">
+    function reset() {
+        $('#newStyleName').val('')
+    }
+
+    function updateTable(newpage) {
+        let fieldNamestmp = {
+            qrcode_id: "INT",
+            qrcode_name: "STRING"
+        };
+        var fieldNamesStr = JSON.stringify(fieldNamestmp);
+        var qrcodeId = document.forms["query"]["qrcodeId"].value;
+        var qrcodeName = document.forms["query"]["qrcodeName"].value;
+        var sqlStrtmp = "select qrcode_id,qrcode_name from qrcode where qrcode_status = 1 and qrcode_id like '%" + qrcodeId + "%' and qrcode_name like '%" + qrcodeName + "%';";
+        let json = {
+            sqlStr: sqlStrtmp,
+            fieldNames: fieldNamesStr,
+            pageCur: newpage,
+            pageMax: 10
+        };
+        $.ajax({
+            url: "${pageContext.request.contextPath}/QuerySQL",
+            type: 'post',
+            dataType: 'json',
+            contentType: 'application/x-www-form-urlencoded;charset=utf-8',
+            data: json,
+            success: function (res) {
+                // 将结果输出到table
+                var str = "";
+                var jsonobj = JSON.parse(res.data);
+                for (var i = 0; i < jsonobj.length; i++) {
+                    str += "<tr><td class='tdStyle_body'>" + jsonobj[i]['qrcode_id'] +
+                        "</td><td class='tdStyle_body'>" + jsonobj[i]['qrcode_name'] +
+                        "</td><td class='tdStyle_body'>";
+                    // 查询
+                    str += "<a href='qrcodeInfo.jsp?qrcodeId=" + jsonobj[i]['qrcode_id'] + "&qrcodeName=" + encodeURIComponent(jsonobj[i]['qrcode_name']) + "'>详情</a>"
+                    str += "</td></tr>"
+
+                }
+                $("#tableText").html(str);
+                $('#total').html(res.cnt + "条，共" + res.pageAll + "页");
+                $('#li_1').addClass('active');
+                // 重置查询为第一页
+                pageCur = newpage;
+                // 重置总页数
+                pageAll = parseInt(res.pageAll);
+                for (let i = 1; i < 6; i++) {
+                    let k = i % 5;
+                    if (i > pageAll) {
+                        $('#a_' + k).text('.');
+                    } else {
+                        if (k === 0) {
+                            $('#a_' + k).text(5);
+                            $('#a_' + k).attr('onclick', 'jumpToNewPage1(5)');
+                            continue;
+                        } else {
+                            $('#a_' + k).attr('onclick', 'jumpToNewPage1(' + k + ')');
+                        }
+                    }
+                }
+            },
+            error: function (message) {
+            }
+        });
+    }
+
+    updateTable(1);
+
+    function jumpToNewPage1(newpageCode) {
+        if (newPage == pageCur) {
+            return;
+        }
+        let fieldNamestmp = {
+            qrcode_id: "INT",
+            qrcode_name: "STRING"
+        };
+        var fieldNamesStr = JSON.stringify(fieldNamestmp);
+        var qrcodeId = document.forms["query"]["qrcodeId"].value;
+        var qrcodeName = document.forms["query"]["qrcodeName"].value;
+        var sqlStrtmp = "select qrcode_id,qrcode_name from qrcode where qrcode_status = 1 and qrcode_id like '%" + qrcodeId + "%' and qrcode_name like '%" + qrcodeName + "%';";
+        var newpage = 1;
+        if (newpageCode == 1) {
+            if (pageCur == 1) {
+                window.alert("已经在第一页!");
+                return
+            } else {
+                newpage = pageCur;
+            }
+        }
+        ;
+        if (newpageCode == 2) {
+            if (pageCur == 1) {
+                window.alert("已经在第一页!");
+                return
+            } else {
+                newpage = pageCur - 1;
+            }
+        }
+        if (newpageCode == 4) {
+            if (pageCur == pageAll) {
+                window.alert("已经在最后一页!");
+                return
+            } else {
+                newpage = pageCur + 1;
+            }
+        }
+        if (newpageCode == 3) {
+            if (pageCur == pageAll) {
+                window.alert("已经在第最后一页!");
+                return
+            } else {
+                newpage = pageCur + 1;
+            }
+        }
+        let json = {
+            sqlStr: sqlStrtmp,
+            fieldNames: fieldNamesStr,
+            pageCur: newpage,
+            pageMax: 10
+        };
+        $.ajax({
+            url: "${pageContext.request.contextPath}/QuerySQL",
+            type: 'post',
+            dataType: 'json',
+            contentType: 'application/x-www-form-urlencoded;charset=utf-8',
+            data: json,
+            success: function (res) {
+                // 将结果输出到table
+                var str = "";
+                var jsonobj = JSON.parse(res.data);
+                for (var i = 0; i < jsonobj.length; i++) {
+                    str += "<tr><td class='tdStyle_body'>" + jsonobj[i]['qrcode_id'] +
+                        "</td><td class='tdStyle_body'>" + jsonobj[i]['qrcode_name'] +
+                        "</td><td class='tdStyle_body'>";
+                    // 查询
+                    str += "详情"
+                    str += "</td></tr>"
+                }
+                $("#tableText").html(str);
+                $('#li_' + newPage % 5).addClass('active');
+                $('#li_' + pageCur % 5).removeClass('active');
+                pageCur = newpage;
+                // 重置总页数
+                pageAll = parseInt(res.pageAll);
+            },
+            error: function (message) {
+            }
+        });
+    }
+
+    function jumpToNewPage2() {
+        let fieldNamestmp = {
+            qrcode_id: "INT",
+            qrcode_name: "STRING"
+        };
+        var fieldNamesStr = JSON.stringify(fieldNamestmp);
+        var qrcodeId = document.forms["query"]["qrcodeId"].value;
+        var qrcodeName = document.forms["query"]["qrcodeName"].value;
+        var sqlStrtmp = "select qrcode_id,qrcode_name from qrcode where qrcode_status = 1 and qrcode_id like '%" + qrcodeId + "%' and qrcode_name like '%" + qrcodeName + "%';";
+        var newpageStr = document.forms["jumpPage"]["page"].value;
+        var newpage = parseInt(newpageStr)
+        if (newpage <= 0 || newpage > pageAll || isNaN(newpage)) {
+            window.alert("请输入一个在范围内的正确页码数字!")
+            return
+        }
+        let json = {
+            sqlStr: sqlStrtmp,
+            fieldNames: fieldNamesStr,
+            pageCur: newpage,
+            pageMax: 10
+        };
+        $.ajax({
+            url: "${pageContext.request.contextPath}/QuerySQL",
+            type: 'post',
+            dataType: 'json',
+            contentType: 'application/x-www-form-urlencoded;charset=utf-8',
+            data: json,
+            success: function (res) {
+                // 将结果输出到table
+                var str = "";
+                var jsonobj = JSON.parse(res.data);
+                for (var i = 0; i < jsonobj.length; i++) {
+                    str += "<tr><td class='tdStyle_body'>" + jsonobj[i]['qrcode_id'] +
+                        "</td><td class='tdStyle_body'>" + jsonobj[i]['qrcode_name'] +
+                        "</td><td class='tdStyle_body'>";
+                    // 查询
+                    str += "详情"
+                    str += "</td></tr>"
+                }
+                $("#tableText").html(str);
+                jump2(newpage, res.pageAll);
+                pageCur = newpage;
+                // 重置总页数
+                pageAll = parseInt(res.pageAll);
+            },
+            error: function (message) {
+            }
+        });
+    }
+
+    function jump2(newpage, pageAll) {
+        if (newpage <= 5) {
+            for (let i = 1; i < 6; i++) {
+                let k = i % 5;
+                if (i > pageAll) {
+                    $('#a_' + k).text('.');
+                } else {
+                    if (k === 0) {
+                        $('#a_' + k).text(5);
+                    } else {
+                        $('#a_' + k).text(k);
+                        $('#a_' + k).attr('onclick', 'jumpToNewPage1(' + k + ')');
+                    }
+                }
+            }
+            $('#li_' + pageCur % 5).removeClass('active');
+            $('#li_' + newpage % 5).addClass('active');
+        } else {
+            let j = Math.floor(newpage / 5);
+            let m = j * 5;
+            for (let i = 1; i < 6; i++) {
+                let k = i % 5;
+                if (++m > pageAll) {
+                    $('#a_' + k).text('.');
+                } else {
+                    $('#a_' + k).text(m);
+                    $('#a_' + k).attr('onclick', 'jumpToNewPage1(' + m + ')');
+                }
+            }
+            $('#li_' + pageCur % 5).removeClass('active');
+            $('#li_' + newpage % 5).addClass('active');
+        }
+    }
+
+    function setFooter(newpageCode, pageAll, pageCur, newpage) {
+        if (newpageCode === 3) {
+            if (pageCur % 5 === 0) {
+                let j = Math.floor(newpage / 5);
+                let m = j * 5;
+                for (let i = 1; i < 6; i++) {
+                    let k = i % 5;
+                    if (++m > pageAll) {
+                        $('#a_' + k).text('.');
+                    } else {
+                        $('#a_' + k).text(m);
+                        $('#a_' + k).attr('onclick', 'jumpToNewPage1(' + m + ')');
+                    }
+                }
+
+            }
+            $('#li_' + newpage % 5).addClass('active');
+            $('#li_' + pageCur % 5).removeClass('active');
+        } else {
+            if (pageCur % 5 === 1) {
+                let j = Math.floor(newpage / 5);
+                let m
+                if (j < 0) {
+                    m = 5;    //5*1
+                } else {
+                    m = j * 5;
+                }
+                for (let i = 5; i > 0; i--) {
+                    let k = i % 5;
+                    if (m > pageAll) {
+                        $('#a_' + k).text('');
+                        m--;
+                    } else {
+                        $('#a_' + k).text(m);
+                        $('#a_' + k).attr('onclick', 'jumpToNewPage1(' + m-- + ')');
+                    }
+                }
+            }
+            $('#li_' + newpage % 5).addClass('active');
+            $('#li_' + pageCur % 5).removeClass('active');
+        }
+    }
+
+    function addQRCodeStyle() {
+        if (!checkAuthority("新增二维码样式")) {
+            window.alert("您无新增二维码样式的权限!")
+            return
+        }
+        var newqrcodeName = $("#newStyleName").val()
+        $.ajax({
+            url: "${pageContext.request.contextPath}/AddQRCodeStyle",
+            type: 'post',
+            dataType: 'json',
+            contentType: 'application/x-www-form-urlencoded;charset=utf-8',
+            data: {
+                qrcodeName: newqrcodeName,
+                id: sessionStorage.getItem("userId"),
+                name: sessionStorage.getItem("userName")
+            },
+            success: function (res) {
+                window.alert(res.message)
+                updateTable(pageAll)
+            },
+            error: function (message) {
+            }
+        })
+    }
+</script>
+
