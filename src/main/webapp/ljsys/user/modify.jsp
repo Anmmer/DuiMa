@@ -38,7 +38,7 @@
         <!--展示用户信息及其群组信息-->
         <p style="font-size:17px;font-weight: bolder">用户信息修改:</p>
         <div class="form-inline" style="width:100%;height:30%;float: left;">
-            </br>
+            <br>
             <div class="form-group" style="width: 50%">
                 <label for="userId" class="">工&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;号：</label>
                 <input  style="width: 50%" class="form-control" id="userId" disabled placeholder="工号"><br><br>
@@ -47,7 +47,7 @@
                 <label for="groupNames">添加角色：</label>
                 <select class="form-control" style="width: 50%" id="groupNames" name="groupNames" size="1">
                 </select>
-                <button style="margin-left: 6%" class="btn btn-primary btn-sm" onclick="addGroup()">添加
+                <button style="" class="btn btn-primary btn-sm" onclick="addGroup()">添加
                 </button>
             </div>
             <%--            <span>所属群组角色名:</span><span id="groupName1" class="pStyle">userId</span></br></br>--%>

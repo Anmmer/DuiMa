@@ -40,7 +40,7 @@
             <table class="table table-hover" style="text-align: center">
                 <tr>
                     <td class="tdStyle_title active" style="width: 35%">二维码编号</td>
-                    <td class="tdStyle_title active" style="width: 35%">二维码名</td>
+                    <td class="tdStyle_title active" style="width: 35%">二维码名称</td>
                     <td class="tdStyle_title active" style="width: 30%;text-align: center">查看详情</td>
                 </tr>
                 <tbody id="tableText">

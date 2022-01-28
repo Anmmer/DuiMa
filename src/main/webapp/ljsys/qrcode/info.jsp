@@ -35,30 +35,46 @@
 <div style="height: 100%;width:100%;background-color:white;">
     <div style="height:100%;width: 100%;">
         <!--控制台-->
-        <button style="position: absolute;left: 6%;top:4%" onclick="returnLastPage()">返回</button>
+        <button class="btn btn-primary" style="position: absolute;left:5%;top:5%" onclick="returnLastPage()">返回
+        </button>
         <div style="height:100%;width:49%;float: left;margin-left: 10%">
             <div style="height:4%;width:100%;"></div>
             <!--信息展示-->
-            <div style="height:15%;width:100%;">
-                <span class="pStyle">二维码样式名：</span><span class="pStyle" id="qrcodeName"></span><br/>
-                <span class="pStyle">二维码样式编号：</span><span class="pStyle" id="qrcodeId"></span>
+            <div style="height:12%;width:100%;font-size:17px;font-weight: bolder">
+                <span class="pStyle">二维码编号：</span><span class="pStyle" id="qrcodeId"></span><br/>
+                <span class="pStyle">二维码名称：</span><span class="pStyle" id="qrcodeName"></span>
             </div>
             <!--控制台-->
-            <div style="height:10%;width:50%;">
-                <span class="pStyle">画布横宽：</span><input type="text" style="width: 40% " id="xsize"><br/>
-                <span class="pStyle">画布纵长：</span><input type="text" style="width: 40% " id="ysize"><br/><br/>
+            <div class="form-inline" style="height:17%;width:50%;">
+                <div class="form-group" style="height: 100%">
+                    <label for="xsize">画布横宽：</label>
+                    <input style="width: 40%" class="form-control" id="xsize" placeholder="画布横宽"><br><br>
+                    <label for="ysize">画布纵长：</label>
+                    <input class="form-control" style="width: 40%" id="ysize" name="ysize" size="1" style="width:35%;"
+                           placeholder="画布纵长">
+                </div>
             </div>
-            <div style="position:absolute;left:28%;top:9%;height:22%;width:30%;">
-                <select id="valuesFrom" size="4" style="width:30%;height: 80% ">
+            <%--            <div style="height:10%;width:50%;">--%>
+            <%--                <span class="pStyle">画布横宽：</span><input type="text" style="width: 40% " id="xsize"><br/>--%>
+            <%--                <span class="pStyle">画布纵长：</span><input type="text" style="width: 40% " id="ysize"><br/><br/>--%>
+            <%--            </div>--%>
+            <div style="position:absolute;left:28%;top:9%;height:20%;width:30%;">
+                <select class="panel panel-default" id="valuesFrom" size="4"
+                        style="width:30%;height: 100%;overflow: auto;margin-bottom: 0">
                 </select>
-                <button type="button" style="margin-left: 2%" onclick="addContent()">添加</button>
-                <select id="valuesTo" style="margin-left: 2%;width:30%;height: 80%" size="4">
+                <button type="button" class="btn btn-primary btn-sm" style="margin-left: 2%;margin-bottom: 20px"
+                        onclick="addContent()">添加
+                </button>
+                <select class="panel panel-default" class="btn btn-primary btn-sm" id="valuesTo"
+                        style="margin-left: 2%;width:30%;height: 100%;margin-bottom: 0;overflow: auto" size="4">
                 </select>
-                <button type="button" style="margin-left: 2%" onclick="delContent()">删除</button>
+                <button type="button" style="margin-left: 2%;margin-bottom: 20px" class="btn btn-primary btn-sm"
+                        onclick="delContent()">删除
+                </button>
             </div>
             <!--列表台-->
             <div id="qr_code"></div>
-            <div style="height:50%;width: 100%;overflow: auto" id="ItemList">
+            <div style="height:45%;width: 100%;overflow: auto" id="ItemList">
 
             </div>
             <div style="margin-top: 2%">
@@ -140,8 +156,8 @@
         let divstr = $("<div style='width:100%;height:50px;float:left;' id='item" + cnt + "'><div>");
         $("#ItemList").append(divstr)
         // 新增item中的元素
-        let content = $("<div class='hiddenTDOverFlowContent' style='width: 18%;display: inline-table' title='" + itemValue + "' id='content" + cnt + "'>" + itemValue + "，" + "</div>")
-        let xspan = $("<label class='pStyle' for='xvalue'" + cnt + ">" + "X坐标：</label>")
+        let content = $("<div class='hiddenTDOverFlowContent pStyle' style='width: 18%;display: inline-table;font-size:14px;font-weight: bolder' title='" + itemValue + "' id='content" + cnt + "'>" + itemValue + "，" + "</div>")
+        let xspan = $("<label class='pStyle' style='font-size:14px;font-weight: bolder' for='xvalue'" + cnt + ">" + "X坐标：</label>")
         let xvalue = $("<input type='text' style='width: 20%' value='0' id='xvalue" + cnt + "'>")
         xvalue.bind("blur", function (event) {
             // 修改内容则修改draw
@@ -151,7 +167,7 @@
             let drawelem = document.getElementById("draw" + id)
             drawelem.style.left = $("#" + elem.id).val() + "px"
         })
-        let yspan = $("<span class='pStyle' style='margin-left: 5%'></span>").text("Y坐标：")
+        let yspan = $("<span class='pStyle' style='margin-left: 5%;font-size:14px;font-weight: bolder'>Y坐标：</span>")
         let yvalue = $("<input type='text' style='width: 20%' value='0' id='yvalue" + cnt + "'>")
         yvalue.bind("blur", function (event) {
             let elem = event.target
@@ -230,8 +246,8 @@
         $("#qr_code").append(divstr)
         $("#qr_code").append($("<div style='height:2px;width:95%;float:left;margin-bottom:4%;background-color: black;'></div>"))
         // 新增item中的元素
-        let xspan = $("<div class='hiddenTDOverFlowContent' style='width: 18%;display: inline-table'>二维码，</div>")
-        let xvalue = $("<label class='pStyle'>X坐标：</label><input type='text' style='width: 20%' value='0' id='xvalue" + cnt + "'>")
+        let xspan = $("<div class='hiddenTDOverFlowContent pStyle' style='width: 18%;display: inline-table;font-size:14px;font-weight: bolder'>二维码，</div>")
+        let xvalue = $("<label class='pStyle' style='font-size:14px;font-weight: bolder'>X坐标：</label><input type='text' style='width: 20%' value='0' id='xvalue" + cnt + "'>")
         xvalue.bind("blur", function (event) {
             // 修改内容则修改draw
             // 获取编号
@@ -240,7 +256,7 @@
             let drawelem = document.getElementById("draw" + id)
             drawelem.style.left = $("#" + elem.id).val() + "px"
         })
-        let yspan = $("<span class='pStyle' style='margin-left: 5%'></span>").text("Y坐标：")
+        let yspan = $("<span class='pStyle' style='margin-left: 5%;font-size:14px;font-weight: bolder'></span>").text("Y坐标：")
         let yvalue = $("<input type='text' style='width: 20%' value='0' id='yvalue" + cnt + "'>")
         yvalue.bind("blur", function (event) {
             let elem = event.target
@@ -510,6 +526,6 @@
         overflow: hidden;
         text-overflow: ellipsis;
         font-size: 16px;
-        font-family: Simsun;
+        /*font-family: Simsun;*/
     }
 </style>
