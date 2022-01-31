@@ -1,12 +1,24 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <div style="height: 95%;width: 100%">
-    <div style="position:relative;top: 5%;left: 15%;height:10%;width:70%;font-family: Simsun;font-size:16px;">
-        <label for="startDate">开始时间:</label><input id="startDate" type="date" style="width: 12%;">
-        <label for="endDate">结束时间:</label><input id="endDate" type="date" style="width: 12%;">
-        <label for="planname">项目名称:</label><input id="planname" style="width: 12%;">
-        <label for="materialcode">物料编号:</label><input id="materialcode" style="width: 12%;">
-        <button style="position: absolute;right: 0;width: 8%" onclick="getTableData()">查 询</button>
-    </div>
+    <form name="query" class="form-inline" style="width:70%;height:8%;margin: 2% auto 0">
+        <div class="form-group">
+            <label for="startDate">开始时间：</label><input id="startDate" class="form-control" type="date" style="width: 15%;">
+            <label for="endDate" style="margin-left: 2%">结束时间：</label><input id="endDate" class="form-control" type="date" style="width: 15%;">
+            <label for="planname" style="margin-left: 2%">项目名称：</label><input id="planname" class="form-control" style="width: 15%;">
+            <label for="materialcode" style="margin-left: 2%">物料编号：</label><input id="materialcode" class="form-control" style="width: 15%;">
+        </div>
+        <button type="button" class="btn btn-primary btn-sm" style="margin-left: 5%"
+                onclick="getTableData()">
+            查 询
+        </button>
+    </form>
+    <%--    <div style="position:relative;top: 5%;left: 15%;height:10%;width:70%;font-family: Simsun;font-size:16px;">--%>
+    <%--        <label for="startDate">开始时间:</label><input id="startDate" type="date" style="width: 12%;">--%>
+    <%--        <label for="endDate">结束时间:</label><input id="endDate" type="date" style="width: 12%;">--%>
+    <%--        <label for="planname">项目名称:</label><input id="planname" style="width: 12%;">--%>
+    <%--        <label for="materialcode">物料编号:</label><input id="materialcode" style="width: 12%;">--%>
+    <%--        <button style="position: absolute;right: 0;width: 8%" onclick="getTableData()">查 询</button>--%>
+    <%--    </div>--%>
     <div style="width: 70%;height:85%;margin: 0 auto">
         <div style="position:relative;top: 4%;width: 20%">
             <%--            <a href="./files/importTemplate.xlsx" download="importTemplate.xlsx">导入模板</a>--%>
@@ -405,11 +417,11 @@
             }
             let preproduct = excelData.preProduct;
             fangliang = 0;
-            preproduct.forEach((item)=>{
-                obj.forEach((val)=>{
-                    if(item.pid ==val ){
+            preproduct.forEach((item) => {
+                obj.forEach((val) => {
+                    if (item.pid == val) {
                         console.log()
-                        fangliang+=item.fangliang;
+                        fangliang += item.fangliang;
                     }
                 })
             })
@@ -627,11 +639,15 @@
     }
 
     function getArchives() {
+        let obj = {
+            'pageCur': 1,
+            'pageMax': 100
+        }
         $.ajax({
             url: "${pageContext.request.contextPath}/GetQc",
             type: 'post',
             dataType: 'json',
-            data: null,
+            data: obj,
             contentType: 'application/x-www-form-urlencoded;charset=utf-8',
             success: function (res) {
                 if (res.data.length !== 0) {

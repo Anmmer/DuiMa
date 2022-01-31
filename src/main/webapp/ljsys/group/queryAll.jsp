@@ -26,7 +26,7 @@
             </div>
             <button type="button" class="btn btn-primary btn-sm" style="height:60%;margin-left: 5%"
                     onclick="updateTable(1)">
-                模糊查询
+                查询
             </button>
         </form>
     </div>
@@ -464,7 +464,8 @@
             success: function (res) {
                 updateTable(1);
                 window.alert(res.message)
-                $('#myModal').modal('hide')
+                $('#myModal').modal('hide');
+                reset();
             },
             error: function (message) {
                 (message)

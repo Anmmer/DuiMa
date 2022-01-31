@@ -9,6 +9,8 @@
     <script type="text/javascript" src="./js/qrcode.min.js"></script>
     <script src="https://cdn.bootcss.com/xlsx/0.11.5/xlsx.core.min.js"></script>
     <script type="text/javascript" src="./js/util.js"></script>
+    <script type="text/javascript" src="dist/js/bootstrap.js"></script>
+    <link rel="stylesheet" href="dist/css/bootstrap.min.css" type="text/css"/>
     <link rel="stylesheet" type="text/css" href="./css/pop_up.css">
 </head>
 <body class="BodyStyle">

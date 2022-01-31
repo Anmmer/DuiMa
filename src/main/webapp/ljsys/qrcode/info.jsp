@@ -77,14 +77,17 @@
             <div style="height:45%;width: 100%;overflow: auto" id="ItemList">
 
             </div>
-            <div style="margin-top: 2%">
-                <select id="itemNames"></select>
-                <button type="button" onclick="newItem()">新增一项</button>
-                <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
-                <button type="button" onclick="submitQRcode()">提交修改</button>
-                <span>&nbsp;&nbsp;&nbsp;&nbsp;</span>
-                <button type="button" onclick="deleteStyle()">删除该样式</button>
-                <%--                <button type="button" onclick="printLabel()" style="width: 10%;margin-left: 5%">打 印</button>--%>
+            <div style="margin-top: 2%;width: 100%">
+                <div class="form-inline" style="width: 100%">
+                    <div class="form-group" style="width: 100%">
+                        <select id="itemNames" class="form-control" style="width: 20%"></select>
+                        <button type="button" class="btn btn-primary" onclick="newItem()">新增</button>
+                        <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                        <button type="button" class="btn btn-primary" onclick="submitQRcode()">提交</button>
+                        <span>&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                        <button type="button" class="btn btn-primary" onclick="deleteStyle()">删除</button>
+                    </div>
+                </div>
             </div>
         </div>
         <div style="height:100%;width:2px;background-color:black;float: left"></div>
@@ -175,7 +178,7 @@
             let drawelem = document.getElementById("draw" + id)
             drawelem.style.top = $("#" + elem.id).val() + "px"
         })
-        let itemButton = $("<button type='button' style='margin-left: 4%' id='button" + cnt + "'>删除</button>")
+        let itemButton = $("<button type='button' style='margin-left: 4%' class='btn btn-primary btn-sm' id='button" + cnt + "'>删除</button>")
         // 删除事件
         itemButton.bind("click", function (event) {
             let targetid = event.target.id
@@ -498,6 +501,12 @@
             window.alert("您无删除二维码样式的权限!")
             return;
         }
+
+        let r = confirm("亲，确认删除！");
+        if (r === false) {
+            return;
+        }
+
         $.ajax({
             url: "${pageContext.request.contextPath}/ExecuteSQL",
             type: 'post',

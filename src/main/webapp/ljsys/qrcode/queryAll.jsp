@@ -33,7 +33,7 @@
             <button type="button" style="position: absolute;right: 15%;top:11%" class="btn btn-primary btn-sm"
                     data-toggle="modal"
                     data-target="#myModal">
-                添加角色
+                添加
             </button>
         </div>
         <div style="height: 85%">
@@ -407,6 +407,8 @@
             success: function (res) {
                 window.alert(res.message)
                 updateTable(pageAll)
+                $('#myModal').modal('hide');
+                reset();
             },
             error: function (message) {
             }

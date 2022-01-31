@@ -33,14 +33,18 @@ public class GetPlanName extends HttpServlet {
         PrintWriter out = resp.getWriter();
         String id = req.getParameter("id");
         String planname = req.getParameter("planname");
+        int pageCur = Integer.parseInt(req.getParameter("pageCur"));
+        int pageMax = Integer.parseInt(req.getParameter("pageMax"));
         Map<String, Object> result = new HashMap<>();
         List<Map<String, Object>> list = new ArrayList<>();
         Connection con = null;
         PreparedStatement ps = null;
+        PreparedStatement ps2 = null;
         int i = 0;
         try {
             con = DbUtil.getCon();
             String sql = "select planname,id from planname where isdelete = 0";
+            String sql2 = "select count(*) as num from line where isdelete = 0";
             if (planname != null && !"".equals(planname)) {
                 sql += " and planname = ?";
                 i++;
@@ -49,12 +53,23 @@ public class GetPlanName extends HttpServlet {
                 sql += " and id = ?";
                 i++;
             }
+            sql += " limit ?,?";
+            i += 2;
             ps = con.prepareStatement(sql);
+            ps.setInt(i--, pageMax);
+            ps.setInt(i--, (pageCur - 1) * pageMax);
             if (id != null && !"".equals(id)) {
                 ps.setInt(i--, Integer.parseInt(id));
             }
             if (planname != null && !"".equals(planname)) {
                 ps.setString(i, planname);
+            }
+            ps2 = con.prepareStatement(sql2);
+            ResultSet rs2 = ps2.executeQuery();
+            while (rs2.next()) {
+                int num = rs2.getInt("num");
+                result.put("cnt", num);
+                result.put("pageAll", num / pageMax + 1);
             }
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
@@ -74,6 +89,8 @@ public class GetPlanName extends HttpServlet {
                     con.close();
                 if (ps != null)
                     ps.close();
+                if (ps2 != null)
+                    ps2.close();
             } catch (SQLException throwables) {
                 throwables.printStackTrace();
             }
