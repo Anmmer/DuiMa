@@ -44,7 +44,7 @@ public class GetPlant extends HttpServlet {
         try {
             con = DbUtil.getCon();
             String sql = "select plant,id from plant where isdelete = 0";
-            String sql2 = "select count(*) as num from line where isdelete = 0";
+            String sql2 = "select count(*) as num from plant where isdelete = 0";
             if (plant != null && !"".equals(plant)) {
                 sql += " and plant = ?";
                 i++;

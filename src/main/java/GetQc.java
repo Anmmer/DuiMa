@@ -44,7 +44,7 @@ public class GetQc extends HttpServlet {
         try {
             con = DbUtil.getCon();
             String sql = "select qc,id from qc where isdelete = 0";
-            String sql2 = "select count(*) as num from line where isdelete = 0";
+            String sql2 = "select count(*) as num from qc where isdelete = 0";
             if (qc != null && !"".equals(qc)) {
                 sql += " and qc = ?";
                 i++;

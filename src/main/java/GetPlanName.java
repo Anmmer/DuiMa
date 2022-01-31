@@ -44,7 +44,7 @@ public class GetPlanName extends HttpServlet {
         try {
             con = DbUtil.getCon();
             String sql = "select planname,id from planname where isdelete = 0";
-            String sql2 = "select count(*) as num from line where isdelete = 0";
+            String sql2 = "select count(*) as num from planname where isdelete = 0";
             if (planname != null && !"".equals(planname)) {
                 sql += " and planname = ?";
                 i++;

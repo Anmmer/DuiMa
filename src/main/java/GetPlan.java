@@ -27,8 +27,11 @@ public class GetPlan extends HttpServlet {
         String endDate = req.getParameter("endDate");
         String planname = req.getParameter("planname");
         String materialcode = req.getParameter("materialcode");
+        int pageCur = Integer.parseInt(req.getParameter("pageCur"));
+        int pageMax = Integer.parseInt(req.getParameter("pageMax"));
         Connection con = null;
         PreparedStatement ps = null;
+        PreparedStatement ps2;
         ResultSet rs = null;
         PrintWriter out = null;
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
@@ -37,6 +40,7 @@ public class GetPlan extends HttpServlet {
             out = resp.getWriter();
             con = DbUtil.getCon();
             String sql = "select plannumber,printstate,plant,plantime,line,liner,planname,build,tasksqure,tasknum,updatedate from plan where isdelete = 0 ";
+            String sql2 = "select count(*) as num from plan where isdelete = 0";
             if (!"".equals(startDate) && startDate != null) {
                 sql += " and plantime >= ?";
                 i++;
@@ -53,12 +57,16 @@ public class GetPlan extends HttpServlet {
                 sql += " and plannumber in (select plannumber from preproduct where materialcode = ?)";
                 i++;
             }
+            sql += " limit ?,?";
+            i += 2;
             ps = con.prepareStatement(sql);
+            ps.setInt(i--, pageMax);
+            ps.setInt(i--, (pageCur - 1) * pageMax);
             if (!"".equals(materialcode) && materialcode != null) {
                 ps.setString(i--, materialcode.trim());
             }
             if (!"".equals(planname) && planname != null) {
-                ps.setString(i--, "%"+planname.trim()+"%");
+                ps.setString(i--, "%" + planname.trim() + "%");
             }
             if (!"".equals(endDate) && endDate != null) {
                 ps.setDate(i--, new Date(sdf.parse(endDate).getTime()));
@@ -83,6 +91,13 @@ public class GetPlan extends HttpServlet {
                 map.put("tasknum", rs.getString("tasknum"));
                 map.put("updatedate", rs.getDate("updatedate"));
                 list.add(map);
+            }
+            ps2 = con.prepareStatement(sql2);
+            ResultSet rs2 = ps2.executeQuery();
+            while (rs2.next()) {
+                int num = rs2.getInt("num");
+                data.put("cnt", num);
+                data.put("pageAll", num / pageMax + 1);
             }
             data.put("data", list);
             out.write(JSON.toJSONString(data));
