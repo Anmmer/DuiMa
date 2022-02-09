@@ -19,7 +19,7 @@
     <div style="width:70%;height:80%;margin:0 auto;">
         <div class="page-header" style="margin-top: 0;margin-bottom: 1%">
             <h3 style="margin-bottom: 0;margin-top: 0"><small>已导入计划</small></h3>
-            <button type="button" style="position: absolute;right: 20%;top:11%" class="btn btn-primary btn-sm"
+            <button type="button" style="position: absolute;right: 22%;top:11%" class="btn btn-primary btn-sm"
                     data-toggle="modal"
                     onclick="openPop()">
                 上传文件
@@ -73,8 +73,8 @@
             </ul>
         </nav>
         <!-- Modal -->
-        <div class="modal fade" id="myModal" tabindex="-1"
-             style="position: absolute;left: 10%;height: 95%;top: 3%;width: 80%;" role="dialog"
+        <div class="modal fade" id="myModal"
+             style="position: absolute;left: 10%;height: 95%;top: 3%;width: 80%;z-index: 5" role="dialog"
              data-backdrop="false"
              aria-labelledby="myModalLabel">
             <div class="modal-dialog" role="document" style="width: 100%;height: 100%;margin: 0">
@@ -109,7 +109,7 @@
                                                                                                    disabled>
                                 <label for="print_plantime" style="margin-left: 1%">计划生产时间：</label><input
                                     id="print_plantime" class="form-control" style="width: 15%" disabled>
-                                <button id="pop_query_button" class="save-btn btn btn-primary" onclick="query()"
+                                <button id="pop_query_button" class="btn btn-primary" onclick="query()"
                                         style="margin-left:15%;width: 8%">查&nbsp;&nbsp;询
                                 </button>
                             </div>
@@ -133,11 +133,11 @@
                                                                                             style="width: 20%"></select>
                             </div>
                         </form>
-                        <div style="height: 70%">
+                        <div style="height: 70%;overflow-y: scroll">
                             <div class="page-header" style="margin-top: 0;margin-bottom: 1%">
                                 <h3 style="margin-bottom: 0;margin-top: 0" id="inputDetail"><small>导入预览</small></h3>
                             </div>
-                            <table class="table table-hover" style="text-align: center">
+                            <table class="table table-hover" style="text-align: center;overflow-y: scroll">
                                 <tr id="table_tr">
                                     <td class='table_tr_print tdStyle_title active' style="width: 2%;"><input
                                             id="detail_checkbok"
@@ -153,11 +153,11 @@
                                     <td class='table_tr_print tdStyle_title active' style='width: 6%'>打印数</td>
                                     <td class='table_tr_print tdStyle_title active' style="width: 5%;">操作</td>
                                 </tr>
-                                <tbody id="detailTableText">
+                                <tbody id="detailTableText" style="overflow-y: scroll">
                                 </tbody>
                             </table>
                         </div>
-                        <nav aria-label="Page navigation" style="margin-left:50%;width:80%;height:10%;">
+                        <nav aria-label="Page navigation" style="margin-left:50%;width:80%;height:10%;" id="page">
                             <ul class="pagination" style="margin-top: 0;width: 70%">
                                 <li><span id="total_d" style="width: 22%">0条，共0页</span></li>
                                 <li>
@@ -185,12 +185,16 @@
                         <div id="pop_print" class="form-inline" style="width: 100%;height: 10%;margin: 0 auto">
                             <div class="form-group" style="width: 100%;">
                                 <label for="qrcodestyles">选择一个样式：</label>
-                                <select class="form-control" id="qrcodestyles" class="form-control" style="width: 15%;"></select>
-                                <button type="button" id="print_data" style="margin-left: 1%" class="save-btn btn btn-primary" onclick="checkdata(false)">打印数据
+                                <select class="form-control" id="qrcodestyles" class="form-control"
+                                        style="width: 15%;"></select>
+                                <button type="button" id="print_data" style="margin-left: 1%"
+                                        class="btn btn-primary" onclick="checkdata(false)">打印数据
                                 </button>
-                                <button type="button" id="print_datas" style="margin-left: 1%" class="save-btn btn btn-primary" onclick="checkdata(true)">全部打印
+                                <button type="button" id="print_datas" style="margin-left: 1%"
+                                        class="btn btn-primary" onclick="checkdata(true)">全部打印
                                 </button>
-                                <button type="button" style="margin-left: 1%" class="save-btn btn btn-primary" onclick="delDetailData()">批量删除
+                                <button type="button" style="margin-left: 1%" class="btn btn-primary"
+                                        onclick="delDetailData()">批量删除
                                 </button>
                             </div>
                         </div>
@@ -202,124 +206,12 @@
                 </div>
             </div>
         </div>
-        <%--    <div class="pop_up">--%>
-        <%--        <div class="pop_title title_1">上传Excel</div>--%>
-        <%--        <div class="pop_title title_2">构件列表</div>--%>
-        <%--        <div class="close_btn"><img src="./img/close.png" onclick="closePop()"></div>--%>
-        <%--        <div style="width: 90%;height: 80%;margin: 0 auto">--%>
-        <%--            <div id="pop_query" style="width: 100%;height: 23%">--%>
-        <%--                <label for="print_build">楼栋楼层：</label><input id="print_build" style="width: 15%;margin-top: 4%"--%>
-        <%--                                                             disabled>--%>
-        <%--                <label for="print_line" style="margin-left: 1%">产线：</label><input id="print_line" style="width: 15%"--%>
-        <%--                                                                                  disabled>--%>
-        <%--                <label for="updatedate" style="margin-left: 1%">最后修改时间：</label><input id="updatedate" style="width: 15%"--%>
-        <%--                                                                                      disabled>--%>
-        <%--                <label for="print_materialcode" style="margin-left: 1%">物料编码：</label><input id="print_materialcode"--%>
-        <%--                                                                                            style="width: 13%"><br>--%>
-        <%--                <label for="print_planname">项目名称：</label><input id="print_planname" style="width: 15%" disabled>--%>
-        <%--                <label for="print_liner" style="margin-left: 1%">线长：</label><input id="print_liner"--%>
-        <%--                                                                                   style="width: 15%;margin-top: 3%;"--%>
-        <%--                                                                                   disabled>--%>
-        <%--                <label for="print_plantime" style="margin-left: 1%">计划生产时间：</label><input id="print_plantime"--%>
-        <%--                                                                                          style="width: 15%" disabled>--%>
-        <%--                <button id="pop_query_button" onclick="query()" style="margin-left:15%;width: 8%">查&nbsp;&nbsp;询--%>
-        <%--                </button>--%>
-
-        <%--            </div>--%>
-        <%--            <div id="pop_input" style="width: 100%;height: 23%">--%>
-        <%--                <input type="file" id="excel-file"--%>
-        <%--                       accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.ms-excel"--%>
-        <%--                       style="position: relative;margin-top: 2%;">--%>
-        <%--                <h3 id="inputDetail" style="position: absolute;left: 45%;top: 7%;">导入预览</h3>--%>
-        <%--                <div style="margin-top: 2%">--%>
-        <%--                    <label for="build">楼栋楼层：</label><input id="build" style="width: 15%">--%>
-        <%--                    <label for="pop_planname"--%>
-        <%--                           style="margin-left: 1%">项&nbsp;&nbsp;目&nbsp;&nbsp;名&nbsp;称&nbsp;&nbsp;：</label><input--%>
-        <%--                        id="pop_planname" style="width: 15%" disabled>--%>
-        <%--                    <label for="line" style="margin-left: 1%">产&nbsp;&nbsp;&nbsp;线：</label><input id="line"--%>
-        <%--                                                                                                  style="width: 15%"--%>
-        <%--                                                                                                  disabled><br>--%>
-        <%--                    <label for="liner">线&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;长：</label><input id="liner"--%>
-        <%--                                                                                                   style="width: 15%;margin-top: 2%;"--%>
-        <%--                                                                                                   disabled>--%>
-        <%--                    <label for="plantime" style="margin-left: 1%">计划生产时间：</label><input id="plantime" style="width: 15%"--%>
-        <%--                                                                                        disabled>--%>
-        <%--                    <label for="qc" style="margin-left: 1%">质检员：</label><select id="qc" style="width: 15%"></select>--%>
-        <%--                </div>--%>
-        <%--            </div>--%>
-        <%--            <div style="height: 62%;margin-top: 2%">--%>
-        <%--                <table class="hiddenTDOverFlowContent" cellspacing="0" cellpadding="0" width="100%" align="center"--%>
-        <%--                       border="1">--%>
-        <%--                    <tr id="table_tr">--%>
-        <%--                        <td class='table_tr_print tdStyle_title' style="width: 2%;"><input id="detail_checkbok"--%>
-        <%--                                                                                           type="checkbox"></td>--%>
-        <%--                        <td class='tdStyle_title active' style="width: 14%">物料编号</td>--%>
-        <%--                        <td class='tdStyle_title active' style="width: 20%">物料名称</td>--%>
-        <%--                        <td class='tdStyle_title active' style="width: 10%">构建编号</td>--%>
-        <%--                        <td class='tdStyle_title active' style="width: 10%">规格</td>--%>
-        <%--                        <td class='tdStyle_title active' style="width: 6%">方量</td>--%>
-        <%--                        <td class='tdStyle_title active' style="width: 6%">重量</td>--%>
-        <%--                        <td class='tdStyle_title active' style="width: 6%">砼标号</td>--%>
-        <%--                        <td class='table_tr_print tdStyle_title active' style="width: 6%">质检员</td>--%>
-        <%--                        <td class='table_tr_print tdStyle_title active' style='width: 6%'>打印数</td>--%>
-        <%--                        <td class='table_tr_print tdStyle_title active' style="width: 5%;">操作</td>--%>
-        <%--                    </tr>--%>
-        <%--                    <tbody id="detailTableText">--%>
-        <%--                    </tbody>--%>
-        <%--                </table>--%>
-        <%--            </div>--%>
-        <%--            <div style="height:4%;margin-top: 1%;">--%>
-        <%--                <div style="width:33%;float: left;">--%>
-        <%--                    <button id="pop_first" type="button" disabled style="font-family: Simsun;font-size:16px;"--%>
-        <%--                            onclick="jumpToNewPage(1,true)">第一页--%>
-        <%--                    </button>--%>
-        <%--                    <button id="pop_last" type="button" disabled style="font-family: Simsun;font-size:16px;"--%>
-        <%--                            onclick="jumpToNewPage(2,true)">最后一页--%>
-        <%--                    </button>--%>
-        <%--                </div>--%>
-        <%--                <div style="width:34%;float: left;">--%>
-        <%--                    <p id="detailResultTip"--%>
-        <%--                       style="margin-top: 0px;font-family: Simsun;font-size: 16px;text-align: center;">--%>
-        <%--                        1/1</p>--%>
-        <%--                </div>--%>
-        <%--                <div style="width:33%;float: left;">--%>
-        <%--                    <button id="pop_next" type="button" disabled--%>
-        <%--                            style="font-family: Simsun;font-size:16px;float:right;margin-left: 5px"--%>
-        <%--                            onclick="jumpToNewPage(4,true)">--%>
-        <%--                        后一页--%>
-        <%--                    </button>--%>
-        <%--                    <button id="pop_pre" type="button" disabled style="font-family: Simsun;font-size:16px;float:right;"--%>
-        <%--                            onclick="jumpToNewPage(3,true)">--%>
-        <%--                        前一页--%>
-        <%--                    </button>--%>
-        <%--                </div>--%>
-        <%--            </div>--%>
-        <%--        </div>--%>
-        <%--        <div id="pop_print" style="width: 90%;height: 10%;margin: 0 auto">--%>
-        <%--            <label class="label" style="position: relative;margin-top: 2%;" for="qrcodestyles">选择一个样式:</label>--%>
-        <%--            <select id="qrcodestyles" style="position: relative;margin-top: 2%;width: 15%;"></select>--%>
-        <%--            <button type="button" id="print_data"--%>
-        <%--                    style="position: relative;margin-top: 2%;margin-left: 1%"--%>
-        <%--                    onclick="checkdata(false)">打印数据--%>
-        <%--            </button>--%>
-        <%--            <button type="button" id="print_datas" style="position: relative;margin-top: 2%; margin-left: 1%"--%>
-        <%--                    onclick="checkdata(true)">全部打印--%>
-        <%--            </button>--%>
-        <%--            <button type="button" style="position: relative;margin-top: 2%; margin-left: 1%"--%>
-        <%--                    onclick="delDetailData()">批量删除--%>
-        <%--            </button>--%>
-        <%--        </div>--%>
-        <%--        <div class="pop_footer" style="height: 10%;display: flex;align-items: center;justify-content: center;">--%>
-        <%--            <button type="submit" class="saveo save-btn">保存</button>--%>
-        <%--            <button type="reset" class="recover-btn">重置</button>--%>
-        <%--        </div>--%>
-        <%--    </div>--%>
         <!--打印主界面-->
         <div style="width:100%;height:70%;margin:auto;float: left;display: none">
             <div id="printArea"
                  style="width:80%;height:100%;margin: auto;background-color: azure;overflow-y: auto;"></div>
         </div>
-        <div class="gif">
+        <div class="gif" style="z-index: 999;">
             <img src="./img/loading.gif"/>
         </div>
     </div>
@@ -350,6 +242,7 @@
             $(".pop_footer").show();
             $('.table_tr_print').hide();
             $('#pop_query').hide();
+            $('#page').hide();
             getArchives();
             print = false;
         }
@@ -363,6 +256,10 @@
             det_i = 0;
             reset();
         }
+
+        $('#myModal').on('hidden.bs.modal', function (e) {
+            location.reload()
+        })
 
         //重置弹窗
         function reset() {
@@ -491,37 +388,63 @@
         //获取明细数据
         function getDetailData(plannumber_p) {
             plannumber = plannumber_p;
-            $.post("${pageContext.request.contextPath}/GetPreProduct", {'plannumber': plannumber_p}, function (result) {
+            $.post("${pageContext.request.contextPath}/GetPreProduct", {
+                'plannumber': plannumber_p,
+                pageCur: pageCur,
+                pageMax: pageMax
+            }, function (result) {
                 result = JSON.parse(result);
                 if (result.data !== undefined) {
                     excelData.preProduct = result.data;
                     excelData.plan = jsonObj.find((item) => {
                         return item.plannumber == plannumber_p;
                     });
-                    if (excelData.preProduct.length === 0) {
-                        pop_count = 1;
-                    } else {
-                        pop_count = Math.ceil(excelData.preProduct.length / 10);
-                    }
+                    let pop_count = Math.ceil(excelData.preProduct.length / 10);
                     $('#print_build').val(excelData.plan.build);
                     $('#print_line').val(excelData.plan.line);
                     $('#print_liner').val(excelData.plan.liner);
                     $('#updatedate').val(excelData.plan.updatedate);
                     $('#print_plantime').val(excelData.plan.plantime);
                     $('#print_planname').val(excelData.plan.planname);
-                    setFooter();
                     $('#myModal').modal('show')
                     $("#title_1").hide();
                     $("#title_2").show();
                     $("#pop_print").show();
                     $("#pop_input").hide();
+                    $('#page').show();
                     $(".modal-footer").hide();
                     getStyleList();
                     $('.table_tr_print').show();
                     $('#pop_query').show();
                     print = true;
+                    for (let i = 0; i < 10; i++) {
+                        if (excelData.preProduct[i] !== undefined) {
+                            pop_pageDate.push(excelData.preProduct[i])
+                        }
+                    }
                     updateTable(true);
                     getFieldMap();
+                    $('#total_d').html(excelData.preProduct.length + "条，共" + pop_count + "页");
+                    $('#li_d1').addClass('active');
+                    // 重置查询为第一页
+                    pop_pageCur = 1;
+                    // 重置总页数
+                    pop_pageAll = parseInt(pop_count);
+                    for (let i = 1; i < 6; i++) {
+                        let k = i % 5;
+                        if (i > pop_pageAll) {
+                            $('#a_d' + k).text('.');
+                        } else {
+                            if (k === 0) {
+                                $('#a_d' + k).text(5);
+                                $('#a_d' + k).attr('onclick', 'jumpToNewPage_d1(5)');
+                                continue;
+                            } else {
+                                $('#a_d' + k).text(i);
+                                $('#a_d' + k).attr('onclick', 'jumpToNewPage_d1(' + k + ')');
+                            }
+                        }
+                    }
                 }
             })
         }
@@ -625,27 +548,25 @@
 
         //更新表格
         function updateTable(detail) {
-            let preProductData = excelData.preProduct;
             let str = "";
             if (detail) {
                 for (let i = 0; i < pop_pageDate.length; i++) {
-                    let time = preProductData[i]['time'] === undefined ? '' : preProductData[i]['time']
                     if (print) {
-                        str += "<tr><td class='tdStyle_body'><input type='checkbox' data-id=" + preProductData[i]["pid"] + "></td>"
+                        str += "<tr><td class='tdStyle_body'><input type='checkbox' data-id=" + pop_pageDate[i]["pid"] + "></td>"
                     } else {
                         str += "<tr>"
                     }
-                    str += "<td class='tdStyle_body' title='" + preProductData[i]['materialcode'] + "'>" + preProductData[i]['materialcode'] +
-                        "</td><td class='tdStyle_body' title='" + preProductData[i]['materialname'] + "'>" + preProductData[i]['materialname'] +
-                        "</td><td class='tdStyle_body' title='" + preProductData[i]['preproductid'] + "'>" + preProductData[i]['preproductid'] +
-                        "</td><td class='tdStyle_body' title='" + preProductData[i]['standard'] + "'>" + preProductData[i]['standard'] +
-                        "</td><td class='tdStyle_body' title='" + preProductData[i]['fangliang'] + "'>" + preProductData[i]['fangliang'] +
-                        "</td><td class='tdStyle_body' title='" + preProductData[i]['weigh'] + "'>" + preProductData[i]['weigh'] +
-                        "</td><td class='tdStyle_body' title='" + preProductData[i]['concretegrade'] + "'>" + preProductData[i]['concretegrade'];
+                    str += "<td class='tdStyle_body' title='" + pop_pageDate[i]['materialcode'] + "'>" + pop_pageDate[i]['materialcode'] +
+                        "</td><td class='tdStyle_body' title='" + pop_pageDate[i]['materialname'] + "'>" + pop_pageDate[i]['materialname'] +
+                        "</td><td class='tdStyle_body' title='" + pop_pageDate[i]['preproductid'] + "'>" + pop_pageDate[i]['preproductid'] +
+                        "</td><td class='tdStyle_body' title='" + pop_pageDate[i]['standard'] + "'>" + pop_pageDate[i]['standard'] +
+                        "</td><td class='tdStyle_body' title='" + pop_pageDate[i]['fangliang'] + "'>" + pop_pageDate[i]['fangliang'] +
+                        "</td><td class='tdStyle_body' title='" + pop_pageDate[i]['weigh'] + "'>" + pop_pageDate[i]['weigh'] +
+                        "</td><td class='tdStyle_body' title='" + pop_pageDate[i]['concretegrade'] + "'>" + pop_pageDate[i]['concretegrade'];
                     if (print) {
-                        str += "</td><td class='tdStyle_body' title='" + preProductData[i]['qc'] + "'>" + preProductData[i]['qc'] +
-                            "</td><td class='tdStyle_body' title='" + preProductData[i]['print'] + "'>" + preProductData[i]['print'] +
-                            "</td><td class='tdStyle_body'><a href='#' onclick='delDetailData(" + preProductData[i]['pid'] + "," + preProductData[i]['fangliang'] + ")'>删除</a>" +
+                        str += "</td><td class='tdStyle_body' title='" + pop_pageDate[i]['qc'] + "'>" + pop_pageDate[i]['qc'] +
+                            "</td><td class='tdStyle_body' title='" + pop_pageDate[i]['print'] + "'>" + pop_pageDate[i]['print'] +
+                            "</td><td class='tdStyle_body'><a href='#' onclick='delDetailData(" + pop_pageDate[i]['pid'] + "," + pop_pageDate[i]['fangliang'] + ")'>删除</a>" +
                             "</td></tr>"
                     } else {
                         str += "</td></tr>"
@@ -704,6 +625,7 @@
                 let flag = excelData.preProduct.some((val, index) => {
                     for (let i = index + 1; i < excelData.preProduct.length; i++) {
                         if (val.materialcode === excelData.preProduct[i].materialcode) {
+                            str += val.materialcode;
                             return true;
                         }
                     }
@@ -737,13 +659,14 @@
                     $('#plantime').val(excelData.plan.plantime);
                     $('#liner').val(excelData.plan.liner);
                     pop_count = Math.ceil(excelData.preProduct.length / 10);
+                    pop_pageDate = excelData.preProduct;
                     updateTable(true);
-                    $('#total_d').html(excelData.preProduct.length + "条，共" + excelData.preProduct.length / pageMax + 1 + "页");
+                    $('#total_d').html(excelData.preProduct.length + "条，共" + pop_count + "页");
                     $('#li_d1').addClass('active');
                     // 重置查询为第一页
                     pop_pageCur = 1;
                     // 重置总页数
-                    pop_pageAll = parseInt(excelData.preProduct.length);
+                    pop_pageAll = parseInt(pop_count);
                     for (let i = 1; i < 6; i++) {
                         let k = i % 5;
                         if (i > pop_pageAll) {
@@ -754,6 +677,7 @@
                                 $('#a_d' + k).attr('onclick', 'jumpToNewPage_d1(5)');
                                 continue;
                             } else {
+                                $('#a_d' + k).text(i);
                                 $('#a_d' + k).attr('onclick', 'jumpToNewPage_d1(' + k + ')');
                             }
                         }

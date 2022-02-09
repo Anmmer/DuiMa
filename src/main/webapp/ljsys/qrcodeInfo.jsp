@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="css/style.css" type="text/css">
     <link rel="stylesheet" href="dist/css/bootstrap.min.css" type="text/css"/>
     <script type="text/javascript" src="./js/jquery-3.3.1.min.js"></script>
+    <script type="text/javascript" src="./js/qrcode.min.js"></script>
 </head>
 <body class="BodyStyle">
 <%@ include file="qrcode/info.jsp" %>

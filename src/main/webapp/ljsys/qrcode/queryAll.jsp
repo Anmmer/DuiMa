@@ -1,12 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <script type="text/javascript">
-    var pageCur = 1;
-    var pageAll = 1;
+    let pageCur = 1;
+    let pageAll = 1;
 
     function checkAuthority(au) {
-        var authority = JSON.parse(sessionStorage.getItem("authority"))
+        let authority = JSON.parse(sessionStorage.getItem("authority"))
         flag = false;
-        for (var i = 0; i < authority.length; i++) {
+        for (let i = 0; i < authority.length; i++) {
             if (authority[i].fa_name == au) flag = true;
         }
         return flag;
@@ -121,10 +121,10 @@
             qrcode_id: "INT",
             qrcode_name: "STRING"
         };
-        var fieldNamesStr = JSON.stringify(fieldNamestmp);
-        var qrcodeId = document.forms["query"]["qrcodeId"].value;
-        var qrcodeName = document.forms["query"]["qrcodeName"].value;
-        var sqlStrtmp = "select qrcode_id,qrcode_name from qrcode where qrcode_status = 1 and qrcode_id like '%" + qrcodeId + "%' and qrcode_name like '%" + qrcodeName + "%';";
+        let fieldNamesStr = JSON.stringify(fieldNamestmp);
+        let qrcodeId = document.forms["query"]["qrcodeId"].value;
+        let qrcodeName = document.forms["query"]["qrcodeName"].value;
+        let sqlStrtmp = "select qrcode_id,qrcode_name from qrcode where qrcode_status = 1 and qrcode_id like '%" + qrcodeId + "%' and qrcode_name like '%" + qrcodeName + "%';";
         let json = {
             sqlStr: sqlStrtmp,
             fieldNames: fieldNamesStr,
@@ -139,9 +139,9 @@
             data: json,
             success: function (res) {
                 // 将结果输出到table
-                var str = "";
-                var jsonobj = JSON.parse(res.data);
-                for (var i = 0; i < jsonobj.length; i++) {
+                let str = "";
+                let jsonobj = JSON.parse(res.data);
+                for (let i = 0; i < jsonobj.length; i++) {
                     str += "<tr><td class='tdStyle_body'>" + jsonobj[i]['qrcode_id'] +
                         "</td><td class='tdStyle_body'>" + jsonobj[i]['qrcode_name'] +
                         "</td><td class='tdStyle_body'>";
@@ -179,6 +179,69 @@
 
     updateTable(1);
 
+    function jumpToNewPage(newPageCode) {
+        let newPage = 1;
+        let fieldNamestmp = {
+            qrcode_id: "INT",
+            qrcode_name: "STRING"
+        };
+        let fieldNamesStr = JSON.stringify(fieldNamestmp);
+        let qrcodeId = document.forms["query"]["qrcodeId"].value;
+        let qrcodeName = document.forms["query"]["qrcodeName"].value;
+        let sqlStrtmp = "select qrcode_id,qrcode_name from qrcode where qrcode_status = 1 and qrcode_id like '%" + qrcodeId + "%' and qrcode_name like '%" + qrcodeName + "%';";
+        if (newPageCode === 1) newPage = 1;
+        if (newPageCode === 2) {
+            if (pageCur === 1) {
+                window.alert("已经在第一页!");
+                return
+            } else {
+                newPage = pageCur - 1;
+            }
+        }
+        if (newPageCode === 3) {
+            if (pageCur === pageAll) {
+                window.alert("已经在最后一页!");
+                return
+            } else {
+                newPage = pageCur + 1;
+            }
+        }
+        let json = {
+            sqlStr: sqlStrtmp,
+            fieldNames: fieldNamesStr,
+            pageCur: newPage,
+            pageMax: 10
+        };
+        $.ajax({
+            url: "${pageContext.request.contextPath}/QuerySQL",
+            type: 'post',
+            dataType: 'json',
+            contentType: 'application/x-www-form-urlencoded;charset=utf-8',
+            data: json,
+            success: function (res) {
+                // 将结果输出到table
+                let str = "";
+                let jsonobj = JSON.parse(res.data);
+                for (let i = 0; i < jsonobj.length; i++) {
+                    str += "<tr><td class='tdStyle_body'>" + jsonobj[i]['qrcode_id'] +
+                        "</td><td class='tdStyle_body'>" + jsonobj[i]['qrcode_name'] +
+                        "</td><td class='tdStyle_body'>";
+                    // 查询
+                    str += "<a href='qrcodeInfo.jsp?qrcodeId=" + jsonobj[i]['qrcode_id'] + "&qrcodeName=" + encodeURIComponent(jsonobj[i]['qrcode_name']) + "'>详情</a>"
+                    str += "</td></tr>"
+                }
+                $("#tableText").html(str);
+                $('#li_' + newPage % 5).addClass('active');
+                $('#li_' + pageCur % 5).removeClass('active');
+                pageCur = newPage;
+                // 重置总页数
+                pageAll = parseInt(res.pageAll);
+            },
+            error: function (message) {
+            }
+        });
+    }
+
     function jumpToNewPage1(newpageCode) {
         if (newPage == pageCur) {
             return;
@@ -187,11 +250,11 @@
             qrcode_id: "INT",
             qrcode_name: "STRING"
         };
-        var fieldNamesStr = JSON.stringify(fieldNamestmp);
-        var qrcodeId = document.forms["query"]["qrcodeId"].value;
-        var qrcodeName = document.forms["query"]["qrcodeName"].value;
-        var sqlStrtmp = "select qrcode_id,qrcode_name from qrcode where qrcode_status = 1 and qrcode_id like '%" + qrcodeId + "%' and qrcode_name like '%" + qrcodeName + "%';";
-        var newpage = 1;
+        let fieldNamesStr = JSON.stringify(fieldNamestmp);
+        let qrcodeId = document.forms["query"]["qrcodeId"].value;
+        let qrcodeName = document.forms["query"]["qrcodeName"].value;
+        let sqlStrtmp = "select qrcode_id,qrcode_name from qrcode where qrcode_status = 1 and qrcode_id like '%" + qrcodeId + "%' and qrcode_name like '%" + qrcodeName + "%';";
+        let newpage = 1;
         if (newpageCode == 1) {
             if (pageCur == 1) {
                 window.alert("已经在第一页!");
@@ -239,14 +302,14 @@
             data: json,
             success: function (res) {
                 // 将结果输出到table
-                var str = "";
-                var jsonobj = JSON.parse(res.data);
-                for (var i = 0; i < jsonobj.length; i++) {
+                let str = "";
+                let jsonobj = JSON.parse(res.data);
+                for (let i = 0; i < jsonobj.length; i++) {
                     str += "<tr><td class='tdStyle_body'>" + jsonobj[i]['qrcode_id'] +
                         "</td><td class='tdStyle_body'>" + jsonobj[i]['qrcode_name'] +
                         "</td><td class='tdStyle_body'>";
                     // 查询
-                    str += "详情"
+                    str += "<a href='qrcodeInfo.jsp?qrcodeId=" + jsonobj[i]['qrcode_id'] + "&qrcodeName=" + encodeURIComponent(jsonobj[i]['qrcode_name']) + "'>详情</a>"
                     str += "</td></tr>"
                 }
                 $("#tableText").html(str);
@@ -266,12 +329,13 @@
             qrcode_id: "INT",
             qrcode_name: "STRING"
         };
-        var fieldNamesStr = JSON.stringify(fieldNamestmp);
-        var qrcodeId = document.forms["query"]["qrcodeId"].value;
-        var qrcodeName = document.forms["query"]["qrcodeName"].value;
-        var sqlStrtmp = "select qrcode_id,qrcode_name from qrcode where qrcode_status = 1 and qrcode_id like '%" + qrcodeId + "%' and qrcode_name like '%" + qrcodeName + "%';";
-        var newpageStr = document.forms["jumpPage"]["page"].value;
-        var newpage = parseInt(newpageStr)
+        let fieldNamesStr = JSON.stringify(fieldNamestmp);
+        let qrcodeId = document.forms["query"]["qrcodeId"].value;
+        let qrcodeName = document.forms["query"]["qrcodeName"].value;
+        let sqlStrtmp = "select qrcode_id,qrcode_name from qrcode where qrcode_status = 1 and qrcode_id like '%" + qrcodeId + "%' and qrcode_name like '%" + qrcodeName + "%';";
+        let newpageStr = $('#jump_to').val();
+        let newpage = parseInt(newpageStr)
+        console.log(pageAll + " " + newpage);
         if (newpage <= 0 || newpage > pageAll || isNaN(newpage)) {
             window.alert("请输入一个在范围内的正确页码数字!")
             return
@@ -290,14 +354,14 @@
             data: json,
             success: function (res) {
                 // 将结果输出到table
-                var str = "";
-                var jsonobj = JSON.parse(res.data);
-                for (var i = 0; i < jsonobj.length; i++) {
+                let str = "";
+                let jsonobj = JSON.parse(res.data);
+                for (let i = 0; i < jsonobj.length; i++) {
                     str += "<tr><td class='tdStyle_body'>" + jsonobj[i]['qrcode_id'] +
                         "</td><td class='tdStyle_body'>" + jsonobj[i]['qrcode_name'] +
                         "</td><td class='tdStyle_body'>";
                     // 查询
-                    str += "详情"
+                    str += "<a href='qrcodeInfo.jsp?qrcodeId=" + jsonobj[i]['qrcode_id'] + "&qrcodeName=" + encodeURIComponent(jsonobj[i]['qrcode_name']) + "'>详情</a>"
                     str += "</td></tr>"
                 }
                 $("#tableText").html(str);
@@ -393,7 +457,7 @@
             window.alert("您无新增二维码样式的权限!")
             return
         }
-        var newqrcodeName = $("#newStyleName").val()
+        let newqrcodeName = $("#newStyleName").val()
         $.ajax({
             url: "${pageContext.request.contextPath}/AddQRCodeStyle",
             type: 'post',

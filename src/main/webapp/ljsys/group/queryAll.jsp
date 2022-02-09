@@ -315,9 +315,8 @@
         var gpId = document.forms["query"]["gpId"].value;
         var gpName = document.forms["query"]["gpName"].value;
         var sqlStrtmp = "select gp_id,gp_name from gp where gp_status = 1 and gp_id like '%" + gpId + "%' and gp_name like '%" + gpName + "%';";
-        var newpageStr = $('#page').val();
+        var newpageStr = $('#jump_to').val();
         var newpage = parseInt(newpageStr)
-        (newpage)
         if (newpage <= 0 || newpage > pageAll || isNaN(newpage)) {
             window.alert("请输入一个在范围内的正确页码数字!")
             return

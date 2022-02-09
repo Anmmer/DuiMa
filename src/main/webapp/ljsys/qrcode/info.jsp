@@ -206,7 +206,7 @@
         })
         $("#item" + cnt).append(content, xspan, xvalue, yspan, yvalue, itemButton)
         // 画布上新增
-        let drawItem = $("<span class='pStyle' style='position: absolute;' draggable='true' id='draw" + cnt + "'></span>").text(itemValue + ":" + "TEST");
+        let drawItem = $("<span class='pStyle draw' style='position: absolute;font-size: 10px' draggable='true' id='draw" + cnt + "'></span>").text(itemValue + ":" + "TEST");
         $("#draw").append(drawItem);
         let drawElem = document.getElementById("draw" + cnt)
         drawElem.style.left = "0px"
@@ -241,7 +241,11 @@
         cnt = cnt + 1;
     }
 
-    function addQRcode() {
+    function selectOne() {
+        $('.draw').css('fontSize', $('#font_style_value').val())
+    }
+
+    function addQRcode(qRCode) {
         // 新增QRCode的图片
         // 获取新插入值的name和 value
         // 在ItemList中新增一项
@@ -249,8 +253,8 @@
         $("#qr_code").append(divstr)
         $("#qr_code").append($("<div style='height:2px;width:95%;float:left;margin-bottom:4%;background-color: black;'></div>"))
         // 新增item中的元素
-        let xspan = $("<div class='hiddenTDOverFlowContent pStyle' style='width: 18%;display: inline-table;font-size:14px;font-weight: bolder'>二维码，</div>")
-        let xvalue = $("<label class='pStyle' style='font-size:14px;font-weight: bolder'>X坐标：</label><input type='text' style='width: 20%' value='0' id='xvalue" + cnt + "'>")
+        let xspan = $("<div class='hiddenTDOverFlowContent pStyle' style='display: inline-table;font-size:14px;font-weight: bolder'>二维码，</div>")
+        let xvalue = $("<label class='pStyle' style='font-size:14px;font-weight: bolder'>X坐标：</label><input type='text' style='width: 10%' value='0' id='xvalue" + cnt + "'>")
         xvalue.bind("blur", function (event) {
             // 修改内容则修改draw
             // 获取编号
@@ -259,18 +263,52 @@
             let drawelem = document.getElementById("draw" + id)
             drawelem.style.left = $("#" + elem.id).val() + "px"
         })
-        let yspan = $("<span class='pStyle' style='margin-left: 5%;font-size:14px;font-weight: bolder'></span>").text("Y坐标：")
-        let yvalue = $("<input type='text' style='width: 20%' value='0' id='yvalue" + cnt + "'>")
+        let yspan = $("<span class='pStyle' style='margin-left: 3%;font-size:14px;font-weight: bolder'></span>").text("Y坐标：")
+        let yvalue = $("<input type='text' style='width: 10%' value='0' id='yvalue" + cnt + "'>")
         yvalue.bind("blur", function (event) {
             let elem = event.target
             let id = elem.id.substring(6, elem.id.length)
             let drawelem = document.getElementById("draw" + id)
             drawelem.style.top = $("#" + elem.id).val() + "px"
         })
-        $("#item" + cnt).append(xspan, xvalue, yspan, yvalue)
+        let qr_wh_span = $("<span class='pStyle' style='margin-left: 3%;font-size:14px;font-weight: bolder'></span>").text("宽高：")
+        let qr_wh_value = $("<input type='text' style='width: 10%' value='150' id='qr_wh_value" + "'>")
+        qr_wh_value.bind("blur", function (event) {
+            $('#draw0').html('')
+            new QRCode(document.getElementById("draw0"), {
+                text: qRCode.qrcodeContent,
+                width: $('#qr_wh_value').val(),
+                height: $('#qr_wh_value').val(),
+                colorDark: "#000000",
+                colorLight: "#ffffff",
+                correctLevel: QRCode.CorrectLevel.H
+            })
+        })
+        let font_style_span = $("<span class='pStyle' style='margin-left: 3%;font-size:14px;font-weight: bolder'></span>").text("字体：")
+        let font_style_value = $("<select style='width: 10%' value='0' onchange='selectOne()' id='font_style_value" + "'>" +
+            "<option value='10px'>10</option>" +
+            "<option value='15px'>15</option>" +
+            "<option value='20px'>20</option>" +
+            "</div>")
+        // font_style_value.bind("change", function (event) {
+        //     let drawelem = document.getElementsByClassName("draw")
+        //     console.log(21)
+        //     for (item of drawelem) {
+        //         item.style.fontSize = $('#font_style_value').val();
+        //     }
+        // })
+        $("#item" + cnt).append(xspan, xvalue, yspan, yvalue, qr_wh_span, qr_wh_value, font_style_span, font_style_value)
         // 画布上新增
-        let drawItem = $("<img src='./pictures/qrcode.png' style='position: absolute;'  draggable='true' id='draw" + cnt + "' />");
+        let drawItem = $("<div style='position: absolute;'  draggable='true' id='draw" + cnt + "' ></div>");
         $("#draw").append(drawItem);
+        new QRCode(document.getElementById("draw" + cnt), {
+            text: qRCode.qrcodeContent,
+            width: qRCode.qr_wh_value,
+            height: qRCode.qr_wh_value,
+            colorDark: "#000000",
+            colorLight: "#ffffff",
+            correctLevel: QRCode.CorrectLevel.H
+        })
         let drawElem = document.getElementById("draw" + cnt)
         drawElem.style.left = "0px"
         drawElem.style.top = "0px"
@@ -283,7 +321,8 @@
         $("#draw" + cnt).bind("dragend", function (event) {
             let Xoffset = event.pageX - oldxposition
             let Yoffset = event.pageY - oldyposition
-            let elem = event.target
+            // let elem = event.target
+            let elem = document.getElementById("draw0");
             let xbd = elem.style.left
             let ybd = elem.style.top
             let xtmp = parseInt(xbd.substring(0, xbd.length - 2))
@@ -315,7 +354,7 @@
                 qrcodeId: qrcodeId
             },
             success: function (res) {
-                if (res == null) addQRcode();
+                if (res == null) addQRcode({TEST: 'TEST'});
                 else {
                     // res即最终的qrcodestyle
                     // 构建图画
@@ -325,18 +364,14 @@
                     draw.style.width = res.xsize + "px"
                     $("#xsize").val(res.xsize)
                     $("#ysize").val(res.ysize)
-                    // 设置二维码
-                    addQRcode();
-                    // 设置二维码位置
-                    let drawtmp = document.getElementById("draw0")
-                    drawtmp.style.left = res.qRCode.xsituation + "px"
-                    drawtmp.style.top = res.qRCode.ysituation + "px"
+
                     // 设置二维码内容
                     if (res.qRCode.qRCodeContent === null || res.qRCode.qRCodeContent === undefined)
                         return
                     let valuestmp = document.getElementById("valuesFrom")
                     let valueslen = valuestmp.length
                     let arr = [];
+                    let qrcodeContent = '';
                     for (let i = 0; i < res.qRCode.qRCodeContent.length; i++) {
                         for (let j = 0; j < valueslen; j++) {
                             if (valuestmp.options[j].value === res.qRCode.qRCodeContent[i]) {
@@ -347,13 +382,23 @@
                                 arr.push(valuestmp.options[j].value);
                             }
                         }
+                        qrcodeContent += res.qRCode.qRCodeContent[i] + ": TEST" + "\n"
                     }
+                    // 设置二维码
+                    res.qRCode.qrcodeContent = qrcodeContent;
+                    addQRcode(res.qRCode);
+                    // 设置二维码位置
+                    let drawtmp = document.getElementById("draw0")
+                    drawtmp.style.left = res.qRCode.xsituation + "px"
+                    drawtmp.style.top = res.qRCode.ysituation + "px"
                     for (item of arr) {
                         $("#valuesFrom option[value = " + item + "]").remove();
                     }
                     // 设置控制面板二维码数值
                     $("#xvalue0").val(res.qRCode.xsituation)
                     $("#yvalue0").val(res.qRCode.ysituation)
+                    $("#qr_wh_value").val(res.qRCode.qr_wh_value)
+
                     // 设置子项
                     for (let i = 0; i < res.items.length; i++) {
                         let valuestmp = document.getElementById("itemNames")
@@ -372,6 +417,7 @@
                             }
                         }
                     }
+                    $('.draw').css('fontSize', res.qRCode.font_style_value)
                 }
             }
         })
@@ -386,6 +432,7 @@
         let qrcodestyle = {}
         qrcodestyle['xsize'] = $("#xsize").val()
         qrcodestyle['ysize'] = $("#ysize").val()
+
         let qRCode = {}
         let contentlist = qRCode['qRCodeContent'] = []
         let len = document.getElementById("valuesTo").length
@@ -394,6 +441,8 @@
         }
         qRCode['xsituation'] = $("#xvalue0").val()
         qRCode['ysituation'] = $("#yvalue0").val()
+        qRCode['qr_wh_value'] = $("#qr_wh_value").val()
+        qRCode['font_style_value'] = $("#font_style_value").val()
         qrcodestyle['qRCode'] = qRCode
         // 设置items
         let items = []

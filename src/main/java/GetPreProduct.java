@@ -33,12 +33,23 @@ public class GetPreProduct extends HttpServlet {
         resp.setContentType("text/html;charset=UTF-8");
         String plannumber = req.getParameter("plannumber");
         String materialcode = req.getParameter("materialcode");
+        String pageCur_s = req.getParameter("pageCur");
+        String pageMax_s = req.getParameter("pageMax");
+        int pageCur = 0;
+        if (pageCur_s != null) {
+            pageCur = Integer.parseInt(pageCur_s);
+        }
+        int pageMax = 0;
+        if (pageMax_s != null) {
+            pageMax = Integer.parseInt(pageMax_s);
+        }
         Connection con = null;
         int i = 0;
         try {
             PrintWriter out = resp.getWriter();
             con = DbUtil.getCon();
             String sql = "select pid,materialcode,preproductid,standard,materialname,weigh,qc,fangliang,plannumber,print,concretegrade from preproduct where isdelete = 0 ";
+            String sql2 = "select count(*) as num from preproduct where isdelete = 0";
             if (plannumber != null && !"".equals(plannumber)) {
                 sql += "and plannumber = ?";
                 i++;
@@ -47,7 +58,15 @@ public class GetPreProduct extends HttpServlet {
                 sql += " and materialcode = ?";
                 i++;
             }
+            if (pageCur != 0 && pageMax != 0) {
+                sql += " limit ?,?";
+                i += 2;
+            }
             PreparedStatement ps = con.prepareStatement(sql);
+            if (pageCur != 0 && pageMax != 0) {
+                ps.setInt(i--, pageMax);
+                ps.setInt(i--, (pageCur - 1) * pageMax);
+            }
             if (materialcode != null && !"".equals(materialcode)) {
                 ps.setString(i--, materialcode.trim());
             }
@@ -55,7 +74,7 @@ public class GetPreProduct extends HttpServlet {
                 ps.setString(i, plannumber);
             }
             ResultSet rs = ps.executeQuery();
-            Map<String, List<Map<String, Object>>> data = new HashMap<>();
+            Map<String, Object> data = new HashMap<>();
             List<Map<String, Object>> list = new ArrayList<>();
             while (rs.next()) {
                 Map<String, Object> map = new HashMap<>();
@@ -71,6 +90,15 @@ public class GetPreProduct extends HttpServlet {
                 map.put("print", rs.getInt("print"));
                 map.put("plannumber", rs.getString("plannumber"));
                 list.add(map);
+            }
+            if (pageCur != 0 && pageMax != 0) {
+                PreparedStatement ps2 = con.prepareStatement(sql2);
+                ResultSet rs2 = ps2.executeQuery();
+                while (rs2.next()) {
+                    int num = rs2.getInt("num");
+                    data.put("cnt", num);
+                    data.put("pageAll", num / pageMax + 1);
+                }
             }
             data.put("data", list);
             out.write(JSON.toJSONString(data));
