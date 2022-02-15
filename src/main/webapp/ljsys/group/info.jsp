@@ -37,7 +37,7 @@
                 <br>
                 <br>
                 <div class="form-group" style="width: 80%;">
-                    <label for="chooseFunction">角色编号:</label>
+                    <label for="chooseFunction">权限名称:</label>
                     <select style="width: 60%" class="form-control" id="chooseFunction"
                             name="chooseFunction"></select><br>
                 </div>
@@ -78,19 +78,6 @@
     </div>
 </div>
 <script type="text/javascript">
-    function checkAuthority(au) {
-        var authority = JSON.parse(sessionStorage.getItem("authority"))
-        flag = false;
-        for (var i = 0; i < authority.length; i++) {
-            if (authority[i].fa_name == au) flag = true;
-        }
-        return flag;
-    }
-
-    if (!checkAuthority("查看角色群组详情")) {
-        window.alert("您无查看角色群组详情的权限")
-        location.href = "index.jsp"
-    }
 
     function getQueryVariable(variable) {
         var query = window.location.search.substring(1);
@@ -269,11 +256,7 @@
 
     // 新增groupfunction
     function addGroupFunction() {
-        if (!checkAuthority("修改角色群组")) {
-            window.alert("您无修改角色群组的权限")
-            return
-        }
-        var groupId = $("#groupId").text();
+        var groupId = $("#groupId").val();
         var faId = $("#chooseFunction").val();
         json = {
             groupId: groupId,
@@ -299,10 +282,6 @@
 
     // 新增工序
     function addGroupProcessContent() {
-        if (!checkAuthority("修改角色群组")) {
-            window.alert("您无修改角色群组的权限")
-            return
-        }
         var groupId = $("#groupId").text();
         var pcId = $("#chooseProcessContent").val();
         json = {
@@ -329,11 +308,11 @@
 
     // 删除groupfunction
     function deleteGroupFunction(id) {
-        if (!checkAuthority("修改角色群组")) {
-            window.alert("您无修改角色群组的权限")
-            return
+        let r = confirm("亲，确认删除！");
+        if (r === false) {
+            return;
         }
-        var groupId = $("#groupId").text()
+        var groupId = $("#groupId").val()
         var sqlStr = "delete from gp_function_authority where gp_id=" + groupId + " and fa_id=" + id + ";";
         var json = {
             sqlStr: sqlStr,
@@ -357,11 +336,11 @@
 
     // 删除工序权限
     function deleteGroupProcessContent(id) {
-        if (!checkAuthority("修改角色群组")) {
-            window.alert("您无修改角色群组的权限")
-            return
+        let r = confirm("亲，确认删除！");
+        if (r === false) {
+            return;
         }
-        var groupId = $("#groupId").text()
+        var groupId = $("#groupId").val()
         var sqlStr = "delete from gp_process_content where gp_id=" + groupId + " and pc_id=" + id + ";";
         var json = {
             sqlStr: sqlStr,

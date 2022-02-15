@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="css/style.css" type="text/css">
     <link rel="stylesheet" href="dist/css/bootstrap.css" type="text/css"/>
     <script type="text/javascript" src="./js/jquery-3.3.1.min.js"></script>
+    <script type="text/javascript" src="./js/util.js"></script>
 </head>
 <body class="BodyStyle">
 <div style="height:100%;width:60%;margin: 0 auto;">
@@ -45,8 +46,8 @@
         <a id="downloadurl" href="" download="" style="display: none;" onclick="downloadlog()">下载</a>
         <!--<button id="downloadlog" style="display: none;" onclick="downloadlog()">下载</button>-->
     </div>
-<%--    <div style="height:2px;width:100%;float:left;background-color: black;"></div>--%>
-<%--    <div style="height:10px;width:100%;float:left;background-color: white;"></div>--%>
+    <%--    <div style="height:2px;width:100%;float:left;background-color: black;"></div>--%>
+    <%--    <div style="height:10px;width:100%;float:left;background-color: white;"></div>--%>
     <%--    <div style="height: 40%;width: 100%;float:left;">--%>
     <%--        <!--项目字段维护-->--%>
     <%--        <!--左边显示和删除-->--%>
@@ -81,26 +82,18 @@
 <script type="text/javascript">
     downloadurl = ""
     if (sessionStorage.getItem("userName") == null) {
-        location.href = "login.jsp"
+        window.parent.location.href = "login.jsp"
         window.alert("您未登陆，请先登陆！")
     } else {
-        if (!checkAuthority("网页登陆")) {
-            window.alert("您无网页端登陆权限!")
-            location.href = "login.jsp"
+
+        if (!checkAuthority('5')) {
+            window.parent.location.href = "login.jsp"
+            window.alert("您没有访问权限！")
         } else {
             $('#userName').val(sessionStorage.getItem('userName'))
         }
     }
     updateProjectItem()
-
-    function checkAuthority(au) {
-        var authority = JSON.parse(sessionStorage.getItem("authority"))
-        flag = false;
-        for (var i = 0; i < authority.length; i++) {
-            if (authority[i].fa_name == au) flag = true;
-        }
-        return flag;
-    }
 
     // 验证密码，6-20个由字母，数字，下划线组成
     function isValid(str) {

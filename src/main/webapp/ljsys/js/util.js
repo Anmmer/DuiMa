@@ -84,6 +84,16 @@ function outputWorkbook(workbook) {
     return excelData;
 }
 
+//检验权限
+function checkAuthority(au) {
+    var authority = JSON.parse(sessionStorage.getItem("authority"))
+    flag = false;
+    for (var i = 0; i < authority.length; i++) {
+        if (authority[i].fa_id == au) flag = true;
+    }
+    return flag;
+}
+
 function outputWorkbook2(workbook) {
     var persons = []; // 存储获取到的数据
     // 遍历每张表读取

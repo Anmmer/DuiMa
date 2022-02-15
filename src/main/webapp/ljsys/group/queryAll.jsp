@@ -43,8 +43,8 @@
         <div style="height: 85%">
             <table class="table table-hover" style="text-align: center">
                 <tr>
-                    <td class="tdStyle_title active" style="width: 35%">群组编号</td>
-                    <td class="tdStyle_title active" style="width: 35%">群组角色名</td>
+                    <td class="tdStyle_title active" style="width: 35%">角色编号</td>
+                    <td class="tdStyle_title active" style="width: 35%">角色名</td>
                     <td class="tdStyle_title active" style="width: 30%;">操作</td>
                 </tr>
                 <tbody id="tableText">

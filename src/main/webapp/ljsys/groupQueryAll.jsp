@@ -14,8 +14,21 @@
 <%@ include file="./group/queryAll.jsp" %>
 <script type="text/javascript">
     if (sessionStorage.getItem("userName") == null) {
-        location.href = "login.jsp"
+        window.parent.location.href = "login.jsp"
         window.alert("您未登陆，请先登陆！")
+    }else{
+        if(!checkAuthority('6')){
+            window.parent.location.href = "login.jsp"
+            window.alert("您没有访问权限！")
+        }
+    }
+    function checkAuthority(au) {
+        var authority = JSON.parse(sessionStorage.getItem("authority"))
+        flag = false;
+        for (var i = 0; i < authority.length; i++) {
+            if (authority[i].fa_id == au) flag = true;
+        }
+        return flag;
     }
 </script>
 </body>

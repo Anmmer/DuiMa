@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="dist/css/bootstrap.css" type="text/css"/>
     <script type="text/javascript" src="./js/jquery-3.3.1.min.js"></script>
     <script type="text/javascript" src="dist/js/bootstrap.js"></script>
+    <script type="text/javascript" src="./js/util.js"></script>
     <script type="text/javascript">
         function jumpTo(str) {
             document.getElementById("iframe").src = str;
@@ -53,29 +54,23 @@
         location.href = "login.jsp"
         window.alert("您未登陆，请先登陆！")
     } else {
+        if (!checkAuthority("1")) {
+            location.href = "login.jsp"
+            window.alert("您无网页端登陆权限!")
+        }
         var userInfo = document.getElementById("userInfo");
         userInfo.innerHTML = sessionStorage.getItem("userName").toString()+'<span class="caret"></span>' ;
-        if (!checkAuthority("网页登陆")) {
-            window.alert("您无网页端登陆权限!")
-            location.href = "login.jsp"
-        }
     }
 
     function login_out() {
         if (sessionStorage.getItem("userName") !== null) {
             sessionStorage.removeItem("userName");
+            sessionStorage.removeItem("authority");
             location.href = 'login.jsp';
         }
     }
 
-    function checkAuthority(au) {
-        var authority = JSON.parse(sessionStorage.getItem("authority"))
-        flag = false;
-        for (var i = 0; i < authority.length; i++) {
-            if (authority[i].fa_name == au) flag = true;
-        }
-        return flag;
-    }
+
 
 
 </script>

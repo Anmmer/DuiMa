@@ -8,14 +8,20 @@
     <link rel="stylesheet" href="dist/css/bootstrap.min.css" type="text/css"/>
     <script type="text/javascript" src="${pageContext.request.contextPath}/ljsys/js/jquery-3.3.1.min.js"></script>
     <script type="text/javascript" src="dist/js/bootstrap.js"></script>
+    <script type="text/javascript" src="./js/util.js"></script>
 </head>
 <body class="BodyStyle">
 <!-- 内容窗口 -->
 <%@include file="archivesMg/planname.jsp" %>
 <script type="text/javascript">
     if (sessionStorage.getItem("userName") == null) {
-        location.href = "login.jsp"
+        window.parent.location.href = "login.jsp"
         window.alert("您未登陆，请先登陆！")
+    }else{
+        if(!checkAuthority('9')){
+            window.parent.location.href = "login.jsp"
+            window.alert("您没有访问权限！")
+        }
     }
 </script>
 </body>
