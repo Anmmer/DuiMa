@@ -559,4 +559,36 @@
         <servlet-name>getDefaultQc</servlet-name>
         <url-pattern>/GetDefaultQc</url-pattern>
     </servlet-mapping>
+    <servlet>
+        <servlet-name>pour</servlet-name>
+        <servlet-class>Pour</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>pour</servlet-name>
+        <url-pattern>/Pour</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>inspect</servlet-name>
+        <servlet-class>Inspect</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>inspect</servlet-name>
+        <url-pattern>/Inspect</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>cancelPour</servlet-name>
+        <servlet-class>CancelPour</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>cancelPour</servlet-name>
+        <url-pattern>/CancelPour</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>cancelInspect</servlet-name>
+        <servlet-class>CancelInspect</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>cancelInspect</servlet-name>
+        <url-pattern>/CancelInspect</url-pattern>
+    </servlet-mapping>
 </web-app>

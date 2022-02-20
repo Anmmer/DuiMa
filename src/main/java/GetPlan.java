@@ -27,6 +27,7 @@ public class GetPlan extends HttpServlet {
         String endDate = req.getParameter("endDate");
         String planname = req.getParameter("planname");
         String materialcode = req.getParameter("materialcode");
+        String productState = req.getParameter("productState");
         int pageCur = Integer.parseInt(req.getParameter("pageCur"));
         int pageMax = Integer.parseInt(req.getParameter("pageMax"));
         Connection con = null;
@@ -36,27 +37,41 @@ public class GetPlan extends HttpServlet {
         PrintWriter out = null;
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         int i = 0;
+        int j = 0;
         try {
             out = resp.getWriter();
             con = DbUtil.getCon();
-            String sql = "select plannumber,printstate,plant,plantime,line,liner,planname,build,tasksqure,tasknum,updatedate from plan where isdelete = 0 ";
-            String sql2 = "select count(*) as num from plan where isdelete = 0";
+            String sql = "select plannumber,printstate,plant,plantime,line,liner,planname,build,tasksqure,tasknum,updatedate,pourmadestate,checkstate from plan where isdelete = 0 ";
+            String sql2 = "select count(1) as num from plan where isdelete = 0";
             if (!"".equals(startDate) && startDate != null) {
                 sql += " and plantime >= ?";
+                sql2 += " and plantime >= ?";
                 i++;
             }
             if (!"".equals(endDate) && endDate != null) {
                 sql += " and plantime <= ?";
+                sql2 += " and plantime <= ?";
                 i++;
             }
             if (!"".equals(planname) && planname != null) {
                 sql += " and planname like ?";
+                sql2 += " and planname like ?";
                 i++;
             }
             if (!"".equals(materialcode) && materialcode != null) {
                 sql += " and plannumber in (select plannumber from preproduct where materialcode = ?)";
+                sql2 += " and plannumber in (select plannumber from preproduct where materialcode = ?)";
                 i++;
             }
+            if ("0".equals(productState)) {
+                sql += " and pourmadestate = 0 and checkstate = 0";
+                sql2 += " and pourmadestate = 0 and checkstate = 0";
+            }
+            if ("1".equals(productState)) {
+                sql += " and pourmadestate = 1 and checkstate = 1";
+                sql2 += " and pourmadestate = 1 and checkstate = 1";
+            }
+            j = i;
             sql += " limit ?,?";
             i += 2;
             ps = con.prepareStatement(sql);
@@ -90,14 +105,28 @@ public class GetPlan extends HttpServlet {
                 map.put("tasksqure", rs.getString("tasksqure"));
                 map.put("tasknum", rs.getString("tasknum"));
                 map.put("updatedate", rs.getDate("updatedate"));
+                map.put("pourmadestate", rs.getInt("pourmadestate"));
+                map.put("checkstate", rs.getInt("checkstate"));
                 list.add(map);
             }
             ps2 = con.prepareStatement(sql2);
+            if (!"".equals(materialcode) && materialcode != null) {
+                ps2.setString(j--, materialcode.trim());
+            }
+            if (!"".equals(planname) && planname != null) {
+                ps2.setString(j--, "%" + planname.trim() + "%");
+            }
+            if (!"".equals(endDate) && endDate != null) {
+                ps2.setDate(j--, new Date(sdf.parse(endDate).getTime()));
+            }
+            if (!"".equals(startDate) && startDate != null) {
+                ps2.setDate(j, new Date(sdf.parse(startDate).getTime()));
+            }
             ResultSet rs2 = ps2.executeQuery();
             while (rs2.next()) {
                 int num = rs2.getInt("num");
                 data.put("cnt", num);
-                data.put("pageAll", num / pageMax + 1);
+                data.put("pageAll", Math.ceil((double) num / pageMax));
             }
             data.put("data", list);
             out.write(JSON.toJSONString(data));

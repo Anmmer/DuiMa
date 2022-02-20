@@ -11,7 +11,7 @@
             <label for="materialcode" style="margin-left: 2%">物料编号：</label><input id="materialcode" class="form-control"
                                                                                   style="width: 13%;height:10%;">
             <button type="button" class="btn btn-primary btn-sm" style="margin-left: 1%"
-                    onclick="getTableData()">
+                    onclick="getTableData(1)">
                 查 询
             </button>
         </div>
@@ -109,7 +109,7 @@
                                                                                                    disabled>
                                 <label for="print_plantime" style="margin-left: 1%">计划生产时间：</label><input
                                     id="print_plantime" class="form-control" style="width: 15%" disabled>
-                                <button id="pop_query_button" class="btn btn-primary" onclick="query()"
+                                <button id="pop_query_button" class="btn btn-primary" onclick="getPopData(1)"
                                         style="margin-left:15%;width: 8%">查&nbsp;&nbsp;询
                                 </button>
                             </div>
@@ -137,7 +137,7 @@
                             <div class="page-header" style="margin-top: 0;margin-bottom: 1%">
                                 <h3 style="margin-bottom: 0;margin-top: 0" id="inputDetail"><small>导入预览</small></h3>
                             </div>
-                            <table class="table table-hover" style="text-align: center;overflow-y: scroll">
+                            <table class="table table-hover" style="text-align: center;">
                                 <tr id="table_tr">
                                     <td class='table_tr_print tdStyle_title active' style="width: 2%;"><input
                                             id="detail_checkbok"
@@ -161,7 +161,7 @@
                             <ul class="pagination" style="margin-top: 0;width: 70%">
                                 <li><span id="total_d" style="width: 22%">0条，共0页</span></li>
                                 <li>
-                                    <a href="#" onclick="jumpToNewPage(2)" aria-label="Previous">
+                                    <a href="#" onclick="jumpToNewPage_p(2)" aria-label="Previous">
                                         <span aria-hidden="true">&laquo;</span>
                                     </a>
                                 </li>
@@ -171,7 +171,7 @@
                                 <li id="li_d4"><a id="a_d4" href="#">4</a></li>
                                 <li id="li_d0"><a id="a_d0" href="#">5</a></li>
                                 <li>
-                                    <a href="#" onclick="jumpToNewPage(3)" aria-label="Next">
+                                    <a href="#" onclick="jumpToNewPage_p(3)" aria-label="Next">
                                         <span aria-hidden="true">&raquo;</span>
                                     </a>
                                 </li>
@@ -179,7 +179,7 @@
                                 <li class="input-group">
                                     <input type="text" id="jump_to_d" class="form-control" style="width: 10%">
                                 </li>
-                                <li><a href="#" onclick="jumpToNewPage2()">go!</a></li>
+                                <li><a href="#" onclick="jumpToNewPage()()">go!</a></li>
                             </ul>
                         </nav>
                         <div id="pop_print" class="form-inline" style="width: 100%;height: 10%;margin: 0 auto">
@@ -243,7 +243,6 @@
         $(".pop_footer").show();
         $('.table_tr_print').hide();
         $('#pop_query').hide();
-        $('#page').hide();
         getArchives();
         print = false;
     }
@@ -297,7 +296,6 @@
                 alert(jsonObject.message);
                 if (jsonObject.flag) {
                     closePop();
-                    getTableData();
                 }
             })
         } else {
@@ -336,7 +334,7 @@
             data: obj,
             contentType: 'application/x-www-form-urlencoded;charset=utf-8',
             success: function (res) {
-                if (res.data.length !== 0) {
+                if (res.data !== undefined) {
                     jsonObj = res.data;
                     updateTable(false);
                     $('#total').html(res.cnt + "条，共" + res.pageAll + "页");
@@ -372,35 +370,56 @@
         })
     }
 
-    //构建删除刷新页面
-    function query() {
+    function getPopData(newPage) {
         let materialcode = $('#print_materialcode').val();
         $.post("${pageContext.request.contextPath}/GetPreProduct", {
             plannumber: plannumber,
-            materialcode: materialcode
+            materialcode: materialcode,
+            pageCur: newPage,
+            pageMax: pageMax
         }, function (result) {
             result = JSON.parse(result);
-            excelData.preProduct = result.data;
+            console.log(result)
+            pop_pageDate = result.data;
             updateTable(true);
+            // 重置查询为第一页
+            pop_pageCur = newPage;
+            // 重置总页数
+            pop_pageAll = parseInt(result.pageAll);
+            $('#total_d').html(result.cnt + "条，共" + result.pageAll + "页");
+            $('#li_d1').addClass('active');
+            for (let i = 1; i < 6; i++) {
+                let k = i % 5;
+                if (i > pop_pageAll) {
+                    $('#a_d' + k).text('.');
+                } else {
+                    if (k === 0) {
+                        $('#a_d' + k).text(5);
+                        $('#a_d' + k).attr('onclick', 'jumpToNewPage_d1(5)');
+                        continue;
+                    } else {
+                        $('#a_d' + k).attr('onclick', 'jumpToNewPage_d1(' + k + ')');
+                    }
+                }
+            }
         });
     }
 
 
     //获取明细数据
-    function getDetailData(plannumber_p) {
+    function getDetailData(plannumber_p, newPage) {
         plannumber = plannumber_p;
         $.post("${pageContext.request.contextPath}/GetPreProduct", {
             'plannumber': plannumber_p,
-            pageCur: pageCur,
+            pageCur: newPage,
             pageMax: pageMax
         }, function (result) {
             result = JSON.parse(result);
             if (result.data !== undefined) {
-                excelData.preProduct = result.data;
+                pop_pageDate = result.data;
                 excelData.plan = jsonObj.find((item) => {
                     return item.plannumber == plannumber_p;
                 });
-                let pop_count = Math.ceil(excelData.preProduct.length / 10);
                 $('#print_build').val(excelData.plan.build);
                 $('#print_line').val(excelData.plan.line);
                 $('#print_liner').val(excelData.plan.liner);
@@ -418,19 +437,14 @@
                 $('.table_tr_print').show();
                 $('#pop_query').show();
                 print = true;
-                for (let i = 0; i < 10; i++) {
-                    if (excelData.preProduct[i] !== undefined) {
-                        pop_pageDate.push(excelData.preProduct[i])
-                    }
-                }
                 updateTable(true);
                 getFieldMap();
-                $('#total_d').html(excelData.preProduct.length + "条，共" + pop_count + "页");
+                $('#total_d').html(result.cnt + "条，共" + result.pageAll + "页");
                 $('#li_d1').addClass('active');
                 // 重置查询为第一页
                 pop_pageCur = 1;
                 // 重置总页数
-                pop_pageAll = parseInt(pop_count);
+                pop_pageAll = parseInt(result.pageAll);
                 for (let i = 1; i < 6; i++) {
                     let k = i % 5;
                     if (i > pop_pageAll) {
@@ -595,7 +609,7 @@
                     "</td><td class='tdStyle_body' title='" + jsonObj[i]['build'] + "'>" + jsonObj[i]['build'] +
                     "</td><td class='tdStyle_body' title='" + jsonObj[i]['tasknum'] + "'>" + jsonObj[i]['tasknum'] +
                     "</td><td class='tdStyle_body' title='" + jsonObj[i]['tasksqure'] + "'>" + jsonObj[i]['tasksqure'] +
-                    "</td><td class='tdStyle_body'><a href='#' onclick='getDetailData(" + jsonObj[i]['plannumber'] + ")'>详情</a></td></tr>";
+                    "</td><td class='tdStyle_body'><a href='#' onclick='getDetailData(" + jsonObj[i]['plannumber'] + ',1' + ")'>详情</a></td></tr>";
             }
             $("#planTableText").html(str);
         }
@@ -660,12 +674,14 @@
                 $('#plantime').val(excelData.plan.plantime);
                 $('#liner').val(excelData.plan.liner);
                 pop_count = Math.ceil(excelData.preProduct.length / 10);
-                pop_pageDate = excelData.preProduct;
+                // 重置查询为第一页
+                pop_pageCur = 1;
+                for (let i = 10 * (pop_pageCur - 1); i < 10 * (pop_pageCur); i++) {
+                    pop_pageDate.push(excelData.preProduct[i]);
+                }
                 updateTable(true);
                 $('#total_d').html(excelData.preProduct.length + "条，共" + pop_count + "页");
                 $('#li_d1').addClass('active');
-                // 重置查询为第一页
-                pop_pageCur = 1;
                 // 重置总页数
                 pop_pageAll = parseInt(pop_count);
                 for (let i = 1; i < 6; i++) {
@@ -866,12 +882,12 @@
                     pageCur = newPage;
                 } else {
                     jsonObj = []
-                    updateTable();
+                    updateTable(false);
                 }
             },
             error: function () {
                 jsonObj = [];
-                updateTable();
+                updateTable(false);
                 alert("查询失败！")
             }
         })
@@ -882,6 +898,11 @@
         let endDate = $('#endDate').val();
         let planname = $('#planname').val();
         let materialcode = $('#materialcode').val();
+        var newPage = $('#jump_to').val();
+        if (newPage > pageAll) {
+            alert("超过最大页数")
+            return;
+        }
         if (startDate !== '' && endDate !== '') {
             if (startDate > endDate) {
                 alert("开始时间不能大于结束时间！");
@@ -913,12 +934,12 @@
                     pageAll = parseInt(res.pageAll);
                 } else {
                     jsonObj = []
-                    updateTable();
+                    updateTable(false);
                 }
             },
             error: function () {
                 jsonObj = [];
-                updateTable();
+                updateTable(false);
                 alert("查询失败！")
             }
         })
@@ -1002,6 +1023,7 @@
     }
 
     function jumpToNewPage_p(newPageCode) {
+        pop_pageDate = []
         let newPage = 1;
         if (newPageCode === 1) newPage = 1;
         if (newPageCode === 2) {
@@ -1010,6 +1032,11 @@
                 return
             } else {
                 newPage = pop_pageCur - 1;
+                if (!print) {
+                    for (let i = 10 * (newPage - 1); i < 10 * newPage; i++) {
+                        pop_pageDate.push(excelData.preProduct[i]);
+                    }
+                }
             }
         }
         if (newPageCode === 3) {
@@ -1018,73 +1045,110 @@
                 return
             } else {
                 newPage = pop_pageCur + 1;
+                if (!print) {
+                    for (let i = 10 * (newPage - 1); i < 10 * newPage; i++) {
+                        pop_pageDate.push(excelData.preProduct[i]);
+                    }
+                }
             }
         }
-        // pop_pageDate =
-        if (newPageCode === 3) {
-            setFooter(3, pop_pageAll, pop_pageCur, newPage);
+        if (print) {
+            let materialcode = $('#print_materialcode').val();
+            $.post("${pageContext.request.contextPath}/GetPreProduct", {
+                plannumber: plannumber,
+                materialcode: materialcode,
+                pageCur: newPage,
+                pageMax: pageMax
+            }, function (result) {
+                result = JSON.parse(result);
+                if (result.data !== undefined) {
+                    pop_pageDate = result.data;
+                    updateTable(true);
+                    if (newPageCode === 3) {
+                        setFooter_d(3, pop_pageAll, pop_pageCur, newPage);
+                    }
+                    if (newPageCode === 2) {
+                        setFooter_d(2, pop_pageAll, pop_pageCur, newPage);
+                    }
+                    pop_pageCur = newPage;
+                }
+            });
+        } else {
+            updateTable(true);
+            if (newPageCode === 3) {
+                setFooter_d(3, pop_pageAll, pop_pageCur, newPage);
+            }
+            if (newPageCode === 2) {
+                setFooter_d(2, pop_pageAll, pageCur, newPage);
+            }
+            pop_pageCur = newPage;
         }
-        if (newPageCode === 2) {
-            setFooter(2, pop_pageAll, pageCur, newPage);
-        }
-        // 重置查询为第一页
-        pop_pageCur = newPage;
     }
 
     function jumpToNewPage_d1(newPage) {
-        $('#li_' + newPage % 5).addClass('active');
-        $('#li_' + pageCur % 5).removeClass('active');
-        pageCur = newPage;
+        pop_pageDate = []
+        if (print) {
+            let materialcode = $('#print_materialcode').val();
+            $.post("${pageContext.request.contextPath}/GetPreProduct", {
+                plannumber: plannumber,
+                materialcode: materialcode,
+                pageCur: newPage,
+                pageMax: pageMax
+            }, function (result) {
+                result = JSON.parse(result);
+                if (result.data !== undefined) {
+                    pop_pageDate = result.data;
+                    updateTable(true);
+                    $('#li_d' + newPage % 5).addClass('active');
+                    $('#li_d' + pop_pageCur % 5).removeClass('active');
+                    pop_pageCur = newPage;
+                }
+            });
+        } else {
+            for (let i = 10 * (newPage - 1); i < 10 * newPage; i++) {
+                pop_pageDate.push(excelData.preProduct[i]);
+            }
+            updateTable(true);
+            $('#li_d' + newPage % 5).addClass('active');
+            $('#li_d' + pop_pageCur % 5).removeClass('active');
+            pop_pageCur = newPage;
+        }
     }
 
     function jumpToNewPage_d2() {
-        let startDate = $('#startDate').val();
-        let endDate = $('#endDate').val();
-        let planname = $('#planname').val();
-        let materialcode = $('#materialcode').val();
-        if (startDate !== '' && endDate !== '') {
-            if (startDate > endDate) {
-                alert("开始时间不能大于结束时间！");
-                return;
-            }
+        pop_pageDate = []
+        var newPage = $('#jump_to_d').val();
+        if (newPage > pop_pageAll) {
+            alert("超过最大页数")
+            return
         }
-        let obj = {
-            'startDate': startDate,
-            'endDate': endDate,
-            'planname': planname,
-            'materialcode': materialcode,
-            'pageCur': newPage,
-            'pageMax': pageMax
-        }
-        $.ajax({
-            url: "${pageContext.request.contextPath}/GetPlan",
-            type: 'post',
-            dataType: 'json',
-            data: obj,
-            contentType: 'application/x-www-form-urlencoded;charset=utf-8',
-            success: function (res) {
-                if (res.data.length !== 0) {
-                    jsonObj = res.data;
-                    updateTable(false);
-                    jump2(newPage, res.pageAll);
-                    // 重置查询为第一页
-                    pageCur = newPage;
-                    // 重置总页数
-                    pageAll = parseInt(res.pageAll);
-                } else {
-                    jsonObj = []
-                    updateTable();
+        if (print) {
+            let materialcode = $('#print_materialcode').val();
+            $.post("${pageContext.request.contextPath}/GetPreProduct", {
+                plannumber: plannumber,
+                materialcode: materialcode,
+                pageCur: newPage,
+                pageMax: pageMax
+            }, function (result) {
+                result = JSON.parse(result);
+                if (result.data !== undefined) {
+                    pop_pageDate = result.data;
+                    updateTable(true);
+                    pop_pageCur = newPage;
+                    jump_d2(newPage, pop_pageAll);
                 }
-            },
-            error: function () {
-                jsonObj = [];
-                updateTable();
-                alert("查询失败！")
+            });
+        } else {
+            for (let i = 10 * (newPage - 1); i < 10 * newPage; i++) {
+                pop_pageDate.push(excelData.preProduct[i]);
             }
-        })
+            updateTable(true);
+            pop_pageCur = newPage;
+            jump_d2(newPage, pop_pageAll);
+        }
     }
 
-    function jump2(newPage, pageAll) {
+    function jump_d2(newPage, pageAll) {
         if (newPage <= 5) {
             for (let i = 1; i < 6; i++) {
                 let k = i % 5;
@@ -1095,11 +1159,11 @@
                         $('#a_' + k).text(5);
                     } else {
                         $('#a_' + k).text(k);
-                        $('#a_' + k).attr('onclick', 'jumpToNewPage1(' + k + ')');
+                        $('#a_' + k).attr('onclick', 'jumpToNewPage_d1(' + k + ')');
                     }
                 }
             }
-            $('#li_' + pageCur % 5).removeClass('active');
+            $('#li_' + pop_pageCur % 5).removeClass('active');
             $('#li_' + newPage % 5).addClass('active');
         } else {
             let j = Math.floor(newPage / 5);
@@ -1110,10 +1174,10 @@
                     $('#a_' + k).text('.');
                 } else {
                     $('#a_' + k).text(m);
-                    $('#a_' + k).attr('onclick', 'jumpToNewPage1(' + m + ')');
+                    $('#a_' + k).attr('onclick', 'jumpToNewPage_d1(' + m + ')');
                 }
             }
-            $('#li_' + pageCur % 5).removeClass('active');
+            $('#li_' + pop_pageCur % 5).removeClass('active');
             $('#li_' + newPage % 5).addClass('active');
         }
     }
@@ -1126,16 +1190,16 @@
                 for (let i = 1; i < 6; i++) {
                     let k = i % 5;
                     if (++m > pageAll) {
-                        $('#a_' + k).text('.');
+                        $('#a_d' + k).text('.');
                     } else {
-                        $('#a_' + k).text(m);
-                        $('#a_' + k).attr('onclick', 'jumpToNewPage_d1(' + m + ')');
+                        $('#a_d' + k).text(m);
+                        $('#a_d' + k).attr('onclick', 'jumpToNewPage_d1(' + m + ')');
                     }
                 }
 
             }
-            $('#li_' + newPage % 5).addClass('active');
-            $('#li_' + pageCur % 5).removeClass('active');
+            $('#li_d' + newPage % 5).addClass('active');
+            $('#li_d' + pageCur % 5).removeClass('active');
         } else {
             if (pageCur % 5 === 1) {
                 let j = Math.floor(newPage / 5);
@@ -1148,16 +1212,16 @@
                 for (let i = 5; i > 0; i--) {
                     let k = i % 5;
                     if (m > pageAll) {
-                        $('#a_' + k).text('');
+                        $('#a_d' + k).text('');
                         m--;
                     } else {
-                        $('#a_' + k).text(m);
-                        $('#a_' + k).attr('onclick', 'jumpToNewPage1(' + m-- + ')');
+                        $('#a_d' + k).text(m);
+                        $('#a_d' + k).attr('onclick', 'jumpToNewPage_d1(' + m-- + ')');
                     }
                 }
             }
-            $('#li_' + newPage % 5).addClass('active');
-            $('#li_' + pageCur % 5).removeClass('active');
+            $('#li_d' + newPage % 5).addClass('active');
+            $('#li_d' + pageCur % 5).removeClass('active');
         }
     }
 

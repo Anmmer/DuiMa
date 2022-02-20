@@ -198,7 +198,7 @@
             </li>
         </ul>
     </ul>
-    <!--工厂管理-->
+    <!--库存管理-->
     <ul class="ul_TopListStyle" id="factoryManage">
         <li class="li_TopItemStyle" onclick="ShowOrHide('Factory','factory_icon')">
             <button style="width: 100%;height:40px;background-color: rgb(50, 64, 87);border: none;">
@@ -214,6 +214,36 @@
             <li id="factory_query_li">
                 <button class="li_ItemStyle" id="factory_query" onclick="jumpTo('factoryQueryAll.jsp','factory_query')">
                     <span style="margin-left: 15%;margin-right: 5%;" class="glyphicon glyphicon-grain"></span>信息查询
+                </button>
+            </li>
+        </ul>
+    </ul>
+    <!--生产管理-->
+    <ul class="ul_TopListStyle" id="productManage">
+        <li class="li_TopItemStyle" onclick="ShowOrHide('product','product_icon')">
+            <button style="width: 100%;height:40px;background-color: rgb(50, 64, 87);border: none;text-align:left">
+                <div style="float: left;margin-left: 10%;width: 80%;text-align: left">
+                <span style="margin-right: 5%;"
+                      class="glyphicon glyphicon-tree-conifer"></span>生产管理
+                </div>
+                <span id="product_icon" style="float: right;margin-top: 4%"
+                      class="glyphicon glyphicon-menu-down"></span>
+            </button>
+        </li>
+        <ul class="ul_ListStyle" style="display: block;" id="product">
+            <li id="query_set_li">
+                <button class="li_ItemStyle" id="query_set" onclick="jumpTo('productQueryAll.jsp','query_set')"><span
+                        style="margin-left: 15%;margin-right: 5%;" class="glyphicon glyphicon-grain"></span>生产查询
+                </button>
+            </li>
+            <li id="pour_set_li">
+                <button class="li_ItemStyle" id="pour_set" onclick="jumpTo('pourQueryAll.jsp','pour_set')"><span
+                        style="margin-left: 15%;margin-right: 5%;" class="glyphicon glyphicon-grain"></span>浇捣
+                </button>
+            </li>
+            <li id="inspect_set_li">
+                <button class="li_ItemStyle" id="inspect_set" onclick="jumpTo('inspectQueryAll.jsp','inspect_set')"><span
+                        style="margin-left: 15%;margin-right: 5%;" class="glyphicon glyphicon-grain"></span>质检
                 </button>
             </li>
         </ul>
