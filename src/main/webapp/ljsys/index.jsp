@@ -36,14 +36,14 @@
         <%--        <button onclick="updatePwd()">确定修改</button>--%>
         <%--        </br>--%>
     </div>
-    <div style="height:10px;width:100%;float:left;background-color: white;"></div>
-    <div style="height:2px;width:100%;float:left;background-color: cornflowerblue;"></div>
-    <div style="height:10px;width:100%;float:left;background-color: white;"></div>
-    <div style="height: 15%;width: 100%;float:left;">
-        <!--日志下载-->
-        <p class="pStyle" style="font-weight: bolder;">下载日志</p>
-        <input type="date" id="logdate" onchange="logdatechange()">
-        <a id="downloadurl" href="" download="" style="display: none;" onclick="downloadlog()">下载</a>
+<%--    <div style="height:10px;width:100%;float:left;background-color: white;"></div>--%>
+<%--    <div style="height:2px;width:100%;float:left;background-color: cornflowerblue;"></div>--%>
+<%--    <div style="height:10px;width:100%;float:left;background-color: white;"></div>--%>
+<%--    <div style="height: 15%;width: 100%;float:left;">--%>
+<%--        <!--日志下载-->--%>
+<%--        <p class="pStyle" style="font-weight: bolder;">下载日志</p>--%>
+<%--        <input type="date" id="logdate" onchange="logdatechange()">--%>
+<%--        <a id="downloadurl" href="" download="" style="display: none;" onclick="downloadlog()">下载</a>--%>
         <!--<button id="downloadlog" style="display: none;" onclick="downloadlog()">下载</button>-->
     </div>
     <%--    <div style="height:2px;width:100%;float:left;background-color: black;"></div>--%>

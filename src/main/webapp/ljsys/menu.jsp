@@ -156,10 +156,10 @@
                 <div style="float: left;margin-left: 10%;width: 80%;text-align: left"><span style="margin-right: 5%;"
                                                                                             class="glyphicon glyphicon-tree-conifer"></span>用户管理
                 </div>
-                <span id="user_icon" style="float: right;margin-top: 4%" class="glyphicon glyphicon-menu-down"></span>
+                <span id="user_icon" style="float: right;margin-top: 4%" class="glyphicon glyphicon-menu-left"></span>
             </button>
         </li>
-        <ul class="ul_ListStyle" style="display: block;" id="User">
+        <ul class="ul_ListStyle" style="display: none;" id="User">
             <li id="user_query_li">
                 <button class="li_ItemStyle" id="user_query" onclick="jumpTo('userQueryAll.jsp','user_query')">
                     <span style="margin-left: 15%;margin-right: 5%;" class="glyphicon glyphicon-grain"></span>查询用户
@@ -187,10 +187,10 @@
                 </div>
                 <span id="group_icon"
                       style="float: right;margin-top: 4%"
-                      class="glyphicon glyphicon-menu-down"></span>
+                      class="glyphicon glyphicon-menu-left"></span>
             </button>
         </li>
-        <ul class="ul_ListStyle" style="display: block;" id="Group">
+        <ul class="ul_ListStyle" style="display: none;" id="Group">
             <li id="group_query_li">
                 <button class="li_ItemStyle" id="group_query" onclick="jumpTo('groupQueryAll.jsp','group_query')">
                     <span style="margin-left: 15%;margin-right: 5%;" class="glyphicon glyphicon-grain"></span>查询/新增角色
@@ -207,10 +207,10 @@
                       class="glyphicon glyphicon-tree-conifer"></span>库存管理
                 </div>
                 <span id="factory_icon" style="float: right;margin-top: 4%"
-                      class="glyphicon glyphicon-menu-down"></span>
+                      class="glyphicon glyphicon-menu-left"></span>
             </button>
         </li>
-        <ul class="ul_ListStyle" style="display: block;" id="Factory">
+        <ul class="ul_ListStyle" style="display: none;" id="Factory">
             <li id="factory_query_li">
                 <button class="li_ItemStyle" id="factory_query" onclick="jumpTo('factoryQueryAll.jsp','factory_query')">
                     <span style="margin-left: 15%;margin-right: 5%;" class="glyphicon glyphicon-grain"></span>信息查询
@@ -227,10 +227,10 @@
                       class="glyphicon glyphicon-tree-conifer"></span>生产管理
                 </div>
                 <span id="product_icon" style="float: right;margin-top: 4%"
-                      class="glyphicon glyphicon-menu-down"></span>
+                      class="glyphicon glyphicon-menu-left"></span>
             </button>
         </li>
-        <ul class="ul_ListStyle" style="display: block;" id="product">
+        <ul class="ul_ListStyle" style="display: none;" id="product">
             <li id="query_set_li">
                 <button class="li_ItemStyle" id="query_set" onclick="jumpTo('productQueryAll.jsp','query_set')"><span
                         style="margin-left: 15%;margin-right: 5%;" class="glyphicon glyphicon-grain"></span>生产查询
@@ -257,10 +257,10 @@
                       class="glyphicon glyphicon-tree-conifer"></span>基础档案管理
                 </div>
                 <span id="equipment_icon" style="float: right;margin-top: 4%"
-                      class="glyphicon glyphicon-menu-down"></span>
+                      class="glyphicon glyphicon-menu-left"></span>
             </button>
         </li>
-        <ul class="ul_ListStyle" style="display: block;" id="Equipment">
+        <ul class="ul_ListStyle" style="display: none;" id="Equipment">
             <li id="qrCode_set_li">
                 <button class="li_ItemStyle" id="qrCode_set" onclick="jumpTo('qrcodeQueryAll.jsp','qrCode_set')"><span
                         style="margin-left: 15%;margin-right: 5%;" class="glyphicon glyphicon-grain"></span>二维码设置
@@ -296,10 +296,10 @@
                 <span style="margin-right: 5%;"
                       class="glyphicon glyphicon-tree-conifer"></span>打印管理
                 </div>
-                <span id="rqCode_icon" style="float: right;margin-top: 4%" class="glyphicon glyphicon-menu-down"></span>
+                <span id="rqCode_icon" style="float: right;margin-top: 4%" class="glyphicon glyphicon-menu-left"></span>
             </button>
         </li>
-        <ul class="ul_ListStyle" style="display: block;" id="rqCode">
+        <ul class="ul_ListStyle" style="display: none;" id="rqCode">
             <!--<li class="li_ItemStyle" onclick="jumpTo('printQueryAll.jsp')">信息查询</li>-->
             <li id="print_li">
                 <button class="li_ItemStyle" id="print" onclick="jumpTo('print2.jsp','print')"><span
