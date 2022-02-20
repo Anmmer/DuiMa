@@ -1280,19 +1280,19 @@
                 return;
             }
             pids.forEach((val) => {
-                printsData.push(excelData.preProduct.find((item) => {
+                printsData.push(pop_pageDate.find((item) => {
                     return item.pid == val.pid;
                 }));
             })
         } else {
-            for (let i = 0; i < excelData.preProduct.length; i++) {
-                pids.push({pid: excelData.preProduct[i].pid})
+            for (let i = 0; i < pop_pageDate.length; i++) {
+                pids.push({pid: pop_pageDate[i].pid})
             }
             if (pids.length === 0) {
                 alert("暂无打印数据");
                 return;
             }
-            printsData = excelData.preProduct;
+            printsData = pop_pageDate;
         }
         let str = ''
 

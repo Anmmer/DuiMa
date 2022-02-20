@@ -304,6 +304,7 @@
         plannumber = plannumber_p;
         $.post("${pageContext.request.contextPath}/GetPreProduct", {
             plannumber: plannumber_p,
+            isPrint: "true",
             pageCur: newPage,
             pageMax: pageMax
         }, function (result) {

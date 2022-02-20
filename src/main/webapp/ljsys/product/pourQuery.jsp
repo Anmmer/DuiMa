@@ -91,6 +91,7 @@
         let obj = {
             materialcode: materialcode,
             materialname: materialname,
+            isPrint: "true",
             pageCur: newPage,
             pageMax: pageMax
         }
