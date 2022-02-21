@@ -440,10 +440,6 @@
     }
 
     function addGroup() {
-        if (!checkAuthority("新增角色群组")) {
-            window.alert("您无新增角色群组的权限!")
-            return;
-        }
         var newGroupName = $("#newGroupName").val()
         if (newGroupName === '') {
             alert('请输入');
@@ -473,10 +469,6 @@
     }
 
     function deleteGroup(gpid) {
-        if (!checkAuthority("删除角色群组")) {
-            window.alert("您无删除角色群组的权限!")
-            return;
-        }
         let r = confirm("亲，确认删除！");
         if (r === false) {
             return;

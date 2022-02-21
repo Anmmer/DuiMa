@@ -1406,7 +1406,8 @@
             // 放置二维码,后续需要往里面填充内容
             let xsituation = qrstyle.qRCode['xsituation']
             let ysituation = qrstyle.qRCode['ysituation']
-            item += "<div id='qrcode_" + i + "' style='position: absolute;width:150px;height:150px;left:" + xsituation + "px;top:" + ysituation + "px;'></div>"
+            let qr_wh_value = qrstyle.qRCode.qr_wh_value
+            item += "<div id='qrcode_" + i + "' style='position: absolute;width:" + qr_wh_value + "px;height:" + qr_wh_value + "px;left:" + xsituation + "px;top:" + ysituation + "px;'></div>"
             // 放置其他各项
             for (let j = 0; j < qrstyle.items.length; j++) {
                 let node = qrstyle.items[j]

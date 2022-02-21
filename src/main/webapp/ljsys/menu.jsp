@@ -141,6 +141,32 @@
             } else {
                 $('#qrCodeManage').css('display', 'block');
             }
+
+            index = 0;
+            if (checkAuthority("14")) {
+                $('#query_set_li').css('display', 'block');
+            } else {
+                $('#query_set_li').css('display', 'none');
+                index++;
+            }
+            if (checkAuthority("15")) {
+                $('#pour_set_li').css('display', 'block');
+            } else {
+                $('#pour_set_li').css('display', 'none');
+                index++;
+            }
+            if (checkAuthority("15")) {
+                $('#inspect_set_li').css('display', 'block');
+            } else {
+                $('#inspect_set_li').css('display', 'none');
+                index++;
+            }
+            //权限判断隐藏大节点
+            if (index === 3) {
+                $('#productManage').css('display', 'none');
+            } else {
+                $('#productManage').css('display', 'block');
+            }
         }
     </script>
 </head>

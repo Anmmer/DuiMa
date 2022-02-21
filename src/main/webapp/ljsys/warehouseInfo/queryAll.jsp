@@ -17,10 +17,6 @@
         window.history.go(-1);
     }
 
-    if (!checkAuthority("查看货位详情")) {
-        window.alert("您无查看货位详情的权限")
-        window.history.go(-1);
-    }
 </script>
 <div style="height: 100%;width:100%;background-color:white;">
     <button onclick="returnLastPage()" style="position: relative;left: 10%;top: 5%" class="btn btn-primary btn-sm">返回

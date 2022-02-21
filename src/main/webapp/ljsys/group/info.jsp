@@ -147,6 +147,7 @@
             data: json,
             success: function (res) {
                 var jsonobj = JSON.parse(res.data)
+                $("#functions").empty();
                 for (var i = 0; i < jsonobj.length; i++) {
                     var newitem = $("<div style='height:40px;'><p style='width:85%;height:30px;float:left;'>" + jsonobj[i]['fa_name'] + "</p>" + "<button style='width:15%;height:30px;float:left;' class='btn btn-primary btn-xs' onclick='deleteGroupFunction(" + jsonobj[i]['fa_id'] + ")'>删除</button></br></div>")
                     $("#functions").append(newitem);

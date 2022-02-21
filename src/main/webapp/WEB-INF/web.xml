@@ -591,4 +591,12 @@
         <servlet-name>cancelInspect</servlet-name>
         <url-pattern>/CancelInspect</url-pattern>
     </servlet-mapping>
+    <servlet>
+        <servlet-name>inspectNo</servlet-name>
+        <servlet-class>InspectNo</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>inspectNo</servlet-name>
+        <url-pattern>/InspectNo</url-pattern>
+    </servlet-mapping>
 </web-app>

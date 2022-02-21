@@ -49,10 +49,6 @@
         return flag;
     }
 
-    if (!checkAuthority("新增用户")) {
-        window.alert("您无新增用户的权限!")
-        location.href = "index.jsp"
-    }
     // 设置<select>标签
     var newgpids = []
     var groupNames = document.getElementById("groupName");
@@ -86,10 +82,6 @@
 
     // 提交新增
     function addOne() {
-        if (!checkAuthority("新增用户")) {
-            window.alert("您无新增用户的权限!")
-            return
-        }
         var userName = $("#name").val();
         json = {
             id: sessionStorage.getItem("userId"),
@@ -118,10 +110,6 @@
 
     // 批量新增
     function addBatch() {
-        if (!checkAuthority("新增用户")) {
-            window.alert("您无新增用户的权限!")
-            return
-        }
         var type = "file";
         var formData = new FormData();
         let file = $("#file1")[0].files[0];

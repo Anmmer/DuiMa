@@ -9,11 +9,6 @@
         return flag;
     }
 
-    if (!checkAuthority("查询用户具体信息")) {
-        window.alert("您无查询用户具体信息的权限!");
-        location.href = "index.jsp"
-    }
-
     function getQueryVariable(variable) {
         var query = window.location.search.substring(1);
         var vars = query.split("&");

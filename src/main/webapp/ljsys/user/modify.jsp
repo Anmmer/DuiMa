@@ -19,10 +19,6 @@
         return flag;
     }
 
-    if (!checkAuthority("修改用户信息")) {
-        window.alert("您无修改用户信息的权限")
-        location.href = "index.jsp"
-    }
     var userId = getQueryVariable("userId");
     var userName = decodeURIComponent(getQueryVariable("userName"));
 
@@ -163,11 +159,7 @@
     });
 
     function modify1() {
-        if (!checkAuthority("修改用户信息")) {
-            window.alert("您无修改用户信息的权限")
-            location.href = "index.jsp"
-        }
-        var newName = $("#name").val();
+        var newName = $("#userName").val();
         var groupId = $("#groupNames").val();
         var sqlStr = ""
         if (newName != "") {

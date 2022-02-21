@@ -13,10 +13,6 @@
         return flag;
     }
 
-    if (!checkAuthority("查看仓库组织详情")) {
-        window.alert("您无查看仓库组织详情的权限!")
-        window.history.go(-1)
-    }
 </script>
 <div style="height:100%;width:100%;background-color: white;">
     <button onclick="returnLastPage()" style="position: relative;left: 10%;top: 5%" class="btn btn-primary btn-sm">返回

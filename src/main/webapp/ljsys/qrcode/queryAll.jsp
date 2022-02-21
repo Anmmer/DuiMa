@@ -242,7 +242,7 @@
         });
     }
 
-    function jumpToNewPage1(newpageCode) {
+    function jumpToNewPage1(newPage) {
         if (newPage == pageCur) {
             return;
         }
@@ -254,44 +254,10 @@
         let qrcodeId = document.forms["query"]["qrcodeId"].value;
         let qrcodeName = document.forms["query"]["qrcodeName"].value;
         let sqlStrtmp = "select qrcode_id,qrcode_name from qrcode where qrcode_status = 1 and qrcode_id like '%" + qrcodeId + "%' and qrcode_name like '%" + qrcodeName + "%';";
-        let newpage = 1;
-        if (newpageCode == 1) {
-            if (pageCur == 1) {
-                window.alert("已经在第一页!");
-                return
-            } else {
-                newpage = pageCur;
-            }
-        }
-        ;
-        if (newpageCode == 2) {
-            if (pageCur == 1) {
-                window.alert("已经在第一页!");
-                return
-            } else {
-                newpage = pageCur - 1;
-            }
-        }
-        if (newpageCode == 4) {
-            if (pageCur == pageAll) {
-                window.alert("已经在最后一页!");
-                return
-            } else {
-                newpage = pageCur + 1;
-            }
-        }
-        if (newpageCode == 3) {
-            if (pageCur == pageAll) {
-                window.alert("已经在第最后一页!");
-                return
-            } else {
-                newpage = pageCur + 1;
-            }
-        }
         let json = {
             sqlStr: sqlStrtmp,
             fieldNames: fieldNamesStr,
-            pageCur: newpage,
+            pageCur: newPage,
             pageMax: 10
         };
         $.ajax({
@@ -315,7 +281,7 @@
                 $("#tableText").html(str);
                 $('#li_' + newPage % 5).addClass('active');
                 $('#li_' + pageCur % 5).removeClass('active');
-                pageCur = newpage;
+                pageCur = newPage;
                 // 重置总页数
                 pageAll = parseInt(res.pageAll);
             },
@@ -453,10 +419,6 @@
     }
 
     function addQRCodeStyle() {
-        if (!checkAuthority("新增二维码样式")) {
-            window.alert("您无新增二维码样式的权限!")
-            return
-        }
         let newqrcodeName = $("#newStyleName").val()
         $.ajax({
             url: "${pageContext.request.contextPath}/AddQRCodeStyle",

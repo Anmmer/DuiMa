@@ -20,10 +20,6 @@
         return flag;
     }
 
-    if (!checkAuthority("查看二维码样式")) {
-        window.alert("您无查看二维码样式的权限")
-        window.history.go(-1)
-    }
     let qrcodeId = getQueryVariable("qrcodeId");
     let qrcodeName = decodeURIComponent(getQueryVariable("qrcodeName"))
 

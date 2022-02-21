@@ -35,6 +35,7 @@ public class GetPreProduct extends HttpServlet {
         String materialcode = req.getParameter("materialcode");
         String materialname = req.getParameter("materialname");
         String productState = req.getParameter("productState");
+        String isPour = req.getParameter("isPour");
         String isPrint = req.getParameter("isPrint");
         String pageCur_s = req.getParameter("pageCur");
         String pageMax_s = req.getParameter("pageMax");
@@ -84,6 +85,10 @@ public class GetPreProduct extends HttpServlet {
             if("true".equals(isPrint)){
                 sql += " and print > 0";
                 sql2 += " and print > 0";
+            }
+            if("true".equals(isPour)){
+                sql += " and pourmade > 0";
+                sql2 += " and pourmade > 0";
             }
             j = i;
 

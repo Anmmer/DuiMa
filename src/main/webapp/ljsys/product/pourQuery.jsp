@@ -36,7 +36,7 @@
                     <td class='tdStyle_title active' style="width: 15%">物料名称</td>
                     <td class='tdStyle_title active' style="width: 15%">计划编号</td>
                     <td class='tdStyle_title active' style="width: 15%">浇捣状态</td>
-                    <td class='tdStyle_title active' style="width: 15%">浇捣日期</td>
+                    <td class='tdStyle_title active' style="width: 15%">操作日期</td>
                 </tr>
                 <tbody id="archTableText">
                 </tbody>

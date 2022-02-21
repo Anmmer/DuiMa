@@ -24,8 +24,13 @@
             </button>
             <button type="button" style="position: absolute;right: 20%;top:11%" class="btn btn-primary btn-sm"
                     data-toggle="modal"
+                    onclick="no_inspect()">
+                不合格
+            </button>
+            <button type="button" style="position: absolute;right: 25%;top:11%" class="btn btn-primary btn-sm"
+                    data-toggle="modal"
                     onclick="inspect()">
-                质 检
+                合格
             </button>
         </div>
         <div style="height: 85%">
@@ -36,7 +41,7 @@
                     <td class='tdStyle_title active' style="width: 15%">物料名称</td>
                     <td class='tdStyle_title active' style="width: 15%">计划编号</td>
                     <td class='tdStyle_title active' style="width: 15%">质检状态</td>
-                    <td class='tdStyle_title active' style="width: 15%">质检日期</td>
+                    <td class='tdStyle_title active' style="width: 15%">操作日期</td>
                 </tr>
                 <tbody id="archTableText">
                 </tbody>
@@ -92,6 +97,7 @@
             materialcode: materialcode,
             materialname: materialname,
             isPrint: "true",
+            isPour: "true",
             pageCur: newPage,
             pageMax: pageMax
         }
@@ -161,12 +167,35 @@
             alert("请勾选！")
             return;
         }
-        let r = confirm("亲，确认浇捣！");
+        let r = confirm("亲，确认质检！");
         if (r === false) {
             return;
         }
 
         $.post("${pageContext.request.contextPath}/Inspect", {pids: JSON.stringify(obj)}, function (result) {
+            result = JSON.parse(result);
+            alert(result.message);
+            if (result.flag) {
+                getTableData(1);
+            }
+        });
+    }
+
+    function no_inspect() {
+        let obj = [];
+        $('#archTableText').find('input:checked').each(function () {
+            obj.push($(this).attr('data-id'));   //找到对应checkbox中data-id属性值，然后push给空数组pids
+        });
+        if (obj.length === 0) {
+            alert("请勾选！")
+            return;
+        }
+        let r = confirm("亲，确认质检不合格！");
+        if (r === false) {
+            return;
+        }
+
+        $.post("${pageContext.request.contextPath}/InspectNo", {pids: JSON.stringify(obj)}, function (result) {
             result = JSON.parse(result);
             alert(result.message);
             if (result.flag) {
