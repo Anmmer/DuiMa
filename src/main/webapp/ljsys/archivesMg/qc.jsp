@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <div style="height: 95%;width: 100%">
-    <form name="query" class="form-inline" style="width:70%;height:8%;margin: 2% auto 0">
+    <form name="query" class="form-inline" style="width:70%;height:10%;margin-left: 14%;padding-top:2%">
         <div class="form-group">
             <label>姓名：</label><input type="text" name="query_qc" id="query_qc"
                                      style="" class="form-control">
@@ -30,7 +30,7 @@
                 </tbody>
             </table>
         </div>
-        <nav aria-label="Page navigation" style="margin-left:50%;width:80%;height:10%;">
+        <nav aria-label="Page navigation" style="margin-left:40%;width:80%;height:10%;">
             <ul class="pagination" style="margin-top: 0;width: 70%">
                 <li><span id="total" style="width: 22%"></span></li>
                 <li>

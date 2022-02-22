@@ -15,9 +15,10 @@
 
 .BodyStyle {
     height: 100%;
+    width: 100%;
     padding: 0px;
     margin: 0px;
-    overflow: hidden;
+    /*overflow: hidden;*/
 }
 
 .ul_ListStyle {

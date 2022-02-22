@@ -15,7 +15,7 @@
 </script>
 <div style="height: 100%;width:100%;background-color:white;margin:0 auto;">
     <div style="width:100%;">
-        <form name="query" class="form-inline" style="width:70%;height:8%;margin: 2% auto 0">
+        <form name="query" class="form-inline" style="width:70%;height:15%;margin-left: 14%;padding-top:2%">
             <div class="form-group">
                 <label>群组编号：</label><input type="text" name="gpId"
                                            style="height:10%;" class="form-control">
@@ -51,7 +51,7 @@
                 </tbody>
             </table>
         </div>
-        <nav aria-label="Page navigation" style="margin-left:51%;width:80%;height:10%;">
+        <nav aria-label="Page navigation" style="margin-left:40%;width:80%;height:10%;">
             <ul class="pagination" style="margin-top: 0;width: 70%">
                 <li><span id="total" style="width: 22%"></span></li>
                 <li>

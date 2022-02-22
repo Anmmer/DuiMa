@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <div style="width:40%;height:100%;background-color:white;margin: 0 auto;">
-    <p style="margin-top: 6%;font-size:17px;font-weight: bolder">新增:</p>
+    <p style="padding-top: 6%;font-size:17px;font-weight: bolder">新增:</p>
     <br>
     <div class="form-horizontal" style="width:100%;height:28%;float: left;">
         <div class="form-group" style="height: 100%">

@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
-<div style="height: 95%;width: 100%">
-    <form name="query" class="form-inline" style="width:80%;height:8%;margin: 2% 0 0 15%">
+<div style="height: 100%;width: 100%">
+    <form name="query" class="form-inline" style="width:80%;height:13%;margin-left: 14%;padding-top:2%">
         <div class="form-group">
             <label for="startDate">开始时间：</label><input id="startDate" class="form-control" type="date"
                                                        style="width: 13%;">
@@ -47,7 +47,7 @@
                 </tbody>
             </table>
         </div>
-        <nav aria-label="Page navigation" style="margin-left:50%;width:80%;height:10%;">
+        <nav aria-label="Page navigation" style="margin-left:40%;width:80%;height:10%;">
             <ul class="pagination" style="margin-top: 0;width: 70%">
                 <li><span id="total" style="width: 22%"></span></li>
                 <li>
@@ -207,9 +207,7 @@
             </div>
         </div>
         <!--打印主界面-->
-        <div style="width:100%;height:70%;margin:auto;float: left;display: none">
-            <div id="printArea"
-                 style="width:80%;height:100%;margin: auto;background-color: azure;overflow-y: auto;"></div>
+        <div id="printArea" style="width:100%;height:100%;display: none">
         </div>
         <div class="gif" style="z-index: 999;">
             <img src="./img/loading.gif"/>
@@ -526,8 +524,7 @@
             result = JSON.parse(result);
             alert(result.message);
             if (result.flag) {
-                query();
-                getTableData();
+                getTableData(1);
             }
         });
     }
@@ -555,7 +552,7 @@
             result = JSON.parse(result);
             alert(result.message);
             if (result.flag) {
-                getTableData();
+                getTableData(1);
             }
         });
     }
@@ -1431,8 +1428,7 @@
         }
         let enditem = $(endStr)
         $("#printArea").append(enditem)
-        setTimeout('printLabels()', 2000)
-
+        setTimeout('printLabels()', 1000)
     }
 
     //生成二维码
