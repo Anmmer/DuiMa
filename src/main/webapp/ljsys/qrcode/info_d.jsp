@@ -20,10 +20,6 @@
         return flag;
     }
 
-    if (!checkAuthority("查看二维码样式")) {
-        window.alert("您无查看二维码样式的权限")
-        window.history.go(-1)
-    }
     var qrcodeId = getQueryVariable("qrcodeId");
     var qrcodeName = decodeURIComponent(getQueryVariable("qrcodeName"))
 </script>
@@ -342,10 +338,6 @@
     }
 
     function submitQRcode() {
-        if (!checkAuthority("修改二维码样式")) {
-            window.alert("您无修改二维码样式的权限!")
-            return;
-        }
         // 点击提交的事件
         var qrcodestyle = {}
         qrcodestyle['xsize'] = $("#xsize").val()
@@ -442,10 +434,6 @@
     }
 
     function deleteStyle() {
-        if (!checkAuthority("删除二维码样式")) {
-            window.alert("您无删除二维码样式的权限!")
-            return;
-        }
         $.ajax({
             url: "${pageContext.request.contextPath}/ExecuteSQL",
             type: 'post',

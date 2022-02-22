@@ -354,10 +354,6 @@
         }
 
         function addFactory() {
-            if (!checkAuthority("新增仓库组织")) {
-                window.alert("您无新增仓库组织的权限")
-                return;
-            }
             var factoryName = $("#newFactoryName").val();
             var factoryAddress = $("#newFactoryAddress").val();
             var json = {
@@ -382,10 +378,6 @@
         }
 
         function removeFactory(factoryid) {
-            if (!checkAuthority("删除仓库组织")) {
-                window.alert("您无删除仓库组织的权限")
-                return;
-            }
             // 库房清零后方可删除
             // 查询该工厂是否有库房
             var fieldNames = {

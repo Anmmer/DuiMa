@@ -53,10 +53,6 @@
         return flag;
     }
 
-    if (!checkAuthority("打印二维码标签")) {
-        window.alert("您无打印二维码标签的权限")
-        window.history.go(-1)
-    }
     var dataReady = false           // 数据是否准备完毕
     var styleReady = false          // 样式是否选择完毕
     var fieldmap = {}              // 字段映射
@@ -259,10 +255,6 @@
     }
 
     function resetPrint() {
-        if (!checkAuthority("重置打印次数")) {
-            window.alert("您无重置打印次数的权限")
-            return
-        }
         var type = "file";
         var formData = new FormData();
         formData.append(type, $("#file2")[0].files[0]);

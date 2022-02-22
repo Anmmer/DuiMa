@@ -2,8 +2,10 @@
 <!DOCTYPE html>
 <html class="BodyStyle">
 <head>
-    <meta charset="utf-8">
     <title>打印</title>
+    <meta charset="utf-8">
+    <meta http-equiv="pragma" content="no-cache"/>
+    <meta http-equiv="cache-control" content="no-cache"/>
     <link rel="stylesheet" href="css/style.css" type="text/css">
     <script type="text/javascript" src="./js/jquery-3.3.1.min.js"></script>
     <script type="text/javascript" src="./js/qrcode.min.js"></script>

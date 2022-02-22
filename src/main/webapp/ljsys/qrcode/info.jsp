@@ -36,18 +36,22 @@
         <div style="height:100%;width:49%;float: left;margin-left: 10%">
             <div style="height:4%;width:100%;"></div>
             <!--信息展示-->
-            <div style="height:12%;width:100%;font-size:17px;font-weight: bolder">
+            <div style="height:10%;width:100%;font-size:17px;font-weight: bolder">
                 <span class="pStyle">二维码编号：</span><span class="pStyle" id="qrcodeId"></span><br/>
                 <span class="pStyle">二维码名称：</span><span class="pStyle" id="qrcodeName"></span>
             </div>
             <!--控制台-->
-            <div class="form-inline" style="height:17%;width:50%;">
+            <div class="form-inline" style="height:18%;width:50%;">
                 <div class="form-group" style="height: 100%">
-                    <label for="xsize">画布横宽：</label>
-                    <input style="width: 40%" class="form-control" id="xsize" placeholder="画布横宽"><br><br>
-                    <label for="ysize">画布纵长：</label>
-                    <input class="form-control" style="width: 40%" id="ysize" name="ysize" size="1" style="width:35%;"
-                           placeholder="画布纵长">
+                    <label for="text">标题：</label>
+                    <input class="form-control" style="width: 50%" id="text" name="text" placeholder="标题内容"><br><br>
+                    <label for="text">位置：</label>
+                    <input class="form-control" style="width: 20%" id="text_x" name="text" placeholder="横坐标">
+                    <input class="form-control" style="width: 20%" id="text_y" name="text" placeholder="纵坐标"><br><br>
+                    <label for="xsize">画布：</label>
+                    <input style="width: 20%" class="form-control" id="xsize" name="xsize" placeholder="宽">
+                    <input class="form-control" style="width: 20%" id="ysize" placeholder="高">
+
                 </div>
             </div>
             <%--            <div style="height:10%;width:50%;">--%>
@@ -414,16 +418,65 @@
                         }
                     }
                     $('.draw').css('fontSize', res.qRCode.font_style_value)
+                    let text;
+                    if (res.qRCode.text === undefined) {
+                        text = '标题内容';
+                    } else {
+                        text = res.qRCode.text;
+                        $("#text").val(res.qRCode.text)
+                    }
+                    if (res.qRCode.textXsituation === undefined) {
+                        res.qRCode.textXsituation = '0px';
+                        $("#text_x").val(0)
+                    } else {
+                        $("#text_x").val(res.qRCode.textXsituation)
+                    }
+                    if (res.qRCode.textYsituation === undefined) {
+                        res.qRCode.textYsituation = '0px';
+                        $("#text_y").val(0)
+                    } else {
+                        $("#text_y").val(res.qRCode.textYsituation)
+                    }
+                    let drawItem = $("<span class='pStyle draw' style='position: absolute;font-size: 15px;font-weight: bold' draggable='true' id='draw_text'></span>").text(text);
+                    $("#draw").append(drawItem);
+                    let drawElem = document.getElementById("draw_text")
+                    drawElem.style.left = res.qRCode.textXsituation + "px"
+                    drawElem.style.top = res.qRCode.textYsituation + "px"
+                    // 添加事件
+                    $("#draw_text").bind("dragstart", function (event) {
+                        oldxposition = event.pageX
+                        oldyposition = event.pageY
+                        let targetid = event.target.id
+                    })
+                    $("#draw_text").bind("dragend", function (event) {
+                        let Xoffset = event.pageX - oldxposition
+                        let Yoffset = event.pageY - oldyposition
+                        // let elem = event.target
+                        let elem = document.getElementById("draw_text");
+                        let xbd = elem.style.left
+                        let ybd = elem.style.top
+                        let xtmp = parseInt(xbd.substring(0, xbd.length - 2))
+                        let ytmp = parseInt(ybd.substring(0, ybd.length - 2))
+                        xtmp = xtmp + Xoffset
+                        ytmp = ytmp + Yoffset
+                        elem.style.top = ytmp + "px"
+                        elem.style.left = xtmp + "px"
+                        // 设置控制组内的
+                        let itemId = elem.id.substring(4, elem.id.length)
+                        // 设置输入框
+                        $("#text_x").val(xtmp)
+                        $("#text_y").val(ytmp)
+                    })
+                    document.getElementById("text").addEventListener("blur", () => {
+                        let text = document.getElementById("text").value;
+                        document.getElementById("draw_text").innerText = text;
+                    })
                 }
             }
         })
     }
 
     function submitQRcode() {
-        if (!checkAuthority("修改二维码样式")) {
-            window.alert("您无修改二维码样式的权限!")
-            return;
-        }
         // 点击提交的事件
         let qrcodestyle = {}
         qrcodestyle['xsize'] = $("#xsize").val()
@@ -439,6 +492,9 @@
         qRCode['ysituation'] = $("#yvalue0").val()
         qRCode['qr_wh_value'] = $("#qr_wh_value").val()
         qRCode['font_style_value'] = $("#font_style_value").val()
+        qRCode['textXsituation'] = $("#text_x").val()
+        qRCode['textYsituation'] = $("#text_y").val()
+        qRCode['text'] = $("#text").val()
         qrcodestyle['qRCode'] = qRCode
         // 设置items
         let items = []
@@ -542,10 +598,6 @@
     }
 
     function deleteStyle() {
-        if (!checkAuthority("删除二维码样式")) {
-            window.alert("您无删除二维码样式的权限!")
-            return;
-        }
 
         let r = confirm("亲，确认删除！");
         if (r === false) {

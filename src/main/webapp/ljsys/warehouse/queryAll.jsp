@@ -124,6 +124,7 @@
         function reset() {
             $('#newWarehouseName').val('')
         }
+
         function getQueryVariable(variable) {
             var query = window.location.search.substring(1);
             var vars = query.split("&");
@@ -449,10 +450,6 @@
         }
 
         function addWarehouse() {
-            if (!checkAuthority("新增货位")) {
-                window.alert("您无新增货位的权限!")
-                return;
-            }
             var newWarehouseName = $("#newWarehouseName").val();
             var json = {
                 factoryId: factoryId,
@@ -478,10 +475,6 @@
 
         // 删除warehouse
         function removeWarehouse(warehouseid) {
-            if (!checkAuthority("删除货位")) {
-                window.alert("您无删除货位的权限!")
-                return;
-            }
             // 先判断该warehouse中没有产品
             var fieldNames = {
                 product_id: "STRING"

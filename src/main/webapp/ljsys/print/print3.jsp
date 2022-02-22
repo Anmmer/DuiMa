@@ -179,7 +179,7 @@
                                 <li class="input-group">
                                     <input type="text" id="jump_to_d" class="form-control" style="width: 10%">
                                 </li>
-                                <li><a href="#" onclick="jumpToNewPage_d2()()">go!</a></li>
+                                <li><a href="#" onclick="jumpToNewPage_d2()">go!</a></li>
                             </ul>
                         </nav>
                         <div id="pop_print" class="form-inline" style="width: 100%;height: 10%;margin: 0 auto">
@@ -1030,7 +1030,7 @@
             } else {
                 newPage = pop_pageCur - 1;
                 if (!print) {
-                    for (let i = 10 * (newPage - 1); i < 10 * newPage; i++) {
+                    for (let i = 10 * (newPage - 1); i < excelData.preProduct.length && i < 10 * newPage; i++) {
                         pop_pageDate.push(excelData.preProduct[i]);
                     }
                 }
@@ -1043,7 +1043,7 @@
             } else {
                 newPage = pop_pageCur + 1;
                 if (!print) {
-                    for (let i = 10 * (newPage - 1); i < 10 * newPage; i++) {
+                    for (let i = 10 * (newPage - 1); i < excelData.preProduct.length && i < 10 * newPage; i++) {
                         pop_pageDate.push(excelData.preProduct[i]);
                     }
                 }
@@ -1071,13 +1071,13 @@
                 }
             });
         } else {
-            updateTable(true);
             if (newPageCode === 3) {
                 setFooter_d(3, pop_pageAll, pop_pageCur, newPage);
             }
             if (newPageCode === 2) {
-                setFooter_d(2, pop_pageAll, pageCur, newPage);
+                setFooter_d(2, pop_pageAll, pop_pageCur, newPage);
             }
+            updateTable(true);
             pop_pageCur = newPage;
         }
     }
@@ -1102,7 +1102,7 @@
                 }
             });
         } else {
-            for (let i = 10 * (newPage - 1); i < pop_pageDate.length && i < 10 * newPage; i++) {
+            for (let i = 10 * (newPage - 1); i < excelData.preProduct.length && i < 10 * newPage; i++) {
                 pop_pageDate.push(excelData.preProduct[i]);
             }
             updateTable(true);
@@ -1136,12 +1136,12 @@
                 }
             });
         } else {
-            for (let i = 10 * (newPage - 1); i < 10 * newPage; i++) {
+            for (let i = 10 * (newPage - 1); i < excelData.preProduct.length && i < 10 * newPage; i++) {
                 pop_pageDate.push(excelData.preProduct[i]);
             }
             updateTable(true);
-            pop_pageCur = newPage;
             jump_d2(newPage, pop_pageAll);
+            pop_pageCur = newPage;
         }
     }
 
@@ -1160,8 +1160,8 @@
                     }
                 }
             }
-            $('#li_' + pop_pageCur % 5).removeClass('active');
-            $('#li_' + newPage % 5).addClass('active');
+            $('#li_d' + pop_pageCur % 5).removeClass('active');
+            $('#li_d' + newPage % 5).addClass('active');
         } else {
             let j = Math.floor(newPage / 5);
             let m = j * 5;
@@ -1174,8 +1174,8 @@
                     $('#a_' + k).attr('onclick', 'jumpToNewPage_d1(' + m + ')');
                 }
             }
-            $('#li_' + pop_pageCur % 5).removeClass('active');
-            $('#li_' + newPage % 5).addClass('active');
+            $('#li_d' + pop_pageCur % 5).removeClass('active');
+            $('#li_d' + newPage % 5).addClass('active');
         }
     }
 
@@ -1198,6 +1198,7 @@
             $('#li_d' + newPage % 5).addClass('active');
             $('#li_d' + pageCur % 5).removeClass('active');
         } else {
+            console.log(pageCur)
             if (pageCur % 5 === 1) {
                 let j = Math.floor(newPage / 5);
                 let m
@@ -1444,6 +1445,7 @@
             let xsituation = qrstyle.qRCode['xsituation']
             let ysituation = qrstyle.qRCode['ysituation']
             let qr_wh_value = qrstyle.qRCode.qr_wh_value
+            item+="<span class='pStyle draw' style='position: absolute;font-size: 15px;left:"+qrstyle.qRCode.textXsituation+"px;right: "+qrstyle.qRCode.textYsituation+"px;font-weight: bold' draggable='true' id='draw_text'>"+qrstyle.qRCode['text']+"</span>";
             item += "<div id='qrcode_" + i + "' style='position: absolute;width:" + qr_wh_value + "px;height:" + qr_wh_value + "px;left:" + xsituation + "px;top:" + ysituation + "px;'></div>"
             // 放置其他各项
             for (let j = 0; j < qrstyle.items.length; j++) {
