@@ -179,7 +179,7 @@
                                 <li class="input-group">
                                     <input type="text" id="jump_to_d" class="form-control" style="width: 10%">
                                 </li>
-                                <li><a href="#" onclick="jumpToNewPage()()">go!</a></li>
+                                <li><a href="#" onclick="jumpToNewPage_d2()()">go!</a></li>
                             </ul>
                         </nav>
                         <div id="pop_print" class="form-inline" style="width: 100%;height: 10%;margin: 0 auto">
@@ -1102,7 +1102,7 @@
                 }
             });
         } else {
-            for (let i = 10 * (newPage - 1); i < 10 * newPage; i++) {
+            for (let i = 10 * (newPage - 1); i < pop_pageDate.length && i < 10 * newPage; i++) {
                 pop_pageDate.push(excelData.preProduct[i]);
             }
             updateTable(true);
@@ -1280,50 +1280,90 @@
                 printsData.push(pop_pageDate.find((item) => {
                     return item.pid == val.pid;
                 }));
+            });
+            let str = ''
+            printsData.forEach((item, index) => {
+                printsData[index] = Object.assign(item, jsonObj[0]);
+                if (item.print > 0) {
+                    str += item.preproductid + '，';
+                }
+            })
+            if (str !== '') {
+                let r = confirm("亲，构建编号：" + str + " 已经打印过，确定重复打印？");
+                if (r === false) {
+                    printsData = [];
+                    return;
+                }
+            }
+            $.ajax({
+                url: "${pageContext.request.contextPath}/PrintPreProduct",
+                type: 'post',
+                dataType: 'json',
+                contentType: 'application/x-www-form-urlencoded;charset=utf-8',
+                data: {
+                    productIds: JSON.stringify(pids),
+                    plannumber: printsData[0].plannumber,
+                    tasknum: printsData[0].tasknum
+                },
+                success: function (res) {
+                    if (res.flag) {
+                        getStyle()
+                    } else {
+                        alert("打印失败！")
+                    }
+                },
             })
         } else {
-            for (let i = 0; i < pop_pageDate.length; i++) {
-                pids.push({pid: pop_pageDate[i].pid})
-            }
-            if (pids.length === 0) {
-                alert("暂无打印数据");
-                return;
-            }
-            printsData = pop_pageDate;
-        }
-        let str = ''
-
-
-        printsData.forEach((item) => {
-            if (item.print > 0) {
-                str += item.preproductid + '，';
-            }
-        })
-        if (str !== '') {
-            let r = confirm("亲，构建编号：" + str + " 已经打印过，确定重复打印？");
-            if (r === false) {
-                printsData = [];
-                return;
-            }
-        }
-        $.ajax({
-            url: "${pageContext.request.contextPath}/PrintPreProduct",
-            type: 'post',
-            dataType: 'json',
-            contentType: 'application/x-www-form-urlencoded;charset=utf-8',
-            data: {
-                productIds: JSON.stringify(pids),
-                plannumber: printsData[0].plannumber,
-                tasknum: printsData[0].tasknum
-            },
-            success: function (res) {
-                if (res.flag) {
-                    getStyle()
-                } else {
-                    alert("打印失败！")
+            $.post("${pageContext.request.contextPath}/GetPreProduct", {
+                plannumber: plannumber,
+            }, function (result) {
+                result = JSON.parse(result);
+                if (result.data !== undefined) {
+                    printsData = result.data;
                 }
-            },
-        })
+            }).then(() => {
+                for (let i = 0; i < printsData.length; i++) {
+                    pids.push({pid: printsData[i].pid})
+                }
+                if (pids.length === 0) {
+                    alert("暂无打印数据");
+                    return;
+                }
+                let str = ''
+
+                printsData.forEach((item, index) => {
+                    printsData[index] = Object.assign(item, jsonObj[0]);
+                    if (item.print > 0) {
+                        str += item.preproductid + '，';
+                    }
+                })
+                if (str !== '') {
+                    let r = confirm("亲，构建编号：" + str + " 已经打印过，确定重复打印？");
+                    if (r === false) {
+                        printsData = [];
+                        return;
+                    }
+                }
+                $.ajax({
+                    url: "${pageContext.request.contextPath}/PrintPreProduct",
+                    type: 'post',
+                    dataType: 'json',
+                    contentType: 'application/x-www-form-urlencoded;charset=utf-8',
+                    data: {
+                        productIds: JSON.stringify(pids),
+                        plannumber: printsData[0].plannumber,
+                        tasknum: printsData[0].tasknum
+                    },
+                    success: function (res) {
+                        if (res.flag) {
+                            getStyle()
+                        } else {
+                            alert("打印失败！")
+                        }
+                    },
+                })
+            });
+        }
     }
 
     // 获取样式
