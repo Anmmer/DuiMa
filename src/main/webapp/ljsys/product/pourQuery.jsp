@@ -9,6 +9,12 @@
             <label>物料名称：</label><input type="text" name="materialname" id="materialname"
                                        style="" class="form-control">
         </div>
+        <label>浇道状态：</label>
+        <select id="pourState" class="form-control" style="width: 13%;">
+            <option value="2"></option>
+            <option value="0">待浇捣</option>
+            <option value="1">已浇捣</option>
+        </select>
         <button type="button" class="btn btn-primary btn-sm" style="margin-left: 5%"
                 onclick="getTableData(1)">
             查 询
@@ -88,10 +94,12 @@
     function getTableData(newPage) {
         let materialcode = $('#materialcode').val();
         let materialname = $('#materialname').val();
+        let pourState = $('#pourState').val();
         let obj = {
             materialcode: materialcode,
             materialname: materialname,
             isPrint: "true",
+            pourState: pourState,
             pageCur: newPage,
             pageMax: pageMax
         }
@@ -121,6 +129,7 @@
                                 $('#a_' + k).attr('onclick', 'jumpToNewPage1(5)');
                                 continue;
                             } else {
+                                $('#a_' + k).text(k);
                                 $('#a_' + k).attr('onclick', 'jumpToNewPage1(' + k + ')');
                             }
                         }
@@ -227,7 +236,6 @@
             }))
         })
 
-        console.log(strData)
         if (strData.length !== 0) {
             strData.forEach((item) => {
                 if (item['pourmade'] == '未浇捣') {
@@ -298,9 +306,12 @@
         }
         let materialcode = $('#materialcode').val();
         let materialname = $('#materialname').val();
+        let pourState = $('#pourState').val();
         let obj = {
             materialcode: materialcode,
             materialname: materialname,
+            pourState: pourState,
+            isPrint: "true",
             pageCur: newPage,
             pageMax: pageMax
         }
@@ -340,9 +351,12 @@
     function jumpToNewPage1(newPage) {
         let materialcode = $('#materialcode').val();
         let materialname = $('#materialname').val();
+        let pourState = $('#pourState').val();
         let obj = {
             materialcode: materialcode,
             materialname: materialname,
+            pourState: pourState,
+            isPrint: "true",
             pageCur: newPage,
             pageMax: pageMax
         }
@@ -375,9 +389,12 @@
     function jumpToNewPage2() {
         let materialcode = $('#materialcode').val();
         let materialname = $('#materialname').val();
+        let pourState =$('#pourState').val();
         let obj = {
             materialcode: materialcode,
             materialname: materialname,
+            pourState: pourState,
+            isPrint: "true",
             pageCur: newPage,
             pageMax: pageMax
         }

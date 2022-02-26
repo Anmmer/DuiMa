@@ -9,6 +9,12 @@
             <label>物料名称：</label><input type="text" name="materialname" id="materialname"
                                        style="" class="form-control">
         </div>
+        <label>质检状态：</label>
+        <select id="inspectState" class="form-control" style="width: 13%;">
+            <option value="2"></option>
+            <option value="0">待质检</option>
+            <option value="1">已质检</option>
+        </select>
         <button type="button" class="btn btn-primary btn-sm" style="margin-left: 5%"
                 onclick="getTableData(1)">
             查 询
@@ -93,9 +99,11 @@
     function getTableData(newPage) {
         let materialcode = $('#materialcode').val();
         let materialname = $('#materialname').val();
+        let inspectState = $('#inspectState').val();
         let obj = {
             materialcode: materialcode,
             materialname: materialname,
+            inspectState: inspectState,
             isPrint: "true",
             isPour: "true",
             pageCur: newPage,
@@ -127,6 +135,7 @@
                                 $('#a_' + k).attr('onclick', 'jumpToNewPage1(5)');
                                 continue;
                             } else {
+                                $('#a_' + k).text(k);
                                 $('#a_' + k).attr('onclick', 'jumpToNewPage1(' + k + ')');
                             }
                         }
@@ -271,9 +280,13 @@
         }
         let materialcode = $('#materialcode').val();
         let materialname = $('#materialname').val();
+        let inspectState = $('#inspectState').val();
         let obj = {
             materialcode: materialcode,
             materialname: materialname,
+            inspectState: inspectState,
+            isPrint: "true",
+            isPour: "true",
             pageCur: newPage,
             pageMax: pageMax
         }
@@ -313,9 +326,13 @@
     function jumpToNewPage1(newPage) {
         let materialcode = $('#materialcode').val();
         let materialname = $('#materialname').val();
+        let inspectState = $('#inspectState').val()
         let obj = {
             materialcode: materialcode,
             materialname: materialname,
+            inspectState: inspectState,
+            isPrint: "true",
+            isPour: "true",
             pageCur: newPage,
             pageMax: pageMax
         }
@@ -348,9 +365,13 @@
     function jumpToNewPage2() {
         let materialcode = $('#materialcode').val();
         let materialname = $('#materialname').val();
+        let inspectState = $('#inspectState').val();
         let obj = {
             materialcode: materialcode,
             materialname: materialname,
+            inspectState: inspectState,
+            isPrint: "true",
+            isPour: "true",
             pageCur: newPage,
             pageMax: pageMax
         }

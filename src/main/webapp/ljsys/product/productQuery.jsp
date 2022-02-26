@@ -355,6 +355,7 @@
                     $('#a_' + k).attr('onclick', 'jumpToNewPage1(5)');
                     continue;
                 } else {
+                    $('#a_' + k).text(k);
                     $('#a_' + k).attr('onclick', 'jumpToNewPage1(' + k + ')');
                 }
             }
