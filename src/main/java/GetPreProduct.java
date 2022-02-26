@@ -35,6 +35,8 @@ public class GetPreProduct extends HttpServlet {
         String materialcode = req.getParameter("materialcode");
         String materialname = req.getParameter("materialname");
         String productState = req.getParameter("productState");
+        String pourState = req.getParameter("pourState");
+        String inspectState = req.getParameter("inspectState");
         String isPour = req.getParameter("isPour");
         String isPrint = req.getParameter("isPrint");
         String pageCur_s = req.getParameter("pageCur");
@@ -82,14 +84,31 @@ public class GetPreProduct extends HttpServlet {
                 sql += " and pourmade = 1";
                 sql2 += " and inspect = 1";
             }
-            if("true".equals(isPrint)){
+            if ("true".equals(isPrint)) {
                 sql += " and print > 0";
                 sql2 += " and print > 0";
             }
-            if("true".equals(isPour)){
+            if ("true".equals(isPour)) {
                 sql += " and pourmade > 0";
                 sql2 += " and pourmade > 0";
             }
+            if ("0".equals(pourState)) {
+                sql += " and pourmade = 0";
+                sql2 += " and pourmade = 0";
+            }
+            if ("1".equals(pourState)) {
+                sql += " and pourmade = 1";
+                sql2 += " and pourmade = 1";
+            }
+            if ("0".equals(inspectState)) {
+                sql += " and inspect = 0";
+                sql2 += " and inspect = 0";
+            }
+            if ("1".equals(inspectState)) {
+                sql += " and inspect = 1";
+                sql2 += " and inspect = 1";
+            }
+
             j = i;
 
             if (pageCur != 0 && pageMax != 0) {

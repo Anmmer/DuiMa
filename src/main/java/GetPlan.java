@@ -43,7 +43,7 @@ public class GetPlan extends HttpServlet {
             con = DbUtil.getCon();
             String sql = "select plannumber,plant,plantime,line,liner,planname,build,tasksqure,tasknum,updatedate,CASE ( SELECT count( 1 ) FROM preproduct WHERE preproduct.plannumber = plan.plannumber AND preproduct.inspect = 1 ) WHEN tasknum THEN 1 ELSE 0 END AS checkstate," +
                     "CASE ( SELECT count( 1 ) FROM preproduct WHERE preproduct.plannumber = plan.plannumber AND preproduct.pourmade = 1 ) WHEN tasknum THEN 1 ELSE 0 END AS pourmadestate ," +
-                    "CASE ( SELECT count( 1 ) FROM preproduct WHERE preproduct.plannumber = plan.plannumber AND preproduct.print > 0 ) WHEN tasknum THEN 1 ELSE 0 END AS printstate "+
+                    "CASE ( SELECT count( 1 ) FROM preproduct WHERE preproduct.plannumber = plan.plannumber AND preproduct.print > 0 ) WHEN tasknum THEN 1 ELSE 0 END AS printstate " +
                     "from plan where isdelete = 0 ";
             String sql2 = "select count(1) as num from plan where isdelete = 0";
             if (!"".equals(startDate) && startDate != null) {
@@ -67,12 +67,12 @@ public class GetPlan extends HttpServlet {
                 i++;
             }
             if ("0".equals(productState)) {
-                sql += " and pourmadestate = 0 and checkstate = 0";
-                sql2 += " and pourmadestate = 0 and checkstate = 0";
+                sql += " and ( SELECT count( 1 ) FROM preproduct WHERE preproduct.plannumber = plan.plannumber AND preproduct.pourmade = 1 and preproduct.inspect = 1) !=tasknum";
+                sql2 += " and ( SELECT count( 1 ) FROM preproduct WHERE preproduct.plannumber = plan.plannumber AND preproduct.pourmade = 1 AND preproduct.inspect = 1)!=tasknum";
             }
             if ("1".equals(productState)) {
-                sql += " and pourmadestate = 1 and checkstate = 1";
-                sql2 += " and pourmadestate = 1 and checkstate = 1";
+                sql += " and ( SELECT count( 1 ) FROM preproduct WHERE preproduct.plannumber = plan.plannumber AND preproduct.pourmade = 1 and preproduct.inspect = 1) =tasknum";
+                sql2 += " and ( SELECT count( 1 ) FROM preproduct WHERE preproduct.plannumber = plan.plannumber AND preproduct.pourmade = 1 and preproduct.inspect = 1) =tasknum";
             }
             j = i;
             sql += " limit ?,?";
