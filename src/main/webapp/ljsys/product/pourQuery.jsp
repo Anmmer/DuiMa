@@ -22,7 +22,7 @@
                     onclick="cancelPour()">
                 取消浇捣
             </button>
-            <button type="button" style="position: absolute;right: 20%;top:11%" class="btn btn-primary btn-sm"
+            <button type="button" style="position: absolute;right: 22%;top:11%" class="btn btn-primary btn-sm"
                     data-toggle="modal"
                     onclick="Pour()">
                 浇 捣
@@ -143,10 +143,23 @@
     $("#pre_checkbok").on("click", function () {
         if (pre == 0) {
             //把所有复选框选中
-            $("#archTableText td :checkbox").prop("checked", true);
+            // console.log($("#archTableText td :checkbox"))
+            $("#archTableText td :checkbox").each((index, elem) => {
+                console.log(elem['disabled'])
+                if (elem['disabled'] === false) {
+                    $(elem).attr("checked", true)
+                }
+            })
+            // $("#archTableText td :checkbox").prop("checked", true);
             pre = 1;
         } else {
-            $("#archTableText td :checkbox").prop("checked", false);
+            $("#archTableText td :checkbox").each((index, elem) => {
+                console.log(elem['disabled'])
+                if (elem['disabled'] === false) {
+                    $(elem).attr("checked", false)
+                }
+            })
+            // $("#archTableText td :checkbox").prop("checked", false);
             pre = 0;
         }
 
@@ -161,11 +174,31 @@
             alert("请勾选！")
             return;
         }
+
+        let str = '';
+        let strData = [];
+        obj.forEach((item, index) => {
+            strData.push(jsonObj.find((item_) => {
+                return item_.pid == parseInt(item)
+            }))
+        })
+        if (strData.length !== 0) {
+            strData.forEach((item) => {
+                if (item['pourmade'] == "已浇捣") {
+                    str += item['materialcode'] + ", "
+                }
+            })
+        }
+
+        if (str !== '') {
+            alert("物料编码为:" + str + "的构建已经浇捣！");
+            return;
+        }
+
         let r = confirm("亲，确认浇捣！");
         if (r === false) {
             return;
         }
-
         $.post("${pageContext.request.contextPath}/Pour", {pids: JSON.stringify(obj)}, function (result) {
             result = JSON.parse(result);
             alert(result.message);
@@ -184,6 +217,29 @@
             alert("请勾选！")
             return;
         }
+
+
+        let str = '';
+        let strData = [];
+        obj.forEach((item, index) => {
+            strData.push(jsonObj.find((item_) => {
+                return item_.pid == parseInt(item)
+            }))
+        })
+
+        console.log(strData)
+        if (strData.length !== 0) {
+            strData.forEach((item) => {
+                if (item['pourmade'] == '未浇捣') {
+                    str += item['materialcode'] + ", "
+                }
+            })
+        }
+
+        if (str !== '') {
+            alert("物料编码为:" + str + "的构建未浇捣，请先浇捣！");
+            return;
+        }
         let r = confirm("亲，确认取消！");
         if (r === false) {
             return;
@@ -200,10 +256,16 @@
 
     function updateTable() {
         let str = '';
+        let disable = '';
         for (let i = 0; i < jsonObj.length; i++) {
+            if (jsonObj[i]['pourmade'] === 1 && jsonObj[i]['inspect'] === 1) {
+                disable = 'disabled'
+            } else {
+                disable = ''
+            }
             jsonObj[i]['pourmade'] = jsonObj[i]['pourmade'] === 0 ? '未浇捣' : '已浇捣';
             jsonObj[i]['pourtime'] = jsonObj[i]['pourtime'] === undefined ? '--' : jsonObj[i]['pourtime'];
-            str += "<tr><td class='tdStyle_body'><input type='checkbox' data-id=" + jsonObj[i]['pid'] + ">" +
+            str += "<tr><td class='tdStyle_body'><input type='checkbox' " + disable + " data-id=" + jsonObj[i]['pid'] + ">" +
                 "</td><td class='tdStyle_body'>" + jsonObj[i]['materialcode'] +
                 "</td><td class='tdStyle_body'>" + jsonObj[i]['materialname'] +
                 "</td><td class='tdStyle_body'>" + jsonObj[i]['plannumber'] +

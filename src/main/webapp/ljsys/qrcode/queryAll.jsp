@@ -420,6 +420,11 @@
 
     function addQRCodeStyle() {
         let newqrcodeName = $("#newStyleName").val()
+        //去除首尾空格
+        newqrcodeName = newqrcodeName.replace(/(^\s*)|(\s*$)/g, "");
+        if (newqrcodeName === '' || newqrcodeName == null) {
+            alert('二维码名称不能为空')
+        }
         $.ajax({
             url: "${pageContext.request.contextPath}/AddQRCodeStyle",
             type: 'post',

@@ -22,12 +22,12 @@
                     onclick="cancelInspect()">
                 取消质检
             </button>
-            <button type="button" style="position: absolute;right: 20%;top:11%" class="btn btn-primary btn-sm"
+            <button type="button" style="position: absolute;right: 22%;top:11%" class="btn btn-primary btn-sm"
                     data-toggle="modal"
                     onclick="no_inspect()">
                 不合格
             </button>
-            <button type="button" style="position: absolute;right: 25%;top:11%" class="btn btn-primary btn-sm"
+            <button type="button" style="position: absolute;right: 27%;top:11%" class="btn btn-primary btn-sm"
                     data-toggle="modal"
                     onclick="inspect()">
                 合格
