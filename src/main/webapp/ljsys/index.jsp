@@ -86,7 +86,7 @@
         window.alert("您未登陆，请先登陆！")
     } else {
 
-        if (!checkAuthority('5')) {
+        if (!checkAuthority('1')) {
             window.parent.location.href = "login.jsp"
             window.alert("您没有访问权限！")
         } else {
