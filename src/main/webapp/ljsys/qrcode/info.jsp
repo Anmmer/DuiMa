@@ -44,7 +44,7 @@
             <div class="form-inline" style="height:18%;width:50%;">
                 <div class="form-group" style="height: 100%">
                     <label for="text">标题：</label>
-                    <input class="form-control" style="width: 50%" id="text" name="text" placeholder="标题内容"><br><br>
+                    <input class="form-control" style="width: 50%" id="text" name="text"><br><br>
                     <label for="text">位置：</label>
                     <input class="form-control" style="width: 20%" id="text_x" name="text" placeholder="横坐标">
                     <input class="form-control" style="width: 20%" id="text_y" name="text" placeholder="纵坐标"><br><br>
@@ -341,18 +341,19 @@
         let text;
         if (qRCode.text === undefined) {
             text = '标题内容';
+            $("#text").val('标题内容')
         } else {
             text = qRCode.text;
             $("#text").val(qRCode.text)
         }
         if (qRCode.textXsituation === undefined) {
-            qRCode.textXsituation = '0px';
+            qRCode.textXsituation = '0';
             $("#text_x").val(0)
         } else {
             $("#text_x").val(qRCode.textXsituation)
         }
         if (qRCode.textYsituation === undefined) {
-            qRCode.textYsituation = '0px';
+            qRCode.textYsituation = '0';
             $("#text_y").val(0)
         } else {
             $("#text_y").val(qRCode.textYsituation)

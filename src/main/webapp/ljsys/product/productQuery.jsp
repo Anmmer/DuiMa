@@ -86,8 +86,7 @@
                                     <option value="0"></option>
                                     <option value="1">待生产</option>
                                     <option value="2">浇捣完成</option>
-                                    <option value="3">待质检</option>
-                                    <option value="4">质检完成</option>
+                                    <option value="3">质检完成</option>
                                 </select>
                                 <button id="pop_query_button" class="btn btn-primary" onclick="getData(1)"
                                         style="margin-left:3%;">查&nbsp;&nbsp;询
@@ -96,7 +95,7 @@
                         </form>
                         <div style="height: 90%;">
                             <div class="page-header" style="margin-top: 0;margin-bottom: 1%">
-                                <h3 style="margin-bottom: 0;margin-top: 0" id="inputDetail"><small>导入预览</small></h3>
+                                <h3 style="margin-bottom: 0;margin-top: 0" id="inputDetail"><small>构建信息</small></h3>
                             </div>
                             <table class="table table-hover" style="text-align: center;">
                                 <tr id="table_tr">
@@ -608,6 +607,7 @@
             plannumber: plannumber,
             materialcode: materialcode,
             productState: productState,
+            isPrint: "true",
             pageCur: newPage,
             pageMax: pageMax
         }, function (result) {
@@ -634,6 +634,7 @@
             plannumber: plannumber,
             materialcode: materialcode,
             productState: productState,
+            isPrint: "true",
             pageCur: newPage,
             pageMax: pageMax
         }, function (result) {
@@ -661,6 +662,7 @@
             plannumber: plannumber,
             materialcode: materialcode,
             productState: productState,
+            isPrint: "true",
             pageCur: newPage,
             pageMax: pageMax
         }, function (result) {
