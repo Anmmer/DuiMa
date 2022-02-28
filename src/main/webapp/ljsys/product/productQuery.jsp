@@ -65,7 +65,7 @@
         </nav>
         <!-- Modal -->
         <div class="modal fade" id="myModal"
-             style="position: absolute;left: 10%;height: 85%;top: 3%;width: 80%;z-index: 5" role="dialog"
+             style="position: absolute;left: 10%;height: 87%;top: 3%;width: 80%;z-index: 5" role="dialog"
              data-backdrop="false"
              aria-labelledby="myModalLabel">
             <div class="modal-dialog" role="document" style="width: 100%;height: 100%;margin: 0">
@@ -75,25 +75,24 @@
                                 aria-hidden="true">&times;</span></button>
                         <h5 class="modal-title">构建信息</h5>
                     </div>
-                    <div class="modal-body" style="height: 80%;width: 100%">
-                        <form name="query" id="pop_query" class="form-inline" style="width: 100%;height: 10%">
+                    <div class="modal-body" style="height: 90%;width: 100%">
+                        <form name="query" id="pop_query" class="form-inline" style="width: 100%;height: 8%">
                             <div class="form-group" style="width: 100%;">
-                                <br>
                                 <label for="materialcode_pop">物料编码：</label>
-                                <input id="materialcode_pop" class="form-control" style="width: 15%;">
+                                <input id="materialcode_pop" class="form-control" style="width: 15%;height: 30px">
                                 <label for="productState_pop" style="margin-left: 1%">生产状态：</label>
-                                <select id="productState_pop" class="form-control" style="width: 15%">
+                                <select id="productState_pop" class="form-control" style="width: 15%;height: 30px">
                                     <option value="0"></option>
                                     <option value="1">待生产</option>
                                     <option value="2">浇捣完成</option>
                                     <option value="3">质检完成</option>
                                 </select>
                                 <button id="pop_query_button" class="btn btn-primary" onclick="getData(1)"
-                                        style="margin-left:3%;">查&nbsp;&nbsp;询
+                                        style="margin-left:3%;height: 30px;padding: 0 10px">查&nbsp;&nbsp;询
                                 </button>
                             </div>
                         </form>
-                        <div style="height: 90%;">
+                        <div style="height: 85%;">
                             <div class="page-header" style="margin-top: 0;margin-bottom: 1%">
                                 <h3 style="margin-bottom: 0;margin-top: 0" id="inputDetail"><small>构建信息</small></h3>
                             </div>
@@ -266,6 +265,7 @@
         $.post("${pageContext.request.contextPath}/GetPreProduct", {
             materialcode: materialcode_pop,
             productState: productState_pop,
+            isPrint: "true",
             pageCur: newPage,
             pageMax: pageMax
         }, function (result) {

@@ -155,7 +155,7 @@
                 $('#pour_set_li').css('display', 'none');
                 index++;
             }
-            if (checkAuthority("15")) {
+            if (checkAuthority("16")) {
                 $('#inspect_set_li').css('display', 'block');
             } else {
                 $('#inspect_set_li').css('display', 'none');

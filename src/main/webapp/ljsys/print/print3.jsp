@@ -5,7 +5,8 @@
             <label for="startDate">开始时间：</label><input id="startDate" class="form-control" type="date"
                                                        style="width: 13%;height: 30px">
             <label for="endDate" style="margin-left: 2%">结束时间：</label><input id="endDate" class="form-control"
-                                                                             type="date" style="width: 13%;height: 30px">
+                                                                             type="date"
+                                                                             style="width: 13%;height: 30px">
             <label for="planname" style="margin-left: 2%">项目名称：</label><input id="planname" class="form-control"
                                                                               style="width: 13%;height:10%;">
             <label for="materialcode" style="margin-left: 2%">物料编号：</label><input id="materialcode" class="form-control"
@@ -86,31 +87,33 @@
                         <h5 class="modal-title" id="title_2">构件信息</h5>
                     </div>
                     <div class="modal-body" style="height: 85%">
-                        <form name="query" id="pop_query" class="form-inline" style="width: 100%;height: 20%">
+                        <form name="query" id="pop_query" class="form-inline" style="width: 100%;height: 18%;padding: 10px 0 0 0">
                             <div class="form-group">
-                                <br>
                                 <label for="print_build">楼栋楼层：</label><input id="print_build" class="form-control"
-                                                                             style="width: 15%;height: 24px" disabled>
+                                                                             style="width: 15%;height: 30px" disabled>
                                 <label for="print_line" style="margin-left: 1%">产线：</label><input id="print_line"
                                                                                                   class="form-control"
-                                                                                                  style="width: 15%;height: 24px"
+                                                                                                  style="width: 15%;height: 30px"
                                                                                                   disabled>
                                 <label for="updatedate" style="margin-left: 1%">最后修改时间：</label><input id="updatedate"
                                                                                                       class="form-control"
-                                                                                                      style="width: 15%;height: 24px"
+                                                                                                      style="width: 15%;height: 30px"
                                                                                                       disabled>
                                 <label for="print_materialcode" style="margin-left: 1%">物料编码：</label><input
-                                    id="print_materialcode" class="form-control" style="width: 15%;height: 24px"><br><br>
+                                    id="print_materialcode" class="form-control"
+                                    style="width: 15%;height: 30px"><br><br>
                                 <label for="print_planname">项目名称：</label><input id="print_planname" class="form-control"
-                                                                                style="width: 15%;height: 24px" disabled>
+                                                                                style="width: 15%;height: 30px"
+                                                                                disabled>
                                 <label for="print_liner" style="margin-left: 1%">线长：</label><input id="print_liner"
                                                                                                    class="form-control"
-                                                                                                   style="width: 15%;height: 24px"
+                                                                                                   style="width: 15%;height: 30px"
                                                                                                    disabled>
                                 <label for="print_plantime" style="margin-left: 1%">计划生产时间：</label><input
-                                    id="print_plantime" class="form-control" style="width: 15%;height: 24px" disabled>
+                                    id="print_plantime" class="form-control" style="width: 15%;height: 30px" disabled>
                                 <button id="pop_query_button" class="btn btn-primary" onclick="getPopData(1)"
-                                        style="margin-left:15%;width: 8%;height: 24px">查&nbsp;&nbsp;询
+                                        style="margin-left:15%;width: 80px;height: 30px;padding: 0;font-size: 12px !important;">
+                                    查&nbsp;&nbsp;询
                                 </button>
                             </div>
                         </form>
@@ -120,20 +123,20 @@
                                        accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.ms-excel"
                                        style="position: relative;margin-top: 0%;"><br>
                                 <label for="build">楼栋楼层：</label>
-                                <input id="build" class="form-control" style="width: 20%;height: 20%">
+                                <input id="build" class="form-control" style="width: 20%;height: 24px;">
                                 <label for="pop_planname" style="margin-left: 1%">项&nbsp;&nbsp;目&nbsp;&nbsp;名&nbsp;称&nbsp;&nbsp;：</label>
-                                <input id="pop_planname" class="form-control" style="width: 20%;height: 20%" disabled>
+                                <input id="pop_planname" class="form-control" style="width: 20%;height: 24px;" disabled>
                                 <label for="line" style="margin-left: 1%">产&nbsp;&nbsp;&nbsp;线：</label>
-                                <input id="line" class="form-control" style="width: 20%;height: 20%" disabled><br><br>
+                                <input id="line" class="form-control" style="width: 20%;height: 24px;" disabled><br><br>
                                 <label for="liner">线&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;长：&nbsp;</label><input
-                                    id="liner" class="form-control" style="width: 20%;height: 20%" disabled>
+                                    id="liner" class="form-control" style="width: 20%;height: 24px;" disabled>
                                 <label for="plantime" style="margin-left: 1%">计划生产时间：</label>
-                                <input id="plantime" class="form-control" style="width: 20%;height: 20%" disabled>
+                                <input id="plantime" class="form-control" style="width: 20%;height: 24px;" disabled>
                                 <label for="qc" style="margin-left: 1%">质检员：</label><select id="qc" class="form-control"
-                                                                                            style="width: 20%;height: 20%"></select>
+                                                                                            style="width: 20%;height: 24px;padding: 0"></select>
                             </div>
                         </form>
-                        <div style="height: 70%;">
+                        <div style="height: 75%;">
                             <div class="page-header" style="margin-top: 0;margin-bottom: 1%">
                                 <h3 style="margin-bottom: 0;margin-top: 0" id="inputDetail"><small>导入预览</small></h3>
                             </div>
@@ -157,7 +160,7 @@
                                 </tbody>
                             </table>
                         </div>
-                        <nav aria-label="Page navigation" style="margin-left:50%;width:80%;height:10%;" id="page">
+                        <nav aria-label="Page navigation" style="margin-left:50%;width:80%;height:8%;" id="page">
                             <ul class="pagination" style="margin-top: 0;width: 70%">
                                 <li><span id="total_d" style="width: 22%">0条，共0页</span></li>
                                 <li>
@@ -182,26 +185,30 @@
                                 <li><a href="#" onclick="jumpToNewPage_d2()">go!</a></li>
                             </ul>
                         </nav>
-                        <div id="pop_print" class="form-inline" style="width: 100%;height: 10%;margin: 0 auto">
+                        <div id="pop_print" class="form-inline" style="width: 100%;height: 8%;margin: 0 auto">
                             <div class="form-group" style="width: 100%;">
                                 <label for="qrcodestyles">选择一个样式：</label>
                                 <select class="form-control" id="qrcodestyles" class="form-control"
-                                        style="width: 15%;"></select>
-                                <button type="button" id="print_data" style="margin-left: 1%"
+                                        style="width: 15%;height: 30px;padding: 0"></select>
+                                <button type="button" id="print_data"
+                                        style="margin-left: 1%;height: 30px;padding: 0;font-size: 12px !important;width: 70px"
                                         class="btn btn-primary" onclick="checkdata(false)">打印数据
                                 </button>
-                                <button type="button" id="print_datas" style="margin-left: 1%"
+                                <button type="button" id="print_datas"
+                                        style="margin-left: 1%;height: 30px;padding: 0;font-size: 12px !important;width: 70px"
                                         class="btn btn-primary" onclick="checkdata(true)">全部打印
                                 </button>
-                                <button type="button" style="margin-left: 1%" class="btn btn-primary"
+                                <button type="button"
+                                        style="margin-left: 1%;height: 30px;padding: 0;font-size: 12px !important;width: 70px"
+                                        class="btn btn-primary"
                                         onclick="delDetailData()">批量删除
                                 </button>
                             </div>
                         </div>
                     </div>
                     <div class="modal-footer" style="text-align: center;height: 6%;padding: 10px">
-                        <button type="button" class="btn btn-default" onclick="reset()">重置</button>
-                        <button type="button" id="save" class="save-btn btn btn-primary">保存</button>
+                        <button type="button" class="btn btn-default" style="height: 28px;width:70px;font-size: 12px !important;padding: 0;" onclick="reset()">重置</button>
+                        <button type="button" id="save" style="height: 28px;width:70px;font-size: 12px !important;padding: 0;" class="save-btn btn btn-primary">保存</button>
                     </div>
                 </div>
             </div>
@@ -566,21 +573,21 @@
         if (detail) {
             for (let i = 0; i < pop_pageDate.length; i++) {
                 if (print) {
-                    str += "<tr><td class='tdStyle_body'><input type='checkbox' data-id=" + pop_pageDate[i]["pid"] + "></td>"
+                    str += "<tr><td class='tdStyle_body' style='padding: 5px;'><input type='checkbox' data-id=" + pop_pageDate[i]["pid"] + "></td>"
                 } else {
                     str += "<tr>"
                 }
-                str += "<td class='tdStyle_body' title='" + pop_pageDate[i]['materialcode'] + "'>" + pop_pageDate[i]['materialcode'] +
-                    "</td><td class='tdStyle_body' title='" + pop_pageDate[i]['materialname'] + "'>" + pop_pageDate[i]['materialname'] +
-                    "</td><td class='tdStyle_body' title='" + pop_pageDate[i]['preproductid'] + "'>" + pop_pageDate[i]['preproductid'] +
-                    "</td><td class='tdStyle_body' title='" + pop_pageDate[i]['standard'] + "'>" + pop_pageDate[i]['standard'] +
-                    "</td><td class='tdStyle_body' title='" + pop_pageDate[i]['fangliang'] + "'>" + pop_pageDate[i]['fangliang'] +
-                    "</td><td class='tdStyle_body' title='" + pop_pageDate[i]['weigh'] + "'>" + pop_pageDate[i]['weigh'] +
-                    "</td><td class='tdStyle_body' title='" + pop_pageDate[i]['concretegrade'] + "'>" + pop_pageDate[i]['concretegrade'];
+                str += "<td class='tdStyle_body' style='padding: 5px;' title='" + pop_pageDate[i]['materialcode'] + "'>" + pop_pageDate[i]['materialcode'] +
+                    "</td><td class='tdStyle_body' style='padding: 5px;' title='" + pop_pageDate[i]['materialname'] + "'>" + pop_pageDate[i]['materialname'] +
+                    "</td><td class='tdStyle_body' style='padding: 5px;' title='" + pop_pageDate[i]['preproductid'] + "'>" + pop_pageDate[i]['preproductid'] +
+                    "</td><td class='tdStyle_body' style='padding: 5px;' title='" + pop_pageDate[i]['standard'] + "'>" + pop_pageDate[i]['standard'] +
+                    "</td><td class='tdStyle_body' style='padding: 5px;' title='" + pop_pageDate[i]['fangliang'] + "'>" + pop_pageDate[i]['fangliang'] +
+                    "</td><td class='tdStyle_body' style='padding: 5px;' title='" + pop_pageDate[i]['weigh'] + "'>" + pop_pageDate[i]['weigh'] +
+                    "</td><td class='tdStyle_body' style='padding: 5px;' title='" + pop_pageDate[i]['concretegrade'] + "'>" + pop_pageDate[i]['concretegrade'];
                 if (print) {
-                    str += "</td><td class='tdStyle_body' title='" + pop_pageDate[i]['qc'] + "'>" + pop_pageDate[i]['qc'] +
-                        "</td><td class='tdStyle_body' title='" + pop_pageDate[i]['print'] + "'>" + pop_pageDate[i]['print'] +
-                        "</td><td class='tdStyle_body'><a href='#' onclick='delDetailData(" + pop_pageDate[i]['pid'] + "," + pop_pageDate[i]['fangliang'] + ")'>删除</a>" +
+                    str += "</td><td class='tdStyle_body' style='padding: 5px;' title='" + pop_pageDate[i]['qc'] + "'>" + pop_pageDate[i]['qc'] +
+                        "</td><td class='tdStyle_body' style='padding: 5px;' title='" + pop_pageDate[i]['print'] + "'>" + pop_pageDate[i]['print'] +
+                        "</td><td class='tdStyle_body' style='padding: 5px;'><a href='#' onclick='delDetailData(" + pop_pageDate[i]['pid'] + "," + pop_pageDate[i]['fangliang'] + ")'>删除</a>" +
                         "</td></tr>"
                 } else {
                     str += "</td></tr>"
@@ -598,17 +605,17 @@
                     state = '打印中'
                     style = "style='background-color: red;'"
                 }
-                str += "<tr><td class='tdStyle_body'><input type='checkbox' data-id=" + jsonObj[i]["plannumber"] + ">" +
-                    "</td><td class='tdStyle_body' title='" + jsonObj[i]['plannumber'] + "'>" + jsonObj[i]['plannumber'] +
-                    "</td><td class='tdStyle_body' title='" + jsonObj[i]['plannumber'] + "'>" + jsonObj[i]['planname'] +
-                    "</td><td class='tdStyle_body' title='" + jsonObj[i]['state'] + "'" + style + ">" + state +
-                    "</td><td class='tdStyle_body' title='" + jsonObj[i]['plant'] + "'>" + jsonObj[i]['plant'] +
-                    "</td><td class='tdStyle_body' title='" + jsonObj[i]['plantime'] + "'>" + jsonObj[i]['plantime'] +
-                    "</td><td class='tdStyle_body' title='" + jsonObj[i]['line'] + "'>" + jsonObj[i]['line'] +
-                    "</td><td class='tdStyle_body' title='" + jsonObj[i]['build'] + "'>" + jsonObj[i]['build'] +
-                    "</td><td class='tdStyle_body' title='" + jsonObj[i]['tasknum'] + "'>" + jsonObj[i]['tasknum'] +
-                    "</td><td class='tdStyle_body' title='" + jsonObj[i]['tasksqure'] + "'>" + jsonObj[i]['tasksqure'] +
-                    "</td><td class='tdStyle_body'><a href='#' onclick='getDetailData(" + jsonObj[i]['plannumber'] + ',1' + ")'>详情</a></td></tr>";
+                str += "<tr><td class='tdStyle_body' style='padding: 5px;'><input type='checkbox' data-id=" + jsonObj[i]["plannumber"] + ">" +
+                    "</td><td class='tdStyle_body' style='padding: 5px;' title='" + jsonObj[i]['plannumber'] + "'>" + jsonObj[i]['plannumber'] +
+                    "</td><td class='tdStyle_body' style='padding: 5px;' title='" + jsonObj[i]['plannumber'] + "'>" + jsonObj[i]['planname'] +
+                    "</td><td class='tdStyle_body' style='padding: 5px;' title='" + jsonObj[i]['state'] + "'" + style + ">" + state +
+                    "</td><td class='tdStyle_body' style='padding: 5px;' title='" + jsonObj[i]['plant'] + "'>" + jsonObj[i]['plant'] +
+                    "</td><td class='tdStyle_body' style='padding: 5px;' title='" + jsonObj[i]['plantime'] + "'>" + jsonObj[i]['plantime'] +
+                    "</td><td class='tdStyle_body' style='padding: 5px;' title='" + jsonObj[i]['line'] + "'>" + jsonObj[i]['line'] +
+                    "</td><td class='tdStyle_body' style='padding: 5px;' title='" + jsonObj[i]['build'] + "'>" + jsonObj[i]['build'] +
+                    "</td><td class='tdStyle_body' style='padding: 5px;' title='" + jsonObj[i]['tasknum'] + "'>" + jsonObj[i]['tasknum'] +
+                    "</td><td class='tdStyle_body' style='padding: 5px;' title='" + jsonObj[i]['tasksqure'] + "'>" + jsonObj[i]['tasksqure'] +
+                    "</td><td class='tdStyle_body' style='padding: 5px;'><a href='#' onclick='getDetailData(" + jsonObj[i]['plannumber'] + ',1' + ")'>详情</a></td></tr>";
             }
             $("#planTableText").html(str);
         }
@@ -1447,7 +1454,7 @@
             let xsituation = qrstyle.qRCode['xsituation']
             let ysituation = qrstyle.qRCode['ysituation']
             let qr_wh_value = qrstyle.qRCode.qr_wh_value
-            item+="<span class='pStyle draw' style='position: absolute;font-size: 15px;left:"+qrstyle.qRCode.textXsituation+"px;right: "+qrstyle.qRCode.textYsituation+"px;font-weight: bold' draggable='true' id='draw_text'>"+qrstyle.qRCode['text']+"</span>";
+            item += "<span class='pStyle draw' style='position: absolute;font-size: 15px;left:" + qrstyle.qRCode.textXsituation + "px;right: " + qrstyle.qRCode.textYsituation + "px;font-weight: bold' draggable='true' id='draw_text'>" + qrstyle.qRCode['text'] + "</span>";
             item += "<div id='qrcode_" + i + "' style='position: absolute;width:" + qr_wh_value + "px;height:" + qr_wh_value + "px;left:" + xsituation + "px;top:" + ysituation + "px;'></div>"
             // 放置其他各项
             for (let j = 0; j < qrstyle.items.length; j++) {
@@ -1504,3 +1511,13 @@
 
 
 </script>
+<style>
+    /*.table > tbody > tr > td,*/
+    /*.table > tbody > tr > th,*/
+    /*.table > tfoot > tr > td,*/
+    /*.table > tfoot > tr > th,*/
+    /*.table > thead > tr > td,*/
+    /*.table > thead > tr > th {*/
+    /*    padding: 5px;*/
+    /*}*/
+</style>

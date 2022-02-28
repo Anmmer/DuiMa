@@ -424,6 +424,7 @@
         newqrcodeName = newqrcodeName.replace(/(^\s*)|(\s*$)/g, "");
         if (newqrcodeName === '' || newqrcodeName == null) {
             alert('二维码名称不能为空')
+            return
         }
         $.ajax({
             url: "${pageContext.request.contextPath}/AddQRCodeStyle",
