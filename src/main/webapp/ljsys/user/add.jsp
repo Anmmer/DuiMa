@@ -83,11 +83,12 @@
     // 提交新增
     function addOne() {
         var userName = $("#name").val();
+        let groupName = $("#groupName").val();
         json = {
             id: sessionStorage.getItem("userId"),
             name: sessionStorage.getItem("userName"),
             userName: userName,
-            groupIds: JSON.stringify(newgpids)
+            groupIds: groupName
         }
         // 使用新增Servlet
         // 修改新增的后端

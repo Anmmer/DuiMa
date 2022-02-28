@@ -31,7 +31,7 @@
 <div style="height: 100%;width:100%;background-color:white;">
     <div style="height:100%;width: 100%;">
         <!--控制台-->
-        <button class="btn btn-primary" style="position: absolute;left:5%;top:5%" onclick="returnLastPage()">返回
+        <button class="btn btn-primary" style="position: absolute;left:5%;top:5%;height: 32px" onclick="returnLastPage()">返回
         </button>
         <div style="height:100%;width:49%;float: left;margin-left: 10%">
             <div style="height:4%;width:100%;"></div>
@@ -41,7 +41,7 @@
                 <span class="pStyle">二维码名称：</span><span class="pStyle" id="qrcodeName"></span>
             </div>
             <!--控制台-->
-            <div class="form-inline" style="height:18%;width:50%;">
+            <div class="form-inline" style="height:150px;width:50%;">
                 <div class="form-group" style="height: 100%">
                     <label for="text">标题：</label>
                     <input class="form-control" style="width: 50%" id="text" name="text"><br><br>
@@ -54,19 +54,15 @@
 
                 </div>
             </div>
-            <%--            <div style="height:10%;width:50%;">--%>
-            <%--                <span class="pStyle">画布横宽：</span><input type="text" style="width: 40% " id="xsize"><br/>--%>
-            <%--                <span class="pStyle">画布纵长：</span><input type="text" style="width: 40% " id="ysize"><br/><br/>--%>
-            <%--            </div>--%>
-            <div style="position:absolute;left:28%;top:9%;height:20%;width:30%;">
+            <div style="position:absolute;left:28%;top:80px;height:20%;width:30%;">
                 <select class="panel panel-default" id="valuesFrom" size="4"
-                        style="width:30%;height: 100%;overflow: auto;margin-bottom: 0">
+                        style="width:30%;height: 150px;overflow: auto;margin-bottom: 0">
                 </select>
                 <button type="button" class="btn btn-primary btn-sm" style="margin-left: 2%;margin-bottom: 20px"
                         onclick="addContent()">添加
                 </button>
                 <select class="panel panel-default" class="btn btn-primary btn-sm" id="valuesTo"
-                        style="margin-left: 2%;width:30%;height: 100%;margin-bottom: 0;overflow: auto" size="4">
+                        style="margin-left: 2%;width:30%;height: 150px;margin-bottom: 0;overflow: auto" size="4">
                 </select>
                 <button type="button" style="margin-left: 2%;margin-bottom: 20px" class="btn btn-primary btn-sm"
                         onclick="delContent()">删除
@@ -249,9 +245,9 @@
         // 新增QRCode的图片
         // 获取新插入值的name和 value
         // 在ItemList中新增一项
-        let divstr = $("<div style='width:100%;height:50px;float:left;' id='item" + cnt + "'><div>");
+        let divstr = $("<div style='width:100%;height:40px;float:left;' id='item" + cnt + "'><div>");
         $("#qr_code").append(divstr)
-        $("#qr_code").append($("<div style='height:2px;width:95%;float:left;margin-bottom:4%;background-color: black;'></div>"))
+        $("#qr_code").append($("<div style='height:2px;width:95%;float:left;margin-bottom:10px;background-color: black;'></div>"))
         // 新增item中的元素
         let xspan = $("<div class='hiddenTDOverFlowContent pStyle' style='display: inline-table;font-size:14px;font-weight: bolder'>二维码，</div>")
         let xvalue = $("<label class='pStyle' style='font-size:14px;font-weight: bolder'>X坐标：</label><input type='text' style='width: 10%' value='15' id='xvalue" + cnt + "'>")
