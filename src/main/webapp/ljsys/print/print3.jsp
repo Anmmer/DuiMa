@@ -1,11 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <div style="height: 100%;width: 100%">
-    <form name="query" class="form-inline" style="width:80%;height:13%;margin-left: 14%;padding-top:2%">
+    <form name="query" class="form-inline" style="width:80%;height:13%;margin-left: 10%;padding-top:2%">
         <div class="form-group">
             <label for="startDate">开始时间：</label><input id="startDate" class="form-control" type="date"
-                                                       style="width: 13%;">
+                                                       style="width: 13%;height: 30px">
             <label for="endDate" style="margin-left: 2%">结束时间：</label><input id="endDate" class="form-control"
-                                                                             type="date" style="width: 13%;">
+                                                                             type="date" style="width: 13%;height: 30px">
             <label for="planname" style="margin-left: 2%">项目名称：</label><input id="planname" class="form-control"
                                                                               style="width: 13%;height:10%;">
             <label for="materialcode" style="margin-left: 2%">物料编号：</label><input id="materialcode" class="form-control"
@@ -16,15 +16,15 @@
             </button>
         </div>
     </form>
-    <div style="width:70%;height:80%;margin:0 auto;">
+    <div style="width:80%;height:80%;margin:0 auto;">
         <div class="page-header" style="margin-top: 0;margin-bottom: 1%">
             <h3 style="margin-bottom: 0;margin-top: 0"><small>已导入计划</small></h3>
-            <button type="button" style="position: absolute;right: 22%;top:11%" class="btn btn-primary btn-sm"
+            <button type="button" style="position: absolute;right: 22%;top:13%" class="btn btn-primary btn-sm"
                     data-toggle="modal"
                     onclick="openPop()">
                 上传文件
             </button>
-            <button style="position: absolute;right: 15%;top:11%" class="btn btn-primary btn-sm"
+            <button style="position: absolute;right: 15%;top:13%" class="btn btn-primary btn-sm"
                     onclick="delTableData()">批量删除
             </button>
         </div>
@@ -47,7 +47,7 @@
                 </tbody>
             </table>
         </div>
-        <nav aria-label="Page navigation" style="margin-left:40%;width:80%;height:10%;">
+        <nav aria-label="Page navigation" style="margin-left:40%;width:70%;height:10%;">
             <ul class="pagination" style="margin-top: 0;width: 70%">
                 <li><span id="total" style="width: 22%"></span></li>
                 <li>
@@ -90,27 +90,27 @@
                             <div class="form-group">
                                 <br>
                                 <label for="print_build">楼栋楼层：</label><input id="print_build" class="form-control"
-                                                                             style="width: 15%;" disabled>
+                                                                             style="width: 15%;height: 24px" disabled>
                                 <label for="print_line" style="margin-left: 1%">产线：</label><input id="print_line"
                                                                                                   class="form-control"
-                                                                                                  style="width: 15%"
+                                                                                                  style="width: 15%;height: 24px"
                                                                                                   disabled>
                                 <label for="updatedate" style="margin-left: 1%">最后修改时间：</label><input id="updatedate"
                                                                                                       class="form-control"
-                                                                                                      style="width: 15%"
+                                                                                                      style="width: 15%;height: 24px"
                                                                                                       disabled>
                                 <label for="print_materialcode" style="margin-left: 1%">物料编码：</label><input
-                                    id="print_materialcode" class="form-control" style="width: 15%"><br><br>
+                                    id="print_materialcode" class="form-control" style="width: 15%;height: 24px"><br><br>
                                 <label for="print_planname">项目名称：</label><input id="print_planname" class="form-control"
-                                                                                style="width: 15%" disabled>
+                                                                                style="width: 15%;height: 24px" disabled>
                                 <label for="print_liner" style="margin-left: 1%">线长：</label><input id="print_liner"
                                                                                                    class="form-control"
-                                                                                                   style="width: 15%;"
+                                                                                                   style="width: 15%;height: 24px"
                                                                                                    disabled>
                                 <label for="print_plantime" style="margin-left: 1%">计划生产时间：</label><input
-                                    id="print_plantime" class="form-control" style="width: 15%" disabled>
+                                    id="print_plantime" class="form-control" style="width: 15%;height: 24px" disabled>
                                 <button id="pop_query_button" class="btn btn-primary" onclick="getPopData(1)"
-                                        style="margin-left:15%;width: 8%">查&nbsp;&nbsp;询
+                                        style="margin-left:15%;width: 8%;height: 24px">查&nbsp;&nbsp;询
                                 </button>
                             </div>
                         </form>
@@ -241,6 +241,7 @@
         $(".pop_footer").show();
         $('.table_tr_print').hide();
         $('#pop_query').hide();
+        $('#inputDetail').show();
         getArchives();
         print = false;
     }
@@ -434,6 +435,7 @@
                 getStyleList();
                 $('.table_tr_print').show();
                 $('#pop_query').show();
+                $('#inputDetail').hide();
                 print = true;
                 updateTable(true);
                 getFieldMap();
