@@ -76,7 +76,7 @@
                         <h5 class="modal-title">构建信息</h5>
                     </div>
                     <div class="modal-body" style="height: 90%;width: 100%">
-                        <form name="query" id="pop_query" class="form-inline" style="width: 100%;height: 8%">
+                        <div name="query" id="pop_query" class="form-inline" style="width: 100%;height: 8%">
                             <div class="form-group" style="width: 100%;">
                                 <label for="materialcode_pop">物料编码：</label>
                                 <input id="materialcode_pop" class="form-control" style="width: 15%;height: 30px">
@@ -91,7 +91,7 @@
                                         style="margin-left:3%;height: 30px;padding: 0 10px">查&nbsp;&nbsp;询
                                 </button>
                             </div>
-                        </form>
+                        </div>
                         <div style="height: 85%;">
                             <div class="page-header" style="margin-top: 0;margin-bottom: 1%">
                                 <h3 style="margin-bottom: 0;margin-top: 0" id="inputDetail"><small>构建信息</small></h3>

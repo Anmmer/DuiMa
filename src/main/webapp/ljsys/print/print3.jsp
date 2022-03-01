@@ -87,7 +87,7 @@
                         <h5 class="modal-title" id="title_2">构件信息</h5>
                     </div>
                     <div class="modal-body" style="height: 85%">
-                        <form name="query" id="pop_query" class="form-inline" style="width: 100%;height: 18%;padding: 10px 0 0 0">
+                        <div name="query" id="pop_query" class="form-inline" style="width: 100%;height: 18%;padding: 10px 0 0 0">
                             <div class="form-group">
                                 <label for="print_build">楼栋楼层：</label><input id="print_build" class="form-control"
                                                                              style="width: 15%;height: 30px" disabled>
@@ -116,8 +116,8 @@
                                     查&nbsp;&nbsp;询
                                 </button>
                             </div>
-                        </form>
-                        <form name="query" id="pop_input" class="form-inline" style="width: 100%;height: 20%">
+                        </div>
+                        <div name="query" id="pop_input" class="form-inline" style="width: 100%;height: 20%">
                             <div class="form-group">
                                 <input type="file" id="excel-file"
                                        accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.ms-excel"
@@ -135,7 +135,7 @@
                                 <label for="qc" style="margin-left: 1%">质检员：</label><select id="qc" class="form-control"
                                                                                             style="width: 20%;height: 24px;padding: 0"></select>
                             </div>
-                        </form>
+                        </div>
                         <div style="height: 75%;">
                             <div class="page-header" style="margin-top: 0;margin-bottom: 1%">
                                 <h3 style="margin-bottom: 0;margin-top: 0" id="inputDetail"><small>导入预览</small></h3>
@@ -156,7 +156,7 @@
                                     <td class='table_tr_print tdStyle_title active' style='width: 6%'>打印数</td>
                                     <td class='table_tr_print tdStyle_title active' style="width: 5%;">操作</td>
                                 </tr>
-                                <tbody id="detailTableText" style="overflow-y: scroll">
+                                <tbody id="detailTableText">
                                 </tbody>
                             </table>
                         </div>
