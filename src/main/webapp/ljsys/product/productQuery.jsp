@@ -146,6 +146,7 @@
     let pageCur = 1;    //分页当前页
     let pageAll = 1;
     let pageMax = 10;   //一页多少条数据
+    let plannumber = '';
     let pop_pageDate = [];
 
     let pop_pageCur = 1;    //弹框分页当前页
@@ -265,6 +266,7 @@
         $.post("${pageContext.request.contextPath}/GetPreProduct", {
             materialcode: materialcode_pop,
             productState: productState_pop,
+            plannumber: plannumber,
             isPrint: "true",
             pageCur: newPage,
             pageMax: pageMax

@@ -599,22 +599,22 @@
                 let state = ''
                 if (jsonObj[i]['printstate'] !== 0) {
                     state = '已打印'
-                    style = "style='background-color: rgb(0,176,80);'"
+                    style = "style='background-color: rgb(0,176,80);padding: 5px;'"
                 } else {
                     state = '打印中'
-                    style = "style='background-color: red;'"
+                    style = "style='background-color: red;padding: 5px;'"
                 }
-                str += "<tr><td class='tdStyle_body' style='padding: 5px;'><input type='checkbox' data-id=" + jsonObj[i]["plannumber"] + ">" +
-                    "</td><td class='tdStyle_body' style='padding: 5px;' title='" + jsonObj[i]['plannumber'] + "'>" + jsonObj[i]['plannumber'] +
-                    "</td><td class='tdStyle_body' style='padding: 5px;' title='" + jsonObj[i]['plannumber'] + "'>" + jsonObj[i]['planname'] +
-                    "</td><td class='tdStyle_body' style='padding: 5px;' title='" + jsonObj[i]['state'] + "'" + style + ">" + state +
-                    "</td><td class='tdStyle_body' style='padding: 5px;' title='" + jsonObj[i]['plant'] + "'>" + jsonObj[i]['plant'] +
-                    "</td><td class='tdStyle_body' style='padding: 5px;' title='" + jsonObj[i]['plantime'] + "'>" + jsonObj[i]['plantime'] +
-                    "</td><td class='tdStyle_body' style='padding: 5px;' title='" + jsonObj[i]['line'] + "'>" + jsonObj[i]['line'] +
-                    "</td><td class='tdStyle_body' style='padding: 5px;' title='" + jsonObj[i]['build'] + "'>" + jsonObj[i]['build'] +
-                    "</td><td class='tdStyle_body' style='padding: 5px;' title='" + jsonObj[i]['tasknum'] + "'>" + jsonObj[i]['tasknum'] +
-                    "</td><td class='tdStyle_body' style='padding: 5px;' title='" + jsonObj[i]['tasksqure'] + "'>" + jsonObj[i]['tasksqure'] +
-                    "</td><td class='tdStyle_body' style='padding: 5px;'><a href='#' onclick='getDetailData(" + jsonObj[i]['plannumber'] + ',1' + ")'>详情</a></td></tr>";
+                str += "<tr><td class='tdStyle_body'><input type='checkbox' data-id=" + jsonObj[i]["plannumber"] + ">" +
+                    "</td><td class='tdStyle_body' title='" + jsonObj[i]['plannumber'] + "'>" + jsonObj[i]['plannumber'] +
+                    "</td><td class='tdStyle_body' title='" + jsonObj[i]['plannumber'] + "'>" + jsonObj[i]['planname'] +
+                    "</td><td class='tdStyle_body' title='" + jsonObj[i]['state'] + "'" + style + ">" + state +
+                    "</td><td class='tdStyle_body' title='" + jsonObj[i]['plant'] + "'>" + jsonObj[i]['plant'] +
+                    "</td><td class='tdStyle_body' title='" + jsonObj[i]['plantime'] + "'>" + jsonObj[i]['plantime'] +
+                    "</td><td class='tdStyle_body' title='" + jsonObj[i]['line'] + "'>" + jsonObj[i]['line'] +
+                    "</td><td class='tdStyle_body' title='" + jsonObj[i]['build'] + "'>" + jsonObj[i]['build'] +
+                    "</td><td class='tdStyle_body' title='" + jsonObj[i]['tasknum'] + "'>" + jsonObj[i]['tasknum'] +
+                    "</td><td class='tdStyle_body' title='" + jsonObj[i]['tasksqure'] + "'>" + jsonObj[i]['tasksqure'] +
+                    "</td><td class='tdStyle_body'><a href='#' onclick='getDetailData(" + jsonObj[i]['plannumber'] + ',1' + ")'>详情</a></td></tr>";
             }
             $("#planTableText").html(str);
         }
