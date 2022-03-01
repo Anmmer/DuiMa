@@ -75,7 +75,7 @@
         </nav>
         <!-- Modal -->
         <div class="modal fade" id="myModal"
-             style="position: absolute;left: 10%;height: 96%;top: 2%;width: 80%;z-index: 5" role="dialog"
+             style="position: absolute;left: 10%;height: 96%;top: 2%;width: 82%;z-index: 5" role="dialog"
              data-backdrop="false"
              aria-labelledby="myModalLabel">
             <div class="modal-dialog" role="document" style="width: 100%;height: 100%;margin: 0">
@@ -117,11 +117,11 @@
                                 </button>
                             </div>
                         </form>
-                        <form name="query" id="pop_input" class="form-inline" style="width: 100%;height: 23%">
+                        <form name="query" id="pop_input" class="form-inline" style="width: 100%;height: 20%">
                             <div class="form-group">
                                 <input type="file" id="excel-file"
                                        accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.ms-excel"
-                                       style="position: relative;margin-top: 0%;"><br>
+                                       style="position: relative;margin-top: 0%;height: 24px;font-size: 12px;margin-bottom: 5px">
                                 <label for="build">楼栋楼层：</label>
                                 <input id="build" class="form-control" style="width: 20%;height: 24px;">
                                 <label for="pop_planname" style="margin-left: 1%">项&nbsp;&nbsp;目&nbsp;&nbsp;名&nbsp;称&nbsp;&nbsp;：</label>
@@ -385,7 +385,6 @@
             pageMax: pageMax
         }, function (result) {
             result = JSON.parse(result);
-            console.log(result)
             pop_pageDate = result.data;
             updateTable(true);
             // 重置查询为第一页

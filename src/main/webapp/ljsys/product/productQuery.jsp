@@ -65,7 +65,7 @@
         </nav>
         <!-- Modal -->
         <div class="modal fade" id="myModal"
-             style="position: absolute;left: 10%;height: 87%;top: 3%;width: 80%;z-index: 5" role="dialog"
+             style="position: absolute;left: 10%;height: 90%;top: 3%;width: 80%;z-index: 5" role="dialog"
              data-backdrop="false"
              aria-labelledby="myModalLabel">
             <div class="modal-dialog" role="document" style="width: 100%;height: 100%;margin: 0">

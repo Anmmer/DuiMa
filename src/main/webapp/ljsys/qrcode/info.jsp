@@ -86,7 +86,7 @@
                 </div>
             </div>
         </div>
-        <div style="height:100%;width:2px;background-color:black;float: left"></div>
+        <div style="height:100%;width:2px;background-color:cornflowerblue;float: left"></div>
         <div style="height:100%;width:40.5%;top:0;background-color: rgb(224, 221, 221);float: left">
             <div id="draw" style="height:600px;width:400px;background-color: white;position:relative;"></div>
         </div>
@@ -247,7 +247,7 @@
         // 在ItemList中新增一项
         let divstr = $("<div style='width:100%;height:40px;float:left;' id='item" + cnt + "'><div>");
         $("#qr_code").append(divstr)
-        $("#qr_code").append($("<div style='height:2px;width:95%;float:left;margin-bottom:10px;background-color: black;'></div>"))
+        $("#qr_code").append($("<div style='height:2px;width:95%;float:left;margin-bottom:10px;background-color: cornflowerblue;'></div>"))
         // 新增item中的元素
         let xspan = $("<div class='hiddenTDOverFlowContent pStyle' style='display: inline-table;font-size:14px;font-weight: bolder'>二维码，</div>")
         let xvalue = $("<label class='pStyle' style='font-size:14px;font-weight: bolder'>X坐标：</label><input type='text' style='width: 10%' value='15' id='xvalue" + cnt + "'>")

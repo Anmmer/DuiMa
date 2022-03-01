@@ -37,8 +37,8 @@
                         <a href="#" class="dropdown-toggle" id="userInfo" data-toggle="dropdown" role="button"
                            aria-haspopup="true" aria-expanded="false"></a>
                         <ul class="dropdown-menu">
-                            <li><a href="#" >个人信息</a></li>
-                            <li><a href="#">修改密码</a></li>
+                            <li><a href="#" onclick="detail()" id="user">个人信息</a></li>
+                            <!--                            <li><a href="#" id="modify_password">修改密码</a></li>-->
                             <li><a href="#" onclick="login_out()">退出登录</a></li>
                         </ul>
                     </li>
@@ -50,6 +50,7 @@
     <iframe id="iframe" style="height: 92%;width: 100%;" frameborder="0" src="index.jsp"></iframe>
 </div>
 <script type="text/javascript">
+
     if (sessionStorage.getItem("userName") == null) {
         location.href = "login.jsp"
         window.alert("您未登陆，请先登陆！")
@@ -59,7 +60,11 @@
             window.alert("您无网页端登陆权限!")
         }
         var userInfo = document.getElementById("userInfo");
-        userInfo.innerHTML = sessionStorage.getItem("userName").toString()+'<span class="caret"></span>' ;
+        userInfo.innerHTML = sessionStorage.getItem("userName").toString() + '<span class="caret"></span>';
+    }
+
+    function detail() {
+        jumpTo('userInfo.jsp?userId=' + sessionStorage.getItem('userId') + '&userName=' + sessionStorage.getItem('userName'));
     }
 
     function login_out() {
@@ -71,13 +76,6 @@
     }
 
 
-
-
 </script>
 </body>
-<style>
-    .navbar-collapse > ul > li >a :hover{
-        /*background-color: #eeeeee;*/
-    }
-</style>
 </html>
