@@ -22,10 +22,10 @@ public class AddUser extends HttpServlet {
 		response.setContentType("text/javascript;charset=UTF-8");
 		PrintWriter out = response.getWriter();
 		// 获取、转换参数
-		String id = new String(request.getParameter("id"));
-		String name = new String(request.getParameter("name"));
-		String userName = new String(request.getParameter("userName"));
-		String groupIds = new String(request.getParameter("groupIds"));
+		String id = request.getParameter("id");
+		String name = request.getParameter("name");
+		String groupIds = request.getParameter("groupIds");
+		String userName = request.getParameter("userName");
 		List<Integer> gpidList = JSON.parseArray(groupIds,Integer.class);
 		// 需要返回的数据
 		HashMap<String,String> ret = new HashMap<String,String>();

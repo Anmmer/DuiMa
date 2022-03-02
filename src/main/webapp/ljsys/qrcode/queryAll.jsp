@@ -30,7 +30,7 @@
     <div style="width:70%;height:80%;margin:0 auto;">
         <div class="page-header" style="margin-top: 0;margin-bottom: 1%">
             <h3 style="margin-bottom: 0;margin-top: 0"><small>二维码信息</small></h3>
-            <button type="button" style="position: absolute;right: 15%;top:11%" class="btn btn-primary btn-sm"
+            <button type="button" style="position: absolute;right: 15%;top:13%" class="btn btn-primary btn-sm"
                     data-toggle="modal"
                     data-target="#myModal">
                 添加

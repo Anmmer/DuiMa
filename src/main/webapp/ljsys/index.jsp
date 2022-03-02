@@ -20,10 +20,10 @@
                 <input style="width: 40%" class="form-control" id="userName" disabled placeholder="姓名"><br>
                 <label for="newpwd" style="width: 16%;text-align: left" class="col-sm-2 control-label">新密码:</label>
                 <input style="width: 40%" class="form-control" id="newpwd" type="password"
-                       placeholder="请输入器密码！"><br>
+                       placeholder="请输入密码！"><br>
                 <label for="checkpwd" style="width: 16%;text-align: left" class="col-sm-2 control-label">确认密码:</label>
                 <input style="width: 40%" class="form-control" id="checkpwd" type="password"
-                       placeholder="请输入器密码！"><br>
+                       placeholder="请输入密码！"><br>
                 <button style="margin-left: 44%" class="btn btn-primary btn-sm" onclick="updatePwd()">
                     确定修改
                 </button>

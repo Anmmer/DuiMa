@@ -23,17 +23,17 @@
     <div style="width:70%;height:80%;margin:0 auto;">
         <div class="page-header" style="margin-top: 0;margin-bottom: 1%">
             <h3 style="margin-bottom: 0;margin-top: 0"><small>质检信息</small></h3>
-            <button type="button" style="position: absolute;right: 15%;top:11%" class="btn btn-primary btn-sm"
+            <button type="button" style="position: absolute;right: 15%;top:14%" class="btn btn-primary btn-sm"
                     data-toggle="modal"
                     onclick="cancelInspect()">
                 取消质检
             </button>
-            <button type="button" style="position: absolute;right: 22%;top:11%" class="btn btn-primary btn-sm"
+            <button type="button" style="position: absolute;right: 22%;top:14%" class="btn btn-primary btn-sm"
                     data-toggle="modal"
                     onclick="no_inspect()">
                 不合格
             </button>
-            <button type="button" style="position: absolute;right: 27%;top:11%" class="btn btn-primary btn-sm"
+            <button type="button" style="position: absolute;right: 27%;top:14%" class="btn btn-primary btn-sm"
                     data-toggle="modal"
                     onclick="inspect()">
                 合格

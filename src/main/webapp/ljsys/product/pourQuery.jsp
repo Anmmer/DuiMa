@@ -23,12 +23,12 @@
     <div style="width:70%;height:80%;margin:0 auto;">
         <div class="page-header" style="margin-top: 0;margin-bottom: 1%">
             <h3 style="margin-bottom: 0;margin-top: 0"><small>浇捣信息</small></h3>
-            <button type="button" style="position: absolute;right: 15%;top:11%" class="btn btn-primary btn-sm"
+            <button type="button" style="position: absolute;right: 15%;top:14%" class="btn btn-primary btn-sm"
                     data-toggle="modal"
                     onclick="cancelPour()">
                 取消浇捣
             </button>
-            <button type="button" style="position: absolute;right: 22%;top:11%" class="btn btn-primary btn-sm"
+            <button type="button" style="position: absolute;right: 22%;top:14%" class="btn btn-primary btn-sm"
                     data-toggle="modal"
                     onclick="Pour()">
                 浇 捣

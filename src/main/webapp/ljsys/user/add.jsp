@@ -84,11 +84,12 @@
     function addOne() {
         var userName = $("#name").val();
         let groupName = $("#groupName").val();
+        newgpids.push(groupName);
         json = {
             id: sessionStorage.getItem("userId"),
             name: sessionStorage.getItem("userName"),
             userName: userName,
-            groupIds: groupName
+            groupIds: JSON.stringify(newgpids)
         }
         // 使用新增Servlet
         // 修改新增的后端
@@ -99,13 +100,16 @@
             contentType: 'application/x-www-form-urlencoded;charset=utf-8',
             data: json,
             success: function (res) {
-                if (res.result == "true") window.alert("用户新增成功!\n" + res.message)
-                else window.alert(res.message)
+                if (res.result == "true") {
+                    window.alert("用户新增成功!\n" + res.message)
+                } else window.alert(res.message)
                 location.reload()
             },
             error: function (message) {
                 window.alert("新增失败!\n" + message['responseText'])
             }
+        }).then(() => {
+            newgpids = [];
         });
     }
 
