@@ -46,12 +46,10 @@ public class GetPlan extends HttpServlet {
                     "CASE ( SELECT count( 1 ) FROM preproduct WHERE preproduct.plannumber = plan.plannumber AND preproduct.print > 0 ) WHEN tasknum THEN 1 ELSE 0 END AS printstate " +
                     "from plan where isdelete = 0 ";
             String sql2 = "select count(1) as num from plan where isdelete = 0";
-            if (!"".equals(startDate) && startDate != null) {
+            if (!"".equals(startDate) && startDate != null&&!"".equals(endDate) && endDate != null) {
                 sql += " and plantime >= ?";
                 sql2 += " and plantime >= ?";
                 i++;
-            }
-            if (!"".equals(endDate) && endDate != null) {
                 sql += " and plantime <= ?";
                 sql2 += " and plantime <= ?";
                 i++;
@@ -86,10 +84,8 @@ public class GetPlan extends HttpServlet {
             if (!"".equals(planname) && planname != null) {
                 ps.setString(i--, "%" + planname.trim() + "%");
             }
-            if (!"".equals(endDate) && endDate != null) {
+            if (!"".equals(endDate) && endDate != null &&!"".equals(startDate) && startDate != null) {
                 ps.setDate(i--, new Date(sdf.parse(endDate).getTime()));
-            }
-            if (!"".equals(startDate) && startDate != null) {
                 ps.setDate(i, new Date(sdf.parse(startDate).getTime()));
             }
             rs = ps.executeQuery();
@@ -119,10 +115,8 @@ public class GetPlan extends HttpServlet {
             if (!"".equals(planname) && planname != null) {
                 ps2.setString(j--, "%" + planname.trim() + "%");
             }
-            if (!"".equals(endDate) && endDate != null) {
+            if (!"".equals(endDate) && endDate != null&&!"".equals(startDate) && startDate != null) {
                 ps2.setDate(j--, new Date(sdf.parse(endDate).getTime()));
-            }
-            if (!"".equals(startDate) && startDate != null) {
                 ps2.setDate(j, new Date(sdf.parse(startDate).getTime()));
             }
             ResultSet rs2 = ps2.executeQuery();
