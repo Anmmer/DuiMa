@@ -165,8 +165,8 @@
             productState: productState,
             planname: planname,
             materialcode: materialcode,
-            'pageCur': newPage,
-            'pageMax': pageMax
+            pageCur: newPage,
+            pageMax: pageMax
         }
         $.ajax({
             url: "${pageContext.request.contextPath}/GetPlan",
