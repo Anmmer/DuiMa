@@ -66,7 +66,7 @@
                 </tbody>
             </table>
         </div>
-        <nav aria-label="Page navigation" style="margin-left:50%;width:80%;height:10%;">
+        <nav aria-label="Page navigation" style="margin-left:40%;width:80%;height:10%;">
             <ul class="pagination" style="margin-top: 0;width: 70%">
                 <li><span id="total" style="width: 22%"></span></li>
                 <li>

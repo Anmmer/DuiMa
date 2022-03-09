@@ -21,7 +21,7 @@
 <div style="height: 100%;width:100%;background-color:white;">
     <button onclick="returnLastPage()" style="position: relative;left: 10%;top: 5%" class="btn btn-primary btn-sm">返回
     </button>
-    <div style="width:70%;height:22%;margin: 0 auto;">
+    <div style="width:70%;height:20%;margin: 0 auto;">
         <p style="padding: 0;margin:0;width:50%;float: left;font-size:17px;font-weight: bolder" id="warehouseName">
             库房名:</p>
         <div style="width:50%;height:150px;float: left;">
@@ -31,11 +31,11 @@
         </div>
     </div>
     <!--表格显示-->
-    <div style="width:70%;height:80%;margin:0 auto;">
+    <div style="width:70%;height:75%;margin:0 auto;">
         <div class="page-header" style="margin-top: 0;margin-bottom: 1%">
             <h3 style="margin-bottom: 0;margin-top: 0"><small>入库信息</small></h3>
         </div>
-        <div style="height: 70%">
+        <div style="height: 75%">
             <table class="table table-hover" style="text-align: center">
                 <tr>
                     <td class="tdStyle_title active" style="width: 35%">入库时间</td>
@@ -46,7 +46,7 @@
                 </tbody>
             </table>
         </div>
-        <nav aria-label="Page navigation" style="margin-left:50%;width:80%;height:10%;">
+        <nav aria-label="Page navigation" style="margin-left:40%;width:80%;height:10%;">
             <ul class="pagination" style="margin-top: 0;width: 70%">
                 <li><span id="total" style="width: 22%"></span></li>
                 <li>

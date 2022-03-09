@@ -39,7 +39,7 @@ public class AddGroupProcessContent extends HttpServlet {
 			rs = stmt.executeQuery("select * from gp_process_content where gp_id ="+groupId+" and pc_id ="+pcId+";");
 			if(rs.next()) {
 				ret.put("result","false");
-				ret.put("message","该群组已存在编号为"+pcId+"的工序权限!");
+				ret.put("message","权限已存在!");
 				out.print(JSON.toJSONString(ret));
 				SystemLog.log(name+"(工号为"+id+")新增工序权限失败!原因:编号为"+groupId+"的群组已存在编号为"+pcId+"的工序权限!");
 				return;

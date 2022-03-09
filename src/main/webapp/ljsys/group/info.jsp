@@ -32,7 +32,7 @@
     <div style="height:100%; width:2px;background-color: cornflowerblue;float: left;"></div>
     <div style="height:100%; width:30%;float: left;">
         <div style="height:16%;width:70%;margin:  18% auto 5% auto;">
-            <span style="font-size:17px;font-weight: bolder">新增功能权限:</span>
+            <span style="font-size:17px;font-weight: bolder">网页权限管理:</span>
             <form class="form-inline" style="width:100%;" name="addFunction">
                 <br>
                 <br>
@@ -56,7 +56,7 @@
     <div style="height:100%; width:2px;background-color: cornflowerblue;float: left;"></div>
     <div style="height:100%;width: 30%;float: left;">
         <div style="height:16%;width:70%;margin:  18% auto 5% auto;">
-            <span style="font-size:17px;font-weight: bolder">新增工序权限:</span>
+            <span style="font-size:17px;font-weight: bolder">小程序权限管理:</span>
             <form class="form-inline" style="width:100%;" name="addFunction">
                 <br>
                 <br>
@@ -181,6 +181,7 @@
             data: json,
             success: function (res) {
                 var jsonobj = JSON.parse(res.data)
+                $("#processContents").empty();
                 for (var i = 0; i < jsonobj.length; i++) {
                     var newitem = $("<div style='height: 40px'><p style='width:85%;height:30px;float:left;'>" + jsonobj[i]['pc_name'] + "</p>" + "<button style='width:15%;height:30px;float:left;' class='btn btn-primary btn-xs' onclick='deleteGroupFunction(" + jsonobj[i]['pc_id'] + ")'>删除</button></br></div>")
                     $("#processContents").append(newitem);
@@ -283,7 +284,7 @@
 
     // 新增工序
     function addGroupProcessContent() {
-        var groupId = $("#groupId").text();
+        var groupId = $("#groupId").val();
         var pcId = $("#chooseProcessContent").val();
         json = {
             groupId: groupId,
@@ -291,6 +292,7 @@
             id: sessionStorage.getItem("userId"),
             name: sessionStorage.getItem("userName")
         }
+        console.log(json)
         $.ajax({
             url: "${pageContext.request.contextPath}/AddGroupProcessContent",
             type: 'post',
