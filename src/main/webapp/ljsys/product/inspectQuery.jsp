@@ -11,9 +11,10 @@
         </div>
         <label>质检状态：</label>
         <select id="inspectState" class="form-control" style="width: 13%;">
-            <option value="2"></option>
+            <option value="3"></option>
             <option value="0">待质检</option>
-            <option value="1">已质检</option>
+            <option value="1">质检合格</option>
+            <option value="2">质检不合格</option>
         </select>
         <button type="button" class="btn btn-primary btn-sm" style="margin-left: 5%"
                 onclick="getTableData(1)">

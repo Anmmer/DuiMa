@@ -81,8 +81,8 @@ public class GetPreProduct extends HttpServlet {
                 sql2 += " and pourmade = 1 and inspect = 0";
             }
             if ("3".equals(productState)) {
-                sql += " and pourmade = 1 and inspect = 1 ";
-                sql2 += " and pourmade = 1 and inspect = 1 ";
+                sql += " and pourmade = 1 and (inspect = 1 or inspect = 2) ";
+                sql2 += " and pourmade = 1 and (inspect = 1 or inspect = 2) ";
             }
             if ("true".equals(isPrint)) {
                 sql += " and print > 0";
@@ -107,6 +107,10 @@ public class GetPreProduct extends HttpServlet {
             if ("1".equals(inspectState)) {
                 sql += " and inspect = 1";
                 sql2 += " and inspect = 1";
+            }
+            if ("2".equals(inspectState)) {
+                sql += " and inspect = 2";
+                sql2 += " and inspect = 2";
             }
 
             j = i;
