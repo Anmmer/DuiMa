@@ -34,6 +34,7 @@ public class GetPreProduct extends HttpServlet {
         String plannumber = req.getParameter("plannumber");
         String materialcode = req.getParameter("materialcode");
         String materialname = req.getParameter("materialname");
+        String preproductid = req.getParameter("preproductid");
         String productState = req.getParameter("productState");
         String pourState = req.getParameter("pourState");
         String inspectState = req.getParameter("inspectState");
@@ -55,21 +56,26 @@ public class GetPreProduct extends HttpServlet {
         try {
             PrintWriter out = resp.getWriter();
             con = DbUtil.getCon();
-            String sql = "select pid,materialcode,preproductid,standard,materialname,weigh,qc,fangliang,plannumber,print,concretegrade,pourmade,inspect,pourtime,checktime from preproduct where isdelete = 0 ";
+            String sql = "select pid,materialcode,preproductid,standard,materialname,weigh,qc,fangliang,preproduct.plannumber,print,concretegrade,pourmade,inspect,pourtime,checktime,line from preproduct,plan where preproduct.isdelete = 0 and preproduct.plannumber = plan.plannumber";
             String sql2 = "select count(*) as num from preproduct where isdelete = 0 ";
             if (plannumber != null && !"".equals(plannumber)) {
-                sql += " and plannumber = ?";
-                sql2 += " and plannumber = ?";
+                sql += " and preproduct.plannumber = ?";
+                sql2 += " and preproduct.plannumber = ?";
                 i++;
             }
             if (materialcode != null && !"".equals(materialcode)) {
-                sql += " and materialcode = ?";
-                sql2 += " and materialcode = ?";
+                sql += " and materialcode like ?";
+                sql2 += " and materialcode like ?";
                 i++;
             }
             if (materialname != null && !"".equals(materialname)) {
-                sql += " and materialname = ?";
-                sql2 += " and materialname = ?";
+                sql += " and materialname like ?";
+                sql2 += " and materialname like ?";
+                i++;
+            }
+            if (preproductid != null && !"".equals(preproductid)) {
+                sql += " and preproductid like ?";
+                sql2 += " and preproductid like ?";
                 i++;
             }
             if ("1".equals(productState)) {
@@ -125,11 +131,14 @@ public class GetPreProduct extends HttpServlet {
                 ps.setInt(i--, pageMax);
                 ps.setInt(i--, (pageCur - 1) * pageMax);
             }
+            if (preproductid != null && !"".equals(preproductid)) {
+                ps.setString(i--, "%" + preproductid.trim() + "%");
+            }
             if (materialname != null && !"".equals(materialname)) {
-                ps.setString(i--, materialname.trim());
+                ps.setString(i--, "%" + materialname.trim() + "%");
             }
             if (materialcode != null && !"".equals(materialcode)) {
-                ps.setString(i--, materialcode.trim());
+                ps.setString(i--, "%" + materialcode.trim() + "%");
             }
             if (plannumber != null && !"".equals(plannumber)) {
                 ps.setString(i, plannumber);
@@ -154,12 +163,16 @@ public class GetPreProduct extends HttpServlet {
                 map.put("inspect", rs.getInt("inspect"));
                 map.put("pourtime", rs.getString("pourtime"));
                 map.put("checktime", rs.getString("checktime"));
+                map.put("line", rs.getString("line"));
                 list.add(map);
             }
             if (pageCur != 0 && pageMax != 0) {
                 PreparedStatement ps2 = con.prepareStatement(sql2);
+                if (preproductid != null && !"".equals(preproductid)) {
+                    ps2.setString(j--, "%" + preproductid.trim() + "%");
+                }
                 if (materialname != null && !"".equals(materialname)) {
-                    ps2.setString(j--, materialname.trim());
+                    ps2.setString(j--, "%" + materialname.trim() + "%");
                 }
                 if (materialcode != null && !"".equals(materialcode)) {
                     ps2.setString(j--, materialcode.trim());

@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <div style="height: 100%;width: 100%">
-    <form name="query" class="form-inline" style="width:80%;height:13%;margin-left: 10%;padding-top:2%">
+    <form name="query" class="form-inline" style="width:80%;height:20%;margin-left: 10%;padding-top:2%">
         <div class="form-group">
             <label for="startDate">开始时间：</label><input id="startDate" class="form-control" type="date"
                                                        style="width: 13%;height: 30px">
@@ -10,6 +10,10 @@
             <label for="planname" style="margin-left: 2%">项目名称：</label><input id="planname" class="form-control"
                                                                               style="width: 13%;height:10%;">
             <label for="materialcode" style="margin-left: 2%">物料编号：</label><input id="materialcode" class="form-control"
+                                                                                  style="width: 13%;height:10%;"><br><br>
+            <label for="materialname">物料名称：</label><input id="materialname" class="form-control"
+                                                          style="width: 13%;height:10%;">
+            <label for="preproductid" style="margin-left: 2%">构建编号：</label><input id="preproductid" class="form-control"
                                                                                   style="width: 13%;height:10%;">
             <button type="button" class="btn btn-primary btn-sm" style="margin-left: 1%"
                     onclick="getTableData(1)">
@@ -17,18 +21,15 @@
             </button>
         </div>
     </form>
+    <button type="button" style="position: absolute;right: 22%;top:13%" class="btn btn-primary btn-sm"
+            data-toggle="modal"
+            onclick="openPop()">
+        上传文件
+    </button>
+    <button style="position: absolute;right: 15%;top:13%" class="btn btn-primary btn-sm"
+            onclick="delTableData()">批量删除
+    </button>
     <div style="width:80%;height:80%;margin:0 auto;">
-        <div class="page-header" style="margin-top: 0;margin-bottom: 1%">
-            <h3 style="margin-bottom: 0;margin-top: 0"><small>已导入计划</small></h3>
-            <button type="button" style="position: absolute;right: 22%;top:13%" class="btn btn-primary btn-sm"
-                    data-toggle="modal"
-                    onclick="openPop()">
-                上传文件
-            </button>
-            <button style="position: absolute;right: 15%;top:13%" class="btn btn-primary btn-sm"
-                    onclick="delTableData()">批量删除
-            </button>
-        </div>
         <div style="height: 85%">
             <table class="table table-hover" style="text-align: center">
                 <tr>
@@ -75,7 +76,7 @@
         </nav>
         <!-- Modal -->
         <div class="modal fade" id="myModal"
-             style="position: absolute;left: 10%;height: 96%;top: 2%;width: 82%;z-index: 5" role="dialog"
+             style="position: absolute;left: 10%;height: 96%;top: 2%;width: 85%;z-index: 5" role="dialog"
              data-backdrop="false"
              aria-labelledby="myModalLabel">
             <div class="modal-dialog" role="document" style="width: 100%;height: 100%;margin: 0">
@@ -87,30 +88,37 @@
                         <h5 class="modal-title" id="title_2">构件信息</h5>
                     </div>
                     <div class="modal-body" style="height: 85%">
-                        <div name="query" id="pop_query" class="form-inline" style="width: 100%;height: 18%;padding: 10px 0 0 0">
+                        <div name="query" id="pop_query" class="form-inline"
+                             style="width: 100%;height: 18%;padding: 10px 0 0 0">
                             <div class="form-group">
                                 <label for="print_build">楼栋楼层：</label><input id="print_build" class="form-control"
-                                                                             style="width: 15%;height: 30px" disabled>
+                                                                             style="width: 12%;height: 30px" disabled>
                                 <label for="print_line" style="margin-left: 1%">产线：</label><input id="print_line"
                                                                                                   class="form-control"
-                                                                                                  style="width: 15%;height: 30px"
+                                                                                                  style="width: 10%;height: 30px"
                                                                                                   disabled>
                                 <label for="updatedate" style="margin-left: 1%">最后修改时间：</label><input id="updatedate"
                                                                                                       class="form-control"
-                                                                                                      style="width: 15%;height: 30px"
+                                                                                                      style="width: 10%;height: 30px"
                                                                                                       disabled>
                                 <label for="print_materialcode" style="margin-left: 1%">物料编码：</label><input
                                     id="print_materialcode" class="form-control"
+                                    style="width: 15%;height: 30px">
+                                <label for="print_materialname" style="margin-left: 1%">物料名称：</label><input
+                                    id="print_materialname" class="form-control"
                                     style="width: 15%;height: 30px"><br><br>
                                 <label for="print_planname">项目名称：</label><input id="print_planname" class="form-control"
-                                                                                style="width: 15%;height: 30px"
+                                                                                style="width: 12%;height: 30px"
                                                                                 disabled>
                                 <label for="print_liner" style="margin-left: 1%">线长：</label><input id="print_liner"
                                                                                                    class="form-control"
-                                                                                                   style="width: 15%;height: 30px"
+                                                                                                   style="width: 10%;height: 30px"
                                                                                                    disabled>
                                 <label for="print_plantime" style="margin-left: 1%">计划生产时间：</label><input
-                                    id="print_plantime" class="form-control" style="width: 15%;height: 30px" disabled>
+                                    id="print_plantime" class="form-control" style="width: 10%;height: 30px" disabled>
+                                <label for="print_preproductid" style="margin-left: 1%">构建编号：</label><input
+                                    id="print_preproductid" class="form-control"
+                                    style="width: 15%;height: 30px">
                                 <button id="pop_query_button" class="btn btn-primary" onclick="getPopData(1)"
                                         style="margin-left:15%;width: 80px;height: 30px;padding: 0;font-size: 12px !important;">
                                     查&nbsp;&nbsp;询
@@ -207,8 +215,14 @@
                         </div>
                     </div>
                     <div class="modal-footer" style="text-align: center;height: 6%;padding: 10px">
-                        <button type="button" class="btn btn-default" style="height: 28px;width:70px;font-size: 12px !important;padding: 0;" onclick="reset()">重置</button>
-                        <button type="button" id="save" style="height: 28px;width:70px;font-size: 12px !important;padding: 0;" class="save-btn btn btn-primary">保存</button>
+                        <button type="button" class="btn btn-default"
+                                style="height: 28px;width:70px;font-size: 12px !important;padding: 0;"
+                                onclick="reset()">重置
+                        </button>
+                        <button type="button" id="save"
+                                style="height: 28px;width:70px;font-size: 12px !important;padding: 0;"
+                                class="save-btn btn btn-primary">保存
+                        </button>
                     </div>
                 </div>
             </div>
@@ -319,6 +333,8 @@
         let endDate = $('#endDate').val();
         let planname = $('#planname').val();
         let materialcode = $('#materialcode').val();
+        let preproductid = $('#preproductid').val();
+        let materialname = $('#materialname').val();
         if (startDate !== '' && endDate !== '') {
             if (startDate > endDate) {
                 alert("开始时间不能大于结束时间！");
@@ -330,6 +346,8 @@
             'endDate': endDate,
             'planname': planname,
             'materialcode': materialcode,
+            'materialname': materialname,
+            'preproductid': preproductid,
             'pageCur': newPage,
             'pageMax': pageMax
         }
@@ -378,9 +396,13 @@
 
     function getPopData(newPage) {
         let materialcode = $('#print_materialcode').val();
+        let preproductid = $('#print_preproductid').val();
+        let materialname = $('#print_materialname').val();
         $.post("${pageContext.request.contextPath}/GetPreProduct", {
             plannumber: plannumber,
             materialcode: materialcode,
+            preproductid: preproductid,
+            materialname: materialname,
             pageCur: newPage,
             pageMax: pageMax
         }, function (result) {
@@ -618,6 +640,8 @@
             }
             $("#planTableText").html(str);
         }
+        document.getElementById('plan_checkbok').checked = false
+        plan_i = 0;
     }
 
     //给input标签绑定change事件，一上传选中的.xls文件就会触发该函数

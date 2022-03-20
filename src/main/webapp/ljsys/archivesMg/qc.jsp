@@ -6,7 +6,7 @@
                                      style="" class="form-control">
         </div>
         <button type="button" class="btn btn-primary btn-sm" style="margin-left: 5%"
-                onclick="getTableData()">
+                onclick="getTableData(1)">
             查 询
         </button>
     </form>

@@ -20,6 +20,7 @@
     }
 
     var userId = getQueryVariable("userId");
+    var user_phone = getQueryVariable("user_phone");
 
     var userName = decodeURIComponent(getQueryVariable("userName"));
 
@@ -67,12 +68,12 @@
         <!--头像图片-->
         <img style="margin-right: 5%;float: left;" class="img-rounded" src="./pictures/avator.png" alt="头像"/>
         <div style="width:52%;float: left">
-            <span>工&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;号：</span><span id="userId"
-                                                                                  class="pStyle">userId</span></br></br>
+            <span>手&nbsp;机&nbsp;号&nbsp;：</span><span id="user_phone"
+                                                     class="pStyle">user_phone</span></br></br>
             <span>姓&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;名：</span><span id="userName"
                                                                                   class="pStyle">userId</span></br></br>
             <span>角&nbsp;&nbsp;色&nbsp;&nbsp;名：</span><span id="groupName" class="pStyle">userId</span></br></br>
-            <span>角色编号：</span><span id="groupId" class="pStyle">userId</span></br></br>
+            <%--            <span>角色编号：</span><span id="groupId" class="pStyle">userId</span></br></br>--%>
         </div>
         <button style="float: right;" class="btn btn-primary" onclick="gotoModify()" type="button">
             修改个人信息
@@ -95,9 +96,10 @@
 <script type="text/javascript">
     $("#userId").text(userId);
     $("#userName").text(userName);
+    $("#user_phone").text(user_phone);
 
     function gotoModify() {
-        window.location.href = "userModify.jsp?userId=" + userId + "&userName=" + userName;
+        window.location.href = "userModify.jsp?userId=" + userId + "&userName=" + userName + "&user_phone=" + user_phone;
     }
 
     // 获取权限

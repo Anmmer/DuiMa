@@ -20,6 +20,7 @@
     }
 
     var userId = getQueryVariable("userId");
+    var user_phone = getQueryVariable("user_phone");
     var userName = decodeURIComponent(getQueryVariable("userName"));
 
     // 变量
@@ -36,8 +37,8 @@
         <div class="form-inline" style="width:100%;height:30%;float: left;">
             <br>
             <div class="form-group" style="width: 50%">
-                <label for="userId" class="">工&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;号：</label>
-                <input  style="width: 50%" class="form-control" id="userId" disabled placeholder="工号"><br><br>
+                <label for="user_phone" class="">手&nbsp;机&nbsp;号&nbsp;：</label>
+                <input  style="width: 50%" class="form-control" id="user_phone" disabled placeholder="手机号"><br><br>
                 <label for="userName">姓&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;名：</label>
                 <input style="width: 50%" class="form-control" id="userName" placeholder="姓名"><br><br>
                 <label for="groupNames">添加角色：</label>
@@ -91,7 +92,7 @@
     <%--        (message)--%>
     <%--    }--%>
     <%--});--%>
-    $("#userId").val(userId);
+    $("#user_phone").val(user_phone);
     $("#userName").val(userName);
     // 设置SELECT组件
     var groupNames = document.getElementById("groupNames");

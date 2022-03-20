@@ -47,10 +47,10 @@ public class CancelInspect extends HttpServlet {
             int i = ps.executeUpdate();
             if (i < 0) {
                 map.put("flag", false);
-                map.put("message", "质检失败");
+                map.put("message", "取消质检失败");
             } else {
                 map.put("flag", true);
-                map.put("message", "质检成功");
+                map.put("message", "取消质检成功");
             }
             out.write(JSON.toJSONString(map));
         } catch (Exception e) {

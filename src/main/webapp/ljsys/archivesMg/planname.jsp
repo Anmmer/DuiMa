@@ -6,7 +6,7 @@
                                        style="" class="form-control">
         </div>
         <button type="button" class="btn btn-primary btn-sm" style="margin-left: 5%"
-                onclick="getTableData()">
+                onclick="getTableData(1)">
             查 询
         </button>
     </form>
@@ -223,7 +223,7 @@
             result = JSON.parse(result);
             alert(result.message);
             if (result.flag) {
-                getTableData();
+                getTableData(1);
             }
         });
     }
@@ -241,7 +241,7 @@
             alert(result.message);
             if (result.flag) {
                 $('#myModal').modal('hide');
-                getTableData();
+                getTableData(1);
             }
         })
     }
@@ -260,7 +260,7 @@
             alert(result.message);
             if (result.flag) {
                 $('#myModal').modal('hide');
-                getTableData();
+                getTableData(1);
             }
         });
     }

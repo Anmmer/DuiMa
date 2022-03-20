@@ -121,7 +121,6 @@
                     jsonObj = res.data;
                     updateTable();
                     $('#total').html(res.cnt + "条，共" + res.pageAll + "页");
-                    $('#li_1').addClass('active');
                     // 重置查询为第一页
                     pageCur = newPage;
                     // 重置总页数
@@ -131,6 +130,7 @@
                         if (i > pageAll) {
                             $('#a_' + k).text('.');
                         } else {
+                            $('#li_' + newPage % 5).addClass('active');
                             if (k === 0) {
                                 $('#a_' + k).text(5);
                                 $('#a_' + k).attr('onclick', 'jumpToNewPage1(5)');
@@ -186,7 +186,7 @@
             result = JSON.parse(result);
             alert(result.message);
             if (result.flag) {
-                getTableData(1);
+                getTableData(pageCur);
             }
         });
     }
@@ -209,7 +209,9 @@
             result = JSON.parse(result);
             alert(result.message);
             if (result.flag) {
-                getTableData(1);
+                getTableData(pageCur);
+                document.getElementById('pre_checkbok').checked = false
+                pre = 0;
             }
         });
     }
@@ -232,7 +234,9 @@
             result = JSON.parse(result);
             alert(result.message);
             if (result.flag) {
-                getTableData(1);
+                getTableData(pageCur);
+                document.getElementById('pre_checkbok').checked = false
+                pre = 0;
             }
         });
     }
@@ -256,6 +260,8 @@
                 "</td><td class='tdStyle_body'>" + jsonObj[i]['checktime'] +
                 "</td></tr>";
         }
+        document.getElementById('pre_checkbok').checked = false
+        pre = 0;
         $("#archTableText").html(str);
     }
 

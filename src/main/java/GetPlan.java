@@ -27,6 +27,8 @@ public class GetPlan extends HttpServlet {
         String endDate = req.getParameter("endDate");
         String planname = req.getParameter("planname");
         String materialcode = req.getParameter("materialcode");
+        String materialname = req.getParameter("materialname");
+        String preproductid = req.getParameter("preproductid");
         String productState = req.getParameter("productState");
         int pageCur = Integer.parseInt(req.getParameter("pageCur"));
         int pageMax = Integer.parseInt(req.getParameter("pageMax"));
@@ -66,6 +68,16 @@ public class GetPlan extends HttpServlet {
                 sql2 += " and plannumber in (select plannumber from preproduct where materialcode = ?)";
                 i++;
             }
+            if (!"".equals(materialname) && materialname != null) {
+                sql += " and plannumber in (select plannumber from preproduct where materialname like ?)";
+                sql2 += " and plannumber in (select plannumber from preproduct where materialname like ?)";
+                i++;
+            }
+            if (!"".equals(preproductid) && preproductid != null) {
+                sql += " and plannumber in (select plannumber from preproduct where preproductid like ?)";
+                sql2 += " and plannumber in (select plannumber from preproduct where preproductid like ?)";
+                i++;
+            }
             if ("0".equals(productState)) {
                 sql += " and ( SELECT count( 1 ) FROM preproduct WHERE preproduct.plannumber = plan.plannumber AND preproduct.pourmade = 1 and preproduct.inspect = 1) !=tasknum";
                 sql2 += " and ( SELECT count( 1 ) FROM preproduct WHERE preproduct.plannumber = plan.plannumber AND preproduct.pourmade = 1 AND preproduct.inspect = 1)!=tasknum";
@@ -80,6 +92,15 @@ public class GetPlan extends HttpServlet {
             ps = con.prepareStatement(sql);
             ps.setInt(i--, pageMax);
             ps.setInt(i--, (pageCur - 1) * pageMax);
+
+            if (!"".equals(preproductid) && preproductid != null) {
+                ps.setString(i--, "%" + preproductid.trim() + "%");
+            }
+
+            if (!"".equals(materialname) && materialname != null) {
+                ps.setString(i--, "%" + materialname.trim() + "%");
+            }
+
             if (!"".equals(materialcode) && materialcode != null) {
                 ps.setString(i--, materialcode.trim());
             }
@@ -113,6 +134,14 @@ public class GetPlan extends HttpServlet {
                 list.add(map);
             }
             ps2 = con.prepareStatement(sql2);
+
+            if (!"".equals(preproductid) && preproductid != null) {
+                ps2.setString(j--, preproductid.trim());
+            }
+
+            if (!"".equals(materialname) && materialname != null) {
+                ps2.setString(j--, materialname.trim());
+            }
             if (!"".equals(materialcode) && materialcode != null) {
                 ps2.setString(j--, materialcode.trim());
             }

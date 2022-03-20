@@ -40,6 +40,8 @@
                     <td class='tdStyle_title active' style="width: 5%"><input id="pre_checkbok" type="checkbox"></td>
                     <td class='tdStyle_title active' style="width: 15%">物料编码</td>
                     <td class='tdStyle_title active' style="width: 15%">物料名称</td>
+                    <td class='tdStyle_title active' style="width: 15%">构建编号</td>
+                    <td class='tdStyle_title active' style="width: 15%">线别</td>
                     <td class='tdStyle_title active' style="width: 15%">计划编号</td>
                     <td class='tdStyle_title active' style="width: 15%">浇捣状态</td>
                     <td class='tdStyle_title active' style="width: 15%">操作日期</td>
@@ -114,7 +116,6 @@
                     jsonObj = res.data;
                     updateTable();
                     $('#total').html(res.cnt + "条，共" + res.pageAll + "页");
-                    $('#li_1').addClass('active');
                     // 重置查询为第一页
                     pageCur = newPage;
                     // 重置总页数
@@ -124,6 +125,7 @@
                         if (i > pageAll) {
                             $('#a_' + k).text('.');
                         } else {
+                            $('#li_' + newPage % 5).addClass('active');
                             if (k === 0) {
                                 $('#a_' + k).text(5);
                                 $('#a_' + k).attr('onclick', 'jumpToNewPage1(5)');
@@ -212,7 +214,9 @@
             result = JSON.parse(result);
             alert(result.message);
             if (result.flag) {
-                getTableData(1);
+                getTableData(pageCur);
+                document.getElementById('pre_checkbok').checked = false
+                pre = 0;
             }
         });
     }
@@ -257,7 +261,9 @@
             result = JSON.parse(result);
             alert(result.message);
             if (result.flag) {
-                getTableData(1);
+                getTableData(pageCur);
+                document.getElementById('pre_checkbok').checked = false
+                pre = 0;
             }
         });
     }
@@ -276,11 +282,15 @@
             str += "<tr><td class='tdStyle_body'><input type='checkbox' " + disable + " data-id=" + jsonObj[i]['pid'] + ">" +
                 "</td><td class='tdStyle_body'>" + jsonObj[i]['materialcode'] +
                 "</td><td class='tdStyle_body'>" + jsonObj[i]['materialname'] +
+                "</td><td class='tdStyle_body'>" + jsonObj[i]['preproductid'] +
+                "</td><td class='tdStyle_body'>" + jsonObj[i]['line'] +
                 "</td><td class='tdStyle_body'>" + jsonObj[i]['plannumber'] +
                 "</td><td class='tdStyle_body'>" + jsonObj[i]['pourmade'] +
                 "</td><td class='tdStyle_body'>" + jsonObj[i]['pourtime'] +
                 "</td></tr>";
         }
+        document.getElementById('pre_checkbok').checked = false
+        pre = 0;
         $("#archTableText").html(str);
     }
 
@@ -389,7 +399,7 @@
     function jumpToNewPage2() {
         let materialcode = $('#materialcode').val();
         let materialname = $('#materialname').val();
-        let pourState =$('#pourState').val();
+        let pourState = $('#pourState').val();
         let obj = {
             materialcode: materialcode,
             materialname: materialname,

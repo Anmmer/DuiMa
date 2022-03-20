@@ -6,6 +6,8 @@
         <div class="form-group" style="height: 100%">
             <label for="name" style="width: 16%;text-align: left" class="col-sm-2 control-label">姓&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;名:</label>
             <input style="width: 40%" class="form-control" id="name" placeholder="姓名"><br>
+            <label for="user_phone" style="width: 16%;text-align: left" class="col-sm-2 control-label">手机号:</label>
+            <input style="width: 40%" class="form-control" id="user_phone" placeholder="手机号"><br>
             <label for="groupName" style="width: 16%;text-align: left;padding-right: 0"
                    class="col-sm-2 control-label">添加角色:</label>
             <select class="form-control" style="width: 40%" id="groupName" name="groupName" size="1"
@@ -80,15 +82,33 @@
         }
     });
 
+
+    function checkPhone(phone) {
+        if (!(/^1[34578]\d{9}$/.test(phone))) {
+            return false;
+        }
+        return true;
+    }
+
     // 提交新增
     function addOne() {
         var userName = $("#name").val();
         let groupName = $("#groupName").val();
+        let user_phone = $("#user_phone").val();
+        if (userName === '' || userName === ' ') {
+            alert('姓名不能为空');
+            return
+        }
+        if (!checkPhone(user_phone)) {
+            alert('手机号为空或不正确');
+            return
+        }
         newgpids.push(groupName);
         json = {
             id: sessionStorage.getItem("userId"),
             name: sessionStorage.getItem("userName"),
             userName: userName,
+            user_phone: user_phone,
             groupIds: JSON.stringify(newgpids)
         }
         // 使用新增Servlet

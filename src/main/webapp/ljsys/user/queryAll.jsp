@@ -6,8 +6,8 @@
 <div style="height: 100%;width:100%;background-color:white;overflow: hidden">
     <form name="query" class="form-inline" style="width:70%;height:8%;margin: 2% auto 0">
         <div class="form-group">
-            <label>工号：</label><input type="text" name="userId"
-                                     style="height:10%;" class="form-control">
+            <label>手机号：</label><input type="text" name="user_phone"
+                                      style="height:10%;" class="form-control">
         </div>
         <div class="form-group" style="margin-left:5%;">
             <label>姓名：</label><input type="text" name="userName"
@@ -25,7 +25,7 @@
         <div style="height: 85%">
             <table class="table table-hover" style="text-align: center">
                 <tr>
-                    <td class="tdStyle_title active" style="width: 35%">工号</td>
+                    <td class="tdStyle_title active" style="width: 35%">手机号</td>
                     <td class="tdStyle_title active" style="width: 35%">姓名</td>
                     <td class="tdStyle_title active" style="width: 30%;text-align: center">操作</td>
                 </tr>
@@ -66,12 +66,20 @@
     function updateTable(newpage) {
         let fieldNamestmp = {
             user_id: "INT",
+            user_phone: "STRING",
             user_name: "STRING"
         };
         var fieldNamesStr = JSON.stringify(fieldNamestmp);
-        var userId = document.forms["query"]["userId"].value;
+        var user_phone = document.forms["query"]["user_phone"].value;
         var userName = document.forms["query"]["userName"].value;
-        var sqlStrtmp = "select user_id,user_name from user where user_status = 1 and user_id like '%" + userId + "%' and user_name like '%" + userName + "%';";
+
+        var sqlStrtmp = "select user_id,user_phone,user_name from user where isdelete = 1 ";
+        if (user_phone !== '') {
+            sqlStrtmp += "and user_phone=" + user_phone
+        }
+        if (userName !== '') {
+            sqlStrtmp += " and user_name like '%" + userName + "%'"
+        }
         let json = {
             sqlStr: sqlStrtmp,
             fieldNames: fieldNamesStr,
@@ -89,12 +97,12 @@
                 var str = "";
                 var jsonobj = JSON.parse(res.data);
                 for (var i = 0; i < jsonobj.length; i++) {
-                    str += "<tr><td>" + jsonobj[i]['user_id'] +
+                    str += "<tr><td>" + jsonobj[i]['user_phone'] +
                         "</td><td>" + jsonobj[i]['user_name'] +
                         "</td><td style='text-align: center'>";
                     // 查询
-                    str += "<a href='userInfo.jsp?userId=" + jsonobj[i]['user_id'] + "&userName=" + jsonobj[i]['user_name'] + "'>详情</a>&nbsp";
-                    str += "<a href='userModify.jsp?userId=" + jsonobj[i]['user_id'] + "&userName=" + jsonobj[i]['user_name'] + "'>修改</a>&nbsp";
+                    str += "<a href='userInfo.jsp?userId=" + jsonobj[i]['user_id'] + "&userName=" + jsonobj[i]['user_name'] + "&user_phone=" + jsonobj[i]['user_phone'] + "'>详情</a>&nbsp";
+                    str += "<a href='userModify.jsp?userId=" + jsonobj[i]['user_id'] + "&userName=" + jsonobj[i]['user_name'] + "&user_phone=" + jsonobj[i]['user_phone'] + "'>修改</a>&nbsp";
                     str += "<a href='javascript:void(0);' onclick='deleteUser(" + jsonobj[i]['user_id'] + ")'>删除</a>";
                     str += "</td></tr>"
                 }
@@ -132,12 +140,19 @@
     function jumpToNewPage(newpageCode) {
         let fieldNamestmp = {
             user_id: "INT",
+            user_phone: "STRING",
             user_name: "STRING"
         };
         var fieldNamesStr = JSON.stringify(fieldNamestmp);
-        var userId = document.forms["query"]["userId"].value;
+        var user_phone = document.forms["query"]["user_phone"].value;
         var userName = document.forms["query"]["userName"].value;
-        var sqlStrtmp = "select user_id,user_name from user where user_status = 1 and user_id like '%" + userId + "%' and user_name like '%" + userName + "%';";
+        var sqlStrtmp = "select user_id,user_phone,user_name from user where isdelete = 1 ";
+        if (user_phone !== '') {
+            sqlStrtmp += "and user_phone=" + user_phone
+        }
+        if (userName !== '') {
+            sqlStrtmp += " and user_name like '%" + userName + "%'"
+        }
         var newpage = 1;
         if (newpageCode == 1) newpage = 1;
         if (newpageCode == 2) {
@@ -175,12 +190,12 @@
                 var jsonobj = JSON.parse(res.data);
                 (jsonobj)
                 for (var i = 0; i < jsonobj.length; i++) {
-                    str += "<tr><td >" + jsonobj[i]['user_id'] +
+                    str += "<tr><td >" + jsonobj[i]['user_phone'] +
                         "</td><td >" + jsonobj[i]['user_name'] +
                         "</td><td style='text-align: center'>";
                     // 查询
-                    str += "<a href='userInfo.jsp?userId=" + jsonobj[i]['user_id'] + "&userName=" + jsonobj[i]['user_name'] + "'>详情</a>&nbsp";
-                    str += "<a href='userModify.jsp?userId=" + jsonobj[i]['user_id'] + "&userName=" + jsonobj[i]['user_name'] + "'>修改</a>&nbsp";
+                    str += "<a href='userInfo.jsp?userId=" + jsonobj[i]['user_id'] + "&userName=" + jsonobj[i]['user_name'] + "&user_phone=" + jsonobj[i]['user_phone'] + "'>详情</a>&nbsp";
+                    str += "<a href='userModify.jsp?userId=" + jsonobj[i]['user_id'] + "&userName=" + jsonobj[i]['user_name'] + "&user_phone=" + jsonobj[i]['user_phone'] + "'>修改</a>&nbsp";
                     str += "<a href='javascript:void(0);' onclick='deleteUser(" + jsonobj[i]['user_id'] + ")'>删除</a>";
                     str += "</td></tr>"
                 }
@@ -209,12 +224,19 @@
         }
         let fieldNamestmp = {
             user_id: "INT",
+            user_phone: "STRING",
             user_name: "STRING"
         };
         var fieldNamesStr = JSON.stringify(fieldNamestmp);
-        var userId = document.forms["query"]["userId"].value;
+        var user_phone = document.forms["query"]["user_phone"].value;
         var userName = document.forms["query"]["userName"].value;
-        var sqlStrtmp = "select user_id,user_name from user where user_status = 1 and user_id like '%" + userId + "%' and user_name like '%" + userName + "%';";
+        var sqlStrtmp = "select user_id,user_phone,user_name from user where isdelete = 1 ";
+        if (user_phone !== '') {
+            sqlStrtmp += "and user_phone=" + user_phone
+        }
+        if (userName !== '') {
+            sqlStrtmp += " and user_name like '%" + userName + "%'"
+        }
         if (newPage <= 0 || newPage > pageAll || isNaN(newPage)) {
             window.alert("请输入一个在范围内的正确页码数字!")
             return
@@ -236,12 +258,12 @@
                 var str = "";
                 var jsonobj = JSON.parse(res.data);
                 for (var i = 0; i < jsonobj.length; i++) {
-                    str += "<tr><td>" + jsonobj[i]['user_id'] +
+                    str += "<tr><td>" + jsonobj[i]['user_phone'] +
                         "</td><td>" + jsonobj[i]['user_name'] +
                         "</td><td style='text-align: center'>";
                     // 查询
-                    str += "<a href='userInfo.jsp?userId=" + jsonobj[i]['user_id'] + "&userName=" + jsonobj[i]['user_name'] + "'>详情</a>&nbsp";
-                    str += "<a href='userModify.jsp?userId=" + jsonobj[i]['user_id'] + "&userName=" + jsonobj[i]['user_name'] + "'>修改</a>&nbsp";
+                    str += "<a href='userInfo.jsp?userId=" + jsonobj[i]['user_id'] + "&userName=" + jsonobj[i]['user_name'] + "&user_phone=" + jsonobj[i]['user_phone'] + "'>详情</a>&nbsp";
+                    str += "<a href='userModify.jsp?userId=" + jsonobj[i]['user_id'] + "&userName=" + jsonobj[i]['user_name'] + "&user_phone=" + jsonobj[i]['user_phone'] + "'>修改</a>&nbsp";
                     str += "<a href='javascript:void(0);' onclick='deleteUser(" + jsonobj[i]['user_id'] + ")'>删除</a>";
                     str += "</td></tr>"
                 }
@@ -258,12 +280,19 @@
     function jumpToNewPage2() {
         let fieldNamestmp = {
             user_id: "INT",
+            user_phone: "STRING",
             user_name: "STRING"
         };
         var fieldNamesStr = JSON.stringify(fieldNamestmp);
-        var userId = document.forms["query"]["userId"].value;
+        var user_phone = document.forms["query"]["user_phone"].value;
         var userName = document.forms["query"]["userName"].value;
-        var sqlStrtmp = "select user_id,user_name from user where user_status = 1 and user_id like '%" + userId + "%' and user_name like '%" + userName + "%';";
+        var sqlStrtmp = "select user_id,user_phone,user_name from user where isdelete = 1 ";
+        if (user_phone !== '') {
+            sqlStrtmp += "and user_phone=" + user_phone
+        }
+        if (userName !== '') {
+            sqlStrtmp += " and user_name like '%" + userName + "%'"
+        }
         var newpageStr = $('#jump_to').val();
         var newpage = parseInt(newpageStr)
         if (newpage <= 0 || newpage > pageAll || isNaN(newpage)) {
@@ -287,12 +316,12 @@
                 var str = "";
                 var jsonobj = JSON.parse(res.data);
                 for (var i = 0; i < jsonobj.length; i++) {
-                    str += "<tr><td>" + jsonobj[i]['user_id'] +
+                    str += "<tr><td>" + jsonobj[i]['user_phone'] +
                         "</td><td>" + jsonobj[i]['user_name'] +
                         "</td><td style='text-align: center'>";
                     // 查询
-                    str += "<a href='userInfo.jsp?userId=" + jsonobj[i]['user_id'] + "&userName=" + jsonobj[i]['user_name'] + "'>详情</a>&nbsp";
-                    str += "<a href='userModify.jsp?userId=" + jsonobj[i]['user_id'] + "&userName=" + jsonobj[i]['user_name'] + "'>修改</a>&nbsp";
+                    str += "<a href='userInfo.jsp?userId=" + jsonobj[i]['user_id'] + "&userName=" + jsonobj[i]['user_name'] + "&user_phone=" + jsonobj[i]['user_phone'] + "'>详情</a>&nbsp";
+                    str += "<a href='userModify.jsp?userId=" + jsonobj[i]['user_id'] + "&userName=" + jsonobj[i]['user_name'] + "&user_phone=" + jsonobj[i]['user_phone'] + "'>修改</a>&nbsp";
                     str += "<a href='javascript:void(0);' onclick='deleteUser(" + jsonobj[i]['user_id'] + ")'>删除</a>";
                     str += "</td></tr>"
                 }
@@ -412,7 +441,7 @@
         if (r === false) {
             return;
         }
-        var sqlStr = "update user set user_status = 0 where user_id =" + userid + ";";
+        var sqlStr = "update user set isdelete = 0 where user_id =" + userid + ";";
         $.ajax({
             url: "${pageContext.request.contextPath}/ExecuteSQL",
             type: 'post',
