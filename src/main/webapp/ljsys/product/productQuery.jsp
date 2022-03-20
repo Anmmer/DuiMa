@@ -65,7 +65,7 @@
         </nav>
         <!-- Modal -->
         <div class="modal fade" id="myModal"
-             style="position: absolute;left: 10%;height: 90%;top: 3%;width: 80%;z-index: 5" role="dialog"
+             style="position: absolute;left: 10%;height: 95%;top: 3%;width: 80%;z-index: 5" role="dialog"
              data-backdrop="false"
              aria-labelledby="myModalLabel">
             <div class="modal-dialog" role="document" style="width: 100%;height: 100%;margin: 0">
@@ -156,6 +156,12 @@
 
     window.onload = getTableData(1);
 
+    $('#myModal').on('hidden.bs.modal', function (e) {
+        $('#li_d' + pop_pageCur % 5).removeClass('active');
+        pop_pageAll = 1;
+        pop_pageCur = 1;
+    })
+
     //查询plan表数据
     function getTableData(newPage) {
         let productState = $('#productState').val();
@@ -205,15 +211,19 @@
                 }
                 if (pop_pageDate[i]['pourmade'] === 1 && pop_pageDate[i]['inspect'] === 0) {
                     state = '浇捣完成'
-                    style = "style='background-color: rgb(0,176,80);'"
+                    style = "style='background-color: yellow;'"
                 }
-                if (pop_pageDate[i]['pourmade'] === 0 && pop_pageDate[i]['inspect'] === 1) {
+                if (pop_pageDate[i]['pourmade'] === 1 && pop_pageDate[i]['inspect'] === 0) {
                     state = '待质检'
                     style = "style='background-color: grey;'"
                 }
                 if (pop_pageDate[i]['pourmade'] === 1 && pop_pageDate[i]['inspect'] === 1) {
-                    state = '质检完成'
-                    style = "style='background-color: yellow;'"
+                    state = '质检合格'
+                    style = "style='background-color: green;'"
+                }
+                if (pop_pageDate[i]['pourmade'] === 1 && pop_pageDate[i]['inspect'] === 2) {
+                    state = '质检不合格'
+                    style = "style='background-color: red;'"
                 }
                 pop_pageDate[i]['pourmade'] = pop_pageDate[i]['pourmade'] === 0 ? '未浇捣' : '已浇捣'
                 if (pop_pageDate[i]['inspect'] === 0) {
@@ -277,6 +287,7 @@
                 updateTable(true);
                 $('#total_d').html(result.cnt + "条，共" + result.pageAll + "页");
                 $('#li_d1').addClass('active');
+                $('#li_d' + pop_pageCur % 5).removeClass('active');
                 // 重置查询为第一页
                 pop_pageCur = 1;
                 // 重置总页数
