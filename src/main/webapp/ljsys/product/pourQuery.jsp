@@ -20,7 +20,7 @@
             查 询
         </button>
     </form>
-    <div style="width:70%;height:80%;margin:0 auto;">
+    <div style="width:75%;height:80%;margin:0 auto;">
         <div class="page-header" style="margin-top: 0;margin-bottom: 1%">
             <h3 style="margin-bottom: 0;margin-top: 0"><small>浇捣信息</small></h3>
             <button type="button" style="position: absolute;right: 15%;top:14%" class="btn btn-primary btn-sm"
@@ -43,14 +43,14 @@
                     <td class='tdStyle_title active' style="width: 15%">构建编号</td>
                     <td class='tdStyle_title active' style="width: 15%">线别</td>
                     <td class='tdStyle_title active' style="width: 15%">计划编号</td>
-                    <td class='tdStyle_title active' style="width: 15%">浇捣状态</td>
-                    <td class='tdStyle_title active' style="width: 15%">操作日期</td>
+                    <td class='tdStyle_title active' style="width: 10%">浇捣状态</td>
+                    <td class='tdStyle_title active' style="width: 10%">操作日期</td>
                 </tr>
                 <tbody id="archTableText">
                 </tbody>
             </table>
         </div>
-        <nav aria-label="Page navigation" style="margin-left:40%;width:80%;height:10%;">
+        <nav aria-label="Page navigation" style="margin-left:40%;width:70%;height:10%;">
             <ul class="pagination" style="margin-top: 0;width: 70%">
                 <li><span id="total" style="width: 22%"></span></li>
                 <li>

@@ -28,8 +28,8 @@ public class LoginCheck extends HttpServlet {
         Statement stmt = null;
         ResultSet rs = null;
         String userName = null;
+        Map<String, Object> result = new HashMap();
         try {
-            Map<String, Object> result = new HashMap();
             Class.forName(JDBC_DRIVER);
             conn = DriverManager.getConnection(DB_URL, USER, PASS);
             stmt = conn.createStatement();
@@ -53,8 +53,15 @@ public class LoginCheck extends HttpServlet {
                 result.put("userName", userName);
                 result.put("flag", true);
                 out.write(JSON.toJSONString(result));
+            } else {
+                result.put("message", "账号或密码错误");
+                result.put("flag", false);
+                out.write(JSON.toJSONString(result));
             }
         } catch (Exception e) {
+            result.put("message", "账号或密码错误");
+            result.put("flag", false);
+            out.write(JSON.toJSONString(result));
             e.printStackTrace();
         } finally {
             try {

@@ -17,29 +17,29 @@
             </button>
         </div>
     </div>
-    <div style="width:100%;height:3px;background-color: cornflowerblue;float:left;"></div>
-    <div style="width:100%;height:10px;float: left;"></div>
-    <div style="float: left;height:30%">
-        <form name="batchAdd" enctype="multipart/form-data">
-            <div class="form-horizontal" style="width:100%;height:28%;float: left;">
-                <div style="width:100%;height:30px;float:left;"></div>
-                <span style="margin-top: 6%;font-size:17px;font-weight: bolder">批量新增:</span>
-                <div style="width:100%;height:30px;float:left;"></div>
-                <div class="form-group" style="height: 100%">
-                    <label for="file1" style="width: 28%;text-align: left;padding-right: 0"
-                           class="col-sm-2 control-label">上传Excel:</label>
-                    <input style="width: 60%" type="file" name="file1" id="file1"><br>
-                    <button style="margin-top: 5%;margin-left: 2%;" class="btn btn-primary btn-sm" onclick="addBatch()">
-                        批量新增
-                    </button>
-                </div>
-            </div>
-        </form>
-    </div>
+<%--    <div style="width:100%;height:3px;background-color: cornflowerblue;float:left;"></div>--%>
+<%--    <div style="width:100%;height:10px;float: left;"></div>--%>
+<%--    <div style="float: left;height:30%">--%>
+<%--        <form name="batchAdd" enctype="multipart/form-data">--%>
+<%--            <div class="form-horizontal" style="width:100%;height:28%;float: left;">--%>
+<%--                <div style="width:100%;height:30px;float:left;"></div>--%>
+<%--                <span style="margin-top: 6%;font-size:17px;font-weight: bolder">批量新增:</span>--%>
+<%--                <div style="width:100%;height:30px;float:left;"></div>--%>
+<%--                <div class="form-group" style="height: 100%">--%>
+<%--                    <label for="file1" style="width: 28%;text-align: left;padding-right: 0"--%>
+<%--                           class="col-sm-2 control-label">上传Excel:</label>--%>
+<%--                    <input style="width: 60%" type="file" name="file1" id="file1"><br>--%>
+<%--                    <button style="margin-top: 5%;margin-left: 2%;" class="btn btn-primary btn-sm" onclick="addBatch()">--%>
+<%--                        批量新增--%>
+<%--                    </button>--%>
+<%--                </div>--%>
+<%--            </div>--%>
+<%--        </form>--%>
+<%--    </div>--%>
 
-    <div style="float: left;width: 100%;"><span class="pStyle">信息面板:</span></div>
-    <div id="errorInfo" style="width:100%;height:10%;overflow-y: auto;float:left;background-color: azure;"></div>
-    <div class='pStyle' style="float:left;"><a href="./files/Template.xls" download="Template.xls">模板</a></div>
+<%--    <div style="float: left;width: 100%;"><span class="pStyle">信息面板:</span></div>--%>
+<%--    <div id="errorInfo" style="width:100%;height:10%;overflow-y: auto;float:left;background-color: azure;"></div>--%>
+<%--    <div class='pStyle' style="float:left;"><a href="./files/Template.xls" download="Template.xls">模板</a></div>--%>
 </div>
 <script type="text/javascript">
     function checkAuthority(au) {

@@ -7,6 +7,8 @@
     <title>相城绿建堆码后台管理系统</title>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/ljsys/css/style.css" type="text/css">
     <script type="text/javascript" src="${pageContext.request.contextPath}/ljsys/js/jquery-3.3.1.min.js"></script>
+    <script type="text/javascript" src="dist/js/bootstrap.js"></script>
+    <link rel="stylesheet" href="dist/css/bootstrap.min.css" type="text/css"/>
 </head>
 <script type="text/javascript">
     function clickBtn() {
@@ -55,7 +57,7 @@
 <script type="text/javascript">
     sessionStorage.clear()
 </script>
-<body class="BodyStyle" style="background-color: #337ab7">
+<body class="BodyStyle" style="background-color: #1B65B9">
 <div class="LoginStyle">
     <div style="width:100%;margin:0 auto;">
         <form name="login">
@@ -77,18 +79,81 @@
                 </span>
                 <input class="ant-input" placeholder="密码" type="password" name="userPwd">
             </div>
-            <div style="width:100%;height:45px;"></div>
+            <div style="width:100%;height:40px;"></div>
             <div style="width:100%;height:55px;margin:0 auto;">
                 <button type="button"
-                        style="width:100%;height:36px;font-size:20px;font-family: 宋体;"
+                        style="width:100%;height:32px;font-size:14px;color:#fff;border-radius: 4px;border:none;cursor: pointer;background-color: #1B65B9"
                         onclick="clickBtn()">登陆
+                </button>
+                <button style="width: 30%; float:right;margin-top:5px;font-size: 12px; border:none;cursor: pointer; background-color: #fff; box-shadow: none;"
+                        onclick="open()">修改密码
                 </button>
             </div>
         </form>
+    </div>
+    <!-- Modal -->
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog"
+         data-backdrop="false"
+         aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content" style="width:60%">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="title2">修改密码</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="form-horizontal">
+                        <div class="form-group" style="margin-top: 5%">
+                            <label for="user_phone" style="width: 28%;text-align: left;padding-right: 0"
+                                   class="col-sm-2 control-label">手机号:</label>
+                            <input type="text" class="form-control" style="width:50%;" id="user_phone">
+                            <label for="old_password" style="width: 28%;text-align: left;padding-right: 0"
+                                   class="col-sm-2 control-label">旧密码:</label>
+                            <input type="text" class="form-control" style="width:50%;" id="old_password">
+                            <label for="password" style="width: 28%;text-align: left;padding-right: 0"
+                                   class="col-sm-2 control-label">新密码:</label>
+                            <input type="text" class="form-control" style="width:50%;" id="password">
+                            <label for="password" style="width: 28%;text-align: left;padding-right: 0"
+                                   class="col-sm-2 control-label">确认密码:</label>
+                            <input type="text" class="form-control" style="width:50%;" id="en_password">
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" onclick="reset()">重置</button>
+                    <button type="button" onclick="save()" class="btn btn-primary">保存</button>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 <div style="width: 100%;position: fixed;bottom: 10%;text-align: center;">
     <span style="width: 576px;height: 13px;font-size: 14px;font-weight: normal;font-stretch: normal;line-height: 90px;letter-spacing: 0px; color: #ffffff;">相城绿建堆码后台管理系统</span>
 </div>
 </body>
+<script >
+    function save() {
+        let user_phone = $('user_phone').val().replace(/(^\s*)|(\s*$)/g, "");
+        let old_password = $('old_password').val()
+        let password = $('password').val()
+        let en_password = $('en_password').val()
+        if (user_phone === '') {
+            alert('手机号不能为空')
+            return
+        }
+    }
+
+    function open() {
+        $('#myModal').modal('show')
+    }
+
+    //重置弹窗
+    function reset() {
+        $('#user_phone').val('');
+        $('#old_password').val('');
+        $('#password').val('');
+        $('#en_password').val('');
+    }
+</script>
 </html>
