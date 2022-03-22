@@ -607,4 +607,12 @@
         <servlet-name>updatePassword</servlet-name>
         <url-pattern>/UpdatePassword</url-pattern>
     </servlet-mapping>
+    <servlet>
+        <servlet-name>autoLogin</servlet-name>
+        <servlet-class>AutoLogin</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>autoLogin</servlet-name>
+        <url-pattern>/AutoLogin</url-pattern>
+    </servlet-mapping>
 </web-app>

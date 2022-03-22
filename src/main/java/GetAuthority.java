@@ -23,7 +23,7 @@ public class GetAuthority extends HttpServlet {
 		response.setContentType("text/javascript;charset=UTF-8");
 		PrintWriter out = response.getWriter();
 		// 获取、转换参数
-		String userId = new String(request.getParameter("userId"));
+		String userId = request.getParameter("userId");
 		// 需要返回的数据
 		String ret = null;
 		ArrayList<HashMap<String,String>> functionList = new ArrayList<HashMap<String,String>>();	// 放置功能权限
