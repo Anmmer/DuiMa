@@ -34,7 +34,7 @@ public class GetWarehouseInfo extends HttpServlet {
             Class.forName(JDBC_DRIVER);
             conn = DriverManager.getConnection(DB_URL, USER, PASS);
             stmt = conn.createStatement();
-            StringBuilder sql = new StringBuilder("select product_id,warehouse_info.warehouse_id,warehouse.warehouse_name,wi_time,user_name from warehouse, warehouse_info,user where warehouse_info.warehouse_id = warehouse.warehouse_id and warehouse_info.user_id = user.user_id and wi_type = 1");
+            StringBuilder sql = new StringBuilder("select product_id,warehouse_info.warehouse_id,warehouse.warehouse_name,wi_time,user_name from warehouse, warehouse_info,user,preproduct where warehouse_info.warehouse_id = warehouse.warehouse_id and warehouse_info.user_id = user.user_id and wi_type = 1");
             if (warehouseId != null && !"".equals(warehouseId)) {
                 sql.append(" and warehouse_info.warehouse_id=" + warehouseId);
             }
