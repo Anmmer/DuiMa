@@ -6,16 +6,13 @@ import java.util.*;
 import java.text.*;
 
 import com.alibaba.fastjson.JSON;
+import com.example.DbUtil;
 
 // 出库、入库
 public class InOutWarehouse extends HttpServlet {
-    static final String JDBC_DRIVER = "com.mysql.cj.jdbc.Driver";
-    static final String DB_URL = "jdbc:mysql://localhost:3306/lisys?useUnicode=true&characterEncoding=utf8&useSSL=true&serverTimezone=UTC";
-    static final String USER = "root";
-    static final String PASS = "123456";
 
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        return;
+        doGet(request, response);
     }
 
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -24,13 +21,13 @@ public class InOutWarehouse extends HttpServlet {
         response.setContentType("text/javascript;charset=UTF-8");
         PrintWriter out = response.getWriter();
         // 获取、转换参数
-        String pids = new String(request.getParameter("productIds"));            // 需要入库、出库的构件号集合
+        String pids = request.getParameter("productIds");            // 需要入库、出库的构件号集合
         List<String> products = JSON.parseArray(pids, String.class);
-        String warehouseId = new String(request.getParameter("warehouseId"));            // 货位编号
-        String type = new String(request.getParameter("type"));                    // 出库，入库类型	1为入库，0为出库
+        String warehouseId = request.getParameter("warehouseId");            // 货位编号
+        String type = request.getParameter("type");                    // 出库，入库类型	1为入库，0为出库
         boolean flag = type.equals("1");
-        String id = new String(request.getParameter("userId"));                    // 操作人工号
-        String name = new String(request.getParameter("userName"));                // 操作人名
+        String id = request.getParameter("userId");                    // 操作人工号
+        String name = request.getParameter("userName");                // 操作人名
         // 需要返回的数据
         HashMap<String, String> ret = new HashMap<String, String>();
         // 连接数据库查询
@@ -38,8 +35,7 @@ public class InOutWarehouse extends HttpServlet {
         Statement stmt = null;
         ResultSet rs = null;
         try {
-            Class.forName(JDBC_DRIVER);
-            conn = DriverManager.getConnection(DB_URL, USER, PASS);
+            conn = DbUtil.getCon();
             stmt = conn.createStatement();
             String msg = "";                    // 返回的信息
             for (int i = 0; i < products.size(); i++) {
@@ -80,13 +76,14 @@ public class InOutWarehouse extends HttpServlet {
             ret.put("msg", msg);
             out.print(JSON.toJSONString(ret));
         } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
             try {
                 if (stmt != null) stmt.close();
                 if (conn != null) conn.close();
             } catch (Exception e2) {
                 e2.printStackTrace();
             }
-            e.printStackTrace();
         }
     }
 }

@@ -252,7 +252,7 @@
                 let state = ''
                 if (jsonObj[i]['pourmadestate'] === 1 && jsonObj[i]['checkstate'] === 1) {
                     state = '已完成'
-                    style = "style='background-color: rgb(0,176,80);'"
+                    style = "style='background-color: green;'"
                 } else {
                     state = '未完成'
                     style = "style='background-color: red;'"

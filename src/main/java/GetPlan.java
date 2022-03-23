@@ -26,6 +26,7 @@ public class GetPlan extends HttpServlet {
         String startDate = req.getParameter("startDate");
         String endDate = req.getParameter("endDate");
         String planname = req.getParameter("planname");
+        String line = req.getParameter("line");
         String materialcode = req.getParameter("materialcode");
         String materialname = req.getParameter("materialname");
         String preproductid = req.getParameter("preproductid");
@@ -78,6 +79,11 @@ public class GetPlan extends HttpServlet {
                 sql2 += " and plannumber in (select plannumber from preproduct where preproductid like ?)";
                 i++;
             }
+            if (!"".equals(line) && line != null) {
+                sql += " and line like ?)";
+                sql2 += " and line like ?)";
+                i++;
+            }
             if ("0".equals(productState)) {
                 sql += " and ( SELECT count( 1 ) FROM preproduct WHERE preproduct.plannumber = plan.plannumber AND preproduct.pourmade = 1 and preproduct.inspect = 1) !=tasknum";
                 sql2 += " and ( SELECT count( 1 ) FROM preproduct WHERE preproduct.plannumber = plan.plannumber AND preproduct.pourmade = 1 AND preproduct.inspect = 1)!=tasknum";
@@ -92,6 +98,10 @@ public class GetPlan extends HttpServlet {
             ps = con.prepareStatement(sql);
             ps.setInt(i--, pageMax);
             ps.setInt(i--, (pageCur - 1) * pageMax);
+
+            if (!"".equals(line) && line != null) {
+                ps.setString(i--, "%" + line.trim() + "%");
+            }
 
             if (!"".equals(preproductid) && preproductid != null) {
                 ps.setString(i--, "%" + preproductid.trim() + "%");
