@@ -5,6 +5,7 @@ import java.sql.*;
 import java.util.*;
 
 import com.alibaba.fastjson.JSON;
+import com.example.DbUtil;
 
 public class GetWarehouseInfo extends HttpServlet {
     static final String JDBC_DRIVER = "com.mysql.cj.jdbc.Driver";
@@ -31,8 +32,7 @@ public class GetWarehouseInfo extends HttpServlet {
         Map<String, Object> data = new HashMap<>();
         List<Map> maptmp = new ArrayList<>();
         try {
-            Class.forName(JDBC_DRIVER);
-            conn = DriverManager.getConnection(DB_URL, USER, PASS);
+            conn = DbUtil.getCon();
             stmt = conn.createStatement();
             StringBuilder sql = new StringBuilder("select product_id,warehouse_info.warehouse_id,warehouse.warehouse_name,wi_time,user_name from warehouse, warehouse_info,user,preproduct where warehouse_info.warehouse_id = warehouse.warehouse_id and warehouse_info.user_id = user.user_id and wi_type = 1");
             if (warehouseId != null && !"".equals(warehouseId)) {
@@ -60,13 +60,14 @@ public class GetWarehouseInfo extends HttpServlet {
             data.put("data", maptmp);
             out.write(JSON.toJSONString(data));
         } catch (Exception e) {
+            e.printStackTrace();
+        }finally {
             try {
                 if (stmt != null) stmt.close();
                 if (conn != null) conn.close();
             } catch (Exception e2) {
                 e2.printStackTrace();
             }
-            e.printStackTrace();
         }
     }
 }

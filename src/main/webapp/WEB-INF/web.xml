@@ -615,4 +615,12 @@
         <servlet-name>autoLogin</servlet-name>
         <url-pattern>/AutoLogin</url-pattern>
     </servlet-mapping>
+    <servlet>
+        <servlet-name>getPreProductWarehouse</servlet-name>
+        <servlet-class>GetPreProductWarehouse</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>getPreProductWarehouse</servlet-name>
+        <url-pattern>/GetPreProductWarehouse</url-pattern>
+    </servlet-mapping>
 </web-app>
