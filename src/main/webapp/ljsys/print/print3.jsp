@@ -678,57 +678,70 @@
                 alert('物料编码：' + str + '重复');
                 return;
             }
-            $.post("${pageContext.request.contextPath}/GetPreProduct", null, function (result) {
-                result = JSON.parse(result);
-                excelData.preProduct.forEach((item) => {
-                    result.data.forEach((res_item) => {
-                        if (item.materialcode === res_item.materialcode) {
-                            if (str === '') {
-                                str += item.materialcode
-                            } else {
-                                str += '，' + item.materialcode;
-                            }
-                        }
-                    })
-                });
-            }).then(function () {
-                if (str !== '') {
-                    excelData = {};
-                    $('#excel-file').val('');
-                    alert('物料编码：' + str + ']已存在');
-                    return;
-                }
-                $('#pop_planname').val(excelData.plan.planname);
-                $('#line').val(excelData.plan.line);
-                $('#plantime').val(excelData.plan.plantime);
-                $('#liner').val(excelData.plan.liner);
-                pop_count = Math.ceil(excelData.preProduct.length / 10);
-                // 重置查询为第一页
-                pop_pageCur = 1;
-                for (let i = 10 * (pop_pageCur - 1); i < 10 * (pop_pageCur); i++) {
-                    pop_pageDate.push(excelData.preProduct[i]);
-                }
-                updateTable(true);
-                $('#total_d').html(excelData.preProduct.length + "条，共" + pop_count + "页");
-                $('#li_d1').addClass('active');
-                // 重置总页数
-                pop_pageAll = parseInt(pop_count);
-                for (let i = 1; i < 6; i++) {
-                    let k = i % 5;
-                    if (i > pop_pageAll) {
-                        $('#a_d' + k).text('.');
+            $.post("${pageContext.request.contextPath}/GetPlanName", {
+                    planname: excelData.plan.planname,
+                    pageCur: 1,
+                    pageMax: 10
+                }, function (result) {
+                    result = JSON.parse(result);
+                    if (result.cnt === 0) {
+                        alert('请在基础档案管理添加项目名称')
+                        return
                     } else {
-                        if (k === 0) {
-                            $('#a_d' + k).text(5);
-                            $('#a_d' + k).attr('onclick', 'jumpToNewPage_d1(5)');
-                            continue;
-                        } else {
-                            $('#a_d' + k).text(i);
-                            $('#a_d' + k).attr('onclick', 'jumpToNewPage_d1(' + k + ')');
-                        }
+                        $.post("${pageContext.request.contextPath}/GetPreProduct", null, function (result) {
+                            result = JSON.parse(result);
+                            excelData.preProduct.forEach((item) => {
+                                result.data.forEach((res_item) => {
+                                    if (item.materialcode === res_item.materialcode) {
+                                        if (str === '') {
+                                            str += item.materialcode
+                                        } else {
+                                            str += '，' + item.materialcode;
+                                        }
+                                    }
+                                })
+                            });
+                        }).then(function () {
+                            if (str !== '') {
+                                excelData = {};
+                                $('#excel-file').val('');
+                                alert('物料编码：' + str + ']已存在');
+                                return;
+                            }
+                            $('#pop_planname').val(excelData.plan.planname);
+                            $('#line').val(excelData.plan.line);
+                            $('#plantime').val(excelData.plan.plantime);
+                            $('#liner').val(excelData.plan.liner);
+                            pop_count = Math.ceil(excelData.preProduct.length / 10);
+                            // 重置查询为第一页
+                            pop_pageCur = 1;
+                            for (let i = 10 * (pop_pageCur - 1); i < 10 * (pop_pageCur); i++) {
+                                pop_pageDate.push(excelData.preProduct[i]);
+                            }
+                            updateTable(true);
+                            $('#total_d').html(excelData.preProduct.length + "条，共" + pop_count + "页");
+                            $('#li_d1').addClass('active');
+                            // 重置总页数
+                            pop_pageAll = parseInt(pop_count);
+                            for (let i = 1; i < 6; i++) {
+                                let k = i % 5;
+                                if (i > pop_pageAll) {
+                                    $('#a_d' + k).text('.');
+                                } else {
+                                    if (k === 0) {
+                                        $('#a_d' + k).text(5);
+                                        $('#a_d' + k).attr('onclick', 'jumpToNewPage_d1(5)');
+                                        continue;
+                                    } else {
+                                        $('#a_d' + k).text(i);
+                                        $('#a_d' + k).attr('onclick', 'jumpToNewPage_d1(' + k + ')');
+                                    }
+                                }
+                            }
+                        });
                     }
                 }
-            });
+            )
         }
         reader.readAsBinaryString(file);
     });

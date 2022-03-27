@@ -33,21 +33,16 @@
     <div style="height:100%; width:30%;float: left;">
         <div style="height:16%;width:70%;margin:  18% auto 5% auto;">
             <span style="font-size:17px;font-weight: bolder">网页权限管理:</span>
-            <form class="form-inline" style="width:100%;" name="addFunction">
-                <br>
-                <br>
-                <div class="form-group" style="width: 80%;">
-                    <label for="chooseFunction">权限名称:</label>
-                    <select style="width: 60%" class="form-control" id="chooseFunction"
-                            name="chooseFunction"></select><br>
-                </div>
-                <button type="button" class="btn btn-primary btn-sm"
-                        onclick="addGroupFunction()">新增
-                </button>
-            </form>
+            <br>
+            <br>
+            <br>
+            <br>
+            <button type="button" class="btn btn-primary btn-sm"
+                    onclick="addGroupFunction()">保存
+            </button>
         </div>
         <div class="panel panel-default" style="height: 60%;width: 75%;overflow-y:hidden;margin: 0 auto;">
-            <div class="panel-heading">该群组的功能权限为:</div>
+            <div class="panel-heading">该群组的功能权限:</div>
             <div id="functions" class="panel-body" style="height:100%;overflow-y:auto;">
             </div>
         </div>
@@ -57,18 +52,13 @@
     <div style="height:100%;width: 30%;float: left;">
         <div style="height:16%;width:70%;margin:  18% auto 5% auto;">
             <span style="font-size:17px;font-weight: bolder">小程序权限管理:</span>
-            <form class="form-inline" style="width:100%;" name="addFunction">
-                <br>
-                <br>
-                <div class="form-group" style="width: 80%">
-                    <label for="chooseFunction">工序权限:</label>
-                    <select style="width: 60%" class="form-control" id="chooseProcessContent"
-                            name="chooseFunction"></select><br>
-                </div>
-                <button type="button" style="" class="btn btn-primary btn-sm"
-                        onclick="addGroupProcessContent()">新增
-                </button>
-            </form>
+            <br>
+            <br>
+            <br>
+            <br>
+            <button type="button" style="" class="btn btn-primary btn-sm"
+                    onclick="addGroupProcessContent()">保存
+            </button>
         </div>
         <div class="panel panel-default" style="height: 60%;width: 70%;overflow-y:hidden;margin: 0 auto;">
             <div class="panel-heading">该群组的工序权限为:</div>
@@ -147,10 +137,8 @@
             data: json,
             success: function (res) {
                 var jsonobj = JSON.parse(res.data)
-                $("#functions").empty();
                 for (var i = 0; i < jsonobj.length; i++) {
-                    var newitem = $("<div style='height:40px;'><p style='width:85%;height:30px;float:left;'>" + jsonobj[i]['fa_name'] + "</p>" + "<button style='width:15%;height:30px;float:left;' class='btn btn-primary btn-xs' onclick='deleteGroupFunction(" + jsonobj[i]['fa_id'] + ")'>删除</button></br></div>")
-                    $("#functions").append(newitem);
+                    $("#checkbox_" + jsonobj[i]['fa_id']).prop("checked", true);
                 }
             },
             error: function (message) {
@@ -158,7 +146,6 @@
         });
     }
 
-    getFunctions();
 
     function getProcessContents() {
         fieldNamestmp = {
@@ -181,10 +168,8 @@
             data: json,
             success: function (res) {
                 var jsonobj = JSON.parse(res.data)
-                $("#processContents").empty();
                 for (var i = 0; i < jsonobj.length; i++) {
-                    var newitem = $("<div style='height: 40px'><p style='width:85%;height:30px;float:left;'>" + jsonobj[i]['pc_name'] + "</p>" + "<button style='width:15%;height:30px;float:left;' class='btn btn-primary btn-xs' onclick='deleteGroupFunction(" + jsonobj[i]['pc_id'] + ")'>删除</button></br></div>")
-                    $("#processContents").append(newitem);
+                    $("#pccheckbox_" + jsonobj[i]['pc_id']).prop("checked", true);
                 }
             },
             error: function (message) {
@@ -192,7 +177,6 @@
         });
     }
 
-    getProcessContents();
     // 新增权限获取数据
     fieldNamestmp = {
         fa_id: "INT",
@@ -214,16 +198,21 @@
         data: json,
         success: function (res) {
             var jsonobj = JSON.parse(res.data)
-            var str = ""
-            var functionLists = document.getElementById("chooseFunction")
-            functionLists.length = 0
-            for (var i = 0; i < jsonobj.length; i++) {
-                functionLists.options.add(new Option(jsonobj[i].fa_name, jsonobj[i].fa_id))
+            $("#functions").empty();
+            for (var i = 0; i < jsonobj.length - 1; i++) {
+                var newitem = $("<div style='height:40px;'><input id='checkbox_" + jsonobj[i].fa_id + "' type='checkbox' data-id=" + jsonobj[i].fa_id + "><p style='width:85%;height:30px;float:left;'>" + jsonobj[i]['fa_name'] + "</p>" + "</br></div>")
+                $("#functions").append(newitem);
             }
+            var newitem = $("<div style='height:50px;'><input id='checkbox_" + jsonobj[i].fa_id + "' type='checkbox' data-id=" + jsonobj[jsonobj.length - 1].fa_id + "><p style='width:85%;height:30px;float:left;'>" + jsonobj[i]['fa_name'] + "</p>" + "</br></div>")
+            $("#functions").append(newitem);
         },
         error: function (message) {
         }
-    });
+    }).then(() =>
+        getFunctions()
+    );
+
+    let minAuthority;
     // 新增工序权限获取数据
     fieldNamestmp = {
         pc_id: "INT",
@@ -245,26 +234,34 @@
         data: json,
         success: function (res) {
             var jsonobj = JSON.parse(res.data)
-            var str = ""
-            var functionLists = document.getElementById("chooseProcessContent")
-            functionLists.length = 0
+            minAuthority = jsonobj
+            $("#processContents").empty();
             for (var i = 0; i < jsonobj.length; i++) {
-                functionLists.options.add(new Option(jsonobj[i].pc_name, jsonobj[i].pc_id))
+                var newitem = $("<div style='height: 40px'><input id='pccheckbox_" + jsonobj[i].pc_id + "' type='checkbox' data-id=" + jsonobj[i].pc_id + "><p style='width:85%;height:30px;float:left;'>" + jsonobj[i]['pc_name'] + "</p>" + "</br></div>")
+                $("#processContents").append(newitem);
             }
         },
         error: function (message) {
         }
-    });
+    }).then(() => getProcessContents());
 
     // 新增groupfunction
     function addGroupFunction() {
-        var groupId = $("#groupId").val();
-        var faId = $("#chooseFunction").val();
+        let groupIds = [];
+        $('#functions').find('input:checked').each(function () {
+            groupIds.push($(this).attr('data-id'));   //找到对应checkbox中data-id属性值，然后push给空数组pids
+        });
+        if (groupIds.length === 0) {
+            alert("请勾选！")
+            return;
+        }
+        let authority = JSON.parse(sessionStorage.getItem("authority"));
+        if (groupIds.length === authority.length) {
+            return;
+        }
         json = {
+            groupIds: JSON.stringify(groupIds),
             groupId: groupId,
-            faId: faId,
-            id: sessionStorage.getItem("userId"),
-            name: sessionStorage.getItem("userName")
         }
         $.ajax({
             url: "${pageContext.request.contextPath}/AddGroupFunction",
@@ -284,15 +281,22 @@
 
     // 新增工序
     function addGroupProcessContent() {
-        var groupId = $("#groupId").val();
-        var pcId = $("#chooseProcessContent").val();
+        let groupId = $("#groupId").val();
+        let groupIds = []
+        $('#processContents').find('input:checked').each(function () {
+            groupIds.push($(this).attr('data-id'));   //找到对应checkbox中data-id属性值，然后push给空数组pids
+        });
+        if (groupIds.length === 0) {
+            alert("请勾选！")
+            return;
+        }
+        if (groupIds.length === minAuthority.length) {
+            return;
+        }
         json = {
             groupId: groupId,
-            pcId: pcId,
-            id: sessionStorage.getItem("userId"),
-            name: sessionStorage.getItem("userName")
+            groupIds: JSON.stringify(groupIds),
         }
-        console.log(json)
         $.ajax({
             url: "${pageContext.request.contextPath}/AddGroupProcessContent",
             type: 'post',

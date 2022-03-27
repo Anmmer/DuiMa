@@ -195,7 +195,6 @@
             success: function (res) {
                 if (res.data !== undefined) {
                     checked = res.data[0].id;
-                    console.log(checked)
                     $("#checkbox_" + checked).prop("checked", true);
                 }
             },

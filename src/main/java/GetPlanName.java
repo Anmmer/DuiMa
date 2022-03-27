@@ -47,12 +47,15 @@ public class GetPlanName extends HttpServlet {
             String sql2 = "select count(*) as num from planname where isdelete = 0";
             if (planname != null && !"".equals(planname)) {
                 sql += " and planname = ?";
+                sql2 += " and planname = ?";
                 i++;
             }
             if (id != null && !"".equals(id)) {
                 sql += " and id = ?";
+                sql2 += " and id = ?";
                 i++;
             }
+            int j = i;
             sql += " limit ?,?";
             i += 2;
             ps = con.prepareStatement(sql);
@@ -65,6 +68,12 @@ public class GetPlanName extends HttpServlet {
                 ps.setString(i, planname);
             }
             ps2 = con.prepareStatement(sql2);
+            if (id != null && !"".equals(id)) {
+                ps2.setInt(j--, Integer.parseInt(id));
+            }
+            if (planname != null && !"".equals(planname)) {
+                ps2.setString(j, planname);
+            }
             ResultSet rs2 = ps2.executeQuery();
             while (rs2.next()) {
                 int num = rs2.getInt("num");
@@ -74,8 +83,8 @@ public class GetPlanName extends HttpServlet {
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 Map<String, Object> map = new HashMap<>();
-                map.put("planname",rs.getString("planname"));
-                map.put("id",rs.getString("id"));
+                map.put("planname", rs.getString("planname"));
+                map.put("id", rs.getString("id"));
                 list.add(map);
             }
             result.put("data", list);

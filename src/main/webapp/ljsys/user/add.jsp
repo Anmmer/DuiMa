@@ -8,6 +8,10 @@
             <input style="width: 40%" class="form-control" id="name" placeholder="姓名"><br>
             <label for="user_phone" style="width: 16%;text-align: left" class="col-sm-2 control-label">手机号:</label>
             <input style="width: 40%" class="form-control" id="user_phone" placeholder="手机号"><br>
+            <label for="user_pwd" style="width: 16%;text-align: left" class="col-sm-2 control-label">初始密码:</label>
+            <input style="width: 40%" type="password" class="form-control" id="user_pwd" placeholder="初始密码"><br>
+            <label for="en_pwd" style="width: 16%;text-align: left" class="col-sm-2 control-label">确认密码:</label>
+            <input style="width: 40%" type="password" class="form-control" id="en_pwd" placeholder="确认密码"><br>
             <label for="groupName" style="width: 16%;text-align: left;padding-right: 0"
                    class="col-sm-2 control-label">添加角色:</label>
             <select class="form-control" style="width: 40%" id="groupName" name="groupName" size="1"
@@ -17,29 +21,29 @@
             </button>
         </div>
     </div>
-<%--    <div style="width:100%;height:3px;background-color: cornflowerblue;float:left;"></div>--%>
-<%--    <div style="width:100%;height:10px;float: left;"></div>--%>
-<%--    <div style="float: left;height:30%">--%>
-<%--        <form name="batchAdd" enctype="multipart/form-data">--%>
-<%--            <div class="form-horizontal" style="width:100%;height:28%;float: left;">--%>
-<%--                <div style="width:100%;height:30px;float:left;"></div>--%>
-<%--                <span style="margin-top: 6%;font-size:17px;font-weight: bolder">批量新增:</span>--%>
-<%--                <div style="width:100%;height:30px;float:left;"></div>--%>
-<%--                <div class="form-group" style="height: 100%">--%>
-<%--                    <label for="file1" style="width: 28%;text-align: left;padding-right: 0"--%>
-<%--                           class="col-sm-2 control-label">上传Excel:</label>--%>
-<%--                    <input style="width: 60%" type="file" name="file1" id="file1"><br>--%>
-<%--                    <button style="margin-top: 5%;margin-left: 2%;" class="btn btn-primary btn-sm" onclick="addBatch()">--%>
-<%--                        批量新增--%>
-<%--                    </button>--%>
-<%--                </div>--%>
-<%--            </div>--%>
-<%--        </form>--%>
-<%--    </div>--%>
+    <%--    <div style="width:100%;height:3px;background-color: cornflowerblue;float:left;"></div>--%>
+    <%--    <div style="width:100%;height:10px;float: left;"></div>--%>
+    <%--    <div style="float: left;height:30%">--%>
+    <%--        <form name="batchAdd" enctype="multipart/form-data">--%>
+    <%--            <div class="form-horizontal" style="width:100%;height:28%;float: left;">--%>
+    <%--                <div style="width:100%;height:30px;float:left;"></div>--%>
+    <%--                <span style="margin-top: 6%;font-size:17px;font-weight: bolder">批量新增:</span>--%>
+    <%--                <div style="width:100%;height:30px;float:left;"></div>--%>
+    <%--                <div class="form-group" style="height: 100%">--%>
+    <%--                    <label for="file1" style="width: 28%;text-align: left;padding-right: 0"--%>
+    <%--                           class="col-sm-2 control-label">上传Excel:</label>--%>
+    <%--                    <input style="width: 60%" type="file" name="file1" id="file1"><br>--%>
+    <%--                    <button style="margin-top: 5%;margin-left: 2%;" class="btn btn-primary btn-sm" onclick="addBatch()">--%>
+    <%--                        批量新增--%>
+    <%--                    </button>--%>
+    <%--                </div>--%>
+    <%--            </div>--%>
+    <%--        </form>--%>
+    <%--    </div>--%>
 
-<%--    <div style="float: left;width: 100%;"><span class="pStyle">信息面板:</span></div>--%>
-<%--    <div id="errorInfo" style="width:100%;height:10%;overflow-y: auto;float:left;background-color: azure;"></div>--%>
-<%--    <div class='pStyle' style="float:left;"><a href="./files/Template.xls" download="Template.xls">模板</a></div>--%>
+    <%--    <div style="float: left;width: 100%;"><span class="pStyle">信息面板:</span></div>--%>
+    <%--    <div id="errorInfo" style="width:100%;height:10%;overflow-y: auto;float:left;background-color: azure;"></div>--%>
+    <%--    <div class='pStyle' style="float:left;"><a href="./files/Template.xls" download="Template.xls">模板</a></div>--%>
 </div>
 <script type="text/javascript">
     function checkAuthority(au) {
@@ -95,6 +99,8 @@
         var userName = $("#name").val();
         let groupName = $("#groupName").val();
         let user_phone = $("#user_phone").val();
+        let user_pwd = $("#user_pwd").val();
+        let en_pwd = $("#en_pwd").val();
         if (userName === '' || userName === ' ') {
             alert('姓名不能为空');
             return
@@ -103,12 +109,17 @@
             alert('手机号为空或不正确');
             return
         }
+        if (user_pwd !== en_pwd) {
+            alert('确认密码与初始密码不同');
+            return
+        }
         newgpids.push(groupName);
         json = {
             id: sessionStorage.getItem("userId"),
             name: sessionStorage.getItem("userName"),
             userName: userName,
             user_phone: user_phone,
+            user_pwd: user_pwd,
             groupIds: JSON.stringify(newgpids)
         }
         // 使用新增Servlet

@@ -29,6 +29,7 @@ public class AddUser extends HttpServlet {
         String name = request.getParameter("name");
         String groupIds = request.getParameter("groupIds");
         String userName = request.getParameter("userName");
+        String user_pwd = request.getParameter("user_pwd");
         List<Integer> gpidList = JSON.parseArray(groupIds, Integer.class);
         // 需要返回的数据
         HashMap<String, String> ret = new HashMap<String, String>();
@@ -45,7 +46,7 @@ public class AddUser extends HttpServlet {
             if (rs.next()) {
                 userId = rs.getInt("max(user_id)") + 1;
             }
-            String sql = "insert into user values(" + userId + ",'" + userName + "','" + user_phone + "',NULL,123456,0,NULL,1)";
+            String sql = "insert into user values(" + userId + ",'" + userName + "','" + user_phone + "',NULL,'"+user_pwd+"',0,NULL,1)";
             stmt.execute(sql);
             rs = stmt.executeQuery("select * from user where user_id=" + userId);
             if (!rs.next()) {

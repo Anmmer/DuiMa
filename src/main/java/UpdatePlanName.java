@@ -30,12 +30,18 @@ public class UpdatePlanName extends HttpServlet {
         PrintWriter out = resp.getWriter();
         String id = req.getParameter("id");
         String planname = req.getParameter("planname");
+        String planname_old = req.getParameter("planname_old");
         Map<String, Object> result = new HashMap<>();
         Connection con = null;
         PreparedStatement ps = null;
         try {
             con = DbUtil.getCon();
             String sql = "update planname set planname = ? where id = ?";
+            String sql2 = "update plan set planname = ? where planname = ?";
+            ps = con.prepareStatement(sql2);
+            ps.setString(1, planname);
+            ps.setString(2, planname_old);
+            ps.executeUpdate();
             ps = con.prepareStatement(sql);
             ps.setString(1, planname);
             ps.setInt(2, Integer.parseInt(id));
@@ -57,7 +63,7 @@ public class UpdatePlanName extends HttpServlet {
             try {
                 if (con != null)
                     con.close();
-                if (ps!=null)
+                if (ps != null)
                     ps.close();
             } catch (SQLException throwables) {
                 throwables.printStackTrace();

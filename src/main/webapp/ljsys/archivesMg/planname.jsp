@@ -97,6 +97,7 @@
     let pageCur = 1;    //分页当前页
     let pageAll = 1;
     let pageMax = 10;   //一页多少条数据
+    let planname_old = null;
 
     window.onload = getTableData(1);
 
@@ -109,7 +110,8 @@
     }
 
     //打开修改弹窗
-    function openEditPop(id) {
+    function openEditPop(id, planname) {
+        planname_old = planname
         queryData(id);
         $('#myModal').modal('show')
         $(".title1").hide();
@@ -186,7 +188,7 @@
         let str = '';
         for (let i = 0; i < jsonObj.length; i++) {
             str += "<tr><td class='tdStyle_body'>" + jsonObj[i]['planname'] +
-                "</td><td class='tdStyle_body'><a href='#' onclick='openEditPop(" + jsonObj[i]['id'] + ")'>修改</a> <a href='#' onclick='delTableData(" + jsonObj[i]['id'] + ")'>删除</a></td></tr>";
+                "</td><td class='tdStyle_body'><a href='#' onclick=openEditPop(" + jsonObj[i]['id'] + ",'" + jsonObj[i]['planname'] + "')>修改</a> <a href='#' onclick=delTableData(" + jsonObj[i]['id'] + ",'" + jsonObj[i]['planname'] + "')>删除</a></td></tr>";
         }
         $("#archTableText").html(str);
     }
@@ -214,16 +216,18 @@
         })
     }
 
-    function delTableData(id) {
+    function delTableData(id, planname) {
         let r = confirm("亲，确认删除！");
         if (r === false) {
             return;
         }
-        $.post("${pageContext.request.contextPath}/DeletePlanName", {id: id}, function (result) {
+        $.post("${pageContext.request.contextPath}/DeletePlanName", {id: id, planname: planname}, function (result) {
             result = JSON.parse(result);
-            alert(result.message);
             if (result.flag) {
                 getTableData(1);
+                alert(result.message);
+            } else {
+                alert(result.message);
             }
         });
     }
@@ -249,6 +253,7 @@
     function edit(id) {
         let obj = {
             planname: $('#pop_planname').val(),
+            planname_old: planname_old,
             id: id
         }
         if (obj.planname === '') {
