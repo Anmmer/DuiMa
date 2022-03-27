@@ -41,7 +41,7 @@ public class LoginCheck extends HttpServlet {
                 String user_status = rs.getString("user_status");
                 String user_wxid = rs.getString("user_wxid");
                 if ("0".equals(user_status)) {
-                    result.put("message", "请修改密码");
+                    result.put("message", "请在网页端修改密码");
                     result.put("flag", false);
                     out.write(JSON.toJSONString(result));
                     return;

@@ -38,7 +38,7 @@ public class DeletePlanName extends HttpServlet {
         try {
             con = DbUtil.getCon();
             String sql = "update planname set isdelete = 1 where id = ?";
-            String sql2 = "select count(1) num from plan where planname = ?";
+            String sql2 = "select count(1) num from plan where planname = ? and isdelete = 1";
             ps = con.prepareStatement(sql2);
             ps.setString(1, planname);
             rs = ps.executeQuery();
