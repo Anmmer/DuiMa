@@ -210,12 +210,8 @@
                     style = "style='background-color: grey;'"
                 }
                 if (pop_pageDate[i]['pourmade'] === 1 && pop_pageDate[i]['inspect'] === 0) {
-                    state = '浇捣完成'
-                    style = "style='background-color: yellow;'"
-                }
-                if (pop_pageDate[i]['pourmade'] === 1 && pop_pageDate[i]['inspect'] === 0) {
                     state = '待质检'
-                    style = "style='background-color: grey;'"
+                    style = "style='background-color: yellow;'"
                 }
                 if (pop_pageDate[i]['pourmade'] === 1 && pop_pageDate[i]['inspect'] === 1) {
                     state = '质检合格'

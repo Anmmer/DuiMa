@@ -80,8 +80,8 @@ public class GetPlan extends HttpServlet {
                 i++;
             }
             if (!"".equals(line) && line != null) {
-                sql += " and line like ?)";
-                sql2 += " and line like ?)";
+                sql += " and line like ?";
+                sql2 += " and line like ?";
                 i++;
             }
             if ("0".equals(productState)) {
@@ -145,6 +145,9 @@ public class GetPlan extends HttpServlet {
             }
             ps2 = con.prepareStatement(sql2);
 
+            if (!"".equals(line) && line != null) {
+                ps2.setString(j--, "%" + line.trim() + "%");
+            }
             if (!"".equals(preproductid) && preproductid != null) {
                 ps2.setString(j--, preproductid.trim());
             }

@@ -26,11 +26,13 @@ public class LoginCheck extends HttpServlet {
         Statement stmt = null;
         ResultSet rs = null;
         String userName = null;
+        List<Map<String, Object>> list = new ArrayList<>();
         Map<String, Object> result = new HashMap();
         try {
             conn = DbUtil.getCon();
             stmt = conn.createStatement();
             String sql = "select * from user where user_phone = ? and user_pwd = ?";
+            String sql3 = "select user.user_id,user_name, gp_name from user ,user_gp ,gp where user.user_id = user_gp.user_id and user_gp.gp_id = gp.gp_id and user_wxid = ?";
             PreparedStatement ps = conn.prepareStatement(sql);
             ps.setString(1, user_phone);
             ps.setString(2, userPwd);
@@ -53,9 +55,18 @@ public class LoginCheck extends HttpServlet {
                     ps.setString(2, user_phone);
                     ps.executeUpdate();
                 }
+                ps = conn.prepareStatement(sql3);
+                ps.setString(1, openid);
+                rs = ps.executeQuery();
+                while (rs.next()) {
+                    Map<String, Object> map = new HashMap<>();
+                    map.put("gp_name", rs.getString("gp_name"));
+                    list.add(map);
+                }
                 result.put("message", "登录成功");
                 result.put("userId", userId);
                 result.put("userName", userName);
+                result.put("list",list);
                 result.put("flag", true);
                 out.write(JSON.toJSONString(result));
             } else {
