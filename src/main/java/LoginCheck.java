@@ -48,7 +48,7 @@ public class LoginCheck extends HttpServlet {
                     out.write(JSON.toJSONString(result));
                     return;
                 }
-                if (openid != null && user_wxid == null) {
+                if (openid != null && (user_wxid == null || "".equals(user_wxid))) {
                     String sql2 = "update user set user_wxid = ? where user_phone = ?";
                     ps = conn.prepareStatement(sql2);
                     ps.setString(1, openid);
@@ -66,7 +66,7 @@ public class LoginCheck extends HttpServlet {
                 result.put("message", "登录成功");
                 result.put("userId", userId);
                 result.put("userName", userName);
-                result.put("list",list);
+                result.put("list", list);
                 result.put("flag", true);
                 out.write(JSON.toJSONString(result));
             } else {
