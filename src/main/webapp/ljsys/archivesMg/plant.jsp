@@ -108,12 +108,12 @@
     }
 
     //打开修改弹窗
-    function openEditPop(id) {
+    function openEditPop(id, plant) {
         queryData(id);
         $('#myModal').modal('show')
         $("#title1").hide();
         $("#title2").show();
-        $("#save").attr('onclick', 'edit(' + id + ')');
+        $("#save").attr('onclick', "edit('" + id + "','" + plant + "')");
     }
 
     //关闭弹窗
@@ -185,7 +185,7 @@
         let str = '';
         for (let i = 0; i < jsonObj.length; i++) {
             str += "<tr><td class='tdStyle_body'>" + jsonObj[i]['plant'] +
-                "</td><td class='tdStyle_body'><a href='#' onclick='openEditPop(" + jsonObj[i]['id'] + ")'>修改</a> <a href='#' onclick='delTableData(" + jsonObj[i]['id'] + ")'>删除</a></td></tr>";
+                "</td><td class='tdStyle_body'><a href='#' onclick=openEditPop('" + jsonObj[i]['id'] + "','" + jsonObj[i]['plant'] + "')>修改</a> <a href='#' onclick=delTableData('" + jsonObj[i]['id'] + "','" + jsonObj[i]['plant'] + "')>删除</a></td></tr>";
         }
         $("#archTableText").html(str);
     }
@@ -213,16 +213,18 @@
         })
     }
 
-    function delTableData(id) {
+    function delTableData(id, plant) {
         let r = confirm("亲，确认删除！");
         if (r === false) {
             return;
         }
-        $.post("${pageContext.request.contextPath}/DeletePlant", {id: id}, function (result) {
+        $.post("${pageContext.request.contextPath}/DeletePlant", {id: id, plant: plant}, function (result) {
             result = JSON.parse(result);
-            alert(result.message);
             if (result.flag) {
                 getTableData(1);
+                alert(result.message);
+            }else {
+                alert(result.message);
             }
         });
     }
@@ -245,21 +247,28 @@
         })
     }
 
-    function edit(id) {
+    function edit(id, plant) {
         let obj = {
             plant: $('#pop_plant').val(),
-            id: id
+            id: id,
+            plant_old: plant
         }
         if (obj.plant === '') {
             alert("请输入！");
             return;
         }
+        if ($('#pop_plant').val() == plant) {
+            return;
+        }
+        console.log(obj)
         $.post("${pageContext.request.contextPath}/UpdatePlant", obj, function (result) {
             result = JSON.parse(result);
-            alert(result.message);
             if (result.flag) {
                 $('#myModal').modal('hide');
                 getTableData(pageCur);
+                alert(result.message);
+            }else {
+                alert(result.message);
             }
         });
     }

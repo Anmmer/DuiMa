@@ -36,8 +36,8 @@ public class UpdatePlanName extends HttpServlet {
         PreparedStatement ps = null;
         try {
             con = DbUtil.getCon();
-            String sql = "update planname set planname = ? where id = ?";
-            String sql2 = "update plan set planname = ? where planname = ?";
+            String sql = "update planname set planname = ? where id = ? and isdelete = 0";
+            String sql2 = "update plan set planname = ? where planname = ? and isdelete = 0";
             ps = con.prepareStatement(sql2);
             ps.setString(1, planname);
             ps.setString(2, planname_old);

@@ -623,4 +623,20 @@
         <servlet-name>getPreProductWarehouse</servlet-name>
         <url-pattern>/GetPreProductWarehouse</url-pattern>
     </servlet-mapping>
+    <servlet>
+        <servlet-name>initPassword</servlet-name>
+        <servlet-class>InitPassword</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>initPassword</servlet-name>
+        <url-pattern>/InitPassword</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>checkArchives</servlet-name>
+        <servlet-class>CheckArchives</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>checkArchives</servlet-name>
+        <url-pattern>/CheckArchives</url-pattern>
+    </servlet-mapping>
 </web-app>

@@ -59,6 +59,46 @@
             </ul>
         </nav>
     </div>
+    <!-- Modal -->
+    <div class="modal fade" id="myModal" tabindex="-1" style="position: absolute;left: 15%;top: 12%;" role="dialog"
+         data-backdrop="false"
+         aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content" style="width:60%">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">重置密码</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="form-horizontal">
+                        <div class="form-group" style="margin-top: 5%">
+                            <label for="phone" style="width: 28%;text-align: left;padding-right: 0"
+                                   class="col-sm-2 control-label">手机号:</label>
+                            <input type="text" disabled class="form-control" style="width:50%;" id="phone"
+                                   name="newGroupName"><br>
+                            <label for="name" style="width: 28%;text-align: left;padding-right: 0"
+                                   class="col-sm-2 control-label">姓名:</label>
+                            <input type="text" disabled class="form-control" style="width:50%;" id="name"
+                                   name="newGroupName"><br>
+                            <label for="password" style="width: 28%;text-align: left;padding-right: 0"
+                                   class="col-sm-2 control-label">密&nbsp;&nbsp;码:</label>
+                            <input type="text" class="form-control" style="width:50%;" id="password"
+                                   name="newGroupName"><br>
+                            <label for="en_password" style="width: 28%;text-align: left;padding-right: 0"
+                                   class="col-sm-2 control-label">确认密码:</label>
+                            <input type="text" class="form-control" style="width:50%;" id="en_password"
+                                   name="newGroupName">
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" onclick="reset()">重置</button>
+                    <button type="button" onclick="init_password()" class="btn btn-primary">保存</button>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 
 <!-- 查询所有用户 -->
@@ -102,6 +142,7 @@
                         "</td><td style='text-align: center'>";
                     // 查询
                     str += "<a href='userInfo.jsp?userId=" + jsonobj[i]['user_id'] + "&userName=" + jsonobj[i]['user_name'] + "&user_phone=" + jsonobj[i]['user_phone'] + "'>详情</a>&nbsp";
+                    str += "<a href='#' onclick=openModel('" + jsonobj[i]['user_phone'] + "','" + jsonobj[i]['user_name'] + "')>重置密码</a>&nbsp";
                     str += "<a href='userModify.jsp?userId=" + jsonobj[i]['user_id'] + "&userName=" + jsonobj[i]['user_name'] + "&user_phone=" + jsonobj[i]['user_phone'] + "'>修改</a>&nbsp";
                     str += "<a href='javascript:void(0);' onclick='deleteUser(" + jsonobj[i]['user_id'] + ")'>删除</a>";
                     str += "</td></tr>"
@@ -136,6 +177,48 @@
     }
 
     updateTable(1);
+
+    function reset() {
+        $('#en_password').val('')
+        $('#password').val('')
+    }
+
+    function openModel(phone, name) {
+        $('#myModal').modal('show')
+        $('#phone').val(phone)
+        $('#name').val(name)
+    }
+
+    function init_password() {
+        let user_phone = $('#phone').val()
+        let en_password = $('#en_password').val()
+        let password = $('#password').val()
+        if (password === '' || password == null) {
+            alert('密码不能为空')
+            return
+        }
+        if (en_password !== password) {
+            alert('密码和确认密码不一致')
+            return;
+        }
+
+        $.ajax({
+            url: "${pageContext.request.contextPath}/InitPassword",
+            type: 'post',
+            dataType: 'json',
+            contentType: 'application/x-www-form-urlencoded;charset=utf-8',
+            data: {user_phone: user_phone, user_pwd: password},
+            success: function (res) {
+                if (res.flag) {
+                    $('#myModal').modal('hide')
+                    reset()
+                    alert(res.message)
+                } else {
+                    alert(res.message)
+                }
+            }
+        })
+    }
 
     function jumpToNewPage(newpageCode) {
         let fieldNamestmp = {

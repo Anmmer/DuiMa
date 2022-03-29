@@ -30,12 +30,18 @@ public class UpdateQc extends HttpServlet {
         PrintWriter out = resp.getWriter();
         String id = req.getParameter("id");
         String qc = req.getParameter("qc");
+        String qc_old = req.getParameter("qc_old");
         Map<String, Object> result = new HashMap<>();
         Connection con = null;
         PreparedStatement ps = null;
         try {
             con = DbUtil.getCon();
-            String sql = "update qc set qc = ? where id = ?";
+            String sql = "update qc set qc = ? where id = ? and isdelete = 0";
+            String sql2 = "update preproduct set qc = ? where qc= ? and isdelete = 0";
+            ps = con.prepareStatement(sql2);
+            ps.setString(1, qc);
+            ps.setString(2, qc_old);
+            ps.executeUpdate();
             ps = con.prepareStatement(sql);
             ps.setString(1, qc);
             ps.setInt(2, Integer.parseInt(id));
@@ -57,7 +63,7 @@ public class UpdateQc extends HttpServlet {
             try {
                 if (con != null)
                     con.close();
-                if (ps!=null)
+                if (ps != null)
                     ps.close();
             } catch (SQLException throwables) {
                 throwables.printStackTrace();

@@ -14,12 +14,7 @@ import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- * @description:
- * @author:
- * @createDate: 2022/1/13
- */
-public class DeletePlant extends HttpServlet {
+public class CheckArchives extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         super.doGet(req, resp);
@@ -29,7 +24,8 @@ public class DeletePlant extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         resp.setContentType("text/html;charset=UTF-8");
         PrintWriter out = resp.getWriter();
-        String id = req.getParameter("id");
+        String planname = req.getParameter("planname");
+        String line = req.getParameter("line");
         String plant = req.getParameter("plant");
         Map<String, Object> result = new HashMap<>();
         Connection con = null;
@@ -37,33 +33,47 @@ public class DeletePlant extends HttpServlet {
         ResultSet rs = null;
         try {
             con = DbUtil.getCon();
-            String sql = "update plant set isdelete = 1 where id = ? and isdelete = 0";
-            String sql2 = "select count(1) num from plan where plant = ? and isdelete = 0";
-            ps = con.prepareStatement(sql2);
-            ps.setString(1, plant);
+            String sql = "select count(1) num from planname where planname = ?";
+            String sql2 = "select count(1) num from line where line = ?";
+            String sql3 = "select count(1) num from plant where plant = ?";
+            ps = con.prepareStatement(sql);
+            ps.setString(1, planname);
             rs = ps.executeQuery();
             while (rs.next()) {
                 int i = rs.getInt("num");
-                if (i > 0) {
-                    result.put("message", "工厂名称计划单中已存在，不能删除");
+                if (i == 0) {
+                    result.put("message", "项目名称不存在，请在基础档案添加项目");
                     result.put("flag", false);
                     out.write(JSON.toJSONString(result));
                     return;
                 }
             }
-            ps = con.prepareStatement(sql);
-            ps.setString(1, id);
-            int i = ps.executeUpdate();
-            if (i > 0) {
-                result.put("message", "删除成功");
-                result.put("flag", true);
-                out.write(JSON.toJSONString(result));
-            } else {
-                result.put("message", "删除成功");
-                result.put("flag", true);
-                out.write(JSON.toJSONString(result));
+            ps = con.prepareStatement(sql2);
+            ps.setString(1, line);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                int i = rs.getInt("num");
+                if (i == 0) {
+                    result.put("message", "产线不存在，请在基础档案添加产线");
+                    result.put("flag", false);
+                    out.write(JSON.toJSONString(result));
+                }
+                return;
             }
-
+            ps = con.prepareStatement(sql3);
+            ps.setString(1, plant);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                int i = rs.getInt("num");
+                if (i == 0) {
+                    result.put("message", "工厂不存在，请在基础档案添加工厂");
+                    result.put("flag", false);
+                    out.write(JSON.toJSONString(result));
+                }
+                return;
+            }
+            result.put("flag", true);
+            out.write(JSON.toJSONString(result));
         } catch (Exception e) {
             e.printStackTrace();
         } finally {

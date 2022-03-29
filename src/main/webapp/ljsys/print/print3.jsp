@@ -678,14 +678,14 @@
                 alert('物料编码：' + str + '重复');
                 return;
             }
-            $.post("${pageContext.request.contextPath}/GetPlanName", {
+            $.post("${pageContext.request.contextPath}/CheckArchives", {
                     planname: excelData.plan.planname,
-                    pageCur: 1,
-                    pageMax: 10
+                    line: excelData.plan.line,
+                    plant: excelData.plan.plant
                 }, function (result) {
                     result = JSON.parse(result);
-                    if (result.cnt === 0) {
-                        alert('请在基础档案管理添加项目名称')
+                    if (!result.flag) {
+                        alert(result.message)
                         return
                     } else {
                         $.post("${pageContext.request.contextPath}/GetPreProduct", null, function (result) {

@@ -110,12 +110,12 @@
     }
 
     //打开修改弹窗
-    function openEditPop(id) {
+    function openEditPop(id, qc) {
         queryData(id);
         $('#myModal').modal('show')
         $("#title1").hide();
         $("#title2").show();
-        $("#save").attr('onclick', 'edit(' + id + ')');
+        $("#save").attr('onclick', "edit('" + id + "','" + qc + "')");
     }
 
     //关闭弹窗
@@ -209,7 +209,7 @@
         for (let i = 0; i < jsonObj.length; i++) {
             str += "<tr><td class='tdStyle_body'><input type='checkbox' id='checkbox_" + jsonObj[i]['id'] + "' onchange='setDefaultQc(" + jsonObj[i]['id'] + ")'>" +
                 "</td><td class='tdStyle_body'>" + jsonObj[i]['qc'] +
-                "</td><td class='tdStyle_body'><a href='#' onclick='openEditPop(" + jsonObj[i]['id'] + ")'>修改</a> <a href='#' onclick='delTableData(" + jsonObj[i]['id'] + ")'>删除</a></td></tr>";
+                "</td><td class='tdStyle_body'><a href='#' onclick=openEditPop('" + jsonObj[i]['id'] + "','" + jsonObj[i]['qc'] + "')>修改</a> <a href='#' onclick=delTableData('" + jsonObj[i]['id'] + "','" + jsonObj[i]['qc'] + "')>删除</a></td></tr>";
         }
         $("#archTableText").html(str);
     }
@@ -260,12 +260,12 @@
         })
     }
 
-    function delTableData(id) {
+    function delTableData(id, qc) {
         let r = confirm("亲，确认删除！");
         if (r === false) {
             return;
         }
-        $.post("${pageContext.request.contextPath}/DeleteQc", {id: id}, function (result) {
+        $.post("${pageContext.request.contextPath}/DeleteQc", {id: id, qc: qc}, function (result) {
             result = JSON.parse(result);
             alert(result.message);
             if (result.flag) {
@@ -293,13 +293,17 @@
         })
     }
 
-    function edit(id) {
+    function edit(id, qc) {
         let obj = {
             qc: $('#pop_qc').val(),
-            id: id
+            id: id,
+            qc_old: qc
         }
         if (obj.qc === '') {
             alert("请输入！");
+            return;
+        }
+        if ($('#pop_qc').val() == qc) {
             return;
         }
         $.post("${pageContext.request.contextPath}/UpdateQc", obj, function (result) {

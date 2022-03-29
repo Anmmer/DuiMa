@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
@@ -29,12 +30,27 @@ public class DeleteLine extends HttpServlet {
         resp.setContentType("text/html;charset=UTF-8");
         PrintWriter out = resp.getWriter();
         String id = req.getParameter("id");
+        String line = req.getParameter("line");
         Map<String, Object> result = new HashMap<>();
         Connection con = null;
         PreparedStatement ps = null;
+        ResultSet rs = null;
         try {
             con = DbUtil.getCon();
             String sql = "update line set isdelete = 1 where id = ?";
+            String sql2 = "select count(1) num from plan where line = ? and isdelete = 0";
+            ps = con.prepareStatement(sql2);
+            ps.setString(1, line);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                int num = rs.getInt("num");
+                if (num > 0){
+                    result.put("message", "产线已在计划单中存在，不能删除");
+                    result.put("flag", false);
+                    out.write(JSON.toJSONString(result));
+                    return;
+                }
+            }
             ps = con.prepareStatement(sql);
             ps.setString(1, id);
             int i = ps.executeUpdate();
@@ -55,7 +71,7 @@ public class DeleteLine extends HttpServlet {
             try {
                 if (con != null)
                     con.close();
-                if (ps!=null)
+                if (ps != null)
                     ps.close();
             } catch (SQLException throwables) {
                 throwables.printStackTrace();

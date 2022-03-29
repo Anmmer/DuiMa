@@ -79,7 +79,7 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button"  class="btn btn-default" onclick="reset()">重置</button>
+                    <button type="button" class="btn btn-default" onclick="reset()">重置</button>
                     <button type="button" id="save" class="btn btn-primary">保存</button>
                 </div>
             </div>
@@ -125,12 +125,12 @@
     }
 
     //打开修改弹窗
-    function openEditPop(id) {
+    function openEditPop(id, line) {
         queryData(id);
         $('#myModal').modal('show')
         $("#title1").hide();
         $("#title2").show();
-        $("#save").attr('onclick', 'edit(' + id + ')');
+        $("#save").attr('onclick', "edit('" + id + "','" + line + "')");
     }
 
     //关闭弹窗
@@ -202,7 +202,7 @@
         let str = '';
         for (let i = 0; i < jsonObj.length; i++) {
             str += "<tr><td class='tdStyle_body'>" + jsonObj[i]['line'] +
-                "</td><td class='tdStyle_body'><a href='#' onclick='openEditPop(" + jsonObj[i]['id'] + ")'>修改</a> <a href='#' onclick='delTableData(" + jsonObj[i]['id'] + ")'>删除</a></td></tr>";
+                "</td><td class='tdStyle_body'><a href='#' onclick=openEditPop('" + jsonObj[i]['id'] + "','" + jsonObj[i]['line'] + "')>修改</a> <a href='#' onclick=delTableData('" + jsonObj[i]['id'] + "','" + jsonObj[i]['line'] + "')>删除</a></td></tr>";
         }
         $("#archTableText").html(str);
     }
@@ -230,16 +230,18 @@
         })
     }
 
-    function delTableData(id) {
+    function delTableData(id, line) {
         let r = confirm("亲，确认删除！");
         if (r === false) {
             return;
         }
-        $.post("${pageContext.request.contextPath}/DeleteLine", {id: id}, function (result) {
+        $.post("${pageContext.request.contextPath}/DeleteLine", {id: id, line: line}, function (result) {
             result = JSON.parse(result);
-            alert(result.message);
             if (result.flag) {
                 getTableData(1);
+                alert(result.message);
+            } else {
+                alert(result.message);
             }
         });
     }
@@ -262,13 +264,17 @@
         })
     }
 
-    function edit(id) {
+    function edit(id, line) {
         let obj = {
             line: $('#pop_line').val(),
-            id: id
+            id: id,
+            line_old: line
         }
         if (obj.line === '') {
             alert("请输入！");
+            return;
+        }
+        if ($('#pop_line').val() == line) {
             return;
         }
 
