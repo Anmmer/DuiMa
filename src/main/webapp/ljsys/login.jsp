@@ -65,7 +65,7 @@
                                class="col-sm-2 control-label">手&nbsp;机&nbsp;号：</label>
                         <input type="text" class="form-control" style="width:50%;" id="user_phone"><br>
                         <label for="old_password" style="width: 28%;padding-right: 0"
-                               class="col-sm-2 control-label">旧&nbsp;密&nbsp;码：</label>
+                               class="col-sm-2 control-label">&nbsp;密&nbsp;码：</label>
                         <input type="password" class="form-control" style="width:50%;" id="old_password"><br>
                         <label for="password" style="width: 28%;padding-right: 0"
                                class="col-sm-2 control-label">新&nbsp;密&nbsp;码：</label>
@@ -146,6 +146,10 @@
             alert('手机号不能为空')
             return
         }
+        if (password == '') {
+            alert('新密码不能为空')
+            return;
+        }
         if (old_password === password) {
             alert('新密码不能与旧密码相同')
             return;
@@ -156,7 +160,8 @@
         }
         let data = {
             user_phone: user_phone,
-            password: password
+            password: password,
+            old_password: old_password
         }
         $.ajax({
             url: "${pageContext.request.contextPath}/UpdatePassword",

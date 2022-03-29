@@ -25,22 +25,24 @@ public class UpdatePassword extends HttpServlet {
         PrintWriter out = resp.getWriter();
         String user_phone = req.getParameter("user_phone");
         String password = req.getParameter("password");
+        String old_password = req.getParameter("old_password");
         Map<String, Object> result = new HashMap<>();
         Connection con = null;
         PreparedStatement ps = null;
         try {
             con = DbUtil.getCon();
-            String sql = "update user set user_pwd = ? ,user_status = 1 where user_phone = ? and isdelete = 1";
+            String sql = "update user set user_pwd = ? ,user_status = 1 where user_phone = ? and user_pwd = ? and isdelete = 1";
             ps = con.prepareStatement(sql);
             ps.setString(1, password);
             ps.setString(2, user_phone);
+            ps.setString(3, old_password);
             int i = ps.executeUpdate();
             if (i > 0) {
                 result.put("message", "修改成功");
                 result.put("flag", true);
                 out.write(JSON.toJSONString(result));
             } else {
-                result.put("message", "修改失败");
+                result.put("message", "手机号或密码错误");
                 result.put("flag", false);
                 out.write(JSON.toJSONString(result));
             }
