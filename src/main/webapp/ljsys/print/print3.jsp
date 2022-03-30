@@ -529,9 +529,8 @@
                 alert("请勾选！")
                 return;
             }
-            let preproduct = excelData.preProduct;
             fangliang = 0;
-            preproduct.forEach((item) => {
+            pop_pageDate.forEach((item) => {
                 obj.forEach((val) => {
                     if (item.pid == val) {
                         console.log()

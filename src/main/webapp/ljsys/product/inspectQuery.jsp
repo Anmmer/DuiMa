@@ -54,9 +54,9 @@
                 </tbody>
             </table>
         </div>
-        <nav aria-label="Page navigation" style="margin-left:40%;width:80%;height:10%;">
-            <ul class="pagination" style="margin-top: 0;width: 70%">
-                <li><span id="total" style="width: 22%"></span></li>
+        <nav aria-label="Page navigation" style="margin-left:30%;width:70%;height:10%;">
+            <ul class="pagination" style="margin-top: 0;width: 100%">
+                <li><span id="total"></span></li>
                 <li>
                     <a href="#" onclick="jumpToNewPage(2)" aria-label="Previous">
                         <span aria-hidden="true">&laquo;</span>
@@ -370,9 +370,14 @@
     }
 
     function jumpToNewPage2() {
+        let newPage = $('#jump_to').val()
         let materialcode = $('#materialcode').val();
         let materialname = $('#materialname').val();
         let inspectState = $('#inspectState').val();
+        if (newPage > pageAll) {
+            alert("超过最大页数")
+            return
+        }
         let obj = {
             materialcode: materialcode,
             materialname: materialname,
