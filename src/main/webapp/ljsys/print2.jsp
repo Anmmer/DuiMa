@@ -13,7 +13,7 @@
     <script type="text/javascript" src="./js/util.js"></script>
     <script type="text/javascript" src="dist/js/bootstrap.js"></script>
     <link rel="stylesheet" href="dist/css/bootstrap.min.css" type="text/css"/>
-    <link rel="stylesheet" type="text/css" href="./css/pop_up.css">
+<%--    <link rel="stylesheet" type="text/css" href="./css/pop_up.css">--%>
     <script type="text/javascript" src="./js/util.js"></script>
 </head>
 <body class="BodyStyle">

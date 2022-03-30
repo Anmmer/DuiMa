@@ -41,7 +41,7 @@ public class AddPlant extends HttpServlet {
             String sql = "insert into plant(plant,isdelete) values(?,0)";
             String sql2 = "select plant from plant where isdelete = 0";
             ps = con.prepareStatement(sql);
-            ps.setString(1, plant);
+            ps.setString(1, plant.trim());
             ps2 = con.prepareStatement(sql2);
             ResultSet rs = ps2.executeQuery();
             List<String> list = new ArrayList<>();

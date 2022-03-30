@@ -39,11 +39,11 @@ public class UpdateQc extends HttpServlet {
             String sql = "update qc set qc = ? where id = ? and isdelete = 0";
             String sql2 = "update preproduct set qc = ? where qc= ? and isdelete = 0";
             ps = con.prepareStatement(sql2);
-            ps.setString(1, qc);
-            ps.setString(2, qc_old);
+            ps.setString(1, qc.trim());
+            ps.setString(2, qc_old.trim());
             ps.executeUpdate();
             ps = con.prepareStatement(sql);
-            ps.setString(1, qc);
+            ps.setString(1, qc.trim());
             ps.setInt(2, Integer.parseInt(id));
             int i = ps.executeUpdate();
             if (i > 0) {

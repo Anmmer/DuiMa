@@ -33,9 +33,9 @@ public class CheckArchives extends HttpServlet {
         ResultSet rs = null;
         try {
             con = DbUtil.getCon();
-            String sql = "select count(1) num from planname where planname = ?";
-            String sql2 = "select count(1) num from line where line = ?";
-            String sql3 = "select count(1) num from plant where plant = ?";
+            String sql = "select count(1) num from planname where planname = ? and isdelete = 0";
+            String sql2 = "select count(1) num from line where line = ? and isdelete = 0";
+            String sql3 = "select count(1) num from plant where plant = ? and isdelete = 0";
             ps = con.prepareStatement(sql);
             ps.setString(1, planname);
             rs = ps.executeQuery();
@@ -57,8 +57,8 @@ public class CheckArchives extends HttpServlet {
                     result.put("message", "产线不存在，请在基础档案添加产线");
                     result.put("flag", false);
                     out.write(JSON.toJSONString(result));
+                    return;
                 }
-                return;
             }
             ps = con.prepareStatement(sql3);
             ps.setString(1, plant);
@@ -69,8 +69,8 @@ public class CheckArchives extends HttpServlet {
                     result.put("message", "工厂不存在，请在基础档案添加工厂");
                     result.put("flag", false);
                     out.write(JSON.toJSONString(result));
+                    return;
                 }
-                return;
             }
             result.put("flag", true);
             out.write(JSON.toJSONString(result));

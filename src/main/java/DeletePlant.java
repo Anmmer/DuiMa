@@ -37,7 +37,7 @@ public class DeletePlant extends HttpServlet {
         ResultSet rs = null;
         try {
             con = DbUtil.getCon();
-            String sql = "update plant set isdelete = 1 where id = ? and isdelete = 0";
+            String sql = "update plant set isdelete = 1 where id = ?";
             String sql2 = "select count(1) num from plan where plant = ? and isdelete = 0";
             ps = con.prepareStatement(sql2);
             ps.setString(1, plant);

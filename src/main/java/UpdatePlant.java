@@ -39,12 +39,12 @@ public class UpdatePlant extends HttpServlet {
             String sql = "update plant set plant = ? where id = ? and isdelete = 0";
             String sql2 = "update plan set plant = ? where plant = ? and isdelete = 0";
             ps = con.prepareStatement(sql);
-            ps.setString(1, plant);
+            ps.setString(1, plant.trim());
             ps.setInt(2, Integer.parseInt(id));
             int i = ps.executeUpdate();
             ps = con.prepareStatement(sql2);
-            ps.setString(1, plant);
-            ps.setString(2, plant_old);
+            ps.setString(1, plant.trim());
+            ps.setString(2, plant_old.trim());
             ps.executeUpdate();
             if (i > 0) {
                 result.put("message", "修改成功");

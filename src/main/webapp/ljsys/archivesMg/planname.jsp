@@ -188,7 +188,7 @@
         let str = '';
         for (let i = 0; i < jsonObj.length; i++) {
             str += "<tr><td class='tdStyle_body'>" + jsonObj[i]['planname'] +
-                "</td><td class='tdStyle_body'><a href='#' onclick=openEditPop(" + jsonObj[i]['id'] + ",'" + jsonObj[i]['planname'] + "')>修改</a> <a href='#' onclick=delTableData(" + jsonObj[i]['id'] + ",'" + jsonObj[i]['planname'] + "')>删除</a></td></tr>";
+                "</td><td class='tdStyle_body'><a href='#' onclick=openEditPop('" + jsonObj[i]['id'] + "','" + jsonObj[i]['planname'] + "')>修改</a> <a href='#' onclick=delTableData('" + jsonObj[i]['id'] + "','" + jsonObj[i]['planname'] + "')>删除</a></td></tr>";
         }
         $("#archTableText").html(str);
     }

@@ -1176,7 +1176,7 @@
                 if (result.data !== undefined) {
                     pop_pageDate = result.data;
                     updateTable(true);
-                    pop_pageCur = newPage;
+                    // pop_pageCur = newPage;
                     jump_d2(newPage, pop_pageAll);
                 }
             });
