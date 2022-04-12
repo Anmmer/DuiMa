@@ -168,6 +168,7 @@
             data: json,
             success: function (res) {
                 var jsonobj = JSON.parse(res.data)
+                minAuthority = jsonobj
                 for (var i = 0; i < jsonobj.length; i++) {
                     $("#pccheckbox_" + jsonobj[i]['pc_id']).prop("checked", true);
                 }
@@ -234,7 +235,6 @@
         data: json,
         success: function (res) {
             var jsonobj = JSON.parse(res.data)
-            minAuthority = jsonobj
             $("#processContents").empty();
             for (var i = 0; i < jsonobj.length; i++) {
                 var newitem = $("<div style='height: 40px'><input id='pccheckbox_" + jsonobj[i].pc_id + "' type='checkbox' data-id=" + jsonobj[i].pc_id + "><p style='width:85%;height:30px;float:left;'>" + jsonobj[i]['pc_name'] + "</p>" + "</br></div>")
@@ -290,6 +290,7 @@
             alert("请勾选！")
             return;
         }
+        console.log(minAuthority.length)
         if (groupIds.length === minAuthority.length) {
             return;
         }

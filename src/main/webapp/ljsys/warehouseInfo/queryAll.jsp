@@ -38,9 +38,11 @@
         <div style="height: 75%">
             <table class="table table-hover" style="text-align: center">
                 <tr>
-                    <td class="tdStyle_title active" style="width: 35%">入库时间</td>
-                    <td class="tdStyle_title active" style="width: 35%">入库构件号</td>
-                    <td class="tdStyle_title active" style="width: 30%;text-align: center">入库操作人</td>
+                    <td class="tdStyle_title active" style="width: 20%">构建编号</td>
+                    <td class="tdStyle_title active" style="width: 20%">物料编码</td>
+                    <td class="tdStyle_title active" style="width: 20%">物料名称</td>
+                    <td class="tdStyle_title active" style="width: 20%;text-align: center">操作人</td>
+                    <td class="tdStyle_title active" style="width: 20%">操作时间</td>
                 </tr>
                 <tbody id="tableText">
                 </tbody>
@@ -120,11 +122,13 @@
     function updateTable(newpage) {
         let fieldNamestmp = {
             wiTime: "STRING",
-            productId: "STRING",
+            materialcode: "STRING",
+            materialname: "STRING",
+            preproductid: "STRING",
             userName: "STRING",
         };
         var fieldNamesStr = JSON.stringify(fieldNamestmp);
-        var sqlStrtmp = "select product.product_id as productId,wi_time as wiTime,user_name as userName from warehouse_info,product,user where product.product_id = warehouse_info.product_id and product.warehouse_id=" + warehouseId + " and warehouse_info.user_id = user.user_id and wi_type = 1 order by wi_time DESC;";
+        var sqlStrtmp = "select distinct product_id as materialcode,preproduct.materialname,preproduct.preproductid,wi_time as wiTime,user_name as userName from preproduct, warehouse_info,user where  preproduct.materialcode = warehouse_info.product_id and warehouse_info.warehouse_id=" + warehouseId + " and warehouse_info.user_id = user.user_id and wi_type = 1 order by wi_time DESC;";
         let json = {
             sqlStr: sqlStrtmp,
             fieldNames: fieldNamesStr,
@@ -145,10 +149,12 @@
                 var str = "";
                 var jsonobj = JSON.parse(res.data);
                 for (var i = 0; i < jsonobj.length; i++) {
-                    str += "<tr><td class='tdStyle_body'>" + jsonobj[i]['wiTime'] +
-                        "</td><td class='tdStyle_body'>" + jsonobj[i]['productId'] +
+                    str += "<tr><td class='tdStyle_body'>" + jsonobj[i]['preproductid'] +
+                        "</td><td class='tdStyle_body'>" + jsonobj[i]['materialcode'] +
+                        "</td><td class='tdStyle_body'>" + jsonobj[i]['materialname'] +
                         "</td><td class='tdStyle_body'>" + jsonobj[i]['userName'] +
-                        "</td>";
+                        "</td><td class='tdStyle_body'>" + jsonobj[i]['wiTime'] +
+                        "</td></tr>";
                 }
                 $("#tableText").html(str);
                 $('#total').html(res.cnt + "条，共" + res.pageAll + "页");
@@ -178,11 +184,13 @@
     function jumpToNewPage(newpageCode) {
         let fieldNamestmp = {
             wiTime: "STRING",
-            productId: "STRING",
+            materialcode: "STRING",
+            materialname: "STRING",
+            preproductid: "STRING",
             userName: "STRING",
         };
         var fieldNamesStr = JSON.stringify(fieldNamestmp);
-        var sqlStrtmp = "select product.product_id as productId,wi_time as wiTime,user_name as userName from warehouse_info,product,user where product.product_id = warehouse_info.product_id and product.warehouse_id=" + warehouseId + " and warehouse_info.user_id = user.user_id and wi_type = 1 order by wi_time DESC;";
+        var sqlStrtmp = "select distinct product_id as materialcode,preproduct.materialname,preproduct.preproductid,wi_time as wiTime,user_name as userName from preproduct, warehouse_info,user where  preproduct.materialcode = warehouse_info.product_id and warehouse_info.warehouse_id=" + warehouseId + " and warehouse_info.user_id = user.user_id and wi_type = 1 order by wi_time DESC;";
         var newpage = 1;
         if (newpageCode == 1) newpage = 1;
         if (newpageCode == 2) {
@@ -220,10 +228,12 @@
                 var jsonobj = JSON.parse(res.data);
                 (jsonobj)
                 for (var i = 0; i < jsonobj.length; i++) {
-                    str += "<tr><td class='tdStyle_body'>" + jsonobj[i]['wiTime'] +
-                        "</td><td class='tdStyle_body'>" + jsonobj[i]['productId'] +
+                    str += "<tr><td class='tdStyle_body'>" + jsonobj[i]['preproductid'] +
+                        "</td><td class='tdStyle_body'>" + jsonobj[i]['materialcode'] +
+                        "</td><td class='tdStyle_body'>" + jsonobj[i]['materialname'] +
                         "</td><td class='tdStyle_body'>" + jsonobj[i]['userName'] +
-                        "</td>";
+                        "</td><td class='tdStyle_body'>" + jsonobj[i]['wiTime'] +
+                        "</td></tr>";
                 }
                 $("#tableText").html(str);
                 if (newpageCode === 3) {
@@ -250,11 +260,13 @@
         }
         let fieldNamestmp = {
             wiTime: "STRING",
-            productId: "STRING",
+            materialcode: "STRING",
+            materialname: "STRING",
+            preproductid: "STRING",
             userName: "STRING",
         };
         var fieldNamesStr = JSON.stringify(fieldNamestmp);
-        var sqlStrtmp = "select product.product_id as productId,wi_time as wiTime,user_name as userName from warehouse_info,product,user where product.product_id = warehouse_info.product_id and product.warehouse_id=" + warehouseId + " and warehouse_info.user_id = user.user_id and wi_type = 1 order by wi_time DESC;";
+        var sqlStrtmp = "select distinct product_id as materialcode,preproduct.materialname,preproduct.preproductid,wi_time as wiTime,user_name as userName from preproduct, warehouse_info,user where  preproduct.materialcode = warehouse_info.product_id and warehouse_info.warehouse_id=" + warehouseId + " and warehouse_info.user_id = user.user_id and wi_type = 1 order by wi_time DESC;";
         if (newPage <= 0 || newPage > pageAll || isNaN(newPage)) {
             window.alert("请输入一个在范围内的正确页码数字!")
             return
@@ -276,10 +288,12 @@
                 var str = "";
                 var jsonobj = JSON.parse(res.data);
                 for (var i = 0; i < jsonobj.length; i++) {
-                    str += "<tr><td class='tdStyle_body'>" + jsonobj[i]['wiTime'] +
-                        "</td><td class='tdStyle_body'>" + jsonobj[i]['productId'] +
+                    str += "<tr><td class='tdStyle_body'>" + jsonobj[i]['preproductid'] +
+                        "</td><td class='tdStyle_body'>" + jsonobj[i]['materialcode'] +
+                        "</td><td class='tdStyle_body'>" + jsonobj[i]['materialname'] +
                         "</td><td class='tdStyle_body'>" + jsonobj[i]['userName'] +
-                        "</td>";
+                        "</td><td class='tdStyle_body'>" + jsonobj[i]['wiTime'] +
+                        "</td></tr>";
                 }
                 $("#tableText").html(str);
                 $('#li_' + newPage % 5).addClass('active');
@@ -294,11 +308,13 @@
     function jumpToNewPage2() {
         let fieldNamestmp = {
             wiTime: "STRING",
-            productId: "STRING",
+            materialcode: "STRING",
+            materialname: "STRING",
+            preproductid: "STRING",
             userName: "STRING",
         };
         var fieldNamesStr = JSON.stringify(fieldNamestmp);
-        var sqlStrtmp = "select product.product_id as productId,wi_time as wiTime,user_name as userName from warehouse_info,product,user where product.product_id = warehouse_info.product_id and product.warehouse_id=" + warehouseId + " and warehouse_info.user_id = user.user_id and wi_type = 1 order by wi_time DESC;";
+        var sqlStrtmp = "select distinct product_id as materialcode,preproduct.materialname,preproduct.preproductid,wi_time as wiTime,user_name as userName from preproduct, warehouse_info,user where  preproduct.materialcode = warehouse_info.product_id and warehouse_info.warehouse_id=" + warehouseId + " and warehouse_info.user_id = user.user_id and wi_type = 1 order by wi_time DESC;";
         var newpageStr = $('#jump_to').val();
         var newpage = parseInt(newpageStr)
         if (newpage <= 0 || newpage > pageAll || isNaN(newpage)) {
@@ -322,10 +338,12 @@
                 var str = "";
                 var jsonobj = JSON.parse(res.data);
                 for (var i = 0; i < jsonobj.length; i++) {
-                    str += "<tr><td class='tdStyle_body'>" + jsonobj[i]['wiTime'] +
-                        "</td><td class='tdStyle_body'>" + jsonobj[i]['productId'] +
+                    str += "<tr><td class='tdStyle_body'>" + jsonobj[i]['preproductid'] +
+                        "</td><td class='tdStyle_body'>" + jsonobj[i]['materialcode'] +
+                        "</td><td class='tdStyle_body'>" + jsonobj[i]['materialname'] +
                         "</td><td class='tdStyle_body'>" + jsonobj[i]['userName'] +
-                        "</td>";
+                        "</td><td class='tdStyle_body'>" + jsonobj[i]['wiTime'] +
+                        "</td></tr>";
                 }
                 $("#tableText").html(str);
                 jump2(newpage, res.pageAll);

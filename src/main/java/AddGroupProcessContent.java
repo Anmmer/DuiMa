@@ -49,7 +49,7 @@ public class AddGroupProcessContent extends HttpServlet {
             conn.commit();
             ps.clearBatch();
             ret.put("result", "true");
-            ret.put("message", "新增成功!");
+            ret.put("message", "修改成功!");
             out.print(JSON.toJSONString(ret));
         } catch (Exception e) {
             e.printStackTrace();
