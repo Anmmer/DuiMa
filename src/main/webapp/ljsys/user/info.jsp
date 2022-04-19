@@ -20,7 +20,7 @@
     }
 
     var userId = getQueryVariable("userId");
-    var user_phone = getQueryVariable("user_phone");
+    var user_phone = sessionStorage.getItem("user_phone");
 
     var userName = decodeURIComponent(getQueryVariable("userName"));
 
@@ -75,9 +75,9 @@
             <span>角&nbsp;&nbsp;色&nbsp;&nbsp;名：</span><span id="groupName" class="pStyle">userId</span></br></br>
             <%--            <span>角色编号：</span><span id="groupId" class="pStyle">userId</span></br></br>--%>
         </div>
-        <button style="float: right;" class="btn btn-primary" onclick="gotoModify()" type="button">
-            修改个人信息
-        </button>
+<%--        <button style="float: right;" class="btn btn-primary" onclick="gotoModify()" type="button">--%>
+<%--            修改个人信息--%>
+<%--        </button>--%>
     </div>
     <div style="width:100%;height:3px;background-color: cornflowerblue;"></div>
     <div style="width:100%;height:30px;"></div>

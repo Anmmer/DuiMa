@@ -105,6 +105,7 @@
                 if (res.flag) {
                     sessionStorage.setItem("userId", res.userId);
                     sessionStorage.setItem("userName", res.userName);
+                    sessionStorage.setItem("user_phone", json.user_phone);
                     // 获取权限
                     $.ajax({
                         url: "${pageContext.request.contextPath}/GetAuthority",

@@ -186,6 +186,11 @@
             </button>
         </li>
         <ul class="ul_ListStyle" style="display: none;" id="User">
+            <li id="user_index_li">
+                <button class="li_ItemStyle" id="user_index" onclick="jumpTo('index.jsp','user_index')"><span
+                        style="margin-left: 15%;margin-right: 5%;" class="glyphicon glyphicon-grain"></span>主页
+                </button>
+            </li>
             <li id="user_query_li">
                 <button class="li_ItemStyle" id="user_query" onclick="jumpTo('userQueryAll.jsp','user_query')">
                     <span style="margin-left: 15%;margin-right: 5%;" class="glyphicon glyphicon-grain"></span>查询用户
@@ -194,11 +199,6 @@
             <li id="user_add_li">
                 <button class="li_ItemStyle" id="user_add" onclick="jumpTo('userAdd.jsp','user_add')"><span
                         style="margin-left: 15%;margin-right: 5%;" class="glyphicon glyphicon-grain"></span>新增用户
-                </button>
-            </li>
-            <li id="user_index_li">
-                <button class="li_ItemStyle" id="user_index" onclick="jumpTo('index.jsp','user_index')"><span
-                        style="margin-left: 15%;margin-right: 5%;" class="glyphicon glyphicon-grain"></span>主页
                 </button>
             </li>
         </ul>
