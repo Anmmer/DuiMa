@@ -4,11 +4,9 @@ import javax.servlet.http.*;
 import java.sql.*;
 import java.util.*;
 import com.alibaba.fastjson.JSON;
+import com.example.DbUtil;
+
 public class AddFactory extends HttpServlet {
-	static final String JDBC_DRIVER = "com.mysql.cj.jdbc.Driver";
-	static final String DB_URL = "jdbc:mysql://localhost:3306/lisys?useUnicode=true&characterEncoding=utf8&useSSL=true&serverTimezone=UTC";
-	static final String USER = "root";
-	static final String PASS = "123456";
 
 	public void doGet(HttpServletRequest request,HttpServletResponse response) throws ServletException,IOException {
 		return;
@@ -21,10 +19,10 @@ public class AddFactory extends HttpServlet {
 		response.setContentType("text/javascript;charset=UTF-8");
 		PrintWriter out = response.getWriter();
 		// 获取、转换参数
-		String id = new String(request.getParameter("id"));
-		String name = new String(request.getParameter("name"));
-		String factoryName = new String(request.getParameter("factoryName"));
-		String factoryAddress = new String(request.getParameter("factoryAddress"));
+		String id = request.getParameter("id");
+		String name = request.getParameter("name");
+		String factoryName = request.getParameter("factoryName");
+		String factoryAddress = request.getParameter("factoryAddress");
 		// 需要返回的数据
 		HashMap<String,String> ret = new HashMap<String,String>();
 		// 连接数据库查询
@@ -32,8 +30,7 @@ public class AddFactory extends HttpServlet {
 		Statement stmt = null;
 		ResultSet rs = null;
 		try {
-			Class.forName(JDBC_DRIVER);
-			conn = DriverManager.getConnection(DB_URL,USER,PASS);
+			conn = DbUtil.getCon();
 			stmt = conn.createStatement();
 			// 检测有无重名
 			rs = stmt.executeQuery("select * from factory where factory_name='"+factoryName+"' and factory_status=1;");

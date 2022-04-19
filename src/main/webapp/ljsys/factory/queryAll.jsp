@@ -31,13 +31,18 @@
     <div style="width:70%;height:80%;margin:0 auto;">
         <div class="page-header" style="margin-top: 0;margin-bottom: 1%">
             <h3 style="margin-bottom: 0;margin-top: 0"><small>仓库信息</small></h3>
+            <button type="button" style="position: absolute;right: 15%;top:15%" class="btn btn-primary btn-sm"
+                    data-toggle="modal"
+                    data-target="#myModal">
+                添加仓库
+            </button>
         </div>
         <div style="height: 85%">
             <table class="table table-hover" cellspacing="0" cellpadding="0" width="100%" align="center">
                 <tr>
-                    <td class='tdStyle_title  active' style="width: 20%">仓库组织编号</td>
-                    <td class='tdStyle_title active' style="width: 30%">仓库组织名</td>
-                    <td class='tdStyle_title active' style="width: 30%">仓库组织地址</td>
+                    <td class='tdStyle_title  active' style="width: 20%">仓库编号</td>
+                    <td class='tdStyle_title active' style="width: 30%">仓库名称</td>
+                    <td class='tdStyle_title active' style="width: 30%">仓库地址</td>
                     <td class='tdStyle_title active' style="width: 20%">操作</td>
                 </tr>
                 <tbody id="tableText">
@@ -69,6 +74,37 @@
                 <li><a href="#" onclick="jumpToNewPage2()">go!</a></li>
             </ul>
         </nav>
+    </div>
+    <div class="modal fade" id="myModal" tabindex="-1" style="position: absolute;left: 15%;top: 12%;" role="dialog"
+         data-backdrop="false"
+         aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content" style="width:60%">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">添加仓库</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="form-horizontal">
+                        <div class="form-group" style="height: 100%;margin-top: 5%">
+                            <label for="newFactoryName" style="width: 28%;text-align: left;padding-right: 0"
+                                   class="col-sm-2 control-label">仓库名:</label>
+                            <input type="text" class="form-control" style="width:50%;" id="newFactoryName"
+                                   name="newFactoryName"><br>
+                            <label for="newFactoryAddress" style="width: 28%;text-align: left;padding-right: 0"
+                                   class="col-sm-2 control-label">仓库地址:</label>
+                            <input type="text" class="form-control" style="width:50%;" id="newFactoryAddress"
+                                   name="newFactoryAddress">
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" onclick="reset()">重置</button>
+                    <button type="button" class="btn btn-primary" onclick="addFactory()()">保存</button>
+                </div>
+            </div>
+        </div>
     </div>
     <%--        <div style="width:70%;height:2px;background-color: black;margin: 0 auto;"></div>--%>
     <%--        <div style="width:70%;height:16px;margin:0 auto;"></div>--%>
@@ -353,6 +389,16 @@
             }
         }
 
+        $('#myModal').on('hidden.bs.modal', function (e) {
+            $('#newFactoryName').val('');
+            $('#newFactoryAddress').val('');
+        })
+
+        function reset() {
+            $('#newFactoryName').val('');
+            $('#newFactoryAddress').val('');
+        }
+
         function addFactory() {
             var factoryName = $("#newFactoryName").val();
             var factoryAddress = $("#newFactoryAddress").val();
@@ -369,6 +415,7 @@
                 contentType: 'application/x-www-form-urlencoded;charset=utf-8',
                 data: json,
                 success: function (res) {
+                    $('#myModal').modal('hide');
                     updateTable(pageCur);
                     window.alert(res.message);
                 },
@@ -380,6 +427,10 @@
         function removeFactory(factoryid) {
             // 库房清零后方可删除
             // 查询该工厂是否有库房
+            let r = confirm("亲，确认删除！");
+            if (r === false) {
+                return;
+            }
             var fieldNames = {
                 warehouse_id: "INT"
             }

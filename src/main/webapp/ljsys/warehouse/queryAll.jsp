@@ -449,6 +449,10 @@
             }
         }
 
+        $('#myModal').on('hidden.bs.modal', function (e) {
+            $('#newWarehouseName').val('');
+        })
+
         function addWarehouse() {
             var newWarehouseName = $("#newWarehouseName").val();
             var json = {
@@ -465,6 +469,7 @@
                 data: json,
                 success: function (res) {
                     updateTable(1)
+                    $('#myModal').modal('hide');
                     window.alert(res.message)
                 },
                 error: function (message) {
