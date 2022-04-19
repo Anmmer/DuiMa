@@ -56,21 +56,19 @@ public class InOutWarehouse extends HttpServlet {
                         }
 
                         if (("0").equals(rs.getString("wi_type"))) {
-                            stmt.execute("update warehouse_info set wi_time =" + nowstr + ",wi_type=" + type + "where product_id = " + productId + ";");
+                            stmt.execute("update warehouse_info set wi_time ='" + nowstr + "',wi_type=" + type + " where product_id ='" + productId + "';");
                             continue;
                         }
                     }
                     stmt.execute("insert into warehouse_info values('" + nowstr + "','" + productId + "'," + id + "," + type + "," + warehouseId + ");");
                 } else {
                     // 出库操作
-                    rs = stmt.executeQuery("select product_id from warehouse_info where product_id='" + productId + "' and wi_type  = 0;");
-                    if (rs.next()) {
-
+                    rs = stmt.executeQuery("select product_id from warehouse_info where product_id='" + productId + "' and wi_type  = 1;");
+                    if (!rs.next()) {
                         msg += "'" + productId + "'未在库中，出库失败!\n";
                         continue;
                     }
-                    warehouseId = rs.getString("warehouse_id");        // 对每一个出库的都检查其warehouseId
-                    stmt.execute("update warehouse_info set wi_time =" + nowstr + ",wi_type=" + type + "where product_id = " + productId + ";");
+                    stmt.execute("update warehouse_info set wi_time ='" + nowstr + "',wi_type=" + type + " where product_id = '" + productId + "';");
                 }
             }
             ret.put("msg", msg);

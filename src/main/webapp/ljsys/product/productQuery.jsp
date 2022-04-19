@@ -206,7 +206,7 @@
                 let style = ''
                 let state = ''
                 if (pop_pageDate[i]['pourmade'] === 0 && pop_pageDate[i]['inspect'] === 0) {
-                    state = '待生产'
+                    state = '待浇捣'
                     style = "style='background-color: grey;'"
                 }
                 if (pop_pageDate[i]['pourmade'] === 1 && pop_pageDate[i]['inspect'] === 0) {
