@@ -410,11 +410,14 @@
             pop_pageDate = result.data;
             updateTable(true);
             // 重置查询为第一页
-            pop_pageCur = newPage;
             // 重置总页数
             pop_pageAll = parseInt(result.pageAll);
             $('#total_d').html(result.cnt + "条，共" + result.pageAll + "页");
-            $('#li_d1').addClass('active');
+            $('#li_d' + newPage % 5).addClass('active');
+            if (pop_pageCur % 5 !== newPage % 5) {
+                $('#li_d' + pop_pageCur % 5).removeClass('active');
+            }
+            pop_pageCur = newPage;
             for (let i = 1; i < 6; i++) {
                 let k = i % 5;
                 if (i > pop_pageAll) {
@@ -553,7 +556,7 @@
             result = JSON.parse(result);
             alert(result.message);
             if (result.flag) {
-                getTableData(1);
+                getPopData(1);
             }
         });
     }
@@ -1413,6 +1416,9 @@
 
     // 获取样式
     function getStyle() {
+        for (let i = 0; i < printsData.length; i++) {
+            printsData[i].print = printsData[i].print + 1;
+        }
         // 把样式设定为目前选中的样式
         let qrcodeid = $("#qrcodestyles :selected").val()
         if (qrcodeid === '0') {
@@ -1489,7 +1495,8 @@
             let xsituation = qrstyle.qRCode['xsituation']
             let ysituation = qrstyle.qRCode['ysituation']
             let qr_wh_value = qrstyle.qRCode.qr_wh_value
-            item += "<span class='pStyle draw' style='position: absolute;font-size: 15px;left:" + qrstyle.qRCode.textXsituation + "px;right: " + qrstyle.qRCode.textYsituation + "px;font-weight: bold' draggable='true' id='draw_text'>" + qrstyle.qRCode['text'] + "</span>";
+            console.log(qrstyle.qRCode.font_style_value)
+            item += "<span class='pStyle draw' style='position: absolute;font-size: " + qrstyle.qRCode.font_style_value + ";left:" + qrstyle.qRCode.textXsituation + "px;top: " + qrstyle.qRCode.textYsituation + "px;font-weight: bold' draggable='true' id='draw_text'>" + qrstyle.qRCode['text'] + "</span>";
             item += "<div id='qrcode_" + i + "' style='position: absolute;width:" + qr_wh_value + "px;height:" + qr_wh_value + "px;left:" + xsituation + "px;top:" + ysituation + "px;'></div>"
             // 放置其他各项
             for (let j = 0; j < qrstyle.items.length; j++) {
@@ -1498,7 +1505,7 @@
                 xsituation = node.xsituation
                 ysituation = node.ysituation
                 let nodestr = fieldmap[nodevalue] + ":" + printsData[i][nodevalue]
-                item += "<span class='pStyle' style='position: absolute;left:" + xsituation + "px;top:" + ysituation + "px;'>" + nodestr + "</span>"
+                item += "<span class='pStyle' style='position: absolute;font-size: " + qrstyle.qRCode.font_style_value + ";left:" + xsituation + "px;top:" + ysituation + "px;'>" + nodestr + "</span>"
             }
             // end
             item += "</div>"

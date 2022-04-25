@@ -31,7 +31,8 @@
 <div style="height: 100%;width:100%;background-color:white;">
     <div style="height:100%;width: 100%;">
         <!--控制台-->
-        <button class="btn btn-primary" style="position: absolute;left:5%;top:5%;height: 32px" onclick="returnLastPage()">返回
+        <button class="btn btn-primary" style="position: absolute;left:5%;top:5%;height: 32px"
+                onclick="returnLastPage()">返回
         </button>
         <div style="height:100%;width:49%;float: left;margin-left: 10%">
             <div style="height:4%;width:100%;"></div>
@@ -459,6 +460,7 @@
                     $("#xvalue0").val(res.qRCode.xsituation)
                     $("#yvalue0").val(res.qRCode.ysituation)
                     $("#qr_wh_value").val(res.qRCode.qr_wh_value)
+                    $("#font_style_value").val(res.qRCode.font_style_value)
 
                     // 设置子项
                     for (let i = 0; i < res.items.length; i++) {
@@ -473,6 +475,7 @@
                                 let drawtmp = document.getElementById("draw" + cnttmp)
                                 drawtmp.style.left = res.items[i].xsituation + "px"
                                 drawtmp.style.top = res.items[i].ysituation + "px"
+                                drawtmp.style.fontSize = res.qRCode.font_style_value
                                 $("#xvalue" + cnttmp).val(res.items[i].xsituation)
                                 $("#yvalue" + cnttmp).val(res.items[i].ysituation)
                             }

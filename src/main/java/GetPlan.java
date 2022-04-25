@@ -44,9 +44,9 @@ public class GetPlan extends HttpServlet {
         try {
             out = resp.getWriter();
             con = DbUtil.getCon();
-            String sql = "select plannumber,plant,plantime,line,liner,planname,build,tasksqure,tasknum,updatedate,CASE ( SELECT count( 1 ) FROM preproduct WHERE preproduct.plannumber = plan.plannumber AND preproduct.inspect = 1 ) WHEN tasknum THEN 1 ELSE 0 END AS checkstate," +
-                    "CASE ( SELECT count( 1 ) FROM preproduct WHERE preproduct.plannumber = plan.plannumber AND preproduct.pourmade = 1 ) WHEN tasknum THEN 1 ELSE 0 END AS pourmadestate ," +
-                    "CASE ( SELECT count( 1 ) FROM preproduct WHERE preproduct.plannumber = plan.plannumber AND preproduct.print > 0 ) WHEN tasknum THEN 1 ELSE 0 END AS printstate " +
+            String sql = "select plannumber,plant,plantime,line,liner,planname,build,tasksqure,tasknum,updatedate,CASE ( SELECT count( 1 ) FROM preproduct WHERE preproduct.plannumber = plan.plannumber AND preproduct.isdelete = 0 AND preproduct.inspect = 1 ) WHEN tasknum THEN 1 ELSE 0 END AS checkstate," +
+                    "CASE ( SELECT count( 1 ) FROM preproduct WHERE preproduct.plannumber = plan.plannumber AND preproduct.isdelete = 0 AND preproduct.pourmade = 1 ) WHEN tasknum THEN 1 ELSE 0 END AS pourmadestate ," +
+                    "CASE ( SELECT count( 1 ) FROM preproduct WHERE preproduct.plannumber = plan.plannumber AND preproduct.isdelete = 0 AND preproduct.print > 0 ) WHEN tasknum THEN 1 ELSE 0 END AS printstate " +
                     "from plan where isdelete = 0 ";
             String sql2 = "select count(1) as num from plan where isdelete = 0";
             if (!"".equals(startDate) && startDate != null) {
