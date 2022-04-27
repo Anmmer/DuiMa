@@ -55,20 +55,20 @@
 
                 </div>
             </div>
-            <div style="position:absolute;left:28%;top:80px;height:20%;width:30%;">
-                <select class="panel panel-default" id="valuesFrom" size="4"
-                        style="width:30%;height: 150px;overflow: auto;margin-bottom: 0">
-                </select>
-                <button type="button" class="btn btn-primary btn-sm" style="margin-left: 2%;margin-bottom: 20px"
-                        onclick="addContent()">添加
-                </button>
-                <select class="panel panel-default" class="btn btn-primary btn-sm" id="valuesTo"
-                        style="margin-left: 2%;width:30%;height: 150px;margin-bottom: 0;overflow: auto" size="4">
-                </select>
-                <button type="button" style="margin-left: 2%;margin-bottom: 20px" class="btn btn-primary btn-sm"
-                        onclick="delContent()">删除
-                </button>
-            </div>
+            <%--            <div style="position:absolute;left:28%;top:80px;height:20%;width:30%;">--%>
+            <%--                <select class="panel panel-default" id="valuesFrom" size="4"--%>
+            <%--                        style="width:30%;height: 150px;overflow: auto;margin-bottom: 0">--%>
+            <%--                </select>--%>
+            <%--                <button type="button" class="btn btn-primary btn-sm" style="margin-left: 2%;margin-bottom: 20px"--%>
+            <%--                        onclick="addContent()">添加--%>
+            <%--                </button>--%>
+            <%--                <select class="panel panel-default" class="btn btn-primary btn-sm" id="valuesTo"--%>
+            <%--                        style="margin-left: 2%;width:30%;height: 150px;margin-bottom: 0;overflow: auto" size="4">--%>
+            <%--                </select>--%>
+            <%--                <button type="button" style="margin-left: 2%;margin-bottom: 20px" class="btn btn-primary btn-sm"--%>
+            <%--                        onclick="delContent()">删除--%>
+            <%--                </button>--%>
+            <%--            </div>--%>
             <!--列表台-->
             <div id="qr_code"></div>
             <div style="height:45%;width: 100%;overflow: auto" id="ItemList">
@@ -273,7 +273,7 @@
         qr_wh_value.bind("blur", function (event) {
             $('#draw0').html('')
             new QRCode(document.getElementById("draw0"), {
-                text: qRCode.qrcodeContent,
+                text: '物料编码:TEST',
                 width: $('#qr_wh_value').val(),
                 height: $('#qr_wh_value').val(),
                 colorDark: "#000000",
@@ -299,7 +299,7 @@
         let drawItem = $("<div style='position: absolute;'  draggable='true' id='draw" + cnt + "' ></div>");
         $("#draw").append(drawItem);
         new QRCode(document.getElementById("draw" + cnt), {
-            text: qRCode.qrcodeContent,
+            text: '物料编码:TEST',
             width: qRCode.qr_wh_value,
             height: qRCode.qr_wh_value,
             colorDark: "#000000",
@@ -410,17 +410,17 @@
                 qrcodeId: qrcodeId
             },
             success: function (res) {
-                if (res == null) addQRcode({
-                    qrcodeContent: 'TEST:TEST',
-                    xsituation: '15',
-                    ysituation: '35',
-                    qr_wh_value: '100',
-                    font_style_value: '10',
-                    textYsituation: '5',
-                    textXsituation: '75',
-                    text: '标题内容',
-                });
-                else {
+                if (res == null) {
+                    addQRcode({
+                        xsituation: '15',
+                        ysituation: '35',
+                        qr_wh_value: '100',
+                        font_style_value: '10',
+                        textYsituation: '5',
+                        textXsituation: '75',
+                        text: '标题内容',
+                    })
+                } else {
                     // res即最终的qrcodestyle
                     // 构建图画
                     // 设置画布
@@ -431,31 +431,31 @@
                     $("#ysize").val(res.ysize)
 
                     // 设置二维码内容
-                    if (res.qRCode.qRCodeContent === null || res.qRCode.qRCodeContent === undefined)
-                        return
-                    let valuestmp = document.getElementById("valuesFrom")
-                    let valueslen = valuestmp.length
-                    let arr = [];
-                    let qrcodeContent = '';
-                    for (let i = 0; i < res.qRCode.qRCodeContent.length; i++) {
-                        for (let j = 0; j < valueslen; j++) {
-                            if (valuestmp.options[j].value === res.qRCode.qRCodeContent[i]) {
-                                // 值相等
-                                let newOption = $("<option></option>").attr("value", valuestmp.options[j].value)
-                                newOption.text(valuestmp.options[j].text)
-                                $("#valuesTo").append(newOption)
-                                arr.push(valuestmp.options[j].value);
-                            }
-                        }
-                        qrcodeContent += res.qRCode.qRCodeContent[i] + ": TEST" + "\n"
-                    }
+                    // if (res.qRCode.qRCodeContent === null || res.qRCode.qRCodeContent === undefined)
+                    //     return
+                    // let valuestmp = document.getElementById("valuesFrom")
+                    // let valueslen = valuestmp.length
+                    // let arr = [];
+                    // let qrcodeContent = '';
+                    // for (let i = 0; i < res.qRCode.qRCodeContent.length; i++) {
+                    //     for (let j = 0; j < valueslen; j++) {
+                    //         if (valuestmp.options[j].value === res.qRCode.qRCodeContent[i]) {
+                    //             // 值相等
+                    //             let newOption = $("<option></option>").attr("value", valuestmp.options[j].value)
+                    //             newOption.text(valuestmp.options[j].text)
+                    //             $("#valuesTo").append(newOption)
+                    //             arr.push(valuestmp.options[j].value);
+                    //         }
+                    //     }
+                    //     qrcodeContent += res.qRCode.qRCodeContent[i] + ": TEST" + "\n"
+                    // }
                     // 设置二维码
-                    res.qRCode.qrcodeContent = qrcodeContent;
+                    // res.qRCode.qrcodeContent = qrcodeContent;
                     addQRcode(res.qRCode);
-
-                    for (item of arr) {
-                        $("#valuesFrom option[value = " + item + "]").remove();
-                    }
+                    //
+                    // for (item of arr) {
+                    //     $("#valuesFrom option[value = " + item + "]").remove();
+                    // }
                     // 设置控制面板二维码数值
                     $("#xvalue0").val(res.qRCode.xsituation)
                     $("#yvalue0").val(res.qRCode.ysituation)
@@ -493,11 +493,11 @@
         qrcodestyle['ysize'] = $("#ysize").val()
 
         let qRCode = {}
-        let contentlist = qRCode['qRCodeContent'] = []
-        let len = document.getElementById("valuesTo").length
-        for (let i = 0; i < len; i++) {
-            qRCode['qRCodeContent'].push(document.getElementById("valuesTo").options[i].value)
-        }
+        // let contentlist = qRCode['qRCodeContent'] = []
+        // let len = document.getElementById("valuesTo").length
+        // for (let i = 0; i < len; i++) {
+        //     qRCode['qRCodeContent'].push(document.getElementById("valuesTo").options[i].value)
+        // }
         qRCode['xsituation'] = $("#xvalue0").val()
         qRCode['ysituation'] = $("#yvalue0").val()
         qRCode['qr_wh_value'] = $("#qr_wh_value").val()

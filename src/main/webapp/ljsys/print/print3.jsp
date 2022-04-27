@@ -694,7 +694,7 @@
                             result = JSON.parse(result);
                             excelData.preProduct.forEach((item) => {
                                 result.data.forEach((res_item) => {
-                                    if (item.materialcode === res_item.materialcode) {
+                                    if (item.materialcode.toString() === res_item.materialcode) {
                                         if (str === '') {
                                             str += item.materialcode
                                         } else {
@@ -707,7 +707,7 @@
                             if (str !== '') {
                                 excelData = {};
                                 $('#excel-file').val('');
-                                alert('物料编码：' + str + ']已存在');
+                                alert('物料编码：[' + str + ']已存在');
                                 return;
                             }
                             $('#pop_planname').val(excelData.plan.planname);
@@ -1512,11 +1512,7 @@
             let newItem = $(item)
             $("#printArea").append(newItem)
             // 设置二维码内容
-            let qrcodeContent = ""
-            let tmp = qrstyle.qRCode.qRCodeContent
-            for (let j = 0; j < tmp.length; j++) {
-                qrcodeContent += fieldmap[tmp[j]] + ":" + printsData[i][tmp[j]] + "\n"
-            }
+            let qrcodeContent = fieldmap['materialcode'] + ":" + printsData[i]['materialcode']
             getQRCode(i, qrcodeContent)
         }
         let enditem = $(endStr)
