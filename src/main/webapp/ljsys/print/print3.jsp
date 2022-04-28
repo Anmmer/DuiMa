@@ -1512,7 +1512,11 @@
             let newItem = $(item)
             $("#printArea").append(newItem)
             // 设置二维码内容
-            let qrcodeContent = fieldmap['materialcode'] + ":" + printsData[i]['materialcode']
+            let qrcodeContent = ""
+            let tmp = qrstyle.qRCode.qRCodeContent
+            for (let j = 0; j < tmp.length; j++) {
+                qrcodeContent += fieldmap[tmp[j]] + ":" + printsData[i][tmp[j]] + "\n"
+            }
             getQRCode(i, qrcodeContent)
         }
         let enditem = $(endStr)
