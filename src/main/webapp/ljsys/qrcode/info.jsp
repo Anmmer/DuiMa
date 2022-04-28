@@ -355,7 +355,7 @@
         } else {
             $("#text_y").val(qRCode.textYsituation)
         }
-        let drawItem_ = $("<span class='pStyle draw' style='position: absolute;font-size: 15px;font-weight: bold' draggable='true' id='draw_text'></span>").text(text);
+        let drawItem_ = $("<span class='pStyle' style='position: absolute;font-size: 17px;font-weight: bold' draggable='true' id='draw_text'></span>").text(text);
         $("#draw").append(drawItem_);
         let drawElem_ = document.getElementById("draw_text")
         drawElem_.style.left = qRCode.textXsituation + "px"
