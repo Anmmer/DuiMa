@@ -1495,8 +1495,7 @@
             let xsituation = qrstyle.qRCode['xsituation']
             let ysituation = qrstyle.qRCode['ysituation']
             let qr_wh_value = qrstyle.qRCode.qr_wh_value
-            console.log(qrstyle.qRCode.font_style_value)
-            item += "<span class='pStyle draw' style='position: absolute;font-size: " + qrstyle.qRCode.font_style_value + ";left:" + qrstyle.qRCode.textXsituation + "px;top: " + qrstyle.qRCode.textYsituation + "px;font-weight: bold' draggable='true' id='draw_text'>" + qrstyle.qRCode['text'] + "</span>";
+            item += "<span class='pStyle draw' style='position: absolute;font-size: 21px;left:" + qrstyle.qRCode.textXsituation + "px;top: " + qrstyle.qRCode.textYsituation + "px;font-weight: bold' draggable='true' id='draw_text'>" + qrstyle.qRCode['text'] + "</span>";
             item += "<div id='qrcode_" + i + "' style='position: absolute;width:" + qr_wh_value + "px;height:" + qr_wh_value + "px;left:" + xsituation + "px;top:" + ysituation + "px;'></div>"
             // 放置其他各项
             for (let j = 0; j < qrstyle.items.length; j++) {
