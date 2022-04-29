@@ -1517,7 +1517,9 @@
             for (let j = 0; j < tmp.length; j++) {
                 qrcodeContent += fieldmap[tmp[j]] + ":" + printsData[i][tmp[j]] + "\n"
             }
-            getQRCode(i, qrcodeContent)
+            qrstyle.qRCode.qrcodeContent = qrcodeContent
+            console.log(qrstyle.qRCode)
+            getQRCode(i, qrstyle.qRCode)
         }
         let enditem = $(endStr)
         $("#printArea").append(enditem)
@@ -1525,11 +1527,11 @@
     }
 
     //生成二维码
-    function getQRCode(idx, str) {
+    function getQRCode(idx, qRCode) {
         new QRCode(document.getElementById("qrcode_" + idx), {
-            text: str,
-            width: 150,
-            height: 150,
+            text: qRCode.qrcodeContent,
+            width: qRCode.qr_wh_value,
+            height: qRCode.qr_wh_value,
             colorDark: "#000000",
             colorLight: "#ffffff",
             correctLevel: QRCode.CorrectLevel.H
