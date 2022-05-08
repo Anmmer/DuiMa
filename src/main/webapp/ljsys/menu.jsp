@@ -292,6 +292,11 @@
                         style="margin-left: 15%;margin-right: 5%;" class="glyphicon glyphicon-grain"></span>二维码设置
                 </button>
             </li>
+            <li id="fail_content_li">
+                <button class="li_ItemStyle" id="fail_content" onclick="jumpTo('failContentQueryAll.jsp','fail_content')"><span
+                        style="margin-left: 15%;margin-right: 5%;" class="glyphicon glyphicon-grain"></span>质检缺陷目录维护
+                </button>
+            </li>
             <li  id="plan_name_li">
                 <button class="li_ItemStyle" id="plan_name" onclick="jumpTo('archivesPlanName.jsp','plan_name')"><span
                         style="margin-left: 15%;margin-right: 5%;" class="glyphicon glyphicon-grain"></span>项目管理
