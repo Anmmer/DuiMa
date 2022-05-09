@@ -639,4 +639,28 @@
         <servlet-name>checkArchives</servlet-name>
         <url-pattern>/CheckArchives</url-pattern>
     </servlet-mapping>
+    <servlet>
+        <servlet-name>getFailContent</servlet-name>
+        <servlet-class>GetFailContent</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>getFailContent</servlet-name>
+        <url-pattern>/GetFailContent</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>addFailContent</servlet-name>
+        <servlet-class>AddFailContent</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>addFailContent</servlet-name>
+        <url-pattern>/AddFailContent</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>updateFailContent</servlet-name>
+        <servlet-class>UpdateFailContent</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>updateFailContent</servlet-name>
+        <url-pattern>/UpdateFailContent</url-pattern>
+    </servlet-mapping>
 </web-app>

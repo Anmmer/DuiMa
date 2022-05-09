@@ -17,7 +17,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class GetFailContent extends HttpServlet {
+/**
+ * @description:
+ * @author:
+ * @createDate: 2022/5/9
+ */
+public class GetFailClass extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         super.doGet(req, resp);
@@ -27,36 +32,22 @@ public class GetFailContent extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         resp.setContentType("text/html;charset=UTF-8");
         PrintWriter out = resp.getWriter();
-        String classification = req.getParameter("classification");
-        Map<String, Object> result = new HashMap<>();
         Connection con = null;
         PreparedStatement ps = null;
         try {
             con = DbUtil.getCon();
-            String sql = "select id,pid,classification,defect_name from inspect_fail_content where isdelete = '0' ";
-            int i = 0;
-            if (classification != null && !"".equals(classification)) {
-                sql += " and classification = ?";
-                i++;
-            }
-            sql += " order by pid ";
+            String sql = "select id,classification inspect_fail_content where isdelete = '0' and pid = 0 ";
             ps = con.prepareStatement(sql);
-            if (classification != null && !"".equals(classification)) {
-                ps.setString(i, classification);
-            }
             ResultSet rs = ps.executeQuery();
             List<FailContent> list = new ArrayList<>();
             Map<String, Object> data = new HashMap<>();
             while (rs.next()) {
                 FailContent failContent = new FailContent();
                 failContent.setId(rs.getInt("id"));
-                failContent.setPid(rs.getInt("pid"));
                 failContent.setClassification(rs.getString("classification"));
-                failContent.setDefect_name(rs.getString("defect_name"));
                 list.add(failContent);
             }
-            List<FailContent> failContentList = FailContent.build(list,0);
-            data.put("data", failContentList);
+            data.put("data", list);
             out.write(JSON.toJSONString(data));
         } catch (Exception e) {
             e.printStackTrace();
