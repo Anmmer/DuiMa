@@ -648,6 +648,14 @@
         <url-pattern>/GetFailContent</url-pattern>
     </servlet-mapping>
     <servlet>
+        <servlet-name>getFailClass</servlet-name>
+        <servlet-class>GetFailClass</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>getFailClass</servlet-name>
+        <url-pattern>/GetFailClass</url-pattern>
+    </servlet-mapping>
+    <servlet>
         <servlet-name>addFailContent</servlet-name>
         <servlet-class>AddFailContent</servlet-class>
     </servlet>

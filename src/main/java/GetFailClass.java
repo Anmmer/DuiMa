@@ -36,7 +36,7 @@ public class GetFailClass extends HttpServlet {
         PreparedStatement ps = null;
         try {
             con = DbUtil.getCon();
-            String sql = "select id,classification inspect_fail_content where isdelete = '0' and pid = 0 ";
+            String sql = "select id,classification from inspect_fail_content where isdelete = '0' and pid = 0 ";
             ps = con.prepareStatement(sql);
             ResultSet rs = ps.executeQuery();
             List<FailContent> list = new ArrayList<>();

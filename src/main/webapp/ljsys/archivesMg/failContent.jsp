@@ -1,14 +1,14 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <div style="height: 95%;width: 100%">
     <form name="query" class="form-inline" style="width:70%;height:12%;margin-left: 14%;padding-top:2%">
-        <div class="form-group">
-            <label>分类：</label><input type="text" name="classification" id="classification"
-                                     style="" class="form-control">
+        <div class="form-group" style="width: 100%;">
+            <label for="classification">分类：</label><select id="classification" style="width: 15%"
+                                                           class="form-control"></select>
+            <button type="button" class="btn btn-primary btn-sm" style="margin-left: 2%"
+                    onclick="getTableData()">
+                查 询
+            </button>
         </div>
-        <button type="button" class="btn btn-primary btn-sm" style="margin-left: 5%"
-                onclick="getTableData(1)">
-            查 询
-        </button>
     </form>
     <div style="width:70%;height:80%;margin:0 auto;">
         <div class="page-header" style="margin-top: 0;margin-bottom: 1%">
@@ -107,8 +107,8 @@
                             <div class="form-group" style="margin-top: 5%">
                                 <label for="pop_classification_1" style="width: 28%;text-align: left;padding-right: 0"
                                        class="col-sm-2 control-label">缺陷分类:</label>
-                                <input type="text" class="form-control" style="width:50%;" id="pop_classification_1"
-                                       name="pop_classification_1"><br>
+                                <select class="form-control" style="width:50%;" id="pop_classification_1"
+                                        name="pop_classification_1"></select><br>
                                 <label for="pop_defect_name" style="width: 28%;text-align: left;padding-right: 0"
                                        class="col-sm-2 control-label">缺陷名称:</label>
                                 <input type="text" class="form-control" style="width:50%;" id="pop_defect_name"
@@ -131,13 +131,10 @@
         window.alert("您未登陆，请先登陆！")
     }
 
-    // let count = 1;      //分页总页数
     let jsonObj = [];   //数据信息
-    // let pageCur = 1;    //分页当前页
-    // let pageAll = 1;
-    // let pageMax = 10;   //一页多少条数据
-    // let checked = null;
+    let selectClass = []
 
+    getFailClass();
     window.onload = getTableData();
 
     //打开新增弹窗
@@ -147,12 +144,12 @@
             $("#title_class_update").show();
             $("#title_class_add").hide();
             $("#pop_classification").val(classification)
-            $("#class_save").attr('onclick', 'class_save()');
+            $("#class_save").attr('onclick', 'class_edit()');
         } else {
             $("#title_class_update").hide();
             $("#title_class_add").show();
             $("#pop_classification").val('')
-            $("#class_save").attr('onclick', 'class_edit()');
+            $("#class_save").attr('onclick', 'class_save()');
         }
     }
 
@@ -162,17 +159,26 @@
         if (id !== undefined) {
             $("#title_name_update").show();
             $("#title_name_add").hide();
+            $('#pop_classification_1').empty();
+            for (let o of selectClass) {
+                let item = $("<option value='" + o['classification'] + "'>" + o['classification'] + "</option>")
+                $('#pop_classification_1').append(item)
+            }
             $("#pop_classification_1").val(classification)
             $("#pop_classification_1").attr("disabled", "disabled")
             $("#pop_defect_name").val(defect_name)
-            $("#name_save").attr('onclick', 'name_save()');
+            $("#name_save").attr('onclick', "name_edit('" + id + "')");
         } else {
             $("#title_name_update").hide();
             $("#title_name_add").show();
-            $("#pop_classification_1").val('')
             $("#pop_classification_1").removeAttr("disabled");
             $("#pop_defect_name").val('')
-            $("#name_save").attr('onclick', 'name_edit()');
+            $("#name_save").attr('onclick', 'name_save()');
+            $('#pop_classification_1').empty();
+            for (let o of selectClass) {
+                let item = $("<option value='" + o['classification'] + "'>" + o['classification'] + "</option>")
+                $('#pop_classification_1').append(item)
+            }
         }
     }
 
@@ -206,6 +212,7 @@
             contentType: 'application/x-www-form-urlencoded;charset=utf-8',
             success: function (res) {
                 if (res.data.length !== 0) {
+                    jsonObj = [];
                     for (let o of res.data) {
                         jsonObj.push({id: o.id, classification: o.classification, defect_name: ''})
                         for (let d of o.child) {
@@ -252,6 +259,19 @@
         })
     }
 
+    function getFailClass() {
+        $.post("${pageContext.request.contextPath}/GetFailClass", null, function (result) {
+            result = JSON.parse(result);
+            selectClass = result.data;
+            let item_ = $("<option></option>")
+            $('#classification').append(item_)
+            for (let o of result.data) {
+                let item = $("<option value='" + o['classification'] + "'>" + o['classification'] + "</option>")
+                $('#classification').append(item)
+            }
+        });
+    }
+
     function updateTable() {
         let str = '';
         for (let i = 0; i < jsonObj.length; i++) {
@@ -282,20 +302,87 @@
         });
     }
 
-    function save() {
+    function name_save() {
         let obj = {
-            qc: $('#pop_qc').val(),
+            index: '1',
+            classification: $('#pop_classification_1').val(),
+            defect_name: $('#pop_defect_name').val(),
         }
-        if (obj.qc === '') {
+        for (let o of selectClass) {
+            if (o.classification == obj.classification) {
+                obj.pid = o.id
+                break;
+            }
+        }
+        if (obj.defect_name === '') {
             alert("请输入！");
             return;
         }
-        $.post("${pageContext.request.contextPath}/AddQc", obj, function (result) {
+        $.post("${pageContext.request.contextPath}/AddFailContent", obj, function (result) {
             result = JSON.parse(result);
             alert(result.message);
             if (result.flag) {
-                $('#myModal').modal('hide');
-                getTableData(pageCur);
+                let r = confirm("亲，是否继续添加！");
+                if (r === false) {
+                    $('#myModalName').modal('hide');
+                    getTableData();
+                } else {
+                    $('#pop_defect_name').val('')
+                    getTableData();
+                }
+            }
+        })
+    }
+
+    function name_edit(id) {
+        let obj = {
+            index: '2',
+            id: id,
+            classification: $('#pop_classification_1').val(),
+            defect_name: $('#pop_defect_name').val(),
+        }
+        for (let o of selectClass) {
+            if (o.classification == obj.classification) {
+                obj.pid = o.id
+                break;
+            }
+        }
+        if (obj.defect_name === '') {
+            alert("请输入！");
+            return;
+        }
+        $.post("${pageContext.request.contextPath}/AddFailContent", obj, function (result) {
+            result = JSON.parse(result);
+            alert(result.message);
+            if (result.flag) {
+                let r = confirm("亲，是否继续添加！");
+                if (r === false) {
+                    $('#myModalName').modal('hide');
+                    getTableData();
+                } else {
+                    $('#pop_defect_name').val('')
+                    getTableData();
+                }
+            }
+        })
+    }
+
+    function class_save() {
+        let obj = {
+            index: '2',
+            classification: $('#pop_classification').val(),
+        }
+        if (obj.defect_name === '') {
+            alert("请输入！");
+            return;
+        }
+        $.post("${pageContext.request.contextPath}/AddFailContent", obj, function (result) {
+            result = JSON.parse(result);
+            alert(result.message);
+            if (result.flag) {
+                $('#myModalClass').modal('hide');
+                $('#pop_classification').val('')
+                getTableData();
             }
         })
     }
