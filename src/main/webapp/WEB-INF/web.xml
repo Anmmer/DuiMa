@@ -671,4 +671,12 @@
         <servlet-name>updateFailContent</servlet-name>
         <url-pattern>/UpdateFailContent</url-pattern>
     </servlet-mapping>
+    <servlet>
+        <servlet-name>deleteFailContent</servlet-name>
+        <servlet-class>DeleteFailContent</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>deleteFailContent</servlet-name>
+        <url-pattern>/DeleteFailContent</url-pattern>
+    </servlet-mapping>
 </web-app>

@@ -144,12 +144,12 @@
             $("#title_class_update").show();
             $("#title_class_add").hide();
             $("#pop_classification").val(classification)
-            $("#class_save").attr('onclick', 'class_edit()');
+            $("#class_save").attr('onclick', "class_edit('" + id + "')");
         } else {
             $("#title_class_update").hide();
             $("#title_class_add").show();
             $("#pop_classification").val('')
-            $("#class_save").attr('onclick', 'class_save()');
+            $("#class_save").attr('onclick', "class_save()");
         }
     }
 
@@ -278,26 +278,25 @@
             str += "<tr><td class='tdStyle_body'>" + jsonObj[i]['classification'] +
                 "</td><td class='tdStyle_body'>" + jsonObj[i]['defect_name'];
             if (jsonObj[i].classification === '') {
-                str += "</td><td class='tdStyle_body'><a href='#' onclick=openNamePop('" + jsonObj[i].id + "','" + jsonObj[i].defect_name + "','" + jsonObj[i].classification_p + "')>修改</a> <a href='#' onclick=delTableData('" + jsonObj[i]['id'] + "')>删除</a></td></tr>";
+                str += "</td><td class='tdStyle_body'><a href='#' onclick=openNamePop('" + jsonObj[i].id + "','" + jsonObj[i].defect_name + "','" + jsonObj[i].classification_p + "')>修改</a> <a href='#' onclick=delTableData('" + jsonObj[i]['id'] + "','" + 2 + "')>删除</a></td></tr>";
             } else {
-                str += "</td><td class='tdStyle_body'><a href='#' onclick=openClassPop('" + jsonObj[i].id + "','" + jsonObj[i].classification + "')>修改</a> <a href='#' onclick=delTableData('" + jsonObj[i]['id'] + "')>删除</a></td></tr>";
+                str += "</td><td class='tdStyle_body'><a href='#' onclick=openClassPop('" + jsonObj[i].id + "','" + jsonObj[i].classification + "')>修改</a> <a href='#' onclick=delTableData('" + jsonObj[i]['id'] + "','" + 1 + "')>删除</a></td></tr>";
             }
         }
         $("#archTableText").html(str);
     }
 
 
-    function delTableData(id, qc) {
+    function delTableData(id, index) {
         let r = confirm("亲，确认删除！");
         if (r === false) {
             return;
         }
-        $.post("${pageContext.request.contextPath}/DeleteQc", {id: id, qc: qc}, function (result) {
+        $.post("${pageContext.request.contextPath}/DeleteFailContent", {id: id, index: index}, function (result) {
             result = JSON.parse(result);
             alert(result.message);
             if (result.flag) {
-                closePop();
-                getTableData(pageCur);
+                getTableData();
             }
         });
     }
@@ -336,33 +335,20 @@
 
     function name_edit(id) {
         let obj = {
-            index: '2',
+            index: '1',
             id: id,
-            classification: $('#pop_classification_1').val(),
             defect_name: $('#pop_defect_name').val(),
-        }
-        for (let o of selectClass) {
-            if (o.classification == obj.classification) {
-                obj.pid = o.id
-                break;
-            }
         }
         if (obj.defect_name === '') {
             alert("请输入！");
             return;
         }
-        $.post("${pageContext.request.contextPath}/AddFailContent", obj, function (result) {
+        $.post("${pageContext.request.contextPath}/UpdateFailContent", obj, function (result) {
             result = JSON.parse(result);
             alert(result.message);
             if (result.flag) {
-                let r = confirm("亲，是否继续添加！");
-                if (r === false) {
-                    $('#myModalName').modal('hide');
-                    getTableData();
-                } else {
-                    $('#pop_defect_name').val('')
-                    getTableData();
-                }
+                $('#myModalName').modal('hide');
+                getTableData();
             }
         })
     }
@@ -383,31 +369,30 @@
                 $('#myModalClass').modal('hide');
                 $('#pop_classification').val('')
                 getTableData();
+                getFailClass();
             }
         })
     }
 
-    function edit(id, qc) {
+    function class_edit(id) {
         let obj = {
-            qc: $('#pop_qc').val(),
+            index: '2',
             id: id,
-            qc_old: qc
+            classification: $('#pop_classification').val(),
         }
-        if (obj.qc === '') {
+        if (obj.defect_name === '') {
             alert("请输入！");
             return;
         }
-        if ($('#pop_qc').val() == qc) {
-            return;
-        }
-        $.post("${pageContext.request.contextPath}/UpdateQc", obj, function (result) {
+        $.post("${pageContext.request.contextPath}/UpdateFailContent", obj, function (result) {
             result = JSON.parse(result);
             alert(result.message);
             if (result.flag) {
-                $('#myModal').modal('hide');
-                getTableData(pageCur);
+                $('#myModalClass').modal('hide');
+                getTableData();
+                getFailClass();
             }
-        });
+        })
     }
 
     $('.recover-btn').click(function () {
