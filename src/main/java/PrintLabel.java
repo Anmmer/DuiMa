@@ -4,6 +4,9 @@ import javax.servlet.http.*;
 import java.sql.*;
 import java.util.*;
 import com.alibaba.fastjson.JSON;
+import com.example.Db;
+import com.example.DbUtil;
+
 import java.nio.file.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -12,12 +15,9 @@ import java.text.SimpleDateFormat;
 
 // 打印标签
 public class PrintLabel extends HttpServlet {
-	static final String JDBC_DRIVER = "com.mysql.cj.jdbc.Driver";
-	static final String DB_URL = "jdbc:mysql://localhost:3306/lisys?useUnicode=true&characterEncoding=utf8&useSSL=true&serverTimezone=UTC";
-	static final String USER = "root";
-	static final String PASS = "123456";
 
 	public void doGet(HttpServletRequest request,HttpServletResponse response) throws ServletException,IOException {
+		doPost(request,response);
 	}
 
 	public void doPost(HttpServletRequest request,HttpServletResponse response) throws ServletException, IOException{
@@ -47,8 +47,7 @@ public class PrintLabel extends HttpServlet {
 		String qrcodestylestr = null;
 		int ptId = 0;
 		try{
-			Class.forName(JDBC_DRIVER);
-			conn = DriverManager.getConnection(DB_URL,USER,PASS);
+			conn = DbUtil.getCon();
 			stmt = conn.createStatement();
 			// 获取打印任务最大值
 			rs = stmt.executeQuery("select max(pt_id) from printtask;");
@@ -131,8 +130,7 @@ public class PrintLabel extends HttpServlet {
 		MyZip pictures = new MyZip();
 		try{
 			pictures.zip("C:\\apache-tomcat\\webapps\\ROOT\\ljsys\\pictures\\zips\\"+ptId+".zip",new File("C:\\apache-tomcat\\webapps\\ROOT\\ljsys\\pictures\\Labels"));
-			Class.forName(JDBC_DRIVER);
-			conn = DriverManager.getConnection(DB_URL,USER,PASS);
+			conn = DbUtil.getCon();
 			stmt = conn.createStatement();
 			stmt.execute("update printtask set pt_status='已完成' where pt_id="+ptId+";");
 		}catch(Exception e4){

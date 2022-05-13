@@ -4,12 +4,9 @@ import javax.servlet.http.*;
 import java.sql.*;
 import java.util.*;
 import com.alibaba.fastjson.JSON;
+import com.example.DbUtil;
 
 public class AddQRCodeStyle extends HttpServlet {
-	static final String JDBC_DRIVER = "com.mysql.cj.jdbc.Driver";
-	static final String DB_URL = "jdbc:mysql://localhost:3306/lisys?useUnicode=true&characterEncoding=utf8&useSSL=true&serverTimezone=UTC";
-	static final String USER = "root";
-	static final String PASS = "123456";
 
 	public void doGet(HttpServletRequest request,HttpServletResponse response) throws ServletException,IOException {
 		return;
@@ -30,8 +27,7 @@ public class AddQRCodeStyle extends HttpServlet {
 		Statement stmt = null;
 		ResultSet rs = null;
 		try {
-			Class.forName(JDBC_DRIVER);
-			conn = DriverManager.getConnection(DB_URL,USER,PASS);
+			conn = DbUtil.getCon();
 			stmt = conn.createStatement();
 			// 检测有无重名
 			rs = stmt.executeQuery("select * from qrcode where qrcode_name='"+qrcodeName+"' and qrcode_status=1;");

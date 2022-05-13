@@ -4,13 +4,10 @@ import javax.servlet.http.*;
 import java.sql.*;
 import java.util.*;
 import com.alibaba.fastjson.JSON;
+import com.example.DbUtil;
 
 // 微信小程序获取产品信息
 public class GetProductInfo extends HttpServlet {
-	static final String JDBC_DRIVER = "com.mysql.cj.jdbc.Driver";
-	static final String DB_URL = "jdbc:mysql://localhost:3306/lisys?useUnicode=true&characterEncoding=utf8&useSSL=true&serverTimezone=UTC";
-	static final String USER = "root";
-	static final String PASS = "123456";
 
 	public void doGet(HttpServletRequest request,HttpServletResponse response) throws ServletException,IOException {
 		return;
@@ -30,8 +27,7 @@ public class GetProductInfo extends HttpServlet {
 		Statement stmt = null;
 		ResultSet rs = null;
 		try {
-			Class.forName(JDBC_DRIVER);
-			conn = DriverManager.getConnection(DB_URL,USER,PASS);
+			conn = DbUtil.getCon();
 			stmt = conn.createStatement();
 			// 查询生产流程信息
 			rs = stmt.executeQuery("select produce_time,user_name,pc_name from produce,user,process_content where produce.user_id=user.user_id and process_content_id = pc_id and product_id='"+productId+"' order by produce_time ASC;");
