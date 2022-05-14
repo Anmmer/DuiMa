@@ -89,13 +89,14 @@ public class GetPrintDataByExcel extends HttpServlet {
 			ret.put("info","true");
 			ret.put("data",data);
 		}catch(Exception e) {
+			e.printStackTrace();
+		}finally {
 			try{
 				if(stmt!=null) stmt.close();
 				if(conn!=null) conn.close();
 			}catch(Exception e2) {
 				e2.printStackTrace();
 			}
-			e.printStackTrace();
 		}
 		String retString = JSON.toJSONString(ret);
 		out.print(retString);

@@ -55,13 +55,15 @@ public class AddEquipment extends HttpServlet {
 			}
 			ret.put("result","true");
 		}catch(Exception e) {
+
+			e.printStackTrace();
+		}finally {
 			try{
 				if(stmt!=null) stmt.close();
 				if(conn!=null) conn.close();
 			}catch(Exception e2) {
 				e2.printStackTrace();
 			}
-			e.printStackTrace();
 		}
 		out.print(JSON.toJSONString(ret));
 	}

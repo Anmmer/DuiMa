@@ -63,13 +63,14 @@ public class AddWarehouse extends HttpServlet {
 				SystemLog.log(name+"(工号为"+id+")在编号为"+factoryId+"的库存组织中新增库位'"+warehouseName+"'成功!");
 			}
 		}catch(Exception e) {
+			e.printStackTrace();
+		}finally {
 			try{
 				if(stmt!=null) stmt.close();
 				if(conn!=null) conn.close();
 			}catch(Exception e2) {
 				e2.printStackTrace();
 			}
-			e.printStackTrace();
 		}
 	}
 }

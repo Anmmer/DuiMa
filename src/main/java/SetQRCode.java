@@ -32,13 +32,14 @@ public class SetQRCode extends HttpServlet {
 			stmt.execute("update qrcode set qrcode_content = '"+qrcodestyle+"' where qrcode_id = "+qrcodeId+";");
 			ret = "true";
 		}catch(Exception e) {
+			e.printStackTrace();
+		}finally {
 			try{
 				if(stmt!=null) stmt.close();
 				if(conn!=null) conn.close();
 			}catch(Exception e2) {
 				e2.printStackTrace();
 			}
-			e.printStackTrace();
 		}
 		out.print(ret);
 	}

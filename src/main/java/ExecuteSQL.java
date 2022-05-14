@@ -39,13 +39,14 @@ public class ExecuteSQL extends HttpServlet {
             out.print(JSON.toJSONString(ret));
             SystemLog.log(name + "(工号为" + id + ")执行操作[" + sqlStr + "],信息:" + message);
         } catch (Exception e) {
+            e.printStackTrace();
+        }finally {
             try {
                 if (stmt != null) stmt.close();
                 if (conn != null) conn.close();
             } catch (Exception e2) {
                 e2.printStackTrace();
             }
-            e.printStackTrace();
         }
     }
 }

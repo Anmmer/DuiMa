@@ -52,13 +52,14 @@ public class AddUserGp extends HttpServlet {
 			SystemLog.log(name+"(工号为"+id+")新增用户(工号为"+userId+")进入群组(编号为"+gpId+")成功!");
 			out.print(JSON.toJSONString(ret));
 		}catch(Exception e) {
+			e.printStackTrace();
+		}finally {
 			try{
 				if(stmt!=null) stmt.close();
 				if(conn!=null) conn.close();
 			}catch(Exception e2) {
 				e2.printStackTrace();
 			}
-			e.printStackTrace();
 		}
 	}
 }

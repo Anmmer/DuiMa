@@ -59,13 +59,14 @@ public class AddGroup extends HttpServlet {
 			out.print(JSON.toJSONString(ret));
 			SystemLog.log(name+"(工号为"+id+")新增群组'"+groupName+"'成功!");
 		}catch(Exception e) {
+			e.printStackTrace();
+		}finally {
 			try{
 				if(stmt!=null) stmt.close();
 				if(conn!=null) conn.close();
 			}catch(Exception e2) {
 				e2.printStackTrace();
 			}
-			e.printStackTrace();
 		}
 	}
 }

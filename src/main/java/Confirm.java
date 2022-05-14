@@ -64,13 +64,14 @@ public class Confirm extends HttpServlet {
             out.print(ret);
             SystemLog.log(userName + "(工号为" + userId + ")在" + nowstr + "时，确认构件(构件号为" + productId + ")完成了编号为" + pcId + "的工序!");
         } catch (Exception e) {
+            e.printStackTrace();
+        }finally {
             try {
                 if (stmt != null) stmt.close();
                 if (conn != null) conn.close();
             } catch (Exception e2) {
                 e2.printStackTrace();
             }
-            e.printStackTrace();
         }
     }
 }
