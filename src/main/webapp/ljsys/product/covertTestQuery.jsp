@@ -137,7 +137,28 @@
     let selectName = []; //缺陷名称下拉框信息
 
     getFailClass(true)
-    window.onload = getTableData(1);
+    window.onload = getData();
+
+    function getData() {
+        $.ajax({
+            url: "${pageContext.request.contextPath}/GetDefaultSet",
+            type: 'post',
+            dataType: 'json',
+            data: null,
+            contentType: 'application/x-www-form-urlencoded;charset=utf-8',
+            success: function (res) {
+                if (res.data !== undefined) {
+                    res.data.forEach((item) => {
+                        if (item.name == 'concealed_process') {
+                            on_or_off = item.on_or_off;
+                        }
+                    })
+                }
+            }
+        }).then(() => {
+            getTableData(1)
+        })
+    }
 
     function getFailClass(index) {
         //查询缺陷分类
@@ -242,7 +263,7 @@
             alert("请勾选！")
             return;
         }
-        let r = confirm("亲，确认质检！");
+        let r = confirm("亲，确认检验！");
         if (r === false) {
             return;
         }
@@ -367,6 +388,13 @@
     function updateTable() {
         let str = '';
         for (let i = 0; i < jsonObj.length; i++) {
+            if (on_or_off == '1') {
+                if (jsonObj[i]['pourmade'] === 1 || jsonObj[i]['inspect'] === 1) {
+                    disable = 'disabled'
+                } else {
+                    disable = ''
+                }
+            }
             if (jsonObj[i]['covert_test'] === 1) {
                 jsonObj[i]['covert_test'] = '检验合格'
             } else if (jsonObj[i]['covert_test'] === 2) {
