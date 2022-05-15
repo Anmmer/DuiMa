@@ -679,4 +679,36 @@
         <servlet-name>deleteFailContent</servlet-name>
         <url-pattern>/DeleteFailContent</url-pattern>
     </servlet-mapping>
+    <servlet>
+        <servlet-name>updateDefaultSet</servlet-name>
+        <servlet-class>UpdateDefaultSet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>updateDefaultSet</servlet-name>
+        <url-pattern>/UpdateDefaultSet</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>concealedProcess</servlet-name>
+        <servlet-class>ConcealedProcess</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>concealedProcess</servlet-name>
+        <url-pattern>/ConcealedProcess</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>getDefaultSet</servlet-name>
+        <servlet-class>GetDefaultSet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>getDefaultSet</servlet-name>
+        <url-pattern>/GetDefaultSet</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>getPatchLibrary</servlet-name>
+        <servlet-class>GetPatchLibrary</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>getPatchLibrary</servlet-name>
+        <url-pattern>/GetPatchLibrary</url-pattern>
+    </servlet-mapping>
 </web-app>

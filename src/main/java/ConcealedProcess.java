@@ -1,4 +1,5 @@
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
 import com.example.DbUtil;
 
 import javax.servlet.ServletException;
@@ -29,65 +30,57 @@ public class ConcealedProcess extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         resp.setContentType("text/html;charset=UTF-8");
         PrintWriter out = resp.getWriter();
-        String planname = req.getParameter("planname");
-        String line = req.getParameter("line");
-        String plant = req.getParameter("plant");
-        Map<String, Object> result = new HashMap<>();
+        String pids = req.getParameter("pids");
+        String covert_test_failure_reason = req.getParameter("covert_test_failure_reason");
+        String covert_test = req.getParameter("covert_test");
+        String index = req.getParameter("index");//是否合格
+        JSONArray list = JSON.parseArray(pids);
         Connection con = null;
         PreparedStatement ps = null;
-        ResultSet rs = null;
+        Map<String, Object> map = new HashMap<>();
+        StringBuilder sql = null;
+        if ("0".equals(index)) {
+            sql = new StringBuilder("update preproduct set covert_test = 2,covert_test_failure_reason = ? ,covert_test_time = date_format(now(),'%Y-%m-%d') where pid in (");
+        } else {
+            sql = new StringBuilder("update preproduct set covert_test = ?,covert_test_time = date_format(now(),'%Y-%m-%d') where pid in (");
+        }
+        if (list.size() == 1) {
+            sql.append("?)");
+        } else {
+            for (int j = 0; j < list.size() - 1; j++) {
+                sql.append("? , ");
+            }
+            sql.append("?)");
+        }
         try {
             con = DbUtil.getCon();
-            String sql = "select count(1) num from planname where planname = ? and isdelete = 0";
-            String sql2 = "select count(1) num from line where line = ? and isdelete = 0";
-            String sql3 = "select count(1) num from plant where plant = ? and isdelete = 0";
-            ps = con.prepareStatement(sql);
-            ps.setString(1, planname);
-            rs = ps.executeQuery();
-            while (rs.next()) {
-                int i = rs.getInt("num");
-                if (i == 0) {
-                    result.put("message", "项目名称不存在，请在基础档案添加项目");
-                    result.put("flag", false);
-                    out.write(JSON.toJSONString(result));
-                    return;
+            ps = con.prepareStatement(sql.toString());
+            if ("0".equals(index)) {
+                ps.setString(1, covert_test_failure_reason);
+                for (int j = 0; j < list.size(); j++) {
+                    ps.setString(j + 2, list.getString(j));
+                }
+            } else {
+                ps.setInt(1, Integer.parseInt(covert_test));
+                for (int j = 0; j < list.size(); j++) {
+                    ps.setString(j + 2, list.getString(j));
                 }
             }
-            ps = con.prepareStatement(sql2);
-            ps.setString(1, line);
-            rs = ps.executeQuery();
-            while (rs.next()) {
-                int i = rs.getInt("num");
-                if (i == 0) {
-                    result.put("message", "产线不存在，请在基础档案添加产线");
-                    result.put("flag", false);
-                    out.write(JSON.toJSONString(result));
-                    return;
-                }
+            int i = ps.executeUpdate();
+            if (i < 0) {
+                map.put("flag", false);
+                map.put("message", "检验失败");
+            } else {
+                map.put("flag", true);
+                map.put("message", "检验成功");
             }
-            ps = con.prepareStatement(sql3);
-            ps.setString(1, plant);
-            rs = ps.executeQuery();
-            while (rs.next()) {
-                int i = rs.getInt("num");
-                if (i == 0) {
-                    result.put("message", "工厂不存在，请在基础档案添加工厂");
-                    result.put("flag", false);
-                    out.write(JSON.toJSONString(result));
-                    return;
-                }
-            }
-            result.put("flag", true);
-            out.write(JSON.toJSONString(result));
+            out.write(JSON.toJSONString(map));
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
-            out.close();
             try {
-                if (con != null)
-                    con.close();
-                if (ps != null)
-                    ps.close();
+                con.close();
+                out.close();
             } catch (SQLException throwables) {
                 throwables.printStackTrace();
             }

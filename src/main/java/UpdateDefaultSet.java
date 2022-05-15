@@ -41,11 +41,11 @@ public class UpdateDefaultSet extends HttpServlet {
             ps.setString(2,name);
             int i = ps.executeUpdate();
             if (i > 0) {
-                result.put("message", "开启隐蔽检验成功");
+                result.put("message", "设置隐蔽检验成功");
                 result.put("flag", true);
                 out.write(JSON.toJSONString(result));
             } else {
-                result.put("message", "开启隐蔽检验失败");
+                result.put("message", "设置隐蔽检验失败");
                 result.put("flag", false);
                 out.write(JSON.toJSONString(result));
             }

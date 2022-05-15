@@ -25,11 +25,13 @@ public class InspectNo extends HttpServlet {
         resp.setContentType("text/html;charset=UTF-8");
         PrintWriter out = resp.getWriter();
         String pids = req.getParameter("pids");
+        String failure_reason = req.getParameter("failure_reason");
+        String patch_library = req.getParameter("patch_library");
         JSONArray list = JSON.parseArray(pids);
         Connection con = null;
         PreparedStatement ps = null;
         Map<String, Object> map = new HashMap<>();
-        StringBuilder sql = new StringBuilder("update preproduct set inspect = 2,checktime=date_format(now(),'%Y-%m-%d') where pid in (");
+        StringBuilder sql = new StringBuilder("update preproduct set inspect = 2,checktime=date_format(now(),'%Y-%m-%d'),failure_reason = ?,patch_library = ? where pid in (");
         if (list.size() == 1) {
             sql.append("?)");
         } else {
@@ -38,11 +40,19 @@ public class InspectNo extends HttpServlet {
             }
             sql.append("?)");
         }
+        if (failure_reason == null) {
+            map.put("flag", false);
+            map.put("message", "请选择不合格原因");
+            out.write(JSON.toJSONString(map));
+            return;
+        }
         try {
             con = DbUtil.getCon();
             ps = con.prepareStatement(sql.toString());
+            ps.setString(1, failure_reason);
+            ps.setString(2, patch_library);
             for (int j = 0; j < list.size(); j++) {
-                ps.setString(j + 1, list.getString(j));
+                ps.setString(j + 3, list.getString(j));
             }
             int i = ps.executeUpdate();
             if (i < 0) {

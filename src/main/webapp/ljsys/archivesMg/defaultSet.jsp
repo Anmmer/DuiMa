@@ -11,6 +11,27 @@
     </div>
 </div>
 <script>
+    window.onload = getData();
+
+    function getData() {
+        $.ajax({
+            url: "${pageContext.request.contextPath}/GetDefaultSet",
+            type: 'post',
+            dataType: 'json',
+            data: null,
+            contentType: 'application/x-www-form-urlencoded;charset=utf-8',
+            success: function (res) {
+                if (res.data !== undefined) {
+                    res.data.forEach((item) => {
+                        if (item.name === 'concealed_process') {
+                            item.on_or_off === '1' ? $('#yes').attr("checked", true) : $('#no').attr("checked", true);
+                        }
+                    })
+                }
+            }
+        })
+    }
+
     function setData(id) {
         let val = document.getElementById(id).value;
         $.ajax({

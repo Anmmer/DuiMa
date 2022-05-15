@@ -38,8 +38,10 @@ public class GetPreProduct extends HttpServlet {
         String productState = req.getParameter("productState");
         String pourState = req.getParameter("pourState");
         String inspectState = req.getParameter("inspectState");
+        String testState = req.getParameter("testState");
         String isPour = req.getParameter("isPour");
         String isPrint = req.getParameter("isPrint");
+        String isTest = req.getParameter("isTest");
         String pageCur_s = req.getParameter("pageCur");
         String pageMax_s = req.getParameter("pageMax");
         int pageCur = 0;
@@ -56,7 +58,7 @@ public class GetPreProduct extends HttpServlet {
         try {
             PrintWriter out = resp.getWriter();
             con = DbUtil.getCon();
-            String sql = "select pid,materialcode,preproductid,standard,materialname,weigh,qc,fangliang,preproduct.plannumber,print,concretegrade,pourmade,inspect,pourtime,checktime,line from preproduct,plan where preproduct.isdelete = 0 and preproduct.plannumber = plan.plannumber";
+            String sql = "select pid,materialcode,preproductid,standard,materialname,weigh,qc,fangliang,preproduct.plannumber,print,concretegrade,pourmade,inspect,covert_test,covert_test_time,covert_test_failure_reason,failure_reason,patch_library,pourtime,checktime,line from preproduct,plan where preproduct.isdelete = 0 and preproduct.plannumber = plan.plannumber";
             String sql2 = "select count(*) as num from preproduct where isdelete = 0 ";
             if (plannumber != null && !"".equals(plannumber)) {
                 sql += " and preproduct.plannumber = ?";
@@ -98,6 +100,10 @@ public class GetPreProduct extends HttpServlet {
                 sql += " and pourmade > 0";
                 sql2 += " and pourmade > 0";
             }
+            if ("true".equals(isTest)) {
+                sql += " and covert_test > 0";
+                sql2 += " and covert_test > 0";
+            }
             if ("0".equals(pourState)) {
                 sql += " and pourmade = 0";
                 sql2 += " and pourmade = 0";
@@ -117,6 +123,18 @@ public class GetPreProduct extends HttpServlet {
             if ("2".equals(inspectState)) {
                 sql += " and inspect = 2";
                 sql2 += " and inspect = 2";
+            }
+            if ("0".equals(testState)) {
+                sql += " and covert_test = 0";
+                sql2 += " and covert_test = 0";
+            }
+            if ("1".equals(testState)) {
+                sql += " and covert_test = 1";
+                sql2 += " and covert_test = 1";
+            }
+            if ("2".equals(testState)) {
+                sql += " and covert_test = 2";
+                sql2 += " and covert_test = 2";
             }
 
             j = i;
@@ -161,6 +179,11 @@ public class GetPreProduct extends HttpServlet {
                 map.put("plannumber", rs.getString("plannumber"));
                 map.put("pourmade", rs.getInt("pourmade"));
                 map.put("inspect", rs.getInt("inspect"));
+                map.put("covert_test", rs.getInt("covert_test"));
+                map.put("covert_test_time", rs.getString("covert_test_time"));
+                map.put("covert_test_failure_reason", rs.getString("covert_test_failure_reason"));
+                map.put("failure_reason", rs.getString("failure_reason"));
+                map.put("patch_library", rs.getString("patch_library"));
                 map.put("pourtime", rs.getString("pourtime"));
                 map.put("checktime", rs.getString("checktime"));
                 map.put("line", rs.getString("line"));

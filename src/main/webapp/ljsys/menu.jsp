@@ -262,6 +262,11 @@
                         style="margin-left: 15%;margin-right: 5%;" class="glyphicon glyphicon-grain"></span>生产查询
                 </button>
             </li>
+            <li id="test_set_li">
+                <button class="li_ItemStyle" id="test_set" onclick="jumpTo('coverTestQueryAll.jsp','test_set')"><span
+                        style="margin-left: 15%;margin-right: 5%;" class="glyphicon glyphicon-grain"></span>隐蔽性检验
+                </button>
+            </li>
             <li id="pour_set_li">
                 <button class="li_ItemStyle" id="pour_set" onclick="jumpTo('pourQueryAll.jsp','pour_set')"><span
                         style="margin-left: 15%;margin-right: 5%;" class="glyphicon glyphicon-grain"></span>浇捣

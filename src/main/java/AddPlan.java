@@ -37,7 +37,7 @@ public class AddPlan extends HttpServlet {
         try {
             con = DbUtil.getCon();
             String sql1 = "insert into plan(plannumber,printstate,plant,plantime,line,liner,planname,build,tasksqure,tasknum,updatedate,isdelete) values(?,0,?,?,?,?,?,?,?,?,?,0)";
-            String sql2 = "insert into preproduct(preproductid,materialcode,weigh,fangliang,standard,materialname,qc,print,plannumber,concretegrade,isdelete,pourmade,inspect) values(?,?,?,?,?,?,?,0,?,?,0,0,0)";
+            String sql2 = "insert into preproduct(preproductid,materialcode,weigh,fangliang,standard,materialname,qc,print,plannumber,concretegrade,isdelete,pourmade,inspect,covert_test) values(?,?,?,?,?,?,?,0,?,?,0,0,0,0)";
             PreparedStatement ps1 = con.prepareStatement(sql1);
             ps1.setString(1, plannumber);
             ps1.setString(2, plan.getString("plant"));

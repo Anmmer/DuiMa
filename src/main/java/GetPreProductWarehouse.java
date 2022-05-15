@@ -40,7 +40,7 @@ public class GetPreProductWarehouse extends HttpServlet {
         int i = 0;
         try {
             con = DbUtil.getCon();
-            String sql = "select warehouse_name,materialname,materialcode,preproductid,pourmade,inspect from warehouse,warehouse_info,preproduct where warehouse.warehouse_id = warehouse_info.warehouse_id and warehouse_info.product_id = preproduct.materialcode and wi_type = 1 and  isdelete = 0";
+            String sql = "select warehouse_name,materialname,materialcode,preproductid,pourmade,inspect,covert_test from warehouse,warehouse_info,preproduct where warehouse.warehouse_id = warehouse_info.warehouse_id and warehouse_info.product_id = preproduct.materialcode and wi_type = 1 and  isdelete = 0";
             if (materialcode != null && !"".equals(materialcode)) {
                 sql += " and preproduct.materialcode = ?";
                 i++;
@@ -65,6 +65,7 @@ public class GetPreProductWarehouse extends HttpServlet {
                 map.put("materialcode", rs.getString("materialcode"));
                 map.put("pourmade", rs.getInt("pourmade"));
                 map.put("inspect", rs.getInt("inspect"));
+                map.put("covert_test", rs.getInt("covert_test"));
                 list.add(map);
             }
             result.put("data", list);

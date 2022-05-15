@@ -260,7 +260,7 @@
     }
 
     function getFailClass() {
-        $.post("${pageContext.request.contextPath}/GetFailClass", null, function (result) {
+        $.post("${pageContext.request.contextPath}/GetFailClass", {index: '0'}, function (result) {
             result = JSON.parse(result);
             selectClass = result.data;
             let item_ = $("<option></option>")

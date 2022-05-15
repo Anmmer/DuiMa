@@ -31,7 +31,7 @@
             </button>
             <button type="button" style="position: absolute;right: 22%;top:14%" class="btn btn-primary btn-sm"
                     data-toggle="modal"
-                    onclick="no_inspect()">
+                    onclick="openPop()">
                 不合格
             </button>
             <button type="button" style="position: absolute;right: 27%;top:14%" class="btn btn-primary btn-sm"
@@ -80,6 +80,50 @@
             </ul>
         </nav>
     </div>
+    <div class="modal fade" id="myModal" tabindex="-1"
+         style="height: 80%;width: 30%;position: absolute;left: 30%;top: 10%;" role="dialog"
+         data-backdrop="false"
+         aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document" style="width: 100%;height: 85%;">
+            <div class="modal-content" style="width: 100%;height: 100%">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="title1">不合格原因录入</h4>
+                </div>
+                <div class="modal-body" style="height: 80%;margin: 0 auto">
+                    <div class="form-inline" style="width: 100%">
+                        <div class="form-group" style="width:100%;margin-top: 5%">
+                            <label for="patch_library" style="width:25%;text-align: left;padding-right: 5px"
+                                   class="col-sm-2 control-label">修补库地址:</label>
+                            <input class="form-control" style="width:40%;" id="patch_library" placeholder="请输入修补库地址"
+                                   name="patch_library"/><br><br>
+                            <label for="pop_classification" style="width:25%;text-align: left;padding-right: 5px"
+                                   class="col-sm-2 control-label">缺陷分类:</label>
+                            <select class="form-control" style="width:40%;" id="pop_classification"
+                                    name="pop_classification_1" onchange="getFailClass(false);"></select><br><br>
+                            <label for="pop_defect_name" style="width:25%;text-align: left;padding-right: 5px"
+                                   class="col-sm-2 control-label">缺陷名称:</label>
+                            <select class="form-control" style="width:40%;" id="pop_defect_name"
+                                    name="pop_defect_name"></select>
+                            <button style="" class="btn btn-primary btn-sm" onclick="addReason()">添加
+                            </button>
+                        </div>
+                    </div>
+                    <br>
+                    <div class="panel panel-default" style="width:80%;height:60%;overflow-y:hidden;">
+                        <div class="panel-heading">不合格原因:</div>
+                        <div id="newGroups" class="panel-body" style="height:100%;overflow-y:scroll;">
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" onclick="reset()">重置</button>
+                    <button type="button" id="save" onclick="no_inspect()" class="btn btn-primary">保存</button>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 <script type="text/javascript">
     if (sessionStorage.getItem("userName") == null) {
@@ -93,9 +137,59 @@
     let pageAll = 1;
     let pageMax = 10;   //一页多少条数据
     let checked = null;
+    let reasons = [];
+    let selectName = []; //缺陷名称下拉框信息
+    let on_or_off = '';
 
-    window.onload = getTableData(1);
+    getFailClass(true)
+    window.onload = getData();
 
+    function getData() {
+        $.ajax({
+            url: "${pageContext.request.contextPath}/GetDefaultSet",
+            type: 'post',
+            dataType: 'json',
+            data: null,
+            contentType: 'application/x-www-form-urlencoded;charset=utf-8',
+            success: function (res) {
+                if (res.data !== undefined) {
+                    res.data.forEach((item) => {
+                        if (item.name == 'concealed_process') {
+                            on_or_off = item.on_or_off;
+                        }
+                    })
+                }
+            }
+        }).then(() => {
+            getTableData(1)
+        })
+    }
+
+    function getFailClass(index) {
+        //查询缺陷分类
+        if (index) {
+            $.post("${pageContext.request.contextPath}/GetFailClass", {index: '0'}, function (result) {
+                result = JSON.parse(result);
+                $('#pop_classification').empty()
+                for (let o of result.data) {
+                    let item = $("<option value='" + o['id'] + "'>" + o['classification'] + "</option>")
+                    $('#pop_classification').append(item)
+                }
+            });
+        } else {
+            //查询缺陷名称，也就是分类子项
+            let pid = $("#pop_classification").val();
+            $.post("${pageContext.request.contextPath}/GetFailClass", {index: '1', pid: pid}, function (result) {
+                result = JSON.parse(result);
+                selectName = result.data;
+                $('#pop_defect_name').empty()
+                for (let o of result.data) {
+                    let item = $("<option value='" + o['id'] + "'>" + o['defect_name'] + "</option>")
+                    $('#pop_defect_name').append(item)
+                }
+            });
+        }
+    }
 
     function getTableData(newPage) {
         let materialcode = $('#materialcode').val();
@@ -109,6 +203,9 @@
             isPour: "true",
             pageCur: newPage,
             pageMax: pageMax
+        }
+        if (on_or_off == '1') {
+            obj.isTest = "true"
         }
         $.ajax({
             url: "${pageContext.request.contextPath}/GetPreProduct",
@@ -191,7 +288,7 @@
         });
     }
 
-    function no_inspect() {
+    function openPop() {
         let obj = [];
         $('#archTableText').find('input:checked').each(function () {
             obj.push($(this).attr('data-id'));   //找到对应checkbox中data-id属性值，然后push给空数组pids
@@ -200,20 +297,79 @@
             alert("请勾选！")
             return;
         }
-        let r = confirm("亲，确认质检不合格！");
-        if (r === false) {
+        reasons = [];
+        $("#newGroups").empty();
+        $('#myModal').modal('show')
+        getFailClass(false);
+    }
+
+    function no_inspect() {
+        let obj = [];
+        $('#archTableText').find('input:checked').each(function () {
+            obj.push($(this).attr('data-id'));   //找到对应checkbox中data-id属性值，然后push给空数组pids
+        });
+        if (obj.length === 0) {
+            alert("请勾选构建信息！")
+            return;
+        }
+        let patch_library = $("#patch_library").val()
+        if (patch_library == null) {
+            alert("请输入修补库地址！")
+            return;
+        }
+        if (reasons.length === 0) {
+            alert("请添加不合格原因！")
             return;
         }
 
-        $.post("${pageContext.request.contextPath}/InspectNo", {pids: JSON.stringify(obj)}, function (result) {
+        let str = '';
+        for (let i = 0; i < reasons.length - 1; i++) {
+            str += reasons[i].name + '，';
+        }
+        str += reasons[reasons.length - 1].name
+
+        $.post("${pageContext.request.contextPath}/InspectNo", {
+            pids: JSON.stringify(obj),
+            failure_reason: str,
+            patch_library: patch_library
+        }, function (result) {
             result = JSON.parse(result);
             alert(result.message);
             if (result.flag) {
                 getTableData(pageCur);
+                $('#myModal').modal('hide')
                 document.getElementById('pre_checkbok').checked = false
                 pre = 0;
             }
         });
+    }
+
+    function addReason() {
+        var id = $("#pop_defect_name :selected").val()
+        var name = $("#pop_defect_name :selected").text()
+        var groupdiv = $("#newGroups")
+        var newitem = $("<div id='gpname_" + id + "'>" + "<p class='pStyle' style='width:80%;height:30px;float:left;'>" + name + "</p>" + "<button style='width:15%;height:30px;float:left;' class='btn btn-primary  btn-xs' onclick='removeGroup(" + id + ")'>删除</button></br></div>")
+        groupdiv.append(newitem)
+        for (let name of selectName) {
+            if (name.id == id) {
+                reasons.push({id: id, name: name.defect_name});
+                break;
+            }
+        }
+        console.log(reasons)
+    }
+
+    function removeGroup(gpid) {
+        // 找到在reasons中的下标
+        var idx = 0;
+        for (var i = 0; i < reasons.length; i++) {
+            if (reasons[i].id == gpid) {
+                idx = i
+            }
+        }
+        // 在reasons中删除
+        reasons.splice(idx, 1)
+        $("#gpname_" + gpid).remove()
     }
 
     function cancelInspect() {
@@ -297,6 +453,9 @@
             pageCur: newPage,
             pageMax: pageMax
         }
+        if (on_or_off == '1') {
+            obj.isTest = "true"
+        }
         $.ajax({
             url: "${pageContext.request.contextPath}/GetPreProduct",
             type: 'post',
@@ -342,6 +501,9 @@
             isPour: "true",
             pageCur: newPage,
             pageMax: pageMax
+        }
+        if (on_or_off == '1') {
+            obj.isTest = "true"
         }
         $.ajax({
             url: "${pageContext.request.contextPath}/GetPreProduct",
