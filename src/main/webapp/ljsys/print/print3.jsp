@@ -536,7 +536,6 @@
             pop_pageDate.forEach((item) => {
                 obj.forEach((val) => {
                     if (item.pid == val) {
-                        console.log()
                         fangliang += item.fangliang;
                     }
                 })
@@ -1330,8 +1329,9 @@
                 }));
             });
             let str = ''
+            //打印信息添加计划信息
             printsData.forEach((item, index) => {
-                printsData[index] = Object.assign(item, jsonObj[0]);
+                printsData[index] = Object.assign(item, excelData.plan);
                 if (item.print > 0) {
                     str += item.preproductid + '，';
                 }
@@ -1380,7 +1380,7 @@
                 let str = ''
 
                 printsData.forEach((item, index) => {
-                    printsData[index] = Object.assign(item, jsonObj[0]);
+                    printsData[index] = Object.assign(item, excelData.plan);
                     if (item.print > 0) {
                         str += item.preproductid + '，';
                     }

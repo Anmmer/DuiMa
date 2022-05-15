@@ -14,8 +14,8 @@ public class DbUtil {
     static final String jdbcDriver = "com.mysql.cj.jdbc.Driver";
     static final String url = "jdbc:mysql://localhost:3306/lisys?useUnicode=true&characterEncoding=utf8&useSSL=true&serverTimezone=UTC";
     static final String user = "root";
-//    static final String pwd = "123456";
-    static final String pwd = "!changanHong513";
+    static final String pwd = "123456";
+//    static final String pwd = "!changanHong513";
 
     public static Connection getCon() throws ClassNotFoundException, SQLException {
         //        1.注册驱动，将mysql驱动包加载到内存

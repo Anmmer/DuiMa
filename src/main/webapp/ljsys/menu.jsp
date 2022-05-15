@@ -297,9 +297,9 @@
                         style="margin-left: 15%;margin-right: 5%;" class="glyphicon glyphicon-grain"></span>质检缺陷目录维护
                 </button>
             </li>
-            <li  id="plan_name_li">
-                <button class="li_ItemStyle" id="plan_name" onclick="jumpTo('archivesPlanName.jsp','plan_name')"><span
-                        style="margin-left: 15%;margin-right: 5%;" class="glyphicon glyphicon-grain"></span>项目管理
+            <li  id="default_set_li">
+                <button class="li_ItemStyle" id="default_set" onclick="jumpTo('archivesSet.jsp','default_set')"><span
+                        style="margin-left: 15%;margin-right: 5%;" class="glyphicon glyphicon-grain"></span>系统设置
                 </button>
             </li>
             <li id="plan_line_li">

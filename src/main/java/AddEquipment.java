@@ -6,7 +6,7 @@ import java.util.*;
 import com.alibaba.fastjson.JSON;
 import com.example.DbUtil;
 
-public class AddEquipment extends HttpServlet {
+public class        AddEquipment extends HttpServlet {
 
 	public void doGet(HttpServletRequest request,HttpServletResponse response) throws ServletException,IOException {
 		return;
