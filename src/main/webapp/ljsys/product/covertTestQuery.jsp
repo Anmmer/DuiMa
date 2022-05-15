@@ -48,6 +48,7 @@
                     <td class='tdStyle_title active' style="width: 15%">物料名称</td>
                     <td class='tdStyle_title active' style="width: 15%">计划编号</td>
                     <td class='tdStyle_title active' style="width: 15%">质检状态</td>
+                    <td class='tdStyle_title active' style="width: 15%">不合格原因</td>
                     <td class='tdStyle_title active' style="width: 15%">操作日期</td>
                 </tr>
                 <tbody id="archTableText">
@@ -194,6 +195,7 @@
             materialcode: materialcode,
             materialname: materialname,
             testState: testState,
+            isPrint: "true",
             pageCur: newPage,
             pageMax: pageMax
         }
@@ -388,13 +390,14 @@
     function updateTable() {
         let str = '';
         for (let i = 0; i < jsonObj.length; i++) {
-            if (on_or_off == '1') {
-                if (jsonObj[i]['pourmade'] === 1 || jsonObj[i]['inspect'] === 1) {
-                    disable = 'disabled'
-                } else {
-                    disable = ''
-                }
-            }
+            let disable = '';
+            // if (on_or_off == '1') {
+            //     if (jsonObj[i]['pourmade'] === 1 || jsonObj[i]['inspect'] === 1) {
+            //         disable = 'disabled'
+            //     } else {
+            //         disable = ''
+            //     }
+            // }
             if (jsonObj[i]['covert_test'] === 1) {
                 jsonObj[i]['covert_test'] = '检验合格'
             } else if (jsonObj[i]['covert_test'] === 2) {
@@ -403,11 +406,13 @@
                 jsonObj[i]['covert_test'] = '未检验'
             }
             jsonObj[i]['covert_test_time'] = jsonObj[i]['covert_test_time'] === undefined ? '--' : jsonObj[i]['covert_test_time'];
-            str += "<tr><td class='tdStyle_body'><input type='checkbox' data-id=" + jsonObj[i]['pid'] + ">" +
+            jsonObj[i]['covert_test_failure_reason'] = jsonObj[i]['covert_test_failure_reason'] === undefined ? '--' : jsonObj[i]['covert_test_failure_reason'];
+            str += "<tr><td class='tdStyle_body'><input type='checkbox'" + disable + " data-id=" + jsonObj[i]['pid'] + ">" +
                 "</td><td class='tdStyle_body'>" + jsonObj[i]['materialcode'] +
                 "</td><td class='tdStyle_body'>" + jsonObj[i]['materialname'] +
                 "</td><td class='tdStyle_body'>" + jsonObj[i]['plannumber'] +
                 "</td><td class='tdStyle_body'>" + jsonObj[i]['covert_test'] +
+                "</td><td class='tdStyle_body'>" + jsonObj[i]['covert_test_failure_reason'] +
                 "</td><td class='tdStyle_body'>" + jsonObj[i]['covert_test_time'] +
                 "</td></tr>";
         }
@@ -487,6 +492,7 @@
             materialcode: materialcode,
             materialname: materialname,
             testState: testState,
+            isPrint: "true",
             pageCur: newPage,
             pageMax: pageMax
         }
@@ -529,6 +535,7 @@
             materialcode: materialcode,
             materialname: materialname,
             testState: testState,
+            isPrint: "true",
             pageCur: newPage,
             pageMax: pageMax
         }

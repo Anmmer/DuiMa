@@ -101,8 +101,8 @@ public class GetPreProduct extends HttpServlet {
                 sql2 += " and pourmade > 0";
             }
             if ("true".equals(isTest)) {
-                sql += " and covert_test > 0";
-                sql2 += " and covert_test > 0";
+                sql += " and covert_test = 1";
+                sql2 += " and covert_test = 1";
             }
             if ("0".equals(pourState)) {
                 sql += " and pourmade = 0";
@@ -198,7 +198,7 @@ public class GetPreProduct extends HttpServlet {
                     ps2.setString(j--, "%" + materialname.trim() + "%");
                 }
                 if (materialcode != null && !"".equals(materialcode)) {
-                    ps2.setString(j--, materialcode.trim());
+                    ps2.setString(j--, "%" + materialcode.trim() + "%");
                 }
                 if (plannumber != null && !"".equals(plannumber)) {
                     ps2.setString(j, plannumber);

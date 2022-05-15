@@ -154,7 +154,28 @@
 
     let jsonObj = [];
 
-    window.onload = getTableData(1);
+    window.onload = getData();
+
+    function getData() {
+        $.ajax({
+            url: "${pageContext.request.contextPath}/GetDefaultSet",
+            type: 'post',
+            dataType: 'json',
+            data: null,
+            contentType: 'application/x-www-form-urlencoded;charset=utf-8',
+            success: function (res) {
+                if (res.data !== undefined) {
+                    res.data.forEach((item) => {
+                        if (item.name == 'concealed_process') {
+                            on_or_off = item.on_or_off;
+                        }
+                    })
+                }
+            }
+        }).then(() => {
+            getTableData(1)
+        })
+    }
 
     $('#myModal').on('hidden.bs.modal', function (e) {
         $('#li_d' + pop_pageCur % 5).removeClass('active');
@@ -229,6 +250,13 @@
                 } else {
                     pop_pageDate[i]['inspect'] = '检验不合格'
                 }
+                // if (on_or_off == '1') {
+                //     if (jsonObj[i]['pourmade'] === 1 || jsonObj[i]['inspect'] === 1) {
+                //         disable = 'disabled'
+                //     } else {
+                //         disable = ''
+                //     }
+                // }
                 pop_pageDate[i]['pourtime'] = pop_pageDate[i]['pourtime'] === undefined ? '--' : pop_pageDate[i]['pourtime'];
                 pop_pageDate[i]['checktime'] = pop_pageDate[i]['checktime'] === undefined ? '--' : pop_pageDate[i]['checktime'];
                 str += "<tr><td class='tdStyle_body' >" + pop_pageDate[i]['materialcode'] +
