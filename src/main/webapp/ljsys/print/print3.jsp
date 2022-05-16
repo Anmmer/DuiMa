@@ -1440,6 +1440,10 @@
             },
             success: function (res) {
                 let datatmp = JSON.parse(res.data)[0]
+                if (datatmp.qrcode_content == undefined) {
+                    alert("请设置二维码内容");
+                    return
+                }
                 qrstyle = JSON.parse(datatmp.qrcode_content)
                 $(".gif").css("display", "flex");
                 printData()

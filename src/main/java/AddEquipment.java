@@ -6,7 +6,7 @@ import java.util.*;
 import com.alibaba.fastjson.JSON;
 import com.example.DbUtil;
 
-public class        AddEquipment extends HttpServlet {
+public class AddEquipment extends HttpServlet {
 
 	public void doGet(HttpServletRequest request,HttpServletResponse response) throws ServletException,IOException {
 		return;
@@ -22,7 +22,7 @@ public class        AddEquipment extends HttpServlet {
 		String name = new String(request.getParameter("name"));			// 处理人姓名
 		String equipmentName = new String(request.getParameter("equipmentName"));
 		// 需要返回的数据
-		HashMap<String,String> ret = new HashMap<String,String>();
+		HashMap<String,String> ret = new HashMap<>();
 		// 连接数据库查询
 		Connection conn = null;
 		Statement stmt = null;

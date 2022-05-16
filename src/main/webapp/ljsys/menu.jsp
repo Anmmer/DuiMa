@@ -307,6 +307,16 @@
                         style="margin-left: 15%;margin-right: 5%;" class="glyphicon glyphicon-grain"></span>系统设置
                 </button>
             </li>
+            <li id="factory_set_li">
+                <button class="li_ItemStyle" id="factory_set" onclick="jumpTo('archivesFactory.jsp','factory_set')"><span
+                        style="margin-left: 15%;margin-right: 5%;" class="glyphicon glyphicon-grain"></span>仓库管理
+                </button>
+            </li>
+            <li id="plan_name_li">
+                <button class="li_ItemStyle" id="plan_name" onclick="jumpTo('archivesPlanName.jsp','plan_name')"><span
+                        style="margin-left: 15%;margin-right: 5%;" class="glyphicon glyphicon-grain"></span>项目管理
+                </button>
+            </li>
             <li id="plan_line_li">
                 <button class="li_ItemStyle" id="plan_line" onclick="jumpTo('archivesLine.jsp','plan_line')"><span
                         style="margin-left: 15%;margin-right: 5%;" class="glyphicon glyphicon-grain"></span>产线管理

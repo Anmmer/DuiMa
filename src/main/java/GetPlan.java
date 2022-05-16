@@ -31,6 +31,7 @@ public class GetPlan extends HttpServlet {
         String materialname = req.getParameter("materialname");
         String preproductid = req.getParameter("preproductid");
         String productState = req.getParameter("productState");
+        String on_or_off = req.getParameter("on_or_off");
         int pageCur = Integer.parseInt(req.getParameter("pageCur"));
         int pageMax = Integer.parseInt(req.getParameter("pageMax"));
         Connection con = null;
@@ -85,12 +86,22 @@ public class GetPlan extends HttpServlet {
                 i++;
             }
             if ("0".equals(productState)) {
-                sql += " and ( SELECT count( 1 ) FROM preproduct WHERE preproduct.plannumber = plan.plannumber AND preproduct.pourmade = 1 and preproduct.inspect = 1) !=tasknum";
-                sql2 += " and ( SELECT count( 1 ) FROM preproduct WHERE preproduct.plannumber = plan.plannumber AND preproduct.pourmade = 1 AND preproduct.inspect = 1)!=tasknum";
+                if ("1".equals(on_or_off)) {
+                    sql += " and ( SELECT count( 1 ) FROM preproduct WHERE preproduct.plannumber = plan.plannumber AND preproduct.pourmade = 1 and preproduct.inspect = 1 and covert_test = 1) !=tasknum";
+                    sql2 += " and ( SELECT count( 1 ) FROM preproduct WHERE preproduct.plannumber = plan.plannumber AND preproduct.pourmade = 1 AND preproduct.inspect = 1 and covert_test = 1)!=tasknum";
+                }else {
+                    sql += " and ( SELECT count( 1 ) FROM preproduct WHERE preproduct.plannumber = plan.plannumber AND preproduct.pourmade = 1 and preproduct.inspect = 1) !=tasknum";
+                    sql2 += " and ( SELECT count( 1 ) FROM preproduct WHERE preproduct.plannumber = plan.plannumber AND preproduct.pourmade = 1 AND preproduct.inspect = 1)!=tasknum";
+                }
             }
             if ("1".equals(productState)) {
-                sql += " and ( SELECT count( 1 ) FROM preproduct WHERE preproduct.plannumber = plan.plannumber AND preproduct.pourmade = 1 and preproduct.inspect = 1) =tasknum";
-                sql2 += " and ( SELECT count( 1 ) FROM preproduct WHERE preproduct.plannumber = plan.plannumber AND preproduct.pourmade = 1 and preproduct.inspect = 1) =tasknum";
+                if ("1".equals(on_or_off)) {
+                    sql += " and ( SELECT count( 1 ) FROM preproduct WHERE preproduct.plannumber = plan.plannumber AND preproduct.pourmade = 1 and preproduct.inspect = 1 and covert_test = 1) =tasknum";
+                    sql2 += " and ( SELECT count( 1 ) FROM preproduct WHERE preproduct.plannumber = plan.plannumber AND preproduct.pourmade = 1 AND preproduct.inspect = 1 and covert_test = 1) =tasknum";
+                }else{
+                    sql += " and ( SELECT count( 1 ) FROM preproduct WHERE preproduct.plannumber = plan.plannumber AND preproduct.pourmade = 1 and preproduct.inspect = 1) =tasknum";
+                    sql2 += " and ( SELECT count( 1 ) FROM preproduct WHERE preproduct.plannumber = plan.plannumber AND preproduct.pourmade = 1 and preproduct.inspect = 1) =tasknum";
+                }
             }
             j = i;
             sql += " limit ?,?";
@@ -149,11 +160,11 @@ public class GetPlan extends HttpServlet {
                 ps2.setString(j--, "%" + line.trim() + "%");
             }
             if (!"".equals(preproductid) && preproductid != null) {
-                ps2.setString(j--, preproductid.trim());
+                ps2.setString(j--, "%" + preproductid.trim() + "%");
             }
 
             if (!"".equals(materialname) && materialname != null) {
-                ps2.setString(j--, materialname.trim());
+                ps2.setString(j--, "%" + materialname.trim() + "%");
             }
             if (!"".equals(materialcode) && materialcode != null) {
                 ps2.setString(j--, materialcode.trim());

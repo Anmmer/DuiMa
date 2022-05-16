@@ -36,6 +36,7 @@ public class GetPreProduct extends HttpServlet {
         String materialname = req.getParameter("materialname");
         String preproductid = req.getParameter("preproductid");
         String productState = req.getParameter("productState");
+        String on_or_off = req.getParameter("on_or_off");
         String pourState = req.getParameter("pourState");
         String inspectState = req.getParameter("inspectState");
         String testState = req.getParameter("testState");
@@ -80,18 +81,34 @@ public class GetPreProduct extends HttpServlet {
                 sql2 += " and preproductid like ?";
                 i++;
             }
-            if ("1".equals(productState)) {
-                sql += " and pourmade = 0 and inspect = 0";
-                sql2 += " and pourmade = 0 and inspect = 0";
+            if ("1".equals(on_or_off)) {
+                if ("1".equals(productState)) {
+                    sql += " and pourmade = 0 and inspect = 0";
+                    sql2 += " and pourmade = 0 and inspect = 0";
+                }
+                if ("2".equals(productState)) {
+                    sql += " and pourmade = 1 and inspect = 0";
+                    sql2 += " and pourmade = 1 and inspect = 0";
+                }
+                if ("3".equals(productState)) {
+                    sql += " and pourmade = 1 and (inspect = 1 or inspect = 2) ";
+                    sql2 += " and pourmade = 1 and (inspect = 1 or inspect = 2) ";
+                }
+            } else {
+                if ("1".equals(productState)) {
+                    sql += " and pourmade = 0 and inspect = 0";
+                    sql2 += " and pourmade = 0 and inspect = 0";
+                }
+                if ("2".equals(productState)) {
+                    sql += " and pourmade = 1 and inspect = 0";
+                    sql2 += " and pourmade = 1 and inspect = 0";
+                }
+                if ("3".equals(productState)) {
+                    sql += " and pourmade = 1 and (inspect = 1 or inspect = 2) ";
+                    sql2 += " and pourmade = 1 and (inspect = 1 or inspect = 2) ";
+                }
             }
-            if ("2".equals(productState)) {
-                sql += " and pourmade = 1 and inspect = 0";
-                sql2 += " and pourmade = 1 and inspect = 0";
-            }
-            if ("3".equals(productState)) {
-                sql += " and pourmade = 1 and (inspect = 1 or inspect = 2) ";
-                sql2 += " and pourmade = 1 and (inspect = 1 or inspect = 2) ";
-            }
+
             if ("true".equals(isPrint)) {
                 sql += " and print > 0";
                 sql2 += " and print > 0";

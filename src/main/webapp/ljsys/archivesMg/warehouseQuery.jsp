@@ -23,11 +23,11 @@
     <form name="query" class="form-inline" style="width:70%;height:8%;margin: 2% auto 0">
         <div class="form-group">
             <label>货位编号：</label><input type="text" id="warehouseId" name="warehouseId"
-                                       style="height:10%;" class="form-control">
+                                        class="form-control">
         </div>
         <div class="form-group" style="margin-left:5%;">
             <label>货位名：</label><input type="text" id="warehouseName" name="warehouseName"
-                                      style="height:10%;" class="form-control">
+                                       class="form-control">
         </div>
         <button type="button" class="btn btn-primary btn-sm" style="margin-left: 5%"
                 onclick="updateTable(1)">
@@ -49,11 +49,11 @@
     <div style="width:70%;height:80%;margin:0 auto;">
         <div class="page-header" style="margin-top: 0;margin-bottom: 1%">
             <h3 style="margin-bottom: 0;margin-top: 0"><small>货位信息</small></h3>
-<%--            <button type="button" style="position: absolute;right: 15%;top:15%" class="btn btn-primary btn-sm"--%>
-<%--                    data-toggle="modal"--%>
-<%--                    data-target="#myModal">--%>
-<%--                添加货位--%>
-<%--            </button>--%>
+            <button type="button" style="position: absolute;right: 15%;top:15%" class="btn btn-primary btn-sm"
+                    data-toggle="modal"
+                    data-target="#myModal">
+                添加货位
+            </button>
         </div>
         <div style="height: 80%">
             <table class="table table-hover" style="text-align: center">
@@ -168,7 +168,6 @@
                             "</td><td class='tdStyle_body'>" + jsonobj[i]['warehouse_name'] +
                             "</td><td class='tdStyle_body'>";
                         // 查询
-                        str += "<a href='warehouseInfoQueryAll.jsp?warehouseId=" + jsonobj[i]['warehouse_id'] + "&warehouseName=" + encodeURIComponent(jsonobj[i]['warehouse_name']) + "'>详情</a>"
                         str += "&nbsp<a href='javascript:void(0);' onclick='removeWarehouse(" + jsonobj[i]['warehouse_id'] + ")'>删除</a>"
                         str += "</td></tr>"
                     }
@@ -250,7 +249,6 @@
                             "</td><td class='tdStyle_body'>" + jsonobj[i]['warehouse_name'] +
                             "</td><td class='tdStyle_body'>";
                         // 查询
-                        str += "<a href='warehouseInfoQueryAll.jsp?warehouseId=" + jsonobj[i]['warehouse_id'] + "&warehouseName=" + encodeURIComponent(jsonobj[i]['warehouse_name']) + "'>详情</a>"
                         str += "&nbsp<a href='javascript:void(0);' onclick='removeWarehouse(" + jsonobj[i]['warehouse_id'] + ")'>删除</a>"
                         str += "</td></tr>"
                     }
@@ -307,7 +305,6 @@
                             "</td><td class='tdStyle_body'>" + jsonobj[i]['warehouse_name'] +
                             "</td><td class='tdStyle_body'>";
                         // 查询
-                        str += "<a href='warehouseInfoQueryAll.jsp?warehouseId=" + jsonobj[i]['warehouse_id'] + "&warehouseName=" + encodeURIComponent(jsonobj[i]['warehouse_name']) + "'>详情</a>"
                         str += "&nbsp<a href='javascript:void(0);' onclick='removeWarehouse(" + jsonobj[i]['warehouse_id'] + ")'>删除</a>"
                         str += "</td></tr>"
                     }
@@ -357,7 +354,6 @@
                             "</td><td class='tdStyle_body'>" + jsonobj[i]['warehouse_name'] +
                             "</td><td class='tdStyle_body'>";
                         // 查询
-                        str += "<a href='warehouseInfoQueryAll.jsp?warehouseId=" + jsonobj[i]['warehouse_id'] + "&warehouseName=" + encodeURIComponent(jsonobj[i]['warehouse_name']) + "'>详情</a>"
                         str += "&nbsp<a href='javascript:void(0);' onclick='removeWarehouse(" + jsonobj[i]['warehouse_id'] + ")'>删除</a>"
                         str += "</td></tr>"
                     }

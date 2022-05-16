@@ -8,7 +8,7 @@
             <input id="materialcode" class="form-control" style="width: 13%;height:10%;">
             <label for="productState" style="margin-left: 2%">生产状态：</label>
             <select id="productState" class="form-control" style="width: 13%;">
-                <option value="2"></option>
+                <option value=""></option>
                 <option value="0">待生产</option>
                 <option value="1">已生产</option>
             </select>
@@ -82,10 +82,6 @@
                                 <input id="materialcode_pop" class="form-control" style="width: 15%;height: 30px">
                                 <label for="productState_pop" style="margin-left: 1%">生产状态：</label>
                                 <select id="productState_pop" class="form-control" style="width: 15%;height: 30px">
-                                    <option value="0"></option>
-                                    <option value="1">待生产</option>
-                                    <option value="2">浇捣完成</option>
-                                    <option value="3">质检完成</option>
                                 </select>
                                 <button id="pop_query_button" class="btn btn-primary" onclick="getData(1)"
                                         style="margin-left:3%;height: 30px;padding: 0 10px">查&nbsp;&nbsp;询
@@ -103,8 +99,8 @@
                                     <td class='tdStyle_title active' style="width: 10%">构建编号</td>
                                     <td class='tdStyle_title active' style="width: 10%">浇捣状态</td>
                                     <td class='tdStyle_title active' style="width: 10%">浇捣日期</td>
-                                    <td class='tdStyle_title active' style="width: 10%">检验状态</td>
-                                    <td class='tdStyle_title active' style="width: 10%">检验日期</td>
+                                    <td class='tdStyle_title active' style="width: 10%">质检状态</td>
+                                    <td class='tdStyle_title active' style="width: 10%">质检日期</td>
                                     <td class='tdStyle_title active' style="width: 10%">生产状态</td>
                                 </tr>
                                 <tbody id="detailTableText">
@@ -151,12 +147,13 @@
 
     let pop_pageCur = 1;    //弹框分页当前页
     let pop_pageAll = 1;  //弹框分页总页数
+    let on_or_off = '';
 
     let jsonObj = [];
 
-    window.onload = getData();
+    window.onload = getDataSet();
 
-    function getData() {
+    function getDataSet() {
         $.ajax({
             url: "${pageContext.request.contextPath}/GetDefaultSet",
             type: 'post',
@@ -192,6 +189,7 @@
             productState: productState,
             planname: planname,
             materialcode: materialcode,
+            on_or_off: on_or_off,
             pageCur: newPage,
             pageMax: pageMax
         }
@@ -244,19 +242,26 @@
                 }
                 pop_pageDate[i]['pourmade'] = pop_pageDate[i]['pourmade'] === 0 ? '未浇捣' : '已浇捣'
                 if (pop_pageDate[i]['inspect'] === 0) {
-                    pop_pageDate[i]['inspect'] = '未检验'
+                    pop_pageDate[i]['inspect'] = '未质检'
                 } else if (pop_pageDate[i]['inspect'] === 1) {
-                    pop_pageDate[i]['inspect'] = '检验合格'
+                    pop_pageDate[i]['inspect'] = '质检合格'
                 } else {
-                    pop_pageDate[i]['inspect'] = '检验不合格'
+                    pop_pageDate[i]['inspect'] = '质检不合格'
                 }
-                // if (on_or_off == '1') {
-                //     if (jsonObj[i]['pourmade'] === 1 || jsonObj[i]['inspect'] === 1) {
-                //         disable = 'disabled'
-                //     } else {
-                //         disable = ''
-                //     }
-                // }
+                if (on_or_off == '1') {
+                    if (pop_pageDate[i]['covert_test'] === 1 && pop_pageDate[i]['inspect'] === 0 && pop_pageDate[i]['pourmade'] === 0) {
+                        state = '检验合格'
+                        style = "style='background-color: green;'"
+                    }
+                    if (pop_pageDate[i]['covert_test'] === 0) {
+                        state = '待检验'
+                        style = "style='background-color: grey;'"
+                    }
+                    if (pop_pageDate[i]['covert_test'] === 2) {
+                        state = '检验不合格'
+                        style = "style='background-color: red;'"
+                    }
+                }
                 pop_pageDate[i]['pourtime'] = pop_pageDate[i]['pourtime'] === undefined ? '--' : pop_pageDate[i]['pourtime'];
                 pop_pageDate[i]['checktime'] = pop_pageDate[i]['checktime'] === undefined ? '--' : pop_pageDate[i]['checktime'];
                 str += "<tr><td class='tdStyle_body' >" + pop_pageDate[i]['materialcode'] +
@@ -348,6 +353,19 @@
             if (result.data !== undefined) {
                 pop_pageDate = result.data;
                 $('#myModal').modal('show')
+                $('#productState_pop').e
+                if (on_or_off == 1) {
+                    $('#productState_pop').append($("<option value=\"0\"></option>\n" +
+                        "                                    <option value=\"1\">待生产</option>\n" +
+                        "                                    <option value=\"2\">待检验</option>\n" +
+                        "                                    <option value=\"3\">浇捣完成</option>\n" +
+                        "                                    <option value=\"4\">质检完成</option>"))
+                } else {
+                    $('#productState_pop').append($("<option value=\"0\"></option>\n" +
+                        "                                    <option value=\"1\">待生产</option>\n" +
+                        "                                    <option value=\"2\">浇捣完成</option>\n" +
+                        "                                    <option value=\"3\">质检完成</option>"))
+                }
                 updateTable(true);
                 $('#total_d').html(result.cnt + "条，共" + result.pageAll + "页");
                 $('#li_d1').addClass('active');

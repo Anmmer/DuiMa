@@ -47,7 +47,7 @@
                     <td class='tdStyle_title active' style="width: 15%">物料编码</td>
                     <td class='tdStyle_title active' style="width: 15%">物料名称</td>
                     <td class='tdStyle_title active' style="width: 15%">计划编号</td>
-                    <td class='tdStyle_title active' style="width: 15%">质检状态</td>
+                    <td class='tdStyle_title active' style="width: 15%">检验状态</td>
                     <td class='tdStyle_title active' style="width: 15%">不合格原因</td>
                     <td class='tdStyle_title active' style="width: 15%">操作日期</td>
                 </tr>

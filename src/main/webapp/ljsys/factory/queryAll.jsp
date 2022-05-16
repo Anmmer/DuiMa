@@ -31,11 +31,11 @@
     <div style="width:70%;height:80%;margin:0 auto;">
         <div class="page-header" style="margin-top: 0;margin-bottom: 1%">
             <h3 style="margin-bottom: 0;margin-top: 0"><small>仓库信息</small></h3>
-            <button type="button" style="position: absolute;right: 15%;top:15%" class="btn btn-primary btn-sm"
-                    data-toggle="modal"
-                    data-target="#myModal">
-                添加仓库
-            </button>
+<%--            <button type="button" style="position: absolute;right: 15%;top:15%" class="btn btn-primary btn-sm"--%>
+<%--                    data-toggle="modal"--%>
+<%--                    data-target="#myModal">--%>
+<%--                添加仓库--%>
+<%--            </button>--%>
         </div>
         <div style="height: 85%">
             <table class="table table-hover" cellspacing="0" cellpadding="0" width="100%" align="center">
