@@ -353,7 +353,7 @@
             if (result.data !== undefined) {
                 pop_pageDate = result.data;
                 $('#myModal').modal('show')
-                $('#productState_pop').e
+                $('#productState_pop').empty()
                 if (on_or_off == 1) {
                     $('#productState_pop').append($("<option value=\"0\"></option>\n" +
                         "                                    <option value=\"1\">待生产</option>\n" +
