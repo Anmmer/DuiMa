@@ -250,8 +250,8 @@
                 }
                 if (on_or_off == '1') {
                     if (pop_pageDate[i]['covert_test'] === 1 && pop_pageDate[i]['inspect'] === 0 && pop_pageDate[i]['pourmade'] === 0) {
-                        state = '检验合格'
-                        style = "style='background-color: green;'"
+                        state = '待浇捣'
+                        style = "style='background-color: #d9d91a;'"
                     }
                     if (pop_pageDate[i]['covert_test'] === 0) {
                         state = '待检验'
@@ -259,7 +259,7 @@
                     }
                     if (pop_pageDate[i]['covert_test'] === 2) {
                         state = '检验不合格'
-                        style = "style='background-color: red;'"
+                        style = "style='background-color: #a94442;'"
                     }
                 }
                 pop_pageDate[i]['pourtime'] = pop_pageDate[i]['pourtime'] === undefined ? '--' : pop_pageDate[i]['pourtime'];
