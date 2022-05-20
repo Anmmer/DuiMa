@@ -11,29 +11,40 @@ import java.util.List;
 public class FailContent {
     private Integer id;
     private Integer pid;
+    private String text;
     private String classification;
     private String defect_name;
-    private final List<FailContent> child = new ArrayList<>();
+    private final List<FailContent> children = new ArrayList<>();
 
     public static List<FailContent> build(List<FailContent> list, Integer topId) {
         List<FailContent> n1 = new ArrayList<>();
 
         for (FailContent f1 : list) {
             if (f1.getPid().equals(topId)) {
+                f1.setText(f1.getClassification());
                 n1.add(f1);
             }
 
             for (FailContent f2 : list) {
                 if (f2.getPid().equals(f1.getId())) {
-                    f1.getChild().add(f2);
+                    f2.setText(f2.getDefect_name());
+                    f1.getChildren().add(f2);
                 }
             }
         }
         return n1;
     }
 
-    public List<FailContent> getChild() {
-        return child;
+    public String getText() {
+        return text;
+    }
+
+    public void setText(String text) {
+        this.text = text;
+    }
+
+    public List<FailContent> getChildren() {
+        return children;
     }
 
     public Integer getId() {

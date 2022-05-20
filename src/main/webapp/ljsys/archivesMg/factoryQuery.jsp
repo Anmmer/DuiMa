@@ -87,7 +87,7 @@
                 </div>
                 <div class="modal-body">
                     <div class="form-horizontal">
-                        <div class="form-group" style="height: 100%;margin-top: 5%">
+                        <div class="form-group" style="margin-top: 5%">
                             <label for="newFactoryName" style="width: 28%;text-align: left;padding-right: 0"
                                    class="col-sm-2 control-label">仓库名:</label>
                             <input type="text" class="form-control" style="width:50%;" id="newFactoryName"

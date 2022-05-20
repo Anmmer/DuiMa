@@ -97,6 +97,8 @@
                                     <td class='tdStyle_title active' style="width: 15%">物料编号</td>
                                     <td class='tdStyle_title active' style="width: 15%">物料名称</td>
                                     <td class='tdStyle_title active' style="width: 10%">构建编号</td>
+                                    <td class='tdStyle_title active' style="width: 10%">检验状态</td>
+                                    <td class='tdStyle_title active' style="width: 10%">检验日期</td>
                                     <td class='tdStyle_title active' style="width: 10%">浇捣状态</td>
                                     <td class='tdStyle_title active' style="width: 10%">浇捣日期</td>
                                     <td class='tdStyle_title active' style="width: 10%">质检状态</td>
@@ -240,14 +242,6 @@
                     state = '质检不合格'
                     style = "style='background-color: red;'"
                 }
-                pop_pageDate[i]['pourmade'] = pop_pageDate[i]['pourmade'] === 0 ? '未浇捣' : '已浇捣'
-                if (pop_pageDate[i]['inspect'] === 0) {
-                    pop_pageDate[i]['inspect'] = '未质检'
-                } else if (pop_pageDate[i]['inspect'] === 1) {
-                    pop_pageDate[i]['inspect'] = '质检合格'
-                } else {
-                    pop_pageDate[i]['inspect'] = '质检不合格'
-                }
                 if (on_or_off == '1') {
                     if (pop_pageDate[i]['covert_test'] === 1 && pop_pageDate[i]['inspect'] === 0 && pop_pageDate[i]['pourmade'] === 0) {
                         state = '待浇捣'
@@ -262,11 +256,34 @@
                         style = "style='background-color: #a94442;'"
                     }
                 }
+                pop_pageDate[i]['pourmade'] = pop_pageDate[i]['pourmade'] === 0 ? '未浇捣' : '已浇捣'
+                if (pop_pageDate[i]['inspect'] === 0) {
+                    pop_pageDate[i]['inspect'] = '未质检'
+                } else if (pop_pageDate[i]['inspect'] === 1) {
+                    pop_pageDate[i]['inspect'] = '质检合格'
+                } else {
+                    pop_pageDate[i]['inspect'] = '质检不合格'
+                }
                 pop_pageDate[i]['pourtime'] = pop_pageDate[i]['pourtime'] === undefined ? '--' : pop_pageDate[i]['pourtime'];
                 pop_pageDate[i]['checktime'] = pop_pageDate[i]['checktime'] === undefined ? '--' : pop_pageDate[i]['checktime'];
+                pop_pageDate[i]['covert_test_time'] = pop_pageDate[i]['covert_test_time'] === undefined ? '--' : pop_pageDate[i]['checktime'];
+                if (on_or_off == '1') {
+                    if (pop_pageDate[i]['covert_test'] === 0) {
+                        pop_pageDate[i]['covert_test'] = '未检验'
+                    } else if (pop_pageDate[i]['covert_test'] === 1) {
+                        pop_pageDate[i]['covert_test'] = '检验合格'
+                    } else {
+                        pop_pageDate[i]['covert_test'] = '检验不合格'
+                    }
+                } else {
+                    pop_pageDate[i]['covert_test'] = '--';
+                    pop_pageDate[i]['covert_test_time'] = '--';
+                }
                 str += "<tr><td class='tdStyle_body' >" + pop_pageDate[i]['materialcode'] +
                     "</td><td class='tdStyle_body'>" + pop_pageDate[i]['materialname'] +
                     "</td><td class='tdStyle_body'>" + pop_pageDate[i]['preproductid'] +
+                    "</td><td class='tdStyle_body'>" + pop_pageDate[i]['covert_test'] +
+                    "</td><td class='tdStyle_body'>" + pop_pageDate[i]['covert_test_time'] +
                     "</td><td class='tdStyle_body'>" + pop_pageDate[i]['pourmade'] +
                     "</td><td class='tdStyle_body'>" + pop_pageDate[i]['pourtime'] +
                     "</td><td class='tdStyle_body'>" + pop_pageDate[i]['inspect'] +

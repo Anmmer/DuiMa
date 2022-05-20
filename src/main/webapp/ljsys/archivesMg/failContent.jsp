@@ -215,7 +215,7 @@
                     jsonObj = [];
                     for (let o of res.data) {
                         jsonObj.push({id: o.id, classification: o.classification, defect_name: ''})
-                        for (let d of o.child) {
+                        for (let d of o.children) {
                             jsonObj.push({
                                 id: d.id,
                                 pid: d.pid,

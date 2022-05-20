@@ -169,7 +169,7 @@
                             "</td><td class='tdStyle_body'>";
                         // 查询
                         str += "<a href='warehouseInfoQueryAll.jsp?warehouseId=" + jsonobj[i]['warehouse_id'] + "&warehouseName=" + encodeURIComponent(jsonobj[i]['warehouse_name']) + "'>详情</a>"
-                        str += "&nbsp<a href='javascript:void(0);' onclick='removeWarehouse(" + jsonobj[i]['warehouse_id'] + ")'>删除</a>"
+                        // str += "&nbsp<a href='javascript:void(0);' onclick='removeWarehouse(" + jsonobj[i]['warehouse_id'] + ")'>删除</a>"
                         str += "</td></tr>"
                     }
                     $("#tableText").html(str);
@@ -251,7 +251,7 @@
                             "</td><td class='tdStyle_body'>";
                         // 查询
                         str += "<a href='warehouseInfoQueryAll.jsp?warehouseId=" + jsonobj[i]['warehouse_id'] + "&warehouseName=" + encodeURIComponent(jsonobj[i]['warehouse_name']) + "'>详情</a>"
-                        str += "&nbsp<a href='javascript:void(0);' onclick='removeWarehouse(" + jsonobj[i]['warehouse_id'] + ")'>删除</a>"
+                        // str += "&nbsp<a href='javascript:void(0);' onclick='removeWarehouse(" + jsonobj[i]['warehouse_id'] + ")'>删除</a>"
                         str += "</td></tr>"
                     }
                     $("#tableText").html(str);
@@ -308,7 +308,7 @@
                             "</td><td class='tdStyle_body'>";
                         // 查询
                         str += "<a href='warehouseInfoQueryAll.jsp?warehouseId=" + jsonobj[i]['warehouse_id'] + "&warehouseName=" + encodeURIComponent(jsonobj[i]['warehouse_name']) + "'>详情</a>"
-                        str += "&nbsp<a href='javascript:void(0);' onclick='removeWarehouse(" + jsonobj[i]['warehouse_id'] + ")'>删除</a>"
+                        // str += "&nbsp<a href='javascript:void(0);' onclick='removeWarehouse(" + jsonobj[i]['warehouse_id'] + ")'>删除</a>"
                         str += "</td></tr>"
                     }
                     $("#tableText").html(str);
@@ -358,7 +358,7 @@
                             "</td><td class='tdStyle_body'>";
                         // 查询
                         str += "<a href='warehouseInfoQueryAll.jsp?warehouseId=" + jsonobj[i]['warehouse_id'] + "&warehouseName=" + encodeURIComponent(jsonobj[i]['warehouse_name']) + "'>详情</a>"
-                        str += "&nbsp<a href='javascript:void(0);' onclick='removeWarehouse(" + jsonobj[i]['warehouse_id'] + ")'>删除</a>"
+                        // str += "&nbsp<a href='javascript:void(0);' onclick='removeWarehouse(" + jsonobj[i]['warehouse_id'] + ")'>删除</a>"
                         str += "</td></tr>"
                     }
                     $("#tableText").html(str);

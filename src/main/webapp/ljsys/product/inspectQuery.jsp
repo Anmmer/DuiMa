@@ -313,7 +313,8 @@
             return;
         }
         let patch_library = $("#patch_library").val()
-        if (patch_library == null) {
+        console.log(patch_library)
+        if (patch_library == null || patch_library === '') {
             alert("请输入修补库地址！")
             return;
         }

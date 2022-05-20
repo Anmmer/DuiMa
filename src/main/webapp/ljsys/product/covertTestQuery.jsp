@@ -157,7 +157,11 @@
                 }
             }
         }).then(() => {
-            getTableData(1)
+            if (on_or_off == '1') {
+                getTableData(1)
+            } else {
+                alert('未开启此状态！')
+            }
         })
     }
 
