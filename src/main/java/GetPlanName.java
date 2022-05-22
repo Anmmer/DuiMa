@@ -78,7 +78,13 @@ public class GetPlanName extends HttpServlet {
             while (rs2.next()) {
                 int num = rs2.getInt("num");
                 result.put("cnt", num);
-                result.put("pageAll", num / pageMax + 1);
+                int res_num;
+                if (num % pageMax == 0) {
+                    res_num = num / pageMax;
+                } else {
+                    res_num = num / pageMax + 1;
+                }
+                result.put("pageAll", res_num);
             }
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {

@@ -69,7 +69,7 @@ public class GetQc extends HttpServlet {
             while (rs2.next()) {
                 int num = rs2.getInt("num");
                 result.put("cnt", num);
-                result.put("pageAll", num / pageMax + 1);
+                result.put("pageAll", Math.ceil((double) num / pageMax));
             }
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {

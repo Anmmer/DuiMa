@@ -89,7 +89,7 @@ public class GetPlan extends HttpServlet {
                 if ("1".equals(on_or_off)) {
                     sql += " and ( SELECT count( 1 ) FROM preproduct WHERE preproduct.plannumber = plan.plannumber AND preproduct.pourmade = 1 and preproduct.inspect = 1 and covert_test = 1) !=tasknum";
                     sql2 += " and ( SELECT count( 1 ) FROM preproduct WHERE preproduct.plannumber = plan.plannumber AND preproduct.pourmade = 1 AND preproduct.inspect = 1 and covert_test = 1)!=tasknum";
-                }else {
+                } else {
                     sql += " and ( SELECT count( 1 ) FROM preproduct WHERE preproduct.plannumber = plan.plannumber AND preproduct.pourmade = 1 and preproduct.inspect = 1) !=tasknum";
                     sql2 += " and ( SELECT count( 1 ) FROM preproduct WHERE preproduct.plannumber = plan.plannumber AND preproduct.pourmade = 1 AND preproduct.inspect = 1)!=tasknum";
                 }
@@ -98,13 +98,13 @@ public class GetPlan extends HttpServlet {
                 if ("1".equals(on_or_off)) {
                     sql += " and ( SELECT count( 1 ) FROM preproduct WHERE preproduct.plannumber = plan.plannumber AND preproduct.pourmade = 1 and preproduct.inspect = 1 and covert_test = 1) =tasknum";
                     sql2 += " and ( SELECT count( 1 ) FROM preproduct WHERE preproduct.plannumber = plan.plannumber AND preproduct.pourmade = 1 AND preproduct.inspect = 1 and covert_test = 1) =tasknum";
-                }else{
+                } else {
                     sql += " and ( SELECT count( 1 ) FROM preproduct WHERE preproduct.plannumber = plan.plannumber AND preproduct.pourmade = 1 and preproduct.inspect = 1) =tasknum";
                     sql2 += " and ( SELECT count( 1 ) FROM preproduct WHERE preproduct.plannumber = plan.plannumber AND preproduct.pourmade = 1 and preproduct.inspect = 1) =tasknum";
                 }
             }
             j = i;
-            sql += " limit ?,?";
+            sql += "order by plantime desc,planname  limit ?,?";
             i += 2;
             ps = con.prepareStatement(sql);
             ps.setInt(i--, pageMax);
@@ -181,6 +181,12 @@ public class GetPlan extends HttpServlet {
             ResultSet rs2 = ps2.executeQuery();
             while (rs2.next()) {
                 int num = rs2.getInt("num");
+                int res_num;
+                if (num % pageMax == 0) {
+                    res_num = num / pageMax;
+                } else {
+                    res_num = num / pageMax + 1;
+                }
                 data.put("cnt", num);
                 data.put("pageAll", Math.ceil((double) num / pageMax));
             }

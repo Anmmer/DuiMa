@@ -18,10 +18,10 @@
         window.parent.location.href = "login.jsp"
         window.alert("您未登陆，请先登陆！")
     }else{
-        // if(!checkAuthority('8')){
-        //     window.parent.location.href = "login.jsp"
-        //     window.alert("您没有访问权限！")
-        // }
+        if(!checkAuthority('16')){
+            window.parent.location.href = "login.jsp"
+            window.alert("您没有访问权限！")
+        }
     }
 
     function checkAuthority(au) {

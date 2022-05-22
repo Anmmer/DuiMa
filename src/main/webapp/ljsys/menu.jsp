@@ -239,7 +239,12 @@
         <ul class="ul_ListStyle" style="display: none;" id="Factory">
             <li id="factory_query_li">
                 <button class="li_ItemStyle" id="factory_query" onclick="jumpTo('factoryQueryAll.jsp','factory_query')">
-                    <span style="margin-left: 15%;margin-right: 5%;" class="glyphicon glyphicon-grain"></span>信息查询
+                    <span style="margin-left: 15%;margin-right: 5%;" class="glyphicon glyphicon-grain"></span>仓库信息查询
+                </button>
+            </li>
+            <li id="patch_library_query_li">
+                <button class="li_ItemStyle" id="patch_library_query" onclick="jumpTo('patchLibraryQueryAll.jsp','patch_library_query')">
+                    <span style="margin-left: 15%;margin-right: 5%;" class="glyphicon glyphicon-grain"></span>修补库查询
                 </button>
             </li>
         </ul>

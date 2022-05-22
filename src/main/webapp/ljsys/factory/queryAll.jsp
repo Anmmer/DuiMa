@@ -152,7 +152,7 @@
                         // 查询
 
                         str += "<a href='warehouseQueryAll.jsp?factoryId=" + jsonobj[i]['factory_id'] + "&factoryName=" + jsonobj[i]['factory_name'] + "'>详情</a>&nbsp"
-                        str += "<a href='javascript:void(0);' onclick='removeFactory(" + jsonobj[i]['factory_id'] + ")'>删除</a>"
+                        // str += "<a href='javascript:void(0);' onclick='removeFactory(" + jsonobj[i]['factory_id'] + ")'>删除</a>"
                         str += "</td></tr>"
                     }
                     $("#tableText").html(str);
@@ -235,7 +235,7 @@
                             "</td><td class='tdStyle_body'>";
                         // 查询
                         str += "<a href='warehouseQueryAll.jsp?factoryId=" + jsonobj[i]['factory_id'] + "&factoryName=" + jsonobj[i]['factory_name'] + "'>详情</a>&nbsp"
-                        str += "<a href='javascript:void(0);' onclick='removeFactory(" + jsonobj[i]['factory_id'] + ")'>删除</a>"
+                        // str += "<a href='javascript:void(0);' onclick='removeFactory(" + jsonobj[i]['factory_id'] + ")'>删除</a>"
                         str += "</td></tr>"
                     }
                     $("#tableText").html(str);
@@ -293,7 +293,7 @@
                             "</td><td class='tdStyle_body'>";
                         // 查询
                         str += "<a href='warehouseQueryAll.jsp?factoryId=" + jsonobj[i]['factory_id'] + "&factoryName=" + jsonobj[i]['factory_name'] + "'>详情</a>&nbsp"
-                        str += "<a href='javascript:void(0);' onclick='removeFactory(" + jsonobj[i]['factory_id'] + ")'>删除</a>"
+                        // str += "<a href='javascript:void(0);' onclick='removeFactory(" + jsonobj[i]['factory_id'] + ")'>删除</a>"
                         str += "</td></tr>"
                     }
                     $("#tableText").html(str);

@@ -402,11 +402,11 @@
         let str = '';
         for (let i = 0; i < jsonObj.length; i++) {
             if (jsonObj[i]['inspect'] === 0) {
-                jsonObj[i]['inspect'] = '未检验'
+                jsonObj[i]['inspect'] = '未质检'
             } else if (jsonObj[i]['inspect'] === 1) {
-                jsonObj[i]['inspect'] = '检验合格'
+                jsonObj[i]['inspect'] = '质检合格'
             } else {
-                jsonObj[i]['inspect'] = '检验不合格'
+                jsonObj[i]['inspect'] = '质检不合格'
             }
             jsonObj[i]['checktime'] = jsonObj[i]['checktime'] === undefined ? '--' : jsonObj[i]['checktime'];
             str += "<tr><td class='tdStyle_body'><input type='checkbox' data-id=" + jsonObj[i]['pid'] + ">" +
