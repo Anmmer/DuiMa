@@ -82,7 +82,7 @@
         </nav>
     </div>
     <div class="modal fade" id="myModal" tabindex="-1"
-         style="height: 80%;width: 30%;position: absolute;left: 30%;top: 10%;" role="dialog"
+         style="height: 90%;width: 30%;position: absolute;left: 30%;top: 10%;" role="dialog"
          data-backdrop="false"
          aria-labelledby="myModalLabel">
         <div class="modal-dialog" role="document" style="width: 100%;height: 85%;">
@@ -90,9 +90,9 @@
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
                             aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title" id="title1">不合格原因录入</h4>
+                    <h4 class="modal-title" id="title1">不通过原因录入</h4>
                 </div>
-                <div class="modal-body" style="height: 80%;margin: 0 auto">
+                <div class="modal-body" style="height: 75%;margin: 0 auto">
                     <div class="form-inline" style="width: 100%">
                         <div class="form-group" style="width:100%;margin-top: 5%">
                             <label for="pop_classification" style="width:25%;text-align: left;padding-right: 5px"
@@ -109,7 +109,7 @@
                     </div>
                     <br>
                     <div class="panel panel-default" style="width:80%;height:65%;overflow-y:hidden;">
-                        <div class="panel-heading">不合格原因:</div>
+                        <div class="panel-heading">不通过原因:</div>
                         <div id="newGroups" class="panel-body" style="height:100%;overflow-y:scroll;">
                         </div>
                     </div>
