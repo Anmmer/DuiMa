@@ -65,7 +65,7 @@
         </nav>
         <!-- Modal -->
         <div class="modal fade" id="myModal"
-             style="position: absolute;left: 10%;height: 95%;top: 3%;width: 80%;z-index: 5" role="dialog"
+             style="position: absolute;left: 5%;height: 95%;top: 3%;width: 90%;z-index: 5" role="dialog"
              data-backdrop="false"
              aria-labelledby="myModalLabel">
             <div class="modal-dialog" role="document" style="width: 100%;height: 100%;margin: 0">
@@ -97,7 +97,7 @@
                                     <td class='tdStyle_title active' style="width: 15%">物料编号</td>
                                     <td class='tdStyle_title active' style="width: 15%">物料名称</td>
                                     <td class='tdStyle_title active' style="width: 10%">构建编号</td>
-                                    <td class='tdStyle_title active' style="width: 10%">检验状态</td>
+                                    <td class='tdStyle_title active' style="width: 10%">隐蔽检验</td>
                                     <td class='tdStyle_title active' style="width: 10%">检验日期</td>
                                     <td class='tdStyle_title active' style="width: 10%">浇捣状态</td>
                                     <td class='tdStyle_title active' style="width: 10%">浇捣日期</td>
@@ -232,7 +232,7 @@
                 }
                 if (pop_pageDate[i]['pourmade'] === 1 && pop_pageDate[i]['inspect'] === 0) {
                     state = '待质检'
-                    style = "style='background-color: yellow;'"
+                    style = "style='background-color: #f78f00;'"
                 }
                 if (pop_pageDate[i]['pourmade'] === 1 && pop_pageDate[i]['inspect'] === 1) {
                     state = '质检合格'
@@ -245,7 +245,7 @@
                 if (on_or_off == '1') {
                     if (pop_pageDate[i]['covert_test'] === 1 && pop_pageDate[i]['inspect'] === 0 && pop_pageDate[i]['pourmade'] === 0) {
                         state = '待浇捣'
-                        style = "style='background-color: #d9d91a;'"
+                        style = "style='background-color: yellow;'"
                     }
                     if (pop_pageDate[i]['covert_test'] === 0) {
                         state = '待检验'
@@ -266,7 +266,7 @@
                 }
                 pop_pageDate[i]['pourtime'] = pop_pageDate[i]['pourtime'] === undefined ? '--' : pop_pageDate[i]['pourtime'];
                 pop_pageDate[i]['checktime'] = pop_pageDate[i]['checktime'] === undefined ? '--' : pop_pageDate[i]['checktime'];
-                pop_pageDate[i]['covert_test_time'] = pop_pageDate[i]['covert_test_time'] === undefined ? '--' : pop_pageDate[i]['checktime'];
+                pop_pageDate[i]['covert_test_time'] = pop_pageDate[i]['covert_test_time'] === undefined ? '--' : pop_pageDate[i]['covert_test_time'];
                 if (on_or_off == '1') {
                     if (pop_pageDate[i]['covert_test'] === 0) {
                         pop_pageDate[i]['covert_test'] = '未检验'

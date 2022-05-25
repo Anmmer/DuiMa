@@ -432,8 +432,6 @@
                     $("#ysize").val(res.ysize)
 
                     // 设置二维码内容
-                    if (res.qRCode.qRCodeContent === null || res.qRCode.qRCodeContent === undefined)
-                        return
                     let valuestmp = document.getElementById("valuesFrom")
                     let valueslen = valuestmp.length
                     let arr = [];
@@ -451,6 +449,9 @@
                         qrcodeContent += res.qRCode.qRCodeContent[i] + ": TEST" + "\n"
                     }
                     // 设置二维码
+                    if (res.qRCode.qRCodeContent === null || res.qRCode.qRCodeContent === undefined || res.qRCode.qRCodeContent.length == 0) {
+                        qrcodeContent = 'TEST:TEST'
+                    }
                     res.qRCode.qrcodeContent = qrcodeContent;
                     addQRcode(res.qRCode);
 

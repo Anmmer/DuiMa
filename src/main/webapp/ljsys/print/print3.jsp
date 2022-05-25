@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
-<div style="height: 100%;width: 100%">
-    <form name="query" class="form-inline" style="width:80%;height:20%;margin-left: 10%;padding-top:2%">
+<div style="height: 100%;width: 95%">
+    <form name="query" class="form-inline" style="width:85%;height:20%;margin-left: 8%;padding-top:2%">
         <div class="form-group">
             <label for="startDate">开始时间：</label><input id="startDate" class="form-control" type="date"
                                                        style="width: 13%;height: 30px">
@@ -14,6 +14,8 @@
             <label for="materialname">物料名称：</label><input id="materialname" class="form-control"
                                                           style="width: 13%;height:10%;">
             <label for="preproductid" style="margin-left: 2%">构建编号：</label><input id="preproductid" class="form-control"
+                                                                                  style="width: 13%;height:10%;">
+            <label for="query_line" style="margin-left: 2%">产线：</label><input id="query_line" class="form-control"
                                                                                   style="width: 13%;height:10%;">
             <button type="button" class="btn btn-primary btn-sm" style="margin-left: 1%"
                     onclick="getTableData(1)">
@@ -29,7 +31,7 @@
     <button style="position: absolute;right: 15%;top:13%" class="btn btn-primary btn-sm"
             onclick="delTableData()">批量删除
     </button>
-    <div style="width:80%;height:80%;margin:0 auto;">
+    <div style="width:85%;height:80%;margin:0 auto;">
         <div style="height: 85%">
             <table class="table table-hover" style="text-align: center">
                 <tr>
@@ -335,6 +337,7 @@
         let materialcode = $('#materialcode').val();
         let preproductid = $('#preproductid').val();
         let materialname = $('#materialname').val();
+        let line = $('#query_line').val();
         if (startDate !== '' && endDate !== '') {
             if (startDate > endDate) {
                 alert("开始时间不能大于结束时间！");
@@ -348,6 +351,7 @@
             'materialcode': materialcode,
             'materialname': materialname,
             'preproductid': preproductid,
+            'line': line,
             'pageCur': newPage,
             'pageMax': pageMax
         }
@@ -398,11 +402,13 @@
         let materialcode = $('#print_materialcode').val();
         let preproductid = $('#print_preproductid').val();
         let materialname = $('#print_materialname').val();
+        let line = $('#query_line').val();
         $.post("${pageContext.request.contextPath}/GetPreProduct", {
             plannumber: plannumber,
             materialcode: materialcode,
             preproductid: preproductid,
             materialname: materialname,
+            line: line,
             pageCur: newPage,
             pageMax: pageMax
         }, function (result) {
@@ -844,6 +850,7 @@
         let endDate = $('#endDate').val();
         let planname = $('#planname').val();
         let materialcode = $('#materialcode').val();
+        let line = $('#query_line').val();
         if (startDate !== '' && endDate !== '') {
             if (startDate > endDate) {
                 alert("开始时间不能大于结束时间！");
@@ -855,6 +862,7 @@
             'endDate': endDate,
             'planname': planname,
             'materialcode': materialcode,
+            'line': line,
             'pageCur': newPage,
             'pageMax': pageMax
         }
@@ -896,6 +904,7 @@
         let endDate = $('#endDate').val();
         let planname = $('#planname').val();
         let materialcode = $('#materialcode').val();
+        let line = $('#query_line').val();
         if (startDate !== '' && endDate !== '') {
             if (startDate > endDate) {
                 alert("开始时间不能大于结束时间！");
@@ -907,6 +916,7 @@
             'endDate': endDate,
             'planname': planname,
             'materialcode': materialcode,
+            'line': line,
             'pageCur': newPage,
             'pageMax': pageMax
         }
@@ -941,6 +951,7 @@
         let endDate = $('#endDate').val();
         let planname = $('#planname').val();
         let materialcode = $('#materialcode').val();
+        let line = $('#query_line').val();
         var newPage = $('#jump_to').val();
         if (newPage > pageAll) {
             alert("超过最大页数")
@@ -957,6 +968,7 @@
             'endDate': endDate,
             'planname': planname,
             'materialcode': materialcode,
+            'line': line,
             'pageCur': newPage,
             'pageMax': pageMax
         }

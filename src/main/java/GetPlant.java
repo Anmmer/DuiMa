@@ -65,6 +65,12 @@ public class GetPlant extends HttpServlet {
                 ps.setString(i, plant);
             }
             ps2 = con.prepareStatement(sql2);
+            if (id != null && !"".equals(id)) {
+                ps2.setInt(i--, Integer.parseInt(id));
+            }
+            if (plant != null && !"".equals(plant)) {
+                ps2.setString(i, plant);
+            }
             ResultSet rs2 = ps2.executeQuery();
             while (rs2.next()) {
                 int num = rs2.getInt("num");
