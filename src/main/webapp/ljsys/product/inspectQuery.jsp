@@ -81,17 +81,17 @@
         </nav>
     </div>
     <div class="modal fade" id="myModal" tabindex="-1"
-         style="height: 80%;width: 30%;position: absolute;left: 30%;top: 10%;" role="dialog"
+         style="height: 95%;width: 35%;position: absolute;left: 30%;top: 2%;" role="dialog"
          data-backdrop="false"
          aria-labelledby="myModalLabel">
-        <div class="modal-dialog" role="document" style="width: 100%;height: 85%;">
+        <div class="modal-dialog" role="document" style="width: 100%;height: 90%;">
             <div class="modal-content" style="width: 100%;height: 100%">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
                             aria-hidden="true">&times;</span></button>
                     <h4 class="modal-title" id="title1">不合格原因录入</h4>
                 </div>
-                <div class="modal-body" style="height: 80%;margin: 0 auto">
+                <div class="modal-body" style="height: 78%;margin: 0 auto">
                     <div class="form-inline" style="width: 100%">
                         <div class="form-group" style="width:100%;margin-top: 5%">
                             <label for="patch_library" style="width:25%;text-align: left;padding-right: 5px"
@@ -111,7 +111,7 @@
                         </div>
                     </div>
                     <br>
-                    <div class="panel panel-default" style="width:80%;height:60%;overflow-y:hidden;">
+                    <div class="panel panel-default" style="width:80%;height:55%;overflow-y:hidden;">
                         <div class="panel-heading">不合格原因:</div>
                         <div id="newGroups" class="panel-body" style="height:100%;overflow-y:scroll;">
                         </div>
@@ -313,7 +313,6 @@
             return;
         }
         let patch_library = $("#patch_library").val()
-        console.log(patch_library)
         if (patch_library == null || patch_library === '') {
             alert("请输入修补库地址！")
             return;
