@@ -16,7 +16,7 @@
             <label for="preproductid" style="margin-left: 2%">构建编号：</label><input id="preproductid" class="form-control"
                                                                                   style="width: 13%;height:10%;">
             <label for="query_line" style="margin-left: 2%">产线：</label><input id="query_line" class="form-control"
-                                                                                  style="width: 13%;height:10%;">
+                                                                              style="width: 13%;height:10%;">
             <button type="button" class="btn btn-primary btn-sm" style="margin-left: 1%"
                     onclick="getTableData(1)">
                 查 询
@@ -722,7 +722,7 @@
                             pop_count = Math.ceil(excelData.preProduct.length / 10);
                             // 重置查询为第一页
                             pop_pageCur = 1;
-                            for (let i = 10 * (pop_pageCur - 1); i < 10 * (pop_pageCur); i++) {
+                            for (let i = 10 * (pop_pageCur - 1); i < 10 * (pop_pageCur) && i < excelData.preProduct.length; i++) {
                                 pop_pageDate.push(excelData.preProduct[i]);
                             }
                             updateTable(true);
