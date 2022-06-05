@@ -262,7 +262,6 @@
             $("#archTableText td :checkbox").prop("checked", false);
             pre = 0;
         }
-
     });
 
     function inspect() {
@@ -356,7 +355,6 @@
                 break;
             }
         }
-        console.log(reasons)
     }
 
     function removeGroup(gpid) {

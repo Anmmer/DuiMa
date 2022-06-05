@@ -273,12 +273,14 @@
         qr_wh_value.bind("blur", function (event) {
             $('#draw0').html('')
             new QRCode(document.getElementById("draw0"), {
+                render: "canvas",
                 text: qRCode.qrcodeContent,
                 width: $('#qr_wh_value').val(),
                 height: $('#qr_wh_value').val(),
                 colorDark: "#000000",
                 colorLight: "#ffffff",
-                correctLevel: QRCode.CorrectLevel.H
+                correctLevel: QRCode.CorrectLevel.H,
+                src: '${pageContext.request.contextPath}/ljsys/img/qr.jpg'
             })
         })
         let font_style_span = $("<span class='pStyle' style='margin-left: 3%;font-size:14px;font-weight: bolder'></span>").text("字体：")
@@ -299,12 +301,14 @@
         let drawItem = $("<div style='position: absolute;'  draggable='true' id='draw" + cnt + "' ></div>");
         $("#draw").append(drawItem);
         new QRCode(document.getElementById("draw" + cnt), {
+            render: "canvas",
             text: qRCode.qrcodeContent,
             width: qRCode.qr_wh_value,
             height: qRCode.qr_wh_value,
             colorDark: "#000000",
             colorLight: "#ffffff",
-            correctLevel: QRCode.CorrectLevel.H
+            correctLevel: QRCode.CorrectLevel.H,
+            src: '${pageContext.request.contextPath}/ljsys/img/qr.jpg'
         })
         let drawElem = document.getElementById("draw" + cnt)
         drawElem.style.left = "0px"

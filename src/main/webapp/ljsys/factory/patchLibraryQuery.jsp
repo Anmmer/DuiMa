@@ -25,10 +25,16 @@
     <div style="width:70%;height:80%;margin:0 auto;">
         <div class="page-header" style="margin-top: 0;margin-bottom: 1%">
             <h3 style="margin-bottom: 0;margin-top: 0"><small>修补库信息</small></h3>
+            <button type="button" style="position: absolute;right: 27%;top:14%" class="btn btn-primary btn-sm"
+                    data-toggle="modal"
+                    onclick="inspect()">
+                合格
+            </button>
         </div>
         <div style="height: 85%">
             <table class="table table-hover" cellspacing="0" cellpadding="0" width="100%" align="center">
                 <tr>
+                    <td class='tdStyle_title active' style="width: 5%"><input id="pre_checkbok" type="checkbox"></td>
                     <td class='tdStyle_title active' style="width: 15%">物料编码</td>
                     <td class='tdStyle_title active' style="width: 15%">物料名称</td>
                     <td class='tdStyle_title active' style="width: 15%">计划编号</td>
@@ -127,8 +133,43 @@
             })
         }
 
+        function inspect() {
+            let obj = [];
+            $('#archTableText').find('input:checked').each(function () {
+                obj.push($(this).attr('data-id'));   //找到对应checkbox中data-id属性值，然后push给空数组pids
+            });
+            if (obj.length === 0) {
+                alert("请勾选！")
+                return;
+            }
+            let r = confirm("亲，确认质检！");
+            if (r === false) {
+                return;
+            }
+
+            $.post("${pageContext.request.contextPath}/Inspect", {pids: JSON.stringify(obj)}, function (result) {
+                result = JSON.parse(result);
+                alert(result.message);
+                if (result.flag) {
+                    getTableData(pageCur);
+                }
+            });
+        }
+
+        let pre = 0
+        //全选
+        $("#pre_checkbok").on("click", function () {
+            if (pre == 0) {
+                //把所有复选框选中
+                $("#archTableText td :checkbox").prop("checked", true);
+                pre = 1;
+            } else {
+                $("#archTableText td :checkbox").prop("checked", false);
+                pre = 0;
+            }
+        });
+
         function updateTable() {
-            console.log(jsonObj)
             let str = '';
             for (let i = 0; i < jsonObj.length; i++) {
                 if (jsonObj[i]['inspect'] === 0) {
@@ -137,7 +178,8 @@
                     jsonObj[i]['inspect'] = '质检不合格'
                 }
                 jsonObj[i]['checktime'] = jsonObj[i]['checktime'] === undefined ? '--' : jsonObj[i]['checktime'];
-                str += "<tr><td class='tdStyle_body'>" + jsonObj[i]['materialcode'] +
+                str += "<tr><td class='tdStyle_body'><input type='checkbox' data-id=" + jsonObj[i]['pid'] + ">" +
+                    "<td class='tdStyle_body'>" + jsonObj[i]['materialcode'] +
                     "</td><td class='tdStyle_body'>" + jsonObj[i]['materialname'] +
                     "</td><td class='tdStyle_body'>" + jsonObj[i]['plannumber'] +
                     "</td><td class='tdStyle_body'>" + jsonObj[i]['inspect'] +
