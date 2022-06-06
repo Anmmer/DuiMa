@@ -280,7 +280,7 @@
                 colorDark: "#000000",
                 colorLight: "#ffffff",
                 correctLevel: QRCode.CorrectLevel.H,
-                src: '${pageContext.request.contextPath}/ljsys/img/qr.jpg'
+                src: 'qr.jpg'
             })
         })
         let font_style_span = $("<span class='pStyle' style='margin-left: 3%;font-size:14px;font-weight: bolder'></span>").text("字体：")
@@ -308,7 +308,7 @@
             colorDark: "#000000",
             colorLight: "#ffffff",
             correctLevel: QRCode.CorrectLevel.H,
-            src: '${pageContext.request.contextPath}/ljsys/img/qr.jpg'
+            src: 'qr.jpg'
         })
         let drawElem = document.getElementById("draw" + cnt)
         drawElem.style.left = "0px"

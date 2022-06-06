@@ -22,10 +22,10 @@
             查 询
         </button>
     </form>
-    <div style="width:70%;height:80%;margin:0 auto;">
+    <div style="width:75%;height:80%;margin:0 auto;">
         <div class="page-header" style="margin-top: 0;margin-bottom: 1%">
             <h3 style="margin-bottom: 0;margin-top: 0"><small>修补库信息</small></h3>
-            <button type="button" style="position: absolute;right: 27%;top:14%" class="btn btn-primary btn-sm"
+            <button type="button" style="position: absolute;right: 18%;top:14%" class="btn btn-primary btn-sm"
                     data-toggle="modal"
                     onclick="inspect()">
                 合格
@@ -38,7 +38,7 @@
                     <td class='tdStyle_title active' style="width: 15%">物料编码</td>
                     <td class='tdStyle_title active' style="width: 15%">物料名称</td>
                     <td class='tdStyle_title active' style="width: 15%">计划编号</td>
-                    <td class='tdStyle_title active' style="width: 15%">质检状态</td>
+                    <td class='tdStyle_title active' style="width: 10%">质检状态</td>
                     <td class='tdStyle_title active' style="width: 15%">不合格原因</td>
                     <td class='tdStyle_title active' style="width: 15%">修补库地址</td>
                     <td class='tdStyle_title active' style="width: 15%">操作日期</td>
@@ -47,7 +47,7 @@
                 </tbody>
             </table>
         </div>
-        <nav aria-label="Page navigation" style="margin-left:40%;width:80%;height:10%;">
+        <nav aria-label="Page navigation" style="margin-left:40%;width:70%;height:10%;">
             <ul class="pagination" style="margin-top: 0;width: 70%">
                 <li><span id="total" style="width: 22%"></span></li>
                 <li>

@@ -205,6 +205,7 @@
                 if (res.data !== undefined) {
                     jsonObj = res.data;
                     updateTable(false);
+                    pageAll = res.pageAll;
                     setBegin(res.cnt, res.pageAll, '', newPage);
                 } else {
                     jsonObj = []
@@ -667,8 +668,8 @@
         }
         if (newPageCode === 3) {
             if (pop_pageCur === pop_pageAll) {
-                window.alert("已经在最后一页!");
-                return
+                // window.alert("已经在最后一页!");
+                // return
             } else {
                 newPage = pop_pageCur + 1;
             }
