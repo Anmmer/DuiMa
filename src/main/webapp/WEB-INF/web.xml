@@ -360,6 +360,14 @@
         <url-pattern>/GetPreProduct</url-pattern>
     </servlet-mapping>
     <servlet>
+        <servlet-name>getPreProductMaterialcode</servlet-name>
+        <servlet-class>GetPreProductMaterialcode</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>getPreProductMaterialcode</servlet-name>
+        <url-pattern>/GetPreProductMaterialcode</url-pattern>
+    </servlet-mapping>
+    <servlet>
         <servlet-name>printPreProduct</servlet-name>
         <servlet-class>PrintPreProduct</servlet-class>
     </servlet>

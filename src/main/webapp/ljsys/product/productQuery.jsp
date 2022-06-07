@@ -18,7 +18,7 @@
             </button>
         </div>
     </form>
-    <div style="width:70%;height:80%;margin:0 auto;">
+    <div style="width:80%;height:80%;margin:0 auto;">
         <div class="page-header" style="margin-top: 0;margin-bottom: 1%">
             <h3 style="margin-bottom: 0;margin-top: 0"><small>生产计划信息</small></h3>
         </div>
@@ -38,9 +38,9 @@
                 </tbody>
             </table>
         </div>
-        <nav aria-label="Page navigation" style="margin-left:40%;width:80%;height:10%;">
+        <nav aria-label="Page navigation" style="margin-left:20%;width:80%;height:10%;">
             <ul class="pagination" style="margin-top: 0;width: 70%">
-                <li><span id="total" style="width: 22%"></span></li>
+                <li><span id="total" style="width: 30%"></span></li>
                 <li>
                     <a href="#" onclick="jumpToNewPage(2)" aria-label="Previous">
                         <span aria-hidden="true">&laquo;</span>
@@ -65,7 +65,7 @@
         </nav>
         <!-- Modal -->
         <div class="modal fade" id="myModal"
-             style="position: absolute;left: 5%;height: 95%;top: 3%;width: 90%;z-index: 5" role="dialog"
+             style="position: absolute;left: 2%;height: 95%;top: 3%;width: 95%;z-index: 5" role="dialog"
              data-backdrop="false"
              aria-labelledby="myModalLabel">
             <div class="modal-dialog" role="document" style="width: 100%;height: 100%;margin: 0">
@@ -98,11 +98,11 @@
                                     <td class='tdStyle_title active' style="width: 15%">物料名称</td>
                                     <td class='tdStyle_title active' style="width: 10%">构建编号</td>
                                     <td class='tdStyle_title active' style="width: 10%">隐蔽检验</td>
-                                    <td class='tdStyle_title active' style="width: 10%">检验日期</td>
-                                    <td class='tdStyle_title active' style="width: 10%">浇捣状态</td>
-                                    <td class='tdStyle_title active' style="width: 10%">浇捣日期</td>
-                                    <td class='tdStyle_title active' style="width: 10%">质检状态</td>
-                                    <td class='tdStyle_title active' style="width: 10%">质检日期</td>
+                                    <td class='tdStyle_title active' style="width: 8%">检验日期</td>
+                                    <td class='tdStyle_title active' style="width: 8%">浇捣状态</td>
+                                    <td class='tdStyle_title active' style="width: 8%">浇捣日期</td>
+                                    <td class='tdStyle_title active' style="width: 8%">质检状态</td>
+                                    <td class='tdStyle_title active' style="width: 8%">质检日期</td>
                                     <td class='tdStyle_title active' style="width: 10%">生产状态</td>
                                 </tr>
                                 <tbody id="detailTableText">

@@ -31,7 +31,7 @@
     <button style="position: absolute;right: 15%;top:13%" class="btn btn-primary btn-sm"
             onclick="delTableData()">批量删除
     </button>
-    <div style="width:85%;height:80%;margin:0 auto;">
+    <div style="width:90%;height:80%;margin:0 auto;">
         <div style="height: 85%">
             <table class="table table-hover" style="text-align: center">
                 <tr>
@@ -51,7 +51,7 @@
                 </tbody>
             </table>
         </div>
-        <nav aria-label="Page navigation" style="margin-left:40%;width:70%;height:10%;">
+        <nav aria-label="Page navigation" style="margin-left:20%;width:80%;height:10%;">
             <ul class="pagination" style="margin-top: 0;width: 70%">
                 <li><span id="total" style="width: 22%"></span></li>
                 <li>
@@ -695,7 +695,7 @@
                         alert(result.message)
                         return
                     } else {
-                        $.post("${pageContext.request.contextPath}/GetPreProduct", null, function (result) {
+                        $.post("${pageContext.request.contextPath}/GetPreProductMaterialcode", null, function (result) {
                             result = JSON.parse(result);
                             excelData.preProduct.forEach((item) => {
                                 result.data.forEach((res_item) => {
@@ -1579,4 +1579,15 @@
     /*.table > thead > tr > th {*/
     /*    padding: 5px;*/
     /*}*/
+    table{
+        table-layout:fixed;/* 只有定义了表格的布局算法为fixed，下⾯td的定义才能起作⽤。 */
+    }
+    td{
+        width:100%;
+        word-break:keep-all;/* 不换⾏ */
+        white-space:nowrap;/* 不换⾏ */
+        overflow:hidden;/* 内容超出宽度时隐藏超出部分的内容 */
+        text-overflow:ellipsis;/* 当对象内⽂本溢出时显⽰省略标记(...) ；需与overflow:hidden;⼀起使⽤。*/
+    }
+
 </style>

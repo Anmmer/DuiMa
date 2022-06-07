@@ -397,6 +397,9 @@
             pageCur: newPage,
             pageMax: pageMax
         }
+        if (on_or_off == '1') {
+            obj.isTest = "true"
+        }
         $.ajax({
             url: "${pageContext.request.contextPath}/GetPreProduct",
             type: 'post',
@@ -439,6 +442,9 @@
             isPrint: "true",
             pageCur: newPage,
             pageMax: pageMax
+        }
+        if (on_or_off == '1') {
+            obj.isTest = "true"
         }
         $.ajax({
             url: "${pageContext.request.contextPath}/GetPreProduct",

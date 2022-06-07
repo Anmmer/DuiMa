@@ -1,71 +1,101 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <script type="text/javascript">
     // 获取二维码编号
-    function getQueryVariable(variable) {
-        var query = window.location.search.substring(1);
-        var vars = query.split("&");
-        for (var i = 0; i < vars.length; i++) {
-            var pair = vars[i].split("=");
-            if (pair[0] == variable) return pair[1];
+    function getQueryVariable(letiable) {
+        let query = window.location.search.substring(1);
+        let lets = query.split("&");
+        for (let i = 0; i < lets.length; i++) {
+            let pair = lets[i].split("=");
+            if (pair[0] == letiable) return pair[1];
         }
         return (false);
     }
 
     function checkAuthority(au) {
-        var authority = JSON.parse(sessionStorage.getItem("authority"))
+        let authority = JSON.parse(sessionStorage.getItem("authority"))
         flag = false;
-        for (var i = 0; i < authority.length; i++) {
+        for (let i = 0; i < authority.length; i++) {
             if (authority[i].fa_name == au) flag = true;
         }
         return flag;
     }
 
-    var qrcodeId = getQueryVariable("qrcodeId");
-    var qrcodeName = decodeURIComponent(getQueryVariable("qrcodeName"))
+    let qrcodeId = getQueryVariable("qrcodeId");
+    let qrcodeName = decodeURIComponent(getQueryVariable("qrcodeName"))
+
+    function returnLastPage() {
+        window.history.go(-1);
+    }
 </script>
 <!--版面样式-->
-<div style="height: 95%;width:100%;background-color:white;">
-    <!--控制台-->
-    <div style="height:100%;width:49%;float: left">
-        <div style="height:5%;width:100%;"></div>
-        <!--信息展示-->
-        <div style="height:10%;width:100%;">
-            <span class="pStyle">二维码样式编号:</span><span class="pStyle" id="qrcodeId"></span><br/>
-            <span class="pStyle">二维码样式名:</span><span class="pStyle" id="qrcodeName"></span>
-        </div>
+<div style="height: 100%;width:100%;background-color:white;">
+    <div style="height:100%;width: 100%;">
         <!--控制台-->
-        <div style="height:25%;width:100%;">
-            <span class="pStyle">画布横宽:</span><input type="text" id="xsize"><br/>
-            <span class="pStyle">画布纵长:</span><input type="text" id="ysize"><br/><br/>
-            <div style="height:100px;width:100%;float:left">
-                <select id="valuesFrom" size="4" style="width:100px;">
-                </select>
-                <button type="button" onclick="addContent()">添加</button>
-                <select id="valuesTo" size="4" style="width:100px;">
-                </select>
-                <button type="button">删除</button>
+        <button class="btn btn-primary" style="position: absolute;left:5%;top:5%;height: 32px"
+                onclick="returnLastPage()">返回
+        </button>
+        <div style="height:100%;width:49%;float: left;margin-left: 10%">
+            <div style="height:4%;width:100%;"></div>
+            <!--信息展示-->
+            <div style="height:10%;width:100%;font-size:17px;font-weight: bolder">
+                <span class="pStyle">二维码编号：</span><span class="pStyle" id="qrcodeId"></span><br/>
+                <span class="pStyle">二维码名称：</span><span class="pStyle" id="qrcodeName"></span>
             </div>
-            <button type="button" onclick="submitQRcode()">提交修改</button>
-            <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
-            <button type="button" onclick="deleteStyle()">删除该样式</button>
-            <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
-            <select id="itemNames"></select>
-            <button type="button" onclick="newItem()">新增一项</button>
-            <button type="button" onclick="printLabel()" style="width: 8%;margin-left: 5%">打 印</button>
-        </div>
-        <!--列表台-->
-        <div style="height:60%;width: 100%;overflow-y:scroll;" id="ItemList">
+            <!--控制台-->
+            <div class="form-inline" style="height:150px;width:50%;">
+                <div class="form-group" style="height: 100%">
+                    <label for="text">标题：</label>
+                    <input class="form-control" style="width: 50%" id="text" name="text"><br><br>
+                    <label for="text">位置：</label>
+                    <input class="form-control" style="width: 20%" id="text_x" name="text" placeholder="横坐标">
+                    <input class="form-control" style="width: 20%" id="text_y" name="text" placeholder="纵坐标"><br><br>
+                    <label for="xsize">画布：</label>
+                    <input style="width: 20%" class="form-control" id="xsize" name="xsize" placeholder="宽">
+                    <input class="form-control" style="width: 20%" id="ysize" placeholder="高">
 
+                </div>
+            </div>
+            <div style="position:absolute;left:28%;top:80px;height:20%;width:30%;">
+                <select class="panel panel-default" id="valuesFrom" size="4"
+                        style="width:30%;height: 150px;overflow: auto;margin-bottom: 0">
+                </select>
+                <button type="button" class="btn btn-primary btn-sm" style="margin-left: 2%;margin-bottom: 20px"
+                        onclick="addContent()">添加
+                </button>
+                <select class="panel panel-default" class="btn btn-primary btn-sm" id="valuesTo"
+                        style="margin-left: 2%;width:30%;height: 150px;margin-bottom: 0;overflow: auto" size="4">
+                </select>
+                <button type="button" style="margin-left: 2%;margin-bottom: 20px" class="btn btn-primary btn-sm"
+                        onclick="delContent()">删除
+                </button>
+            </div>
+            <!--列表台-->
+            <div id="qr_code"></div>
+            <div style="height:45%;width: 100%;overflow: auto" id="ItemList">
+
+            </div>
+            <div style="margin-top: 2%;width: 100%">
+                <div class="form-inline" style="width: 100%">
+                    <div class="form-group" style="width: 100%">
+                        <select id="itemNames" class="form-control" style="width: 20%"></select>
+                        <button type="button" class="btn btn-primary" onclick="newItem()">新增</button>
+                        <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                        <button type="button" class="btn btn-primary" onclick="submitQRcode()">提交</button>
+                        <span>&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                        <button type="button" class="btn btn-primary" onclick="deleteStyle()">删除</button>
+                    </div>
+                </div>
+            </div>
         </div>
-    </div>
-    <div style="height:100%;width:2px;background-color:black;float: left"></div>
-    <div style="height:100%;width:50.5%;top:0;background-color: rgb(224, 221, 221);float: left">
-        <div id="draw" style="height:600px;width:400px;background-color: white;position:relative;"></div>
+        <div style="height:100%;width:2px;background-color:cornflowerblue;float: left"></div>
+        <div style="height:100%;width:40.5%;top:0;background-color: rgb(224, 221, 221);float: left">
+            <div id="draw" style="height:600px;width:400px;background-color: white;position:relative;"></div>
+        </div>
     </div>
 </div>
 <script type="text/javascript">
-    var Aflag = false
-    var fields = {
+    let Aflag = false
+    let fields = {
         pi_key: "STRING",
         pi_value: "STRING"
     }
@@ -81,12 +111,12 @@
             pageMax: 1000
         },
         success: function (res) {
-            var jsonobj = JSON.parse(res.data)
-            for (var i = 0; i < jsonobj.length; i++) {
-                var select1 = $("#valuesFrom")
-                var select2 = $("#itemNames")
-                var item1 = $("<option value='" + jsonobj[i]['pi_key'] + "'>" + jsonobj[i]['pi_value'] + "</option>")
-                var item2 = $("<option value='" + jsonobj[i]['pi_key'] + "'>" + jsonobj[i]['pi_value'] + "</option>")
+            let jsonobj = JSON.parse(res.data)
+            for (let i = 0; i < jsonobj.length; i++) {
+                let select1 = $("#valuesFrom")
+                let select2 = $("#itemNames")
+                let item1 = $("<option value='" + jsonobj[i]['pi_key'] + "'>" + jsonobj[i]['pi_value'] + "</option>")
+                let item2 = $("<option value='" + jsonobj[i]['pi_key'] + "'>" + jsonobj[i]['pi_value'] + "</option>")
                 select1.append(item1)
                 select2.append(item2)
             }
@@ -96,63 +126,63 @@
         }
     })
     // 两个Select增加Option
-    var itemlist = []                   // 放置编号
-    var itemValues = []                 // 放置值
+    let itemlist = []                   // 放置编号
+    let itemValues = []                 // 放置值
     $("#qrcodeId").text(qrcodeId)
     $("#qrcodeName").text(qrcodeName)
     $("#xsize").val("400")
     $("#ysize").val("600")
     // 新增设置宽高
     $("#xsize").bind("blur", function (event) {
-        var elem = event.target
-        var newXsize = $("#xsize").val()
+        let elem = event.target
+        let newXsize = $("#xsize").val()
         document.getElementById("draw").style.width = newXsize + "px"
     })
     $("#ysize").bind("blur", function (event) {
-        var elem = event.target
-        var newYsize = $("#ysize").val()
+        let elem = event.target
+        let newYsize = $("#ysize").val()
         document.getElementById("draw").style.height = newYsize + "px"
     })
-    var cnt = 0;
-    var oldxposition = 0;
-    var oldyposition = 0;
+    let cnt = 0;
+    let oldxposition = 0;
+    let oldyposition = 0;
 
     // 新增一项,写入其中文属性值以及其绑定的属性值
     function newItem() {
         // 获取新插入值的name和 value
-        var itemValue = $("#itemNames option:checked").text()
-        var itemName = $("#itemNames option:checked").val()
+        let itemValue = $("#itemNames option:checked").text()
+        let itemName = $("#itemNames option:checked").val()
         // 在ItemList中新增一项
-        var divstr = $("<div style='width:100%;height:80px;float:left;' id='item" + cnt + "'><div>");
+        let divstr = $("<div style='width:100%;height:50px;float:left;' id='item" + cnt + "'><div>");
         $("#ItemList").append(divstr)
         // 新增item中的元素
-        var content = $("<div class='hiddenTDOverFlowContent' style='width: 18%;display: inline-table' title='" + itemValue + "' id='content" + cnt + "'>" + itemValue + "，" + "</div>")
-        var xspan = $("<label for='xvalue'" + cnt + ">" + "X坐标：</label>")
-        var xvalue = $("<input type='text' style='width: 20%' value='0' id='xvalue" + cnt + "'>")
+        let content = $("<div class='hiddenTDOverFlowContent pStyle' style='width: 18%;display: inline-table;font-size:14px;font-weight: bolder' title='" + itemValue + "' id='content" + cnt + "'>" + itemValue + "，" + "</div>")
+        let xspan = $("<label class='pStyle' style='font-size:14px;font-weight: bolder' for='xvalue'" + cnt + ">" + "X坐标：</label>")
+        let xvalue = $("<input type='text' style='width: 20%' value='0' id='xvalue" + cnt + "'>")
         xvalue.bind("blur", function (event) {
             // 修改内容则修改draw
             // 获取编号
-            var elem = event.target
-            var id = elem.id.substring(6, elem.id.length)
-            var drawelem = document.getElementById("draw" + id)
+            let elem = event.target
+            let id = elem.id.substring(6, elem.id.length)
+            let drawelem = document.getElementById("draw" + id)
             drawelem.style.left = $("#" + elem.id).val() + "px"
         })
-        var yspan = $("<span class='pStyle' style='margin-left: 5%'></span>").text("Y坐标：")
-        var yvalue = $("<input type='text' style='width: 20%' value='0' id='yvalue" + cnt + "'>")
+        let yspan = $("<span class='pStyle' style='margin-left: 5%;font-size:14px;font-weight: bolder'>Y坐标：</span>")
+        let yvalue = $("<input type='text' style='width: 20%' value='0' id='yvalue" + cnt + "'>")
         yvalue.bind("blur", function (event) {
-            var elem = event.target
-            var id = elem.id.substring(6, elem.id.length)
-            var drawelem = document.getElementById("draw" + id)
+            let elem = event.target
+            let id = elem.id.substring(6, elem.id.length)
+            let drawelem = document.getElementById("draw" + id)
             drawelem.style.top = $("#" + elem.id).val() + "px"
         })
-        var itemButton = $("<button type='button' id='button" + cnt + "'>删除该项</button>")
+        let itemButton = $("<button type='button' style='margin-left: 4%' class='btn btn-primary btn-sm' id='button" + cnt + "'>删除</button>")
         // 删除事件
         itemButton.bind("click", function (event) {
-            var targetid = event.target.id
-            var id = targetid.substring(6, targetid.length)
+            let targetid = event.target.id
+            let id = targetid.substring(6, targetid.length)
             // 查找元素
-            var idx = -1;
-            for (var i = 0; i < itemlist.length; i++) {
+            let idx = -1;
+            for (let i = 0; i < itemlist.length; i++) {
                 if (itemlist[i] == id) {
                     idx = i;
                     break;
@@ -163,8 +193,8 @@
                 itemValues.splice(idx, 1)
             }
             // 删除元素
-            var fa = document.getElementById("ItemList")
-            var child = document.getElementById("item" + id)
+            let fa = document.getElementById("ItemList")
+            let child = document.getElementById("item" + id)
             fa.removeChild(child)
             fa = document.getElementById("draw")
             child = document.getElementById("draw" + id)
@@ -173,31 +203,31 @@
         })
         $("#item" + cnt).append(content, xspan, xvalue, yspan, yvalue, itemButton)
         // 画布上新增
-        var drawItem = $("<span class='pStyle' style='position: absolute;' draggable='true' id='draw" + cnt + "'></span>").text(itemValue + ":" + "TEST");
+        let drawItem = $("<span class='pStyle draw' style='position: absolute;font-size: 10px' draggable='true' id='draw" + cnt + "'></span>").text(itemValue + ":" + "TEST");
         $("#draw").append(drawItem);
-        var drawElem = document.getElementById("draw" + cnt)
+        let drawElem = document.getElementById("draw" + cnt)
         drawElem.style.left = "0px"
         drawElem.style.top = "0px"
         // 添加事件
         $("#draw" + cnt).bind("dragstart", function (event) {
             oldxposition = event.pageX
             oldyposition = event.pageY
-            var targetid = event.target.id
+            let targetid = event.target.id
         })
         $("#draw" + cnt).bind("dragend", function (event) {
-            var Xoffset = event.pageX - oldxposition
-            var Yoffset = event.pageY - oldyposition
-            var elem = event.target
-            var xbd = elem.style.left
-            var ybd = elem.style.top
-            var xtmp = parseInt(xbd.substring(0, xbd.length - 2))
-            var ytmp = parseInt(ybd.substring(0, ybd.length - 2))
+            let Xoffset = event.pageX - oldxposition
+            let Yoffset = event.pageY - oldyposition
+            let elem = event.target
+            let xbd = elem.style.left
+            let ybd = elem.style.top
+            let xtmp = parseInt(xbd.substring(0, xbd.length - 2))
+            let ytmp = parseInt(ybd.substring(0, ybd.length - 2))
             xtmp = xtmp + Xoffset
             ytmp = ytmp + Yoffset
             elem.style.top = ytmp + "px"
             elem.style.left = xtmp + "px"
             // 设置控制组内的
-            var itemId = elem.id.substring(4, elem.id.length)
+            let itemId = elem.id.substring(4, elem.id.length)
             // 设置输入框
             $("#xvalue" + itemId).val(xtmp)
             $("#yvalue" + itemId).val(ytmp)
@@ -208,63 +238,165 @@
         cnt = cnt + 1;
     }
 
-    function addQRcode() {
+    function selectOne() {
+        $('.draw').css('fontSize', $('#font_style_value').val())
+    }
+
+    function addQRcode(qRCode) {
         // 新增QRCode的图片
         // 获取新插入值的name和 value
         // 在ItemList中新增一项
-        var divstr = $("<div style='width:100%;height:80px;float:left;' id='item" + cnt + "'><div>");
-        $("#ItemList").append(divstr)
-        $("#qr_code").append($("<div style='height:2px;width:95%;float:left;margin-bottom:4%;background-color: black;'></div>"))
+        let divstr = $("<div style='width:100%;height:40px;float:left;' id='item" + cnt + "'><div>");
+        $("#qr_code").append(divstr)
+        $("#qr_code").append($("<div style='height:2px;width:95%;float:left;margin-bottom:10px;background-color: cornflowerblue;'></div>"))
         // 新增item中的元素
-        var xspan = $("<div class='hiddenTDOverFlowContent' style='width: 18%;display: inline-table'>二维码，</div>")
-        var xvalue = $("<label>X坐标：</label><input type='text' style='width: 20%' value='0' id='xvalue" + cnt + "'>")
+        let xspan = $("<div class='hiddenTDOverFlowContent pStyle' style='display: inline-table;font-size:14px;font-weight: bolder'>二维码，</div>")
+        let xvalue = $("<label class='pStyle' style='font-size:14px;font-weight: bolder'>X坐标：</label><input type='text' style='width: 10%' value='15' id='xvalue" + cnt + "'>")
         xvalue.bind("blur", function (event) {
             // 修改内容则修改draw
             // 获取编号
-            var elem = event.target
-            var id = elem.id.substring(6, elem.id.length)
-            var drawelem = document.getElementById("draw" + id)
+            let elem = event.target
+            let id = elem.id.substring(6, elem.id.length)
+            let drawelem = document.getElementById("draw" + id)
             drawelem.style.left = $("#" + elem.id).val() + "px"
         })
-        var yspan = $("<span class='pStyle' style='margin-left: 5%'></span>").text("Y坐标：")
-        var yvalue = $("<input type='text' style='width: 20%' value='0' id='yvalue" + cnt + "'>")
+        let yspan = $("<span class='pStyle' style='margin-left: 3%;font-size:14px;font-weight: bolder'></span>").text("Y坐标：")
+        let yvalue = $("<input type='text' style='width: 10%' value='35' id='yvalue" + cnt + "'>")
         yvalue.bind("blur", function (event) {
-            var elem = event.target
-            var id = elem.id.substring(6, elem.id.length)
-            var drawelem = document.getElementById("draw" + id)
+            let elem = event.target
+            let id = elem.id.substring(6, elem.id.length)
+            let drawelem = document.getElementById("draw" + id)
             drawelem.style.top = $("#" + elem.id).val() + "px"
         })
-        $("#item" + cnt).append(xspan, xvalue, yspan, yvalue)
+        let qr_wh_span = $("<span class='pStyle' style='margin-left: 3%;font-size:14px;font-weight: bolder'></span>").text("宽高：")
+        let qr_wh_value = $("<input type='text' style='width: 10%' value='100' id='qr_wh_value" + "'>")
+        qr_wh_value.bind("blur", function (event) {
+            $('#draw0').html('')
+            new QRCode(document.getElementById("draw0"), {
+                render: "canvas",
+                text: qRCode.qrcodeContent,
+                width: $('#qr_wh_value').val(),
+                height: $('#qr_wh_value').val(),
+                colorDark: "#000000",
+                colorLight: "#ffffff",
+                correctLevel: QRCode.CorrectLevel.H,
+                src: 'qr.jpg'
+            })
+        })
+        let font_style_span = $("<span class='pStyle' style='margin-left: 3%;font-size:14px;font-weight: bolder'></span>").text("字体：")
+        let font_style_value = $("<select style='width: 10%' value='0' onchange='selectOne()' id='font_style_value" + "'>" +
+            "<option value='10px'>10</option>" +
+            "<option value='15px'>15</option>" +
+            "<option value='20px'>20</option>" +
+            "</div>")
+        // font_style_value.bind("change", function (event) {
+        //     let drawelem = document.getElementsByClassName("draw")
+        //     console.log(21)
+        //     for (item of drawelem) {
+        //         item.style.fontSize = $('#font_style_value').val();
+        //     }
+        // })
+        $("#item" + cnt).append(xspan, xvalue, yspan, yvalue, qr_wh_span, qr_wh_value, font_style_span, font_style_value)
         // 画布上新增
-        var drawItem = $("<img src='./pictures/qrcode.png' style='position: absolute;'  draggable='true' id='draw" + cnt + "' />");
+        let drawItem = $("<div style='position: absolute;'  draggable='true' id='draw" + cnt + "' ></div>");
         $("#draw").append(drawItem);
-        var drawElem = document.getElementById("draw" + cnt)
+        new QRCode(document.getElementById("draw" + cnt), {
+            render: "canvas",
+            text: qRCode.qrcodeContent,
+            width: qRCode.qr_wh_value,
+            height: qRCode.qr_wh_value,
+            colorDark: "#000000",
+            colorLight: "#ffffff",
+            correctLevel: QRCode.CorrectLevel.H,
+            src: 'qr.jpg'
+        })
+        let drawElem = document.getElementById("draw" + cnt)
         drawElem.style.left = "0px"
         drawElem.style.top = "0px"
         // 添加事件
         $("#draw" + cnt).bind("dragstart", function (event) {
             oldxposition = event.pageX
             oldyposition = event.pageY
-            var targetid = event.target.id
+            let targetid = event.target.id
         })
         $("#draw" + cnt).bind("dragend", function (event) {
-            var Xoffset = event.pageX - oldxposition
-            var Yoffset = event.pageY - oldyposition
-            var elem = event.target
-            var xbd = elem.style.left
-            var ybd = elem.style.top
-            var xtmp = parseInt(xbd.substring(0, xbd.length - 2))
-            var ytmp = parseInt(ybd.substring(0, ybd.length - 2))
+            let Xoffset = event.pageX - oldxposition
+            let Yoffset = event.pageY - oldyposition
+            // let elem = event.target
+            let elem = document.getElementById("draw0");
+            let xbd = elem.style.left
+            let ybd = elem.style.top
+            let xtmp = parseInt(xbd.substring(0, xbd.length - 2))
+            let ytmp = parseInt(ybd.substring(0, ybd.length - 2))
             xtmp = xtmp + Xoffset
             ytmp = ytmp + Yoffset
             elem.style.top = ytmp + "px"
             elem.style.left = xtmp + "px"
             // 设置控制组内的
-            var itemId = elem.id.substring(4, elem.id.length)
+            let itemId = elem.id.substring(4, elem.id.length)
             // 设置输入框
             $("#xvalue" + itemId).val(xtmp)
             $("#yvalue" + itemId).val(ytmp)
         })
+        $('.draw').css('fontSize', qRCode.font_style_value)
+        let text;
+        if (qRCode.text === undefined) {
+            text = '标题内容';
+            $("#text").val('标题内容')
+        } else {
+            text = qRCode.text;
+            $("#text").val(qRCode.text)
+        }
+        if (qRCode.textXsituation === undefined) {
+            qRCode.textXsituation = '0';
+            $("#text_x").val(0)
+        } else {
+            $("#text_x").val(qRCode.textXsituation)
+        }
+        if (qRCode.textYsituation === undefined) {
+            qRCode.textYsituation = '0';
+            $("#text_y").val(0)
+        } else {
+            $("#text_y").val(qRCode.textYsituation)
+        }
+        let drawItem_ = $("<span class='pStyle' style='position: absolute;font-size: 21px;font-weight: bold' draggable='true' id='draw_text'></span>").text(text);
+        $("#draw").append(drawItem_);
+        let drawElem_ = document.getElementById("draw_text")
+        drawElem_.style.left = qRCode.textXsituation + "px"
+        drawElem_.style.top = qRCode.textYsituation + "px"
+        // 添加事件
+        $("#draw_text").bind("dragstart", function (event) {
+            oldxposition = event.pageX
+            oldyposition = event.pageY
+            let targetid = event.target.id
+        })
+        $("#draw_text").bind("dragend", function (event) {
+            let Xoffset = event.pageX - oldxposition
+            let Yoffset = event.pageY - oldyposition
+            // let elem = event.target
+            let elem = document.getElementById("draw_text");
+            let xbd = elem.style.left
+            let ybd = elem.style.top
+            let xtmp = parseInt(xbd.substring(0, xbd.length - 2))
+            let ytmp = parseInt(ybd.substring(0, ybd.length - 2))
+            xtmp = xtmp + Xoffset
+            ytmp = ytmp + Yoffset
+            elem.style.top = ytmp + "px"
+            elem.style.left = xtmp + "px"
+            // 设置控制组内的
+            let itemId = elem.id.substring(4, elem.id.length)
+            // 设置输入框
+            $("#text_x").val(xtmp)
+            $("#text_y").val(ytmp)
+        })
+        document.getElementById("text").addEventListener("blur", () => {
+            let text = document.getElementById("text").value;
+            document.getElementById("draw_text").innerText = text;
+        })
+        // 设置二维码位置
+        let drawtmp = document.getElementById("draw0")
+        drawtmp.style.left = qRCode.xsituation + "px"
+        drawtmp.style.top = qRCode.ysituation + "px"
         // 将编号写入itemlist中
         itemlist.push(cnt + "")
         itemValues.push("qrcode")
@@ -282,51 +414,74 @@
                 qrcodeId: qrcodeId
             },
             success: function (res) {
-                if (res == null) addQRcode();
-                else {
+                if (res == null) {
+                    addQRcode({
+                        qrcodeContent: 'TEST:TEST',
+                        xsituation: '15',
+                        ysituation: '35',
+                        qr_wh_value: '100',
+                        font_style_value: '10',
+                        textYsituation: '5',
+                        textXsituation: '75',
+                        text: '标题内容',
+                    })
+                } else {
                     // res即最终的qrcodestyle
                     // 构建图画
                     // 设置画布
-                    var draw = document.getElementById("draw")
+                    let draw = document.getElementById("draw")
                     draw.style.height = res.ysize + "px"
                     draw.style.width = res.xsize + "px"
                     $("#xsize").val(res.xsize)
                     $("#ysize").val(res.ysize)
-                    // 设置二维码
-                    addQRcode();
-                    // 设置二维码位置
-                    var drawtmp = document.getElementById("draw0")
-                    drawtmp.style.left = res.qRCode.xsituation + "px"
-                    drawtmp.style.top = res.qRCode.ysituation + "px"
+
                     // 设置二维码内容
-                    for (var i = 0; i < res.qRCode.qRCodeContent.length; i++) {
-                        var valuestmp = document.getElementById("valuesFrom")
-                        var valueslen = valuestmp.length
-                        for (var j = 0; j < valueslen; j++) {
-                            if (valuestmp.options[j].value == res.qRCode.qRCodeContent[i]) {
+                    let valuestmp = document.getElementById("valuesFrom")
+                    let valueslen = valuestmp.length
+                    let arr = [];
+                    let qrcodeContent = '';
+                    for (let i = 0; i < res.qRCode.qRCodeContent.length; i++) {
+                        for (let j = 0; j < valueslen; j++) {
+                            if (valuestmp.options[j].value === res.qRCode.qRCodeContent[i]) {
                                 // 值相等
-                                var newOption = $("<option></option>").attr("value", valuestmp.options[j].value)
+                                let newOption = $("<option></option>").attr("value", valuestmp.options[j].value)
                                 newOption.text(valuestmp.options[j].text)
                                 $("#valuesTo").append(newOption)
+                                arr.push(valuestmp.options[j].value);
                             }
                         }
+                        qrcodeContent += res.qRCode.qRCodeContent[i] + ": TEST" + "\n"
+                    }
+                    // 设置二维码
+                    if (res.qRCode.qRCodeContent === null || res.qRCode.qRCodeContent === undefined || res.qRCode.qRCodeContent.length == 0) {
+                        qrcodeContent = 'TEST:TEST'
+                    }
+                    res.qRCode.qrcodeContent = qrcodeContent;
+                    addQRcode(res.qRCode);
+
+                    for (item of arr) {
+                        $("#valuesFrom option[value = " + item + "]").remove();
                     }
                     // 设置控制面板二维码数值
                     $("#xvalue0").val(res.qRCode.xsituation)
                     $("#yvalue0").val(res.qRCode.ysituation)
+                    $("#qr_wh_value").val(res.qRCode.qr_wh_value)
+                    $("#font_style_value").val(res.qRCode.font_style_value)
+
                     // 设置子项
-                    for (var i = 0; i < res.items.length; i++) {
-                        var valuestmp = document.getElementById("itemNames")
-                        var valueslen = valuestmp.length
-                        for (var j = 0; j < valueslen; j++) {
+                    for (let i = 0; i < res.items.length; i++) {
+                        let valuestmp = document.getElementById("itemNames")
+                        let valueslen = valuestmp.length
+                        for (let j = 0; j < valueslen; j++) {
                             if (valuestmp.options[j].value == res.items[i].content) {
                                 valuestmp.options[j].selected = true
                                 newItem()
                                 // 设置新项的位置
-                                var cnttmp = cnt - 1
-                                var drawtmp = document.getElementById("draw" + cnttmp)
+                                let cnttmp = cnt - 1
+                                let drawtmp = document.getElementById("draw" + cnttmp)
                                 drawtmp.style.left = res.items[i].xsituation + "px"
                                 drawtmp.style.top = res.items[i].ysituation + "px"
+                                drawtmp.style.fontSize = res.qRCode.font_style_value
                                 $("#xvalue" + cnttmp).val(res.items[i].xsituation)
                                 $("#yvalue" + cnttmp).val(res.items[i].ysituation)
                             }
@@ -339,30 +494,36 @@
 
     function submitQRcode() {
         // 点击提交的事件
-        var qrcodestyle = {}
+        let qrcodestyle = {}
         qrcodestyle['xsize'] = $("#xsize").val()
         qrcodestyle['ysize'] = $("#ysize").val()
-        var qRCode = {}
-        var contentlist = qRCode['qRCodeContent'] = []
-        var len = document.getElementById("valuesTo").length
-        for (var i = 0; i < len; i++) {
+
+        let qRCode = {}
+        let contentlist = qRCode['qRCodeContent'] = []
+        let len = document.getElementById("valuesTo").length
+        for (let i = 0; i < len; i++) {
             qRCode['qRCodeContent'].push(document.getElementById("valuesTo").options[i].value)
         }
         qRCode['xsituation'] = $("#xvalue0").val()
         qRCode['ysituation'] = $("#yvalue0").val()
+        qRCode['qr_wh_value'] = $("#qr_wh_value").val()
+        qRCode['font_style_value'] = $("#font_style_value").val()
+        qRCode['textXsituation'] = $("#text_x").val()
+        qRCode['textYsituation'] = $("#text_y").val()
+        qRCode['text'] = $("#text").val()
         qrcodestyle['qRCode'] = qRCode
         // 设置items
-        var items = []
-        for (var i = 1; i < itemlist.length; i++) {  // 从1开始
-            var item = {}
-            var idxtmp = parseInt(itemlist[i])
+        let items = []
+        for (let i = 1; i < itemlist.length; i++) {  // 从1开始
+            let item = {}
+            let idxtmp = parseInt(itemlist[i])
             item['content'] = itemValues[i]
             item['xsituation'] = $("#xvalue" + idxtmp).val()
             item['ysituation'] = $("#yvalue" + idxtmp).val()
             items.push(item)
         }
         qrcodestyle['items'] = items;
-        var qrcodestylestr = JSON.stringify(qrcodestyle)
+        let qrcodestylestr = JSON.stringify(qrcodestyle)
         $.ajax({
             url: "${pageContext.request.contextPath}/SetQRCode",
             type: 'post',
@@ -373,6 +534,7 @@
                 qrcodestyle: qrcodestylestr
             },
             success: function (res) {
+                alert("保存成功！")
             }
         })
 
@@ -380,11 +542,29 @@
 
     function addContent() {
         // 添加内容
-        var selectedValue = $("#valuesFrom").val();
-        var selectedContent = $("#valuesFrom option:selected").text();
-        var newOption = $("<option></option>").attr("value", selectedValue)
-        newOption.text(selectedContent)
-        $("#valuesTo").append(newOption);
+        let selectedValue = $("#valuesFrom").val();
+        if (selectedValue !== null) {
+            let selectedContent = $("#valuesFrom option:selected").text();
+            let newOption = $("<option></option>").attr("value", selectedValue)
+            newOption.text(selectedContent)
+            $("#valuesFrom option[value = " + selectedValue + "]").remove();
+            $("#valuesTo").append(newOption);
+        } else {
+            alert("请选择！")
+        }
+    }
+
+    function delContent() {
+        let selectedValue = $("#valuesTo").val();
+        if (selectedValue !== null) {
+            let selectedContent = $("#valuesTo option:selected").text();
+            $("#valuesTo option[value = " + selectedValue + "]").remove();
+            let newOption = $("<option></option>").attr("value", selectedValue)
+            newOption.text(selectedContent)
+            $("#valuesFrom").append(newOption);
+        } else {
+            alert("请选择！")
+        }
     }
 
     function printLabel() {
@@ -434,6 +614,12 @@
     }
 
     function deleteStyle() {
+
+        let r = confirm("亲，确认删除！");
+        if (r === false) {
+            return;
+        }
+
         $.ajax({
             url: "${pageContext.request.contextPath}/ExecuteSQL",
             type: 'post',
@@ -454,3 +640,14 @@
         });
     }
 </script>
+<style>
+    .hiddenTDOverFlowContent {
+        padding-left: 3px;
+        padding-right: 3px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        font-size: 16px;
+        /*font-family: Simsun;*/
+    }
+</style>
