@@ -272,15 +272,16 @@
         let qr_wh_value = $("<input type='text' style='width: 10%' value='100' id='qr_wh_value" + "'>")
         qr_wh_value.bind("blur", function (event) {
             $('#draw0').html('')
-            new QRCode(document.getElementById("draw0"), {
+            // new QRCode(document.getElementById("draw0"), {
+            jQuery('#draw0').qrcode({
                 render: "canvas",
                 text: qRCode.qrcodeContent,
                 width: $('#qr_wh_value').val(),
                 height: $('#qr_wh_value').val(),
                 colorDark: "#000000",
                 colorLight: "#ffffff",
-                correctLevel: QRCode.CorrectLevel.H,
-                src: 'qr.jpg'
+                // correctLevel: QRCode.CorrectLevel.H,
+                src: './img/qr.jpg'
             })
         })
         let font_style_span = $("<span class='pStyle' style='margin-left: 3%;font-size:14px;font-weight: bolder'></span>").text("字体：")
@@ -300,28 +301,30 @@
         // 画布上新增
         let drawItem = $("<div style='position: absolute;'  draggable='true' id='draw" + cnt + "' ></div>");
         $("#draw").append(drawItem);
-        new QRCode(document.getElementById("draw" + cnt), {
+        // new QRCode(document.getElementById("draw" + cnt), {
+        jQuery('#draw0').qrcode({
             render: "canvas",
             text: qRCode.qrcodeContent,
             width: qRCode.qr_wh_value,
             height: qRCode.qr_wh_value,
             colorDark: "#000000",
             colorLight: "#ffffff",
-            correctLevel: QRCode.CorrectLevel.H,
-            src: 'qr.jpg'
+            // correctLevel: QRCode.CorrectLevel.H,
+            src: './img/qr.jpg'
         })
         let drawElem = document.getElementById("draw" + cnt)
         drawElem.style.left = "0px"
         drawElem.style.top = "0px"
         // 添加事件
         $("#draw" + cnt).bind("dragstart", function (event) {
-            oldxposition = event.pageX
-            oldyposition = event.pageY
+            oldxposition = event.originalEvent.pageX
+            oldyposition = event.originalEvent.pageY
+            console.log(event)
             let targetid = event.target.id
         })
         $("#draw" + cnt).bind("dragend", function (event) {
-            let Xoffset = event.pageX - oldxposition
-            let Yoffset = event.pageY - oldyposition
+            let Xoffset = event.originalEvent.pageX - oldxposition
+            let Yoffset = event.originalEvent.pageY - oldyposition
             // let elem = event.target
             let elem = document.getElementById("draw0");
             let xbd = elem.style.left

@@ -315,6 +315,7 @@
         drawElem.style.top = "0px"
         // 添加事件
         $("#draw" + cnt).bind("dragstart", function (event) {
+            console.log(event)
             oldxposition = event.pageX
             oldyposition = event.pageY
             let targetid = event.target.id
