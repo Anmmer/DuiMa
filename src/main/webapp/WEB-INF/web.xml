@@ -719,4 +719,12 @@
         <servlet-name>getPatchLibrary</servlet-name>
         <url-pattern>/GetPatchLibrary</url-pattern>
     </servlet-mapping>
+    <servlet>
+        <servlet-name>toView</servlet-name>
+        <servlet-class>ToView</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>toView</servlet-name>
+        <url-pattern>/ToView</url-pattern>
+    </servlet-mapping>
 </web-app>

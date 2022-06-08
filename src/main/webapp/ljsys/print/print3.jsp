@@ -1533,7 +1533,6 @@
                 qrcodeContent += fieldmap[tmp[j]] + ":" + printsData[i][tmp[j]] + "\n"
             }
             qrstyle.qRCode.qrcodeContent = qrcodeContent
-            console.log(qrstyle.qRCode)
             getQRCode(i, qrstyle.qRCode)
         }
         let enditem = $(endStr)

@@ -59,7 +59,7 @@ public class GetPreProduct extends HttpServlet {
         try {
             PrintWriter out = resp.getWriter();
             con = DbUtil.getCon();
-            String sql = "select pid,materialcode,preproductid,standard,materialname,weigh,qc,fangliang,preproduct.plannumber,print,concretegrade,pourmade,inspect,covert_test,covert_test_time,covert_test_failure_reason,failure_reason,patch_library,pourtime,checktime,line from preproduct,plan where preproduct.isdelete = 0 and preproduct.plannumber = plan.plannumber";
+            String sql = "select pid,materialcode,preproductid,standard,materialname,weigh,qc,fangliang,build,preproduct.plannumber,print,concretegrade,pourmade,inspect,covert_test,covert_test_time,covert_test_failure_reason,failure_reason,patch_library,pourtime,checktime,line from preproduct,plan where preproduct.isdelete = 0 and preproduct.plannumber = plan.plannumber";
             String sql2 = "select count(*) as num from preproduct where isdelete = 0 ";
             if (plannumber != null && !"".equals(plannumber)) {
                 sql += " and preproduct.plannumber = ?";
@@ -204,6 +204,7 @@ public class GetPreProduct extends HttpServlet {
                 map.put("pourtime", rs.getString("pourtime"));
                 map.put("checktime", rs.getString("checktime"));
                 map.put("line", rs.getString("line"));
+                map.put("build", rs.getString("build"));
                 list.add(map);
             }
             if (pageCur != 0 && pageMax != 0) {
