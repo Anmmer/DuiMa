@@ -210,13 +210,13 @@
         drawElem.style.top = "0px"
         // 添加事件
         $("#draw" + cnt).bind("dragstart", function (event) {
-            oldxposition = event.pageX
-            oldyposition = event.pageY
+            oldxposition = event.originalEvent.pageX
+            oldyposition = event.originalEvent.pageY
             let targetid = event.target.id
         })
         $("#draw" + cnt).bind("dragend", function (event) {
-            let Xoffset = event.pageX - oldxposition
-            let Yoffset = event.pageY - oldyposition
+            let Xoffset = event.originalEvent.pageX - oldxposition
+            let Yoffset = event.originalEvent.pageY - oldyposition
             let elem = event.target
             let xbd = elem.style.left
             let ybd = elem.style.top
@@ -276,7 +276,7 @@
             jQuery('#draw0').qrcode({
                 render: "canvas",
                 // text: qRCode.qrcodeContent,
-                text: "http://192.168.31.92:8989/DuiMa/ToView?materialcode=050290129080121&qrcodeid=2",
+                text: "http://101.132.73.7:8989/DuiMa/ToView?code=050320105030281&id=4",
                 width: $('#qr_wh_value').val(),
                 height: $('#qr_wh_value').val(),
                 colorDark: "#000000",
@@ -306,7 +306,7 @@
         jQuery('#draw0').qrcode({
             render: "canvas",
             // text: qRCode.qrcodeContent,
-            text: "http://192.168.31.92:8989/DuiMa/ToView?materialcode=050290129080121&qrcodeid=2",
+            text: "http://101.132.73.7:8989/DuiMa/ToView?code=050320105030281&id=4",
             width: qRCode.qr_wh_value,
             height: qRCode.qr_wh_value,
             colorDark: "#000000",
@@ -321,7 +321,6 @@
         $("#draw" + cnt).bind("dragstart", function (event) {
             oldxposition = event.originalEvent.pageX
             oldyposition = event.originalEvent.pageY
-            console.log(event)
             let targetid = event.target.id
         })
         $("#draw" + cnt).bind("dragend", function (event) {

@@ -1,48 +1,64 @@
-<!DOCTYPE html>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <html lang="en">
 <head>
-    <meta charset="utf-8"/>
-    <%--    <meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=0">--%>
+    <meta charset="utf-8">
     <title>相城绿建</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
     <script type="text/javascript" src="${pageContext.request.contextPath}/ljsys/js/jquery-3.3.1.min.js"></script>
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/ljsys/dist/css/bootstrap.min.css" type="text/css"/>
     <style>
-        /*!* ⼩屏幕⼿机端 *!*/
-        @media (min-width: 0px)and(max-width: 768px) {
-            .main {
-                width: 100px;
-                height: 100px;
-                background-color: red;
+        @media screen and (min-width: 375px) {
+            html {
+                font-size: 12px;
             }
         }
 
-        /* 中等屏幕（桌⾯显⽰器，⼤于等于992px） */
-        @media (min-width: 768px)and(max-width: 992px) {
-            .main {
-                width: 300px;
-                height: 300px;
-                background-color: blue;
+        @media screen and (min-width: 414px) {
+            html {
+                font-size: 14px;
             }
         }
 
-        /* ⼤屏幕（⼤桌⾯显⽰器，⼤于等于 1200px） */
-        @media (min-width: 992px) {
-            .main {
-                width: 500px;
-                height: 500px;
-                background-color: aqua;
+        @media screen and (min-width: 768px) {
+            html {
+                font-size: 16px;
             }
+        }
+
+        @media screen and (min-width: 1024px) {
+            html {
+                font-size: 18px;
+            }
+        }
+
+        #tbody {
+            text-align: center;
+        }
+
+        #information {
+            background-image: -webkit-linear-gradient(left, rgb(54, 95, 147), rgb(54, 95, 147));
+            color: rgb(255, 255, 255);
+            letter-spacing: 1.5px;
+            font-size: 1.5rem;
+            text-align: center;
+            line-height: 3.0rem;
+            padding: 0rem 0.426667rem;
+            font-weight: bold;
+            box-sizing: border-box;
         }
     </style>
 </head>
 <body>
 <div class="main">
     <%
-        String materialcode = request.getParameter("materialcode");
-        String qrcodeid = request.getParameter("qrcodeid");
+        String materialcode = request.getParameter("code");
+        String qrcodeid = request.getParameter("id");
     %>
-    <div id="detail">
-
-    </div>
+    <div id="information">构建信息</div>
+    <table class="table table-bordered">
+        <tbody id="tbody">
+        </tbody>
+    </table>
 </div>
 <script>
     const materialcode = <%=materialcode%>;
@@ -119,12 +135,11 @@
                 result = JSON.parse(result);
                 let obj = result.data[0];
                 let tmp = qrstyle.qRCode.qRCodeContent
+                let str_body = ''
                 for (let j = 0; j < tmp.length; j++) {
-                    console.log(tmp[j])
-                    let drawItem = $("<div>" + fieldmap[tmp[j]] + ":" + obj[tmp[j]] + "</div>");
-                    $("#detail").append(drawItem);
+                    str_body += "<tr><td>" + fieldmap[tmp[j]] + "</td><td>" + obj[tmp[j]] + "</td></tr>"
                 }
-
+                $("#tbody").html(str_body);
             }
         )
     }

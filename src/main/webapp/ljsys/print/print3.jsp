@@ -78,7 +78,7 @@
         </nav>
         <!-- Modal -->
         <div class="modal fade" id="myModal"
-             style="position: absolute;left: 10%;height: 96%;top: 2%;width: 85%;z-index: 5" role="dialog"
+             style="position: absolute;left: 2%;height: 96%;top: 2%;width: 95%;z-index: 5" role="dialog"
              data-backdrop="false"
              aria-labelledby="myModalLabel">
             <div class="modal-dialog" role="document" style="width: 100%;height: 100%;margin: 0">
