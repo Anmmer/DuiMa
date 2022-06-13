@@ -7,8 +7,11 @@
     <meta http-equiv="pragma" content="no-cache"/>
     <meta http-equiv="cache-control" content="no-cache"/>
     <link rel="stylesheet" href="css/style.css" type="text/css">
-    <script type="text/javascript" src="./js/jquery-3.3.1.min.js"></script>
-    <script type="text/javascript" src="./js/qrcode.min.js"></script>
+<%--    <script type="text/javascript" src="./js/jquery-3.3.1.min.js"></script>--%>
+<%--    <script type="text/javascript" src="./js/qrcode.min.js"></script>--%>
+    <script type="text/javascript" src="js/jquery-1.11.1.js" ></script>
+    <script type="text/javascript" src="js/jquery.qrcode.js" ></script>
+    <script type="text/javascript" src="js/utf.js" ></script>
     <script type="text/javascript" src="./js/xlsx.core.min.js"></script>
     <script type="text/javascript" src="./js/util.js"></script>
     <script type="text/javascript" src="dist/js/bootstrap.js"></script>

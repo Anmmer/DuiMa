@@ -1512,7 +1512,7 @@
             let ysituation = qrstyle.qRCode['ysituation']
             let qr_wh_value = qrstyle.qRCode.qr_wh_value
             item += "<span class='pStyle draw' style='position: absolute;font-size: 21px;left:" + qrstyle.qRCode.textXsituation + "px;top: " + qrstyle.qRCode.textYsituation + "px;font-weight: bold' draggable='true' id='draw_text'>" + qrstyle.qRCode['text'] + "</span>";
-            item += "<div id='qrcode_" + i + "' style='position: absolute;width:" + qr_wh_value + "px;height:" + qr_wh_value + "px;left:" + xsituation + "px;top:" + ysituation + "px;'></div>"
+            item += "<div id='qrcode_" + i + "' style='position: absolute;left:" + xsituation + "px;top:" + ysituation + "px;'></div>"
             // 放置其他各项
             for (let j = 0; j < qrstyle.items.length; j++) {
                 let node = qrstyle.items[j]
@@ -1527,44 +1527,58 @@
             let newItem = $(item)
             $("#printArea").append(newItem)
             // 设置二维码内容
-            let qrcodeContent = ""
-            let tmp = qrstyle.qRCode.qRCodeContent
-            for (let j = 0; j < tmp.length; j++) {
-                qrcodeContent += fieldmap[tmp[j]] + ":" + printsData[i][tmp[j]] + "\n"
-            }
-            qrstyle.qRCode.qrcodeContent = qrcodeContent
-            getQRCode(i, qrstyle.qRCode)
+            // let qrcodeContent = ""
+            // let tmp = qrstyle.qRCode.qRCodeContent
+            // for (let j = 0; j < tmp.length; j++) {
+            //     qrcodeContent += fieldmap[tmp[j]] + ":" + printsData[i][tmp[j]] + "\n"
+            // }
+            let qrCode = {}
+            qrCode.qr_wh_value = qrstyle.qRCode.qr_wh_value
+            qrCode.qrcodeContent = 'http://101.132.73.7:8989/DuiMa/ToView?code=' + printsData[i].materialcode + '&id=' + $("#qrcodestyles :selected").val()
+            // getQRCode(i, qrstyle.qRCode)
+            QrCode.push({id: i, qRCode: qrCode})
         }
         let enditem = $(endStr)
         $("#printArea").append(enditem)
-        setTimeout('printLabels()', 1000)
+        setTimeout('printLabels()', 500)
     }
+
+    let QrCode = []
 
     //生成二维码
     function getQRCode(idx, qRCode) {
-        new QRCode(document.getElementById("qrcode_" + idx), {
+        jQuery('#qrcode_' + idx).qrcode({
+            // new QRCode(document.getElementById("qrcode_" + idx), {
+            render: "canvas",
             text: qRCode.qrcodeContent,
             width: qRCode.qr_wh_value,
             height: qRCode.qr_wh_value,
             colorDark: "#000000",
             colorLight: "#ffffff",
-            correctLevel: QRCode.CorrectLevel.H
+            src: './img/qr.jpg'
+            // correctLevel: QRCode.CorrectLevel.H
         })
     }
 
     // 打印标签
     function printLabels() {
-        $(".gif").css("display", "none");
         let bdhtml = window.document.body.innerHTML;
         let sprnstr = "<!--startprint-->";
         let eprnstr = "<!--endprint-->";
         let prnhtml = bdhtml.substr(bdhtml.indexOf(sprnstr) + 17);
         prnhtml = prnhtml.substring(0, prnhtml.indexOf(eprnstr));
         window.document.body.innerHTML = prnhtml;
-        window.print();
-        window.document.body.innerHTML = bdhtml;
-        location.reload();
-        printsData = []
+        for (let obj of QrCode) {
+            getQRCode(obj.id, obj.qRCode)
+        }
+        setTimeout(() => {
+                window.print()
+                window.document.body.innerHTML = bdhtml;
+                location.reload();
+                printsData = []
+                QrCode = []
+            }, 500
+        )
     }
 
 
@@ -1578,15 +1592,16 @@
     /*.table > thead > tr > th {*/
     /*    padding: 5px;*/
     /*}*/
-    table{
-        table-layout:fixed;/* 只有定义了表格的布局算法为fixed，下⾯td的定义才能起作⽤。 */
+    table {
+        table-layout: fixed; /* 只有定义了表格的布局算法为fixed，下⾯td的定义才能起作⽤。 */
     }
-    td{
-        width:100%;
-        word-break:keep-all;/* 不换⾏ */
-        white-space:nowrap;/* 不换⾏ */
-        overflow:hidden;/* 内容超出宽度时隐藏超出部分的内容 */
-        text-overflow:ellipsis;/* 当对象内⽂本溢出时显⽰省略标记(...) ；需与overflow:hidden;⼀起使⽤。*/
+
+    td {
+        width: 100%;
+        word-break: keep-all; /* 不换⾏ */
+        white-space: nowrap; /* 不换⾏ */
+        overflow: hidden; /* 内容超出宽度时隐藏超出部分的内容 */
+        text-overflow: ellipsis; /* 当对象内⽂本溢出时显⽰省略标记(...) ；需与overflow:hidden;⼀起使⽤。*/
     }
 
 </style>

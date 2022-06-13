@@ -82,6 +82,7 @@ public class QuerySQL extends HttpServlet {
             ret.put("pageAll", pageAll + "");
             ret.put("cnt", cnt + "");
             ret.put("data", JSON.toJSONString(maplist));
+            ret.put("data0", maplist);
             retStr = JSON.toJSONString(ret);
             out.write(retStr);
         } catch (Exception e) {

@@ -282,7 +282,7 @@
                 colorDark: "#000000",
                 colorLight: "#ffffff",
                 // correctLevel: QRCode.CorrectLevel.H,
-                src: './img/qr.jpg'
+                // src: './img/qr.jpg'
             })
         })
         let font_style_span = $("<span class='pStyle' style='margin-left: 3%;font-size:14px;font-weight: bolder'></span>").text("字体：")
