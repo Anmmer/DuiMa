@@ -32,10 +32,8 @@ public class PrintPreProduct extends HttpServlet {
         JSONArray jsonArray = JSONObject.parseArray(preProductIds);
         Connection con = null;
         PreparedStatement ps1 = null;
-        PreparedStatement ps2 = null;
         PrintWriter out = resp.getWriter();
         String sql1 = "update preproduct set print = print +1 where pid = ?";
-        String sql2 = "update plan set plantime =?";
         Map<String, Object> map = new HashMap<>();
         try {
             con = DbUtil.getCon();
@@ -47,15 +45,6 @@ public class PrintPreProduct extends HttpServlet {
             }
             int[] is = ps1.executeBatch();
 
-            Boolean flag = getPrintState(plannumber);
-            if (flag) {
-                sql2 += ",printstate = 1";
-            }
-            sql2 += " where plannumber = ?";
-            ps2 = con.prepareStatement(sql2);
-            ps2.setDate(1, new Date(new java.util.Date().getTime()));
-            ps2.setString(2, plannumber);
-            ps2.executeUpdate();
             if (is.length < 1)
                 map.put("flag", false);
             else
