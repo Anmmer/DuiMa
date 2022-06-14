@@ -436,3 +436,16 @@
         }
     }
 </script>
+<style>
+    table {
+        table-layout: fixed; /* 只有定义了表格的布局算法为fixed，下⾯td的定义才能起作⽤。 */
+    }
+
+    td {
+        width: 100%;
+        word-break: keep-all; /* 不换⾏ */
+        white-space: nowrap; /* 不换⾏ */
+        overflow: hidden; /* 内容超出宽度时隐藏超出部分的内容 */
+        text-overflow: ellipsis; /* 当对象内⽂本溢出时显⽰省略标记(...) ；需与overflow:hidden;⼀起使⽤。*/
+    }
+</style>

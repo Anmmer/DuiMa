@@ -104,7 +104,7 @@ public class GetPlan extends HttpServlet {
                 }
             }
             j = i;
-            sql += "order by plantime desc,planname  limit ?,?";
+            sql += " order by plantime desc,planname  limit ?,?";
             i += 2;
             ps = con.prepareStatement(sql);
             ps.setInt(i--, pageMax);

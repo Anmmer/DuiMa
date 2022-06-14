@@ -93,7 +93,7 @@
         </nav>
     </div>
     <!-- Modal -->
-    <div class="modal fade" id="myModal" tabindex="-1" style="position: absolute;left: 15%;top: 12%;" role="dialog"
+    <div class="modal fade" id="myModal" tabindex="-1" style="height:;position: absolute;left: 15%;top: 12%;" role="dialog"
          data-backdrop="false"
          aria-labelledby="myModalLabel">
         <div class="modal-dialog" role="document">
@@ -105,7 +105,7 @@
                 </div>
                 <div class="modal-body">
                     <div class="form-horizontal">
-                        <div class="form-group" style="height: 100%;margin-top: 5%">
+                        <div class="form-group" style="margin-top: 5%">
                             <label for="newWarehouseName" style="width: 28%;text-align: left;padding-right: 0"
                                    class="col-sm-2 control-label">货位名:</label>
                             <input type="text" class="form-control" style="width:50%;" id="newWarehouseName"

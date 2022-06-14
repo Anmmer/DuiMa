@@ -114,8 +114,8 @@
         planname_old = planname
         queryData(id);
         $('#myModal').modal('show')
-        $(".title1").hide();
-        $(".title2").show();
+        $("#title1").hide();
+        $("#title2").show();
         $("#save").attr('onclick', 'edit(' + id + ')');
     }
 

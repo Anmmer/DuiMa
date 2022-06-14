@@ -260,6 +260,7 @@
     }
 
     function getFailClass() {
+        $('#classification').empty()
         $.post("${pageContext.request.contextPath}/GetFailClass", {index: '0'}, function (result) {
             result = JSON.parse(result);
             selectClass = result.data;
@@ -297,6 +298,7 @@
             alert(result.message);
             if (result.flag) {
                 getTableData();
+                getFailClass();
             }
         });
     }

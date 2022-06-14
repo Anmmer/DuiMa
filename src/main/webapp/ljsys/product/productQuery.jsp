@@ -280,16 +280,16 @@
                     pop_pageDate[i]['covert_test'] = '--';
                     pop_pageDate[i]['covert_test_time'] = '--';
                 }
-                str += "<tr><td class='tdStyle_body' >" + pop_pageDate[i]['materialcode'] +
-                    "</td><td class='tdStyle_body'>" + pop_pageDate[i]['materialname'] +
-                    "</td><td class='tdStyle_body'>" + pop_pageDate[i]['preproductid'] +
-                    "</td><td class='tdStyle_body'>" + pop_pageDate[i]['covert_test'] +
-                    "</td><td class='tdStyle_body'>" + pop_pageDate[i]['covert_test_time'] +
-                    "</td><td class='tdStyle_body'>" + pop_pageDate[i]['pourmade'] +
-                    "</td><td class='tdStyle_body'>" + pop_pageDate[i]['pourtime'] +
-                    "</td><td class='tdStyle_body'>" + pop_pageDate[i]['inspect'] +
-                    "</td><td class='tdStyle_body'>" + pop_pageDate[i]['checktime'] +
-                    "</td><td class='tdStyle_body'" + style + ">" + state +
+                str += "<tr><td class='tdStyle_body' title='" + pop_pageDate[i]['materialcode'] + "'>" + pop_pageDate[i]['materialcode'] +
+                    "</td><td class='tdStyle_body' title='" + pop_pageDate[i]['materialname'] + "'>" + pop_pageDate[i]['materialname'] +
+                    "</td><td class='tdStyle_body' title='" + pop_pageDate[i]['preproductid'] + "'>" + pop_pageDate[i]['preproductid'] +
+                    "</td><td class='tdStyle_body' title='" + pop_pageDate[i]['covert_test'] + "'>" + pop_pageDate[i]['covert_test'] +
+                    "</td><td class='tdStyle_body' title='" + pop_pageDate[i]['covert_test_time'] + "'>" + pop_pageDate[i]['covert_test_time'] +
+                    "</td><td class='tdStyle_body' title='" + pop_pageDate[i]['pourmade'] + "'>" + pop_pageDate[i]['pourmade'] +
+                    "</td><td class='tdStyle_body' title='" + pop_pageDate[i]['pourtime'] + "'>" + pop_pageDate[i]['pourtime'] +
+                    "</td><td class='tdStyle_body' title='" + pop_pageDate[i]['inspect'] + "'>" + pop_pageDate[i]['inspect'] +
+                    "</td><td class='tdStyle_body' title='" + pop_pageDate[i]['checktime'] + "'>" + pop_pageDate[i]['checktime'] +
+                    "</td><td class='tdStyle_body' title='" + state + "'" + style + ">" + state +
                     "</td></tr>";
             }
             $("#detailTableText").html(str);
@@ -324,6 +324,7 @@
             materialcode: materialcode_pop,
             productState: productState_pop,
             plannumber: plannumber,
+            on_or_off: on_or_off,
             isPrint: "true",
             pageCur: newPage,
             pageMax: pageMax
@@ -374,15 +375,18 @@
                 $('#productState_pop').empty()
                 if (on_or_off == 1) {
                     $('#productState_pop').append($("<option value=\"0\"></option>\n" +
-                        "                                    <option value=\"1\">待生产</option>\n" +
-                        "                                    <option value=\"2\">待检验</option>\n" +
-                        "                                    <option value=\"3\">浇捣完成</option>\n" +
-                        "                                    <option value=\"4\">质检完成</option>"))
+                        "                                    <option value=\"1\">待检验</option>\n" +
+                        "                                    <option value=\"2\">检验不合格</option>\n" +
+                        "                                    <option value=\"3\">待浇捣</option>\n" +
+                        "                                    <option value=\"4\">待质检</option>\n" +
+                        "                                    <option value=\"5\">质检合格</option>" +
+                        "                                    <option value=\"6\">质检不合格</option>"))
                 } else {
                     $('#productState_pop').append($("<option value=\"0\"></option>\n" +
-                        "                                    <option value=\"1\">待生产</option>\n" +
-                        "                                    <option value=\"2\">浇捣完成</option>\n" +
-                        "                                    <option value=\"3\">质检完成</option>"))
+                        "                                    <option value=\"1\">待浇捣</option>\n" +
+                        "                                    <option value=\"2\">待质检</option>\n" +
+                        "                                    <option value=\"3\">质检合格</option>" +
+                        "                                    <option value=\"4\">质检不合格</option>"))
                 }
                 updateTable(true);
                 $('#total_d').html(result.cnt + "条，共" + result.pageAll + "页");

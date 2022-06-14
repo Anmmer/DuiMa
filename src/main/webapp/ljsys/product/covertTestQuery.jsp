@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <div style="height: 95%;width: 100%">
-    <form name="query" class="form-inline" style="width:70%;height:15%;margin-left: 14%;padding-top:2%">
+    <form name="query" class="form-inline" style="width:80%;height:15%;margin-left: 14%;padding-top:2%">
         <div class="form-group">
             <label>物料编码：</label><input type="text" name="materialcode" id="materialcode"
                                        style="" class="form-control">
@@ -21,7 +21,7 @@
             查 询
         </button>
     </form>
-    <div style="width:70%;height:80%;margin:0 auto;">
+    <div style="width:80%;height:80%;margin:0 auto;">
         <div class="page-header" style="margin-top: 0;margin-bottom: 1%">
             <h3 style="margin-bottom: 0;margin-top: 0"><small>隐蔽性检验信息</small></h3>
             <button type="button" style="position: absolute;right: 15%;top:14%" class="btn btn-primary btn-sm"
@@ -412,12 +412,12 @@
             jsonObj[i]['covert_test_time'] = jsonObj[i]['covert_test_time'] === undefined ? '--' : jsonObj[i]['covert_test_time'];
             jsonObj[i]['covert_test_failure_reason'] = jsonObj[i]['covert_test_failure_reason'] === undefined ? '--' : jsonObj[i]['covert_test_failure_reason'];
             str += "<tr><td class='tdStyle_body'><input type='checkbox'" + disable + " data-id=" + jsonObj[i]['pid'] + ">" +
-                "</td><td class='tdStyle_body'>" + jsonObj[i]['materialcode'] +
-                "</td><td class='tdStyle_body'>" + jsonObj[i]['materialname'] +
-                "</td><td class='tdStyle_body'>" + jsonObj[i]['plannumber'] +
-                "</td><td class='tdStyle_body'>" + jsonObj[i]['covert_test'] +
-                "</td><td class='tdStyle_body'>" + jsonObj[i]['covert_test_failure_reason'] +
-                "</td><td class='tdStyle_body'>" + jsonObj[i]['covert_test_time'] +
+                "</td><td class='tdStyle_body' title='" + jsonObj[i]['materialcode'] + "'>" + jsonObj[i]['materialcode'] +
+                "</td><td class='tdStyle_body' title='" + jsonObj[i]['materialname'] + "'>" + jsonObj[i]['materialname'] +
+                "</td><td class='tdStyle_body' title='" + jsonObj[i]['plannumber'] + "'>" + jsonObj[i]['plannumber'] +
+                "</td><td class='tdStyle_body' title='" + jsonObj[i]['covert_test'] + "'>" + jsonObj[i]['covert_test'] +
+                "</td><td class='tdStyle_body' title='" + jsonObj[i]['covert_test_failure_reason'] + "'>" + jsonObj[i]['covert_test_failure_reason'] +
+                "</td><td class='tdStyle_body' >" + jsonObj[i]['covert_test_time'] +
                 "</td></tr>";
         }
         document.getElementById('pre_checkbok').checked = false
@@ -648,3 +648,16 @@
         }
     }
 </script>
+<style>
+    table {
+        table-layout: fixed; /* 只有定义了表格的布局算法为fixed，下⾯td的定义才能起作⽤。 */
+    }
+
+    td {
+        width: 100%;
+        word-break: keep-all; /* 不换⾏ */
+        white-space: nowrap; /* 不换⾏ */
+        overflow: hidden; /* 内容超出宽度时隐藏超出部分的内容 */
+        text-overflow: ellipsis; /* 当对象内⽂本溢出时显⽰省略标记(...) ；需与overflow:hidden;⼀起使⽤。*/
+    }
+</style>

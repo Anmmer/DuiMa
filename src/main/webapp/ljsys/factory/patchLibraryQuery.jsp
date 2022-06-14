@@ -22,7 +22,7 @@
             查 询
         </button>
     </form>
-    <div style="width:75%;height:80%;margin:0 auto;">
+    <div style="width:80%;height:80%;margin:0 auto;">
         <div class="page-header" style="margin-top: 0;margin-bottom: 1%">
             <h3 style="margin-bottom: 0;margin-top: 0"><small>修补库信息</small></h3>
             <button type="button" style="position: absolute;right: 18%;top:14%" class="btn btn-primary btn-sm"
@@ -179,13 +179,13 @@
                 }
                 jsonObj[i]['checktime'] = jsonObj[i]['checktime'] === undefined ? '--' : jsonObj[i]['checktime'];
                 str += "<tr><td class='tdStyle_body'><input type='checkbox' data-id=" + jsonObj[i]['pid'] + ">" +
-                    "<td class='tdStyle_body'>" + jsonObj[i]['materialcode'] +
-                    "</td><td class='tdStyle_body'>" + jsonObj[i]['materialname'] +
-                    "</td><td class='tdStyle_body'>" + jsonObj[i]['plannumber'] +
-                    "</td><td class='tdStyle_body'>" + jsonObj[i]['inspect'] +
-                    "</td><td class='tdStyle_body'>" + jsonObj[i]['failure_reason'] +
-                    "</td><td class='tdStyle_body'>" + jsonObj[i]['patch_library'] +
-                    "</td><td class='tdStyle_body'>" + jsonObj[i]['checktime'] +
+                    "<td class='tdStyle_body' title='" + jsonObj[i]['materialcode'] + "'>" + jsonObj[i]['materialcode'] +
+                    "</td><td class='tdStyle_body' title='" + jsonObj[i]['materialname'] + "'>" + jsonObj[i]['materialname'] +
+                    "</td><td class='tdStyle_body' title='" + jsonObj[i]['plannumber'] + "'>" + jsonObj[i]['plannumber'] +
+                    "</td><td class='tdStyle_body' title='" + jsonObj[i]['inspect'] + "'>" + jsonObj[i]['inspect'] +
+                    "</td><td class='tdStyle_body' title='" + jsonObj[i]['failure_reason'] + "'>" + jsonObj[i]['failure_reason'] +
+                    "</td><td class='tdStyle_body' title='" + jsonObj[i]['patch_library'] + "'>" + jsonObj[i]['patch_library'] +
+                    "</td><td class='tdStyle_body' title='" + jsonObj[i]['checktime'] + "'>" + jsonObj[i]['checktime'] +
                     "</td></tr>";
             }
             $("#archTableText").html(str);
@@ -415,3 +415,16 @@
         }
     </script>
 </div>
+<style>
+    table {
+        table-layout: fixed; /* 只有定义了表格的布局算法为fixed，下⾯td的定义才能起作⽤。 */
+    }
+
+    td {
+        width: 100%;
+        word-break: keep-all; /* 不换⾏ */
+        white-space: nowrap; /* 不换⾏ */
+        overflow: hidden; /* 内容超出宽度时隐藏超出部分的内容 */
+        text-overflow: ellipsis; /* 当对象内⽂本溢出时显⽰省略标记(...) ；需与overflow:hidden;⼀起使⽤。*/
+    }
+</style>
