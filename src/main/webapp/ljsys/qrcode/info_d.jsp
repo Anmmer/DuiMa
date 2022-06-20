@@ -276,7 +276,7 @@
             jQuery('#draw0').qrcode({
                 render: "canvas",
                 // text: qRCode.qrcodeContent,
-                text: "http://101.132.73.7:8989/DuiMa/ToView?code=050320105030281&id=4",
+                text: "https://mes.ljzggroup.com/DuiMa/ToView?code=050320105030281&id=4",
                 width: $('#qr_wh_value').val(),
                 height: $('#qr_wh_value').val(),
                 colorDark: "#000000",
@@ -306,7 +306,7 @@
         jQuery('#draw0').qrcode({
             render: "canvas",
             // text: qRCode.qrcodeContent,
-            text: "http://101.132.73.7:8989/DuiMa/ToView?code=050320105030281&id=4",
+            text: "https://mes.ljzggroup.com/DuiMa/ToView?code=050320105030281&id=4",
             width: qRCode.qr_wh_value,
             height: qRCode.qr_wh_value,
             colorDark: "#000000",
