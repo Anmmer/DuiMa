@@ -1534,7 +1534,7 @@
             // }
             let qrCode = {}
             qrCode.qr_wh_value = qrstyle.qRCode.qr_wh_value
-            qrCode.qrcodeContent = 'http://101.132.73.7:8989/DuiMa/ToView?code=' + printsData[i].materialcode + '&id=' + $("#qrcodestyles :selected").val()
+            qrCode.qrcodeContent = 'https://mes.ljzggroup.com/DuiMa/ToView?code=' + printsData[i].materialcode + '&id=' + $("#qrcodestyles :selected").val()
             // getQRCode(i, qrstyle.qRCode)
             QrCode.push({id: i, qRCode: qrCode})
         }
