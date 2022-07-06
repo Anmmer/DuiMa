@@ -1,3 +1,5 @@
+<%@ page import="java.util.Map" %>
+<%@ page import="com.alibaba.fastjson.JSONObject" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <html lang="en">
 <head>
@@ -53,6 +55,9 @@
     <%
         String materialcode = request.getParameter("code");
         String qrcodeid = request.getParameter("id");
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("materialcode", materialcode);
+        jsonObject.put("qrcodeid", qrcodeid);
     %>
     <div id="information">构建信息</div>
     <table class="table table-bordered">
@@ -61,8 +66,12 @@
     </table>
 </div>
 <script>
-    const materialcode = <%=materialcode%>;
-    const qrcodeid = <%=qrcodeid%>;
+    const json = <%=jsonObject%>;
+    let materialcode = <%=materialcode%>;
+    if (typeof materialcode == 'number') {
+        materialcode = json.materialcode
+    }
+    const qrcodeid = json.qrcodeid;
     let qrstyle = {};
     let fieldmap = {};
 
