@@ -38,9 +38,9 @@
                 </tbody>
             </table>
         </div>
-        <nav aria-label="Page navigation" style="margin-left:20%;width:80%;height:10%;">
+        <nav aria-label="Page navigation" style="margin-left:25%;width:80%;height:10%;">
             <ul class="pagination" style="margin-top: 0;width: 70%">
-                <li><span id="total" style="width: 30%"></span></li>
+                <li><span id="total"></span></li>
                 <li>
                     <a href="#" onclick="jumpToNewPage(2)" aria-label="Previous">
                         <span aria-hidden="true">&laquo;</span>
@@ -541,7 +541,9 @@
         let productState = $('#productState').val();
         let planname = $('#planname').val();
         let materialcode = $('#materialcode').val();
-        let newPage = $('#jump_to').val();
+        let newPage = parseInt($('#jump_to').val());
+        if (newPage == "" || isNaN(newPage))
+            return;
         if (newPage > pageAll) {
             alert("超过最大页数")
             return
@@ -601,13 +603,26 @@
         } else {
             let j = Math.floor(newPage / 5);
             let m = j * 5;
-            for (let i = 1; i < 6; i++) {
-                let k = i % 5;
-                if (++m > pageAll) {
-                    $('#a_' + k).text('.');
-                } else {
-                    $('#a_' + k).text(m);
-                    $('#a_' + k).attr('onclick', 'jumpToNewPage1(' + m + ')');
+            if (newPage % 5 == 0) {
+                for (let i = 1; i < 6; i++) {
+                    let k = i % 5;
+                    let n = m - 5 + i;
+                    if (n > pageAll) {
+                        $('#a_' + k).text('.');
+                    } else {
+                        $('#a_' + k).text(n);
+                        $('#a_' + k).attr('onclick', 'jumpToNewPage1(' + n + ')');
+                    }
+                }
+            } else {
+                for (let i = 1; i < 6; i++) {
+                    let k = i % 5;
+                    if (++m > pageAll) {
+                        $('#a_' + k).text('.');
+                    } else {
+                        $('#a_' + k).text(m);
+                        $('#a_' + k).attr('onclick', 'jumpToNewPage1(' + m + ')');
+                    }
                 }
             }
             $('#li_' + pageCur % 5).removeClass('active');
@@ -663,7 +678,7 @@
         let newPage = 1;
         if (newPageCode === 1) newPage = 1;
         if (newPageCode === 2) {
-            if (pop_pageCur === 1) {
+            if (pop_pageCur == 1) {
                 window.alert("已经在第一页!");
                 return
             } else {
@@ -671,7 +686,7 @@
             }
         }
         if (newPageCode === 3) {
-            if (pop_pageCur === pop_pageAll) {
+            if (pop_pageCur == pop_pageAll) {
                 // window.alert("已经在最后一页!");
                 // return
             } else {
@@ -728,7 +743,9 @@
 
     function jumpToNewPage_d2() {
         pop_pageDate = []
-        var newPage = $('#jump_to_d').val();
+        var newPage = parseInt(('#jump_to_d').val());
+        if (newPage == "" || isNaN(newPage))
+            return;
         if (newPage > pop_pageAll) {
             alert("超过最大页数")
             return
