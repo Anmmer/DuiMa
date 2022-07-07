@@ -44,7 +44,7 @@ public class PrintPreProduct extends HttpServlet {
                 ps1.addBatch();
             }
             int[] is = ps1.executeBatch();
-
+            setPrintState(plannumber);
             if (is.length < 1)
                 map.put("flag", false);
             else
@@ -64,30 +64,35 @@ public class PrintPreProduct extends HttpServlet {
         }
     }
 
-    public static boolean getPrintState(String plannumber) {
+    public static void setPrintState(String plannumber) {
         Connection con = null;
         PreparedStatement ps1 = null;
         PreparedStatement ps2 = null;
+        PreparedStatement ps3 = null;
         String sql1 = "select count(print) print from preproduct where plannumber = ? and isdelete = 0 and print>0";
         String sql2 = "select tasknum from plan where plannumber = ? and isdelete = 0";
+
         try {
             con = DbUtil.getCon();
             ps1 = con.prepareStatement(sql1);
-            ps1.setString(1,plannumber);
+            ps1.setString(1, plannumber);
             ResultSet rs1 = ps1.executeQuery();
             Integer print = null;
-            while (rs1.next()){
+            while (rs1.next()) {
                 print = rs1.getInt("print");
             }
             ps2 = con.prepareStatement(sql2);
-            ps2.setString(1,plannumber);
+            ps2.setString(1, plannumber);
             ResultSet rs2 = ps2.executeQuery();
             Integer num = null;
-            while (rs2.next()){
+            while (rs2.next()) {
                 num = rs2.getInt("tasknum");
             }
-            if(print.equals(num)){
-                return true;
+            if (print != null && print.equals(num)) {
+                String sql3 = "update plan set printstate = 1 where plannumber = ?";
+                ps3 = con.prepareStatement(sql3);
+                ps3.setString(1, plannumber);
+                ps3.executeUpdate();
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -99,10 +104,11 @@ public class PrintPreProduct extends HttpServlet {
                     ps1.close();
                 if (ps2 != null)
                     ps2.close();
+                if (ps3 != null)
+                    ps3.close();
             } catch (SQLException throwables) {
                 throwables.printStackTrace();
             }
         }
-        return false;
     }
 }

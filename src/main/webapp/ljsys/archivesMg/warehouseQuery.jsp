@@ -386,15 +386,28 @@
                 $('#li_' + pageCur % 5).removeClass('active');
                 $('#li_' + newpage % 5).addClass('active');
             } else {
-                let j = Math.floor(newpage / 5);
+                let j = Math.floor(newPage / 5);
                 let m = j * 5;
-                for (let i = 1; i < 6; i++) {
-                    let k = i % 5;
-                    if (++m > pageAll) {
-                        $('#a_' + k).text('.');
-                    } else {
-                        $('#a_' + k).text(m);
-                        $('#a_' + k).attr('onclick', 'jumpToNewPage1(' + m + ')');
+                if (newPage % 5 == 0) {
+                    for (let i = 1; i < 6; i++) {
+                        let k = i % 5;
+                        let n = m - 5 + i;
+                        if (n > pageAll) {
+                            $('#a_' + k).text('.');
+                        } else {
+                            $('#a_' + k).text(n);
+                            $('#a_' + k).attr('onclick', 'jumpToNewPage1(' + n + ')');
+                        }
+                    }
+                } else {
+                    for (let i = 1; i < 6; i++) {
+                        let k = i % 5;
+                        if (++m > pageAll) {
+                            $('#a_' + k).text('.');
+                        } else {
+                            $('#a_' + k).text(m);
+                            $('#a_' + k).attr('onclick', 'jumpToNewPage1(' + m + ')');
+                        }
                     }
                 }
                 $('#li_' + pageCur % 5).removeClass('active');

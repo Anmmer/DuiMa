@@ -31,6 +31,7 @@ public class GetPlan extends HttpServlet {
         String materialname = req.getParameter("materialname");
         String preproductid = req.getParameter("preproductid");
         String productState = req.getParameter("productState");
+        String printstate = req.getParameter("printstate");
         String on_or_off = req.getParameter("on_or_off");
         int pageCur = Integer.parseInt(req.getParameter("pageCur"));
         int pageMax = Integer.parseInt(req.getParameter("pageMax"));
@@ -47,7 +48,7 @@ public class GetPlan extends HttpServlet {
             con = DbUtil.getCon();
             String sql = "select plannumber,plant,plantime,line,liner,planname,build,tasksqure,tasknum,updatedate,CASE ( SELECT count( 1 ) FROM preproduct WHERE preproduct.plannumber = plan.plannumber AND preproduct.isdelete = 0 AND preproduct.inspect = 1 ) WHEN tasknum THEN 1 ELSE 0 END AS checkstate," +
                     "CASE ( SELECT count( 1 ) FROM preproduct WHERE preproduct.plannumber = plan.plannumber AND preproduct.isdelete = 0 AND preproduct.pourmade = 1 ) WHEN tasknum THEN 1 ELSE 0 END AS pourmadestate ," +
-                    "CASE ( SELECT count( 1 ) FROM preproduct WHERE preproduct.plannumber = plan.plannumber AND preproduct.isdelete = 0 AND preproduct.print > 0 ) WHEN tasknum THEN 1 ELSE 0 END AS printstate " +
+                    " printstate " +
                     "from plan where isdelete = 0 ";
             String sql2 = "select count(1) as num from plan where isdelete = 0";
             if (!"".equals(startDate) && startDate != null) {
@@ -103,12 +104,21 @@ public class GetPlan extends HttpServlet {
                     sql2 += " and ( SELECT count( 1 ) FROM preproduct WHERE preproduct.plannumber = plan.plannumber AND preproduct.pourmade = 1 and preproduct.inspect = 1) =tasknum";
                 }
             }
+            if (!"".equals(printstate) && printstate != null) {
+                sql += " and printstate = ?";
+                sql2 += " and printstate = ?";
+                i++;
+            }
             j = i;
-            sql += " order by plantime desc,planname  limit ?,?";
+            sql += " order by printstate,plantime desc,planname  limit ?,?";
             i += 2;
             ps = con.prepareStatement(sql);
             ps.setInt(i--, pageMax);
             ps.setInt(i--, (pageCur - 1) * pageMax);
+
+            if (!"".equals(printstate) && printstate != null) {
+                ps.setInt(i--, Integer.parseInt(printstate));
+            }
 
             if (!"".equals(line) && line != null) {
                 ps.setString(i--, "%" + line.trim() + "%");
@@ -155,6 +165,10 @@ public class GetPlan extends HttpServlet {
                 list.add(map);
             }
             ps2 = con.prepareStatement(sql2);
+
+            if (!"".equals(printstate) && printstate != null) {
+                ps2.setInt(j--, Integer.parseInt(printstate));
+            }
 
             if (!"".equals(line) && line != null) {
                 ps2.setString(j--, "%" + line.trim() + "%");

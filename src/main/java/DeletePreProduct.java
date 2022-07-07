@@ -62,11 +62,11 @@ public class DeletePreProduct extends HttpServlet {
             }
             int i = ps1.executeUpdate();
             ps2.executeUpdate();
-            if (PrintPreProduct.getPrintState(plannumber)) {
-                sql3.append(",printstate = 1");
-            } else {
-                sql3.append(",printstate = 0");
-            }
+//            if (PrintPreProduct.getPrintState(plannumber)) {
+//                sql3.append(",printstate = 1");
+//            } else {
+//                sql3.append(",printstate = 0");
+//            }
             sql3.append(" where plannumber = ?");
             ps3 = con.prepareStatement(sql3.toString());
             ps3.setDate(1, new Date(new java.util.Date().getTime()));

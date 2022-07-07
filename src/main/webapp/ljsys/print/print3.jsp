@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <div style="height: 100%;width: 95%">
-    <form name="query" class="form-inline" style="width:85%;height:20%;margin-left: 8%;padding-top:2%">
+    <form name="query" class="form-inline" style="width:85%;height:20%;margin-left: 5%;padding-top:2%">
         <div class="form-group">
             <label for="startDate">开始时间：</label><input id="startDate" class="form-control" type="date"
                                                        style="width: 13%;height: 30px">
@@ -17,18 +17,24 @@
                                                                                   style="width: 13%;height:10%;">
             <label for="query_line" style="margin-left: 2%">产线：</label><input id="query_line" class="form-control"
                                                                               style="width: 13%;height:10%;">
+            <%--            <label for="query_printstate" style="margin-left: 2%">打印状态：</label>--%>
+            <%--            <select id="query_printstate" class="form-control" style="width: 13%;height:10%;">--%>
+            <%--                <option value=''></option>--%>
+            <%--                <option value='1'>已打印</option>--%>
+            <%--                <option value='0'>打印中</option>--%>
+            <%--            </select>--%>
             <button type="button" class="btn btn-primary btn-sm" style="margin-left: 1%"
                     onclick="getTableData(1)">
                 查 询
             </button>
         </div>
     </form>
-    <button type="button" style="position: absolute;right: 22%;top:13%" class="btn btn-primary btn-sm"
+    <button type="button" style="position: absolute;right: 17%;top:13%" class="btn btn-primary btn-sm"
             data-toggle="modal"
             onclick="openPop()">
         上传文件
     </button>
-    <button style="position: absolute;right: 15%;top:13%" class="btn btn-primary btn-sm"
+    <button style="position: absolute;right: 10%;top:13%" class="btn btn-primary btn-sm"
             onclick="delTableData()">批量删除
     </button>
     <div style="width:90%;height:80%;margin:0 auto;">
@@ -51,9 +57,9 @@
                 </tbody>
             </table>
         </div>
-        <nav aria-label="Page navigation" style="margin-left:20%;width:80%;height:10%;">
+        <nav aria-label="Page navigation" style="margin-left:25%;width:80%;height:10%;">
             <ul class="pagination" style="margin-top: 0;width: 70%">
-                <li><span id="total" style="width: 22%"></span></li>
+                <li><span id="total"></span></li>
                 <li>
                     <a href="#" onclick="jumpToNewPage(2)" aria-label="Previous">
                         <span aria-hidden="true">&laquo;</span>
@@ -337,6 +343,7 @@
         let materialcode = $('#materialcode').val();
         let preproductid = $('#preproductid').val();
         let materialname = $('#materialname').val();
+        // let printstate = $('#query_printstate').val();
         let line = $('#query_line').val();
         if (startDate !== '' && endDate !== '') {
             if (startDate > endDate) {
@@ -351,6 +358,7 @@
             'materialcode': materialcode,
             'materialname': materialname,
             'preproductid': preproductid,
+            // printstate: printstate,
             'line': line,
             'pageCur': newPage,
             'pageMax': pageMax
@@ -366,6 +374,7 @@
                     jsonObj = res.data;
                     updateTable(false);
                     $('#total').html(res.cnt + "条，共" + res.pageAll + "页");
+                    $('#li_' + pageCur % 5).removeClass('active');
                     $('#li_1').addClass('active');
                     // 重置查询为第一页
                     pageCur = newPage;
@@ -831,7 +840,7 @@
         let newPage = 1;
         if (newPageCode === 1) newPage = 1;
         if (newPageCode === 2) {
-            if (pageCur === 1) {
+            if (pageCur == 1) {
                 window.alert("已经在第一页!");
                 return
             } else {
@@ -839,7 +848,7 @@
             }
         }
         if (newPageCode === 3) {
-            if (pageCur === pageAll) {
+            if (pageCur == pageAll) {
                 window.alert("已经在最后一页!");
                 return
             } else {
@@ -952,7 +961,9 @@
         let planname = $('#planname').val();
         let materialcode = $('#materialcode').val();
         let line = $('#query_line').val();
-        var newPage = $('#jump_to').val();
+        var newPage = parseInt($('#jump_to').val());
+        if (newPage == "" || isNaN(newPage))
+            return;
         if (newPage > pageAll) {
             alert("超过最大页数")
             return;
@@ -969,7 +980,7 @@
             'planname': planname,
             'materialcode': materialcode,
             'line': line,
-            'pageCur': newPage,
+            'pageCur': parseInt(newPage),
             'pageMax': pageMax
         }
         $.ajax({
@@ -1020,13 +1031,26 @@
         } else {
             let j = Math.floor(newPage / 5);
             let m = j * 5;
-            for (let i = 1; i < 6; i++) {
-                let k = i % 5;
-                if (++m > pageAll) {
-                    $('#a_' + k).text('.');
-                } else {
-                    $('#a_' + k).text(m);
-                    $('#a_' + k).attr('onclick', 'jumpToNewPage1(' + m + ')');
+            if (newPage % 5 == 0) {
+                for (let i = 1; i < 6; i++) {
+                    let k = i % 5;
+                    let n = m - 5 + i;
+                    if (n > pageAll) {
+                        $('#a_' + k).text('.');
+                    } else {
+                        $('#a_' + k).text(n);
+                        $('#a_' + k).attr('onclick', 'jumpToNewPage1(' + n + ')');
+                    }
+                }
+            } else {
+                for (let i = 1; i < 6; i++) {
+                    let k = i % 5;
+                    if (++m > pageAll) {
+                        $('#a_' + k).text('.');
+                    } else {
+                        $('#a_' + k).text(m);
+                        $('#a_' + k).attr('onclick', 'jumpToNewPage1(' + m + ')');
+                    }
                 }
             }
             $('#li_' + pageCur % 5).removeClass('active');
@@ -1082,7 +1106,7 @@
         let newPage = 1;
         if (newPageCode === 1) newPage = 1;
         if (newPageCode === 2) {
-            if (pop_pageCur === 1) {
+            if (pop_pageCur == 1) {
                 window.alert("已经在第一页!");
                 return
             } else {
@@ -1095,7 +1119,7 @@
             }
         }
         if (newPageCode === 3) {
-            if (pop_pageCur === pop_pageAll) {
+            if (pop_pageCur == pop_pageAll) {
                 window.alert("已经在最后一页!");
                 return
             } else {
