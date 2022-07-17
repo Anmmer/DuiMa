@@ -1,26 +1,32 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <div style="height: 95%;width: 100%">
-    <form name="query" class="form-inline" style="width:70%;height:15%;margin-left: 14%;padding-top:2%">
-        <div class="form-group">
-            <label>物料编码：</label><input type="text" name="materialcode" id="materialcode"
-                                       style="" class="form-control">
-        </div>
-        <div class="form-group">
-            <label>物料名称：</label><input type="text" name="materialname" id="materialname"
-                                       style="" class="form-control">
-        </div>
-        <label>浇道状态：</label>
-        <select id="pourState" class="form-control" style="width: 13%;">
+    <form name="query" class="form-inline" style="width:85%;height:20%;margin-left: 8%;padding-top:2%">
+        <label>物料编码：</label><input type="text" name="materialcode" id="materialcode"
+                                   style="width: 13%;height: 30px" class="form-control">
+        <label style="margin-left: 2%">物料名称：</label><input type="text" name="materialname" id="materialname"
+                                   style="width: 13%;height: 30px" class="form-control">
+        <label style="margin-left: 2%">浇道状态：</label>
+        <select id="pourState" class="form-control" style="width: 13%;height: 30px">
             <option value="2"></option>
             <option value="0">待浇捣</option>
             <option value="1">已浇捣</option>
         </select>
+        <label style="margin-left: 2%">操作人：</label><input type="text" name="pourmade_user" id="pourmade_user"
+                                                          style="width: 13%;height: 30px" class="form-control">
+        <br><br>
+        <label for="pourmade_startDate">操作日期从：</label><input id="pourmade_startDate" class="form-control"
+                                                                type="date"
+                                                                style="width: 13%;height: 30px">
+        <label for="pourmade_endDate" style="margin-left: 2%">至：</label><input id="pourmade_endDate"
+                                                                                  class="form-control"
+                                                                                  type="date"
+                                                                                  style="width: 13%;height: 30px">
         <button type="button" class="btn btn-primary btn-sm" style="margin-left: 5%"
                 onclick="getTableData(1)">
             查 询
         </button>
     </form>
-    <div style="width:80%;height:80%;margin:0 auto;">
+    <div style="width:85%;height:80%;margin:0 auto;">
         <div class="page-header" style="margin-top: 0;margin-bottom: 1%">
             <h3 style="margin-bottom: 0;margin-top: 0"><small>浇捣信息</small></h3>
             <button type="button" style="position: absolute;right: 15%;top:14%" class="btn btn-primary btn-sm"
@@ -44,6 +50,7 @@
                     <td class='tdStyle_title active' style="width: 15%">线别</td>
                     <td class='tdStyle_title active' style="width: 15%">计划编号</td>
                     <td class='tdStyle_title active' style="width: 10%">浇捣状态</td>
+                    <td class='tdStyle_title active' style="width: 10%">操作人</td>
                     <td class='tdStyle_title active' style="width: 10%">操作日期</td>
                 </tr>
                 <tbody id="archTableText">
@@ -117,10 +124,16 @@
     function getTableData(newPage) {
         let materialcode = $('#materialcode').val();
         let materialname = $('#materialname').val();
+        let pourmade_endDate = $('#pourmade_endDate').val();
+        let pourmade_startDate = $('#pourmade_startDate').val();
+        let pourmade_user = $('#pourmade_user').val();
         let pourState = $('#pourState').val();
         let obj = {
             materialcode: materialcode,
             materialname: materialname,
+            pourmade_startDate: pourmade_startDate,
+            pourmade_endDate: pourmade_endDate,
+            pourmade_user: pourmade_user,
             isPrint: "true",
             pourState: pourState,
             pageCur: newPage,
@@ -234,7 +247,10 @@
         if (r === false) {
             return;
         }
-        $.post("${pageContext.request.contextPath}/Pour", {pids: JSON.stringify(obj)}, function (result) {
+        $.post("${pageContext.request.contextPath}/Pour", {
+            pids: JSON.stringify(obj),
+            pourmade_user: sessionStorage.getItem("userName")
+        }, function (result) {
             result = JSON.parse(result);
             alert(result.message);
             if (result.flag) {
@@ -281,7 +297,10 @@
             return;
         }
 
-        $.post("${pageContext.request.contextPath}/CancelPour", {pids: JSON.stringify(obj)}, function (result) {
+        $.post("${pageContext.request.contextPath}/CancelPour", {
+            pids: JSON.stringify(obj),
+            covert_test_user: sessionStorage.getItem("userName")
+        }, function (result) {
             result = JSON.parse(result);
             alert(result.message);
             if (result.flag) {
@@ -303,6 +322,7 @@
             }
             jsonObj[i]['pourmade'] = jsonObj[i]['pourmade'] === 0 ? '未浇捣' : '已浇捣';
             jsonObj[i]['pourtime'] = jsonObj[i]['pourtime'] === undefined ? '--' : jsonObj[i]['pourtime'];
+            jsonObj[i]['pourmade_user'] = jsonObj[i]['pourmade_user'] === undefined ? '--' : jsonObj[i]['pourmade_user'];
             str += "<tr><td class='tdStyle_body' ><input type='checkbox' " + disable + " data-id=" + jsonObj[i]['pid'] + ">" +
                 "</td><td class='tdStyle_body' title='" + jsonObj[i]['materialcode'] + "'>" + jsonObj[i]['materialcode'] +
                 "</td><td class='tdStyle_body' title='" + jsonObj[i]['materialname'] + "'>" + jsonObj[i]['materialname'] +
@@ -310,6 +330,7 @@
                 "</td><td class='tdStyle_body' title='" + jsonObj[i]['line'] + "'>" + jsonObj[i]['line'] +
                 "</td><td class='tdStyle_body' title='" + jsonObj[i]['plannumber'] + "'>" + jsonObj[i]['plannumber'] +
                 "</td><td class='tdStyle_body' title='" + jsonObj[i]['pourmade'] + "'>" + jsonObj[i]['pourmade'] +
+                "</td><td class='tdStyle_body' title='" + jsonObj[i]['pourmade_user'] + "'>" + jsonObj[i]['pourmade_user'] +
                 "</td><td class='tdStyle_body' title='" + jsonObj[i]['pourtime'] + "'>" + jsonObj[i]['pourtime'] +
                 "</td></tr>";
         }

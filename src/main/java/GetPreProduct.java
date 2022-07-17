@@ -7,10 +7,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -40,6 +39,15 @@ public class GetPreProduct extends HttpServlet {
         String pourState = req.getParameter("pourState");
         String inspectState = req.getParameter("inspectState");
         String testState = req.getParameter("testState");
+        String covert_test_user = req.getParameter("covert_test_user");
+        String covert_test_startDate = req.getParameter("covert_test_startDate");
+        String covert_test_endDate = req.getParameter("covert_test_endDate");
+        String pourmade_user = req.getParameter("pourmade_user");
+        String pourmade_startDate = req.getParameter("pourmade_startDate");
+        String pourmade_endDate = req.getParameter("pourmade_endDate");
+        String inspect_startDate = req.getParameter("inspect_startDate");
+        String inspect_endDate = req.getParameter("inspect_endDate");
+        String inspect_user = req.getParameter("inspect_user");
         String isPour = req.getParameter("isPour");
         String isPrint = req.getParameter("isPrint");
         String isTest = req.getParameter("isTest");
@@ -59,7 +67,8 @@ public class GetPreProduct extends HttpServlet {
         try {
             PrintWriter out = resp.getWriter();
             con = DbUtil.getCon();
-            String sql = "select pid,materialcode,preproductid,standard,materialname,weigh,qc,fangliang,build,preproduct.plannumber,print,concretegrade,pourmade,inspect,covert_test,covert_test_time,covert_test_failure_reason,failure_reason,patch_library,pourtime,checktime,line from preproduct,plan where preproduct.isdelete = 0 and preproduct.plannumber = plan.plannumber";
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+            String sql = "select pid,materialcode,preproductid,standard,materialname,weigh,qc,fangliang,build,preproduct.plannumber,print,concretegrade,pourmade,inspect,covert_test,covert_test_time,covert_test_failure_reason,failure_reason,patch_library,pourtime,checktime,line,inspect_remark,inspect_user,covert_test_remark,covert_test_user,pourmade_user from preproduct,plan where preproduct.isdelete = 0 and preproduct.plannumber = plan.plannumber";
             String sql2 = "select count(*) as num from preproduct where isdelete = 0 ";
             if (plannumber != null && !"".equals(plannumber)) {
                 sql += " and preproduct.plannumber = ?";
@@ -170,6 +179,56 @@ public class GetPreProduct extends HttpServlet {
                 sql2 += " and covert_test = 2";
             }
 
+            if (!"".equals(covert_test_startDate) && covert_test_startDate != null) {
+                sql += " and covert_test_time >= ?";
+                sql2 += " and covert_test_time >= ?";
+                i++;
+            }
+            if (!"".equals(covert_test_endDate) && covert_test_endDate != null) {
+                sql += " and covert_test_time <= ?";
+                sql2 += " and covert_test_time <= ?";
+                i++;
+            }
+
+            if (covert_test_user != null && !"".equals(covert_test_user)) {
+                sql += " and covert_test_user like ?";
+                sql2 += " and covert_test_user like ?";
+                i++;
+            }
+
+            if (!"".equals(pourmade_startDate) && pourmade_startDate != null) {
+                sql += " and pourtime >= ?";
+                sql2 += " and pourtime >= ?";
+                i++;
+            }
+            if (!"".equals(pourmade_endDate) && pourmade_endDate != null) {
+                sql += " and pourtime <= ?";
+                sql2 += " and pourtime <= ?";
+                i++;
+            }
+
+            if (pourmade_user != null && !"".equals(pourmade_user)) {
+                sql += " and pourmade_user like ?";
+                sql2 += " and pourmade_user like ?";
+                i++;
+            }
+            if (!"".equals(inspect_startDate) && inspect_startDate != null) {
+                sql += " and checktime >= ?";
+                sql2 += " and checktime >= ?";
+                i++;
+            }
+            if (!"".equals(inspect_endDate) && inspect_endDate != null) {
+                sql += " and checktime <= ?";
+                sql2 += " and checktime <= ?";
+                i++;
+            }
+
+            if (inspect_user != null && !"".equals(inspect_user)) {
+                sql += " and inspect_user like ?";
+                sql2 += " and inspect_user like ?";
+                i++;
+            }
+
             j = i;
 
             if (pageCur != 0 && pageMax != 0) {
@@ -181,6 +240,33 @@ public class GetPreProduct extends HttpServlet {
             if (pageCur != 0 && pageMax != 0) {
                 ps.setInt(i--, pageMax);
                 ps.setInt(i--, (pageCur - 1) * pageMax);
+            }
+            if (inspect_user != null && !"".equals(inspect_user)) {
+                ps.setString(i--, "%" + inspect_user.trim() + "%");
+            }
+            if (!"".equals(inspect_endDate) && inspect_endDate != null) {
+                ps.setDate(i--, new Date(sdf.parse(inspect_endDate).getTime()));
+            }
+            if (!"".equals(inspect_startDate) && inspect_startDate != null) {
+                ps.setDate(i--, new Date(sdf.parse(inspect_startDate).getTime()));
+            }
+            if (pourmade_user != null && !"".equals(pourmade_user)) {
+                ps.setString(i--, "%" + pourmade_user.trim() + "%");
+            }
+            if (!"".equals(pourmade_endDate) && pourmade_endDate != null) {
+                ps.setDate(i--, new Date(sdf.parse(pourmade_endDate).getTime()));
+            }
+            if (!"".equals(pourmade_startDate) && pourmade_startDate != null) {
+                ps.setDate(i--, new Date(sdf.parse(pourmade_startDate).getTime()));
+            }
+            if (covert_test_user != null && !"".equals(covert_test_user)) {
+                ps.setString(i--, "%" + covert_test_user.trim() + "%");
+            }
+            if (!"".equals(covert_test_endDate) && covert_test_endDate != null) {
+                ps.setDate(i--, new Date(sdf.parse(covert_test_endDate).getTime()));
+            }
+            if (!"".equals(covert_test_startDate) && covert_test_startDate != null) {
+                ps.setDate(i--, new Date(sdf.parse(covert_test_startDate).getTime()));
             }
             if (preproductid != null && !"".equals(preproductid)) {
                 ps.setString(i--, "%" + preproductid.trim() + "%");
@@ -221,10 +307,44 @@ public class GetPreProduct extends HttpServlet {
                 map.put("checktime", rs.getString("checktime"));
                 map.put("line", rs.getString("line"));
                 map.put("build", rs.getString("build"));
+                map.put("inspect_remark", rs.getString("inspect_remark"));
+                map.put("inspect_user", rs.getString("inspect_user"));
+                map.put("covert_test_remark", rs.getString("covert_test_remark"));
+                map.put("covert_test_user", rs.getString("covert_test_user"));
+                map.put("pourmade_user", rs.getString("pourmade_user"));
                 list.add(map);
             }
             if (pageCur != 0 && pageMax != 0) {
                 PreparedStatement ps2 = con.prepareStatement(sql2);
+
+                if (inspect_user != null && !"".equals(inspect_user)) {
+                    ps2.setString(j--, "%" + inspect_user.trim() + "%");
+                }
+                if (!"".equals(inspect_endDate) && inspect_endDate != null) {
+                    ps2.setDate(j--, new Date(sdf.parse(inspect_endDate).getTime()));
+                }
+                if (!"".equals(inspect_startDate) && inspect_startDate != null) {
+                    ps2.setDate(j--, new Date(sdf.parse(inspect_startDate).getTime()));
+                }
+                if (pourmade_user != null && !"".equals(pourmade_user)) {
+                    ps2.setString(j--, "%" + pourmade_user.trim() + "%");
+                }
+                if (!"".equals(pourmade_endDate) && pourmade_endDate != null) {
+                    ps2.setDate(j--, new Date(sdf.parse(pourmade_endDate).getTime()));
+                }
+                if (!"".equals(pourmade_startDate) && pourmade_startDate != null) {
+                    ps2.setDate(j--, new Date(sdf.parse(pourmade_startDate).getTime()));
+                }
+
+                if (covert_test_user != null && !"".equals(covert_test_user)) {
+                    ps2.setString(j--, "%" + covert_test_user.trim() + "%");
+                }
+                if (!"".equals(covert_test_endDate) && covert_test_endDate != null) {
+                    ps2.setDate(j--, new Date(sdf.parse(covert_test_endDate).getTime()));
+                }
+                if (!"".equals(covert_test_startDate) && covert_test_startDate != null) {
+                    ps2.setDate(j, new Date(sdf.parse(covert_test_startDate).getTime()));
+                }
                 if (preproductid != null && !"".equals(preproductid)) {
                     ps2.setString(j--, "%" + preproductid.trim() + "%");
                 }
@@ -249,7 +369,7 @@ public class GetPreProduct extends HttpServlet {
             ps.close();
             rs.close();
             out.close();
-        } catch (ClassNotFoundException | SQLException e) {
+        } catch (ClassNotFoundException | SQLException | ParseException e) {
             e.printStackTrace();
         } finally {
             if (con != null) {
