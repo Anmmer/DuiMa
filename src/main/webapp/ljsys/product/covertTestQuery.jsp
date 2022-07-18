@@ -286,9 +286,29 @@
 
     function inspect() {
         let obj = [];
+        let flag = false
         $('#archTableText').find('input:checked').each(function () {
-            obj.push($(this).attr('data-id'));   //找到对应checkbox中data-id属性值，然后push给空数组pids
+            let id = $(this).attr('data-id')
+            obj.push(id);   //找到对应checkbox中data-id属性值，然后push给空数组pids
+            for (let item of jsonObj) {
+                if (parseInt(id) == item.pid && item.covert_test == "隐蔽检验不合格") {
+                    flag = true
+                    alert("物料名称为：" + item.materialname + " 的构建处于不合格状态，需要先取消检验！")
+                    break
+                }
+                if (parseInt(id) == item.pid && item.covert_test == "隐蔽检验合格") {
+                    flag = true
+                    alert("物料名称为：" + item.materialname + " 的构建处于合格状态，不要重复检验！")
+                    break
+                }
+            }
+            if (flag) {
+                return false
+            }
         });
+        if(flag){
+            return;
+        }
         if (obj.length === 0) {
             alert("请勾选！")
             return;
@@ -320,9 +340,14 @@
             obj.push(id);   //找到对应checkbox中data-id属性值，然后push给空数组pids
             console.log(id)
             for (let item of jsonObj) {
-                if (parseInt(id) == item.pid && item.covert_test == "检验合格") {
+                if (parseInt(id) == item.pid && item.covert_test == "隐蔽检验合格") {
                     flag = true
                     alert("物料名称为：" + item.materialname + " 的构建处于合格状态，需要先取消检验！")
+                    break
+                }
+                if (parseInt(id) == item.pid && item.covert_test == "隐蔽检验不合格") {
+                    flag = true
+                    alert("物料名称为：" + item.materialname + " 的构建处于不合格状态，不要重复检验！")
                     break
                 }
             }

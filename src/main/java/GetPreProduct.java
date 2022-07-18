@@ -48,6 +48,7 @@ public class GetPreProduct extends HttpServlet {
         String inspect_startDate = req.getParameter("inspect_startDate");
         String inspect_endDate = req.getParameter("inspect_endDate");
         String inspect_user = req.getParameter("inspect_user");
+        String line = req.getParameter("line");
         String isPour = req.getParameter("isPour");
         String isPrint = req.getParameter("isPrint");
         String isTest = req.getParameter("isTest");
@@ -229,6 +230,12 @@ public class GetPreProduct extends HttpServlet {
                 i++;
             }
 
+            if (line != null && !"".equals(line)) {
+                sql += " and line = ?";
+                sql2 += " and line = ?";
+                i++;
+            }
+
             j = i;
 
             if (pageCur != 0 && pageMax != 0) {
@@ -240,6 +247,9 @@ public class GetPreProduct extends HttpServlet {
             if (pageCur != 0 && pageMax != 0) {
                 ps.setInt(i--, pageMax);
                 ps.setInt(i--, (pageCur - 1) * pageMax);
+            }
+            if (line != null && !"".equals(line)) {
+                ps.setString(i--, line.trim());
             }
             if (inspect_user != null && !"".equals(inspect_user)) {
                 ps.setString(i--, "%" + inspect_user.trim() + "%");
@@ -317,6 +327,9 @@ public class GetPreProduct extends HttpServlet {
             if (pageCur != 0 && pageMax != 0) {
                 PreparedStatement ps2 = con.prepareStatement(sql2);
 
+                if (line != null && !"".equals(line)) {
+                    ps2.setString(j--, line.trim());
+                }
                 if (inspect_user != null && !"".equals(inspect_user)) {
                     ps2.setString(j--, "%" + inspect_user.trim() + "%");
                 }

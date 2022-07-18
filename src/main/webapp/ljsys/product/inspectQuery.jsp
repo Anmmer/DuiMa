@@ -51,7 +51,8 @@
                     <td class='tdStyle_title active' style="width: 15%">物料名称</td>
                     <td class='tdStyle_title active' style="width: 15%">计划编号</td>
                     <td class='tdStyle_title active' style="width: 15%">质检状态</td>
-                    <td class='tdStyle_title active' style="width: 15%">操作日期</td>
+                    <td class='tdStyle_title active' style="width: 10%">操作人</td>
+                    <td class='tdStyle_title active' style="width: 10%">操作日期</td>
                 </tr>
                 <tbody id="archTableText">
                 </tbody>
@@ -277,9 +278,29 @@
 
     function inspect() {
         let obj = [];
+        let flag = false
         $('#archTableText').find('input:checked').each(function () {
-            obj.push($(this).attr('data-id'));   //找到对应checkbox中data-id属性值，然后push给空数组pids
+            let id = $(this).attr('data-id')
+            obj.push(id);   //找到对应checkbox中data-id属性值，然后push给空数组pids
+            for (let item of jsonObj) {
+                if (parseInt(id) == item.pid && item.inspect == "成品检验不合格") {
+                    flag = true
+                    alert("物料名称为：" + item.materialname + " 的构建处于不合格状态，需要先取消质检！")
+                    break
+                }
+                if (parseInt(id) == item.pid && item.inspect == "成品检验合格") {
+                    flag = true
+                    alert("物料名称为：" + item.materialname + " 的构建处于合格状态，不要重复质检！")
+                    break
+                }
+            }
+            if (flag) {
+                return false
+            }
         });
+        if(flag){
+            return;
+        }
         if (obj.length === 0) {
             alert("请勾选！")
             return;
@@ -308,9 +329,14 @@
             let id = $(this).attr('data-id')
             obj.push(id);   //找到对应checkbox中data-id属性值，然后push给空数组pids
             for (let item of jsonObj) {
-                if (parseInt(id) == item.pid && item.inspect == "质检合格") {
+                if (parseInt(id) == item.pid && item.inspect == "成品检验合格") {
                     flag = true
                     alert("物料名称为：" + item.materialname + " 的构建处于合格状态，需要先取消质检！")
+                    break
+                }
+                if (parseInt(id) == item.pid && item.inspect == "成品检验不合格") {
+                    flag = true
+                    alert("物料名称为：" + item.materialname + " 的构建处于不合格状态，不要重复质检！")
                     break
                 }
             }
@@ -468,11 +494,13 @@
                 jsonObj[i]['inspect'] = '成品检验不合格'
             }
             jsonObj[i]['checktime'] = jsonObj[i]['checktime'] === undefined ? '--' : jsonObj[i]['checktime'];
+            jsonObj[i]['inspect_user'] = jsonObj[i]['inspect_user'] === undefined ? '--' : jsonObj[i]['inspect_user'];
             str += "<tr><td class='tdStyle_body' ><input type='checkbox' data-id=" + jsonObj[i]['pid'] + ">" +
                 "</td><td class='tdStyle_body'>" + jsonObj[i]['materialcode'] +
                 "</td><td class='tdStyle_body'>" + jsonObj[i]['materialname'] +
                 "</td><td class='tdStyle_body'>" + jsonObj[i]['plannumber'] +
                 "</td><td class='tdStyle_body'>" + jsonObj[i]['inspect'] +
+                "</td><td class='tdStyle_body'>" + jsonObj[i]['inspect_user'] +
                 "</td><td class='tdStyle_body'>" + jsonObj[i]['checktime'] +
                 "</td></tr>";
         }

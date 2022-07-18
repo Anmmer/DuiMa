@@ -7,14 +7,21 @@
     let jsonObj = [];
 
 </script>
-<div style="height: 100%;width:100%;background-color:white;">
-    <form name="query" class="form-inline" style="width:85%;height:15%;margin-left: 8%;padding-top:2%">
+<div style="height: 95%;width:100%;background-color:white;">
+    <form name="query" class="form-inline" style="width:85%;height:20%;margin-left: 8%;padding-top:2%">
         <label>物料编码：</label><input type="text" name="materialcode" id="materialcode"
                                    style="width: 13%;height: 30px" class="form-control">
         <label>物料名称：</label><input type="text" name="materialname" id="materialname"
                                    style="width: 13%;height: 30px" class="form-control">
         <label style="margin-left: 2%">操作人：</label><input type="text" name="inspect_user" id="inspect_user"
-                                                          style="width: 13%;height: 30px" class="form-control">
+                                                          style="width: 13%;height: 30px" class="form-control"><br><br>
+        <label for="inspect_startDate">操作日期从：</label><input id="inspect_startDate" class="form-control"
+                                                            type="date"
+                                                            style="width: 13%;height: 30px">
+        <label for="inspect_endDate" style="margin-left: 2%">至：</label><input id="inspect_endDate"
+                                                                              class="form-control"
+                                                                              type="date"
+                                                                              style="width: 13%;height: 30px">
         <button type="button" class="btn btn-primary btn-sm" style="margin-left: 5%"
                 onclick="getTableData(1)">
             查 询
@@ -23,7 +30,7 @@
     <div style="width:85%;height:80%;margin:0 auto;">
         <div class="page-header" style="margin-top: 0;margin-bottom: 1%">
             <h3 style="margin-bottom: 0;margin-top: 0"><small>修补库信息</small></h3>
-            <button type="button" style="position: absolute;right: 18%;top:14%" class="btn btn-primary btn-sm"
+            <button type="button" style="position: absolute;right: 18%;top:16%" class="btn btn-primary btn-sm"
                     data-toggle="modal"
                     onclick="inspect()">
                 合格
@@ -36,7 +43,6 @@
                     <td class='tdStyle_title active' style="width: 15%">物料编码</td>
                     <td class='tdStyle_title active' style="width: 15%">物料名称</td>
                     <td class='tdStyle_title active' style="width: 15%">计划编号</td>
-                    <td class='tdStyle_title active' style="width: 10%">质检状态</td>
                     <td class='tdStyle_title active' style="width: 15%">不合格原因</td>
                     <td class='tdStyle_title active' style="width: 15%">修补库地址</td>
                     <td class='tdStyle_title active' style="width: 10%">操作日期</td>
@@ -81,10 +87,14 @@
             let materialcode = $('#materialcode').val();
             let materialname = $('#materialname').val();
             let inspect_user = $('#inspect_user').val();
+            let inspect_startDate = $('#inspect_startDate').val();
+            let inspect_endDate = $('#inspect_endDate').val();
             let obj = {
                 materialcode: materialcode,
                 materialname: materialname,
                 inspect_user: inspect_user,
+                inspect_startDate: inspect_startDate,
+                inspect_endDate: inspect_endDate,
                 isPrint: "true",
                 isPour: "true",
                 inspectState: '2',
@@ -181,11 +191,11 @@
                 }
                 jsonObj[i]['checktime'] = jsonObj[i]['checktime'] === undefined ? '--' : jsonObj[i]['checktime'];
                 jsonObj[i]['inspect_user'] = jsonObj[i]['inspect_user'] === undefined ? '--' : jsonObj[i]['inspect_user'];
+                jsonObj[i]['inspect_remark'] = jsonObj[i]['inspect_remark'] === undefined ? '' : jsonObj[i]['inspect_remark'];
                 str += "<tr><td class='tdStyle_body'><input type='checkbox' data-id=" + jsonObj[i]['pid'] + ">" +
                     "<td class='tdStyle_body' title='" + jsonObj[i]['materialcode'] + "'>" + jsonObj[i]['materialcode'] +
                     "</td><td class='tdStyle_body' title='" + jsonObj[i]['materialname'] + "'>" + jsonObj[i]['materialname'] +
                     "</td><td class='tdStyle_body' title='" + jsonObj[i]['plannumber'] + "'>" + jsonObj[i]['plannumber'] +
-                    "</td><td class='tdStyle_body' title='" + jsonObj[i]['inspect'] + "'>" + jsonObj[i]['inspect'] +
                     "</td><td class='tdStyle_body' title='" + jsonObj[i]['failure_reason'] + "'>" + jsonObj[i]['failure_reason'] +
                     "</td><td class='tdStyle_body' title='" + jsonObj[i]['patch_library'] + "'>" + jsonObj[i]['patch_library'] +
                     "</td><td class='tdStyle_body' title='" + jsonObj[i]['checktime'] + "'>" + jsonObj[i]['checktime'] +
