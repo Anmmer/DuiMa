@@ -70,7 +70,7 @@ public class GetPreProduct extends HttpServlet {
             con = DbUtil.getCon();
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
             String sql = "select pid,materialcode,preproductid,standard,materialname,weigh,qc,fangliang,build,preproduct.plannumber,print,concretegrade,pourmade,inspect,covert_test,covert_test_time,covert_test_failure_reason,failure_reason,patch_library,pourtime,checktime,line,inspect_remark,inspect_user,covert_test_remark,covert_test_user,pourmade_user from preproduct,plan where preproduct.isdelete = 0 and preproduct.plannumber = plan.plannumber";
-            String sql2 = "select count(*) as num from preproduct where isdelete = 0 ";
+            String sql2 = "select count(*) as num from preproduct,plan where preproduct.isdelete = 0 and preproduct.plannumber = plan.plannumber";
             if (plannumber != null && !"".equals(plannumber)) {
                 sql += " and preproduct.plannumber = ?";
                 sql2 += " and preproduct.plannumber = ?";

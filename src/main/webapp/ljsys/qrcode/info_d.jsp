@@ -31,10 +31,10 @@
 <div style="height: 100%;width:100%;background-color:white;">
     <div style="height:100%;width: 100%;">
         <!--控制台-->
-        <button class="btn btn-primary" style="position: absolute;left:5%;top:5%;height: 32px"
+        <button class="btn btn-primary" style="position: absolute;left:2%;top:0%;height: 32px"
                 onclick="returnLastPage()">返回
         </button>
-        <div style="height:100%;width:49%;float: left;margin-left: 10%">
+        <div style="height:100%;width:54%;float: left;margin-left: 5%">
             <div style="height:4%;width:100%;"></div>
             <!--信息展示-->
             <div style="height:10%;width:100%;font-size:17px;font-weight: bolder">
@@ -251,7 +251,7 @@
         $("#qr_code").append($("<div style='height:2px;width:95%;float:left;margin-bottom:10px;background-color: cornflowerblue;'></div>"))
         // 新增item中的元素
         let xspan = $("<div class='hiddenTDOverFlowContent pStyle' style='display: inline-table;font-size:14px;font-weight: bolder'>二维码，</div>")
-        let xvalue = $("<label class='pStyle' style='font-size:14px;font-weight: bolder'>X坐标：</label><input type='text' style='width: 10%' value='15' id='xvalue" + cnt + "'>")
+        let xvalue = $("<label class='pStyle' style='font-size:14px;font-weight: bolder'>X坐标：</label><input type='text' style='width: 6%' value='15' id='xvalue" + cnt + "'>")
         xvalue.bind("blur", function (event) {
             // 修改内容则修改draw
             // 获取编号
@@ -261,7 +261,9 @@
             drawelem.style.left = $("#" + elem.id).val() + "px"
         })
         let yspan = $("<span class='pStyle' style='margin-left: 3%;font-size:14px;font-weight: bolder'></span>").text("Y坐标：")
-        let yvalue = $("<input type='text' style='width: 10%' value='35' id='yvalue" + cnt + "'>")
+        let yvalue = $("<input type='text' style='width: 6%' value='35' id='yvalue" + cnt + "'>")
+        let horizontal_offset = $("<span class='pStyle' style='margin-left: 3%;font-size:14px;font-weight: bolder'>水平偏移量：</span>" + "<input type='text' style='width: 7%' value='0' id='horizontal_offset'>")
+
         yvalue.bind("blur", function (event) {
             let elem = event.target
             let id = elem.id.substring(6, elem.id.length)
@@ -269,7 +271,7 @@
             drawelem.style.top = $("#" + elem.id).val() + "px"
         })
         let qr_wh_span = $("<span class='pStyle' style='margin-left: 3%;font-size:14px;font-weight: bolder'></span>").text("宽高：")
-        let qr_wh_value = $("<input type='text' style='width: 10%' value='100' id='qr_wh_value" + "'>")
+        let qr_wh_value = $("<input type='text' style='width: 6%' value='100' id='qr_wh_value" + "'>")
         qr_wh_value.bind("blur", function (event) {
             $('#draw0').html('')
             // new QRCode(document.getElementById("draw0"), {
@@ -285,7 +287,7 @@
             })
         })
         let font_style_span = $("<span class='pStyle' style='margin-left: 3%;font-size:14px;font-weight: bolder'></span>").text("字体：")
-        let font_style_value = $("<select style='width: 10%' value='0' onchange='selectOne()' id='font_style_value" + "'>" +
+        let font_style_value = $("<select style='width: 7%' value='0' onchange='selectOne()' id='font_style_value" + "'>" +
             "<option value='10px'>10</option>" +
             "<option value='15px'>15</option>" +
             "<option value='20px'>20</option>" +
@@ -297,7 +299,7 @@
         //         item.style.fontSize = $('#font_style_value').val();
         //     }
         // })
-        $("#item" + cnt).append(xspan, xvalue, yspan, yvalue, qr_wh_span, qr_wh_value, font_style_span, font_style_value)
+        $("#item" + cnt).append(xspan, xvalue, yspan, yvalue, horizontal_offset, qr_wh_span, qr_wh_value, font_style_span, font_style_value)
         // 画布上新增
         let drawItem = $("<div style='position: absolute;'  draggable='true' id='draw" + cnt + "' ></div>");
         $("#draw").append(drawItem);
@@ -468,6 +470,9 @@
                     $("#xvalue0").val(res.qRCode.xsituation)
                     $("#yvalue0").val(res.qRCode.ysituation)
                     $("#qr_wh_value").val(res.qRCode.qr_wh_value)
+                    if (res.qRCode.horizontal_offset === '')
+                        res.qRCode.horizontal_offset = 0
+                    $("#horizontal_offset").val(res.qRCode.horizontal_offset)
                     $("#font_style_value").val(res.qRCode.font_style_value)
 
                     // 设置子项
@@ -509,6 +514,7 @@
         qRCode['xsituation'] = $("#xvalue0").val()
         qRCode['ysituation'] = $("#yvalue0").val()
         qRCode['qr_wh_value'] = $("#qr_wh_value").val()
+        qRCode['horizontal_offset'] = $("#horizontal_offset").val()
         qRCode['font_style_value'] = $("#font_style_value").val()
         qRCode['textXsituation'] = $("#text_x").val()
         qRCode['textYsituation'] = $("#text_y").val()
