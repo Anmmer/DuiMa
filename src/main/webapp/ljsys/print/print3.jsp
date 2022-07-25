@@ -1280,7 +1280,6 @@
             $('#li_d' + newPage % 5).addClass('active');
             $('#li_d' + pageCur % 5).removeClass('active');
         } else {
-            console.log(pageCur)
             if (pageCur % 5 === 1) {
                 let j = Math.floor(newPage / 5);
                 let m
@@ -1535,9 +1534,9 @@
             let xsituation = qrstyle.qRCode['xsituation']
             let ysituation = qrstyle.qRCode['ysituation']
             let horizontal_offset = qrstyle.qRCode['horizontal_offset']
-            let qr_wh_value = qrstyle.qRCode.qr_wh_value
-            item += "<span class='pStyle draw' style='position: absolute;font-size: 21px;left:" + qrstyle.qRCode.textXsituation + "px;top: " + qrstyle.qRCode.textYsituation + "px;font-weight: bold' draggable='true' id='draw_text'>" + qrstyle.qRCode['text'] + "</span>";
-            item += "<div id='qrcode_" + i + "' style='position: absolute;left:" + xsituation + "px;top:" + ysituation + "px;'></div>"
+            let transform = horizontal_offset !== "0" && horizontal_offset !== "" ? 'transform: rotate(180deg);' : ''
+            item += "<span class='pStyle draw' style='position: absolute;font-size: 21px;" + transform + "left:" + qrstyle.qRCode.textXsituation + "px;top: " + qrstyle.qRCode.textYsituation + "px;font-weight: bold' draggable='true' id='draw_text'>" + qrstyle.qRCode['text'] + "</span>";
+            item += "<div id='qrcode_" + i + "' style='position: absolute;" + transform + "left:" + xsituation + "px;top:" + ysituation + "px;'></div>"
             // 放置其他各项
             for (let j = 0; j < qrstyle.items.length; j++) {
                 let node = qrstyle.items[j]
@@ -1545,19 +1544,20 @@
                 let xsituation_item = node.xsituation
                 let ysituation_item = node.ysituation
                 let nodestr = fieldmap[nodevalue] + ":" + printsData[i][nodevalue]
-                item += "<span class='pStyle' style='position: absolute;font-size: " + qrstyle.qRCode.font_style_value + ";left:" + xsituation_item + "px;top:" + ysituation_item + "px;'>" + nodestr + "</span>"
+                item += "<span class='pStyle' style='position: absolute;" + transform + "font-size: " + qrstyle.qRCode.font_style_value + ";left:" + xsituation_item + "px;top:" + ysituation_item + "px;'>" + nodestr + "</span>"
             }
-            if (horizontal_offset !== "0") {
-                let textXsituation = parseInt(qrstyle.qRCode.textXsituation) + parseInt(horizontal_offset)
-                let xsituation = parseInt(qrstyle.qRCode.xsituation) + parseInt(horizontal_offset)
-                item += "<span class='pStyle draw' style='position: absolute;font-size: 21px;left:" + textXsituation + "px;top: " + qrstyle.qRCode.textYsituation + "px;font-weight: bold' draggable='true' id='draw_text_h'>" + qrstyle.qRCode['text'] + "</span>";
+            //另一份二维码
+            if (horizontal_offset !== "0" && horizontal_offset !== "") {
+                let textYsituation = parseInt(qrstyle.qRCode.textYsituation) + parseInt(horizontal_offset)
+                let ysituation = parseInt(qrstyle.qRCode.ysituation) + parseInt(horizontal_offset)
+                item += "<span class='pStyle draw' style='position: absolute;font-size: 21px;left:" + qrstyle.qRCode.textXsituation + "px;top: " + textYsituation + "px;font-weight: bold' draggable='true' id='draw_text_h'>" + qrstyle.qRCode['text'] + "</span>";
                 item += "<div id='qrcode_h" + i + "' style='position: absolute;left:" + xsituation + "px;top:" + ysituation + "px;'></div>"
                 // 放置其他各项
                 for (let j = 0; j < qrstyle.items.length; j++) {
                     let node = qrstyle.items[j]
                     let nodevalue = node.content;
-                    let xsituation_item = parseInt(node.xsituation) + parseInt(horizontal_offset)
-                    let ysituation_item = node.ysituation
+                    let xsituation_item = node.xsituation
+                    let ysituation_item = parseInt(node.ysituation) + parseInt(horizontal_offset)
                     let nodestr = fieldmap[nodevalue] + ":" + printsData[i][nodevalue]
                     item += "<span class='pStyle' style='position: absolute;font-size: " + qrstyle.qRCode.font_style_value + ";left:" + xsituation_item + "px;top:" + ysituation_item + "px;'>" + nodestr + "</span>"
                 }

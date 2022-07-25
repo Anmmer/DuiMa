@@ -89,7 +89,8 @@
         </div>
         <div style="height:100%;width:2px;background-color:cornflowerblue;float: left"></div>
         <div style="height:100%;width:40.5%;top:0;background-color: rgb(224, 221, 221);float: left">
-            <div id="draw" style="height:600px;width:400px;background-color: white;position:relative;"></div>
+            <div id="draw" style="height:600px;width:400px;background-color: white;position:relative;">
+            </div>
         </div>
     </div>
 </div>
@@ -152,6 +153,13 @@
         // 获取新插入值的name和 value
         let itemValue = $("#itemNames option:checked").text()
         let itemName = $("#itemNames option:checked").val()
+        //判断是否已经添加
+        if (itemValues.find((val) => {
+            return val == itemName
+        })) {
+            alert("该项已经添加")
+            return
+        }
         // 在ItemList中新增一项
         let divstr = $("<div style='width:100%;height:50px;float:left;' id='item" + cnt + "'><div>");
         $("#ItemList").append(divstr)
@@ -203,7 +211,11 @@
         })
         $("#item" + cnt).append(content, xspan, xvalue, yspan, yvalue, itemButton)
         // 画布上新增
-        let drawItem = $("<span class='pStyle draw' style='position: absolute;font-size: 10px' draggable='true' id='draw" + cnt + "'></span>").text(itemValue + ":" + "TEST");
+        let drawItem = $("<span class='pStyle draw'  style='position: absolute;font-size: 10px' draggable='true' id='draw" + cnt + "'></span>").text(itemValue + ":" + "TEST");
+        let horizontal_offset = $("#horizontal_offset").val()
+        if (horizontal_offset !== '0' && horizontal_offset !== void 0) {
+            drawItem.addClass('draw_h')
+        }
         $("#draw").append(drawItem);
         let drawElem = document.getElementById("draw" + cnt)
         drawElem.style.left = "0px"
@@ -232,6 +244,14 @@
             $("#xvalue" + itemId).val(xtmp)
             $("#yvalue" + itemId).val(ytmp)
         })
+        //另一份新增内容
+        if (horizontal_offset !== '0' && horizontal_offset !== void 0) {
+            let drawItemh = $("<span class='pStyle draw '  style='position: absolute;font-size: 10px' draggable='true' id='draw_h" + cnt + "'></span>").text(itemValue + ":" + "TEST");
+            $("#draw").append(drawItemh);
+            let drawElemh = document.getElementById("draw_h" + cnt)
+            drawElemh.style.left = "0px"
+            drawElemh.style.top = horizontal_offset + "px"
+        }
         // 将编号写入itemlist中
         itemlist.push(cnt + "")
         itemValues.push(itemName)
@@ -262,7 +282,7 @@
         })
         let yspan = $("<span class='pStyle' style='margin-left: 3%;font-size:14px;font-weight: bolder'></span>").text("Y坐标：")
         let yvalue = $("<input type='text' style='width: 6%' value='35' id='yvalue" + cnt + "'>")
-        let horizontal_offset = $("<span class='pStyle' style='margin-left: 3%;font-size:14px;font-weight: bolder'>水平偏移量：</span>" + "<input type='text' style='width: 7%' value='0' id='horizontal_offset'>")
+        let horizontal_offset = $("<span class='pStyle' style='margin-left: 3%;font-size:14px;font-weight: bolder'>垂直偏移量：</span>" + "<input type='text' style='width: 7%' value='0' id='horizontal_offset'>")
 
         yvalue.bind("blur", function (event) {
             let elem = event.target
@@ -303,6 +323,9 @@
         $("#item" + cnt).append(xspan, xvalue, yspan, yvalue, horizontal_offset, qr_wh_span, qr_wh_value, font_style_span, font_style_value)
         // 画布上新增
         let drawItem = $("<div style='position: absolute;'  draggable='true' id='draw" + cnt + "' ></div>");
+        if (qRCode.horizontal_offset !== '0' && qRCode.horizontal_offset !== void 0) {
+            drawItem.addClass('draw_h')
+        }
         $("#draw").append(drawItem);
         // new QRCode(document.getElementById("draw" + cnt), {
         jQuery('#draw0').qrcode({
@@ -316,9 +339,34 @@
             // correctLevel: QRCode.CorrectLevel.H,
             src: './img/qr.jpg'
         })
-        let drawElem = document.getElementById("draw" + cnt)
-        drawElem.style.left = "0px"
-        drawElem.style.top = "0px"
+        // 设置二维码位置
+        let drawtmp = document.getElementById("draw0")
+        drawtmp.style.left = qRCode.xsituation + "px"
+        drawtmp.style.top = qRCode.ysituation + "px"
+        if (qRCode.horizontal_offset !== '0' && qRCode.horizontal_offset !== void 0) {
+            //另一份二维码
+            let drawItem_h = $("<div style='position: absolute;'  draggable='true' id='draw_h" + cnt + "' ></div>");
+            $("#draw").append(drawItem_h);
+            // new QRCode(document.getElementById("draw" + cnt), {
+            jQuery('#draw_h0').qrcode({
+                render: "canvas",
+                // text: qRCode.qrcodeContent,
+                text: "https://mes.ljzggroup.com/DuiMa/ToView?code=050320105030281&id=4",
+                width: qRCode.qr_wh_value,
+                height: qRCode.qr_wh_value,
+                colorDark: "#000000",
+                colorLight: "#ffffff",
+                // correctLevel: QRCode.CorrectLevel.H,
+                src: './img/qr.jpg'
+            })
+            let drawtmp_h = document.getElementById("draw_h0")
+            drawtmp_h.style.left = qRCode.xsituation + "px"
+            drawtmp_h.style.top = parseInt(qRCode.ysituation) + parseInt(qRCode.horizontal_offset) + "px"
+        }
+
+        // let drawElem = document.getElementById("draw" + cnt)
+        // drawElem.style.left = "0px"
+        // drawElem.style.top = "0px"
         // 添加事件
         $("#draw" + cnt).bind("dragstart", function (event) {
             oldxposition = event.originalEvent.pageX
@@ -365,20 +413,24 @@
         } else {
             $("#text_y").val(qRCode.textYsituation)
         }
+        //标题
         let drawItem_ = $("<span class='pStyle' style='position: absolute;font-size: 21px;font-weight: bold' draggable='true' id='draw_text'></span>").text(text);
+        if (qRCode.horizontal_offset !== '0' && qRCode.horizontal_offset !== void 0) {
+            drawItem_.addClass('draw_h')
+        }
         $("#draw").append(drawItem_);
         let drawElem_ = document.getElementById("draw_text")
         drawElem_.style.left = qRCode.textXsituation + "px"
         drawElem_.style.top = qRCode.textYsituation + "px"
         // 添加事件
         $("#draw_text").bind("dragstart", function (event) {
-            oldxposition = event.pageX
-            oldyposition = event.pageY
+            oldxposition = event.originalEvent.pageX
+            oldyposition = event.originalEvent.pageY
             let targetid = event.target.id
         })
         $("#draw_text").bind("dragend", function (event) {
-            let Xoffset = event.pageX - oldxposition
-            let Yoffset = event.pageY - oldyposition
+            let Xoffset = event.originalEvent.pageX - oldxposition
+            let Yoffset = event.originalEvent.pageY - oldyposition
             // let elem = event.target
             let elem = document.getElementById("draw_text");
             let xbd = elem.style.left
@@ -399,10 +451,15 @@
             let text = document.getElementById("text").value;
             document.getElementById("draw_text").innerText = text;
         })
-        // 设置二维码位置
-        let drawtmp = document.getElementById("draw0")
-        drawtmp.style.left = qRCode.xsituation + "px"
-        drawtmp.style.top = qRCode.ysituation + "px"
+        //另一份标题
+        if (qRCode.horizontal_offset !== '0' && qRCode.horizontal_offset !== void 0) {
+            let drawItemh_ = $("<span class='pStyle' style='position: absolute;font-size: 21px;font-weight: bold' draggable='true' id='draw_text_h'></span>").text(text);
+            $("#draw").append(drawItemh_);
+            let drawElemh_ = document.getElementById("draw_text_h")
+            drawElemh_.style.left = qRCode.textXsituation + "px"
+            drawElemh_.style.top = parseInt(qRCode.textYsituation) + parseInt(qRCode.horizontal_offset) + "px"
+        }
+
         // 将编号写入itemlist中
         itemlist.push(cnt + "")
         itemValues.push("qrcode")
@@ -490,12 +547,18 @@
                                 let drawtmp = document.getElementById("draw" + cnttmp)
                                 drawtmp.style.left = res.items[i].xsituation + "px"
                                 drawtmp.style.top = res.items[i].ysituation + "px"
+                                if (res.qRCode.horizontal_offset !== '0' && res.qRCode.horizontal_offset !== '') {
+                                    let drawtmph = document.getElementById("draw_h" + cnttmp)
+                                    drawtmph.style.left = res.items[i].xsituation + "px"
+                                    drawtmph.style.top = parseInt(res.items[i].ysituation) + parseInt(res.qRCode.horizontal_offset) + "px"
+                                }
                                 drawtmp.style.fontSize = res.qRCode.font_style_value
                                 $("#xvalue" + cnttmp).val(res.items[i].xsituation)
                                 $("#yvalue" + cnttmp).val(res.items[i].ysituation)
                             }
                         }
                     }
+                    setWH()
                 }
             }
         })
@@ -659,5 +722,10 @@
         text-overflow: ellipsis;
         font-size: 16px;
         /*font-family: Simsun;*/
+    }
+
+    .draw_h {
+        width:fit-content;
+        transform:rotate(180deg)
     }
 </style>
