@@ -1515,6 +1515,7 @@
         })
     }
 
+
     //设置打印内容
     function printData() {
         let startStr = "<!--startprint-->"
@@ -1533,10 +1534,11 @@
             // 放置二维码,后续需要往里面填充内容
             let xsituation = qrstyle.qRCode['xsituation']
             let ysituation = qrstyle.qRCode['ysituation']
+            let qr_wh_value = qrstyle.qRCode['qr_wh_value']
             let horizontal_offset = qrstyle.qRCode['horizontal_offset']
             let transform = horizontal_offset !== "0" && horizontal_offset !== "" ? 'transform: rotate(180deg);' : ''
-            item += "<span class='pStyle draw' style='position: absolute;font-size: 21px;" + transform + "left:" + qrstyle.qRCode.textXsituation + "px;top: " + qrstyle.qRCode.textYsituation + "px;font-weight: bold' draggable='true' id='draw_text'>" + qrstyle.qRCode['text'] + "</span>";
-            item += "<div id='qrcode_" + i + "' style='position: absolute;" + transform + "left:" + xsituation + "px;top:" + ysituation + "px;'></div>"
+            item += "<span class='pStyle draw' style='position: absolute;font-size: 21px;" + transform + "left:" + qrstyle.qRCode.textXsituation + "px;top: " + qrstyle.qRCode.textYsituation + "px;font-weight: bold' draggable='true' id='draw_text_" + i + "'>" + qrstyle.qRCode['text'] + "</span>";
+            item += "<div id='qrcode_" + i + "' style='position: absolute;" + transform + "left:" + xsituation + "px;top:" + ysituation + "px;height:" + qr_wh_value + "px;'></div>"
             // 放置其他各项
             for (let j = 0; j < qrstyle.items.length; j++) {
                 let node = qrstyle.items[j]
@@ -1544,7 +1546,8 @@
                 let xsituation_item = node.xsituation
                 let ysituation_item = node.ysituation
                 let nodestr = fieldmap[nodevalue] + ":" + printsData[i][nodevalue]
-                item += "<span class='pStyle' style='position: absolute;" + transform + "font-size: " + qrstyle.qRCode.font_style_value + ";left:" + xsituation_item + "px;top:" + ysituation_item + "px;'>" + nodestr + "</span>"
+                console.log("draw_" + i + "_" + (j + 1))
+                item += "<span class='pStyle' id = 'draw_" + i + "_" + (j + 1) + "' style='position: absolute;" + transform + "font-size: " + qrstyle.qRCode.font_style_value + ";left:" + xsituation_item + "px;top:" + ysituation_item + "px;'>" + nodestr + "</span>"
             }
             //另一份二维码
             if (horizontal_offset !== "0" && horizontal_offset !== "") {
@@ -1578,10 +1581,54 @@
             // getQRCode(i, qrstyle.qRCode)
             QrCode.push({id: i, qRCode: qrCode})
             QrCode.push({id: 'h' + i, qRCode: qrCode})
+            qrstyle.index = i
+            qrstyle.qr_wh_value = qr_wh_value
+            setTimeout("set(qrstyle.index, qrstyle.items.length,qrstyle.qr_wh_value)", 1000)
         }
         let enditem = $(endStr)
         $("#printArea").append(enditem)
-        setTimeout('printLabels()', 500)
+        setTimeout("printLabels()", 500)
+    }
+
+    function set(j, length, qr_wh_value) {
+        let bottom = 0
+        let width = 0;
+        let width_element
+        for (let i = 1; i <= length; i++) {
+            let item = document.getElementById("draw_" + j + "_" + i);
+            let offsetHeight = item.offsetHeight;
+            let offsetWidth = item.offsetWidth
+            let top = parseInt(item.style.top.match(/(\d+)px/)[1])
+            //获取单个页面最下端
+            if (top + offsetHeight > bottom) {
+                bottom = top + offsetHeight
+            }
+            //获取单个页面最子项长度
+            if (offsetWidth > width) {
+                width = offsetWidth
+                width_element = item
+            }
+        }
+        let draw0 = document.getElementById("qrcode_" + j);
+        let draw0_left = parseInt(draw0.style.left.match(/(\d+)px/)[1])
+        let draw0_width = parseInt(qr_wh_value)
+        let draw0_top = parseInt(draw0.style.top.match(/(\d+)px/)[1])
+        let draw0_offsetHeight = parseInt(draw0.style.height.match(/(\d+)px/)[1])
+        if (draw0_top + draw0_offsetHeight > bottom) {
+            bottom = draw0_top + draw0_offsetHeight
+        }
+        let draw_text = document.getElementById("draw_text_" + j);
+        let draw_text_top = parseInt(draw_text.style.top.match(/(\d+)px/)[1])
+        let draw_text_offsetHeight = draw_text.offsetHeight
+        draw_text.style.height = bottom - draw_text_top + (draw0_top - draw_text_top - draw_text_offsetHeight) + draw_text_offsetHeight - 5.6 + "px"
+        draw0.style.width = parseInt(width_element.style.left.match(/(\d+)px/)[1]) + width - parseInt(draw0.style.left.match(/(\d+)px/)[1]) + "px"
+        for (let i = 1; i <= length; i++) {
+            let item = document.getElementById("draw_" + j + "_" + i)
+            let item_left = parseInt(item.style.left.match(/(\d+)px/)[1])
+            if (item_left > draw0_left + draw0_width) {
+                item.style.left = item_left - draw0_width - (item_left - draw0_left - draw0_width) + "px"
+            }
+        }
     }
 
     let QrCode = []
@@ -1618,7 +1665,7 @@
                 location.reload();
                 printsData = []
                 QrCode = []
-            }, 500
+            }, 1000
         )
     }
 

@@ -558,10 +558,54 @@
                             }
                         }
                     }
-                    setWH()
+                    if (res.qRCode.horizontal_offset !== '0' && res.qRCode.horizontal_offset !== '') {
+                        set()
+                    }
                 }
             }
         })
+    }
+
+    function set() {
+        let bottom = 0
+        let width = 0;
+        let width_element
+        for (let i = 1; i < itemlist.length; i++) {
+            let item = document.getElementById("draw" + itemlist[i])
+            let offsetHeight = item.offsetHeight
+            let offsetWidth = item.offsetWidth
+            let top = parseInt(item.style.top.match(/(\d+)px/)[1])
+            //获取单个页面最下端
+            if (top + offsetHeight > bottom) {
+                bottom = top + offsetHeight
+            }
+            //获取单个页面最子项长度
+            if (offsetWidth > width) {
+                width = offsetWidth
+                width_element = item
+            }
+        }
+        let draw0 = document.getElementById("draw0");
+        let draw0_left = parseInt(draw0.style.left.match(/(\d+)px/)[1])
+        let draw0_width = draw0.offsetWidth
+        let draw0_top = parseInt(draw0.style.top.match(/(\d+)px/)[1])
+        let draw0_offsetHeight = draw0.offsetHeight
+        if (draw0_top + draw0_offsetHeight > bottom) {
+            bottom = draw0_top + draw0_offsetHeight
+        }
+        let draw_text = document.getElementById("draw_text");
+        let draw_text_top = parseInt(draw_text.style.top.match(/(\d+)px/)[1])
+        let draw_text_offsetHeight = draw_text.offsetHeight
+        //设置标题高度用于旋转
+        draw_text.style.height = bottom - draw_text_top + (draw0_top - draw_text_top - draw_text_offsetHeight) + draw_text_offsetHeight - 5.6 + "px"
+        draw0.style.width = parseInt(width_element.style.left.match(/(\d+)px/)[1]) + width - parseInt(draw0.style.left.match(/(\d+)px/)[1]) + "px"
+        for (let i = 1; i < itemlist.length; i++) {
+            let item = document.getElementById("draw" + itemlist[i])
+            let item_left = parseInt(item.style.left.match(/(\d+)px/)[1])
+            if (item_left > draw0_left + draw0_width) {
+                item.style.left = item_left - draw0_width - (item_left - draw0_left - draw0_width) + "px"
+            }
+        }
     }
 
     function submitQRcode() {
@@ -725,7 +769,7 @@
     }
 
     .draw_h {
-        width:fit-content;
-        transform:rotate(180deg)
+        width: fit-content;
+        transform: rotate(180deg)
     }
 </style>
