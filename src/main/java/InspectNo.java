@@ -27,11 +27,13 @@ public class InspectNo extends HttpServlet {
         String pids = req.getParameter("pids");
         String failure_reason = req.getParameter("failure_reason");
         String patch_library = req.getParameter("patch_library");
+        String inspect_remark = req.getParameter("inspect_remark");
+        String inspect_user = req.getParameter("inspect_user");
         JSONArray list = JSON.parseArray(pids);
         Connection con = null;
         PreparedStatement ps = null;
         Map<String, Object> map = new HashMap<>();
-        StringBuilder sql = new StringBuilder("update preproduct set inspect = 2,checktime=date_format(now(),'%Y-%m-%d'),failure_reason = ?,patch_library = ? where pid in (");
+        StringBuilder sql = new StringBuilder("update preproduct set inspect = 2,checktime=date_format(now(),'%Y-%m-%d'), failure_reason = ?, patch_library = ?, inspect_remark=?, inspect_user=?  where pid in (");
         if (list.size() == 1) {
             sql.append("?)");
         } else {
@@ -51,8 +53,10 @@ public class InspectNo extends HttpServlet {
             ps = con.prepareStatement(sql.toString());
             ps.setString(1, failure_reason);
             ps.setString(2, patch_library);
+            ps.setString(3, inspect_remark);
+            ps.setString(4, inspect_user);
             for (int j = 0; j < list.size(); j++) {
-                ps.setString(j + 3, list.getString(j));
+                ps.setString(j + 5, list.getString(j));
             }
             int i = ps.executeUpdate();
             if (i < 0) {

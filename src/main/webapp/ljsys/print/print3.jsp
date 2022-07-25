@@ -1534,6 +1534,7 @@
             // 放置二维码,后续需要往里面填充内容
             let xsituation = qrstyle.qRCode['xsituation']
             let ysituation = qrstyle.qRCode['ysituation']
+            let horizontal_offset = qrstyle.qRCode['horizontal_offset']
             let qr_wh_value = qrstyle.qRCode.qr_wh_value
             item += "<span class='pStyle draw' style='position: absolute;font-size: 21px;left:" + qrstyle.qRCode.textXsituation + "px;top: " + qrstyle.qRCode.textYsituation + "px;font-weight: bold' draggable='true' id='draw_text'>" + qrstyle.qRCode['text'] + "</span>";
             item += "<div id='qrcode_" + i + "' style='position: absolute;left:" + xsituation + "px;top:" + ysituation + "px;'></div>"
@@ -1541,10 +1542,25 @@
             for (let j = 0; j < qrstyle.items.length; j++) {
                 let node = qrstyle.items[j]
                 let nodevalue = node.content;
-                xsituation = node.xsituation
-                ysituation = node.ysituation
+                let xsituation_item = node.xsituation
+                let ysituation_item = node.ysituation
                 let nodestr = fieldmap[nodevalue] + ":" + printsData[i][nodevalue]
-                item += "<span class='pStyle' style='position: absolute;font-size: " + qrstyle.qRCode.font_style_value + ";left:" + xsituation + "px;top:" + ysituation + "px;'>" + nodestr + "</span>"
+                item += "<span class='pStyle' style='position: absolute;font-size: " + qrstyle.qRCode.font_style_value + ";left:" + xsituation_item + "px;top:" + ysituation_item + "px;'>" + nodestr + "</span>"
+            }
+            if (horizontal_offset !== "0") {
+                let textXsituation = parseInt(qrstyle.qRCode.textXsituation) + parseInt(horizontal_offset)
+                let xsituation = parseInt(qrstyle.qRCode.xsituation) + parseInt(horizontal_offset)
+                item += "<span class='pStyle draw' style='position: absolute;font-size: 21px;left:" + textXsituation + "px;top: " + qrstyle.qRCode.textYsituation + "px;font-weight: bold' draggable='true' id='draw_text_h'>" + qrstyle.qRCode['text'] + "</span>";
+                item += "<div id='qrcode_h" + i + "' style='position: absolute;left:" + xsituation + "px;top:" + ysituation + "px;'></div>"
+                // 放置其他各项
+                for (let j = 0; j < qrstyle.items.length; j++) {
+                    let node = qrstyle.items[j]
+                    let nodevalue = node.content;
+                    let xsituation_item = parseInt(node.xsituation) + parseInt(horizontal_offset)
+                    let ysituation_item = node.ysituation
+                    let nodestr = fieldmap[nodevalue] + ":" + printsData[i][nodevalue]
+                    item += "<span class='pStyle' style='position: absolute;font-size: " + qrstyle.qRCode.font_style_value + ";left:" + xsituation_item + "px;top:" + ysituation_item + "px;'>" + nodestr + "</span>"
+                }
             }
             // end
             item += "</div>"
@@ -1561,6 +1577,7 @@
             qrCode.qrcodeContent = 'https://mes.ljzggroup.com/DuiMa/ToView?code=' + printsData[i].materialcode + '&id=' + $("#qrcodestyles :selected").val()
             // getQRCode(i, qrstyle.qRCode)
             QrCode.push({id: i, qRCode: qrCode})
+            QrCode.push({id: 'h' + i, qRCode: qrCode})
         }
         let enditem = $(endStr)
         $("#printArea").append(enditem)

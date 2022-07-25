@@ -1,27 +1,30 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <div style="height: 95%;width: 100%">
-    <form name="query" class="form-inline" style="width:70%;height:15%;margin-left: 14%;padding-top:2%">
-        <div class="form-group">
-            <label>物料编码：</label><input type="text" name="materialcode" id="materialcode"
-                                       style="" class="form-control">
-        </div>
-        <div class="form-group">
-            <label>物料名称：</label><input type="text" name="materialname" id="materialname"
-                                       style="" class="form-control">
-        </div>
-        <label>质检状态：</label>
-        <select id="inspectState" class="form-control" style="width: 13%;">
+    <form name="query" class="form-inline" style="width:85%;height:20%;margin-left: 8%;padding-top:2%">
+        <label>物料编码：</label><input type="text" name="materialcode" id="materialcode"
+                                   style="width: 13%;height: 30px" class="form-control">
+        <label style="margin-left: 2%">物料名称：</label><input type="text" name="materialname" id="materialname"
+                                                           style="width: 13%;height: 30px" class="form-control">
+        <label style="margin-left: 2%">质检状态：</label>
+        <select id="inspectState" class="form-control" style="width: 13%;height: 30px">
             <option value="3"></option>
             <option value="0">待质检</option>
             <option value="1">质检合格</option>
             <option value="2">质检不合格</option>
-        </select>
+        </select><br><br>
+        <label for="inspect_startDate">操作日期从：</label><input id="inspect_startDate" class="form-control"
+                                                            type="date"
+                                                            style="width: 13%;height: 30px">
+        <label for="inspect_endDate" style="margin-left: 2%">至：</label><input id="inspect_endDate"
+                                                                              class="form-control"
+                                                                              type="date"
+                                                                              style="width: 13%;height: 30px">
         <button type="button" class="btn btn-primary btn-sm" style="margin-left: 5%"
                 onclick="getTableData(1)">
             查 询
         </button>
     </form>
-    <div style="width:80%;height:80%;margin:0 auto;">
+    <div style="width:85%;height:80%;margin:0 auto;">
         <div class="page-header" style="margin-top: 0;margin-bottom: 1%">
             <h3 style="margin-bottom: 0;margin-top: 0"><small>质检信息</small></h3>
             <button type="button" style="position: absolute;right: 15%;top:14%" class="btn btn-primary btn-sm"
@@ -48,7 +51,8 @@
                     <td class='tdStyle_title active' style="width: 15%">物料名称</td>
                     <td class='tdStyle_title active' style="width: 15%">计划编号</td>
                     <td class='tdStyle_title active' style="width: 15%">质检状态</td>
-                    <td class='tdStyle_title active' style="width: 15%">操作日期</td>
+                    <td class='tdStyle_title active' style="width: 10%">操作人</td>
+                    <td class='tdStyle_title active' style="width: 10%">操作日期</td>
                 </tr>
                 <tbody id="archTableText">
                 </tbody>
@@ -98,6 +102,10 @@
                                    class="col-sm-2 control-label">修补库地址:</label>
                             <input class="form-control" style="width:40%;" id="patch_library" placeholder="请输入修补库地址"
                                    name="patch_library"/><br><br>
+                            <label for="inspect_remark" style="width:25%;text-align: left;padding-right: 5px"
+                                   class="col-sm-2 control-label">备注:</label>
+                            <input class="form-control" style="width:40%;" id="inspect_remark" placeholder="备注"
+                                   name="inspect_remark"/><br><br>
                             <label for="pop_classification" style="width:25%;text-align: left;padding-right: 5px"
                                    class="col-sm-2 control-label">缺陷分类:</label>
                             <select class="form-control" style="width:40%;" id="pop_classification"
@@ -111,7 +119,7 @@
                         </div>
                     </div>
                     <br>
-                    <div class="panel panel-default" style="width:80%;height:55%;overflow-y:hidden;">
+                    <div class="panel panel-default" style="width:80%;height:45%;overflow-y:hidden;">
                         <div class="panel-heading">不合格原因:</div>
                         <div id="newGroups" class="panel-body" style="height:100%;overflow-y:scroll;">
                         </div>
@@ -195,10 +203,14 @@
         let materialcode = $('#materialcode').val();
         let materialname = $('#materialname').val();
         let inspectState = $('#inspectState').val();
+        let inspect_startDate = $('#inspect_startDate').val();
+        let inspect_endDate = $('#inspect_endDate').val();
         let obj = {
             materialcode: materialcode,
             materialname: materialname,
             inspectState: inspectState,
+            inspect_startDate: inspect_startDate,
+            inspect_endDate: inspect_endDate,
             isPrint: "true",
             isPour: "true",
             pageCur: newPage,
@@ -266,9 +278,29 @@
 
     function inspect() {
         let obj = [];
+        let flag = false
         $('#archTableText').find('input:checked').each(function () {
-            obj.push($(this).attr('data-id'));   //找到对应checkbox中data-id属性值，然后push给空数组pids
+            let id = $(this).attr('data-id')
+            obj.push(id);   //找到对应checkbox中data-id属性值，然后push给空数组pids
+            for (let item of jsonObj) {
+                if (parseInt(id) == item.pid && item.inspect == "成品检验不合格") {
+                    flag = true
+                    alert("物料名称为：" + item.materialname + " 的构建处于不合格状态，需要先取消质检！")
+                    break
+                }
+                if (parseInt(id) == item.pid && item.inspect == "成品检验合格") {
+                    flag = true
+                    alert("物料名称为：" + item.materialname + " 的构建处于合格状态，不要重复质检！")
+                    break
+                }
+            }
+            if (flag) {
+                return false
+            }
         });
+        if(flag){
+            return;
+        }
         if (obj.length === 0) {
             alert("请勾选！")
             return;
@@ -278,7 +310,10 @@
             return;
         }
 
-        $.post("${pageContext.request.contextPath}/Inspect", {pids: JSON.stringify(obj)}, function (result) {
+        $.post("${pageContext.request.contextPath}/Inspect", {
+            pids: JSON.stringify(obj),
+            inspect_user: sessionStorage.getItem("userName")
+        }, function (result) {
             result = JSON.parse(result);
             alert(result.message);
             if (result.flag) {
@@ -289,9 +324,29 @@
 
     function openPop() {
         let obj = [];
+        let flag = false
         $('#archTableText').find('input:checked').each(function () {
-            obj.push($(this).attr('data-id'));   //找到对应checkbox中data-id属性值，然后push给空数组pids
+            let id = $(this).attr('data-id')
+            obj.push(id);   //找到对应checkbox中data-id属性值，然后push给空数组pids
+            for (let item of jsonObj) {
+                if (parseInt(id) == item.pid && item.inspect == "成品检验合格") {
+                    flag = true
+                    alert("物料名称为：" + item.materialname + " 的构建处于合格状态，需要先取消质检！")
+                    break
+                }
+                if (parseInt(id) == item.pid && item.inspect == "成品检验不合格") {
+                    flag = true
+                    alert("物料名称为：" + item.materialname + " 的构建处于不合格状态，不要重复质检！")
+                    break
+                }
+            }
+            if (flag) {
+                return false
+            }
         });
+        if (flag) {
+            return;
+        }
         if (obj.length === 0) {
             alert("请勾选！")
             return;
@@ -304,14 +359,31 @@
 
     function no_inspect() {
         let obj = [];
+        let flag = false
         $('#archTableText').find('input:checked').each(function () {
-            obj.push($(this).attr('data-id'));   //找到对应checkbox中data-id属性值，然后push给空数组pids
+            let id = $(this).attr('data-id')
+            obj.push(id);   //找到对应checkbox中data-id属性值，然后push给空数组pids
+            for (let item of jsonObj) {
+                if (parseInt(id) == item.pid && item.inspect == "质检合格") {
+                    flag = true
+                    alert("物料名称为：" + item.materialname + " 的构建处于合格状态，需要先取消质检！")
+                    break
+                }
+            }
+
         });
+
         if (obj.length === 0) {
             alert("请勾选构建信息！")
             return;
         }
+
+        if (flag) {
+            return;
+        }
+
         let patch_library = $("#patch_library").val()
+        let inspect_remark = $("#inspect_remark").val()
         if (patch_library == null || patch_library === '') {
             alert("请输入修补库地址！")
             return;
@@ -330,13 +402,17 @@
         $.post("${pageContext.request.contextPath}/InspectNo", {
             pids: JSON.stringify(obj),
             failure_reason: str,
-            patch_library: patch_library
+            patch_library: patch_library,
+            inspect_remark: inspect_remark,
+            inspect_user: sessionStorage.getItem("userName")
         }, function (result) {
             result = JSON.parse(result);
             alert(result.message);
             if (result.flag) {
                 getTableData(pageCur);
                 $('#myModal').modal('hide')
+                $("#patch_library").val("")
+                $("#inspect_remark").val("")
                 document.getElementById('pre_checkbok').checked = false
                 pre = 0;
             }
@@ -346,12 +422,24 @@
     function addReason() {
         var id = $("#pop_defect_name :selected").val()
         var name = $("#pop_defect_name :selected").text()
-        var groupdiv = $("#newGroups")
-        var newitem = $("<div id='gpname_" + id + "'>" + "<p class='pStyle' style='width:80%;height:30px;float:left;'>" + name + "</p>" + "<button style='width:15%;height:30px;float:left;' class='btn btn-primary  btn-xs' onclick='removeGroup(" + id + ")'>删除</button></br></div>")
-        groupdiv.append(newitem)
-        for (let name of selectName) {
-            if (name.id == id) {
-                reasons.push({id: id, name: name.defect_name});
+
+        for (let obj of selectName) {
+            let flag = false
+            for (let item of reasons) {
+                if (item.id == id) {
+                    flag = true
+                    alert("不合格原因已添加！")
+                    break
+                }
+            }
+            if (flag) {
+                break
+            }
+            if (obj.id == id) {
+                reasons.push({id: id, name: obj.defect_name});
+                var groupdiv = $("#newGroups")
+                var newitem = $("<div id='gpname_" + id + "'>" + "<p class='pStyle' style='width:80%;height:30px;float:left;'>" + name + "</p>" + "<button style='width:15%;height:30px;float:left;' class='btn btn-primary  btn-xs' onclick='removeGroup(" + id + ")'>删除</button></br></div>")
+                groupdiv.append(newitem)
                 break;
             }
         }
@@ -401,16 +489,18 @@
             if (jsonObj[i]['inspect'] === 0) {
                 jsonObj[i]['inspect'] = '未质检'
             } else if (jsonObj[i]['inspect'] === 1) {
-                jsonObj[i]['inspect'] = '质检合格'
+                jsonObj[i]['inspect'] = '成品检验合格'
             } else {
-                jsonObj[i]['inspect'] = '质检不合格'
+                jsonObj[i]['inspect'] = '成品检验不合格'
             }
             jsonObj[i]['checktime'] = jsonObj[i]['checktime'] === undefined ? '--' : jsonObj[i]['checktime'];
+            jsonObj[i]['inspect_user'] = jsonObj[i]['inspect_user'] === undefined ? '--' : jsonObj[i]['inspect_user'];
             str += "<tr><td class='tdStyle_body' ><input type='checkbox' data-id=" + jsonObj[i]['pid'] + ">" +
                 "</td><td class='tdStyle_body'>" + jsonObj[i]['materialcode'] +
                 "</td><td class='tdStyle_body'>" + jsonObj[i]['materialname'] +
                 "</td><td class='tdStyle_body'>" + jsonObj[i]['plannumber'] +
                 "</td><td class='tdStyle_body'>" + jsonObj[i]['inspect'] +
+                "</td><td class='tdStyle_body'>" + jsonObj[i]['inspect_user'] +
                 "</td><td class='tdStyle_body'>" + jsonObj[i]['checktime'] +
                 "</td></tr>";
         }

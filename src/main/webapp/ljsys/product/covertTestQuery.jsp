@@ -1,27 +1,33 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <div style="height: 95%;width: 100%">
-    <form name="query" class="form-inline" style="width:80%;height:15%;margin-left: 14%;padding-top:2%">
-        <div class="form-group">
-            <label>物料编码：</label><input type="text" name="materialcode" id="materialcode"
-                                       style="" class="form-control">
-        </div>
-        <div class="form-group">
-            <label>物料名称：</label><input type="text" name="materialname" id="materialname"
-                                       style="" class="form-control">
-        </div>
-        <label>质检状态：</label>
-        <select id="testState" class="form-control" style="width: 13%;">
+    <form name="query" class="form-inline" style="width:85%;height:20%;margin-left: 8%;padding-top:2%">
+        <label>物料编码：</label><input type="text" name="materialcode" id="materialcode"
+                                   style="width: 13%;height: 30px" class="form-control">
+        <label style="margin-left: 2%">物料名称：</label><input type="text" name="materialname" id="materialname"
+                                                           style="width: 13%;height: 30px" class="form-control">
+        <label style="margin-left: 2%">质检状态：</label>
+        <select id="testState" class="form-control" style="width: 13%;height: 30px">
             <option value=""></option>
             <option value="0">待检验</option>
             <option value="1">检验合格</option>
             <option value="2">检验不合格</option>
         </select>
+        <label style="margin-left: 2%">操作人：</label><input type="text" name="covert_test_user" id="covert_test_user"
+                                                          style="width: 13%;height: 30px" class="form-control">
+        <br><br>
+        <label for="covert_test_startDate">操作日期从：</label><input id="covert_test_startDate" class="form-control"
+                                                                type="date"
+                                                                style="width: 13%;height: 30px">
+        <label for="covert_test_endDate" style="margin-left: 2%">至：</label><input id="covert_test_endDate"
+                                                                                  class="form-control"
+                                                                                  type="date"
+                                                                                  style="width: 13%;height: 30px">
         <button type="button" class="btn btn-primary btn-sm" style="margin-left: 5%"
                 onclick="getTableData(1)">
             查 询
         </button>
     </form>
-    <div style="width:80%;height:80%;margin:0 auto;">
+    <div style="width:85%;height:80%;margin:0 auto;">
         <div class="page-header" style="margin-top: 0;margin-bottom: 1%">
             <h3 style="margin-bottom: 0;margin-top: 0"><small>隐蔽性检验信息</small></h3>
             <button type="button" style="position: absolute;right: 15%;top:14%" class="btn btn-primary btn-sm"
@@ -50,6 +56,8 @@
                     <td class='tdStyle_title active' style="width: 15%">检验状态</td>
                     <td class='tdStyle_title active' style="width: 15%">不合格原因</td>
                     <td class='tdStyle_title active' style="width: 15%">操作日期</td>
+                    <td class='tdStyle_title active' style="width: 10%">操作人</td>
+                    <td class='tdStyle_title active' style="width: 10%">备注</td>
                 </tr>
                 <tbody id="archTableText">
                 </tbody>
@@ -95,6 +103,10 @@
                 <div class="modal-body" style="height: 75%;margin: 0 auto">
                     <div class="form-inline" style="width: 100%">
                         <div class="form-group" style="width:100%;margin-top: 5%">
+                            <label for="covert_test_remark" style="width:25%;text-align: left;padding-right: 5px"
+                                   class="col-sm-2 control-label">备注:</label>
+                            <input class="form-control" style="width:40%;" id="covert_test_remark" placeholder="备注"
+                                   name="covert_test_remark"/><br><br>
                             <label for="pop_classification" style="width:25%;text-align: left;padding-right: 5px"
                                    class="col-sm-2 control-label">缺陷分类:</label>
                             <select class="form-control" style="width:40%;" id="pop_classification"
@@ -108,7 +120,7 @@
                         </div>
                     </div>
                     <br>
-                    <div class="panel panel-default" style="width:80%;height:65%;overflow-y:hidden;">
+                    <div class="panel panel-default" style="width:80%;height:50%;overflow-y:hidden;">
                         <div class="panel-heading">不通过原因:</div>
                         <div id="newGroups" class="panel-body" style="height:100%;overflow-y:scroll;">
                         </div>
@@ -195,13 +207,25 @@
         let materialcode = $('#materialcode').val();
         let materialname = $('#materialname').val();
         let testState = $('#testState').val();
+        let covert_test_user = $('#covert_test_user').val();
+        let covert_test_startDate = $('#covert_test_startDate').val();
+        let covert_test_endDate = $('#covert_test_endDate').val();
         let obj = {
             materialcode: materialcode,
             materialname: materialname,
             testState: testState,
+            covert_test_user: covert_test_user,
+            covert_test_startDate: covert_test_startDate,
+            covert_test_endDate: covert_test_endDate,
             isPrint: "true",
             pageCur: newPage,
             pageMax: pageMax
+        }
+        if (covert_test_endDate !== '' && covert_test_endDate !== '') {
+            if (covert_test_endDate > covert_test_endDate) {
+                alert("开始时间不能大于结束时间！");
+                return;
+            }
         }
         $.ajax({
             url: "${pageContext.request.contextPath}/GetPreProduct",
@@ -262,9 +286,29 @@
 
     function inspect() {
         let obj = [];
+        let flag = false
         $('#archTableText').find('input:checked').each(function () {
-            obj.push($(this).attr('data-id'));   //找到对应checkbox中data-id属性值，然后push给空数组pids
+            let id = $(this).attr('data-id')
+            obj.push(id);   //找到对应checkbox中data-id属性值，然后push给空数组pids
+            for (let item of jsonObj) {
+                if (parseInt(id) == item.pid && item.covert_test == "隐蔽检验不合格") {
+                    flag = true
+                    alert("物料名称为：" + item.materialname + " 的构建处于不合格状态，需要先取消检验！")
+                    break
+                }
+                if (parseInt(id) == item.pid && item.covert_test == "隐蔽检验合格") {
+                    flag = true
+                    alert("物料名称为：" + item.materialname + " 的构建处于合格状态，不要重复检验！")
+                    break
+                }
+            }
+            if (flag) {
+                return false
+            }
         });
+        if(flag){
+            return;
+        }
         if (obj.length === 0) {
             alert("请勾选！")
             return;
@@ -277,6 +321,7 @@
         $.post("${pageContext.request.contextPath}/ConcealedProcess", {
             index: '1',
             covert_test: '1',
+            covert_test_user: sessionStorage.getItem("userName"),
             pids: JSON.stringify(obj)
         }, function (result) {
             result = JSON.parse(result);
@@ -289,9 +334,30 @@
 
     function openPop() {
         let obj = [];
+        let flag = false
         $('#archTableText').find('input:checked').each(function () {
-            obj.push($(this).attr('data-id'));   //找到对应checkbox中data-id属性值，然后push给空数组pids
+            let id = $(this).attr('data-id')
+            obj.push(id);   //找到对应checkbox中data-id属性值，然后push给空数组pids
+            console.log(id)
+            for (let item of jsonObj) {
+                if (parseInt(id) == item.pid && item.covert_test == "隐蔽检验合格") {
+                    flag = true
+                    alert("物料名称为：" + item.materialname + " 的构建处于合格状态，需要先取消检验！")
+                    break
+                }
+                if (parseInt(id) == item.pid && item.covert_test == "隐蔽检验不合格") {
+                    flag = true
+                    alert("物料名称为：" + item.materialname + " 的构建处于不合格状态，不要重复检验！")
+                    break
+                }
+            }
+            if (flag) {
+                return false
+            }
         });
+        if (flag) {
+            return;
+        }
         if (obj.length === 0) {
             alert("请勾选！")
             return;
@@ -320,10 +386,13 @@
             str += reasons[i].name + '，';
         }
         str += reasons[reasons.length - 1].name
+        let covert_test_remark = $("#covert_test_remark").val()
         $.post("${pageContext.request.contextPath}/ConcealedProcess", {
             index: '0',
             pids: JSON.stringify(obj),
             covert_test_failure_reason: str,
+            covert_test_remark: covert_test_remark,
+            covert_test_user: sessionStorage.getItem("userName")
         }, function (result) {
             result = JSON.parse(result);
             alert(result.message);
@@ -339,12 +408,24 @@
     function addReason() {
         var id = $("#pop_defect_name :selected").val()
         var name = $("#pop_defect_name :selected").text()
-        var groupdiv = $("#newGroups")
-        var newitem = $("<div id='gpname_" + id + "'>" + "<p class='pStyle' style='width:80%;height:30px;float:left;'>" + name + "</p>" + "<button style='width:15%;height:30px;float:left;' class='btn btn-primary  btn-xs' onclick='removeGroup(" + id + ")'>删除</button></br></div>")
-        groupdiv.append(newitem)
-        for (let name of selectName) {
-            if (name.id == id) {
-                reasons.push({id: id, name: name.defect_name});
+
+        for (let obj of selectName) {
+            let flag = false
+            for (let item of reasons) {
+                if (item.id == id) {
+                    flag = true
+                    alert("不合格原因已添加！")
+                    break
+                }
+            }
+            if (flag) {
+                break
+            }
+            if (obj.id == id) {
+                reasons.push({id: id, name: obj.defect_name});
+                var groupdiv = $("#newGroups")
+                var newitem = $("<div id='gpname_" + id + "'>" + "<p class='pStyle' style='width:80%;height:30px;float:left;'>" + name + "</p>" + "<button style='width:15%;height:30px;float:left;' class='btn btn-primary  btn-xs' onclick='removeGroup(" + id + ")'>删除</button></br></div>")
+                groupdiv.append(newitem)
                 break;
             }
         }
@@ -395,29 +476,39 @@
         let str = '';
         for (let i = 0; i < jsonObj.length; i++) {
             let disable = '';
-            // if (on_or_off == '1') {
-            //     if (jsonObj[i]['pourmade'] === 1 || jsonObj[i]['inspect'] === 1) {
-            //         disable = 'disabled'
-            //     } else {
-            //         disable = ''
-            //     }
-            // }
+            let style
+            if (on_or_off == '1') {
+                if (jsonObj[i]['pourmade'] === 1) {
+                    disable = 'disabled'
+                } else {
+                    disable = ''
+                }
+            }
             if (jsonObj[i]['covert_test'] === 1) {
-                jsonObj[i]['covert_test'] = '检验合格'
+                jsonObj[i]['covert_test'] = '隐蔽检验合格'
+                jsonObj[i]['covert_test_failure_reason'] = '--'
+                style = "style='background-color: green;'"
             } else if (jsonObj[i]['covert_test'] === 2) {
-                jsonObj[i]['covert_test'] = '检验不合格'
+                jsonObj[i]['covert_test'] = '隐蔽检验不合格'
+                style = "style='background-color: red;'"
             } else {
                 jsonObj[i]['covert_test'] = '未检验'
+                jsonObj[i]['covert_test_failure_reason'] = '--'
+                style = "style='background-color: grey;'"
             }
             jsonObj[i]['covert_test_time'] = jsonObj[i]['covert_test_time'] === undefined ? '--' : jsonObj[i]['covert_test_time'];
+            jsonObj[i]['covert_test_remark'] = jsonObj[i]['covert_test_remark'] === undefined ? '--' : jsonObj[i]['covert_test_remark'];
+            jsonObj[i]['covert_test_user'] = jsonObj[i]['covert_test_user'] === undefined ? '--' : jsonObj[i]['covert_test_user'];
             jsonObj[i]['covert_test_failure_reason'] = jsonObj[i]['covert_test_failure_reason'] === undefined ? '--' : jsonObj[i]['covert_test_failure_reason'];
             str += "<tr><td class='tdStyle_body'><input type='checkbox'" + disable + " data-id=" + jsonObj[i]['pid'] + ">" +
                 "</td><td class='tdStyle_body' title='" + jsonObj[i]['materialcode'] + "'>" + jsonObj[i]['materialcode'] +
                 "</td><td class='tdStyle_body' title='" + jsonObj[i]['materialname'] + "'>" + jsonObj[i]['materialname'] +
                 "</td><td class='tdStyle_body' title='" + jsonObj[i]['plannumber'] + "'>" + jsonObj[i]['plannumber'] +
-                "</td><td class='tdStyle_body' title='" + jsonObj[i]['covert_test'] + "'>" + jsonObj[i]['covert_test'] +
+                "</td><td class='tdStyle_body'  title='" + jsonObj[i]['covert_test'] + "'" + style + ">" + jsonObj[i]['covert_test'] +
                 "</td><td class='tdStyle_body' title='" + jsonObj[i]['covert_test_failure_reason'] + "'>" + jsonObj[i]['covert_test_failure_reason'] +
                 "</td><td class='tdStyle_body' >" + jsonObj[i]['covert_test_time'] +
+                "</td><td class='tdStyle_body' >" + jsonObj[i]['covert_test_user'] +
+                "</td><td class='tdStyle_body' >" + jsonObj[i]['covert_test_remark'] +
                 "</td></tr>";
         }
         document.getElementById('pre_checkbok').checked = false

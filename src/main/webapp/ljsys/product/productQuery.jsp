@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <div style="height: 95%;width: 100%">
-    <form name="query" class="form-inline" style="width:80%;height:15%;margin-left: 14%;padding-top:2%">
+    <form name="query" class="form-inline" style="width:85%;height:15%;margin-left: 8%;padding-top:2%">
         <div class="form-group" style="width: 100%;">
             <label for="planname" style="margin-left: 2%">项目名称：</label>
             <input id="planname" class="form-control" style="width: 13%;height:10%;">
@@ -236,11 +236,11 @@
                     style = "style='background-color: #f78f00;'"
                 }
                 if (pop_pageDate[i]['pourmade'] === 1 && pop_pageDate[i]['inspect'] === 1) {
-                    state = '质检合格'
+                    state = '成品检验合格'
                     style = "style='background-color: green;'"
                 }
                 if (pop_pageDate[i]['pourmade'] === 1 && pop_pageDate[i]['inspect'] === 2) {
-                    state = '质检不合格'
+                    state = '成品检验不合格'
                     style = "style='background-color: red;'"
                 }
                 if (on_or_off == '1') {
@@ -249,11 +249,11 @@
                         style = "style='background-color: yellow;'"
                     }
                     if (pop_pageDate[i]['covert_test'] === 0) {
-                        state = '待检验'
+                        state = '待生产'
                         style = "style='background-color: grey;'"
                     }
                     if (pop_pageDate[i]['covert_test'] === 2) {
-                        state = '检验不合格'
+                        state = '隐蔽检验不合格'
                         style = "style='background-color: #a94442;'"
                     }
                 }
@@ -261,9 +261,9 @@
                 if (pop_pageDate[i]['inspect'] === 0) {
                     pop_pageDate[i]['inspect'] = '未质检'
                 } else if (pop_pageDate[i]['inspect'] === 1) {
-                    pop_pageDate[i]['inspect'] = '质检合格'
+                    pop_pageDate[i]['inspect'] = '成品检验合格'
                 } else {
-                    pop_pageDate[i]['inspect'] = '质检不合格'
+                    pop_pageDate[i]['inspect'] = '成品检验不合格'
                 }
                 pop_pageDate[i]['pourtime'] = pop_pageDate[i]['pourtime'] === undefined ? '--' : pop_pageDate[i]['pourtime'];
                 pop_pageDate[i]['checktime'] = pop_pageDate[i]['checktime'] === undefined ? '--' : pop_pageDate[i]['checktime'];
@@ -272,9 +272,9 @@
                     if (pop_pageDate[i]['covert_test'] === 0) {
                         pop_pageDate[i]['covert_test'] = '未检验'
                     } else if (pop_pageDate[i]['covert_test'] === 1) {
-                        pop_pageDate[i]['covert_test'] = '检验合格'
+                        pop_pageDate[i]['covert_test'] = '隐蔽检验合格'
                     } else {
-                        pop_pageDate[i]['covert_test'] = '检验不合格'
+                        pop_pageDate[i]['covert_test'] = '隐蔽检验不合格'
                     }
                 } else {
                     pop_pageDate[i]['covert_test'] = '--';

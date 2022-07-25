@@ -25,11 +25,12 @@ public class CancelPour extends HttpServlet {
         resp.setContentType("text/html;charset=UTF-8");
         PrintWriter out = resp.getWriter();
         String pids = req.getParameter("pids");
+        String pourmade_user = req.getParameter("pourmade_user");
         JSONArray list = JSON.parseArray(pids);
         Connection con = null;
         PreparedStatement ps = null;
         Map<String, Object> map = new HashMap<>();
-        StringBuilder sql = new StringBuilder("update preproduct set pourmade = 0,pourtime = date_format(now(),'%Y-%m-%d') where pid in (");
+        StringBuilder sql = new StringBuilder("update preproduct set pourmade = 0,pourtime = date_format(now(),'%Y-%m-%d'),pourmade_user = ? where pid in (");
         if (list.size() == 1) {
             sql.append("?)");
         } else {
@@ -41,8 +42,9 @@ public class CancelPour extends HttpServlet {
         try {
             con = DbUtil.getCon();
             ps = con.prepareStatement(sql.toString());
+            ps.setString(1, pourmade_user);
             for (int j = 0; j < list.size(); j++) {
-                ps.setString(j + 1, list.getString(j));
+                ps.setString(j + 2, list.getString(j));
             }
             int i = ps.executeUpdate();
             if (i < 0) {

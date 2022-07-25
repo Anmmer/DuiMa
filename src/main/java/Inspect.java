@@ -25,11 +25,12 @@ public class Inspect extends HttpServlet {
         resp.setContentType("text/html;charset=UTF-8");
         PrintWriter out = resp.getWriter();
         String pids = req.getParameter("pids");
+        String inspect_user = req.getParameter("inspect_user");
         JSONArray list = JSON.parseArray(pids);
         Connection con = null;
         PreparedStatement ps = null;
         Map<String, Object> map = new HashMap<>();
-        StringBuilder sql = new StringBuilder("update preproduct set inspect = 1,checktime=date_format(now(),'%Y-%m-%d') where pid in (");
+        StringBuilder sql = new StringBuilder("update preproduct set inspect = 1,inspect_user = ?,checktime=date_format(now(),'%Y-%m-%d') where pid in (");
         if (list.size() == 1) {
             sql.append("?)");
         } else {
@@ -41,8 +42,9 @@ public class Inspect extends HttpServlet {
         try {
             con = DbUtil.getCon();
             ps = con.prepareStatement(sql.toString());
+            ps.setString(1, inspect_user);
             for (int j = 0; j < list.size(); j++) {
-                ps.setString(j + 1, list.getString(j));
+                ps.setString(j + 2, list.getString(j));
             }
             int i = ps.executeUpdate();
             if (i < 0) {
