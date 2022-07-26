@@ -569,20 +569,22 @@
     function set() {
         let bottom = 0
         let width = 0;
-        let width_element
+        let item_offsetWidth
         for (let i = 1; i < itemlist.length; i++) {
             let item = document.getElementById("draw" + itemlist[i])
             let offsetHeight = item.offsetHeight
             let offsetWidth = item.offsetWidth
+            let left = parseInt(item.style.left.match(/(\d+)px/)[1])
             let top = parseInt(item.style.top.match(/(\d+)px/)[1])
             //获取单个页面最下端
             if (top + offsetHeight > bottom) {
                 bottom = top + offsetHeight
             }
-            //获取单个页面最子项长度
-            if (offsetWidth > width) {
-                width = offsetWidth
-                width_element = item
+
+            //获取单个页面最右端
+            if (offsetWidth + left >= width) {
+                width = offsetWidth + left
+                item_offsetWidth = offsetWidth
             }
         }
         let draw0 = document.getElementById("draw0");
@@ -598,12 +600,14 @@
         let draw_text_offsetHeight = draw_text.offsetHeight
         //设置标题高度用于旋转
         draw_text.style.height = bottom - draw_text_top + (draw0_top - draw_text_top - draw_text_offsetHeight) + draw_text_offsetHeight - 5.6 + "px"
-        draw0.style.width = parseInt(width_element.style.left.match(/(\d+)px/)[1]) + width - parseInt(draw0.style.left.match(/(\d+)px/)[1]) + "px"
+        // draw_text.style.width = width - parseInt(draw0.style.left.match(/(\d+)px/)[1]) + "px"
+        draw0.style.width = width - parseInt(draw0.style.left.match(/(\d+)px/)[1]) + "px"
         for (let i = 1; i < itemlist.length; i++) {
             let item = document.getElementById("draw" + itemlist[i])
             let item_left = parseInt(item.style.left.match(/(\d+)px/)[1])
+            let item_void = (item_left - draw0_left - draw0_width) //标签与二维码之间的空隙
             if (item_left > draw0_left + draw0_width) {
-                item.style.left = item_left - draw0_width - (item_left - draw0_left - draw0_width) + "px"
+                item.style.left = width - draw0_width - item.offsetWidth - item_void + "px"
             }
         }
     }
@@ -652,6 +656,7 @@
             },
             success: function (res) {
                 alert("保存成功！")
+                location.reload();
             }
         })
 
