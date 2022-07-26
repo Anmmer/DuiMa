@@ -1628,15 +1628,26 @@
         let draw_text = document.getElementById("draw_text_" + j);
         let draw_text_top = parseInt(draw_text.style.top.match(/(\d+)px/)[1])
         let draw_text_offsetHeight = draw_text.offsetHeight
-        draw_text.style.height = bottom - draw_text_top + (draw0_top - draw_text_top - draw_text_offsetHeight) + draw_text_offsetHeight - 5.6 + "px"
+        let text_for_draw0_width = parseInt(draw_text.style.left.match(/(\d+)px/)[1]) - draw0_left //标题与二维码里最左边的距离
+        //设置标题选择后的位置水平
+        draw_text.style.left = width - text_for_draw0_width - draw_text.offsetWidth + "px"
+        //设置标题高度用于旋转
+        draw_text.style.height = bottom - draw_text_top + (draw0_top - draw_text_top - draw_text_offsetHeight) + draw_text_offsetHeight - 5 + "px"
         draw0.style.width = width - parseInt(draw0.style.left.match(/(\d+)px/)[1]) + "px"
         for (let i = 1; i <= length; i++) {
             let item = document.getElementById("draw_" + j + "_" + i)
             let item_left = parseInt(item.style.left.match(/(\d+)px/)[1])
+            let item_top = parseInt(item.style.top.match(/(\d+)px/)[1])
+            let item_height = item.offsetHeight
             let item_void = (item_left - draw0_left - draw0_width) //标签与二维码之间的空隙
-            if (item_left > draw0_left + draw0_width) {
+            let item_t_void = item_top - draw_text_top - draw_text_offsetHeight //标签与标题的距离
+            if (item_left > draw0_left + draw0_width) { //如果标签在二维码右侧，则标签向左平移
                 item.style.left = width - draw0_width - item.offsetWidth - item_void + "px"
+            }else { //否则标签宽度对于二维码宽度，用于选择
+                item.style.width = draw0.style.width
             }
+            //重新设置到标题的距离
+            item.style.top = draw_text_top + parseInt(draw_text.style.height.match(/(\d+)px/)[1]) - item_t_void - draw_text_offsetHeight - item_height + "px"
         }
     }
 
