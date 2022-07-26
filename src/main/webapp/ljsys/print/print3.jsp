@@ -1627,7 +1627,12 @@
         }
         let draw_text = document.getElementById("draw_text_" + j);
         let draw_text_top = parseInt(draw_text.style.top.match(/(\d+)px/)[1])
+        let draw_text_left = parseInt(draw_text.style.left.match(/(\d+)px/)[1])
         let draw_text_offsetHeight = draw_text.offsetHeight
+        let draw_text_offsetWidth = draw_text.offsetWidth
+        if (draw_text_left + draw_text_offsetWidth > width) {
+            width = draw_text_offsetWidth + draw_text_left
+        }
         let text_for_draw0_width = parseInt(draw_text.style.left.match(/(\d+)px/)[1]) - draw0_left //标题与二维码里最左边的距离
         //设置标题选择后的位置水平
         draw_text.style.left = width - text_for_draw0_width - draw_text.offsetWidth + "px"
@@ -1643,7 +1648,7 @@
             let item_t_void = item_top - draw_text_top - draw_text_offsetHeight //标签与标题的距离
             if (item_left > draw0_left + draw0_width) { //如果标签在二维码右侧，则标签向左平移
                 item.style.left = width - draw0_width - item.offsetWidth - item_void + "px"
-            }else { //否则标签宽度对于二维码宽度，用于选择
+            } else { //否则标签宽度对于二维码宽度，用于选择
                 item.style.width = draw0.style.width
             }
             //重新设置到标题的距离
@@ -1679,8 +1684,10 @@
         for (let obj of QrCode) {
             getQRCode(obj.id, obj.qRCode)
         }
-        for (let i = 0; i < QrCode.length / 2; i++) {
-            set(i, qrstyle.items.length, qrstyle.qr_wh_value)
+        if (qrstyle.qRCode['horizontal_offset'] !== '0' && qrstyle.qRCode['horizontal_offset'] !== '') {
+            for (let i = 0; i < QrCode.length / 2; i++) {
+                set(i, qrstyle.items.length, qrstyle.qr_wh_value)
+            }
         }
         setTimeout(() => {
                 $(".gif").css("display", "none");

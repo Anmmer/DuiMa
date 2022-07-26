@@ -165,7 +165,7 @@
         if (horizontal_offset !== '0' && horizontal_offset !== void 0) {
             id_b = 'draw_h'
         } else {
-            horizontal_offset = 0
+            horizontal_offset = '0'
             id_b = 'draw'
         }
         // 在ItemList中新增一项
@@ -254,7 +254,12 @@
             elem.style.top = ytmp + "px"
             elem.style.left = xtmp + "px"
             // 设置控制组内的
-            let itemId = elem.id.substring(4, elem.id.length)
+            let itemId
+            if (horizontal_offset !== '0' && horizontal_offset !== void 0) {
+                itemId = elem.id.substring(6, elem.id.length)
+            } else {
+                itemId = elem.id.substring(4, elem.id.length)
+            }
             // 设置输入框
             $("#xvalue" + itemId).val(xtmp)
             $("#yvalue" + itemId).val(ytmp - parseInt(horizontal_offset))
@@ -279,7 +284,7 @@
         if (horizontal_offset_val !== '0' && horizontal_offset_val !== void 0) {
             id_b = 'draw_h'
         } else {
-            horizontal_offset_val = 0
+            horizontal_offset_val = '0'
             id_b = 'draw'
         }
         let divstr = $("<div style='width:100%;height:40px;float:left;' id='item" + cnt + "'><div>");
@@ -398,7 +403,7 @@
         // let drawElem = document.getElementById("draw" + cnt)
         // drawElem.style.left = "0px"
         // drawElem.style.top = "0px"
-        // 添加事件
+        // 二维码添加事件
         $("#" + id_b + cnt).bind("dragstart", function (event) {
             oldxposition = event.originalEvent.pageX
             oldyposition = event.originalEvent.pageY
@@ -407,8 +412,8 @@
         $("#" + id_b + cnt).bind("dragend", function (event) {
             let Xoffset = event.originalEvent.pageX - oldxposition
             let Yoffset = event.originalEvent.pageY - oldyposition
-            // let elem = event.target
-            let elem = document.getElementById(id_b + cnt);
+            let elem = event.target
+            // let elem = document.getElementById(id_b + 0);
             let xbd = elem.style.left
             let ybd = elem.style.top
             let xtmp = parseInt(xbd.substring(0, xbd.length - 2))
@@ -418,10 +423,15 @@
             elem.style.top = ytmp + "px"
             elem.style.left = xtmp + "px"
             // 设置控制组内的
-            let itemId = elem.id.substring(4, elem.id.length)
+            let itemId
+            if (qRCode.horizontal_offset !== '0' && qRCode.horizontal_offset !== void 0) {
+                itemId = elem.id.substring(6, elem.id.length)
+            } else {
+                itemId = elem.id.substring(4, elem.id.length)
+            }
             // 设置输入框
             $("#xvalue" + itemId).val(xtmp)
-            $("#yvalue" + itemId).val(ytmp)
+            $("#yvalue" + itemId).val(ytmp - parseInt(horizontal_offset_val))
         })
         $('.draw').css('fontSize', qRCode.font_style_value)
         let text;
@@ -444,6 +454,14 @@
         } else {
             $("#text_y").val(qRCode.textYsituation)
         }
+        //另一份标题
+        if (qRCode.horizontal_offset !== '0' && qRCode.horizontal_offset !== void 0) {
+            let drawItemh_ = $("<span class='pStyle' style='position: absolute;font-size: 21px;font-weight: bold' draggable='true' id='draw_text_h'></span>").text(text);
+            $("#draw").append(drawItemh_);
+            let drawElemh_ = document.getElementById("draw_text_h")
+            drawElemh_.style.left = qRCode.textXsituation + "px"
+            drawElemh_.style.top = parseInt(qRCode.textYsituation) + parseInt(qRCode.horizontal_offset) + "px"
+        }
         //标题
         let drawItem_ = $("<span class='pStyle' style='position: absolute;font-size: 21px;font-weight: bold' draggable='true' id='draw_text'></span>").text(text);
         if (qRCode.horizontal_offset !== '0' && qRCode.horizontal_offset !== void 0) {
@@ -454,16 +472,22 @@
         drawElem_.style.left = qRCode.textXsituation + "px"
         drawElem_.style.top = qRCode.textYsituation + "px"
         // 添加事件
-        $("#draw_text").bind("dragstart", function (event) {
+        let h
+        if (horizontal_offset_val !== '0' && horizontal_offset_val !== void 0) {
+            h = '_h'
+        } else {
+            h = ''
+        }
+        $("#draw_text" + h).bind("dragstart", function (event) {
             oldxposition = event.originalEvent.pageX
             oldyposition = event.originalEvent.pageY
             let targetid = event.target.id
         })
-        $("#draw_text").bind("dragend", function (event) {
+        $("#draw_text" + h).bind("dragend", function (event) {
             let Xoffset = event.originalEvent.pageX - oldxposition
             let Yoffset = event.originalEvent.pageY - oldyposition
             // let elem = event.target
-            let elem = document.getElementById("draw_text");
+            let elem = document.getElementById("draw_text" + h);
             let xbd = elem.style.left
             let ybd = elem.style.top
             let xtmp = parseInt(xbd.substring(0, xbd.length - 2))
@@ -472,24 +496,15 @@
             ytmp = ytmp + Yoffset
             elem.style.top = ytmp + "px"
             elem.style.left = xtmp + "px"
-            // 设置控制组内的
-            let itemId = elem.id.substring(4, elem.id.length)
             // 设置输入框
             $("#text_x").val(xtmp)
-            $("#text_y").val(ytmp)
+            $("#text_y").val(ytmp - parseInt(horizontal_offset_val))
         })
         document.getElementById("text").addEventListener("blur", () => {
             let text = document.getElementById("text").value;
-            document.getElementById("draw_text").innerText = text;
+            document.getElementById("draw_text" + h).innerText = text;
         })
-        //另一份标题
-        if (qRCode.horizontal_offset !== '0' && qRCode.horizontal_offset !== void 0) {
-            let drawItemh_ = $("<span class='pStyle' style='position: absolute;font-size: 21px;font-weight: bold' draggable='true' id='draw_text_h'></span>").text(text);
-            $("#draw").append(drawItemh_);
-            let drawElemh_ = document.getElementById("draw_text_h")
-            drawElemh_.style.left = qRCode.textXsituation + "px"
-            drawElemh_.style.top = parseInt(qRCode.textYsituation) + parseInt(qRCode.horizontal_offset) + "px"
-        }
+
 
         // 将编号写入itemlist中
         itemlist.push(cnt + "")
@@ -528,14 +543,6 @@
                     draw.style.width = res.xsize + "px"
                     $("#xsize").val(res.xsize)
                     $("#ysize").val(res.ysize)
-                    // 设置控制面板二维码数值
-                    $("#xvalue0").val(res.qRCode.xsituation)
-                    $("#yvalue0").val(res.qRCode.ysituation)
-                    $("#qr_wh_value").val(res.qRCode.qr_wh_value)
-                    if (res.qRCode.horizontal_offset === '')
-                        res.qRCode.horizontal_offset = 0
-                    $("#horizontal_offset").val(res.qRCode.horizontal_offset)
-                    $("#font_style_value").val(res.qRCode.font_style_value)
 
                     // 设置二维码内容
                     let valuestmp = document.getElementById("valuesFrom")
@@ -564,7 +571,14 @@
                     for (item of arr) {
                         $("#valuesFrom option[value = " + item + "]").remove();
                     }
-
+                    // 设置控制面板二维码数值
+                    $("#xvalue0").val(res.qRCode.xsituation)
+                    $("#yvalue0").val(res.qRCode.ysituation)
+                    $("#qr_wh_value").val(res.qRCode.qr_wh_value)
+                    if (res.qRCode.horizontal_offset === '')
+                        res.qRCode.horizontal_offset = 0
+                    $("#horizontal_offset").val(res.qRCode.horizontal_offset)
+                    $("#font_style_value").val(res.qRCode.font_style_value)
 
                     // 设置子项
                     for (let i = 0; i < res.items.length; i++) {
@@ -601,7 +615,6 @@
     function set() {
         let bottom = 0
         let width = 0;
-        let item_offsetWidth
         for (let i = 1; i < itemlist.length; i++) {
             let item = document.getElementById("draw" + itemlist[i])
             let offsetHeight = item.offsetHeight
@@ -616,7 +629,6 @@
             //获取单个页面最右端
             if (offsetWidth + left >= width) {
                 width = offsetWidth + left
-                item_offsetWidth = offsetWidth
             }
         }
         let draw0 = document.getElementById("draw0");
@@ -629,7 +641,12 @@
         }
         let draw_text = document.getElementById("draw_text");
         let draw_text_top = parseInt(draw_text.style.top.match(/(\d+)px/)[1])
+        let draw_text_left = parseInt(draw_text.style.left.match(/(\d+)px/)[1])
         let draw_text_offsetHeight = draw_text.offsetHeight
+        let draw_text_offsetWidth = draw_text.offsetWidth
+        if (draw_text_left + draw_text_offsetWidth > width) {
+            width = draw_text_offsetWidth + draw_text_left
+        }
         let text_for_draw0_width = parseInt(draw_text.style.left.match(/(\d+)px/)[1]) - draw0_left //标题与二维码里最左边的距离
         //设置标题选择后的位置水平
         draw_text.style.left = width - text_for_draw0_width - draw_text.offsetWidth + "px"
