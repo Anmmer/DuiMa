@@ -229,7 +229,7 @@
         drawElem.style.top = "0px"
         //另一份新增内容
         if (horizontal_offset !== '0' && horizontal_offset !== void 0) {
-            let drawItemh = $("<span class='pStyle draw '  style='position: absolute;font-size: 10px' draggable='true' id='draw_h" + cnt + "'></span>").text(itemValue + ":" + "TEST");
+            let drawItemh = $("<span class='pStyle draw'  style='position: absolute;font-size: 10px' draggable='true' id='draw_h" + cnt + "'></span>").text(itemValue + ":" + "TEST");
             $("#draw").append(drawItemh);
             let drawElemh = document.getElementById("draw_h" + cnt)
             drawElemh.style.left = "0px"
@@ -597,6 +597,7 @@
                                     let drawtmph = document.getElementById("draw_h" + cnttmp)
                                     drawtmph.style.left = res.items[i].xsituation + "px"
                                     drawtmph.style.top = parseInt(res.items[i].ysituation) + parseInt(res.qRCode.horizontal_offset) + "px"
+                                    drawtmph.style.fontSize = res.qRCode.font_style_value
                                 }
                                 drawtmp.style.fontSize = res.qRCode.font_style_value
                                 $("#xvalue" + cnttmp).val(res.items[i].xsituation)
