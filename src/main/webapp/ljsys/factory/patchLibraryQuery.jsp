@@ -30,7 +30,7 @@
     <div style="width:85%;height:80%;margin:0 auto;">
         <div class="page-header" style="margin-top: 0;margin-bottom: 1%">
             <h3 style="margin-bottom: 0;margin-top: 0"><small>修补库信息</small></h3>
-            <button type="button" style="position: absolute;right: 18%;top:16%" class="btn btn-primary btn-sm"
+            <button type="button" style="position: absolute;right: 18%;top:18%" class="btn btn-primary btn-sm"
                     data-toggle="modal"
                     onclick="inspect()">
                 合格
