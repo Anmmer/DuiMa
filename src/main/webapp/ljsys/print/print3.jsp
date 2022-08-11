@@ -1690,13 +1690,30 @@
             }
         }
         setTimeout(() => {
+                for (let i = 0; i < printsData.length; i++) {
+                    const holder = document.getElementById("draw" + i)
+                    var opts = {
+                        dpi: window.devicePixelRatio * 2,
+                        scale: 1.5,
+                        logging: true,
+                        width: holder.offsetWidth,
+                        height: holder.offsetHeight
+                    };
+                    html2canvas(holder, opts).then(canvas => {
+                        let url = canvas.toDataURL("image/jpg");
+                        let a = document.createElement('a');
+                        a.download = "相城绿建" + Date.now() + ".png";
+                        a.href = url;
+                        a.click();
+                    });
+                }
+            }, 500
+        )
+        setTimeout(() => {
                 $(".gif").css("display", "none");
-                window.print()
                 window.document.body.innerHTML = bdhtml;
                 location.reload();
-                printsData = []
-                QrCode = []
-            }, 500
+            }, 1000
         )
     }
 

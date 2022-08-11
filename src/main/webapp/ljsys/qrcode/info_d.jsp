@@ -89,8 +89,10 @@
         </div>
         <div style="height:100%;width:2px;background-color:cornflowerblue;float: left"></div>
         <div style="height:100%;width:40.5%;top:0;background-color: rgb(224, 221, 221);float: left">
+            <!--startprint-->
             <div id="draw" style="height:600px;width:400px;background-color: white;position:relative;">
             </div>
+            <!--startprint-->
         </div>
     </div>
 </div>
@@ -719,6 +721,17 @@
             }
         })
 
+    }
+
+    function print() {
+        let bdhtml = window.document.body.innerHTML;
+        let sprnstr = "<!--startprint-->";
+        let eprnstr = "<!--endprint-->";
+        let prnhtml = bdhtml.substr(bdhtml.indexOf(sprnstr) + 17);
+        prnhtml = prnhtml.substring(0, prnhtml.indexOf(eprnstr));
+        window.document.body.innerHTML = prnhtml;
+        window.print()
+        window.document.body.innerHTML = bdhtml;
     }
 
     function addContent() {
