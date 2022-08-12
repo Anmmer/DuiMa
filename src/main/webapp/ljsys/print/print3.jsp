@@ -1594,7 +1594,7 @@
         }
         let enditem = $(endStr)
         $("#printArea").append(enditem)
-        setTimeout("printLabels()", 500)
+        printLabels()
     }
 
     function set(j, length, qr_wh_value) {
