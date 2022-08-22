@@ -1694,7 +1694,7 @@
                     const holder = document.getElementById("draw" + i)
                     var opts = {
                         dpi: window.devicePixelRatio * 2,
-                        scale: 1.5,
+                        scale: 2.67,
                         logging: true,
                         width: holder.offsetWidth,
                         height: holder.offsetHeight
@@ -1702,7 +1702,7 @@
                     html2canvas(holder, opts).then(canvas => {
                         let url = canvas.toDataURL("image/jpg");
                         let a = document.createElement('a');
-                        a.download = "相城绿建" + Date.now() + ".png";
+                        a.download = "相城绿建" + printsData[i].materialcode + ".png";
                         a.href = url;
                         a.click();
                     });
