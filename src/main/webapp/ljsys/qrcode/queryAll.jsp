@@ -39,9 +39,10 @@
         <div style="height: 85%">
             <table class="table table-hover" style="text-align: center">
                 <tr>
-                    <td class="tdStyle_title active" style="width: 35%">二维码编号</td>
-                    <td class="tdStyle_title active" style="width: 35%">二维码名称</td>
-                    <td class="tdStyle_title active" style="width: 30%;text-align: center">查看详情</td>
+                    <td class="tdStyle_title active" style="width: 25%">默认二维码</td>
+                    <td class="tdStyle_title active" style="width: 25%">二维码编号</td>
+                    <td class="tdStyle_title active" style="width: 25%">二维码名称</td>
+                    <td class="tdStyle_title active" style="width: 25%;text-align: center">查看详情</td>
                 </tr>
                 <tbody id="tableText">
                 </tbody>
@@ -112,6 +113,8 @@
 </div>
 <!-- 查询所有用户 -->
 <script type="text/javascript">
+    let checked = null;
+
     function reset() {
         $('#newStyleName').val('')
     }
@@ -142,7 +145,8 @@
                 let str = "";
                 let jsonobj = JSON.parse(res.data);
                 for (let i = 0; i < jsonobj.length; i++) {
-                    str += "<tr><td class='tdStyle_body'>" + jsonobj[i]['qrcode_id'] +
+                    str += "<tr><td class='tdStyle_body'><input type='checkbox' id='checkbox_" + jsonobj[i]['qrcode_id'] + "' onchange='setDefaultQc(" + jsonobj[i]['qrcode_id'] + ")'>" +
+                        "</td><td class='tdStyle_body'>" + jsonobj[i]['qrcode_id'] +
                         "</td><td class='tdStyle_body'>" + jsonobj[i]['qrcode_name'] +
                         "</td><td class='tdStyle_body'>";
                     // 查询
@@ -174,6 +178,8 @@
             },
             error: function (message) {
             }
+        }).then(() => {
+            getDefaultQc();
         });
     }
 
@@ -223,7 +229,8 @@
                 let str = "";
                 let jsonobj = JSON.parse(res.data);
                 for (let i = 0; i < jsonobj.length; i++) {
-                    str += "<tr><td class='tdStyle_body'>" + jsonobj[i]['qrcode_id'] +
+                    str += "<tr><td class='tdStyle_body'><input type='checkbox' id='checkbox_" + jsonObj[i]['qrcode_id'] + "' onchange='setDefaultQc(" + jsonObj[i]['qrcode_id'] + ")'>" +
+                        "</td><td class='tdStyle_body'>" + jsonobj[i]['qrcode_id'] +
                         "</td><td class='tdStyle_body'>" + jsonobj[i]['qrcode_name'] +
                         "</td><td class='tdStyle_body'>";
                     // 查询
@@ -240,6 +247,47 @@
             error: function (message) {
             }
         });
+    }
+
+    function getDefaultQc() {
+        $.ajax({
+            url: "${pageContext.request.contextPath}/GetDefaultQc",
+            type: 'post',
+            dataType: 'json',
+            data: {id: 2},
+            contentType: 'application/x-www-form-urlencoded;charset=utf-8',
+            success: function (res) {
+                if (res.data !== undefined) {
+                    checked = res.data[0].id;
+                    $("#checkbox_" + checked).prop("checked", true);
+                }
+            },
+            error: function () {
+                alert("查询失败！")
+            }
+        })
+    }
+
+    function setDefaultQc(id) {
+        if (checked != null) {
+            $("#checkbox_" + checked).prop("checked", false);
+        }
+        checked = id;
+        $.ajax({
+            url: "${pageContext.request.contextPath}/UpdateDefaultQc",
+            type: 'post',
+            dataType: 'json',
+            data: {id: 2, qc_id: id},
+            contentType: 'application/x-www-form-urlencoded;charset=utf-8',
+            success: function (res) {
+                if (res.flag) {
+                    alert(res.message)
+                }
+            },
+            error: function () {
+                alert("查询失败！")
+            }
+        })
     }
 
     function jumpToNewPage1(newPage) {

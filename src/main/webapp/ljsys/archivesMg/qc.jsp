@@ -224,7 +224,7 @@
             url: "${pageContext.request.contextPath}/UpdateDefaultQc",
             type: 'post',
             dataType: 'json',
-            data: {id: id},
+            data: {id: 1, qc_id: id},
             contentType: 'application/x-www-form-urlencoded;charset=utf-8',
             success: function (res) {
                 if (res.flag) {

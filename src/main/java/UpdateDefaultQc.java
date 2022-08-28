@@ -26,14 +26,16 @@ public class UpdateDefaultQc extends HttpServlet {
         resp.setContentType("text/html;charset=UTF-8");
         PrintWriter out = resp.getWriter();
         String id = req.getParameter("id");
+        String qc_id = req.getParameter("qc_id");
         Map<String, Object> result = new HashMap<>();
         Connection con = null;
         PreparedStatement ps = null;
         try {
             con = DbUtil.getCon();
-            String sql = "update default_qc set qc_id = ? where id = 1";
+            String sql = "update default_qc set qc_id = ? where id = ?";
             ps = con.prepareStatement(sql);
-            ps.setInt(1,Integer.parseInt(id));
+            ps.setInt(1,Integer.parseInt(qc_id));
+            ps.setInt(2,Integer.parseInt(id));
             int i = ps.executeUpdate();
             if (i > 0) {
                 result.put("message", "设置成功");

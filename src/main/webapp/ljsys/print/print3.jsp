@@ -510,6 +510,24 @@
         })
     }
 
+    function getDefaultStyle() {
+        $.ajax({
+            url: "${pageContext.request.contextPath}/GetDefaultQc",
+            type: 'post',
+            dataType: 'json',
+            data: {id: 2},
+            contentType: 'application/x-www-form-urlencoded;charset=utf-8',
+            success: function (res) {
+                if (res.data !== undefined) {
+                    let data = res.data;
+                    $('#qrcodestyles').find("option[value=" + data[0].id + "]").attr('selected', true);
+                }
+            },
+            error: function () {
+                alert("查询失败！")
+            }
+        })
+    }
 
     //全选
     $("#plan_checkbok").on("click", function () {
@@ -1340,7 +1358,10 @@
             error: function (message) {
                 (message)
             }
-        })
+        }).then(() => {
+                getDefaultStyle()
+            }
+        )
     }
 
     //检查数据并打印

@@ -27,19 +27,32 @@ public class GetDefaultQc extends HttpServlet {
         resp.setContentType("text/html;charset=UTF-8");
         PrintWriter out = resp.getWriter();
         Map<String, Object> result = new HashMap<>();
+        String id = req.getParameter("id");
         Connection con = null;
         PreparedStatement ps = null;
         try {
             con = DbUtil.getCon();
-            String sql = "select qc,qc.id from default_qc left join qc on default_qc.qc_id = qc.id where default_qc.id = 1";
-            ps = con.prepareStatement(sql);
-            ResultSet rs = ps.executeQuery();
+            String sql1 = "select qc,qc.id from default_qc left join qc on default_qc.qc_id = qc.id where default_qc.id = 1";
+            String sql2 = "select qc_id from default_qc where id = ?";
             List<Map<String, String>> list = new ArrayList<>();
-            while (rs.next()) {
-                Map<String, String> map = new HashMap<>();
-                map.put("qc", rs.getString("qc"));
-                map.put("id", rs.getString("id"));
-                list.add(map);
+            if (id == null) {
+                ps = con.prepareStatement(sql1);
+                ResultSet rs = ps.executeQuery();
+                while (rs.next()) {
+                    Map<String, String> map = new HashMap<>();
+                    map.put("qc", rs.getString("qc"));
+                    map.put("id", rs.getString("id"));
+                    list.add(map);
+                }
+            } else {
+                ps = con.prepareStatement(sql2);
+                ps.setString(1, id);
+                ResultSet rs = ps.executeQuery();
+                while (rs.next()) {
+                    Map<String, String> map = new HashMap<>();
+                    map.put("id", rs.getString("qc_id"));
+                    list.add(map);
+                }
             }
             result.put("data", list);
             out.write(JSON.toJSONString(result));
