@@ -1714,7 +1714,8 @@
                 for (let i = 0; i < printsData.length; i++) {
                     const holder = document.getElementById("draw" + i)
                     var opts = {
-                        dpi: window.devicePixelRatio * 2,
+                        // dpi: window.devicePixelRatio * 2,
+                        dpi:96,
                         scale: 2.67,
                         logging: true,
                         width: holder.offsetWidth,
@@ -1723,7 +1724,7 @@
                     html2canvas(holder, opts).then(canvas => {
                         let url = canvas.toDataURL("image/jpg");
                         let a = document.createElement('a');
-                        a.download = "相城绿建" + printsData[i].materialcode + ".png";
+                        a.download = "相城绿建" + printsData[i].materialcode + ".jpg";
                         a.href = url;
                         a.click();
                     });
