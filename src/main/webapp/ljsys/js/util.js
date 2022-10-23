@@ -95,18 +95,34 @@ function checkAuthority(au) {
 }
 
 function outputWorkbook2(workbook) {
-    var persons = []; // 存储获取到的数据
+    let persons = []; // 存储获取到的数据
+    let data = []
+    let zn_title = ['存货编码', '存货名称', '规格', '图号', '构建类型', '楼栋号', '楼层'];
+    let en_title = ['materialcode', 'materialname', 'standard', 'drawing_no', 'build_type', 'building_no', 'floor_no'];
     // 遍历每张表读取
     // 表格的表格范围，可用于判断表头是否数量是否正确
     var fromTo = '';
     for (var sheet in workbook.Sheets) {
         if (workbook.Sheets.hasOwnProperty(sheet)) {
             fromTo = workbook.Sheets[sheet]['!ref'];
-            (fromTo);
+            // (fromTo);
             persons = persons.concat(XLSX.utils.sheet_to_json(workbook.Sheets[sheet]));
-            // break; // 如果只取第一张表，就取消注释这行
+            break; // 如果只取第一张表，就取消注释这行
         }
     }
-    (persons)
-
+    for (let d of persons) {
+        if (d['构建类型'] == void 0 && d['楼栋号'] == void 0 && d['楼号'] == void 0)
+            break
+        let object = {};
+        for (let i = 0; i < zn_title.length; i++) {
+            let s = zn_title[i]
+            if (d[s] !== undefined) {
+                object[en_title[i]] = d[s];
+            } else {
+                object[en_title[i]] = '';
+            }
+        }
+        data.push(object)
+    }
+    return data
 }

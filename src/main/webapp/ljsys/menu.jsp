@@ -97,6 +97,24 @@
                 $('#qrCode_set_li').css('display', 'none');
                 index++;
             }
+            if (checkAuthority("17")) {
+                $('#fail_content_li').css('display', 'block');
+            } else {
+                $('#fail_content_li').css('display', 'none');
+                index++;
+            }
+            if (checkAuthority("18")) {
+                $('#default_set_li').css('display', 'block');
+            } else {
+                $('#default_set_li').css('display', 'none');
+                index++;
+            }
+            if (checkAuthority("23")) {
+                $('#factory_set_li').css('display', 'block');
+            } else {
+                $('#factory_set_li').css('display', 'none');
+                index++;
+            }
             if (checkAuthority("9")) {
                 $('#plan_name_li').css('display', 'block');
             } else {
@@ -121,8 +139,20 @@
                 $('#plan_qc_li').css('display', 'none');
                 index++;
             }
+            if (checkAuthority("21")) {
+                $('#build_upload_li').css('display', 'block');
+            } else {
+                $('#build_upload_li').css('display', 'none');
+                index++;
+            }
+            if (checkAuthority("22")) {
+                $('#build_query_li').css('display', 'block');
+            } else {
+                $('#build_query_li').css('display', 'none');
+                index++;
+            }
             //权限判断隐藏大节点
-            if (index === 5) {
+            if (index === 10) {
                 $('#equipmentManage').css('display', 'none');
             } else {
                 $('#equipmentManage').css('display', 'block');
@@ -335,6 +365,16 @@
             <li id="plan_qc_li">
                 <button class="li_ItemStyle" id="plan_qc" onclick="jumpTo('archivesQc.jsp','plan_qc')"><span
                         style="margin-left: 15%;margin-right: 5%;" class="glyphicon glyphicon-grain"></span>质检员管理
+                </button>
+            </li>
+            <li id="build_upload_li">
+                <button class="li_ItemStyle" id="build_upload" onclick="jumpTo('archivesBuildUpload.jsp','build_upload')"><span
+                        style="margin-left: 15%;margin-right: 5%;" class="glyphicon glyphicon-grain"></span>构建上传
+                </button>
+            </li>
+            <li id="build_query_li">
+                <button class="li_ItemStyle" id="build_query" onclick="jumpTo('archivesBuildQuery.jsp','build_query')"><span
+                        style="margin-left: 15%;margin-right: 5%;" class="glyphicon glyphicon-grain"></span>构建查询
                 </button>
             </li>
         </ul>

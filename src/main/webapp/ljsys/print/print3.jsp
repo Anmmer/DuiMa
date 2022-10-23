@@ -746,7 +746,7 @@
                             $('#line').val(excelData.plan.line);
                             $('#plantime').val(excelData.plan.plantime);
                             $('#liner').val(excelData.plan.liner);
-                            pop_count = Math.ceil(excelData.preProduct.length / 10);
+                            let pop_count = Math.ceil(excelData.preProduct.length / 10);
                             // 重置查询为第一页
                             pop_pageCur = 1;
                             for (let i = 10 * (pop_pageCur - 1); i < 10 * (pop_pageCur) && i < excelData.preProduct.length; i++) {

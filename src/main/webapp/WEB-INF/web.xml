@@ -727,4 +727,36 @@
         <servlet-name>toView</servlet-name>
         <url-pattern>/ToView</url-pattern>
     </servlet-mapping>
+    <servlet>
+        <servlet-name>addBuildUpload</servlet-name>
+        <servlet-class>AddBuildUpload</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>addBuildUpload</servlet-name>
+        <url-pattern>/AddBuildUpload</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>getBuildNum</servlet-name>
+        <servlet-class>GetBuildNum</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>getBuildNum</servlet-name>
+        <url-pattern>/GetBuildNum</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>getBatchNum</servlet-name>
+        <servlet-class>GetBatchNum</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>getBatchNum</servlet-name>
+        <url-pattern>/GetBatchNum</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>getBatchDetail</servlet-name>
+        <servlet-class>GetBatchDetail</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>getBatchDetail</servlet-name>
+        <url-pattern>/GetBatchDetail</url-pattern>
+    </servlet-mapping>
 </web-app>
