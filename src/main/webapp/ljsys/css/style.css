@@ -38,15 +38,17 @@
 
 .li_ItemStyle {
     width: 100%;
-    height: 35px;
-    line-height: 35px;
+    height: 40px;
+    line-height: 40px;
     list-style: none;
     color: azure;
-    border: none;
+    border-style:solid none none none;
+    border-color: #0f0f0f;
+    border-width:1px;
     font-size: 14px;
     font-family: normal;
-    background-color: rgb(31, 45, 61);
-    text-align:left
+    background-color: rgb(50, 64, 87);
+    text-align: left
 }
 
 /*li:hover {*/
@@ -82,7 +84,7 @@
     position: absolute;
     /*right: 40%;*/
     /*top: 25%;*/
-    left:0;
+    left: 0;
     top: 0;
     bottom: 10%;
     right: 0;
@@ -200,6 +202,7 @@
     line-height: 0;
     color: #303133;
 }
+
 .ant-input-suffix_password {
     position: absolute;
     top: 52%;
