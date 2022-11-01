@@ -12,14 +12,18 @@
     </form>
     <div style="width:85%;height:80%;margin:0 auto;">
         <div class="page-header" style="margin-top: 0;margin-bottom: 1%">
-            <h3 style="margin-bottom: 0;margin-top: 0"><small>项目导入构建数量信息</small></h3>
+            <h3 style="margin-bottom: 0;margin-top: 0"><small>生产情况汇总信息</small></h3>
         </div>
         <div style="height: 85%">
             <table class="table table-hover" style="text-align: center">
                 <tr>
-                    <td class="tdStyle_title active" style="width: 35%">项目信息</td>
-                    <td class="tdStyle_title active" style="width: 35%">数量</td>
-                    <td class="tdStyle_title active" style="width: 30%;text-align: center">详情</td>
+                    <td class="tdStyle_title active" style="width: 15%">项目名称</td>
+                    <td class="tdStyle_title active" style="width: 15%">项目总量</td>
+                    <td class="tdStyle_title active" style="width: 15%;text-align: center">浇捣总量</td>
+                    <td class="tdStyle_title active" style="width: 15%;text-align: center">产成品总量</td>
+                    <td class="tdStyle_title active" style="width: 15%;text-align: center">入库总量</td>
+                    <td class="tdStyle_title active" style="width: 10%;text-align: center">出库总量</td>
+                    <td class="tdStyle_title active" style="width: 5%;text-align: center">操作</td>
                 </tr>
                 <tbody id="archTableText">
                 </tbody>
@@ -76,7 +80,7 @@
             'pageMax': pageMax
         }
         $.ajax({
-            url: "${pageContext.request.contextPath}/GetBuildNum",
+            url: "${pageContext.request.contextPath}/GetProductionSummary",
             type: 'post',
             dataType: 'json',
             data: obj,
@@ -125,10 +129,18 @@
     function updateTable() {
         let str = '';
         for (let i = 0; i < jsonObj.length; i++) {
-            let num = jsonObj[i]['num'] === void 0 ? 0 : jsonObj[i]['num']
+            let plannumber_sum = jsonObj[i]['plannumber_sum'] === void 0 ? '0件/0方量' : jsonObj[i]['plannumber_sum']
+            let pourmade_sum = jsonObj[i]['pourmade_sum'] === void 0 ? '0件/0方量' : jsonObj[i]['pourmade_sum']
+            let inspect_sum = jsonObj[i]['inspect_sum'] === void 0 ? '0件/0方量' : jsonObj[i]['inspect_sum']
+            let stock_in_sum = jsonObj[i]['stock_in_sum'] === void 0 ? '0件/0方量' : jsonObj[i]['stock_in_sum']
+            let stock_out_sum = jsonObj[i]['stock_out_sum'] === void 0 ? '0件/0方量' : jsonObj[i]['stock_out_sum']
             str += "<tr><td class='tdStyle_body'>" + jsonObj[i]['planname'] +
-                "<td class='tdStyle_body'>" + num + "</td>" +
-                "<td class='tdStyle_body'><a href='archivesBacthQuery.jsp?planname=" + jsonObj[i]['planname'] + "'>详情</a></td></tr>";
+                "<td class='tdStyle_body'>" + plannumber_sum + "</td>" +
+                "<td class='tdStyle_body'>" + pourmade_sum + "</td>" +
+                "<td class='tdStyle_body'>" + inspect_sum + "</td>" +
+                "<td class='tdStyle_body'>" + stock_in_sum + "</td>" +
+                "<td class='tdStyle_body'>" + stock_out_sum + "</td>" +
+                "<td class='tdStyle_body'><a href='buildingNoSummaryQueryAll.jsp?planname=" + jsonObj[i]['planname'] + "'>楼栋</a></td></tr>";
         }
         $("#archTableText").html(str);
     }
@@ -140,7 +152,7 @@
             'pageMax': pageMax
         }
         $.ajax({
-            url: "${pageContext.request.contextPath}/GetBuildNum",
+            url: "${pageContext.request.contextPath}/GetProductionSummary",
             type: 'post',
             dataType: 'json',
             data: obj,
@@ -183,7 +195,7 @@
             'pageMax': 10
         }
         $.ajax({
-            url: "${pageContext.request.contextPath}/GetBuildNum",
+            url: "${pageContext.request.contextPath}/GetProductionSummary",
             type: 'post',
             dataType: 'json',
             data: obj,
@@ -223,7 +235,7 @@
             'pageMax': 10
         }
         $.ajax({
-            url: "${pageContext.request.contextPath}/GetBuildNum",
+            url: "${pageContext.request.contextPath}/GetProductionSummary",
             type: 'post',
             dataType: 'json',
             data: obj,
@@ -260,7 +272,7 @@
             'pageMax': 10
         }
         $.ajax({
-            url: "${pageContext.request.contextPath}/GetBuildNum",
+            url: "${pageContext.request.contextPath}/GetProductionSummary",
             type: 'post',
             dataType: 'json',
             data: obj,
