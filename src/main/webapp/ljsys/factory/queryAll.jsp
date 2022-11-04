@@ -14,7 +14,7 @@
     }
 </script>
 <div style="height: 100%;width:100%;background-color:white;">
-    <form name="query" class="form-inline" style="width:70%;height:15%;margin-left: 14%;padding-top:2%">
+    <form name="query" class="form-inline" style="width:85%;height:15%;margin-left: 8%;padding-top:2%">
         <div class="form-group">
             <label>仓库编号：</label><input type="text" name="factoryId"
                                        style="height:10%;" class="form-control">
@@ -28,7 +28,7 @@
             查 询
         </button>
     </form>
-    <div style="width:70%;height:80%;margin:0 auto;">
+    <div style="width:85%;height:80%;margin:0 auto;">
         <div class="page-header" style="margin-top: 0;margin-bottom: 1%">
             <h3 style="margin-bottom: 0;margin-top: 0"><small>仓库信息</small></h3>
 <%--            <button type="button" style="position: absolute;right: 15%;top:15%" class="btn btn-primary btn-sm"--%>
@@ -49,7 +49,7 @@
                 </tbody>
             </table>
         </div>
-        <nav aria-label="Page navigation" style="margin-left:40%;width:80%;height:10%;">
+        <nav aria-label="Page navigation" style="margin-left:35%;width:70%;height:10%;">
             <ul class="pagination" style="margin-top: 0;width: 70%">
                 <li><span id="total" style="width: 22%"></span></li>
                 <li>

@@ -280,9 +280,14 @@
             </button>
         </li>
         <ul class="ul_ListStyle" style="display: none;" id="Factory">
+            <li id="factory_qrcode_query_li">
+                <button class="li_ItemStyle" id="factory_qrcode_query" onclick="jumpTo('factoryQrcodeQueryAll.jsp','factory_qrcode_query')">
+                    <span style="margin-left: 15%;margin-right: 5%;" class="glyphicon glyphicon-grain"></span>堆场展码
+                </button>
+            </li>
             <li id="factory_query_li">
                 <button class="li_ItemStyle" id="factory_query" onclick="jumpTo('factoryQueryAll.jsp','factory_query')">
-                    <span style="margin-left: 15%;margin-right: 5%;" class="glyphicon glyphicon-grain"></span>仓库信息查询
+                    <span style="margin-left: 15%;margin-right: 5%;" class="glyphicon glyphicon-grain"></span>堆场查询
                 </button>
             </li>
             <li id="patch_library_query_li">
