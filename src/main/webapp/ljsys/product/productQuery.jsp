@@ -2,7 +2,7 @@
 <div style="height: 95%;width: 100%">
     <form name="query" class="form-inline" style="width:85%;height:15%;margin-left: 8%;padding-top:2%">
         <div class="form-group" style="width: 100%;">
-            <label for="planname" style="margin-left: 2%">项目名称：</label>
+            <label for="planname" >项目名称：</label>
             <input id="planname" class="form-control" style="width: 13%;height:10%;">
             <label for="materialcode" style="margin-left: 2%">物料编号：</label>
             <input id="materialcode" class="form-control" style="width: 13%;height:10%;">
@@ -18,7 +18,7 @@
             </button>
         </div>
     </form>
-    <div style="width:80%;height:80%;margin:0 auto;">
+    <div style="width:85%;height:80%;margin:0 auto;">
         <div class="page-header" style="margin-top: 0;margin-bottom: 1%">
             <h3 style="margin-bottom: 0;margin-top: 0"><small>生产计划信息</small></h3>
         </div>

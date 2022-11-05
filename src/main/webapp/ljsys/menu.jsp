@@ -139,20 +139,9 @@
                 $('#plan_qc_li').css('display', 'none');
                 index++;
             }
-            if (checkAuthority("21")) {
-                $('#build_upload_li').css('display', 'block');
-            } else {
-                $('#build_upload_li').css('display', 'none');
-                index++;
-            }
-            if (checkAuthority("22")) {
-                $('#build_query_li').css('display', 'block');
-            } else {
-                $('#build_query_li').css('display', 'none');
-                index++;
-            }
+
             //权限判断隐藏大节点
-            if (index === 10) {
+            if (index === 8) {
                 $('#equipmentManage').css('display', 'none');
             } else {
                 $('#equipmentManage').css('display', 'block');
@@ -191,8 +180,32 @@
                 $('#inspect_set_li').css('display', 'none');
                 index++;
             }
+            if (checkAuthority("19")) {
+                $('#test_set_li').css('display', 'block');
+            } else {
+                $('#test_set_li').css('display', 'none');
+                index++;
+            }
+            if (checkAuthority("21")) {
+                $('#build_upload_li').css('display', 'block');
+            } else {
+                $('#build_upload_li').css('display', 'none');
+                index++;
+            }
+            if (checkAuthority("22")) {
+                $('#build_query_li').css('display', 'block');
+            } else {
+                $('#build_query_li').css('display', 'none');
+                index++;
+            }
+            if (checkAuthority("24")) {
+                $('#production_summary_li').css('display', 'block');
+            } else {
+                $('#production_summary_li').css('display', 'none');
+                index++;
+            }
             //权限判断隐藏大节点
-            if (index === 3) {
+            if (index === 7) {
                 $('#productManage').css('display', 'none');
             } else {
                 $('#productManage').css('display', 'block');
@@ -267,13 +280,19 @@
             </button>
         </li>
         <ul class="ul_ListStyle" style="display: none;" id="Factory">
+            <li id="factory_qrcode_query_li">
+                <button class="li_ItemStyle" id="factory_qrcode_query" onclick="jumpTo('factoryQrcodeQueryAll.jsp','factory_qrcode_query')">
+                    <span style="margin-left: 15%;margin-right: 5%;" class="glyphicon glyphicon-grain"></span>堆场展码
+                </button>
+            </li>
             <li id="factory_query_li">
                 <button class="li_ItemStyle" id="factory_query" onclick="jumpTo('factoryQueryAll.jsp','factory_query')">
-                    <span style="margin-left: 15%;margin-right: 5%;" class="glyphicon glyphicon-grain"></span>仓库信息查询
+                    <span style="margin-left: 15%;margin-right: 5%;" class="glyphicon glyphicon-grain"></span>堆场查询
                 </button>
             </li>
             <li id="patch_library_query_li">
-                <button class="li_ItemStyle" id="patch_library_query" onclick="jumpTo('patchLibraryQueryAll.jsp','patch_library_query')">
+                <button class="li_ItemStyle" id="patch_library_query"
+                        onclick="jumpTo('patchLibraryQueryAll.jsp','patch_library_query')">
                     <span style="margin-left: 15%;margin-right: 5%;" class="glyphicon glyphicon-grain"></span>修补库查询
                 </button>
             </li>
@@ -308,8 +327,27 @@
                 </button>
             </li>
             <li id="inspect_set_li">
-                <button class="li_ItemStyle" id="inspect_set" onclick="jumpTo('inspectQueryAll.jsp','inspect_set')"><span
+                <button class="li_ItemStyle" id="inspect_set"
+                        onclick="jumpTo('inspectQueryAll.jsp','inspect_set')"><span
                         style="margin-left: 15%;margin-right: 5%;" class="glyphicon glyphicon-grain"></span>质检
+                </button>
+            </li>
+            <li id="build_upload_li">
+                <button class="li_ItemStyle" id="build_upload"
+                        onclick="jumpTo('archivesBuildUpload.jsp','build_upload')"><span
+                        style="margin-left: 15%;margin-right: 5%;" class="glyphicon glyphicon-grain"></span>构建上传
+                </button>
+            </li>
+            <li id="build_query_li">
+                <button class="li_ItemStyle" id="build_query"
+                        onclick="jumpTo('archivesBuildQuery.jsp','build_query')"><span
+                        style="margin-left: 15%;margin-right: 5%;" class="glyphicon glyphicon-grain"></span>构建查询
+                </button>
+            </li>
+            <li id="production_summary_li">
+                <button class="li_ItemStyle" id="production_summary"
+                        onclick="jumpTo('productionSummaryQueryAll.jsp','production_summary')"><span
+                        style="margin-left: 15%;margin-right: 5%;" class="glyphicon glyphicon-grain"></span>生产查询汇总
                 </button>
             </li>
         </ul>
@@ -333,17 +371,19 @@
                 </button>
             </li>
             <li id="fail_content_li">
-                <button class="li_ItemStyle" id="fail_content" onclick="jumpTo('failContentQueryAll.jsp','fail_content')"><span
+                <button class="li_ItemStyle" id="fail_content"
+                        onclick="jumpTo('failContentQueryAll.jsp','fail_content')"><span
                         style="margin-left: 15%;margin-right: 5%;" class="glyphicon glyphicon-grain"></span>质检缺陷目录维护
                 </button>
             </li>
-            <li  id="default_set_li">
+            <li id="default_set_li">
                 <button class="li_ItemStyle" id="default_set" onclick="jumpTo('archivesSet.jsp','default_set')"><span
                         style="margin-left: 15%;margin-right: 5%;" class="glyphicon glyphicon-grain"></span>系统设置
                 </button>
             </li>
             <li id="factory_set_li">
-                <button class="li_ItemStyle" id="factory_set" onclick="jumpTo('archivesFactory.jsp','factory_set')"><span
+                <button class="li_ItemStyle" id="factory_set"
+                        onclick="jumpTo('archivesFactory.jsp','factory_set')"><span
                         style="margin-left: 15%;margin-right: 5%;" class="glyphicon glyphicon-grain"></span>仓库管理
                 </button>
             </li>
@@ -365,16 +405,6 @@
             <li id="plan_qc_li">
                 <button class="li_ItemStyle" id="plan_qc" onclick="jumpTo('archivesQc.jsp','plan_qc')"><span
                         style="margin-left: 15%;margin-right: 5%;" class="glyphicon glyphicon-grain"></span>质检员管理
-                </button>
-            </li>
-            <li id="build_upload_li">
-                <button class="li_ItemStyle" id="build_upload" onclick="jumpTo('archivesBuildUpload.jsp','build_upload')"><span
-                        style="margin-left: 15%;margin-right: 5%;" class="glyphicon glyphicon-grain"></span>构建上传
-                </button>
-            </li>
-            <li id="build_query_li">
-                <button class="li_ItemStyle" id="build_query" onclick="jumpTo('archivesBuildQuery.jsp','build_query')"><span
-                        style="margin-left: 15%;margin-right: 5%;" class="glyphicon glyphicon-grain"></span>构建查询
                 </button>
             </li>
         </ul>

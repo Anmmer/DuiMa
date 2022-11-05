@@ -1,9 +1,19 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <div style="height: 100%;width: 100%">
+    <button onclick="returnLastPage()" style="position: absolute;left: 5%;top: 4%" class="btn btn-primary btn-sm">返回
+    </button>
     <form name="query" class="form-inline" style="width:85%;height:10%;margin-left: 8%;padding-top:2%">
         <div class="form-group">
             <label>项目名称：</label><input type="text" name="query_planname" id="query_planname"
-                                       style="" class="form-control">
+                                       disabled class="form-control">
+        </div>
+        <div class="form-group">
+            <label>楼栋：</label><input type="text" name="query_planname" id="query_build_no"
+                                     disabled class="form-control">
+        </div>
+        <div class="form-group">
+            <label>楼层：</label><input type="text" name="query_floor_no" id="query_floor_no"
+                                     disabled class="form-control">
         </div>
         <button type="button" class="btn btn-primary btn-sm" style="margin-left: 5%"
                 onclick="getTableData(1)">
@@ -12,14 +22,18 @@
     </form>
     <div style="width:85%;height:80%;margin:0 auto;">
         <div class="page-header" style="margin-top: 0;margin-bottom: 1%">
-            <h3 style="margin-bottom: 0;margin-top: 0"><small>项目导入构建数量信息</small></h3>
+            <h3 style="margin-bottom: 0;margin-top: 0"><small>生产情况汇总信息</small></h3>
         </div>
         <div style="height: 85%">
             <table class="table table-hover" style="text-align: center">
                 <tr>
-                    <td class="tdStyle_title active" style="width: 35%">项目信息</td>
-                    <td class="tdStyle_title active" style="width: 35%">数量</td>
-                    <td class="tdStyle_title active" style="width: 30%;text-align: center">详情</td>
+                    <td class="tdStyle_title active" style="width: 15%">楼栋名称</td>
+                    <td class="tdStyle_title active" style="width: 15%">楼栋总量</td>
+                    <td class="tdStyle_title active" style="width: 15%;text-align: center">浇捣总量</td>
+                    <td class="tdStyle_title active" style="width: 15%;text-align: center">产成品总量</td>
+                    <td class="tdStyle_title active" style="width: 15%;text-align: center">入库总量</td>
+                    <td class="tdStyle_title active" style="width: 10%;text-align: center">出库总量</td>
+                    <td class="tdStyle_title active" style="width: 5%;text-align: center">操作</td>
                 </tr>
                 <tbody id="archTableText">
                 </tbody>
@@ -63,26 +77,37 @@
     let pageCur = 1;    //分页当前页
     let pageAll = 1;
     let pageMax = 10;   //一页多少条数据
-    let planname_old = null;
+    let planname = null;
+    let build_no = null;
 
     window.onload = getTableData(1);
 
 
+    function returnLastPage() {
+        window.history.go(-1);
+    }
+
     function getTableData(newPage) {
-        let query_planname = $('#query_planname').val();
+        planname = decodeURIComponent(getQueryVariable('planname'))
+        build_no = decodeURIComponent(getQueryVariable('build_no'))
+        $('#query_planname').val(planname);
+        $('#query_build_no').val(build_no);
+        let floor_no = $('#query_floor_no').val()
         let obj = {
-            'planname': query_planname,
+            'planname': planname,
+            buildingNo: build_no,
+            floorNo: floor_no,
             'pageCur': newPage,
             'pageMax': pageMax
         }
         $.ajax({
-            url: "${pageContext.request.contextPath}/GetBuildNum",
+            url: "${pageContext.request.contextPath}/GetBuildingNoSummary",
             type: 'post',
             dataType: 'json',
             data: obj,
             contentType: 'application/x-www-form-urlencoded;charset=utf-8',
             success: function (res) {
-                if (res.data.length !== 0) {
+                if (res != undefined) {
                     jsonObj = res.data;
                     updateTable();
                     $('#total').html(res.cnt + "条，共" + res.pageAll + "页");
@@ -125,35 +150,20 @@
     function updateTable() {
         let str = '';
         for (let i = 0; i < jsonObj.length; i++) {
-            let num = jsonObj[i]['num'] === void 0 ? 0 : jsonObj[i]['num']
-            str += "<tr><td class='tdStyle_body'>" + jsonObj[i]['planname'] +
-                "<td class='tdStyle_body'>" + num + "</td>" +
-                "<td class='tdStyle_body'><a href='archivesBacthQuery.jsp?planname=" + jsonObj[i]['planname'] + "'>详情</a></td></tr>";
+            let floor_no_sum = jsonObj[i]['floor_no_sum'] === void 0 ? '0件/0方量' : jsonObj[i]['floor_no_sum']
+            let pourmade_sum = jsonObj[i]['pourmade_sum'] === void 0 ? '0件/0方量' : jsonObj[i]['pourmade_sum']
+            let inspect_sum = jsonObj[i]['inspect_sum'] === void 0 ? '0件/0方量' : jsonObj[i]['inspect_sum']
+            let stock_in_sum = jsonObj[i]['stock_in_sum'] === void 0 ? '0件/0方量' : jsonObj[i]['stock_in_sum']
+            let stock_out_sum = jsonObj[i]['stock_out_sum'] === void 0 ? '0件/0方量' : jsonObj[i]['stock_out_sum']
+            str += "<tr><td class='tdStyle_body'>" + jsonObj[i]['floor_no'] +
+                "<td class='tdStyle_body'>" + floor_no_sum + "</td>" +
+                "<td class='tdStyle_body'>" + pourmade_sum + "</td>" +
+                "<td class='tdStyle_body'>" + inspect_sum + "</td>" +
+                "<td class='tdStyle_body'>" + stock_in_sum + "</td>" +
+                "<td class='tdStyle_body'>" + stock_out_sum + "</td>" +
+                "<td class='tdStyle_body'><a href='floorNoSummaryQuery.jsp?planname=" + jsonObj[i]['planname'] + "&building_no=" + jsonObj[i]['building_no'] + "&floor_no=" + jsonObj[i]['floor_no'] + "'>楼层</a></td></tr>";
         }
         $("#archTableText").html(str);
-    }
-
-    function queryData(id) {
-        let obj = {
-            'id': id,
-            'pageCur': 1,
-            'pageMax': pageMax
-        }
-        $.ajax({
-            url: "${pageContext.request.contextPath}/GetBuildNum",
-            type: 'post',
-            dataType: 'json',
-            data: obj,
-            contentType: 'application/x-www-form-urlencoded;charset=utf-8',
-            success: function (res) {
-                if (res.data.length !== 0) {
-                    $('#pop_planname').val(res.data[0].planname);
-                }
-            },
-            error: function () {
-                alert("查询失败！")
-            }
-        })
     }
 
 
@@ -176,14 +186,16 @@
                 newPage = pageCur + 1;
             }
         }
-        let query_planname = $('#query_planname').val();
+        let floor_no = $('#query_floor_no').val()
         let obj = {
-            'planname': query_planname,
+            'planname': planname,
+            buildingNo: build_no,
+            floorNo: floor_no,
             'pageCur': newPage,
-            'pageMax': 10
+            'pageMax': pageMax
         }
         $.ajax({
-            url: "${pageContext.request.contextPath}/GetBuildNum",
+            url: "${pageContext.request.contextPath}/GetBuildingNoSummary",
             type: 'post',
             dataType: 'json',
             data: obj,
@@ -216,14 +228,16 @@
     }
 
     function jumpToNewPage1(newPage) {
-        let query_planname = $('#query_planname').val();
+        let floor_no = $('#query_floor_no').val()
         let obj = {
-            'planname': query_planname,
+            'planname': planname,
+            buildingNo: build_no,
+            floorNo: floor_no,
             'pageCur': newPage,
-            'pageMax': 10
+            'pageMax': pageMax
         }
         $.ajax({
-            url: "${pageContext.request.contextPath}/GetBuildNum",
+            url: "${pageContext.request.contextPath}/GetBuildingNoSummary",
             type: 'post',
             dataType: 'json',
             data: obj,
@@ -249,18 +263,20 @@
     }
 
     function jumpToNewPage2() {
-        let query_planname = $('#query_planname').val();
         var newPage = $('#jump_to').val();
         if (newPage > pageAll) {
             alert("超过最大页数")
         }
+        let floor_no = $('#query_floor_no').val()
         let obj = {
-            'planname': query_planname,
+            'planname': planname,
+            buildingNo: build_no,
+            floorNo: floor_no,
             'pageCur': newPage,
-            'pageMax': 10
+            'pageMax': pageMax
         }
         $.ajax({
-            url: "${pageContext.request.contextPath}/GetBuildNum",
+            url: "${pageContext.request.contextPath}/GetBuildingNoSummary",
             type: 'post',
             dataType: 'json',
             data: obj,

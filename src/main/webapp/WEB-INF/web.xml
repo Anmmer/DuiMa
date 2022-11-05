@@ -759,4 +759,20 @@
         <servlet-name>getBatchDetail</servlet-name>
         <url-pattern>/GetBatchDetail</url-pattern>
     </servlet-mapping>
+    <servlet>
+        <servlet-name>getProductionSummary</servlet-name>
+        <servlet-class>GetProductionSummary</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>getProductionSummary</servlet-name>
+        <url-pattern>/GetProductionSummary</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>getBuildingNoSummary</servlet-name>
+        <servlet-class>GetBuildingNoSummary</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>getBuildingNoSummary</servlet-name>
+        <url-pattern>/GetBuildingNoSummary</url-pattern>
+    </servlet-mapping>
 </web-app>

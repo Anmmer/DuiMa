@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <div style="height: 95%;width: 100%;">
-    <form class="form-inline" style="width:70%;margin: 0 auto;height:15%;padding-top:2%">
+    <form class="form-inline" style="width:85%;margin: 0 auto;height:15%;padding-top:2%">
         <div class="form-group" style="width: 30%">
             <label for="excel-file">文件上传</label>
             <input type="file" id="excel-file"
@@ -12,7 +12,7 @@
                                                                               style="width: 50%;">
         </div>
     </form>
-    <div style="width:70%;height: 75%;margin: 0 auto;">
+    <div style="width:85%;height: 75%;margin: 0 auto;">
         <div class="page-header" style="margin-top: 0;margin-bottom: 1%">
             <h3 style="margin-bottom: 0;margin-top: 0" id="inputDetail"><small>导入预览</small></h3>
         </div>
@@ -30,7 +30,7 @@
             </tbody>
         </table>
     </div>
-    <nav aria-label="Page navigation" style="margin-left:40%;width:55%;height:8%;" id="page">
+    <nav aria-label="Page navigation" style="margin-left:30%;width:70%;height:10%;" id="page">
         <ul class="pagination" style="margin-top: 0;width: 70%">
             <li><span id="total_d" style="width: 22%">0条，共0页</span></li>
             <li>

@@ -1,7 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <div style="height: 100%;width: 100%">
-    <button onclick="returnLastPage()" style="position: absolute;left: 10%;top: 4%" class="btn btn-primary btn-sm">返回
-    </button>
+    <button onclick="returnLastPage()" style="position: absolute;left: 10%;top: 4%" class="btn btn-primary btn-sm">返回</button>
     <form name="query" class="form-inline" style="width:70%;height:10%;margin-left: 14%;padding-top:2%">
         <div class="form-group">
             <label>项目名称：</label><input type="text" name="query_planname" disabled id="query_planname"
