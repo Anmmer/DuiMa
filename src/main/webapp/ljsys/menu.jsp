@@ -212,7 +212,7 @@
                 <div style="float: left;margin-left: 10%;width: 80%;text-align: left"><span style="margin-right: 5%;"
                                                                                             class="glyphicon glyphicon-tree-conifer"></span>用户管理
                 </div>
-                <span id="user_icon" style="float: right;margin-top: 7%;color: #909399;font-size: 12px" class="glyphicon glyphicon-menu-left"></span>
+                <span id="user_icon" style="float: right;margin-top: 6%;color: #909399;font-size: 12px" class="glyphicon glyphicon-menu-left"></span>
             </button>
         </li>
         <ul class="ul_ListStyle" style="display: none;" id="User">
@@ -242,7 +242,7 @@
                       class="glyphicon glyphicon-tree-conifer"></span>权限管理
                 </div>
                 <span id="group_icon"
-                      style="float: right;margin-top: 7%;color: #909399;font-size: 12px"
+                      style="float: right;margin-top: 6%;color: #909399;font-size: 12px"
                       class="glyphicon glyphicon-menu-left"></span>
             </button>
         </li>
@@ -262,7 +262,7 @@
                 <span style="margin-right: 5%;"
                       class="glyphicon glyphicon-tree-conifer"></span>库存管理
                 </div>
-                <span id="factory_icon" style="float: right;margin-top: 7%;color: #909399;font-size: 12px"
+                <span id="factory_icon" style="float: right;margin-top: 6%;color: #909399;font-size: 12px"
                       class="glyphicon glyphicon-menu-left"></span>
             </button>
         </li>
@@ -287,7 +287,7 @@
                 <span style="margin-right: 5%;"
                       class="glyphicon glyphicon-tree-conifer"></span>生产管理
                 </div>
-                <span id="product_icon" style="float: right;margin-top: 7%;color: #909399;font-size: 12px"
+                <span id="product_icon" style="float: right;margin-top: 6%;color: #909399;font-size: 12px"
                       class="glyphicon glyphicon-menu-left"></span>
             </button>
         </li>
@@ -322,7 +322,7 @@
                 <span style="margin-right: 5%;"
                       class="glyphicon glyphicon-tree-conifer"></span>基础档案管理
                 </div>
-                <span id="equipment_icon" style="float: right;margin-top: 7%;color: #909399;font-size: 12px"
+                <span id="equipment_icon" style="float: right;margin-top: 6%;color: #909399;font-size: 12px"
                       class="glyphicon glyphicon-menu-left"></span>
             </button>
         </li>
@@ -387,7 +387,7 @@
                 <span style="margin-right: 5%;"
                       class="glyphicon glyphicon-tree-conifer"></span>打印管理
                 </div>
-                <span id="rqCode_icon" style="float: right;margin-top: 7%;color: #909399;font-size: 12px" class="glyphicon glyphicon-menu-left"></span>
+                <span id="rqCode_icon" style="float: right;margin-top: 6%;color: #909399;font-size: 12px" class="glyphicon glyphicon-menu-left"></span>
             </button>
         </li>
         <ul class="ul_ListStyle" style="display: none;" id="rqCode">

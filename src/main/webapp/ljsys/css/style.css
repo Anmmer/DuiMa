@@ -42,9 +42,7 @@
     line-height: 40px;
     list-style: none;
     color: azure;
-    border-style:solid none none none;
-    border-color: #0f0f0f;
-    border-width:1px;
+    border: none;
     font-size: 14px;
     font-family: normal;
     background-color: rgb(50, 64, 87);
