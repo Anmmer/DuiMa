@@ -775,4 +775,28 @@
         <servlet-name>getBuildingNoSummary</servlet-name>
         <url-pattern>/GetBuildingNoSummary</url-pattern>
     </servlet-mapping>
+    <servlet>
+        <servlet-name>getFactory</servlet-name>
+        <servlet-class>GetFactory</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>getFactory</servlet-name>
+        <url-pattern>/GetFactory</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>updateFactory</servlet-name>
+        <servlet-class>UpdateFactory</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>updateFactory</servlet-name>
+        <url-pattern>/UpdateFactory</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>deleteFactory</servlet-name>
+        <servlet-class>DeleteFactory</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>deleteFactory</servlet-name>
+        <url-pattern>/DeleteFactory</url-pattern>
+    </servlet-mapping>
 </web-app>
