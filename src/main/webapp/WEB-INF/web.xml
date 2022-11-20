@@ -776,6 +776,22 @@
         <url-pattern>/GetBuildingNoSummary</url-pattern>
     </servlet-mapping>
     <servlet>
+        <servlet-name>getFloorNoSummary</servlet-name>
+        <servlet-class>GetFloorNoSummary</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>getFloorNoSummary</servlet-name>
+        <url-pattern>/GetFloorNoSummary</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>getFloorNoDetail</servlet-name>
+        <servlet-class>GetFloorNoDetail</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>getFloorNoDetail</servlet-name>
+        <url-pattern>/GetFloorNoDetail</url-pattern>
+    </servlet-mapping>
+    <servlet>
         <servlet-name>getFactory</servlet-name>
         <servlet-class>GetFactory</servlet-class>
     </servlet>

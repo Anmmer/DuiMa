@@ -41,18 +41,22 @@ public class GetLine extends HttpServlet {
         PreparedStatement ps = null;
         PreparedStatement ps2 = null;
         int i = 0;
+        int j = 0;
         try {
             con = DbUtil.getCon();
             String sql = "select line,id from line where isdelete = 0";
             String sql2 = "select count(*) as num from line where isdelete = 0";
             if (id != null && !"".equals(id)) {
                 sql += " and id = ?";
+                sql2 += " and id = ?";
                 i++;
             }
             if (line != null && !"".equals(line)) {
                 sql += " and line = ?";
+                sql2 += " and line = ?";
                 i++;
             }
+            j = i;
             sql += " limit ?,?";
             i += 2;
             ps = con.prepareStatement(sql);
@@ -65,6 +69,12 @@ public class GetLine extends HttpServlet {
                 ps.setInt(i, Integer.parseInt(id));
             }
             ps2 = con.prepareStatement(sql2);
+            if (line != null && !"".equals(line)) {
+                ps2.setString(j--, line);
+            }
+            if (id != null && !"".equals(id)) {
+                ps2.setInt(j, Integer.parseInt(id));
+            }
             ResultSet rs2 = ps2.executeQuery();
             while (rs2.next()) {
                 int num = rs2.getInt("num");

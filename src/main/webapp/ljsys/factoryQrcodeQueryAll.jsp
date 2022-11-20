@@ -9,6 +9,8 @@
     <script type="text/javascript" src="./js/jquery-3.3.1.min.js"></script>
     <script type="text/javascript" src="dist/js/bootstrap.js"></script>
     <script type="text/javascript" src="./js/util.js"></script>
+    <script type="text/javascript" src="js/jquery.qrcode.js"></script>
+    <script type="text/javascript" src="js/utf.js"></script>
 </head>
 <body class="BodyStyle">
 <!-- 内容窗口 -->

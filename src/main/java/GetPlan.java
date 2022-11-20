@@ -195,12 +195,6 @@ public class GetPlan extends HttpServlet {
             ResultSet rs2 = ps2.executeQuery();
             while (rs2.next()) {
                 int num = rs2.getInt("num");
-                int res_num;
-                if (num % pageMax == 0) {
-                    res_num = num / pageMax;
-                } else {
-                    res_num = num / pageMax + 1;
-                }
                 data.put("cnt", num);
                 data.put("pageAll", Math.ceil((double) num / pageMax));
             }

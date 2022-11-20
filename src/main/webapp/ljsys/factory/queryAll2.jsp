@@ -14,20 +14,20 @@
     }
 </script>
 <div style="height: 100%;width:100%;background-color:white;">
-    <form name="query" class="form-inline" style="width:85%;height:15%;margin-left: 8%;padding-top:2%">
+    <form name="query" class="form-inline" style="width:85%;height:18%;margin-left: 8%;padding-top:2%">
         <div class="form-group">
             <label>堆场名称：</label><input type="text" id="factoryName"
                                        style="height:10%;" class="form-control">
         </div>
-        <div class="form-group" style="margin-left:5%;">
+        <div class="form-group" style="margin-left:3%;">
             <label>项目：</label><input type="text" id="planName"
                                      style="height:10%;" class="form-control">
         </div>
-        <div class="form-group" style="margin-left:5%;">
+        <div class="form-group" style="margin-left:3%;">
             <label>楼栋：</label><input type="text" id="buildNo"
                                      style="height:10%;" class="form-control">
         </div>
-        <div class="form-group" style="margin-left:5%;">
+        <div class="form-group" style="margin-left:3%;">
             <label>楼层：</label><input type="text" id="floorNo"
                                      style="height:10%;" class="form-control">
         </div>
@@ -36,11 +36,11 @@
             <label>物料编码：</label><input type="text" id="materialCode"
                                        style="height:10%;" class="form-control">
         </div>
-        <div class="form-group" style="margin-left:5%;">
+        <div class="form-group" style="margin-left:3%;">
             <label>构件类型：</label><input type="text" id="buildType"
                                        style="height:10%;" class="form-control">
         </div>
-        <div class="form-group" style="margin-left:5%;">
+        <div class="form-group" style="margin-left:3%;">
             <label>图号：</label><input type="text" id="drawNo"
                                      style="height:10%;" class="form-control">
         </div>
@@ -49,7 +49,7 @@
             查 询
         </button>
     </form>
-    <div style="width:85%;height:80%;margin:0 auto;">
+    <div style="width:85%;height:78%;margin:0 auto;">
         <div class="page-header" style="margin-top: 0;margin-bottom: 1%">
             <h3 style="margin-bottom: 0;margin-top: 0"><small>仓库信息</small></h3>
             <%--            <button type="button" style="position: absolute;right: 15%;top:15%" class="btn btn-primary btn-sm"--%>
@@ -160,7 +160,7 @@
                 pageMax: pageMax
             }
             $.ajax({
-                url: "${pageContext.request.contextPath}/GetYard",
+                url: "${pageContext.request.contextPath}/GetWarehouseInfo",
                 type: 'post',
                 dataType: 'json',
                 data: obj,
@@ -253,7 +253,7 @@
                 pageMax: pageMax
             }
             $.ajax({
-                url: "${pageContext.request.contextPath}/GetYard",
+                url: "${pageContext.request.contextPath}/GetWarehouseInfo",
                 type: 'post',
                 dataType: 'json',
                 data: obj,
@@ -298,7 +298,7 @@
                 pageMax: pageMax
             }
             $.ajax({
-                url: "${pageContext.request.contextPath}/GetYard",
+                url: "${pageContext.request.contextPath}/GetWarehouseInfo",
                 type: 'post',
                 dataType: 'json',
                 data: obj,
@@ -343,7 +343,7 @@
                 pageMax: pageMax
             }
             $.ajax({
-                url: "${pageContext.request.contextPath}/GetYard",
+                url: "${pageContext.request.contextPath}/GetWarehouseInfo",
                 type: 'post',
                 dataType: 'json',
                 data: obj,
