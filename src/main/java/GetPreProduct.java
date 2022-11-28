@@ -38,6 +38,7 @@ public class GetPreProduct extends HttpServlet {
         String on_or_off = req.getParameter("on_or_off");
         String pourState = req.getParameter("pourState");
         String inspectState = req.getParameter("inspectState");
+        String stockStatus = req.getParameter("stockStatus");
         String testState = req.getParameter("testState");
         String covert_test_user = req.getParameter("covert_test_user");
         String covert_test_startDate = req.getParameter("covert_test_startDate");
@@ -69,7 +70,7 @@ public class GetPreProduct extends HttpServlet {
             PrintWriter out = resp.getWriter();
             con = DbUtil.getCon();
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-            String sql = "select pid,materialcode,preproductid,standard,materialname,weigh,qc,fangliang,build,preproduct.plannumber,print,concretegrade,pourmade,inspect,covert_test,covert_test_time,covert_test_failure_reason,failure_reason,patch_library,pourtime,checktime,line,inspect_remark,inspect_user,covert_test_remark,covert_test_user,pourmade_user from preproduct,plan where preproduct.isdelete = 0 and preproduct.plannumber = plan.plannumber";
+            String sql = "select pid,materialcode,preproductid,standard,materialname,weigh,qc,fangliang,build,preproduct.plannumber,print,concretegrade,pourmade,inspect,covert_test,covert_test_time,covert_test_failure_reason,failure_reason,patch_library,pourtime,checktime,line,inspect_remark,inspect_user,covert_test_remark,covert_test_user,pourmade_user,stock_status from preproduct,plan where preproduct.isdelete = 0 and preproduct.plannumber = plan.plannumber";
             String sql2 = "select count(*) as num from preproduct,plan where preproduct.isdelete = 0 and preproduct.plannumber = plan.plannumber";
             if (plannumber != null && !"".equals(plannumber)) {
                 sql += " and preproduct.plannumber = ?";
@@ -236,6 +237,12 @@ public class GetPreProduct extends HttpServlet {
                 i++;
             }
 
+            if (!"".equals(stockStatus) && stockStatus != null) {
+                sql += " and stock_status = ?";
+                sql2 += " and stock_status = ?";
+                i++;
+            }
+
             j = i;
 
             if (pageCur != 0 && pageMax != 0) {
@@ -247,6 +254,9 @@ public class GetPreProduct extends HttpServlet {
             if (pageCur != 0 && pageMax != 0) {
                 ps.setInt(i--, pageMax);
                 ps.setInt(i--, (pageCur - 1) * pageMax);
+            }
+            if (stockStatus != null && !"".equals(stockStatus)) {
+                ps.setString(i--, stockStatus);
             }
             if (line != null && !"".equals(line)) {
                 ps.setString(i--, line.trim());
@@ -322,11 +332,14 @@ public class GetPreProduct extends HttpServlet {
                 map.put("covert_test_remark", rs.getString("covert_test_remark"));
                 map.put("covert_test_user", rs.getString("covert_test_user"));
                 map.put("pourmade_user", rs.getString("pourmade_user"));
+                map.put("stock_status", rs.getString("stock_status"));
                 list.add(map);
             }
             if (pageCur != 0 && pageMax != 0) {
                 PreparedStatement ps2 = con.prepareStatement(sql2);
-
+                if (stockStatus != null && !"".equals(stockStatus)) {
+                    ps2.setString(j--, stockStatus);
+                }
                 if (line != null && !"".equals(line)) {
                     ps2.setString(j--, line.trim());
                 }

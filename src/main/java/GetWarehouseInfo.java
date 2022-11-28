@@ -24,6 +24,7 @@ public class GetWarehouseInfo extends HttpServlet {
         String building_no = request.getParameter("building_no");
         String materialcode = request.getParameter("materialcode");
         String build_type = request.getParameter("build_type");
+        String id = request.getParameter("id");
         String drawing_no = request.getParameter("drawing_no");
         int pageCur = Integer.parseInt(request.getParameter("pageCur"));
         int pageMax = Integer.parseInt(request.getParameter("pageMax"));
@@ -38,11 +39,19 @@ public class GetWarehouseInfo extends HttpServlet {
             conn = DbUtil.getCon();
             int i = 0;
             int j = 0;
-            StringBuilder sql = new StringBuilder("select warehouse_info.materialcode,build_table.materialname,build_type,planname,floor_no,building_no,drawing_no,fangliang,path from warehouse, warehouse_info,build_table,preproduct where warehouse_info.warehouse_id = warehouse.id and warehouse_info.materialcode = preproduct.materialcode and preproduct.materialcode=build_table.materialcode and build_table.is_delete=0");
-            StringBuilder sql2 = new StringBuilder("select count(*) as num from warehouse, warehouse_info,build_table,preproduct where build_table.is_delete = 0");
+            StringBuilder sql = new StringBuilder("select warehouse_info.materialcode,build_table.materialname,build_type,planname,floor_no,building_no,drawing_no,path from warehouse, warehouse_info,build_table where warehouse_info.warehouse_id = warehouse.id and warehouse_info.materialcode = build_table.materialcode and build_table.is_delete=0 and warehouse_info.is_effective = '1'");
+            StringBuilder sql2 = new StringBuilder("select count(*) as num from warehouse, warehouse_info,build_table,preproduct where warehouse_info.warehouse_id = warehouse.id and warehouse_info.materialcode = preproduct.materialcode and preproduct.materialcode=build_table.materialcode and build_table.is_delete = 0");
             if (name != null && !"".equals(name)) {
-                sql.append(" and warehouse.name= ?");
-                sql2.append(" and warehouse.name= ?");
+                sql.append(" and warehouse.id in (with recursive temp as (\n" +
+                        "select id,pid from warehouse p where  id= ?\n" +
+                        "union \n" +
+                        " select t.id from warehouse t inner join temp t2 on t2.id = t.pid \n" +
+                        ") select id from temp )");
+                sql2.append(" and warehouse.id in (with recursive temp as (\n" +
+                        "select id,pid from warehouse p where  name= ?\n" +
+                        "union \n" +
+                        " select t.id from warehouse t inner join temp t2 on t2.id = t.pid \n" +
+                        ") select id from temp )");
                 i++;
             }
             if (planname != null && !"".equals(planname)) {
@@ -75,6 +84,11 @@ public class GetWarehouseInfo extends HttpServlet {
                 sql2.append(" and warehouse_info.materialcode= ?");
                 i++;
             }
+            if (id != null && !"".equals(id)) {
+                sql.append(" and warehouse.id= ?");
+                sql2.append(" and warehouse.id= ?");
+                i++;
+            }
             j = i;
             sql.append(" limit ?,?");
             i += 2;
@@ -82,6 +96,9 @@ public class GetWarehouseInfo extends HttpServlet {
             ps = conn.prepareStatement(sql.toString());
             ps.setInt(i--, pageMax);
             ps.setInt(i--, (pageCur - 1) * pageMax);
+            if (id != null && !"".equals(id)) {
+                ps.setString(i--, id);
+            }
             if (materialcode != null && !"".equals(materialcode)) {
                 ps.setString(i--, materialcode);
             }
@@ -111,13 +128,16 @@ public class GetWarehouseInfo extends HttpServlet {
                 insertmap.put("planname", rs.getString("planname"));
                 insertmap.put("floor_no", rs.getString("floor_no"));
                 insertmap.put("building_no", rs.getString("building_no"));
+                insertmap.put("build_type", rs.getString("build_type"));
                 insertmap.put("drawing_no", rs.getString("drawing_no"));
-                insertmap.put("fangliang", rs.getString("fangliang"));
                 insertmap.put("path", rs.getString("path"));
                 maptmp.add(insertmap);
             }
             data.put("warehouseInfo", maptmp);
             ps = conn.prepareStatement(sql2.toString());
+            if (id != null && !"".equals(id)) {
+                ps.setString(j--, id);
+            }
             if (materialcode != null && !"".equals(materialcode)) {
                 ps.setString(j--, materialcode);
             }
@@ -145,7 +165,6 @@ public class GetWarehouseInfo extends HttpServlet {
                 data.put("cnt", num);
                 data.put("pageAll", Math.ceil((double) num / pageMax));
             }
-            data.put("data", data);
             out.write(JSON.toJSONString(data));
         } catch (Exception e) {
             e.printStackTrace();

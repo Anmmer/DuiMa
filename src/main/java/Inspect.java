@@ -30,7 +30,7 @@ public class Inspect extends HttpServlet {
         Connection con = null;
         PreparedStatement ps = null;
         Map<String, Object> map = new HashMap<>();
-        StringBuilder sql = new StringBuilder("update preproduct set inspect = 1,inspect_user = ?,checktime=date_format(now(),'%Y-%m-%d') where pid in (");
+        StringBuilder sql = new StringBuilder("update preproduct set inspect = 1,inspect_user = ?,checktime=date_format(now(),'%Y-%m-%d'),stock_status = '0' where pid in (");
         if (list.size() == 1) {
             sql.append("?)");
         } else {

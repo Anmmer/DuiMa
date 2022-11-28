@@ -815,4 +815,36 @@
         <servlet-name>deleteFactory</servlet-name>
         <url-pattern>/DeleteFactory</url-pattern>
     </servlet-mapping>
+    <servlet>
+        <servlet-name>getInOutWarehouseMethod</servlet-name>
+        <servlet-class>GetInOutWarehouseMethod</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>getInOutWarehouseMethod</servlet-name>
+        <url-pattern>/GetInOutWarehouseMethod</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>addInOutWarehouseMethod</servlet-name>
+        <servlet-class>AddInOutWarehouseMethod</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>addInOutWarehouseMethod</servlet-name>
+        <url-pattern>/AddInOutWarehouseMethod</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>updateInOutWarehouseMethod</servlet-name>
+        <servlet-class>UpdateInOutWarehouseMethod</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>updateInOutWarehouseMethod</servlet-name>
+        <url-pattern>/UpdateInOutWarehouseMethod</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>getWarehouseLog</servlet-name>
+        <servlet-class>GetWarehouseLog</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>getWarehouseLog</servlet-name>
+        <url-pattern>/GetWarehouseLog</url-pattern>
+    </servlet-mapping>
 </web-app>

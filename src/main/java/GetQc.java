@@ -41,18 +41,22 @@ public class GetQc extends HttpServlet {
         PreparedStatement ps = null;
         PreparedStatement ps2 = null;
         int i = 0;
+        int j = 0;
         try {
             con = DbUtil.getCon();
             String sql = "select qc,id from qc where isdelete = 0";
             String sql2 = "select count(*) as num from qc where isdelete = 0";
             if (qc != null && !"".equals(qc)) {
                 sql += " and qc = ?";
+                sql2 += " and qc = ?";
                 i++;
             }
             if (id != null && !"".equals(id)) {
                 sql += " and id = ?";
+                sql2 += " and id = ?";
                 i++;
             }
+            j = i;
             sql += " limit ?,?";
             i += 2;
             ps = con.prepareStatement(sql);
@@ -65,6 +69,12 @@ public class GetQc extends HttpServlet {
                 ps.setString(i, qc);
             }
             ps2 = con.prepareStatement(sql2);
+            if (id != null && !"".equals(id)) {
+                ps.setInt(j--, Integer.parseInt(id));
+            }
+            if (qc != null && !"".equals(qc)) {
+                ps.setString(j, qc);
+            }
             ResultSet rs2 = ps2.executeQuery();
             while (rs2.next()) {
                 int num = rs2.getInt("num");

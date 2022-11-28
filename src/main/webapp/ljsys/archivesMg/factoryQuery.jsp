@@ -145,7 +145,7 @@
                                 <select class="form-control" style="width:50%;" id="myModal3_name2"
                                         name="myModal3_name2"></select><br>
                                 <label for="myModal3_name" style="width: 28%;text-align: left;padding-right: 0"
-                                       class="col-sm-2 control-label">项目信息:</label>
+                                       class="col-sm-2 control-label">货位信息:</label>
                                 <input type="text" class="form-control" style="width:50%;" id="myModal3_name"
                                        name="myModal3_name">
                             </div>

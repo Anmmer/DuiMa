@@ -20,32 +20,32 @@
                                        style="height:10%;" class="form-control">
         </div>
         <div class="form-group" style="margin-left:3%;">
-            <label>项目：</label><input type="text" id="planName"
+            <label>项目：</label><input type="text" id="planname"
                                      style="height:10%;" class="form-control">
         </div>
         <div class="form-group" style="margin-left:3%;">
-            <label>楼栋：</label><input type="text" id="buildNo"
+            <label>楼栋：</label><input type="text" id="building_no"
                                      style="height:10%;" class="form-control">
         </div>
         <div class="form-group" style="margin-left:3%;">
-            <label>楼层：</label><input type="text" id="floorNo"
+            <label>楼层：</label><input type="text" id="floor_no"
                                      style="height:10%;" class="form-control">
         </div>
         <br><br>
         <div class="form-group" style="">
-            <label>物料编码：</label><input type="text" id="materialCode"
+            <label>物料编码：</label><input type="text" id="materialcode"
                                        style="height:10%;" class="form-control">
         </div>
         <div class="form-group" style="margin-left:3%;">
-            <label>构件类型：</label><input type="text" id="buildType"
+            <label>构件类型：</label><input type="text" id="build_type"
                                        style="height:10%;" class="form-control">
         </div>
         <div class="form-group" style="margin-left:3%;">
-            <label>图号：</label><input type="text" id="drawNo"
+            <label>图号：</label><input type="text" id="drawing_no"
                                      style="height:10%;" class="form-control">
         </div>
         <button type="button" class="btn btn-primary btn-sm" style="margin-left: 5%"
-                onclick="updateTable(1)">
+                onclick="getTableData(1)">
             查 询
         </button>
     </form>
@@ -59,17 +59,17 @@
             <%--            </button>--%>
         </div>
         <div style="height: 85%">
-            <table class="table table-hover" cellspacing="0" cellpadding="0" width="100%" align="center">
+            <table class="table table-hover" cellspacing="0" cellpadding="0" align="center">
                 <tr>
-                    <td class='tdStyle_title  active' style="width: 10%">物料编码</td>
-                    <td class='tdStyle_title active' style="width: 10%">构件名称</td>
-                    <td class='tdStyle_title active' style="width: 10%">构件类型</td>
-                    <td class='tdStyle_title active' style="width: 10%">所属项目</td>
-                    <td class='tdStyle_title active' style="width: 10%">楼栋</td>
-                    <td class='tdStyle_title active' style="width: 10%">楼层</td>
-                    <td class='tdStyle_title active' style="width: 10%">图号</td>
-                    <td class='tdStyle_title active' style="width: 10%">方量</td>
-                    <td class='tdStyle_title active' style="width: 15%">库位</td>
+                    <td class='tdStyle_title  active' style="width: 100px">物料编码</td>
+                    <td class='tdStyle_title active' style="width: 150px">构件名称</td>
+                    <td class='tdStyle_title active' style="width: 50px">构件类型</td>
+                    <td class='tdStyle_title active' style="width: 100px">所属项目</td>
+                    <td class='tdStyle_title active' style="width: 50px">楼栋</td>
+                    <td class='tdStyle_title active' style="width: 50px">楼层</td>
+                    <td class='tdStyle_title active' style="width: 100px">图号</td>
+                    <%--                    <td class='tdStyle_title active' style="width: 10%">方量</td>--%>
+                    <td class='tdStyle_title active' style="width: 150px">库位</td>
                 </tr>
                 <tbody id="archTableText">
                 </tbody>
@@ -142,20 +142,20 @@
 
         function getTableData(newPage) {
             let factoryName = $('#factoryName').val();
-            let planName = $('#planName').val();
-            let buildNo = $('#buildNo').val();
-            let floorNo = $('#floorNo').val();
-            let materialCode = $('#materialCode').val();
-            let buildType = $('#buildType').val();
-            let drawNo = $('#drawNo').val();
+            let planname = $('#planname').val();
+            let building_no = $('#building_no').val();
+            let floor_no = $('#floor_no').val();
+            let materialcode = $('#materialcode').val();
+            let build_type = $('#build_type').val();
+            let drawing_no = $('#drawing_no').val();
             let obj = {
                 factoryName: factoryName,
-                planName: planName,
-                buildNo: buildNo,
-                floorNo: floorNo,
-                materialCode: materialCode,
-                buildType: buildType,
-                drawNo: drawNo,
+                planname: planname,
+                building_no: building_no,
+                floor_no: floor_no,
+                materialcode: materialcode,
+                build_type: build_type,
+                drawing_no: drawing_no,
                 pageCur: newPage,
                 pageMax: pageMax
             }
@@ -166,8 +166,8 @@
                 data: obj,
                 contentType: 'application/x-www-form-urlencoded;charset=utf-8',
                 success: function (res) {
-                    if (res.data !== undefined) {
-                        jsonObj = res.data;
+                    if (res !== undefined) {
+                        jsonObj = res.warehouseInfo;
                         updateTable();
                         $('#total').html(res.cnt + "条，共" + res.pageAll + "页");
                         // 重置查询为第一页
@@ -207,7 +207,6 @@
         function updateTable() {
             let str = '';
             for (let i = 0; i < jsonObj.length; i++) {
-                let location = jsonObj[i]['factory'] + '-' + jsonObj[i]['region'] + '-' +  jsonObj[i]['warehouse']
                 str += "<tr><td class='tdStyle_body' title='" + jsonObj[i]['materialcode'] + "'>" + jsonObj[i]['materialcode'] +
                     "</td><td class='tdStyle_body' title='" + jsonObj[i]['materialname'] + "'>" + jsonObj[i]['materialname'] +
                     "</td><td class='tdStyle_body' title='" + jsonObj[i]['build_type'] + "'>" + jsonObj[i]['build_type'] +
@@ -215,8 +214,7 @@
                     "</td><td class='tdStyle_body' title='" + jsonObj[i]['building_no'] + "'>" + jsonObj[i]['building_no'] +
                     "</td><td class='tdStyle_body' title='" + jsonObj[i]['floor_no'] + "'>" + jsonObj[i]['floor_no'] +
                     "</td><td class='tdStyle_body' title='" + jsonObj[i]['drawing_no'] + "'>" + jsonObj[i]['drawing_no'] +
-                    "</td><td class='tdStyle_body' title='" + jsonObj[i]['fangliang'] + "'>" + jsonObj[i]['fangliang'] +
-                    "</td><td class='tdStyle_body' title='" + location + "'>" + location +
+                    "</td><td class='tdStyle_body' title='" + jsonObj[i]['path'] + "'>" + jsonObj[i]['path'] +
                     "</td></tr>";
             }
             $("#archTableText").html(str);
