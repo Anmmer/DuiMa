@@ -1,37 +1,37 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <div style="height: 100%;width: 100%">
-    <button onclick="returnLastPage()" style="position: absolute;left: 10%;top: 4%" class="btn btn-primary btn-sm">返回</button>
     <form name="query" class="form-inline" style="width:70%;height:10%;margin-left: 14%;padding-top:2%">
         <div class="form-group">
-            <label>项目名称：</label><input type="text" name="query_planname" disabled id="query_planname"
+            <label>出库方式：</label><input type="text" name="query_line" id="query_line"
                                        style="" class="form-control">
         </div>
-        <div class="form-group">
-            <label>批次号：</label><input type="text" name="query_planname" disabled id="batch_id"
-                                      style="" class="form-control">
-        </div>
+        <button type="button" class="btn btn-primary btn-sm" style="margin-left: 5%"
+                onclick="getTableData(1)">
+            查 询
+        </button>
     </form>
     <div style="width:70%;height:80%;margin:0 auto;">
         <div class="page-header" style="margin-top: 0;margin-bottom: 1%">
-            <h3 style="margin-bottom: 0;margin-top: 0"><small>批次信息</small></h3>
+            <h3 style="margin-bottom: 0;margin-top: 0"><small>出库方式信息</small></h3>
+            <button type="button" style="position: absolute;right: 15%;top:11%" class="btn btn-primary btn-sm"
+                    data-toggle="modal"
+                    onclick="openAddPop()">
+                新 增
+            </button>
+            <%--            <button style="position:absolute;top: 15%;width: 5%" onclick="openAddPop()">新 增</button>--%>
         </div>
         <div style="height: 85%">
             <table class="table table-hover" style="text-align: center">
                 <tr>
-                    <td class='tdStyle_title active' style="width: 14%">物料编号</td>
-                    <td class='tdStyle_title active' style="width: 14%">物料名称</td>
-                    <td class='tdStyle_title active' style="width: 10%">规格</td>
-                    <td class='tdStyle_title active' style="width: 10%">图号</td>
-                    <td class='tdStyle_title active' style="width: 10%">构建类型</td>
-                    <td class='tdStyle_title active' style="width: 10%">楼栋号</td>
-                    <td class='table_tr_print tdStyle_title active' style="width: 10%">楼层号</td>
+                    <td class="tdStyle_title active" style="width: 35%">出库方式</td>
+                    <td class="tdStyle_title active" style="width: 30%;text-align: center">操作</td>
                 </tr>
                 <tbody id="archTableText">
                 </tbody>
             </table>
         </div>
         <nav aria-label="Page navigation" style="margin-left:40%;width:80%;height:10%;">
-            <ul class="pagination" style="margin-top: 0;width: 85%">
+            <ul class="pagination" style="margin-top: 0;width: 70%">
                 <li><span id="total" style="width: 22%"></span></li>
                 <li>
                     <a href="#" onclick="jumpToNewPage(2)" aria-label="Previous">
@@ -56,49 +56,92 @@
             </ul>
         </nav>
     </div>
+    <!-- Modal -->
+    <div class="modal fade" id="myModal" tabindex="-1" style="position: absolute;left: 15%;top: 12%;" role="dialog"
+         data-backdrop="false"
+         aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content" style="width:60%">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="title1">出库信息新增</h4>
+                    <h4 class="modal-title" id="title2">出库信息修改</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="form-horizontal">
+                        <div class="form-group" style="margin-top: 5%">
+                            <label for="pop_line" style="width: 28%;text-align: left;padding-right: 0"
+                                   class="col-sm-2 control-label">出库方式:</label>
+                            <input type="text" class="form-control" style="width:50%;" id="pop_line"
+                                   name="newGroupName">
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" onclick="reset()">重置</button>
+                    <button type="button" id="save" class="btn btn-primary">保存</button>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 <script type="text/javascript">
+    if (sessionStorage.getItem("userName") == null) {
+        location.href = "login.jsp"
+        window.alert("您未登陆，请先登陆！")
+    }
 
     let count = 1;      //分页总页数
     let jsonObj = [];   //档案信息
     let pageCur = 1;    //分页当前页
     let pageAll = 1;
     let pageMax = 10;   //一页多少条数据
-    let planname_old = null;
-
-    let query_planname;
-    let index;
-    let batch_id;
 
     window.onload = getTableData(1);
 
-    function getQueryVariable(variable) {
-        var query = window.location.search.substring(1);
-        var vars = query.split("&");
-        for (var i = 0; i < vars.length; i++) {
-            var pair = vars[i].split("=");
-            if (pair[0] == variable) return pair[1];
-        }
-        return (false);
+    //打开新增弹窗
+    function openAddPop() {
+        $('#myModal').modal('show')
+        $("#title1").show();
+        $("#title2").hide();
+        $("#save").attr('onclick', 'save()');
     }
 
-    function returnLastPage() {
-        window.history.go(-1);
+    //打开修改弹窗
+    function openEditPop(id, line) {
+        queryData(id);
+        $('#myModal').modal('show')
+        $("#title1").hide();
+        $("#title2").show();
+        $("#save").attr('onclick', "edit('" + id + "','" + line + "')");
+    }
+
+    //关闭弹窗
+    function closePop() {
+        $('#myModal').modal('hide')
+        reset();
+    }
+
+    $('#myModal').on('hidden.bs.modal', function (e) {
+        $('#pop_line').val('');
+    })
+
+    //重置弹窗
+    function reset() {
+        $('#pop_line').val('');
     }
 
     function getTableData(newPage) {
-        query_planname = decodeURIComponent(getQueryVariable('planname'))
-        index = getQueryVariable('index')
-        batch_id = getQueryVariable('batch_id')
-        $('#query_planname').val(query_planname)
-        $('#batch_id').val(index)
+        let query_line = $('#query_line').val();
         let obj = {
-            'batch_id': batch_id,
+            'name': query_line,
+            type: '2',
             'pageCur': newPage,
             'pageMax': pageMax
         }
         $.ajax({
-            url: "${pageContext.request.contextPath}/GetBatchDetail",
+            url: "${pageContext.request.contextPath}/GetInOutWarehouseMethod",
             type: 'post',
             dataType: 'json',
             data: obj,
@@ -134,27 +177,17 @@
             },
             error: function () {
                 jsonObj = [];
-                updateTable(false);
+                updateTable();
                 alert("查询失败！")
             }
         })
     }
 
-    function goto(planname) {
-
-    }
-
     function updateTable() {
         let str = '';
         for (let i = 0; i < jsonObj.length; i++) {
-            str += "<tr><td class='tdStyle_body' style='padding: 5px;' title='" + jsonObj[i]['materialcode'] + "'>" + jsonObj[i]['materialcode'] +
-                "</td><td class='tdStyle_body' style='padding: 5px;' title='" + jsonObj[i]['materialname'] + "'>" + jsonObj[i]['materialname'] +
-                "</td><td class='tdStyle_body' style='padding: 5px;' title='" + jsonObj[i]['standard'] + "'>" + jsonObj[i]['standard'] +
-                "</td><td class='tdStyle_body' style='padding: 5px;' title='" + jsonObj[i]['drawing_no'] + "'>" + jsonObj[i]['drawing_no'] +
-                "</td><td class='tdStyle_body' style='padding: 5px;' title='" + jsonObj[i]['build_type'] + "'>" + jsonObj[i]['build_type'] +
-                "</td><td class='tdStyle_body' style='padding: 5px;' title='" + jsonObj[i]['building_no'] + "'>" + jsonObj[i]['building_no'] +
-                "</td><td class='tdStyle_body' style='padding: 5px;' title='" + jsonObj[i]['floor_no'] + "'>" + jsonObj[i]['floor_no'] +
-                "</td></tr>";
+            str += "<tr><td class='tdStyle_body'>" + jsonObj[i]['name'] +
+                "</td><td class='tdStyle_body'><a href='#' onclick=openEditPop('" + jsonObj[i]['id'] + "','" + jsonObj[i]['name'] + "')>修改</a> <a href='#' onclick=delTableData('" + jsonObj[i]['id'] + "')>删除</a></td></tr>";
         }
         $("#archTableText").html(str);
     }
@@ -166,14 +199,14 @@
             'pageMax': pageMax
         }
         $.ajax({
-            url: "${pageContext.request.contextPath}/GetBatchDetail",
+            url: "${pageContext.request.contextPath}/GetInOutWarehouseMethod",
             type: 'post',
             dataType: 'json',
             data: obj,
             contentType: 'application/x-www-form-urlencoded;charset=utf-8',
             success: function (res) {
                 if (res.data.length !== 0) {
-                    $('#pop_planname').val(res.data[0].planname);
+                    $('#pop_line').val(res.data[0].name);
                 }
             },
             error: function () {
@@ -182,6 +215,70 @@
         })
     }
 
+    function delTableData(id) {
+        let r = confirm("亲，确认删除！");
+        if (r === false) {
+            return;
+        }
+        $.post("${pageContext.request.contextPath}/UpdateInOutWarehouseMethod", {
+            id: id,
+            isEffective: '0'
+        }, function (result) {
+            result = JSON.parse(result);
+            if (result.flag) {
+                getTableData(1);
+                alert(result.message);
+            } else {
+                alert(result.message);
+            }
+        });
+    }
+
+    function save() {
+        let obj = {
+            name: $('#pop_line').val(),
+            type: '2'
+        }
+        if (obj.name === '') {
+            alert("请输入！");
+            return;
+        }
+        $.post("${pageContext.request.contextPath}/AddInOutWarehouseMethod", obj, function (result) {
+            result = JSON.parse(result);
+            alert(result.message);
+            if (result.flag) {
+                getTableData(1);
+                $('#myModal').modal('hide');
+            }
+        })
+    }
+
+    function edit(id, name) {
+        let obj = {
+            name: $('#pop_line').val(),
+            id: id
+        }
+        if (obj.name === '') {
+            alert("请输入！");
+            return;
+        }
+        if ($('#pop_line').val() == name) {
+            return;
+        }
+
+        $.post("${pageContext.request.contextPath}/UpdateInOutWarehouseMethod", obj, function (result) {
+            result = JSON.parse(result);
+            alert(result.message);
+            if (result.flag) {
+                getTableData(1);
+                $('#myModal').modal('hide');
+            }
+        });
+    }
+
+    $('.recover-btn').click(function () {
+        reset();
+    })
 
     function jumpToNewPage(newPageCode) {
         let newPage = 1;
@@ -202,13 +299,15 @@
                 newPage = pageCur + 1;
             }
         }
+        let query_line = $('#query_line').val();
         let obj = {
-            'batch_id': batch_id,
+            'line': query_line,
+            type: '2',
             'pageCur': newPage,
             'pageMax': 10
         }
         $.ajax({
-            url: "${pageContext.request.contextPath}/GetBatchDetail",
+            url: "${pageContext.request.contextPath}/GetInOutWarehouseMethod",
             type: 'post',
             dataType: 'json',
             data: obj,
@@ -241,13 +340,15 @@
     }
 
     function jumpToNewPage1(newPage) {
+        let query_line = $('#query_line').val();
         let obj = {
-            'batch_id': batch_id,
+            'line': query_line,
+            type: '2',
             'pageCur': newPage,
             'pageMax': 10
         }
         $.ajax({
-            url: "${pageContext.request.contextPath}/GetBatchDetail",
+            url: "${pageContext.request.contextPath}/GetInOutWarehouseMethod",
             type: 'post',
             dataType: 'json',
             data: obj,
@@ -273,17 +374,19 @@
     }
 
     function jumpToNewPage2() {
+        let query_line = $('#query_line').val();
         var newPage = $('#jump_to').val();
         if (newPage > pageAll) {
             alert("超过最大页数")
         }
         let obj = {
-            'batch_id': batch_id,
+            'line': query_line,
+            type: '2',
             'pageCur': newPage,
             'pageMax': 10
         }
         $.ajax({
-            url: "${pageContext.request.contextPath}/GetBatchDetail",
+            url: "${pageContext.request.contextPath}/GetInOutWarehouseMethod",
             type: 'post',
             dataType: 'json',
             data: obj,

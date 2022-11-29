@@ -12,7 +12,7 @@
 </head>
 <body class="BodyStyle">
 <!-- 内容窗口 -->
-<%@include file="product/buildingNoSummary.jsp"%>
+<%@include file="product/floorNoSummary.jsp" %>
 <script type="text/javascript">
     if (sessionStorage.getItem("userName") == null) {
         window.parent.location.href = "login.jsp"

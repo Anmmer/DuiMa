@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <div style="height: 100%;width: 100%">
-    <button onclick="returnLastPage()" style="position: absolute;left: 5%;top: 4%" class="btn btn-primary btn-sm">返回
+    <button onclick="returnLastPage()" style="position: absolute;left: 4%;top: 4%" class="btn btn-primary btn-sm">返回
     </button>
     <form name="query" class="form-inline" style="width:85%;height:10%;margin-left: 8%;padding-top:2%">
         <div class="form-group">
@@ -13,7 +13,7 @@
         </div>
         <div class="form-group">
             <label>楼层：</label><input type="text" name="query_floor_no" id="query_floor_no"
-                                     disabled class="form-control">
+                                     class="form-control">
         </div>
         <button type="button" class="btn btn-primary btn-sm" style="margin-left: 5%"
                 onclick="getTableData(1)">
@@ -27,8 +27,8 @@
         <div style="height: 85%">
             <table class="table table-hover" style="text-align: center">
                 <tr>
-                    <td class="tdStyle_title active" style="width: 15%">楼栋名称</td>
-                    <td class="tdStyle_title active" style="width: 15%">楼栋总量</td>
+                    <td class="tdStyle_title active" style="width: 15%">楼层名称</td>
+                    <td class="tdStyle_title active" style="width: 15%">楼层总量</td>
                     <td class="tdStyle_title active" style="width: 15%;text-align: center">浇捣总量</td>
                     <td class="tdStyle_title active" style="width: 15%;text-align: center">产成品总量</td>
                     <td class="tdStyle_title active" style="width: 15%;text-align: center">入库总量</td>
@@ -89,7 +89,7 @@
 
     function getTableData(newPage) {
         planname = decodeURIComponent(getQueryVariable('planname'))
-        build_no = decodeURIComponent(getQueryVariable('build_no'))
+        build_no = decodeURIComponent(getQueryVariable('building_no'))
         $('#query_planname').val(planname);
         $('#query_build_no').val(build_no);
         let floor_no = $('#query_floor_no').val()
@@ -101,7 +101,7 @@
             'pageMax': pageMax
         }
         $.ajax({
-            url: "${pageContext.request.contextPath}/GetBuildingNoSummary",
+            url: "${pageContext.request.contextPath}/GetFloorNoSummary",
             type: 'post',
             dataType: 'json',
             data: obj,
@@ -161,7 +161,7 @@
                 "<td class='tdStyle_body'>" + inspect_sum + "</td>" +
                 "<td class='tdStyle_body'>" + stock_in_sum + "</td>" +
                 "<td class='tdStyle_body'>" + stock_out_sum + "</td>" +
-                "<td class='tdStyle_body'><a href='floorNoSummaryQuery.jsp?planname=" + jsonObj[i]['planname'] + "&building_no=" + jsonObj[i]['building_no'] + "&floor_no=" + jsonObj[i]['floor_no'] + "'>楼层</a></td></tr>";
+                "<td class='tdStyle_body'><a href='floorNoDetailQuery.jsp?planname=" + planname + "&building_no=" + build_no + "&floor_no=" + jsonObj[i]['floor_no'] + "'>楼层</a></td></tr>";
         }
         $("#archTableText").html(str);
     }
@@ -195,7 +195,7 @@
             'pageMax': pageMax
         }
         $.ajax({
-            url: "${pageContext.request.contextPath}/GetBuildingNoSummary",
+            url: "${pageContext.request.contextPath}/GetFloorNoSummary",
             type: 'post',
             dataType: 'json',
             data: obj,
@@ -237,7 +237,7 @@
             'pageMax': pageMax
         }
         $.ajax({
-            url: "${pageContext.request.contextPath}/GetBuildingNoSummary",
+            url: "${pageContext.request.contextPath}/GetFloorNoSummary",
             type: 'post',
             dataType: 'json',
             data: obj,
@@ -276,7 +276,7 @@
             'pageMax': pageMax
         }
         $.ajax({
-            url: "${pageContext.request.contextPath}/GetBuildingNoSummary",
+            url: "${pageContext.request.contextPath}/GetFloorNoSummary",
             type: 'post',
             dataType: 'json',
             data: obj,

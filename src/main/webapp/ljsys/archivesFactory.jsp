@@ -7,6 +7,8 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/ljsys/css/pop_up.css" type="text/css">
     <link rel="stylesheet" href="dist/css/bootstrap.min.css" type="text/css"/>
     <script type="text/javascript" src="${pageContext.request.contextPath}/ljsys/js/jquery-3.3.1.min.js"></script>
+    <script type="text/javascript" src="js/jquery.qrcode.js" ></script>
+    <script type="text/javascript" src="js/utf.js" ></script>
     <script type="text/javascript" src="dist/js/bootstrap.js"></script>
     <script type="text/javascript" src="./js/util.js"></script>
 </head>

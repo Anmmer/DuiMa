@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <div style="height: 100%;width: 100%">
-    <button onclick="returnLastPage()" style="position: absolute;left: 5%;top: 4%" class="btn btn-primary btn-sm">返回
+    <button onclick="returnLastPage()" style="position: absolute;left: 4%;top: 4%" class="btn btn-primary btn-sm">返回
     </button>
     <form name="query" class="form-inline" style="width:85%;height:10%;margin-left: 8%;padding-top:2%">
         <div class="form-group">
@@ -153,7 +153,7 @@
                 "<td class='tdStyle_body'>" + inspect_sum + "</td>" +
                 "<td class='tdStyle_body'>" + stock_in_sum + "</td>" +
                 "<td class='tdStyle_body'>" + stock_out_sum + "</td>" +
-                "<td class='tdStyle_body'><a href='floorNoSummaryQuery.jsp?planname=" + jsonObj[i]['planname'] + "&building_no="+ jsonObj[i]['building_no'] +"'>楼层</a></td></tr>";
+                "<td class='tdStyle_body'><a href='floorNoSummaryQuery.jsp?building_no=" + jsonObj[i]['building_no'] + "&planname=" + planname + "'>楼层</a></td></tr>";
         }
         $("#archTableText").html(str);
     }

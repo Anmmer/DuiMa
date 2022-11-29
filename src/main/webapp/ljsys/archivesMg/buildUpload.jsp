@@ -86,6 +86,7 @@
         }, function (result) {
             let jsonObject = JSON.parse(result)
             alert(jsonObject.message);
+            document.getElementsByClassName("save-btn").disabled = true;
         })
     }
 
@@ -102,6 +103,7 @@
             return;
         }
         let reader = new FileReader();
+        pop_pageDate = []
         reader.onload = function (event) {
             let data = event.target.result;
             let workbook = XLSX.read(data, {type: 'binary'});
@@ -109,7 +111,6 @@
             pop_count = Math.ceil(excelData.length / 10);
             // 重置查询为第一页
             pop_pageCur = 1;
-            console.log(excelData)
             for (let i = 10 * (pop_pageCur - 1); i < 10 * (pop_pageCur) && i < excelData.length; i++) {
                 pop_pageDate.push(excelData[i]);
             }

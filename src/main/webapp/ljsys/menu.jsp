@@ -139,9 +139,21 @@
                 $('#plan_qc_li').css('display', 'none');
                 index++;
             }
+            if (checkAuthority("27")) {
+                $('#out_warehouse_li').css('display', 'block');
+            } else {
+                $('#out_warehouse_li').css('display', 'none');
+                index++;
+            }
+            if (checkAuthority("28")) {
+                $('#in_warehouse_li').css('display', 'block');
+            } else {
+                $('#in_warehouse_li').css('display', 'none');
+                index++;
+            }
 
             //权限判断隐藏大节点
-            if (index === 8) {
+            if (index === 10) {
                 $('#equipmentManage').css('display', 'none');
             } else {
                 $('#equipmentManage').css('display', 'block');
@@ -198,14 +210,26 @@
                 $('#build_query_li').css('display', 'none');
                 index++;
             }
-            if (checkAuthority("24")) {
+            if (checkAuthority("25")) {
                 $('#production_summary_li').css('display', 'block');
             } else {
                 $('#production_summary_li').css('display', 'none');
                 index++;
             }
+            if (checkAuthority("24")) {
+                $('#production_in_out__warehouse_li').css('display', 'block');
+            } else {
+                $('#production_in_out__warehouse_li').css('display', 'none');
+                index++;
+            }
+            if (checkAuthority("29")) {
+                $('#warehouse_log_li').css('display', 'block');
+            } else {
+                $('#warehouse_log_li').css('display', 'none');
+                index++;
+            }
             //权限判断隐藏大节点
-            if (index === 7) {
+            if (index === 8) {
                 $('#productManage').css('display', 'none');
             } else {
                 $('#productManage').css('display', 'block');
@@ -225,7 +249,8 @@
                 <div style="float: left;margin-left: 10%;width: 80%;text-align: left"><span style="margin-right: 5%;"
                                                                                             class="glyphicon glyphicon-tree-conifer"></span>用户管理
                 </div>
-                <span id="user_icon" style="float: right;margin-top: 6%;color: #909399;font-size: 12px" class="glyphicon glyphicon-menu-left"></span>
+                <span id="user_icon" style="float: right;margin-top: 7%;color: #909399;font-size: 12px"
+                      class="glyphicon glyphicon-menu-left"></span>
             </button>
         </li>
         <ul class="ul_ListStyle" style="display: none;" id="User">
@@ -255,7 +280,7 @@
                       class="glyphicon glyphicon-tree-conifer"></span>权限管理
                 </div>
                 <span id="group_icon"
-                      style="float: right;margin-top: 6%;color: #909399;font-size: 12px"
+                      style="float: right;margin-top: 7%;color: #909399;font-size: 12px"
                       class="glyphicon glyphicon-menu-left"></span>
             </button>
         </li>
@@ -275,13 +300,14 @@
                 <span style="margin-right: 5%;"
                       class="glyphicon glyphicon-tree-conifer"></span>库存管理
                 </div>
-                <span id="factory_icon" style="float: right;margin-top: 6%;color: #909399;font-size: 12px"
+                <span id="factory_icon" style="float: right;margin-top: 7%;color: #909399;font-size: 12px"
                       class="glyphicon glyphicon-menu-left"></span>
             </button>
         </li>
         <ul class="ul_ListStyle" style="display: none;" id="Factory">
             <li id="factory_qrcode_query_li">
-                <button class="li_ItemStyle" id="factory_qrcode_query" onclick="jumpTo('factoryQrcodeQueryAll.jsp','factory_qrcode_query')">
+                <button class="li_ItemStyle" id="factory_qrcode_query"
+                        onclick="jumpTo('factoryQrcodeQueryAll.jsp','factory_qrcode_query')">
                     <span style="margin-left: 15%;margin-right: 5%;" class="glyphicon glyphicon-grain"></span>堆场展码
                 </button>
             </li>
@@ -306,7 +332,7 @@
                 <span style="margin-right: 5%;"
                       class="glyphicon glyphicon-tree-conifer"></span>生产管理
                 </div>
-                <span id="product_icon" style="float: right;margin-top: 6%;color: #909399;font-size: 12px"
+                <span id="product_icon" style="float: right;margin-top: 7%;color: #909399;font-size: 12px"
                       class="glyphicon glyphicon-menu-left"></span>
             </button>
         </li>
@@ -350,9 +376,21 @@
                         style="margin-left: 15%;margin-right: 5%;" class="glyphicon glyphicon-grain"></span>生产查询汇总
                 </button>
             </li>
+            <li id="production_in_out__warehouse_li">
+                <button class="li_ItemStyle" id="production_in_out__warehouse"
+                        onclick="jumpTo('productInOutWarehouseQuery.jsp','production_in_out__warehouse')"><span
+                        style="margin-left: 15%;margin-right: 5%;" class="glyphicon glyphicon-grain"></span>出入移库
+                </button>
+            </li>
+            <li id="warehouse_log_li">
+                <button class="li_ItemStyle" id="warehouse_log"
+                        onclick="jumpTo('productWarehouseLogQuery.jsp','warehouse_log')"><span
+                        style="margin-left: 15%;margin-right: 5%;" class="glyphicon glyphicon-grain"></span>出入库单打印
+                </button>
+            </li>
         </ul>
     </ul>
-    <!--二维码-->
+    <!--基础档案-->
     <ul class="ul_TopListStyle" id="equipmentManage">
         <li class="li_TopItemStyle" onclick="ShowOrHide('Equipment','equipment_icon')">
             <button style="width: 95%;height:40px;background-color: rgb(50, 64, 87);border: none;text-align:left">
@@ -360,7 +398,7 @@
                 <span style="margin-right: 5%;"
                       class="glyphicon glyphicon-tree-conifer"></span>基础档案管理
                 </div>
-                <span id="equipment_icon" style="float: right;margin-top: 6%;color: #909399;font-size: 12px"
+                <span id="equipment_icon" style="float: right;margin-top: 7%;color: #909399;font-size: 12px"
                       class="glyphicon glyphicon-menu-left"></span>
             </button>
         </li>
@@ -407,6 +445,18 @@
                         style="margin-left: 15%;margin-right: 5%;" class="glyphicon glyphicon-grain"></span>质检员管理
                 </button>
             </li>
+            <li id="out_warehouse_li">
+                <button class="li_ItemStyle" id="out_warehouse"
+                        onclick="jumpTo('archivesOutWarehouseMethod.jsp','out_warehouse')"><span
+                        style="margin-left: 15%;margin-right: 5%;" class="glyphicon glyphicon-grain"></span>出库方式
+                </button>
+            </li>
+            <li id="in_warehouse_li">
+                <button class="li_ItemStyle" id="in_warehouse"
+                        onclick="jumpTo('archivesInWarehouseMethod.jsp','in_warehouse')"><span
+                        style="margin-left: 15%;margin-right: 5%;" class="glyphicon glyphicon-grain"></span>入库方式
+                </button>
+            </li>
         </ul>
     </ul>
     <!--打印管理-->
@@ -417,7 +467,8 @@
                 <span style="margin-right: 5%;"
                       class="glyphicon glyphicon-tree-conifer"></span>打印管理
                 </div>
-                <span id="rqCode_icon" style="float: right;margin-top: 6%;color: #909399;font-size: 12px" class="glyphicon glyphicon-menu-left"></span>
+                <span id="rqCode_icon" style="float: right;margin-top: 7%;color: #909399;font-size: 12px"
+                      class="glyphicon glyphicon-menu-left"></span>
             </button>
         </li>
         <ul class="ul_ListStyle" style="display: none;" id="rqCode">

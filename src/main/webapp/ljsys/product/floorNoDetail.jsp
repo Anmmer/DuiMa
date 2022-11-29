@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <div style="height: 100%;width: 100%">
-    <button onclick="returnLastPage()" style="position: absolute;left: 10%;top: 4%" class="btn btn-primary btn-sm">返回</button>
-    <form name="query" class="form-inline" style="width:85%;height:10%;margin-left: 14%;padding-top:2%">
+    <button onclick="returnLastPage()" style="position: absolute;left: 4%;top: 4%" class="btn btn-primary btn-sm">返回</button>
+    <form name="query" class="form-inline" style="width:85%;height:10%;margin-left: 8%;padding-top:2%">
         <div class="form-group">
             <label>项目名称：</label><input type="text" name="query_planname" disabled id="query_planname"
                                        style="" class="form-control">
@@ -76,15 +76,6 @@
 
     window.onload = getTableData(1);
 
-    function getQueryVariable(variable) {
-        var query = window.location.search.substring(1);
-        var vars = query.split("&");
-        for (var i = 0; i < vars.length; i++) {
-            var pair = vars[i].split("=");
-            if (pair[0] == variable) return pair[1];
-        }
-        return (false);
-    }
 
     function returnLastPage() {
         window.history.go(-1);
@@ -93,6 +84,7 @@
     function getTableData(newPage) {
         query_planname = decodeURIComponent(getQueryVariable('planname'))
         building_no = getQueryVariable('building_no')
+        console.log(building_no)
         floor_no = getQueryVariable('floor_no')
 
         $('#query_planname').val(query_planname)

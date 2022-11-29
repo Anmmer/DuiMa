@@ -675,7 +675,9 @@
             $("#planTableText").html(str);
         }
         document.getElementById('plan_checkbok').checked = false
+        document.getElementById('detail_checkbok').checked = false
         plan_i = 0;
+        det_i = 0;
     }
 
     //给input标签绑定change事件，一上传选中的.xls文件就会触发该函数
@@ -1715,7 +1717,7 @@
                     const holder = document.getElementById("draw" + i)
                     var opts = {
                         // dpi: window.devicePixelRatio * 2,
-                        dpi:96,
+                        dpi: 96,
                         scale: 2.67,
                         logging: true,
                         width: holder.offsetWidth,
