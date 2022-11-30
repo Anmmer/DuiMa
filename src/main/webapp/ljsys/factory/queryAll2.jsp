@@ -14,7 +14,7 @@
     }
 </script>
 <div style="height: 100%;width:100%;background-color:white;">
-    <form name="query" class="form-inline" style="width:85%;height:18%;margin-left: 8%;padding-top:2%">
+    <form name="query" class="form-inline" style="width:89%;height:16%;margin-left: 8%;padding-top:2%">
         <div class="form-group">
             <label>堆场名称：</label><input type="text" id="factoryName"
                                        style="height:10%;" class="form-control">

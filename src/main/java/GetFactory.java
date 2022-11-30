@@ -29,6 +29,7 @@ public class GetFactory extends HttpServlet {
             Map<String, Object> result = new HashMap<>();
             String type = request.getParameter("type");
             String pid = request.getParameter("pid");
+            String id = request.getParameter("id");
             con = DbUtil.getCon();
             int i = 0;
             String sql1 = "select id,pid,name,type from warehouse where is_delete = '0' ";
@@ -41,7 +42,14 @@ public class GetFactory extends HttpServlet {
                 sql1 += " and pid = ?";
                 i++;
             }
+            if (id != null && !id.equals("")) {
+                sql1 += " and id = ?";
+                i++;
+            }
             ps = con.prepareStatement(sql1);
+            if (id != null && !id.equals("")) {
+                ps.setString(i--, id);
+            }
             if (pid != null && !pid.equals("")) {
                 ps.setString(i--, pid);
             }

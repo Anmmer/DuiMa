@@ -36,43 +36,43 @@
         <%--        <button onclick="updatePwd()">确定修改</button>--%>
         <%--        </br>--%>
     </div>
-<%--    <div style="height:10px;width:100%;float:left;background-color: white;"></div>--%>
-<%--    <div style="height:2px;width:100%;float:left;background-color: cornflowerblue;"></div>--%>
-<%--    <div style="height:10px;width:100%;float:left;background-color: white;"></div>--%>
-<%--    <div style="height: 15%;width: 100%;float:left;">--%>
-<%--        <!--日志下载-->--%>
-<%--        <p class="pStyle" style="font-weight: bolder;">下载日志</p>--%>
-<%--        <input type="date" id="logdate" onchange="logdatechange()">--%>
-<%--        <a id="downloadurl" href="" download="" style="display: none;" onclick="downloadlog()">下载</a>--%>
-        <!--<button id="downloadlog" style="display: none;" onclick="downloadlog()">下载</button>-->
-    </div>
-    <%--    <div style="height:2px;width:100%;float:left;background-color: black;"></div>--%>
     <%--    <div style="height:10px;width:100%;float:left;background-color: white;"></div>--%>
-    <%--    <div style="height: 40%;width: 100%;float:left;">--%>
-    <%--        <!--项目字段维护-->--%>
-    <%--        <!--左边显示和删除-->--%>
-    <%--        <div style="height:100%;width:45%;float:left;">--%>
-    <%--            <span class="pStyle" style="font-weight: bolder;">项目字段:</span>--%>
-    <%--            <div id="projectitems" style="overflow: auto;width:97%;height:95%;">--%>
-    <%--                <table class="table" cellspacing="0" cellpadding="0" width="100%" align="center" border="1">--%>
-    <%--                    <tr>--%>
-    <%--                        <td class='tdStyle_title'>项目字段名</td>--%>
-    <%--                        <td class='tdStyle_title'>项目字段值</td>--%>
-    <%--                        <td class='tdStyle_title'>操作</td>--%>
-    <%--                    </tr>--%>
-    <%--                    <tbody id="tableText">--%>
-    <%--                    </tbody>--%>
-    <%--                </table>--%>
-    <%--            </div>--%>
-    <%--        </div>--%>
-    <%--        &lt;%&ndash;        <div style="height:100%;width:9%;float:left;background-color: white;"></div>&ndash;%&gt;--%>
-    <%--        <!--右边添加-->--%>
-    <%--&lt;%&ndash;        <div style="height:100%;width:45%;float:left;">&ndash;%&gt;--%>
-    <%--&lt;%&ndash;            <p class='pStyle'>新增字段名:</p><input id="newvalue">&ndash;%&gt;--%>
-    <%--&lt;%&ndash;            <p class='pStyle'>新增字段值:</p><input id="newkey">&ndash;%&gt;--%>
-    <%--&lt;%&ndash;            <button onclick="addItem()">提交</button>&ndash;%&gt;--%>
-    <%--&lt;%&ndash;        </div>&ndash;%&gt;--%>
-    <%--    </div>--%>
+    <%--    <div style="height:2px;width:100%;float:left;background-color: cornflowerblue;"></div>--%>
+    <%--    <div style="height:10px;width:100%;float:left;background-color: white;"></div>--%>
+    <%--    <div style="height: 15%;width: 100%;float:left;">--%>
+    <%--        <!--日志下载-->--%>
+    <%--        <p class="pStyle" style="font-weight: bolder;">下载日志</p>--%>
+    <%--        <input type="date" id="logdate" onchange="logdatechange()">--%>
+    <%--        <a id="downloadurl" href="" download="" style="display: none;" onclick="downloadlog()">下载</a>--%>
+    <!--<button id="downloadlog" style="display: none;" onclick="downloadlog()">下载</button>-->
+</div>
+<%--    <div style="height:2px;width:100%;float:left;background-color: black;"></div>--%>
+<%--    <div style="height:10px;width:100%;float:left;background-color: white;"></div>--%>
+<%--    <div style="height: 40%;width: 100%;float:left;">--%>
+<%--        <!--项目字段维护-->--%>
+<%--        <!--左边显示和删除-->--%>
+<%--        <div style="height:100%;width:45%;float:left;">--%>
+<%--            <span class="pStyle" style="font-weight: bolder;">项目字段:</span>--%>
+<%--            <div id="projectitems" style="overflow: auto;width:97%;height:95%;">--%>
+<%--                <table class="table" cellspacing="0" cellpadding="0" width="100%" align="center" border="1">--%>
+<%--                    <tr>--%>
+<%--                        <td class='tdStyle_title'>项目字段名</td>--%>
+<%--                        <td class='tdStyle_title'>项目字段值</td>--%>
+<%--                        <td class='tdStyle_title'>操作</td>--%>
+<%--                    </tr>--%>
+<%--                    <tbody id="tableText">--%>
+<%--                    </tbody>--%>
+<%--                </table>--%>
+<%--            </div>--%>
+<%--        </div>--%>
+<%--        &lt;%&ndash;        <div style="height:100%;width:9%;float:left;background-color: white;"></div>&ndash;%&gt;--%>
+<%--        <!--右边添加-->--%>
+<%--&lt;%&ndash;        <div style="height:100%;width:45%;float:left;">&ndash;%&gt;--%>
+<%--&lt;%&ndash;            <p class='pStyle'>新增字段名:</p><input id="newvalue">&ndash;%&gt;--%>
+<%--&lt;%&ndash;            <p class='pStyle'>新增字段值:</p><input id="newkey">&ndash;%&gt;--%>
+<%--&lt;%&ndash;            <button onclick="addItem()">提交</button>&ndash;%&gt;--%>
+<%--&lt;%&ndash;        </div>&ndash;%&gt;--%>
+<%--    </div>--%>
 </div>
 <!--密码修改-->
 <!--日志下载-->
@@ -269,4 +269,33 @@
     }
 </script>
 </body>
+<style>
+    ::-webkit-scrollbar {
+        /*滚动条整体样式*/
+        width: 6px;
+        /*高宽分别对应横竖滚动条的尺寸*/
+        height: 6px;
+    }
+
+    ::-webkit-scrollbar-thumb {
+        /*滚动条里面小方块*/
+        border-radius: 10px;
+        background-color: skyblue;
+        background-image: -webkit-linear-gradient(45deg,
+        rgba(255, 255, 255, 0.2) 25%,
+        transparent 25%,
+        transparent 50%,
+        rgba(255, 255, 255, 0.2) 50%,
+        rgba(255, 255, 255, 0.2) 75%,
+        transparent 75%,
+        transparent);
+    }
+
+    ::-webkit-scrollbar-track {
+        /*滚动条里面轨道*/
+        box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
+        background: #ededed;
+        border-radius: 10px;
+    }
+</style>
 </html>

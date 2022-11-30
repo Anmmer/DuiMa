@@ -40,13 +40,13 @@ public class GetPreProductWarehouse extends HttpServlet {
         int i = 0;
         try {
             con = DbUtil.getCon();
-            String sql = "select warehouse_name,materialname,materialcode,preproductid,pourmade,inspect,covert_test from warehouse,warehouse_info,preproduct where warehouse.warehouse_id = warehouse_info.warehouse_id and warehouse_info.product_id = preproduct.materialcode and wi_type = 1 and  isdelete = 0";
+            String sql = "select warehouse_id, path,materialname,materialcode,preproductid,pourmade,inspect,covert_test from warehouse,warehouse_info,preproduct where warehouse.id = warehouse_info.warehouse_id and warehouse_info.materialcode = preproduct.materialcode and type = 1 and  is_delete = 0";
             if (materialcode != null && !"".equals(materialcode)) {
                 sql += " and preproduct.materialcode = ?";
                 i++;
             }
             if (warehouseId != null && !"".equals(warehouseId)) {
-                sql += " and warehouse.warehouse_id = ?";
+                sql += " and warehouse.id = ?";
                 i++;
             }
             ps = con.prepareStatement(sql);
@@ -59,7 +59,8 @@ public class GetPreProductWarehouse extends HttpServlet {
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 Map<String, Object> map = new HashMap<>();
-                map.put("warehouse_name", rs.getString("warehouse_name"));
+                map.put("path", rs.getString("path"));
+                map.put("warehouse_id", rs.getString("warehouse_id"));
                 map.put("materialname", rs.getString("materialname"));
                 map.put("preproductid", rs.getString("preproductid"));
                 map.put("materialcode", rs.getString("materialcode"));

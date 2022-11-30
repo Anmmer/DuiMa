@@ -191,7 +191,7 @@
         let endDate = $('#endDate').val();
         let startDate = $('#startDate').val();
         if (!type) {
-            alert("请选择类型1111")
+            alert("请选择类型")
             return
         }
         if (!startDate || !endDate) {
@@ -201,7 +201,19 @@
         $('#myModal').modal('show')
         document.getElementById("print_name").innerText = "制单人：" + sessionStorage.getItem("userName")
         document.getElementById("print_date").innerText = "打印时间：" + new Date().toLocaleString()
-        document.getElementById("title").innerText = type === '1' ? "入库单" : "出库单"
+        let typeName = '';
+        switch (type) {
+            case '1' :
+                typeName = '入库单'
+                break;
+            case '2' :
+                typeName = '出库单'
+                break;
+            case '3' :
+                typeName = '移库单'
+                break;
+        }
+        document.getElementById("title").innerText = typeName
         let obj = {
             type: type, endDate: endDate, startDate: startDate, pageCur: 1,
             pageMax: 500

@@ -128,7 +128,7 @@
         jQuery('#qrcode').qrcode({
             // new QRCode(document.getElementById("qrcode_" + idx), {
             render: "canvas",
-            text: id,
+            text: "货位号:" + id,
             width: 100,
             height: 100,
             colorDark: "#000000",

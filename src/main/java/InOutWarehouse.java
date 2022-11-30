@@ -24,7 +24,7 @@ public class InOutWarehouse extends HttpServlet {
         List<String> products = JSON.parseArray(pids, String.class);
         String out_warehouse_id = request.getParameter("out_warehouse_id");            // 出库货位编号
         String in_warehouse_id = request.getParameter("in_warehouse_id");            // 入库货位编号
-        String type = request.getParameter("type");                    // 出库，入库类型	1为入库，0为出库
+        String type = request.getParameter("type");                    // 出库，入库类型	1为入库，2为出库  ,3为移库
         String id = request.getParameter("userId");                    // 操作人工号
         String name = request.getParameter("userName");                // 操作人名
         String method = request.getParameter("method");                // 操作人名
@@ -37,24 +37,24 @@ public class InOutWarehouse extends HttpServlet {
         try {
             conn = DbUtil.getCon();
             String msg = "";                    // 返回的信息
+            List<String> list = new ArrayList<>();
             for (int i = 0; i < products.size(); i++) {
                 String productId = products.get(i);
-                String sql = "select count(*) as num from warehouse_info where materialcode = ? and is_effective = '1'";
+                String sql = "select warehouse_id from warehouse_info where materialcode = ? and is_effective = '1'";
                 ps = conn.prepareStatement(sql);
                 ps.setString(1, productId);
                 rs = ps.executeQuery();
-                int num = 0;
                 while (rs.next()) {
-                    num = rs.getInt("num");
+                    list.add(rs.getString("warehouse_id"));
                 }
-                if ("1".equals(type) && num != 0) {
+                if ("1".equals(type) && list.size() != 0) {
                     msg = "物料编码为：" + productId + " 的构建已入库，请勿重复入库";
                     ret.put("msg", msg);
                     ret.put("flag", false);
                     out.print(JSON.toJSONString(ret));
                     return;
                 }
-                if (!"1".equals(type) && num == 0) {
+                if (!"1".equals(type) && list.size() == 0) {
                     msg = "物料编码为：" + productId + " 的构建未入库，请先入库";
                     ret.put("msg", msg);
                     ret.put("flag", false);
@@ -100,6 +100,9 @@ public class InOutWarehouse extends HttpServlet {
                 ps.setString(2, name);
                 ps.setString(3, type);
                 ps.setString(4, in_warehouse_id);
+                if (out_warehouse_id == null) {
+                    out_warehouse_id = list.get(i);
+                }
                 ps.setString(5, out_warehouse_id);
                 ps.setString(6, productId);
                 ps.setString(7, method);
