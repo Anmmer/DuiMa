@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
-<div style="height: 100%;width: 100%">
+<div style="height: 125%;width: 100%">
     <button onclick="returnLastPage()" style="position: absolute;left: 4%;top: 4%" class="btn btn-primary btn-sm">返回
     </button>
     <form name="query" class="form-inline" style="width:85%;height:10%;margin-left: 8%;padding-top:2%">
@@ -20,7 +20,11 @@
             查 询
         </button>
     </form>
-    <div style="width:85%;height:80%;margin:0 auto;">
+    <div style="width:100%;height:30%;margin:0 auto;display: flex">
+        <div id="pie1" style="height:100%;width: 50%"></div>
+        <div id="pie2" style="height:100%;width: 50%"></div>
+    </div>
+    <div style="width:85%;height:75%;margin:0 auto;">
         <div class="page-header" style="margin-top: 0;margin-bottom: 1%">
             <h3 style="margin-bottom: 0;margin-top: 0"><small>生产情况汇总信息</small></h3>
         </div>
@@ -79,6 +83,7 @@
     let pageMax = 10;   //一页多少条数据
     let planname = null;
     let build_no = null;
+    let floor_no = null;
 
     window.onload = getTableData(1);
 
@@ -92,7 +97,7 @@
         build_no = decodeURIComponent(getQueryVariable('building_no'))
         $('#query_planname').val(planname);
         $('#query_build_no').val(build_no);
-        let floor_no = $('#query_floor_no').val()
+        floor_no = $('#query_floor_no').val()
         let obj = {
             'planname': planname,
             buildingNo: build_no,
@@ -100,6 +105,7 @@
             'pageCur': newPage,
             'pageMax': pageMax
         }
+        getPieData()
         $.ajax({
             url: "${pageContext.request.contextPath}/GetFloorNoSummary",
             type: 'post',
@@ -143,8 +149,100 @@
         })
     }
 
-    function goto(planname) {
-
+    function getPieData() {
+        $.ajax({
+            url: "${pageContext.request.contextPath}/GetPieData",
+            type: 'post',
+            dataType: 'json',
+            data: {planname: planname, building_no: build_no, floor_no: floor_no},
+            contentType: 'application/x-www-form-urlencoded;charset=utf-8',
+            success: function (res) {
+                let pie1 = res.pie1;
+                let pie2 = res.pie2;
+                let chartDom1 = document.getElementById('pie1');
+                let chartDom2 = document.getElementById('pie2');
+                let myChart1 = echarts.init(chartDom1);
+                let myChart2 = echarts.init(chartDom2);
+                let option1 = {
+                    tooltip: {
+                        trigger: 'item',
+                        formatter: '{a} <br/>{b} : {c} ({d}%)'
+                    },
+                    legend: {
+                        top: '5%',
+                        left: 'center'
+                    },
+                    series: [
+                        {
+                            name: '浇捣总量占比',
+                            type: 'pie',
+                            radius: ['40%', '70%'],
+                            avoidLabelOverlap: false,
+                            itemStyle: {
+                                borderRadius: 10,
+                                borderColor: '#fff',
+                                borderWidth: 2
+                            },
+                            label: {
+                                show: false,
+                                position: 'center'
+                            },
+                            emphasis: {
+                                label: {
+                                    show: true,
+                                    fontSize: '40',
+                                    fontWeight: 'bold'
+                                }
+                            },
+                            labelLine: {
+                                show: false
+                            },
+                            data: pie1
+                        }
+                    ]
+                };
+                let option2 = {
+                    tooltip: {
+                        trigger: 'item',
+                        formatter: '{a} <br/>{b} : {c} ({d}%)'
+                    },
+                    legend: {
+                        top: '5%',
+                        left: 'center'
+                    },
+                    series: [
+                        {
+                            name: '产成品总量占比',
+                            type: 'pie',
+                            radius: ['40%', '70%'],
+                            avoidLabelOverlap: false,
+                            itemStyle: {
+                                borderRadius: 10,
+                                borderColor: '#fff',
+                                borderWidth: 2
+                            },
+                            label: {
+                                show: false,
+                                position: 'center'
+                            },
+                            emphasis: {
+                                label: {
+                                    show: true,
+                                    fontSize: '40',
+                                    fontWeight: 'bold'
+                                }
+                            },
+                            labelLine: {
+                                show: false
+                            },
+                            data: pie2
+                        }
+                    ]
+                };
+                option1 && myChart1.setOption(option1);
+                option2 && myChart2.setOption(option2);
+            }
+        })
     }
 
     function updateTable() {

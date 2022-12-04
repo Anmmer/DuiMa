@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 public class GetFactory extends HttpServlet {
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -30,6 +31,7 @@ public class GetFactory extends HttpServlet {
             String type = request.getParameter("type");
             String pid = request.getParameter("pid");
             String id = request.getParameter("id");
+            String planname = request.getParameter("planname");
             con = DbUtil.getCon();
             int i = 0;
             String sql1 = "select id,pid,name,type from warehouse where is_delete = '0' ";
@@ -69,6 +71,9 @@ public class GetFactory extends HttpServlet {
                 result.put("data", list);
             } else {
                 List<Warehouse> list1 = Warehouse.build(list, "0");
+                if (planname != null && !planname.equals("")) {
+                    list1 = list1.stream().filter(s -> s.getName().contains(planname)).collect(Collectors.toList());
+                }
                 result.put("data", list1);
             }
             out.write(JSON.toJSONString(result));

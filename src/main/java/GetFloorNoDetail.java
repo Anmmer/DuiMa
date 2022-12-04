@@ -38,7 +38,7 @@ public class GetFloorNoDetail extends HttpServlet {
         PreparedStatement ps2 = null;
         try {
             con = DbUtil.getCon();
-            String sql = "select materialcode,materialname,standard,drawing_no,build_type,building_no,floor_no from build_table where is_delete = 0 and building_no = ? and floor_no = ? and planname = ? ";
+            String sql = "select a.materialcode,a.materialname,a.standard,a.drawing_no,a.build_type,a.building_no,a.floor_no, b.pourmade,b.inspect,b.stock_status from build_table a left join preproduct b on a.materialcode = b.materialcode where a.is_delete = 0 and a.building_no = ? and a.floor_no = ? and a.planname = ? ";
             String sql2 = "select count(*) as num from build_table where is_delete = 0 and building_no = ? and floor_no = ? and planname = ? ";
             sql += " limit ?,?";
             ps = con.prepareStatement(sql);
@@ -73,6 +73,9 @@ public class GetFloorNoDetail extends HttpServlet {
                 map.put("build_type", rs.getString("build_type"));
                 map.put("building_no", rs.getString("building_no"));
                 map.put("floor_no", rs.getString("floor_no"));
+                map.put("pourmade", rs.getString("pourmade"));
+                map.put("inspect", rs.getString("inspect"));
+                map.put("stock_status", rs.getString("stock_status"));
                 list.add(map);
             }
             result.put("data", list);

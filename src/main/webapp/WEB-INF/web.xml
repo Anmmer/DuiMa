@@ -847,4 +847,12 @@
         <servlet-name>getWarehouseLog</servlet-name>
         <url-pattern>/GetWarehouseLog</url-pattern>
     </servlet-mapping>
+    <servlet>
+        <servlet-name>getPieData</servlet-name>
+        <servlet-class>GetPieData</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>getPieData</servlet-name>
+        <url-pattern>/GetPieData</url-pattern>
+    </servlet-mapping>
 </web-app>

@@ -46,7 +46,7 @@ public class GetBuildNum extends HttpServlet {
             String sql = "select a.planname,b.num from planname a left join (select count(*) num,planname from build_table where is_delete = 0 group by planname) b on a.planname = b.planname where isdelete = 0";
             String sql2 = "select count(*) as num from planname where isdelete = 0";
             if (planname != null && !"".equals(planname)) {
-                sql += " and planname = ?";
+                sql += " and b.planname like  ?";
                 sql2 += " and planname = ?";
                 i++;
             }
@@ -65,14 +65,14 @@ public class GetBuildNum extends HttpServlet {
                 ps.setInt(i--, Integer.parseInt(id));
             }
             if (planname != null && !"".equals(planname)) {
-                ps.setString(i, planname);
+                ps.setString(i, "%" + planname.trim() + "%");
             }
             ps2 = con.prepareStatement(sql2);
             if (id != null && !"".equals(id)) {
                 ps2.setInt(j--, Integer.parseInt(id));
             }
             if (planname != null && !"".equals(planname)) {
-                ps2.setString(j, planname);
+                ps2.setString(j, "%" + planname.trim() + "%");
             }
             ResultSet rs2 = ps2.executeQuery();
             while (rs2.next()) {

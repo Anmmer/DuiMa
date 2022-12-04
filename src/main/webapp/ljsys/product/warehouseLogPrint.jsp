@@ -83,15 +83,8 @@
                     <!--startprint-->
                     <div id="title" style="font-size: 25px;height:50px;text-align: center">出库单</div>
                     <table border="1" style="text-align: center;width: 100%;">
-                        <tr>
-                            <td class='print_tdStyle_title active' style="width: 10%">物料编码</td>
-                            <td class='print_tdStyle_title active' style="width: 20%">类型 规格 图号</td>
-                            <td class='print_tdStyle_title active' style="width: 5%">方量</td>
-                            <td class='print_tdStyle_title active' style="width: 5%">重量</td>
-                            <td class='print_tdStyle_title active' style="width: 8%">方式</td>
-                            <td class='print_tdStyle_title active' style="width: 15%">货位</td>
-                            <td class='print_tdStyle_title active' style="width: 5%">操作人</td>
-                            <td class='print_tdStyle_title active' style="width: 10%">操作日期</td>
+                        <tr id="printTableTr">
+
                         </tr>
                         <tbody id="printTableText">
                         </tbody>
@@ -201,6 +194,22 @@
         $('#myModal').modal('show')
         document.getElementById("print_name").innerText = "制单人：" + sessionStorage.getItem("userName")
         document.getElementById("print_date").innerText = "打印时间：" + new Date().toLocaleString()
+        let str = ''
+        str += "<td class='print_tdStyle_title active' style='width: 10%'>物料编码</td>" +
+            "<td class='print_tdStyle_title active' style='width: 20%'>类型 规格 图号</td>" +
+            "<td class='print_tdStyle_title active' style='width: 5%'>方量</td>" +
+            "<td class='print_tdStyle_title active' style='width: 5%'>重量</td>" +
+            "<td class='print_tdStyle_title active' style='width: 8%'>方式</td>"
+        if (type === '3' || type === '2') {
+            str += "<td class='print_tdStyle_title active' style='width: 15%'>出库货位</td>"
+
+        }
+        if (type === '1' || type === '3') {
+            str += "<td class='print_tdStyle_title active' style='width: 15%'>入库货位</td>"
+        }
+        str += "<td class='print_tdStyle_title active' style='width: 5%'>操作人</td>" +
+            "<td class='print_tdStyle_title active' style='width: 10%'>操作日期</td>"
+        $("#printTableTr").html(str);
         let typeName = '';
         switch (type) {
             case '1' :
@@ -246,6 +255,7 @@
 
     function updatePrintTable() {
         let str = '';
+        let type = $('#type').val();
         for (let i = 0; i < printData.length; i++) {
             let some = printData[i]['build_type'] + " " + printData[i]['standard'] + " " + printData[i]['drawing_no']
             printData[i]['method'] = printData[i]['method'] === void 0 ? "" : printData[i]['method']
@@ -254,9 +264,14 @@
                 "</td><td class='tdStyle_body' title='" + some + "'>" + some +
                 "</td><td class='tdStyle_body' title='" + printData[i]['fangliang'] + "'>" + printData[i]['fangliang'] +
                 "</td><td class='tdStyle_body' title='" + printData[i]['weigh'] + "'>" + printData[i]['weigh'] +
-                "</td><td class='tdStyle_body' title='" + printData[i]['method'] + "'>" + printData[i]['method'] +
-                "</td><td class='tdStyle_body' title='" + path + "'>" + path +
-                "</td><td class='tdStyle_body' title='" + printData[i]['user_name'] + "'>" + printData[i]['user_name'] +
+                "</td><td class='tdStyle_body' title='" + printData[i]['method'] + "'>" + printData[i]['method']
+            if (type === "2" || type === "3") {
+                str += "</td><td class='tdStyle_body' title='" + printData[i]['out_warehouse_path'] + "'>" + printData[i]['out_warehouse_path']
+            }
+            if (type === "1" || type === "3") {
+                str += "</td><td class='tdStyle_body' title='" + printData[i]['in_warehouse_path'] + "'>" + printData[i]['in_warehouse_path']
+            }
+            str += "</td><td class='tdStyle_body' title='" + printData[i]['user_name'] + "'>" + printData[i]['user_name'] +
                 "</td><td class='tdStyle_body' title='" + printData[i]['create_date'] + "'>" + printData[i]['create_date'] +
                 "</td></tr>";
         }

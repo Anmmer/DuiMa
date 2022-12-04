@@ -40,7 +40,7 @@ public class GetWarehouseInfo extends HttpServlet {
             int i = 0;
             int j = 0;
             StringBuilder sql = new StringBuilder("select warehouse_info.materialcode,build_table.materialname,build_type,planname,floor_no,building_no,drawing_no,path from warehouse, warehouse_info,build_table where warehouse_info.warehouse_id = warehouse.id and warehouse_info.materialcode = build_table.materialcode and build_table.is_delete=0 and warehouse_info.is_effective = '1'");
-            StringBuilder sql2 = new StringBuilder("select count(*) as num from warehouse, warehouse_info,build_table,preproduct where warehouse_info.warehouse_id = warehouse.id and warehouse_info.materialcode = preproduct.materialcode and preproduct.materialcode=build_table.materialcode and build_table.is_delete = 0");
+            StringBuilder sql2 = new StringBuilder("select count(*) as num from warehouse, warehouse_info,build_table,preproduct where warehouse_info.warehouse_id = warehouse.id and warehouse_info.materialcode = preproduct.materialcode and preproduct.materialcode=build_table.materialcode and build_table.is_delete = 0 and warehouse_info.is_effective = '1'");
             if (name != null && !"".equals(name)) {
                 sql.append(" and warehouse.id in (with recursive temp as (\n" +
                         "select id,pid from warehouse p where  id= ?\n" +

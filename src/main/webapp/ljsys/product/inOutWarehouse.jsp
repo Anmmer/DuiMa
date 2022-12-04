@@ -17,6 +17,10 @@
     <div style="width:85%;height:78%;margin:0 auto;">
         <div class="page-header" style="margin-top: 0;margin-bottom: 1%">
             <h3 style="margin-bottom: 0;margin-top: 0"><small>仓库信息</small></h3>
+            <button type="button" onclick="openOutPop()" style="position: absolute;right: 15%;top:10%;width: 60px"
+                    class="btn btn-primary btn-sm">
+                出&nbsp;&nbsp;库
+            </button>
             <button type="button" onclick="openPop()" style="position: absolute;right: 9%;top:10%;width: 60px"
                     class="btn btn-primary btn-sm">
                 入&nbsp;&nbsp;库
@@ -25,6 +29,9 @@
         <div style="height: 85%">
             <table class="table table-hover" cellspacing="0" cellpadding="0" width="100%" align="center">
                 <tr>
+                    <td class='tdStyle_title active' style="width: 2%"><input
+                            id="checkbok"
+                            type="checkbox"></td>
                     <td class='tdStyle_title  active' style="width: 10%">物料编码</td>
                     <td class='tdStyle_title active' style="width: 10%">构件名称</td>
                     <td class='tdStyle_title active' style="width: 10%">构件类型</td>
@@ -446,6 +453,7 @@
         })
 
         let det_i = 0
+        let main_i = 0
         //全选
         $("#detail_checkbok").on("click", function () {
             if (det_i == 0) {
@@ -455,6 +463,18 @@
             } else {
                 $("#detailTableText td :checkbox").prop("checked", false);
                 det_i = 0;
+            }
+
+        });
+
+        $("#checkbok").on("click", function () {
+            if (main_i == 0) {
+                //把所有复选框选中
+                $("#archTableText td :checkbox").prop("checked", true);
+                main_i = 1;
+            } else {
+                $("#archTableText td :checkbox").prop("checked", false);
+                main_i = 0;
             }
 
         });
@@ -472,11 +492,14 @@
 
         function updateTable(flag) {
             document.getElementById('detail_checkbok').checked = false
+            document.getElementById('checkbok').checked = false
             det_i = 0
+            main_i = 0
             let str = '';
             if (flag) {
                 for (let i = 0; i < jsonObj.length; i++) {
-                    str += "<tr><td class='tdStyle_body' title='" + jsonObj[i]['materialcode'] + "'>" + jsonObj[i]['materialcode'] +
+                    str += "<tr><td class='tdStyle_body' style='padding: 5px;'><input type='checkbox' data-id=" + jsonObj[i]["materialcode"] + ">" +
+                        "</td><td class='tdStyle_body' title='" + jsonObj[i]['materialcode'] + "'>" + jsonObj[i]['materialcode'] +
                         "</td><td class='tdStyle_body' title='" + jsonObj[i]['materialname'] + "'>" + jsonObj[i]['materialname'] +
                         "</td><td class='tdStyle_body' title='" + jsonObj[i]['build_type'] + "'>" + jsonObj[i]['build_type'] +
                         "</td><td class='tdStyle_body' title='" + jsonObj[i]['planname'] + "'>" + jsonObj[i]['planname'] +
@@ -609,6 +632,15 @@
         }
 
         function openOutPop(materialcode) {
+
+            let ids = []
+            $('#archTableText').find('input:checked').each(function () {
+                ids.push($(this).attr('data-id'));   //找到对应checkbox中data-id属性值，然后push给空数组ids
+            });
+            if (!ids.length) {
+                alert("请勾选")
+                return;
+            }
             $('#myModal2').modal('show')
             getOutWarehouseMethod('2')
             $("#myModal2_save").attr('onclick', "outWarehouse('" + materialcode + "')");
@@ -616,7 +648,17 @@
 
         function outWarehouse(materialcode) {
             let ids = []
-            ids.push(materialcode)
+            if (materialcode !== 'undefined') {
+                ids.push(materialcode)
+            } else {
+                $('#archTableText').find('input:checked').each(function () {
+                    ids.push($(this).attr('data-id'));   //找到对应checkbox中data-id属性值，然后push给空数组ids
+                });
+                if (!ids.length) {
+                    alert("请勾选")
+                    return;
+                }
+            }
             let location = $("#location").val()
             if (!location) {
                 alert("请选择查询货位信息")
@@ -625,6 +667,7 @@
             let method = $("#myModal2_name1").val()
             if (!method) {
                 alert("请选择出库方式信息")
+                return;
             }
             $.ajax({
                 url: "${pageContext.request.contextPath}/InOutWarehouse",
@@ -641,7 +684,7 @@
                 success: function (result) {
                     alert(result.msg)
                     if (result.flag) {
-                        $('#myModal2').modal('hidde')
+                        $('#myModal2').modal('hide')
                         getTableData(1)
                     }
                 }
@@ -681,8 +724,8 @@
                 data: obj,
                 contentType: 'application/x-www-form-urlencoded;charset=utf-8',
                 success: function (res) {
-                    if (res.data.length !== 0) {
-                        jsonObj = res.data;
+                    if (res.warehouseInfo.length !== 0) {
+                        jsonObj = res.warehouseInfo;
                         updateTable(true);
                         if (newPageCode === 3) {
                             setFooter(3, res.pageAll, pageCur, newPage);
@@ -721,8 +764,8 @@
                 data: obj,
                 contentType: 'application/x-www-form-urlencoded;charset=utf-8',
                 success: function (res) {
-                    if (res.data.length !== 0) {
-                        jsonObj = res.data;
+                    if (res.warehouseInfo.length !== 0) {
+                        jsonObj = res.warehouseInfo;
                         updateTable(true);
                         $('#li_' + newPage % 5).addClass('active');
                         $('#li_' + pageCur % 5).removeClass('active');
@@ -761,8 +804,8 @@
                 data: obj,
                 contentType: 'application/x-www-form-urlencoded;charset=utf-8',
                 success: function (res) {
-                    if (res.data.length !== 0) {
-                        jsonObj = res.data;
+                    if (res.warehouseInfo.length !== 0) {
+                        jsonObj = res.warehouseInfo;
                         updateTable(true);
                         jump2(newPage, res.pageAll);
                         // 重置查询为第一页

@@ -122,9 +122,6 @@
         })
     }
 
-    function goto(planname) {
-
-    }
 
     function updateTable() {
         let str = '';

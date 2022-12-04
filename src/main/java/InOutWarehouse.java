@@ -100,7 +100,7 @@ public class InOutWarehouse extends HttpServlet {
                 ps.setString(2, name);
                 ps.setString(3, type);
                 ps.setString(4, in_warehouse_id);
-                if (out_warehouse_id == null) {
+                if (!"1".equals(type) && out_warehouse_id == null) {
                     out_warehouse_id = list.get(i);
                 }
                 ps.setString(5, out_warehouse_id);
