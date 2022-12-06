@@ -341,19 +341,15 @@
                 newPage = pageCur + 1;
             }
         }
-        let materialcode = $('#materialcode').val();
-        let materialname = $('#materialname').val();
-        let pourState = $('#pourState').val();
+        let type = $('#type').val();
+        let endDate = $('#endDate').val();
+        let startDate = $('#startDate').val();
         let obj = {
-            materialcode: materialcode,
-            materialname: materialname,
-            pourState: pourState,
-            isPrint: "true",
+            type: type,
+            startDate: startDate,
+            endDate: endDate,
             pageCur: newPage,
             pageMax: pageMax
-        }
-        if (on_or_off == '1') {
-            obj.isTest = "true"
         }
         $.ajax({
             url: "${pageContext.request.contextPath}/GetWarehouseLog",
@@ -389,19 +385,15 @@
     }
 
     function jumpToNewPage1(newPage) {
-        let materialcode = $('#materialcode').val();
-        let materialname = $('#materialname').val();
-        let pourState = $('#pourState').val();
+        let type = $('#type').val();
+        let endDate = $('#endDate').val();
+        let startDate = $('#startDate').val();
         let obj = {
-            materialcode: materialcode,
-            materialname: materialname,
-            pourState: pourState,
-            isPrint: "true",
+            type: type,
+            startDate: startDate,
+            endDate: endDate,
             pageCur: newPage,
             pageMax: pageMax
-        }
-        if (on_or_off == '1') {
-            obj.isTest = "true"
         }
         $.ajax({
             url: "${pageContext.request.contextPath}/GetWarehouseLog",
@@ -447,9 +439,6 @@
             isPrint: "true",
             pageCur: newPage,
             pageMax: pageMax
-        }
-        if (on_or_off == '1') {
-            obj.isTest = "true"
         }
         $.ajax({
             url: "${pageContext.request.contextPath}/GetWarehouseLog",

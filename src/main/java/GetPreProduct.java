@@ -70,7 +70,7 @@ public class GetPreProduct extends HttpServlet {
             PrintWriter out = resp.getWriter();
             con = DbUtil.getCon();
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-            String sql = "select pid,materialcode,preproductid,standard,materialname,weigh,qc,fangliang,build,preproduct.plannumber,print,concretegrade,pourmade,inspect,covert_test,covert_test_time,covert_test_failure_reason,failure_reason,patch_library,pourtime,checktime,line,inspect_remark,inspect_user,covert_test_remark,covert_test_user,pourmade_user,stock_status from preproduct,plan where preproduct.isdelete = 0 and preproduct.plannumber = plan.plannumber";
+            String sql = "select pid,materialcode,preproductid,standard,materialname,weigh,qc,fangliang,build,preproduct.plannumber,print,concretegrade,pourmade,inspect,covert_test,covert_test_time,covert_test_failure_reason,failure_reason,patch_library,pourtime,checktime,line,inspect_remark,inspect_user,covert_test_remark,covert_test_user,pourmade_user,stock_status,scrap_library,scrap_remark,scrap_in_user,scrap_in_time from preproduct,plan where preproduct.isdelete = 0 and preproduct.plannumber = plan.plannumber";
             String sql2 = "select count(*) as num from preproduct,plan where preproduct.isdelete = 0 and preproduct.plannumber = plan.plannumber";
             if (plannumber != null && !"".equals(plannumber)) {
                 sql += " and preproduct.plannumber = ?";
@@ -167,6 +167,10 @@ public class GetPreProduct extends HttpServlet {
             if ("2".equals(inspectState)) {
                 sql += " and inspect = 2";
                 sql2 += " and inspect = 2";
+            }
+            if ("3".equals(inspectState)) {
+                sql += " and inspect = 3";
+                sql2 += " and inspect = 3";
             }
             if ("0".equals(testState)) {
                 sql += " and covert_test = 0";
@@ -333,6 +337,10 @@ public class GetPreProduct extends HttpServlet {
                 map.put("covert_test_user", rs.getString("covert_test_user"));
                 map.put("pourmade_user", rs.getString("pourmade_user"));
                 map.put("stock_status", rs.getString("stock_status"));
+                map.put("scrap_library", rs.getString("scrap_library"));
+                map.put("scrap_remark", rs.getString("scrap_remark"));
+                map.put("scrap_in_user", rs.getString("scrap_in_user"));
+                map.put("scrap_in_time", rs.getString("scrap_in_time"));
                 list.add(map);
             }
             if (pageCur != 0 && pageMax != 0) {

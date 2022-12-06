@@ -78,13 +78,43 @@
 
             index = 0;
             if (checkAuthority("7")) {
-                $('#Factory_li').css('display', 'block');
+                $('#factory_qrcode_query_li').css('display', 'block');
             } else {
-                $('#Factory_li').css('display', 'none');
+                $('#factory_qrcode_query_li').css('display', 'none');
+                index++;
+            }
+            if (checkAuthority("25")) {
+                $('#factory_query_li').css('display', 'block');
+            } else {
+                $('#factory_query_li').css('display', 'none');
+                index++;
+            }
+            if (checkAuthority("20")) {
+                $('#patch_library_query_li').css('display', 'block');
+            } else {
+                $('#patch_library_query_li').css('display', 'none');
+                index++;
+            }
+            if (checkAuthority("26")) {
+                $('#production_in_out__warehouse_li').css('display', 'block');
+            } else {
+                $('#production_in_out__warehouse_li').css('display', 'none');
+                index++;
+            }
+            if (checkAuthority("29")) {
+                $('#warehouse_log_li').css('display', 'block');
+            } else {
+                $('#warehouse_log_li').css('display', 'none');
+                index++;
+            }
+            if (checkAuthority("30")) {
+                $('#warehouse_scrap_li').css('display', 'block');
+            } else {
+                $('#warehouse_scrap_li').css('display', 'none');
                 index++;
             }
             //权限判断隐藏大节点
-            if (index === 1) {
+            if (index === 5) {
                 $('#factoryManage').css('display', 'none');
             } else {
                 $('#factoryManage').css('display', 'block');
@@ -210,26 +240,14 @@
                 $('#build_query_li').css('display', 'none');
                 index++;
             }
-            if (checkAuthority("25")) {
+            if (checkAuthority("24")) {
                 $('#production_summary_li').css('display', 'block');
             } else {
                 $('#production_summary_li').css('display', 'none');
                 index++;
             }
-            if (checkAuthority("24")) {
-                $('#production_in_out__warehouse_li').css('display', 'block');
-            } else {
-                $('#production_in_out__warehouse_li').css('display', 'none');
-                index++;
-            }
-            if (checkAuthority("29")) {
-                $('#warehouse_log_li').css('display', 'block');
-            } else {
-                $('#warehouse_log_li').css('display', 'none');
-                index++;
-            }
             //权限判断隐藏大节点
-            if (index === 8) {
+            if (index === 7) {
                 $('#productManage').css('display', 'none');
             } else {
                 $('#productManage').css('display', 'block');
@@ -322,6 +340,24 @@
                     <span style="margin-left: 15%;margin-right: 5%;" class="glyphicon glyphicon-grain"></span>修补库查询
                 </button>
             </li>
+            <li id="production_in_out__warehouse_li">
+                <button class="li_ItemStyle" id="production_in_out__warehouse"
+                        onclick="jumpTo('productInOutWarehouseQuery.jsp','production_in_out__warehouse')"><span
+                        style="margin-left: 15%;margin-right: 5%;" class="glyphicon glyphicon-grain"></span>出入移库
+                </button>
+            </li>
+            <li id="warehouse_scrap_li">
+                <button class="li_ItemStyle" id="warehouse_scrap"
+                        onclick="jumpTo('productWarehouseScrapQuery.jsp','warehouse_scrap')"><span
+                        style="margin-left: 15%;margin-right: 5%;" class="glyphicon glyphicon-grain"></span>报废出入库
+                </button>
+            </li>
+            <li id="warehouse_log_li">
+                <button class="li_ItemStyle" id="warehouse_log"
+                        onclick="jumpTo('productWarehouseLogQuery.jsp','warehouse_log')"><span
+                        style="margin-left: 15%;margin-right: 5%;" class="glyphicon glyphicon-grain"></span>出入库单打印
+                </button>
+            </li>
         </ul>
     </ul>
     <!--生产管理-->
@@ -374,18 +410,6 @@
                 <button class="li_ItemStyle" id="production_summary"
                         onclick="jumpTo('productionSummaryQueryAll.jsp','production_summary')"><span
                         style="margin-left: 15%;margin-right: 5%;" class="glyphicon glyphicon-grain"></span>生产查询汇总
-                </button>
-            </li>
-            <li id="production_in_out__warehouse_li">
-                <button class="li_ItemStyle" id="production_in_out__warehouse"
-                        onclick="jumpTo('productInOutWarehouseQuery.jsp','production_in_out__warehouse')"><span
-                        style="margin-left: 15%;margin-right: 5%;" class="glyphicon glyphicon-grain"></span>出入移库
-                </button>
-            </li>
-            <li id="warehouse_log_li">
-                <button class="li_ItemStyle" id="warehouse_log"
-                        onclick="jumpTo('productWarehouseLogQuery.jsp','warehouse_log')"><span
-                        style="margin-left: 15%;margin-right: 5%;" class="glyphicon glyphicon-grain"></span>出入库单打印
                 </button>
             </li>
         </ul>

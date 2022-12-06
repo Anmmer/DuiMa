@@ -855,4 +855,12 @@
         <servlet-name>getPieData</servlet-name>
         <url-pattern>/GetPieData</url-pattern>
     </servlet-mapping>
+    <servlet>
+        <servlet-name>warehouseScrapInOut</servlet-name>
+        <servlet-class>WarehouseScrapInOut</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>warehouseScrapInOut</servlet-name>
+        <url-pattern>/WarehouseScrapInOut</url-pattern>
+    </servlet-mapping>
 </web-app>

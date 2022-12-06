@@ -7,7 +7,7 @@
                                                            style="width: 13%;height: 30px" class="form-control">
         <label style="margin-left: 2%">质检状态：</label>
         <select id="inspectState" class="form-control" style="width: 13%;height: 30px">
-            <option value="3"></option>
+            <option value=""></option>
             <option value="0">待质检</option>
             <option value="1">质检合格</option>
             <option value="2">质检不合格</option>

@@ -182,6 +182,8 @@
         });
 
         function updateTable() {
+            document.getElementById('pre_checkbok').checked = false
+            pre = 0
             let str = '';
             for (let i = 0; i < jsonObj.length; i++) {
                 if (jsonObj[i]['inspect'] === 0) {
