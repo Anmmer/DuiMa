@@ -62,26 +62,15 @@
                 if (res.data.length !== 0) {
                     jsonObj = [];
                     for (let o of res.data) {
-                        jsonObj.push({id: o.id, yard: o.name, region: '', location: '', pid: o.pid})
+                        let obj = {
+                            yard: o.name
+                        }
                         for (let d of o.children) {
-                            jsonObj.push({
-                                id: d.id,
-                                pid: d.pid,
-                                yard: '',
-                                yard_d: o.name,
-                                location: '',
-                                region: d.name,
-                            })
+                            obj.region = d.name
                             for (let e of d.children) {
-                                jsonObj.push({
-                                    id: e.id,
-                                    pid: e.pid,
-                                    yard: '',
-                                    yard_d: o.name,
-                                    location: e.name,
-                                    region: '',
-                                    region_d: d.name,
-                                })
+                                obj.location = e.name
+                                obj.id = e.id
+                                jsonObj.push(obj)
                             }
                         }
                     }

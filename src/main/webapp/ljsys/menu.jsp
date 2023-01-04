@@ -145,6 +145,12 @@
                 $('#factory_set_li').css('display', 'none');
                 index++;
             }
+            if (checkAuthority("31")) {
+                $('#location_set_li').css('display', 'block');
+            } else {
+                $('#location_set_li').css('display', 'none');
+                index++;
+            }
             if (checkAuthority("9")) {
                 $('#plan_name_li').css('display', 'block');
             } else {
@@ -183,7 +189,7 @@
             }
 
             //权限判断隐藏大节点
-            if (index === 10) {
+            if (index === 11) {
                 $('#equipmentManage').css('display', 'none');
             } else {
                 $('#equipmentManage').css('display', 'block');
@@ -447,6 +453,12 @@
                 <button class="li_ItemStyle" id="factory_set"
                         onclick="jumpTo('archivesFactory.jsp','factory_set')"><span
                         style="margin-left: 15%;margin-right: 5%;" class="glyphicon glyphicon-grain"></span>仓库管理
+                </button>
+            </li>
+            <li id="location_set_li">
+                <button class="li_ItemStyle" id="location_set"
+                        onclick="jumpTo('archivesLocation.jsp','location_set')"><span
+                        style="margin-left: 15%;margin-right: 5%;" class="glyphicon glyphicon-grain"></span>货位管理
                 </button>
             </li>
             <li id="plan_name_li">

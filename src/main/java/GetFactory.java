@@ -32,23 +32,48 @@ public class GetFactory extends HttpServlet {
             String pid = request.getParameter("pid");
             String id = request.getParameter("id");
             String planname = request.getParameter("planname");
+            int pageCur = 0, pageMax = 0;
+            if (request.getParameter("pageCur") != null) {
+                pageCur = Integer.parseInt(request.getParameter("pageCur"));
+                pageMax = Integer.parseInt(request.getParameter("pageMax"));
+            }
             con = DbUtil.getCon();
             int i = 0;
+            int j = 0;
             String sql1 = "select id,pid,name,type from warehouse where is_delete = '0' ";
+            String sql2 = "select count(*) num from warehouse where is_delete = '0' ";
             List<Warehouse> list = new ArrayList<>();
             if (type != null && !type.equals("")) {
                 sql1 += " and type = ?";
+                sql2 += " and type = ?";
                 i++;
+                if (planname != null && !planname.equals("")) {
+                    sql1 += " and name like ?";
+                    sql2 += " and name like ?";
+                    i++;
+                }
             }
             if (pid != null && !pid.equals("")) {
                 sql1 += " and pid = ?";
+                sql2 += " and pid = ?";
                 i++;
             }
             if (id != null && !id.equals("")) {
                 sql1 += " and id = ?";
+                sql2 += " and id = ?";
                 i++;
             }
+            if (type != null && !type.equals("")) {
+                j = i;
+                sql1 += " limit ?,?";
+                i += 2;
+            }
             ps = con.prepareStatement(sql1);
+            if (type != null && !type.equals("")) {
+                ps.setInt(i--, pageMax);
+                ps.setInt(i--, (pageCur - 1) * pageMax);
+
+            }
             if (id != null && !id.equals("")) {
                 ps.setString(i--, id);
             }
@@ -56,6 +81,9 @@ public class GetFactory extends HttpServlet {
                 ps.setString(i--, pid);
             }
             if (type != null && !type.equals("")) {
+                if (planname != null && !planname.equals("")) {
+                    ps.setString(i--, '%' + planname + '%');
+                }
                 ps.setString(i, type);
             }
             ResultSet rs = ps.executeQuery();
@@ -68,6 +96,32 @@ public class GetFactory extends HttpServlet {
                 list.add(warehouse);
             }
             if (type != null && !type.equals("")) {
+
+                ps = con.prepareStatement(sql2);
+                if (id != null && !id.equals("")) {
+                    ps.setString(j--, id);
+                }
+                if (pid != null && !pid.equals("")) {
+                    ps.setString(j--, pid);
+                }
+                if (type != null && !type.equals("")) {
+                    if (planname != null && !planname.equals("")) {
+                        ps.setString(j--, '%' + planname + '%');
+                    }
+                    ps.setString(j, type);
+                }
+                rs = ps.executeQuery();
+                while (rs.next()) {
+                    int num = rs.getInt("num");
+                    int res_num;
+                    if (num % pageMax == 0) {
+                        res_num = num / pageMax;
+                    } else {
+                        res_num = num / pageMax + 1;
+                    }
+                    result.put("cnt", num);
+                    result.put("pageAll", res_num);
+                }
                 result.put("data", list);
             } else {
                 List<Warehouse> list1 = Warehouse.build(list, "0");
