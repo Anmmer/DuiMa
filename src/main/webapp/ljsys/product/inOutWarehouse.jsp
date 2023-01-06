@@ -267,7 +267,11 @@
         }
 
         function getYardData() {
-            $.post("${pageContext.request.contextPath}/GetFactory", {type: '1'}, function (result) {
+            $.post("${pageContext.request.contextPath}/GetFactory", {
+                type: '1',
+                pageCur: '1',
+                pageMax: '999'
+            }, function (result) {
                 result = JSON.parse(result);
                 let yard = result.data
                 $('#factoryName').empty()
@@ -280,7 +284,11 @@
         }
 
         function getYardDataPop() {
-            $.post("${pageContext.request.contextPath}/GetFactory", {type: '1'}, function (result) {
+            $.post("${pageContext.request.contextPath}/GetFactory", {
+                type: '1',
+                pageCur: '1',
+                pageMax: '999'
+            }, function (result) {
                 result = JSON.parse(result);
                 let yard = result.data
                 $('#myModal3_name1').empty()
@@ -295,13 +303,12 @@
         function getRegionData() {
             let pid = $('#factoryName').val()
             $('#location').empty()
-            if (pid === "") {
-                $('#area').empty()
-                return
-            }
+            $('#area').empty()
             $.post("${pageContext.request.contextPath}/GetFactory", {
                 type: '2',
-                pid: pid
+                pid: pid,
+                pageCur: '1',
+                pageMax: '999'
             }, function (result) {
                 result = JSON.parse(result);
                 let yard = result.data
@@ -316,13 +323,12 @@
         function getRegionDataPop() {
             let pid = $('#myModal3_name1').val()
             $('#myModal3_name3').empty()
-            if (pid === "") {
-                $('#myModal3_name2').empty()
-                return
-            }
+            $('#myModal3_name2').empty()
             $.post("${pageContext.request.contextPath}/GetFactory", {
                 type: '2',
-                pid: pid
+                pid: pid,
+                pageCur: '1',
+                pageMax: '999'
             }, function (result) {
                 result = JSON.parse(result);
                 let yard = result.data
@@ -336,13 +342,12 @@
 
         function getLocation() {
             let pid = $('#area').val()
-            if (pid === "") {
-                $('#location').empty()
-                return
-            }
+            $('#location').empty()
             $.post("${pageContext.request.contextPath}/GetFactory", {
                 type: '3',
-                pid: pid
+                pid: pid,
+                pageCur: '1',
+                pageMax: '999'
             }, function (result) {
                 result = JSON.parse(result);
                 let yard = result.data
@@ -358,13 +363,12 @@
 
         function getLocationPop() {
             let pid = $('#myModal3_name2').val()
-            if (pid === "") {
-                $('#myModal3_name3').empty()
-                return
-            }
+            $('#myModal3_name3').empty()
             $.post("${pageContext.request.contextPath}/GetFactory", {
                 type: '3',
-                pid: pid
+                pid: pid,
+                pageCur: '1',
+                pageMax: '999'
             }, function (result) {
                 result = JSON.parse(result);
                 let yard = result.data

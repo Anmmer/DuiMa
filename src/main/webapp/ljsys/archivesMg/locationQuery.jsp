@@ -1,22 +1,20 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <div style="height: 100%;width:100%;background-color:white;">
     <form name="query" class="form-inline" style="width:70%;height:10%;margin-left: 14%;padding-top:2%">
-        <div class="form-group">
-            <label>堆场名称：</label><input type="text" name="query_planname" id="query_planname"
-                                       style="" class="form-control">
+        <div class="form-group" style="width: 100%;">
+            <label>堆场名称：</label><select style="width:20%" name="query_planname"
+                                        id="query_planname"
+                                        onchange="getTableData(1)" class="form-control"></select>
+<%--            <button type="button" class="btn btn-primary btn-sm" style="margin-left: 5%"--%>
+<%--                    onclick="">--%>
+<%--                查 询--%>
+<%--            </button>--%>
         </div>
-        <button type="button" class="btn btn-primary btn-sm" style="margin-left: 5%"
-                onclick="getTableData(1)">
-            查 询
-        </button>
+
     </form>
     <div style="width:70%;height:80%;margin:0 auto;">
         <div class="page-header" style="margin-top: 0;margin-bottom: 1%">
             <h3 style="margin-bottom: 0;margin-top: 0"><small>项目信息</small></h3>
-            <button type="button" style="position: absolute;right: 15%;top:11%" class="btn btn-primary btn-sm"
-                    onclick="openAddPop(1)">
-                新增堆场
-            </button>
             <button type="button" class="btn btn-primary btn-sm" style="position:absolute;right: 21%;top:11%"
                     onclick="openAddPop(2)">新增区域
             </button>
@@ -106,8 +104,8 @@
                             <div class="form-group" style="margin-top: 5%">
                                 <label for="myModal2_name1" style="width: 28%;text-align: left;padding-right: 0"
                                        class="col-sm-2 control-label">堆场信息:</label>
-                                <select type="text" class="form-control" style="width:50%;" id="myModal2_name1"
-                                        name="myModal2_name1"></select><br>
+                                <input type="text" class="form-control" disabled style="width:50%;" id="myModal2_name1"
+                                       name="myModal2_name1"><br>
                                 <label for="myModal2_name" style="width: 28%;text-align: left;padding-right: 0"
                                        class="col-sm-2 control-label">区域信息:</label>
                                 <input type="text" class="form-control" style="width:50%;" id="myModal2_name"
@@ -138,8 +136,8 @@
                             <div class="form-group" style="margin-top: 5%">
                                 <label for="myModal3_name1" style="width: 28%;text-align: left;padding-right: 0"
                                        class="col-sm-2 control-label">堆场信息:</label>
-                                <select class="form-control" style="width:50%;" id="myModal3_name1"
-                                        name="myModal3_name1" onchange="getRegionData()"></select><br>
+                                <input class="form-control" style="width:50%;" id="myModal3_name1"
+                                        name="myModal3_name1" disabled ><br>
                                 <label for="myModal3_name2" style="width: 28%;text-align: left;padding-right: 0"
                                        class="col-sm-2 control-label">区域信息:</label>
                                 <select class="form-control" style="width:50%;" id="myModal3_name2"
@@ -177,10 +175,15 @@
     let pageMax = 10;   //一页多少条数据
     let planname_old = null;
 
-    window.onload = getTableData(1);
+    window.onload = getYardData();
 
     //打开新增弹窗
     function openAddPop(index) {
+        let query_planname = $('#query_planname option:selected').text();
+        if (query_planname === '') {
+            alert("请选择仓库信息")
+            return
+        }
         if (index === 1) {
             $('#myModal1').modal('show')
             $("#myModal1_title1").show();
@@ -191,15 +194,16 @@
             $('#myModal2').modal('show')
             $("#myModal2_title1").show();
             $("#myModal2_title2").hide();
+            $("#myModal2_name1").val(query_planname)
             $("#myModal2_save").attr('onclick', 'region_save()');
-            getYardData(index)
         }
         if (index === 3) {
             $('#myModal3').modal('show')
             $("#myModal3_title1").show();
             $("#myModal3_title2").hide();
+            $("#myModal3_name1").val(query_planname)
+            getRegionData()
             $("#myModal3_save").attr('onclick', 'location_save()');
-            getYardData(index)
         }
 
     }
@@ -239,7 +243,11 @@
     }
 
     function getYardData(index) {
-        $.post("${pageContext.request.contextPath}/GetFactory", {type: '1'}, function (result) {
+        $.post("${pageContext.request.contextPath}/GetFactory", {
+            type: '1',
+            pageCur: '1',
+            pageMax: '999'
+        }, function (result) {
             result = JSON.parse(result);
             let yard = result.data
             $('#myModal' + index + '_name1').empty()
@@ -301,14 +309,16 @@
     }
 
     function getRegionData() {
-        let pid = $('#myModal3_name1').val()
+        let pid = $('#query_planname').val()
         if (pid === "") {
-            $('#myModal3_name2').empty()
+           alert("请选择堆场信息")
             return
         }
         $.post("${pageContext.request.contextPath}/GetFactory", {
             type: '2',
-            pid: pid
+            pid: pid,
+            pageCur: '1',
+            pageMax: '999'
         }, function (result) {
             result = JSON.parse(result);
             let yard = result.data
@@ -344,9 +354,14 @@
 
 
     function region_save() {
+        let query_planname = $('#query_planname').val()
+        if (!query_planname) {
+            alert("请选择仓库信息")
+            return;
+        }
         let obj = {
             name: $('#myModal2_name').val(),
-            pid: $('#myModal2_name1').val(),
+            pid: query_planname,
             type: '2'
         }
         if (obj.name === '') {
@@ -418,7 +433,7 @@
     })
 
     function getTableData(newPage) {
-        let query_planname = $('#query_planname').val();
+        let query_planname = $('#query_planname option:selected').text();
         let obj = {
             'planname': query_planname,
         }
@@ -432,9 +447,14 @@
                 if (res.data.length !== 0) {
                     jsonObj = [];
                     for (let o of res.data) {
-                        let obj = {}
                         for (let d of o.children) {
+                            let obj = {}
                             obj.region = d.name
+                            if (!d.children.length) {
+                                obj.location = ''
+                                jsonObj.push(obj)
+                                continue
+                            }
                             for (let e of d.children) {
                                 obj.location = e.name
                                 jsonObj.push(obj)
@@ -451,6 +471,23 @@
                 jsonObj = [];
                 updateTable(false);
                 alert("查询失败！")
+            }
+        })
+    }
+
+    function getYardData() {
+        $.post("${pageContext.request.contextPath}/GetFactory", {
+            type: '1',
+            pageCur: '1',
+            pageMax: '999'
+        }, function (result) {
+            result = JSON.parse(result);
+            let yard = result.data
+            $('#query_planname').empty()
+            $('#query_planname').append($("<option value=''></option>"))
+            for (let o of yard) {
+                let item = $("<option value='" + o['id'] + "'>" + o['name'] + "</option>")
+                $('#query_planname').append(item)
             }
         })
     }
@@ -477,7 +514,7 @@
                 "<td class='tdStyle_body'>" + jsonObj[i]['region'] + "</td>" +
                 "<td class='tdStyle_body'>" + jsonObj[i]['location'] + "</td>";
             // if (jsonObj[i]['location'] !== '') {
-            str += "<td class='tdStyle_body'><a href='#' onclick=openEditPop('" + jsonObj[i]['id'] + "','" + jsonObj[i]['yard_d'] + "','" + jsonObj[i]['region_d'] + "','" + jsonObj[i]['location'] + "')>修改</a> <a href='#' onclick=delTableData('" + jsonObj[i]['id'] + "')>删除</a> <a href='#' onclick=openQrcode('" + jsonObj[i]['id'] + "','" + jsonObj[i]['location'] + "')>展码</a></td></tr>";
+            str += "<td class='tdStyle_body'><a href='#' onclick=openEditPop('" + jsonObj[i]['id'] + "','" + 1 + "','" + jsonObj[i]['yard_d'] + "','" + jsonObj[i]['region_d'] + "','" + jsonObj[i]['location'] + "')>修改</a> <a href='#' onclick=delTableData('" + jsonObj[i]['id'] + "')>删除</a> <a href='#' onclick=openQrcode('" + jsonObj[i]['id'] + "','" + jsonObj[i]['location'] + "')>展码</a></td></tr>";
             // }
             // if (jsonObj[i]['yard'] !== '') {
             //     str += "<td class='tdStyle_body'><a href='#' onclick=openEditPop('" + jsonObj[i]['pid'] + "','" + 1 + "','" + jsonObj[i]['id'] + "','" + jsonObj[i]['yard'] + "')>修改</a> <a href='#' onclick=delTableData('" + jsonObj[i]['id'] + "')>删除</a></td></tr>";
