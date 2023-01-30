@@ -493,6 +493,12 @@
                         style="margin-left: 15%;margin-right: 5%;" class="glyphicon glyphicon-grain"></span>入库方式
                 </button>
             </li>
+            <li id="construction_unit_manage_li">
+                <button class="li_ItemStyle" id="construction_unit_manage"
+                        onclick="jumpTo('archivesConstructionUnitManage.jsp','construction_unit_manage')"><span
+                        style="margin-left: 15%;margin-right: 5%;" class="glyphicon glyphicon-grain"></span>施工单位名称
+                </button>
+            </li>
         </ul>
     </ul>
     <!--打印管理-->

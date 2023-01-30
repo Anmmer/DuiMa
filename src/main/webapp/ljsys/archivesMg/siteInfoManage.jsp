@@ -2,7 +2,7 @@
 <div style="height: 100%;width: 100%">
     <form name="query" class="form-inline" style="width:70%;height:10%;margin-left: 14%;padding-top:2%">
         <div class="form-group">
-            <label>单位名称：</label><input type="text" name="query_name" id="query_name"
+            <label>工地编号名称：</label><input type="text" name="query_name" id="query_name"
                                        style="" class="form-control">
         </div>
         <button type="button" class="btn btn-primary btn-sm" style="margin-left: 5%"
@@ -12,7 +12,7 @@
     </form>
     <div style="width:70%;height:80%;margin:0 auto;">
         <div class="page-header" style="margin-top: 0;margin-bottom: 1%">
-            <h3 style="margin-bottom: 0;margin-top: 0"><small>施工单位信息</small></h3>
+            <h3 style="margin-bottom: 0;margin-top: 0"><small>工地信息</small></h3>
             <button type="button" style="position: absolute;right: 15%;top:11%" class="btn btn-primary btn-sm"
                     data-toggle="modal"
                     onclick="openAddPop()">

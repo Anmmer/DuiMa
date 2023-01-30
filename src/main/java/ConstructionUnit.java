@@ -60,6 +60,14 @@ public class ConstructionUnit extends HttpServlet {
                 if (name != null && !"".equals(name)) {
                     ps.setString(i, name);
                 }
+                ResultSet rs = ps.executeQuery();
+                while (rs.next()) {
+                    Map<String, Object> map = new HashMap<>();
+                    map.put("name", rs.getString("name"));
+                    map.put("id", rs.getString("id"));
+                    list.add(map);
+                }
+                result.put("data", list);
                 ps = con.prepareStatement(sql1_page);
                 if (name != null && !"".equals(name)) {
                     ps.setString(j, name);
@@ -76,14 +84,6 @@ public class ConstructionUnit extends HttpServlet {
                     result.put("cnt", num);
                     result.put("pageAll", res_num);
                 }
-                ResultSet rs = ps.executeQuery();
-                while (rs.next()) {
-                    Map<String, Object> map = new HashMap<>();
-                    map.put("name", rs.getString("line"));
-                    map.put("id", rs.getString("id"));
-                    list.add(map);
-                }
-                result.put("data", list);
             }
             if ("2".equals(type)) {
                 ps = con.prepareStatement(sql2);
@@ -92,11 +92,9 @@ public class ConstructionUnit extends HttpServlet {
                 if (ps.executeUpdate() > 0) {
                     result.put("message", "录入成功");
                     result.put("flag", true);
-                    out.write(JSON.toJSONString(result));
                 } else {
                     result.put("message", "录入失败");
                     result.put("flag", true);
-                    out.write(JSON.toJSONString(result));
                 }
             }
             if ("3".equals(type)) {
@@ -107,11 +105,9 @@ public class ConstructionUnit extends HttpServlet {
                 if (ps.executeUpdate() > 0) {
                     result.put("message", "修改成功");
                     result.put("flag", true);
-                    out.write(JSON.toJSONString(result));
                 } else {
                     result.put("message", "修改失败");
                     result.put("flag", true);
-                    out.write(JSON.toJSONString(result));
                 }
             }
             if ("4".equals(type)) {
@@ -121,7 +117,6 @@ public class ConstructionUnit extends HttpServlet {
                 if (ps.executeUpdate() > 0) {
                     result.put("message", "删除成功");
                     result.put("flag", true);
-                    out.write(JSON.toJSONString(result));
                 } else {
                     result.put("message", "删除失败");
                     result.put("flag", true);
