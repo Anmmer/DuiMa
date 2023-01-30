@@ -863,4 +863,12 @@
         <servlet-name>warehouseScrapInOut</servlet-name>
         <url-pattern>/WarehouseScrapInOut</url-pattern>
     </servlet-mapping>
+    <servlet>
+        <servlet-name>constructionUnit</servlet-name>
+        <servlet-class>ConstructionUnit</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>constructionUnit</servlet-name>
+        <url-pattern>/ConstructionUnit</url-pattern>
+    </servlet-mapping>
 </web-app>

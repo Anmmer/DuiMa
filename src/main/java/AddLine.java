@@ -62,7 +62,7 @@ public class AddLine extends HttpServlet {
                 result.put("flag", true);
                 out.write(JSON.toJSONString(result));
             } else {
-                result.put("message", "录入成功");
+                result.put("message", "录入失败");
                 result.put("flag", true);
                 out.write(JSON.toJSONString(result));
             }
