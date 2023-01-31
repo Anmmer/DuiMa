@@ -13,12 +13,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.*;
 
-/**
- * @description:
- * @author:
- * @createDate: 2023/1/31
- */
-public class SiteInfo extends HttpServlet {
+public class RebarName extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         super.doGet(req, resp);
@@ -39,16 +34,16 @@ public class SiteInfo extends HttpServlet {
         int j = 0;
         try {
             con = DbUtil.getCon();
-            String sql1 = "select number,id from site_info where is_effective = 1";
-            String sql1_page = "select count(*) as num from site_info where is_effective = 1";
-            String sql2 = "insert into site_info(id,number,create_time,is_effective) values(?,?,now(),'1')";
-            String sql3 = "update site_info set ";
+            String sql1 = "select name,id from rebar_name where is_effective = 1";
+            String sql1_page = "select count(*) as num from rebar_name where is_effective = 1";
+            String sql2 = "insert into rebar_name(id,name,create_time,is_effective) values(?,?,now(),'1')";
+            String sql3 = "update rebar_name set ";
             if ("1".equals(type)) {
                 int pageCur = Integer.parseInt(req.getParameter("pageCur"));
                 int pageMax = Integer.parseInt(req.getParameter("pageMax"));
                 if (name != null && !"".equals(name)) {
-                    sql1 += " and number = ?";
-                    sql1_page += " and number = ?";
+                    sql1 += " and name = ?";
+                    sql1_page += " and name = ?";
                     i++;
                 }
                 j = i;
@@ -63,7 +58,7 @@ public class SiteInfo extends HttpServlet {
                 ResultSet rs = ps.executeQuery();
                 while (rs.next()) {
                     Map<String, Object> map = new HashMap<>();
-                    map.put("number", rs.getString("number"));
+                    map.put("name", rs.getString("name"));
                     map.put("id", rs.getString("id"));
                     list.add(map);
                 }
@@ -98,7 +93,7 @@ public class SiteInfo extends HttpServlet {
                 }
             }
             if ("3".equals(type)) {
-                sql3 = sql3 + "number = ? where id = ?";
+                sql3 = sql3 + "name = ? where id = ?";
                 ps = con.prepareStatement(sql3);
                 ps.setString(1, name);
                 ps.setString(2, id);

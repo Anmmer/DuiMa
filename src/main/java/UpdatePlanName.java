@@ -31,12 +31,13 @@ public class UpdatePlanName extends HttpServlet {
         String id = req.getParameter("id");
         String planname = req.getParameter("planname");
         String planname_old = req.getParameter("planname_old");
+        String unit_consumption = req.getParameter("unit_consumption");
         Map<String, Object> result = new HashMap<>();
         Connection con = null;
         PreparedStatement ps = null;
         try {
             con = DbUtil.getCon();
-            String sql = "update planname set planname = ? where id = ? and isdelete = 0";
+            String sql = "update planname set planname = ?,unit_consumption=? where id = ? and isdelete = 0";
             String sql2 = "update plan set planname = ? where planname = ? and isdelete = 0";
             ps = con.prepareStatement(sql2);
             ps.setString(1, planname.trim());
@@ -44,7 +45,8 @@ public class UpdatePlanName extends HttpServlet {
             ps.executeUpdate();
             ps = con.prepareStatement(sql);
             ps.setString(1, planname.trim());
-            ps.setInt(2, Integer.parseInt(id));
+            ps.setString(2, unit_consumption.trim());
+            ps.setInt(3, Integer.parseInt(id));
             int i = ps.executeUpdate();
             if (i > 0) {
                 result.put("message", "修改成功");

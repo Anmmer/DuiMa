@@ -187,9 +187,63 @@
                 $('#in_warehouse_li').css('display', 'none');
                 index++;
             }
+            if (checkAuthority("32")) {
+                $('#construction_unit_manage_li').css('display', 'block');
+            } else {
+                $('#construction_unit_manage_li').css('display', 'none');
+                index++;
+            }
+            if (checkAuthority("33")) {
+                $('#site_info_manage_li').css('display', 'block');
+            } else {
+                $('#site_info_manage_li').css('display', 'none');
+                index++;
+            }
+            if (checkAuthority("35")) {
+                $('#rebar_name_manage_li').css('display', 'block');
+            } else {
+                $('#rebar_name_manage_li').css('display', 'none');
+                index++;
+            }
+            if (checkAuthority("34")) {
+                $('#production_unit_manage_li').css('display', 'block');
+            } else {
+                $('#production_unit_manage_li').css('display', 'none');
+                index++;
+            }
+            if (checkAuthority("36")) {
+                $('#fillingInfo1_manage_li').css('display', 'block');
+            } else {
+                $('#fillingInfo1_manage_li').css('display', 'none');
+                index++;
+            }
+            if (checkAuthority("37")) {
+                $('#fillingInfo2_manage_li').css('display', 'block');
+            } else {
+                $('#fillingInfo2_manage_li').css('display', 'none');
+                index++;
+            }
+            if (checkAuthority("38")) {
+                $('#cementType_manage_li').css('display', 'block');
+            } else {
+                $('#cementType_manage_li').css('display', 'none');
+                index++;
+            }
+            if (checkAuthority("39")) {
+                $('#cementGrade_manage_li').css('display', 'block');
+            } else {
+                $('#cementGrade_manage_li').css('display', 'none');
+                index++;
+            }
+            if (checkAuthority("40")) {
+                $('#ConcreteMaterialsAreaManage_manage_li').css('display', 'block');
+            } else {
+                $('#ConcreteMaterialsAreaManage_manage_li').css('display', 'none');
+                index++;
+            }
 
             //权限判断隐藏大节点
-            if (index === 11) {
+            if (index === 20) {
                 $('#equipmentManage').css('display', 'none');
             } else {
                 $('#equipmentManage').css('display', 'block');
@@ -501,8 +555,50 @@
             </li>
             <li id="site_info_manage_li">
                 <button class="li_ItemStyle" id="site_info_manage"
-                        onclick="jumpTo('archivesConstructionUnitManage.jsp','construction_unit_manage')"><span
+                        onclick="jumpTo('archivesSiteInfoManage.jsp','site_info_manage')"><span
                         style="margin-left: 15%;margin-right: 5%;" class="glyphicon glyphicon-grain"></span>工地编号
+                </button>
+            </li>
+            <li id="rebar_name_manage_li">
+                <button class="li_ItemStyle" id="rebar_name_manage"
+                        onclick="jumpTo('archivesRebarNameManage.jsp','rebar_name_manage')"><span
+                        style="margin-left: 15%;margin-right: 5%;" class="glyphicon glyphicon-grain"></span>构建用钢筋名称
+                </button>
+            </li>
+            <li id="production_unit_manage_li">
+                <button class="li_ItemStyle" id="production_unit_manage"
+                        onclick="jumpTo('archivesProdcutionUnitManage.jsp','production_unit_manage')"><span
+                        style="margin-left: 15%;margin-right: 5%;" class="glyphicon glyphicon-grain"></span>构件生产单位
+                </button>
+            </li>
+            <li id="fillingInfo1_manage_li">
+                <button class="li_ItemStyle" id="fillingInfo1_manage"
+                        onclick="jumpTo('archivesFillingInfo1Manage.jsp','fillingInfo1_manage')"><span
+                        style="margin-left: 15%;margin-right: 5%;" class="glyphicon glyphicon-grain"></span>钢筋生产企业备案证编号
+                </button>
+            </li>
+            <li id="fillingInfo2_manage_li">
+                <button class="li_ItemStyle" id="fillingInfo2_manage"
+                        onclick="jumpTo('archivesFillingInfo2Manage.jsp','fillingInfo2_manage')"><span
+                        style="margin-left: 15%;margin-right: 5%;" class="glyphicon glyphicon-grain"></span>水泥生产企业备案证编号
+                </button>
+            </li>
+            <li id="cementType_manage_li">
+                <button class="li_ItemStyle" id="cementType_manage"
+                        onclick="jumpTo('archivesCementTypeManage.jsp','cementType_manage')"><span
+                        style="margin-left: 15%;margin-right: 5%;" class="glyphicon glyphicon-grain"></span>混凝土用水泥种类
+                </button>
+            </li>
+            <li id="cementGrade_manage_li">
+                <button class="li_ItemStyle" id="cementGrade_manage"
+                        onclick="jumpTo('archivesCementGradeManage.jsp','cementGrade_manage')"><span
+                        style="margin-left: 15%;margin-right: 5%;" class="glyphicon glyphicon-grain"></span>混凝土用水泥等级
+                </button>
+            </li>
+            <li id="ConcreteMaterialsAreaManage_manage_li">
+                <button class="li_ItemStyle" id="ConcreteMaterialsAreaManage_manage"
+                        onclick="jumpTo('archivesConcreteMaterialsAreaManage.jsp','ConcreteMaterialsAreaManage_manage')"><span
+                        style="margin-left: 15%;margin-right: 5%;" class="glyphicon glyphicon-grain"></span>混凝土用沙用石产地
                 </button>
             </li>
         </ul>

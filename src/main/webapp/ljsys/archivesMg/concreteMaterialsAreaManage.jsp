@@ -2,8 +2,14 @@
 <div style="height: 100%;width: 100%">
     <form name="query" class="form-inline" style="width:70%;height:10%;margin-left: 14%;padding-top:2%">
         <div class="form-group">
-            <label>项目名称：</label><input type="text" name="query_planname" id="query_planname"
-                                       style="" class="form-control">
+            <label>产地：</label><input type="text" name="query_name" id="query_name"
+                                     style="" class="form-control">
+            <label for="query_type">分类：</label><select id="query_type"
+                                                       class="form-control">
+            <option value=''></option>
+            <option value='1'>用沙产地</option>
+            <option value='2'>用石产地</option>
+        </select>
         </div>
         <button type="button" class="btn btn-primary btn-sm" style="margin-left: 5%"
                 onclick="getTableData(1)">
@@ -12,7 +18,7 @@
     </form>
     <div style="width:70%;height:80%;margin:0 auto;">
         <div class="page-header" style="margin-top: 0;margin-bottom: 1%">
-            <h3 style="margin-bottom: 0;margin-top: 0"><small>项目信息</small></h3>
+            <h3 style="margin-bottom: 0;margin-top: 0"><small>混凝土用沙用石产地信息</small></h3>
             <button type="button" style="position: absolute;right: 15%;top:11%" class="btn btn-primary btn-sm"
                     data-toggle="modal"
                     onclick="openAddPop()">
@@ -23,8 +29,8 @@
         <div style="height: 85%">
             <table class="table table-hover" style="text-align: center">
                 <tr>
-                    <td class="tdStyle_title active" style="width: 35%">项目信息</td>
-                    <td class="tdStyle_title active" style="width: 35%">每方钢筋用量(kg)</td>
+                    <td class="tdStyle_title active" style="width: 35%">产地信息</td>
+                    <td class="tdStyle_title active" style="width: 35%">类型</td>
                     <td class="tdStyle_title active" style="width: 30%;text-align: center">操作</td>
                 </tr>
                 <tbody id="archTableText">
@@ -65,20 +71,24 @@
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
                                 aria-hidden="true">&times;</span></button>
-                        <h4 class="modal-title" id="title1">项目新增</h4>
-                        <h4 class="modal-title" id="title2">项目修改</h4>
+                        <h4 class="modal-title" id="title1">产地信息新增</h4>
+                        <h4 class="modal-title" id="title2">产地信息修改</h4>
                     </div>
                     <div class="modal-body">
                         <div class="form-horizontal">
                             <div class="form-group" style="margin-top: 5%">
-                                <label for="pop_planname" style="width: 32%;text-align: left;padding-right: 0"
-                                       class="col-sm-2 control-label">项目信息:</label>
-                                <input type="text" class="form-control" style="width:50%;" id="pop_planname"
-                                       name="pop_planname"><br>
-                                <label for="pop_consumption" style="width: 32%;text-align: left;padding-right: 0"
-                                       class="col-sm-2 control-label">每方钢筋用量(kg):</label>
-                                <input type="text" class="form-control" style="width:50%;" id="pop_consumption"
-                                       name="pop_consumption">
+                                <label for="pop_name" style="width: 28%;text-align: left;padding-right: 0"
+                                       class="col-sm-2 control-label">产地信息:</label>
+                                <input type="text" class="form-control" style="width:50%;" id="pop_name"
+                                       name="pop_name"><br>
+                                <label for="query_type" style="width: 28%;text-align: left;padding-right: 0"
+                                       class="col-sm-2 control-label">分类：</label><select id="pop_type"
+                                                                                         style="width: 50%"
+                                                                                         class="form-control">
+                                <option value='0'></option>
+                                <option value='1'>用沙产地</option>
+                                <option value='2'>用石产地</option>
+                            </select>
                             </div>
                         </div>
                     </div>
@@ -115,13 +125,14 @@
     }
 
     //打开修改弹窗
-    function openEditPop(id, planname, unit_consumption) {
+    function openEditPop(id, planname, type) {
         planname_old = planname
-        queryData(id);
+        $('#pop_name').val(planname);
+        $('#pop_type').val(type);
         $('#myModal').modal('show')
         $("#title1").hide();
         $("#title2").show();
-        $("#save").attr('onclick', 'edit(' + id + ')');
+        $("#save").attr('onclick', "edit('" + id + "')");
     }
 
     //关闭弹窗
@@ -132,22 +143,25 @@
 
     //重置弹窗
     function reset() {
-        $('#pop_planname').val('');
+        $('#pop_name').val('');
     }
 
     $('#myModal').on('hidden.bs.modal', function (e) {
-        $('#pop_planname').val('');
+        $('#pop_name').val('');
     })
 
     function getTableData(newPage) {
-        let query_planname = $('#query_planname').val();
+        let query_name = $('#query_name').val();
+        let query_type = $('#query_type').val();
         let obj = {
-            'planname': query_planname,
-            'pageCur': newPage,
-            'pageMax': pageMax
+            name: query_name,
+            query_type: query_type,
+            type: '1',
+            pageCur: newPage,
+            pageMax: pageMax
         }
         $.ajax({
-            url: "${pageContext.request.contextPath}/GetPlanName",
+            url: "${pageContext.request.contextPath}/ConcreteMaterialsArea",
             type: 'post',
             dataType: 'json',
             data: obj,
@@ -192,43 +206,20 @@
     function updateTable() {
         let str = '';
         for (let i = 0; i < jsonObj.length; i++) {
-            str += "<tr><td class='tdStyle_body'>" + jsonObj[i]['planname'] +
-                "</td><td class='tdStyle_body'>" + (jsonObj[i]['unit_consumption']||'') +
-                "</td><td class='tdStyle_body'><a href='#' onclick=openEditPop('" + jsonObj[i]['id'] + "','" + jsonObj[i]['planname'] + "','" + jsonObj[i]['unit_consumption'] + "')>修改</a> <a href='#' onclick=delTableData('" + jsonObj[i]['id'] + "','" + jsonObj[i]['planname'] + "')>删除</a></td></tr>";
+            str += "<tr><td class='tdStyle_body'>" + jsonObj[i]['address'] +
+                "</td><td class='tdStyle_body'>" + (jsonObj[i]['type'] === '1' ? '用沙产地' : '用石产地') +
+                "</td><td class='tdStyle_body'><a href='#' onclick=openEditPop('" + jsonObj[i]['id'] + "','" + jsonObj[i]['address'] + "','" + jsonObj[i]['type'] + "')>修改</a> <a href='#' onclick=delTableData('" + jsonObj[i]['id'] + "')>删除</a></td></tr>";
         }
         $("#archTableText").html(str);
     }
 
-    function queryData(id) {
-        let obj = {
-            'id': id,
-            'pageCur': 1,
-            'pageMax': pageMax
-        }
-        $.ajax({
-            url: "${pageContext.request.contextPath}/GetPlanName",
-            type: 'post',
-            dataType: 'json',
-            data: obj,
-            contentType: 'application/x-www-form-urlencoded;charset=utf-8',
-            success: function (res) {
-                if (res.data.length !== 0) {
-                    $('#pop_planname').val(res.data[0].planname);
-                    $('#pop_consumption').val(res.data[0].unit_consumption);
-                }
-            },
-            error: function () {
-                alert("查询失败！")
-            }
-        })
-    }
 
     function delTableData(id, planname) {
         let r = confirm("亲，确认删除！");
         if (r === false) {
             return;
         }
-        $.post("${pageContext.request.contextPath}/DeletePlanName", {id: id, planname: planname}, function (result) {
+        $.post("${pageContext.request.contextPath}/DeletePlanName", {id: id}, function (result) {
             result = JSON.parse(result);
             if (result.flag) {
                 getTableData(1);
@@ -241,35 +232,44 @@
 
     function save() {
         let obj = {
-            planname: $('#pop_planname').val(),
-            unit_consumption: $('#pop_consumption').val(),
+            name: $('#pop_name').val(),
+            query_type: $('#pop_type').val(),
+            type: '2'
         }
-        if (obj.planname === '') {
-            alert("请输入项目名称！");
+        if (obj.name === '') {
+            alert("请输入产地名称！");
             return;
         }
-        $.post("${pageContext.request.contextPath}/AddPlanName", obj, function (result) {
+        if (obj.query_type === '') {
+            alert("请选择类型！");
+            return;
+        }
+        $.post("${pageContext.request.contextPath}/ConcreteMaterialsArea", obj, function (result) {
             result = JSON.parse(result);
             alert(result.message);
             if (result.flag) {
                 $('#myModal').modal('hide');
-                getTableData(1);
+                getTableData(1)
             }
         })
     }
 
     function edit(id) {
         let obj = {
-            planname: $('#pop_planname').val(),
-            planname_old: planname_old,
-            unit_consumption: $('#pop_consumption').val(),
-            id: id
+            name: $('#pop_name').val(),
+            query_type: $('#pop_type').val(),
+            id: id,
+            type: "3"
         }
-        if (obj.planname === '') {
+        if (obj.name === '') {
             alert("请输入！");
             return;
         }
-        $.post("${pageContext.request.contextPath}/UpdatePlanName", obj, function (result) {
+        if (obj.query_type === '') {
+            alert("请选择类型！");
+            return;
+        }
+        $.post("${pageContext.request.contextPath}/ConcreteMaterialsArea", obj, function (result) {
             result = JSON.parse(result);
             alert(result.message);
             if (result.flag) {
@@ -302,14 +302,15 @@
                 newPage = pageCur + 1;
             }
         }
-        let query_planname = $('#query_planname').val();
+        let query_name = $('#query_name').val();
         let obj = {
-            'planname': query_planname,
+            'planname': query_name,
             'pageCur': newPage,
+            type: '1',
             'pageMax': 10
         }
         $.ajax({
-            url: "${pageContext.request.contextPath}/GetPlanName",
+            url: "${pageContext.request.contextPath}/ConcreteMaterialsArea",
             type: 'post',
             dataType: 'json',
             data: obj,
@@ -342,14 +343,15 @@
     }
 
     function jumpToNewPage1(newPage) {
-        let query_planname = $('#query_planname').val();
+        let query_name = $('#query_name').val();
         let obj = {
-            'planname': query_planname,
+            'planname': query_name,
             'pageCur': newPage,
+            type: '1',
             'pageMax': 10
         }
         $.ajax({
-            url: "${pageContext.request.contextPath}/GetPlanName",
+            url: "${pageContext.request.contextPath}/ConcreteMaterialsArea",
             type: 'post',
             dataType: 'json',
             data: obj,
@@ -375,18 +377,19 @@
     }
 
     function jumpToNewPage2() {
-        let query_planname = $('#query_planname').val();
+        let query_name = $('#query_name').val();
         var newPage = $('#jump_to').val();
         if (newPage > pageAll) {
             alert("超过最大页数")
         }
         let obj = {
-            'planname': query_planname,
+            'planname': query_name,
             'pageCur': newPage,
+            type: '1',
             'pageMax': 10
         }
         $.ajax({
-            url: "${pageContext.request.contextPath}/GetPlanName",
+            url: "${pageContext.request.contextPath}/ConcreteMaterialsArea",
             type: 'post',
             dataType: 'json',
             data: obj,

@@ -205,7 +205,7 @@
                             <div class="form-group" style="width: 100%;">
                                 <label for="qrcodestyles">选择一个样式：</label>
                                 <select class="form-control" id="qrcodestyles" class="form-control"
-                                        style="width: 15%;height: 30px;padding: 0"></select>
+                                        onchange="preCheck()" style="width: 15%;height: 30px;padding: 0"></select>
                                 <button type="button" id="print_data"
                                         style="margin-left: 1%;height: 30px;padding: 0;font-size: 12px !important;width: 70px"
                                         class="btn btn-primary" onclick="checkdata(false)">打印数据
@@ -231,6 +231,71 @@
                                 style="height: 28px;width:70px;font-size: 12px !important;padding: 0;"
                                 class="save-btn btn btn-primary">保存
                         </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Modal -->
+        <div class="modal fade" id="myModal1" tabindex="0"
+             style="position: absolute;height: 90%;width: 70%;left: 12%;top: 12%;" role="dialog"
+             data-backdrop="false"
+             aria-labelledby="myModalLabel">
+            <div class="modal-dialog" role="document" style="width: 90%;">
+                <div class="modal-content" style="width:100%">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                                aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="title1">信息选择</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-inline" style="width: 100%;">
+                            <div class="form-group" style="width: 100%;margin-top: 5%">
+                                <label for="pop_name1" style="width: 15%;">施工单位名称：</label><select id="pop_name1"
+                                                                                                  class="form-control"
+                                                                                                  style="width: 25%;height: 30px"></select>
+                                <label for="pop_name2" style="width: 15%;margin-left: 5%">工地编号：</label><select
+                                    id="pop_name2" class="form-control"
+                                    style="width: 25%;height: 30px"></select><br><br>
+                                <label for="pop_name3" style="width: 15%;">构件生产单位：</label><select id="pop_name3"
+                                                                                                  class="form-control"
+                                                                                                  style="width: 25%;height: 30px"></select>
+                                <label for="pop_name4" style="width: 15%;margin-left: 5%">构件用钢筋名称：</label><select
+                                    id="pop_name4" class="form-control"
+                                    style="width: 25%;height: 30px"></select><br><br>
+                                <label for="pop_name5" style="width: 15%;">钢筋生产企业备案证编号：</label><select id="pop_name5"
+                                                                                                       class="form-control"
+                                                                                                       style="width: 25%;height: 30px"></select>
+                                <label for="pop_name6" style="width: 15%;margin-left: 5%">混凝土用水泥种类：</label><select
+                                    id="pop_name6" class="form-control"
+                                    style="width: 25%;height: 30px"></select><br><br>
+                                <label for="pop_name7" style="width: 15%;">水泥等级：</label><select id="pop_name7"
+                                                                                                class="form-control"
+                                                                                                style="width: 25%;height: 30px"></select>
+                                <label for="pop_name8" style="width: 15%;margin-left: 5%">水泥生产企业备案证编号：</label><select
+                                    id="pop_name8" class="form-control"
+                                    style="width: 25%;height: 30px"></select><br><br>
+                                <label for="pop_name9" style="width: 15%;">混凝土用沙产地：</label><select id="pop_name9"
+                                                                                                   class="form-control"
+                                                                                                   style="width: 25%;height: 30px"></select>
+                                <label for="pop_name10" style="width: 15%;margin-left: 5%">混凝土用石产地：</label><select
+                                    id="pop_name10" class="form-control"
+                                    style="width: 25%;height: 30px">
+                            </select><br><br>
+                                <label for="pop_name11" style="width: 15%;">附框或窗框：</label><select id="pop_name11"
+                                                                                                  class="form-control"
+                                                                                                  style="width: 25%;height: 30px">
+                                <option value='有'>有</option>
+                                <option value='无'>无</option>
+                            </select>
+                                <label for="pop_name12" style="width: 15%;margin-left: 5%">备注：</label><input
+                                    id="pop_name12" class="form-control"
+                                    style="width: 25%;height: 30px">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer1" style="text-align: center;height: 6%;padding: 10px">
+                        <button type="button" class="btn btn-default" onclick="reset()">重置</button>
+                        <button type="button" id="save_pop" class="btn btn-primary">保存</button>
                     </div>
                 </div>
             </div>
@@ -334,6 +399,156 @@
     $('.recover-btn').click(() => {
         reset();
     })
+
+    function preCheck() {
+        if ($("#qrcodestyles option:selected").text() == '打印模板（上海）') {
+            $('#myModal1').modal('show')
+            $.post("${pageContext.request.contextPath}/ConstructionUnit", {
+                type: '1',
+                pageCur: '1',
+                pageMax: '999'
+            }, function (result) {
+                result = JSON.parse(result);
+                let data = result.data
+                $('#pop_name1').empty()
+                $('#pop_name1').append($("<option value=''></option>"))
+                for (let o of data) {
+                    let item = $("<option value='" + o['id'] + "'>" + o['name'] + "</option>")
+                    $('#pop_name1').append(item)
+                }
+            })
+            $.post("${pageContext.request.contextPath}/SiteInfo", {
+                type: '1',
+                pageCur: '1',
+                pageMax: '999'
+            }, function (result) {
+                result = JSON.parse(result);
+                let data = result.data
+                $('#pop_name2').empty()
+                $('#pop_name2').append($("<option value=''></option>"))
+                for (let o of data) {
+                    let item = $("<option value='" + o['id'] + "'>" + o['number'] + "</option>")
+                    $('#pop_name2').append(item)
+                }
+            })
+            $.post("${pageContext.request.contextPath}/ProductionUnit", {
+                type: '1',
+                pageCur: '1',
+                pageMax: '999'
+            }, function (result) {
+                result = JSON.parse(result);
+                let data = result.data
+                $('#pop_name3').empty()
+                $('#pop_name3').append($("<option value=''></option>"))
+                for (let o of data) {
+                    let item = $("<option value='" + o['id'] + "'>" + o['name'] + "</option>")
+                    $('#pop_name3').append(item)
+                }
+            })
+            $.post("${pageContext.request.contextPath}/RebarName", {
+                type: '1',
+                pageCur: '1',
+                pageMax: '999'
+            }, function (result) {
+                result = JSON.parse(result);
+                let data = result.data
+                $('#pop_name4').empty()
+                $('#pop_name4').append($("<option value=''></option>"))
+                for (let o of data) {
+                    let item = $("<option value='" + o['id'] + "'>" + o['name'] + "</option>")
+                    $('#pop_name4').append(item)
+                }
+            })
+            $.post("${pageContext.request.contextPath}/FillingInfo", {
+                type: '1',
+                pageCur: '1',
+                query_type: '1',
+                pageMax: '999'
+            }, function (result) {
+                result = JSON.parse(result);
+                let data = result.data
+                $('#pop_name5').empty()
+                $('#pop_name5').append($("<option value=''></option>"))
+                for (let o of data) {
+                    let item = $("<option value='" + o['id'] + "'>" + o['number'] + "</option>")
+                    $('#pop_name5').append(item)
+                }
+            })
+            $.post("${pageContext.request.contextPath}/CementType", {
+                type: '1',
+                pageCur: '1',
+                pageMax: '999'
+            }, function (result) {
+                result = JSON.parse(result);
+                let data = result.data
+                $('#pop_name6').empty()
+                $('#pop_name6').append($("<option value=''></option>"))
+                for (let o of data) {
+                    let item = $("<option value='" + o['id'] + "'>" + o['name'] + "</option>")
+                    $('#pop_name6').append(item)
+                }
+            })
+            $.post("${pageContext.request.contextPath}/CementGrade", {
+                type: '1',
+                pageCur: '1',
+                pageMax: '999'
+            }, function (result) {
+                result = JSON.parse(result);
+                let data = result.data
+                $('#pop_name7').empty()
+                $('#pop_name7').append($("<option value=''></option>"))
+                for (let o of data) {
+                    let item = $("<option value='" + o['id'] + "'>" + o['name'] + "</option>")
+                    $('#pop_name7').append(item)
+                }
+            })
+            $.post("${pageContext.request.contextPath}/FillingInfo", {
+                type: '1',
+                pageCur: '1',
+                query_type: '2',
+                pageMax: '999'
+            }, function (result) {
+                result = JSON.parse(result);
+                let data = result.data
+                $('#pop_name8').empty()
+                $('#pop_name8').append($("<option value=''></option>"))
+                for (let o of data) {
+                    let item = $("<option value='" + o['id'] + "'>" + o['number'] + "</option>")
+                    $('#pop_name8').append(item)
+                }
+            })
+            $.post("${pageContext.request.contextPath}/ConcreteMaterialsArea", {
+                type: '1',
+                pageCur: '1',
+                query_type: '1',
+                pageMax: '999'
+            }, function (result) {
+                result = JSON.parse(result);
+                let data = result.data
+                $('#pop_name9').empty()
+                $('#pop_name9').append($("<option value=''></option>"))
+                for (let o of data) {
+                    let item = $("<option value='" + o['id'] + "'>" + o['address'] + "</option>")
+                    $('#pop_name9').append(item)
+                }
+            })
+            $.post("${pageContext.request.contextPath}/ConcreteMaterialsArea", {
+                type: '1',
+                pageCur: '1',
+                query_type: '2',
+                pageMax: '999'
+            }, function (result) {
+                result = JSON.parse(result);
+                let data = result.data
+                $('#pop_name10').empty()
+                $('#pop_name10').append($("<option value=''></option>"))
+                for (let o of data) {
+                    let item = $("<option value='" + o['id'] + "'>" + o['address'] + "</option>")
+                    $('#pop_name10').append(item)
+                }
+            })
+        }
+    }
 
     //查询plan表数据
     function getTableData(newPage) {

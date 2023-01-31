@@ -43,7 +43,7 @@ public class GetPlanName extends HttpServlet {
         int i = 0;
         try {
             con = DbUtil.getCon();
-            String sql = "select planname,id from planname where isdelete = 0";
+            String sql = "select planname,unit_consumption,id from planname where isdelete = 0";
             String sql2 = "select count(*) as num from planname where isdelete = 0";
             if (planname != null && !"".equals(planname)) {
                 sql += " and planname = ?";
@@ -90,6 +90,7 @@ public class GetPlanName extends HttpServlet {
             while (rs.next()) {
                 Map<String, Object> map = new HashMap<>();
                 map.put("planname", rs.getString("planname"));
+                map.put("unit_consumption", rs.getString("unit_consumption"));
                 map.put("id", rs.getString("id"));
                 list.add(map);
             }
