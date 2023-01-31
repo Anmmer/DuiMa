@@ -105,7 +105,8 @@
     function updateTable() {
         let str = '';
         for (let i = 0; i < jsonObj.length; i++) {
-            str += "<tr><td class='tdStyle_body'>" + jsonObj[i]['yard'] + "</td>" +
+            str += "<tr><td class='tdStyle_body' style='padding: 5px;'><input type='checkbox' data-id=" + jsonObj[i]["id"] + "></td>" +
+                "<td class='tdStyle_body'>" + jsonObj[i]['yard'] + "</td>" +
                 "<td class='tdStyle_body'>" + jsonObj[i]['region'] + "</td>" +
                 "<td class='tdStyle_body'>" + jsonObj[i]['location'] + "</td>";
             if (jsonObj[i]['location'] !== '') {
@@ -127,10 +128,10 @@
     $("#detail_checkbok").on("click", function () {
         if (det_i == 0) {
             //把所有复选框选中
-            $("#detailTableText td :checkbox").prop("checked", true);
+            $("#archTableText td :checkbox").prop("checked", true);
             det_i = 1;
         } else {
-            $("#detailTableText td :checkbox").prop("checked", false);
+            $("#archTableText td :checkbox").prop("checked", false);
             det_i = 0;
         }
 

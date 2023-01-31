@@ -2,7 +2,7 @@
 <div style="height: 100%;width: 100%">
     <form name="query" class="form-inline" style="width:70%;height:10%;margin-left: 14%;padding-top:2%">
         <div class="form-group">
-            <label>工地编号名称：</label><input type="text" name="query_name" id="query_name"
+            <label>工地编号：</label><input type="text" name="query_name" id="query_name"
                                        style="" class="form-control">
         </div>
         <button type="button" class="btn btn-primary btn-sm" style="margin-left: 5%"
@@ -23,7 +23,7 @@
         <div style="height: 85%">
             <table class="table table-hover" style="text-align: center">
                 <tr>
-                    <td class="tdStyle_title active" style="width: 35%">单位名称</td>
+                    <td class="tdStyle_title active" style="width: 35%">工地编号</td>
                     <td class="tdStyle_title active" style="width: 30%;text-align: center">操作</td>
                 </tr>
                 <tbody id="archTableText">
@@ -64,14 +64,14 @@
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
                                 aria-hidden="true">&times;</span></button>
-                        <h4 class="modal-title" id="title1">施工单位信息新增</h4>
-                        <h4 class="modal-title" id="title2">施工单位信息修改</h4>
+                        <h4 class="modal-title" id="title1">工地信息新增</h4>
+                        <h4 class="modal-title" id="title2">工地信息修改</h4>
                     </div>
                     <div class="modal-body">
                         <div class="form-horizontal">
                             <div class="form-group" style="margin-top: 5%">
                                 <label for="pop_name" style="width: 28%;text-align: left;padding-right: 0"
-                                       class="col-sm-2 control-label">施工单位名称:</label>
+                                       class="col-sm-2 control-label">工地编号:</label>
                                 <input type="text" class="form-control" style="width:50%;" id="pop_name"
                                        name="pop_name">
                             </div>
@@ -143,7 +143,7 @@
             pageMax: pageMax
         }
         $.ajax({
-            url: "${pageContext.request.contextPath}/ConstructionUnit",
+            url: "${pageContext.request.contextPath}/SiteInfo",
             type: 'post',
             dataType: 'json',
             data: obj,
@@ -188,14 +188,14 @@
     function updateTable() {
         let str = '';
         for (let i = 0; i < jsonObj.length; i++) {
-            str += "<tr><td class='tdStyle_body'>" + jsonObj[i]['name'] +
-                "</td><td class='tdStyle_body'><a href='#' onclick=openEditPop('" + jsonObj[i]['id'] + "','" + jsonObj[i]['name'] + "')>修改</a> <a href='#' onclick=delTableData('" + jsonObj[i]['id'] + "','" + jsonObj[i]['name'] + "')>删除</a></td></tr>";
+            str += "<tr><td class='tdStyle_body'>" + jsonObj[i]['number'] +
+                "</td><td class='tdStyle_body'><a href='#' onclick=openEditPop('" + jsonObj[i]['id'] + "','" + jsonObj[i]['number'] + "')>修改</a> <a href='#' onclick=delTableData('" + jsonObj[i]['id'] + "')>删除</a></td></tr>";
         }
         $("#archTableText").html(str);
     }
 
 
-    function delTableData(id, planname) {
+    function delTableData(id) {
         let r = confirm("亲，确认删除！");
         if (r === false) {
             return;
@@ -220,7 +220,7 @@
             alert("请输入！");
             return;
         }
-        $.post("${pageContext.request.contextPath}/ConstructionUnit", obj, function (result) {
+        $.post("${pageContext.request.contextPath}/SiteInfo", obj, function (result) {
             result = JSON.parse(result);
             alert(result.message);
             if (result.flag) {
@@ -234,13 +234,13 @@
         let obj = {
             name: $('#pop_name').val(),
             id: id,
-            type:"3"
+            type: "3"
         }
         if (obj.name === '') {
             alert("请输入！");
             return;
         }
-        $.post("${pageContext.request.contextPath}/ConstructionUnit", obj, function (result) {
+        $.post("${pageContext.request.contextPath}/SiteInfo", obj, function (result) {
             result = JSON.parse(result);
             alert(result.message);
             if (result.flag) {
@@ -281,7 +281,7 @@
             'pageMax': 10
         }
         $.ajax({
-            url: "${pageContext.request.contextPath}/ConstructionUnit",
+            url: "${pageContext.request.contextPath}/SiteInfo",
             type: 'post',
             dataType: 'json',
             data: obj,
@@ -322,7 +322,7 @@
             'pageMax': 10
         }
         $.ajax({
-            url: "${pageContext.request.contextPath}/ConstructionUnit",
+            url: "${pageContext.request.contextPath}/SiteInfo",
             type: 'post',
             dataType: 'json',
             data: obj,
@@ -360,7 +360,7 @@
             'pageMax': 10
         }
         $.ajax({
-            url: "${pageContext.request.contextPath}/ConstructionUnit",
+            url: "${pageContext.request.contextPath}/SiteInfo",
             type: 'post',
             dataType: 'json',
             data: obj,

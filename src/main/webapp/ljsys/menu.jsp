@@ -499,6 +499,12 @@
                         style="margin-left: 15%;margin-right: 5%;" class="glyphicon glyphicon-grain"></span>施工单位名称
                 </button>
             </li>
+            <li id="site_info_manage_li">
+                <button class="li_ItemStyle" id="site_info_manage"
+                        onclick="jumpTo('archivesConstructionUnitManage.jsp','construction_unit_manage')"><span
+                        style="margin-left: 15%;margin-right: 5%;" class="glyphicon glyphicon-grain"></span>工地编号
+                </button>
+            </li>
         </ul>
     </ul>
     <!--打印管理-->
