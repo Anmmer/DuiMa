@@ -74,6 +74,7 @@
     const qrcodeid = json.qrcodeid;
     let qrstyle = {};
     let fieldmap = {};
+    let qrcode_name = '';
 
     getStyle();
 
@@ -99,6 +100,7 @@
                     alert("二维码内容为空");
                     return
                 }
+                qrcode_name = datatmp.qrcode_name
                 qrstyle = JSON.parse(datatmp.qrcode_content)
             },
             error: function (message) {
@@ -144,13 +146,45 @@
                 result = JSON.parse(result);
                 let obj = result.data[0];
                 let tmp = qrstyle.qRCode.qRCodeContent
+                if (qrcode_name == '打印模板（上海）') {
+                    getOtherData(obj)
+                } else {
+                    let str_body = ''
+                    for (let j = 0; j < tmp.length; j++) {
+                        str_body += "<tr><td>" + fieldmap[tmp[j]] + "</td><td>" + obj[tmp[j]] + "</td></tr>"
+                    }
+                    $("#tbody").html(str_body);
+                }
+            }
+        )
+    }
+
+    function getOtherData(obj) {
+        let fieldNames = {
+            print_obj: "STRING",
+        }
+        $.ajax({
+            url: "${pageContext.request.contextPath}/QuerySQL",
+            type: 'post',
+            dataType: 'json',
+            contentType: 'application/x-www-form-urlencoded;charset=utf-8',
+            data: {
+                sqlStr: "select print_obj from print_obj where index = (select qc_id from default_qc where id = 3);",
+                fieldNames: JSON.stringify(fieldNames),
+                pageCur: 1,
+                pageMax: 1000
+            },
+            success: function (res) {
+                let jsonobj = JSON.parse(res.data)
+                let tmp = qrstyle.qRCode.qRCodeContent
+                Object.assign(obj, jsonobj)
                 let str_body = ''
                 for (let j = 0; j < tmp.length; j++) {
                     str_body += "<tr><td>" + fieldmap[tmp[j]] + "</td><td>" + obj[tmp[j]] + "</td></tr>"
                 }
                 $("#tbody").html(str_body);
             }
-        )
+        })
     }
 </script>
 </body>
