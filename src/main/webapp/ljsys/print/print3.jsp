@@ -237,7 +237,7 @@
         </div>
         <!-- Modal -->
         <div class="modal fade" id="myModal1" tabindex="0"
-             style="position: absolute;height: 90%;width: 70%;left: 12%;top: 12%;" role="dialog"
+             style="position: absolute;height: 90%;width: 70%;left: 12%;top: 8%;" role="dialog"
              data-backdrop="false"
              aria-labelledby="myModalLabel">
             <div class="modal-dialog" role="document" style="width: 90%;">
@@ -548,6 +548,42 @@
                 }
             })
         }
+    }
+
+    function savePrintObj() {
+        let obj = {
+            name1_id: $("#pop_name1").val(),
+            name1: $("#pop_name1").text(),
+            name2_id: $("#pop_name2").val(),
+            name2: $("#pop_name2").text(),
+            name3_id: $("#pop_name3").val(),
+            name3: $("#pop_name3").text(),
+            name4_id: $("#pop_name4").val(),
+            name4: $("#pop_name4").text(),
+            name5_id: $("#pop_name5").val(),
+            name5: $("#pop_name5").text(),
+            name6_id: $("#pop_name6").val(),
+            name6: $("#pop_name6").text(),
+            name7_id: $("#pop_name7").val(),
+            name7: $("#pop_name7").text(),
+            name8_id: $("#pop_name8").val(),
+            name8: $("#pop_name8").text(),
+            name9_id: $("#pop_name9").val(),
+            name9: $("#pop_name9").text(),
+            name10_id: $("#pop_name10").val(),
+            name10: $("#pop_name10").text(),
+            name11: $("#pop_name11").val(),
+        }
+        $.post("${pageContext.request.contextPath}/SavePrintObj", {
+            str: JSON.stringify(obj),
+            type: '2'
+        }, function (result) {
+            result = JSON.parse(result);
+            alert(result.message);
+            if (result.flag) {
+                $('#myModal1').modal('hide');
+            }
+        })
     }
 
     //查询plan表数据
@@ -1624,7 +1660,8 @@
                 data: {
                     productIds: JSON.stringify(pids),
                     plannumber: printsData[0].plannumber,
-                    tasknum: printsData[0].tasknum
+                    tasknum: printsData[0].tasknum,
+                    qrcode_flag: $("#qrcodestyles option:selected").text() == '打印模板（上海）'
                 },
                 success: function (res) {
                     if (res.flag) {

@@ -29,18 +29,36 @@ public class PrintPreProduct extends HttpServlet {
         resp.setContentType("text/html;charset=UTF-8");
         String preProductIds = req.getParameter("productIds");
         String plannumber = req.getParameter("plannumber");
+        String qrcode_flag = req.getParameter("qrcode_flag");
         JSONArray jsonArray = JSONObject.parseArray(preProductIds);
         Connection con = null;
         PreparedStatement ps1 = null;
         PrintWriter out = resp.getWriter();
-        String sql1 = "update preproduct set print = print +1 where pid = ?";
+        String sql1 = "update preproduct set print = print +1 ";
+        String sql2 = "select qc_id from default_qc where id = 3";
         Map<String, Object> map = new HashMap<>();
+        String print_index = null;
+        int i = 0;
         try {
             con = DbUtil.getCon();
+            if (Boolean.parseBoolean(qrcode_flag)) {
+                sql1 += ",print_index = ?";
+                i++;
+                ps1 = con.prepareStatement(sql2);
+                ResultSet rs = ps1.executeQuery();
+                while (rs.next()) {
+                    print_index = rs.getString("qc_id");
+                }
+            }
+            sql1 += "where pid = ?";
+            i++;
             ps1 = con.prepareStatement(sql1);
             for (Object o : jsonArray) {
                 JSONObject jsonObject = (JSONObject) o;
-                ps1.setInt(1, Integer.parseInt(jsonObject.getString("pid")));
+                ps1.setInt(i--, Integer.parseInt(jsonObject.getString("pid")));
+                if (Boolean.parseBoolean(qrcode_flag)) {
+                    ps1.setString(i, print_index);
+                }
                 ps1.addBatch();
             }
             int[] is = ps1.executeBatch();

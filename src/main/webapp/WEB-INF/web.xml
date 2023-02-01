@@ -927,4 +927,12 @@
         <servlet-name>concreteMaterialsArea</servlet-name>
         <url-pattern>/ConcreteMaterialsArea</url-pattern>
     </servlet-mapping>
+    <servlet>
+        <servlet-name>savePrintObj</servlet-name>
+        <servlet-class>SavePrintObj</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>savePrintObj</servlet-name>
+        <url-pattern>/SavePrintObj</url-pattern>
+    </servlet-mapping>
 </web-app>

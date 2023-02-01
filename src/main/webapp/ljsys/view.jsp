@@ -88,7 +88,7 @@
             dataType: 'json',
             contentType: 'application/x-www-form-urlencoded;charset=utf-8',
             data: {
-                sqlStr: "select qrcode_content from qrcode where qrcode_id=" + qrcodeid + ";",
+                sqlStr: "select qrcode_content,qrcode_name from qrcode where qrcode_id=" + qrcodeid + ";",
                 fieldNames: JSON.stringify(fieldNames),
                 pageCur: 1,
                 pageMax: 1000
