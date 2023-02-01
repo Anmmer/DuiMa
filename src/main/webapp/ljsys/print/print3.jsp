@@ -236,8 +236,8 @@
             </div>
         </div>
         <!-- Modal -->
-        <div class="modal fade" id="myModal1" tabindex="0"
-             style="position: absolute;height: 90%;width: 70%;left: 12%;top: 8%;" role="dialog"
+        <div class="modal fade" id="myModal1"
+             style="position: absolute;height: 90%;width: 70%;left: 12%;top: 8%;z-index: 6" role="dialog"
              data-backdrop="false"
              aria-labelledby="myModalLabel">
             <div class="modal-dialog" role="document" style="width: 90%;">
@@ -402,6 +402,7 @@
 
     function preCheck() {
         if ($("#qrcodestyles option:selected").text() == '打印模板（上海）') {
+            $(".gif").css("display", "flex");
             $('#myModal1').modal('show')
             $.post("${pageContext.request.contextPath}/ConstructionUnit", {
                 type: '1',
@@ -547,7 +548,45 @@
                     $('#pop_name10').append(item)
                 }
             })
+            setTimeout(() => {
+                setData()
+            }, 500)
         }
+    }
+
+    function setData() {
+        let fieldNames = {
+            print_obj: "STRING",
+        }
+        $.ajax({
+            url: "${pageContext.request.contextPath}/QuerySQL",
+            type: 'post',
+            dataType: 'json',
+            contentType: 'application/x-www-form-urlencoded;charset=utf-8',
+            data: {
+                sqlStr: "select print_obj from print_obj where `index` = (select qc_id from default_qc where id = 3);",
+                fieldNames: JSON.stringify(fieldNames),
+                pageCur: 1,
+                pageMax: 1000
+            },
+            success: function (res) {
+                let jsonobj = JSON.parse(res.data)
+                jsonobj = JSON.parse(jsonobj[0].print_obj)
+                $("#pop_name1").val(jsonobj.name1_id)
+                $("#pop_name2").val(jsonobj.name2_id)
+                $("#pop_name3").val(jsonobj.name3_id)
+                $("#pop_name4").val(jsonobj.name4_id)
+                $("#pop_name5").val(jsonobj.name5_id)
+                $("#pop_name6").val(jsonobj.name6_id)
+                $("#pop_name7").val(jsonobj.name7_id)
+                $("#pop_name8").val(jsonobj.name8_id)
+                $("#pop_name9").val(jsonobj.name9_id)
+                $("#pop_name10").val(jsonobj.name10_id)
+                $("#pop_name11").val(jsonobj.name11_id)
+                $("#pop_name12").val(jsonobj.name12)
+                $(".gif").css("display", "none");
+            }
+        })
     }
 
     function savePrintObj() {
@@ -572,7 +611,9 @@
             name9: $("#pop_name9").text(),
             name10_id: $("#pop_name10").val(),
             name10: $("#pop_name10").text(),
-            name11: $("#pop_name11").val(),
+            name11_id: $("#pop_name11").val(),
+            name11: $("#pop_name11").text(),
+            name12: $("#pop_name12").val(),
         }
         $.post("${pageContext.request.contextPath}/SavePrintObj", {
             str: JSON.stringify(obj),

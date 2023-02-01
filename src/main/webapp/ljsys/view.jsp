@@ -81,7 +81,8 @@
     // 获取样式
     function getStyle() {
         let fieldNames = {
-            qrcode_content: "STRING"
+            qrcode_content: "STRING",
+            qrcode_name:"STRING"
         }
         $.ajax({
             url: "${pageContext.request.contextPath}/QuerySQL",
@@ -146,6 +147,7 @@
                 result = JSON.parse(result);
                 let obj = result.data[0];
                 let tmp = qrstyle.qRCode.qRCodeContent
+                console.log(qrcode_name)
                 if (qrcode_name == '打印模板（上海）') {
                     getOtherData(obj)
                 } else {
@@ -169,13 +171,14 @@
             dataType: 'json',
             contentType: 'application/x-www-form-urlencoded;charset=utf-8',
             data: {
-                sqlStr: "select print_obj from print_obj where index = (select qc_id from default_qc where id = 3);",
+                sqlStr: "select print_obj from print_obj where `index` = (select qc_id from default_qc where id = 3);",
                 fieldNames: JSON.stringify(fieldNames),
                 pageCur: 1,
                 pageMax: 1000
             },
             success: function (res) {
                 let jsonobj = JSON.parse(res.data)
+                jsonobj = JSON.parse(jsonobj[0].print_obj)
                 let tmp = qrstyle.qRCode.qRCodeContent
                 Object.assign(obj, jsonobj)
                 let str_body = ''
