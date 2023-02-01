@@ -295,7 +295,7 @@
                     </div>
                     <div class="modal-footer1" style="text-align: center;height: 6%;padding: 10px">
                         <button type="button" class="btn btn-default" onclick="reset()">重置</button>
-                        <button type="button" id="save_pop" class="btn btn-primary">保存</button>
+                        <button type="button" id="save_pop" onclick="savePrintObj()" class="btn btn-primary">保存</button>
                     </div>
                 </div>
             </div>
@@ -1805,7 +1805,7 @@
             //二维码设置
             let qrCode = {}
             qrCode.qr_wh_value = qrstyle.qRCode.qr_wh_value
-            qrCode.qrcodeContent = 'https://mes.ljzggroup.com/DuiMa/ToView?code=' + printsData[i].materialcode + '&id=' + $("#qrcodestyles :selected").val()
+            qrCode.qrcodeContent = 'http://mes.ljzggroup.com/DuiMa/ToView?code=' + printsData[i].materialcode + '&id=' + $("#qrcodestyles :selected").val()
             // 已判断是否都已获取
             // 先填充内容，后设置位置
             let item_draw = "<div id='draw" + i + "' style='page-break-after:always;position:relative;width:" + xsize + "px;height:" + ysize + "px;'></div>"
