@@ -13,6 +13,11 @@
     <div style="width:70%;height:80%;margin:0 auto;">
         <div class="page-header" style="margin-top: 0;margin-bottom: 1%">
             <h3 style="margin-bottom: 0;margin-top: 0"><small>堆场信息</small></h3>
+            <button type="button" style="position: absolute;right: 15%;top:10%" class="btn btn-primary btn-sm"
+                    data-toggle="modal"
+                    onclick="getStyle()">
+                打印
+            </button>
         </div>
         <div style="height: 85%">
             <table class="table table-hover" style="text-align: center">
@@ -154,10 +159,11 @@
         })
     }
 
+
     // 获取样式
     function getStyle() {
         let pids = []
-        $('#detailTableText').find('input:checked').each(function () {
+        $('#archTableText').find('input:checked').each(function () {
             pids.push({pid: $(this).attr('data-id')});   //找到对应checkbox中data-id属性值，然后push给空数组pids
         });
         if (pids.length === 0) {
@@ -180,7 +186,7 @@
             dataType: 'json',
             contentType: 'application/x-www-form-urlencoded;charset=utf-8',
             data: {
-                sqlStr: "select qrcode_content from qrcode where qrcode_id=" + qrcodeid + ";",
+                sqlStr: "select qrcode_content from qrcode where qrcode_name = '仓库打印模板';",
                 fieldNames: JSON.stringify(fieldNames),
                 pageCur: 1,
                 pageMax: 1000
