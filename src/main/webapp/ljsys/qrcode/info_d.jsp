@@ -31,7 +31,7 @@
 <div style="height: 100%;width:100%;background-color:white;">
     <div style="height:100%;width: 100%;">
         <!--控制台-->
-        <button class="btn btn-primary" style="position: absolute;left:2%;top:0%;height: 32px"
+        <button class="btn btn-primary" style="position: absolute;left:1%;top:0%;height: 32px"
                 onclick="returnLastPage()">返回
         </button>
         <div style="height:100%;width:54%;float: left;margin-left: 5%">

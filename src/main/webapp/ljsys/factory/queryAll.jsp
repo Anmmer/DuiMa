@@ -58,6 +58,7 @@
     let pageAll = 1;
     let pageMax = 10;   //一页多少条数据
     let planname_old = null;
+    let printsData = [] //打印的数据
     // 二维码样式
     let qrstyle = {}
     // 字段映射
@@ -66,6 +67,7 @@
     window.onload = getTableData(1);
 
     function getTableData(newPage) {
+        getFieldMap();
         let query_planname = $('#query_planname').val();
         let obj = {
             'planname': query_planname,
@@ -164,7 +166,7 @@
     function getStyle() {
         let pids = []
         $('#archTableText').find('input:checked').each(function () {
-            pids.push({pid: $(this).attr('data-id')});   //找到对应checkbox中data-id属性值，然后push给空数组pids
+            pids.push({id: $(this).attr('data-id')});   //找到对应checkbox中data-id属性值，然后push给空数组pids
         });
         if (pids.length === 0) {
             alert("请勾选！");
@@ -248,7 +250,7 @@
             //二维码设置
             let qrCode = {}
             qrCode.qr_wh_value = qrstyle.qRCode.qr_wh_value
-            qrCode.qrcodeContent = 'https://mes.ljzggroup.com/DuiMa/ToView?code=' + printsData[i].materialcode + '&id=' + $("#qrcodestyles :selected").val()
+            qrCode.qrcodeContent = 'https://mes.ljzggroup.com/DuiMa/ToView?warehouseId=' + printsData[i].id + '&id=2'
             // 已判断是否都已获取
             // 先填充内容，后设置位置
             let item_draw = "<div id='draw" + i + "' style='page-break-after:always;position:relative;width:" + xsize + "px;height:" + ysize + "px;'></div>"
@@ -421,7 +423,7 @@
                     html2canvas(holder, opts).then(canvas => {
                         let url = canvas.toDataURL("image/jpg");
                         let a = document.createElement('a');
-                        a.download = "相城绿建" + printsData[i].materialcode + ".jpg";
+                        a.download = "相城绿建仓库" + printsData[i].id + ".jpg";
                         a.href = url;
                         a.click();
                     });

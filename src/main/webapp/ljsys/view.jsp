@@ -54,6 +54,7 @@
 <div class="main">
     <%
         String materialcode = request.getParameter("code");
+        String warehouseId = request.getParameter("warehouseId");
         String qrcodeid = request.getParameter("id");
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("materialcode", materialcode);
@@ -68,6 +69,7 @@
 <script>
     const json = <%=jsonObject%>;
     let materialcode = <%=materialcode%>;
+    let warehouseId = <%=warehouseId%>;
     if (typeof materialcode == 'number') {
         materialcode = json.materialcode
     }
@@ -82,7 +84,7 @@
     function getStyle() {
         let fieldNames = {
             qrcode_content: "STRING",
-            qrcode_name:"STRING"
+            qrcode_name: "STRING"
         }
         $.ajax({
             url: "${pageContext.request.contextPath}/QuerySQL",
@@ -136,8 +138,28 @@
                 }
             }
         }).then(() => {
-            getData();
+            if (warehouseId) {
+                getWarehouseData
+            } else {
+                getData();
+            }
         })
+    }
+
+    function getWarehouseData() {
+        $.post("${pageContext.request.contextPath}/GetFactory", {
+                id: warehouseId,
+            }, function (result) {
+                result = JSON.parse(result);
+                let obj = result.data[0];
+                let tmp = qrstyle.qRCode.qRCodeContent
+                let str_body = ''
+                for (let j = 0; j < tmp.length; j++) {
+                    str_body += "<tr><td>" + fieldmap[tmp[j]] + "</td><td>" + obj[tmp[j]] + "</td></tr>"
+                }
+                $("#tbody").html(str_body);
+            }
+        )
     }
 
     function getData() {
@@ -147,7 +169,6 @@
                 result = JSON.parse(result);
                 let obj = result.data[0];
                 let tmp = qrstyle.qRCode.qRCodeContent
-                console.log(qrcode_name)
                 if (qrcode_name == '打印模板（上海）') {
                     getOtherData(obj)
                 } else {
@@ -179,12 +200,53 @@
             success: function (res) {
                 let jsonobj = JSON.parse(res.data)
                 jsonobj = JSON.parse(jsonobj[0].print_obj)
-                let tmp = qrstyle.qRCode.qRCodeContent
                 Object.assign(obj, jsonobj)
+                getComputeData(obj)
+            }
+        })
+    }
+
+    function getComputeData(obj) {
+        let fieldNames = {
+            build_type: "STRING",
+            standard: "STRING",
+            fangliang: "STRING",
+            fangliang: "STRING",
+            building_no: "STRING",
+            floor_no: "STRING",
+            plantime: "STRING",
+            concretegrade: "STRING",
+            unit_consumption: "STRING",
+        }
+        $.ajax({
+            url: "${pageContext.request.contextPath}/QuerySQL",
+            type: 'post',
+            dataType: 'json',
+            contentType: 'application/x-www-form-urlencoded;charset=utf-8',
+            data: {
+                sqlStr: "select a.build_type,b.standard,b.fangliang,a.building_no,a.floor_no,DATE_ADD(c.plantime,INTERVAL 5 DAY) plantime,b.concretegrade,d.unit_consumption from build_table a,preproduct b,plan c,planname d where a.materialcode = b.materialcode and b.plannumber = c.plannumber and a.planname = d.planname  and a.materialcode = " + materialcode + ";",
+                fieldNames: JSON.stringify(fieldNames),
+                pageCur: 1,
+                pageMax: 1000
+            },
+            success: function (res) {
+                jsonobj = res.data0[0]
+                let tmp = qrstyle.qRCode.qRCodeContent
                 let str_body = ''
                 for (let j = 0; j < tmp.length; j++) {
                     str_body += "<tr><td>" + fieldmap[tmp[j]] + "</td><td>" + obj[tmp[j]] + "</td></tr>"
                 }
+                str_body += "<tr><td>" + "构件种类" + "</td><td>" + jsonobj.build_type + "</td></tr>"
+                str_body += "<tr><td>" + "构件尺寸(mm)" + "</td><td>" + jsonobj.standard + "</td></tr>"
+                str_body += "<tr><td>" + "构件重量(T)" + "</td><td>" + jsonobj.fangliang * 2.4.toFixed(2) + "</td></tr>"
+                str_body += "<tr><td>" + "使用部位" + "</td><td>" + jsonobj.building_no + jsonobj.floor_no + "</td></tr>"
+                str_body += "<tr><td>" + "构件制作日期" + "</td><td>" + jsonobj.plantime + "</td></tr>"
+                str_body += "<tr><td>" + "构件出厂检验日期" + "</td><td>" + jsonobj.plantime + "</td></tr>"
+                str_body += "<tr><td>" + "构件出出厂日期" + "</td><td>" + jsonobj.plantime + "</td></tr>"
+                str_body += "<tr><td>" + "钢筋用量(kg)" + "</td><td>" + (jsonobj.fangliang * jsonobj.unit_consumption).toFixed(2) + "</td></tr>"
+                str_body += "<tr><td>" + "混凝土强度等级" + "</td><td>" + jsonobj.concretegrade + "</td></tr>"
+                str_body += "<tr><td>" + "混凝土用砂量(T)" + "</td><td>" + (jsonobj.fangliang * 0.85).toFixed(2) + "</td></tr>"
+                str_body += "<tr><td>" + "混凝土用石量(T)" + "</td><td>" + (jsonobj.fangliang * 1.0).toFixed(2) + "</td></tr>"
                 $("#tbody").html(str_body);
             }
         })

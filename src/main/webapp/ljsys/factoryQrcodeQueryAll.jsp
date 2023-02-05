@@ -11,6 +11,8 @@
     <script type="text/javascript" src="./js/util.js"></script>
     <script type="text/javascript" src="js/jquery.qrcode.js"></script>
     <script type="text/javascript" src="js/utf.js"></script>
+    <script type="text/javascript" src="./js/html2canvas.js"></script>
+    <script type="text/javascript" src="./js/canvas2image.js"></script>
 </head>
 <body class="BodyStyle">
 <!-- 内容窗口 -->
