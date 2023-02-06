@@ -63,7 +63,7 @@ public class GetBatchNum extends HttpServlet {
                 Map<String, Object> map = new HashMap<>();
                 map.put("user_name", rs.getString("user_name"));
                 map.put("batch_id", rs.getString("batch_id"));
-                map.put("date", rs.getDate("date"));
+                map.put("date", rs.getString("date"));
                 map.put("index", index);
                 map.put("num", rs.getString("num"));
                 list.add(map);

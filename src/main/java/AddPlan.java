@@ -38,6 +38,23 @@ public class AddPlan extends HttpServlet {
             con = DbUtil.getCon();
             String sql1 = "insert into plan(plannumber,printstate,plant,plantime,line,liner,planname,build,tasksqure,tasknum,updatedate,isdelete) values(?,0,?,?,?,?,?,?,?,?,?,0)";
             String sql2 = "insert into preproduct(preproductid,materialcode,weigh,fangliang,standard,materialname,qc,print,plannumber,concretegrade,isdelete,pourmade,inspect,covert_test) values(?,?,?,?,?,?,?,0,?,?,0,0,0,0)";
+            String sql3 = "select count(*) num from preproduct where materialcode = ? and isdelete = 0";
+            PreparedStatement ps3 = con.prepareStatement(sql3);
+            for (Object o : preProduct) {
+                int num1 = 0;
+                JSONObject jsonObject = (JSONObject) o;
+                ps3.setString(1, jsonObject.getString("materialcode"));
+                ResultSet res = ps3.executeQuery();
+                while (res.next()) {
+                    num1 = res.getInt("num");
+                }
+                if (num1 == 0) {
+                    result.put("flag", false);
+                    result.put("message", "物料编码为：" + jsonObject.getString("materialcode") + " 的构件未上传，请在生产管理->构建上传功能上传！");
+                    out.write(JSON.toJSONString(result));
+                    return;
+                }
+            }
             PreparedStatement ps1 = con.prepareStatement(sql1);
             ps1.setString(1, plannumber);
             ps1.setString(2, plan.getString("plant"));

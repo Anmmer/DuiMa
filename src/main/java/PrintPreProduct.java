@@ -54,10 +54,11 @@ public class PrintPreProduct extends HttpServlet {
             i++;
             ps1 = con.prepareStatement(sql1);
             for (Object o : jsonArray) {
+                int j = i;
                 JSONObject jsonObject = (JSONObject) o;
-                ps1.setInt(i--, Integer.parseInt(jsonObject.getString("pid")));
+                ps1.setInt(j--, Integer.parseInt(jsonObject.getString("pid")));
                 if (Boolean.parseBoolean(qrcode_flag)) {
-                    ps1.setString(i, print_index);
+                    ps1.setString(j, print_index);
                 }
                 ps1.addBatch();
             }

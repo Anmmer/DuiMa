@@ -591,29 +591,29 @@
 
     function savePrintObj() {
         let obj = {
-            name1_id: $("#pop_name1").val(),
-            name1: $("#pop_name1").text(),
-            name2_id: $("#pop_name2").val(),
-            name2: $("#pop_name2").text(),
-            name3_id: $("#pop_name3").val(),
-            name3: $("#pop_name3").text(),
-            name4_id: $("#pop_name4").val(),
-            name4: $("#pop_name4").text(),
-            name5_id: $("#pop_name5").val(),
-            name5: $("#pop_name5").text(),
-            name6_id: $("#pop_name6").val(),
-            name6: $("#pop_name6").text(),
-            name7_id: $("#pop_name7").val(),
-            name7: $("#pop_name7").text(),
-            name8_id: $("#pop_name8").val(),
-            name8: $("#pop_name8").text(),
-            name9_id: $("#pop_name9").val(),
-            name9: $("#pop_name9").text(),
-            name10_id: $("#pop_name10").val(),
-            name10: $("#pop_name10").text(),
-            name11_id: $("#pop_name11").val(),
-            name11: $("#pop_name11").text(),
-            name12: $("#pop_name12").val(),
+            name1_id: $("#pop_name1 option:selected").val(),
+            name1: $("#pop_name1 option:selected").text(),
+            name2_id: $("#pop_name2 option:selected").val(),
+            name2: $("#pop_name2 option:selected").text(),
+            name3_id: $("#pop_name3 option:selected").val(),
+            name3: $("#pop_name3 option:selected").text(),
+            name4_id: $("#pop_name4 option:selected").val(),
+            name4: $("#pop_name4 option:selected").text(),
+            name5_id: $("#pop_name5 option:selected").val(),
+            name5: $("#pop_name5 option:selected").text(),
+            name6_id: $("#pop_name6 option:selected").val(),
+            name6: $("#pop_name6 option:selected").text(),
+            name7_id: $("#pop_name7 option:selected").val(),
+            name7: $("#pop_name7 option:selected").text(),
+            name8_id: $("#pop_name8 option:selected").val(),
+            name8: $("#pop_name8 option:selected").text(),
+            name9_id: $("#pop_name9 option:selected").val(),
+            name9: $("#pop_name9 option:selected").text(),
+            name10_id: $("#pop_name10 option:selected").val(),
+            name10: $("#pop_name10 option:selected").text(),
+            name11_id: $("#pop_name11 option:selected").val(),
+            name11: $("#pop_name11 option:selected").val(),
+            name12: $("#pop_name12").val(),s
         }
         $.post("${pageContext.request.contextPath}/SavePrintObj", {
             str: JSON.stringify(obj),
@@ -1846,7 +1846,7 @@
             //二维码设置
             let qrCode = {}
             qrCode.qr_wh_value = qrstyle.qRCode.qr_wh_value
-            qrCode.qrcodeContent = 'http://mes.ljzggroup.com/DuiMa/ToView?code=' + printsData[i].materialcode + '&id=' + $("#qrcodestyles :selected").val()
+            qrCode.qrcodeContent = 'https://mes.ljzggroup.com/DuiMa/ToView?code=' + printsData[i].materialcode + '&id=' + $("#qrcodestyles :selected").val()
             // 已判断是否都已获取
             // 先填充内容，后设置位置
             let item_draw = "<div id='draw" + i + "' style='page-break-after:always;position:relative;width:" + xsize + "px;height:" + ysize + "px;'></div>"
