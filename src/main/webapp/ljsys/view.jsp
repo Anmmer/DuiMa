@@ -224,7 +224,7 @@
             dataType: 'json',
             contentType: 'application/x-www-form-urlencoded;charset=utf-8',
             data: {
-                sqlStr: "select a.build_type,b.standard,b.fangliang,a.building_no,a.floor_no,DATE_ADD(c.plantime,INTERVAL 5 DAY) plantime,b.concretegrade,d.unit_consumption from build_table a,preproduct b,plan c,planname d where a.materialcode = b.materialcode and b.plannumber = c.plannumber and a.planname = d.planname  and a.materialcode = " + materialcode + ";",
+                sqlStr: "select b.build_type,b.standard,b.fangliang,b.building_no,b.floor_no,DATE_ADD(c.plantime,INTERVAL 5 DAY) plantime,b.concretegrade,d.unit_consumption from preproduct b,plan c,planname d where  b.plannumber = c.plannumber and c.planname = d.planname  and b.materialcode = " + materialcode + ";",
                 fieldNames: JSON.stringify(fieldNames),
                 pageCur: 1,
                 pageMax: 1000

@@ -612,9 +612,10 @@
             name10_id: $("#pop_name10 option:selected").val(),
             name10: $("#pop_name10 option:selected").text(),
             name11_id: $("#pop_name11 option:selected").val(),
-            name11: $("#pop_name11 option:selected").val(),
-            name12: $("#pop_name12").val(),s
+            name11: $("#pop_name11 option:selected").text(),
+            name12: $("#pop_name12").val(),
         }
+        console.log(obj)
         $.post("${pageContext.request.contextPath}/SavePrintObj", {
             str: JSON.stringify(obj),
             type: '2'
@@ -1016,25 +1017,15 @@
                         alert(result.message)
                         return
                     } else {
-                        $.post("${pageContext.request.contextPath}/GetPreProductMaterialcode", null, function (result) {
+                        $.post("${pageContext.request.contextPath}/GetPreProductMaterialcode", {
+                            materialcodes: JSON.stringify(excelData.preProduct.map((val) => {
+                                return val.materialcode
+                            }))
+                        }, function (result) {
                             result = JSON.parse(result);
-                            excelData.preProduct.forEach((item) => {
-                                result.data.forEach((res_item) => {
-                                    if (item.materialcode.toString() === res_item.materialcode) {
-                                        if (str === '') {
-                                            str += item.materialcode
-                                        } else {
-                                            str += '，' + item.materialcode;
-                                        }
-                                    }
-                                })
-                            });
-                        }).then(function () {
-                            if (str !== '') {
-                                excelData = {};
-                                $('#excel-file').val('');
-                                alert('物料编码：[' + str + ']已存在');
-                                return;
+                            if (!result.flag) {
+                                alert(result.message)
+                                return
                             }
                             $('#pop_planname').val(excelData.plan.planname);
                             $('#line').val(excelData.plan.line);
@@ -1846,7 +1837,7 @@
             //二维码设置
             let qrCode = {}
             qrCode.qr_wh_value = qrstyle.qRCode.qr_wh_value
-            qrCode.qrcodeContent = 'https://mes.ljzggroup.com/DuiMa/ToView?code=' + printsData[i].materialcode + '&id=' + $("#qrcodestyles :selected").val()
+            qrCode.qrcodeContent = 'https://mes.ljzggroup.com/DuiMaTest/ToView?code=' + printsData[i].materialcode + '&id=' + $("#qrcodestyles :selected").val()
             // 已判断是否都已获取
             // 先填充内容，后设置位置
             let item_draw = "<div id='draw" + i + "' style='page-break-after:always;position:relative;width:" + xsize + "px;height:" + ysize + "px;'></div>"

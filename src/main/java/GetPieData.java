@@ -36,8 +36,8 @@ public class GetPieData extends HttpServlet {
             int i = 1;
             int j = 0;
             con = DbUtil.getCon();
-            String sql = "select build_type name,sum(fangliang) value from preproduct a  where a.pourmade = 1 and  a.planname = ?";
-            String sql2 = "select build_type name,sum(fangliang) value from preproduct a where a.inspect = 1 and  a.planname = ?";
+            String sql = "select build_type name,sum(fangliang) value from preproduct a left join plan b on a.plannumber = b.plannumber  where a.pourmade = 1 and  b.planname = ?";
+            String sql2 = "select build_type name,sum(fangliang) value from preproduct a left join plan b on a.plannumber = b.plannumber where a.inspect = 1 and  b.planname = ?";
             if (building_no != null && !"".equals(building_no)) {
                 sql += " and building_no = ?";
                 sql2 += " and building_no = ?";

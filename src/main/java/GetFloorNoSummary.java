@@ -46,14 +46,14 @@ public class GetFloorNoSummary extends HttpServlet {
         try {
             con = DbUtil.getCon();
             String sql = "SELECT\n" +
-                    "\ta.floor_no,(SELECT concat( count(*), '件/', sum( fangliang ), '方量' ) FROM build_table b LEFT JOIN preproduct c ON b.materialcode = c.materialcode WHERE b.floor_no = a.floor_no AND planname = ? and b.building_no = ? and b.is_delete = 0 and c.isdelete = 0 ) floor_no_sum,\n" +
-                    "\t(SELECT concat( count(*), '件/', sum( fangliang ), '方量' ) FROM build_table b LEFT JOIN preproduct c ON b.materialcode = c.materialcode WHERE b.floor_no = a.floor_no AND planname = ? AND b.building_no = ? and  c.pourmade = 1 and b.is_delete = 0 and c.isdelete = 0 ) pourmade_sum,\n" +
-                    "\t(SELECT concat( count(*), '件/', sum( fangliang ), '方量' ) FROM build_table b LEFT JOIN preproduct c ON b.materialcode = c.materialcode WHERE b.floor_no = a.floor_no AND planname = ? AND b.building_no = ? and c.inspect = 1 and b.is_delete = 0 and c.isdelete = 0) inspect_sum,\n" +
-                    "\t(SELECT concat( count(*), '件/', sum( fangliang ), '方量' ) FROM build_table b LEFT JOIN preproduct c ON b.materialcode = c.materialcode WHERE b.floor_no = a.floor_no AND planname = ? AND b.building_no = ? and c.stock_status = '1' and b.is_delete = 0 and c.isdelete = 0) stock_in_sum,\n" +
-                    "\t(SELECT concat( count(*), '件/', sum( fangliang ), '方量' ) FROM build_table b LEFT JOIN preproduct c ON b.materialcode = c.materialcode WHERE b.floor_no = a.floor_no AND planname = ? AND b.building_no = ? and c.stock_status = '2' and b.is_delete = 0 and c.isdelete = 0) stock_out_sum \n" +
+                    "\ta.floor_no,(SELECT concat( count(*), '件/', sum( fangliang ), '方量' ) FROM preproduct b left join plan c on b.plannumber = c.plannumber WHERE b.floor_no = a.floor_no AND c.planname = ? and b.building_no = ? and b.isdelete = 0  ) floor_no_sum,\n" +
+                    "\t(SELECT concat( count(*), '件/', sum( fangliang ), '方量' ) FROM preproduct b left join plan c on b.plannumber = c.plannumber WHERE b.floor_no = a.floor_no AND c.planname = ? AND b.building_no = ? and  b.pourmade = 1 and b.isdelete = 0  ) pourmade_sum,\n" +
+                    "\t(SELECT concat( count(*), '件/', sum( fangliang ), '方量' ) FROM preproduct b left join plan c on b.plannumber = c.plannumber WHERE b.floor_no = a.floor_no AND c.planname = ? AND b.building_no = ? and b.inspect = 1 and b.isdelete = 0 ) inspect_sum,\n" +
+                    "\t(SELECT concat( count(*), '件/', sum( fangliang ), '方量' ) FROM preproduct b left join plan c on b.plannumber = c.plannumber WHERE b.floor_no = a.floor_no AND c.planname = ? AND b.building_no = ? and b.stock_status = '1' and b.isdelete = 0 ) stock_in_sum,\n" +
+                    "\t(SELECT concat( count(*), '件/', sum( fangliang ), '方量' ) FROM preproduct b left join plan c on b.plannumber = c.plannumber WHERE b.floor_no = a.floor_no AND c.planname = ? AND b.building_no = ? and b.stock_status = '2' and b.isdelete = 0 ) stock_out_sum \n" +
                     "FROM\n" +
-                    "( SELECT floor_no FROM build_table WHERE planname = ?  GROUP BY floor_no ) a";
-            String sql2 = "select count(*) as num from (SELECT floor_no FROM build_table WHERE planname = ? ";
+                    "( SELECT floor_no FROM preproduct b left join plan c on b.plannumber = c.plannumber WHERE c.planname = ?  GROUP BY floor_no ) a";
+            String sql2 = "select count(*) as num from (SELECT floor_no FROM preproduct b left join plan c on b.plannumber = c.plannumber WHERE c.planname = ? ";
             if (floorNo != null && !"".equals(floorNo)) {
                 sql += " where floor_no = ?";
                 sql2 += " and floor_no = ?";

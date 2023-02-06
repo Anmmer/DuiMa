@@ -43,7 +43,7 @@ public class GetBuildNum extends HttpServlet {
         int i = 0;
         try {
             con = DbUtil.getCon();
-            String sql = "select a.planname,b.num from planname a left join (select count(*) num,planname from build_table where is_delete = 0 group by planname) b on a.planname = b.planname where isdelete = 0";
+            String sql = "select c.planname,(select count(*) num from preproduct where planname = c.planname ) as num from planname c where c.isdelete = 0";
             String sql2 = "select count(*) as num from planname where isdelete = 0";
             if (planname != null && !"".equals(planname)) {
                 sql += " and b.planname like  ?";

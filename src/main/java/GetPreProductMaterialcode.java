@@ -1,4 +1,6 @@
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 import com.example.DbUtil;
 
 import javax.servlet.ServletException;
@@ -31,23 +33,34 @@ public class GetPreProductMaterialcode extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         resp.setContentType("text/html;charset=UTF-8");
         Connection con = null;
+        String json = req.getParameter("materialcodes");
+        JSONArray jsonArray = JSON.parseArray(json);
         try {
             PrintWriter out = resp.getWriter();
             con = DbUtil.getCon();
-            String sql = "select materialcode from preproduct where isdelete = 0";
+            String sql = "select count(*) num from preproduct where materialcode = ? and isdelete = 0";
             PreparedStatement ps = con.prepareStatement(sql);
-            ResultSet rs = ps.executeQuery();
-            Map<String, Object> data = new HashMap<>();
-            List<Map<String, Object>> list = new ArrayList<>();
-            while (rs.next()) {
-                Map<String, Object> map = new HashMap<>();
-                map.put("materialcode", rs.getString("materialcode"));
-                list.add(map);
+            ResultSet res = null;
+            Map<String, Object> result = new HashMap<>();
+            for (Object o : jsonArray) {
+                int num1 = 0;
+                String jsonObject = (String) o;
+                ps.setString(1, jsonObject);
+                res = ps.executeQuery();
+                while (res.next()) {
+                    num1 = res.getInt("num");
+                }
+                if (num1 == 0) {
+                    result.put("flag", false);
+                    result.put("message", "物料编码为：" + jsonObject + " 的构件不存在，请在生产管理->构件上传功能中上传！");
+                    out.write(JSON.toJSONString(result));
+                    return;
+                }
             }
-            data.put("data", list);
-            out.write(JSON.toJSONString(data));
+            result.put("flag", true);
+            out.write(JSON.toJSONString(result));
             ps.close();
-            rs.close();
+            res.close();
             out.close();
         } catch (ClassNotFoundException | SQLException e) {
             e.printStackTrace();

@@ -36,8 +36,8 @@ public class GetBatchDetail extends HttpServlet {
         PreparedStatement ps2 = null;
         try {
             con = DbUtil.getCon();
-            String sql = "select materialcode,materialname,standard,drawing_no,build_type,building_no,floor_no from build_table where is_delete = 0 and batch_id = ? ";
-            String sql2 = "select count(*) as num from build_table where is_delete = 0 and batch_id = ?";
+            String sql = "select materialcode,materialname,standard,drawing_no,build_type,building_no,floor_no from preproduct where isdelete = 0 and batch_id = ? ";
+            String sql2 = "select count(*) as num from preproduct where isdelete = 0 and batch_id = ?";
             sql += " limit ?,?";
             ps = con.prepareStatement(sql);
             ps.setString(1, batch_id);

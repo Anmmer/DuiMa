@@ -239,6 +239,7 @@
     function updateTable() {
         let str = '';
         for (let i = 0; i < jsonObj.length; i++) {
+            console.log(jsonObj.length)
             let building_no_sum = jsonObj[i]['building_no_sum'] === void 0 ? '0件/0方量' : jsonObj[i]['building_no_sum']
             let pourmade_sum = jsonObj[i]['pourmade_sum'] === void 0 ? '0件/0方量' : jsonObj[i]['pourmade_sum']
             let inspect_sum = jsonObj[i]['inspect_sum'] === void 0 ? '0件/0方量' : jsonObj[i]['inspect_sum']

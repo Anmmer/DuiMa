@@ -33,9 +33,9 @@ public class AddBuildUpload extends HttpServlet {
         try {
             con = DbUtil.getCon();
             String sql1 = "insert into batch(batch_id,planname,user_name,date,is_delete) values(?,?,?,NOW(),0 )";
-            String sql2 = "insert into preproduct(materialcode,drawing_no,build_type,building_no,floor_no,batch_id,is_delete) values(?,?,?,?,?,?,0)";
+            String sql2 = "insert into preproduct(materialcode,materialname,standard,drawing_no,build_type,building_no,floor_no,batch_id,planname,isdelete) values(?,?,?,?,?,?,?,?,?,0)";
             String sql3 = "select count(*) num from planname where planname = ? and isdelete = 0";
-            String sql4 = "select count(*) num from preproduct where materialcode = ? and is_delete = 0";
+            String sql4 = "select count(*) num from preproduct where materialcode = ? and isdelete = 0";
             PreparedStatement ps = con.prepareStatement(sql3);
             ps.setString(1, planname);
             ResultSet rs = ps.executeQuery();
@@ -82,11 +82,14 @@ public class AddBuildUpload extends HttpServlet {
             for (Object o : arrayList) {
                 JSONObject jsonObject = (JSONObject) o;
                 ps2.setString(1, jsonObject.getString("materialcode"));
-                ps2.setString(2, jsonObject.getString("drawing_no"));
-                ps2.setString(3, jsonObject.getString("build_type"));
-                ps2.setString(4, jsonObject.getString("building_no"));
-                ps2.setString(5, jsonObject.getString("floor_no"));
-                ps2.setString(6, batch_id);
+                ps2.setString(2, jsonObject.getString("materialname"));
+                ps2.setString(3, jsonObject.getString("standard"));
+                ps2.setString(4, jsonObject.getString("drawing_no"));
+                ps2.setString(5, jsonObject.getString("build_type"));
+                ps2.setString(6, jsonObject.getString("building_no"));
+                ps2.setString(7, jsonObject.getString("floor_no"));
+                ps2.setString(8, batch_id);
+                ps2.setString(9, planname);
                 ps2.addBatch();
             }
             int[] rs2 = ps2.executeBatch();
