@@ -37,7 +37,7 @@ public class AddPlan extends HttpServlet {
         try {
             con = DbUtil.getCon();
             String sql1 = "insert into plan(plannumber,printstate,plant,plantime,line,liner,planname,build,tasksqure,tasknum,updatedate,isdelete) values(?,0,?,?,?,?,?,?,?,?,?,0)";
-            String sql2 = "insert into preproduct(preproductid,materialcode,weigh,fangliang,standard,materialname,qc,print,plannumber,concretegrade,isdelete,pourmade,inspect,covert_test) values(?,?,?,?,?,?,?,0,?,?,0,0,0,0)";
+            String sql2 = "insert into preproduct(preproductid,materialcode,weigh,fangliang,standard,materialname,qc,print,plannumber,concretegrade,product_delete,pourmade,inspect,covert_test) values(?,?,?,?,?,?,?,0,?,?,0,0,0,0)";
             String sql3 = "select count(*) num from preproduct where materialcode = ? and isdelete = 0";
             PreparedStatement ps3 = con.prepareStatement(sql3);
             for (Object o : preProduct) {
