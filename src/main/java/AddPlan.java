@@ -37,7 +37,7 @@ public class AddPlan extends HttpServlet {
         try {
             con = DbUtil.getCon();
             String sql1 = "insert into plan(plannumber,printstate,plant,plantime,line,liner,planname,build,tasksqure,tasknum,updatedate,isdelete) values(?,0,?,?,?,?,?,?,?,?,?,0)";
-            String sql2 = "update preproduct set preproductid =?,weigh = ?,fangliang =?,qc =?,print = 0,plannumber =?,concretegrade =?,isdelete=0,pourmade=0,inspect=0,covert_test=0 where materialcode =?";
+            String sql2 = "insert into preproduct(preproductid,materialcode,weigh,fangliang,standard,materialname,qc,print,plannumber,concretegrade,product_delete,pourmade,inspect,covert_test) values(?,?,?,?,?,?,?,0,?,?,0,0,0,0)";
             String sql3 = "select count(*) num from preproduct where materialcode = ? and isdelete = 0";
             PreparedStatement ps3 = con.prepareStatement(sql3);
             for (Object o : preProduct) {
@@ -77,12 +77,14 @@ public class AddPlan extends HttpServlet {
             for (Object o : preProduct) {
                 JSONObject jsonObject = (JSONObject) o;
                 ps2.setString(1, jsonObject.getString("preproductid"));
-                ps2.setBigDecimal(2, jsonObject.getBigDecimal("weigh"));
-                ps2.setBigDecimal(3, jsonObject.getBigDecimal("fangliang"));
-                ps2.setString(4, plan.getString("qc"));
-                ps2.setString(5, plannumber);
-                ps2.setString(6, jsonObject.getString("concretegrade"));
-                ps2.setString(7, jsonObject.getString("materialcode"));
+                ps2.setString(2, jsonObject.getString("materialcode"));
+                ps2.setBigDecimal(3, jsonObject.getBigDecimal("weigh"));
+                ps2.setBigDecimal(4, jsonObject.getBigDecimal("fangliang"));
+                ps2.setString(5, jsonObject.getString("standard"));
+                ps2.setString(6, jsonObject.getString("materialname"));
+                ps2.setString(7, plan.getString("qc"));
+                ps2.setString(8, plannumber);
+                ps2.setString(9, jsonObject.getString("concretegrade"));
                 ps2.addBatch();
             }
             int[] rs2 = ps2.executeBatch();
