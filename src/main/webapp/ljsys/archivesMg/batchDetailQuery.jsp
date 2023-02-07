@@ -110,7 +110,9 @@
                     jsonObj = res.data;
                     updateTable();
                     $('#total').html(res.cnt + "条，共" + res.pageAll + "页");
-                    $('#li_1').addClass('active');
+                    if(newPage===1){
+                        $('#li_1').addClass('active');
+                    }
                     // 重置查询为第一页
                     pageCur = newPage;
                     // 重置总页数
@@ -156,13 +158,17 @@
                 "</td><td class='tdStyle_body' style='padding: 5px;' title='" + jsonObj[i]['build_type'] + "'>" + jsonObj[i]['build_type'] +
                 "</td><td class='tdStyle_body' style='padding: 5px;' title='" + jsonObj[i]['building_no'] + "'>" + jsonObj[i]['building_no'] +
                 "</td><td class='tdStyle_body' style='padding: 5px;' title='" + jsonObj[i]['floor_no'] + "'>" + jsonObj[i]['floor_no'] +
-                "</td><td class='tdStyle_body' style='padding: 5px;'><a href='#' onclick='delDetailData(" + materialcode + ")'>删除</a>"
+                "</td><td class='tdStyle_body' style='padding: 5px;'><a href='#' onclick=delDetailData('" + jsonObj[i]['materialcode'] + "')>删除</a>"
             "</td></tr>";
         }
         $("#archTableText").html(str);
     }
 
     function delDetailData(materialcode) {
+        let r = confirm("亲，确认删除！");
+        if (r === false) {
+            return;
+        }
         $.ajax({
             url: "${pageContext.request.contextPath}/DeleteBuild",
             type: 'post',
@@ -171,6 +177,9 @@
             contentType: 'application/x-www-form-urlencoded;charset=utf-8',
             success: function (res) {
                 alert(res.message);
+                if (res.flag) {
+                    getTableData(pageCur)
+                }
             },
             error: function () {
                 alert("查询失败！")

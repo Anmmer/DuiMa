@@ -250,7 +250,7 @@
             //二维码设置
             let qrCode = {}
             qrCode.qr_wh_value = qrstyle.qRCode.qr_wh_value
-            qrCode.qrcodeContent = 'https://mes.ljzggroup.com/DuiMa/ToView?warehouseId=' + printsData[i].id + '&id=2'
+            qrCode.qrcodeContent = 'https://mes.ljzggroup.com/DuiMaTest/ToView?warehouseId=' + printsData[i].id + '&id=2'
             // 已判断是否都已获取
             // 先填充内容，后设置位置
             let item_draw = "<div id='draw" + i + "' style='page-break-after:always;position:relative;width:" + xsize + "px;height:" + ysize + "px;'></div>"

@@ -37,7 +37,7 @@ public class DeletePreProduct extends HttpServlet {
         PreparedStatement ps3 = null;
         PrintWriter out = resp.getWriter();
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        StringBuilder sql1 = new StringBuilder("update preproduct set product_delete = 1, where pid in (");
+        StringBuilder sql1 = new StringBuilder("update preproduct set product_delete = 1 where pid in (");
         String sql2 = "update plan set tasknum = tasknum - ? , tasksqure = tasksqure - ? where plannumber = ?";
         StringBuilder sql3 = new StringBuilder("update plan set updatedate = ?");
         if (jsonArray.size() == 1) {
