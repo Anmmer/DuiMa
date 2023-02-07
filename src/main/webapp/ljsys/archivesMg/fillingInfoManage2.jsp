@@ -2,7 +2,7 @@
 <div style="height: 100%;width: 100%">
     <form name="query" class="form-inline" style="width:70%;height:10%;margin-left: 14%;padding-top:2%">
         <div class="form-group">
-            <label>钢筋生产企业备案证编号：</label><input type="text" name="query_name" id="query_name"
+            <label>水泥生产企业备案证编号：</label><input type="text" name="query_name" id="query_name"
                                        style="" class="form-control">
         </div>
         <button type="button" class="btn btn-primary btn-sm" style="margin-left: 5%"
@@ -12,7 +12,7 @@
     </form>
     <div style="width:70%;height:80%;margin:0 auto;">
         <div class="page-header" style="margin-top: 0;margin-bottom: 1%">
-            <h3 style="margin-bottom: 0;margin-top: 0"><small>钢筋生产企业备案证编号信息</small></h3>
+            <h3 style="margin-bottom: 0;margin-top: 0"><small>水泥生产企业备案证编号信息</small></h3>
             <button type="button" style="position: absolute;right: 15%;top:11%" class="btn btn-primary btn-sm"
                     data-toggle="modal"
                     onclick="openAddPop()">
@@ -23,7 +23,7 @@
         <div style="height: 85%">
             <table class="table table-hover" style="text-align: center">
                 <tr>
-                    <td class="tdStyle_title active" style="width: 35%">钢筋生产企业备案证编号</td>
+                    <td class="tdStyle_title active" style="width: 35%">水泥生产企业备案证编号</td>
                     <td class="tdStyle_title active" style="width: 30%;text-align: center">操作</td>
                 </tr>
                 <tbody id="archTableText">
@@ -64,14 +64,14 @@
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
                                 aria-hidden="true">&times;</span></button>
-                        <h4 class="modal-title" id="title1">钢筋生产企业备案证编号新增</h4>
-                        <h4 class="modal-title" id="title2">钢筋生产企业备案证编号修改</h4>
+                        <h4 class="modal-title" id="title1">水泥生产企业备案证编号新增</h4>
+                        <h4 class="modal-title" id="title2">水泥生产企业备案证编号修改</h4>
                     </div>
                     <div class="modal-body">
                         <div class="form-horizontal">
                             <div class="form-group" style="margin-top: 5%">
                                 <label for="pop_name" style="width: 28%;text-align: left;padding-right: 0"
-                                       class="col-sm-2 control-label">钢筋生产企业备案证编号:</label>
+                                       class="col-sm-2 control-label">水泥生产企业备案证编号:</label>
                                 <input type="text" class="form-control" style="width:50%;" id="pop_name"
                                        name="pop_name">
                             </div>

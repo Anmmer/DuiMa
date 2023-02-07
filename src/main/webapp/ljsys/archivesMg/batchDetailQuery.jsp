@@ -1,7 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <div style="height: 100%;width: 100%">
-    <button onclick="returnLastPage()" style="position: absolute;left: 10%;top: 4%" class="btn btn-primary btn-sm">返回</button>
-    <form name="query" class="form-inline" style="width:70%;height:10%;margin-left: 14%;padding-top:2%">
+    <button onclick="returnLastPage()" style="position: absolute;left: 10%;top: 4%" class="btn btn-primary btn-sm">返回
+    </button>
+    <form name="query" class="form-inline" style="width:80%;height:10%;margin-left: 14%;padding-top:2%">
         <div class="form-group">
             <label>项目名称：</label><input type="text" name="query_planname" disabled id="query_planname"
                                        style="" class="form-control">
@@ -11,7 +12,7 @@
                                       style="" class="form-control">
         </div>
     </form>
-    <div style="width:70%;height:80%;margin:0 auto;">
+    <div style="width:80%;height:80%;margin:0 auto;">
         <div class="page-header" style="margin-top: 0;margin-bottom: 1%">
             <h3 style="margin-bottom: 0;margin-top: 0"><small>批次信息</small></h3>
         </div>
@@ -25,6 +26,7 @@
                     <td class='tdStyle_title active' style="width: 10%">构建类型</td>
                     <td class='tdStyle_title active' style="width: 10%">楼栋号</td>
                     <td class='table_tr_print tdStyle_title active' style="width: 10%">楼层号</td>
+                    <td class='table_tr_print tdStyle_title active' style="width: 10%">操作</td>
                 </tr>
                 <tbody id="archTableText">
                 </tbody>
@@ -154,9 +156,26 @@
                 "</td><td class='tdStyle_body' style='padding: 5px;' title='" + jsonObj[i]['build_type'] + "'>" + jsonObj[i]['build_type'] +
                 "</td><td class='tdStyle_body' style='padding: 5px;' title='" + jsonObj[i]['building_no'] + "'>" + jsonObj[i]['building_no'] +
                 "</td><td class='tdStyle_body' style='padding: 5px;' title='" + jsonObj[i]['floor_no'] + "'>" + jsonObj[i]['floor_no'] +
-                "</td></tr>";
+                "</td><td class='tdStyle_body' style='padding: 5px;'><a href='#' onclick='delDetailData(" + materialcode + ")'>删除</a>"
+            "</td></tr>";
         }
         $("#archTableText").html(str);
+    }
+
+    function delDetailData(materialcode) {
+        $.ajax({
+            url: "${pageContext.request.contextPath}/DeleteBuild",
+            type: 'post',
+            dataType: 'json',
+            data: {materialcode: materialcode},
+            contentType: 'application/x-www-form-urlencoded;charset=utf-8',
+            success: function (res) {
+                alert(res.message);
+            },
+            error: function () {
+                alert("查询失败！")
+            }
+        })
     }
 
     function queryData(id) {

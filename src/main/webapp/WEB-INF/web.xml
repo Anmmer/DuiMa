@@ -935,4 +935,12 @@
         <servlet-name>savePrintObj</servlet-name>
         <url-pattern>/SavePrintObj</url-pattern>
     </servlet-mapping>
+    <servlet>
+        <servlet-name>deleteBuild</servlet-name>
+        <servlet-class>DeleteBuild</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>deleteBuild</servlet-name>
+        <url-pattern>/DeleteBuild</url-pattern>
+    </servlet-mapping>
 </web-app>
