@@ -70,10 +70,10 @@ public class GetQc extends HttpServlet {
             }
             ps2 = con.prepareStatement(sql2);
             if (id != null && !"".equals(id)) {
-                ps.setInt(j--, Integer.parseInt(id));
+                ps2.setInt(j--, Integer.parseInt(id));
             }
             if (qc != null && !"".equals(qc)) {
-                ps.setString(j, qc);
+                ps2.setString(j, qc);
             }
             ResultSet rs2 = ps2.executeQuery();
             while (rs2.next()) {

@@ -39,13 +39,17 @@ public class GetPreProductMaterialcode extends HttpServlet {
             PrintWriter out = resp.getWriter();
             con = DbUtil.getCon();
             String sql = "select count(*) num from preproduct where materialcode = ? and isdelete = 0";
+            String sql2 = "select count(*) num from preproduct where materialcode = ? and product_delete = 0";
             PreparedStatement ps = con.prepareStatement(sql);
+            PreparedStatement ps2 = con.prepareStatement(sql2);
             ResultSet res = null;
             Map<String, Object> result = new HashMap<>();
             for (Object o : jsonArray) {
                 int num1 = 0;
+                int num2 = 0;
                 String jsonObject = (String) o;
                 ps.setString(1, jsonObject);
+                ps2.setString(1,jsonObject);
                 res = ps.executeQuery();
                 while (res.next()) {
                     num1 = res.getInt("num");
@@ -53,6 +57,16 @@ public class GetPreProductMaterialcode extends HttpServlet {
                 if (num1 == 0) {
                     result.put("flag", false);
                     result.put("message", "物料编码为：" + jsonObject + " 的构件不存在，请在生产管理->构件上传功能中上传！");
+                    out.write(JSON.toJSONString(result));
+                    return;
+                }
+                res = ps2.executeQuery();
+                while (res.next()) {
+                    num2 = res.getInt("num");
+                }
+                if (num2 > 0) {
+                    result.put("flag", false);
+                    result.put("message", "物料编码为：" + jsonObject + " 的构件已经上传计划单，不能重复上传！");
                     out.write(JSON.toJSONString(result));
                     return;
                 }

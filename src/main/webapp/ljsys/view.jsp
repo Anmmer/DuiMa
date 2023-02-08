@@ -224,7 +224,7 @@
             dataType: 'json',
             contentType: 'application/x-www-form-urlencoded;charset=utf-8',
             data: {
-                sqlStr: "select b.build_type,b.standard,b.fangliang,b.building_no,b.floor_no,DATE_ADD(c.plantime,INTERVAL 5 DAY) plantime,b.concretegrade,d.unit_consumption from preproduct b,plan c,planname d where  b.plannumber = c.plannumber and c.planname = d.planname  and b.materialcode = " + materialcode + ";",
+                sqlStr: "select b.build_type,b.standard,b.fangliang,b.building_no,b.floor_no,c.plantime time ,DATE_ADD(c.plantime,INTERVAL 5 DAY) plantime,b.concretegrade,d.unit_consumption from preproduct b,plan c,planname d where  b.plannumber = c.plannumber and c.planname = d.planname  and b.materialcode = " + materialcode + ";",
                 fieldNames: JSON.stringify(fieldNames),
                 pageCur: 1,
                 pageMax: 1000
@@ -240,7 +240,7 @@
                 str_body += "<tr><td>" + "构件尺寸(mm)" + "</td><td>" + jsonobj.standard + "</td></tr>"
                 str_body += "<tr><td>" + "构件重量(T)" + "</td><td>" + jsonobj.fangliang * 2.4.toFixed(2) + "</td></tr>"
                 str_body += "<tr><td>" + "使用部位" + "</td><td>" + jsonobj.building_no + jsonobj.floor_no + "</td></tr>"
-                str_body += "<tr><td>" + "构件制作日期" + "</td><td>" + jsonobj.plantime + "</td></tr>"
+                str_body += "<tr><td>" + "构件制作日期" + "</td><td>" + jsonobj.time + "</td></tr>"
                 str_body += "<tr><td>" + "构件出厂检验日期" + "</td><td>" + jsonobj.plantime + "</td></tr>"
                 str_body += "<tr><td>" + "构件出出厂日期" + "</td><td>" + jsonobj.plantime + "</td></tr>"
                 str_body += "<tr><td>" + "钢筋用量(kg)" + "</td><td>" + (jsonobj.fangliang * jsonobj.unit_consumption).toFixed(2) + "</td></tr>"
