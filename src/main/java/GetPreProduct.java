@@ -31,8 +31,12 @@ public class GetPreProduct extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         resp.setContentType("text/html;charset=UTF-8");
         String plannumber = req.getParameter("plannumber");
+        String planname = req.getParameter("planname");
         String materialcode = req.getParameter("materialcode");
         String materialname = req.getParameter("materialname");
+        String floor_no = req.getParameter("floor_no");
+        String building_no = req.getParameter("building_no");
+        String drawing_no = req.getParameter("drawing_no");
         String preproductid = req.getParameter("preproductid");
         String productState = req.getParameter("productState");
         String on_or_off = req.getParameter("on_or_off");
@@ -75,6 +79,26 @@ public class GetPreProduct extends HttpServlet {
             if (plannumber != null && !"".equals(plannumber)) {
                 sql += " and preproduct.plannumber = ?";
                 sql2 += " and preproduct.plannumber = ?";
+                i++;
+            }
+            if (planname != null && !"".equals(planname)) {
+                sql += " and preproduct.planname like ?";
+                sql2 += " and preproduct.planname like ?";
+                i++;
+            }
+            if (floor_no != null && !"".equals(floor_no)) {
+                sql += " and preproduct.floor_no like ?";
+                sql2 += " and preproduct.floor_no like ?";
+                i++;
+            }
+            if (building_no != null && !"".equals(building_no)) {
+                sql += " and preproduct.building_no like ?";
+                sql2 += " and preproduct.building_no like ?";
+                i++;
+            }
+            if (drawing_no != null && !"".equals(drawing_no)) {
+                sql += " and preproduct.drawing_no like ?";
+                sql2 += " and preproduct.drawing_no like ?";
                 i++;
             }
             if (materialcode != null && !"".equals(materialcode)) {
@@ -301,6 +325,18 @@ public class GetPreProduct extends HttpServlet {
             if (materialcode != null && !"".equals(materialcode)) {
                 ps.setString(i--, "%" + materialcode.trim() + "%");
             }
+            if (drawing_no != null && !"".equals(drawing_no)) {
+                ps.setString(i--, "%" + drawing_no.trim() + "%");
+            }
+            if (building_no != null && !"".equals(building_no)) {
+                ps.setString(i--, "%" + building_no.trim() + "%");
+            }
+            if (floor_no != null && !"".equals(floor_no)) {
+                ps.setString(i--, "%" + floor_no.trim() + "%");
+            }
+            if (planname != null && !"".equals(planname)) {
+                ps.setString(i--, "%" + planname.trim() + "%");
+            }
             if (plannumber != null && !"".equals(plannumber)) {
                 ps.setString(i, plannumber);
             }
@@ -387,6 +423,18 @@ public class GetPreProduct extends HttpServlet {
                 }
                 if (materialcode != null && !"".equals(materialcode)) {
                     ps2.setString(j--, "%" + materialcode.trim() + "%");
+                }
+                if (drawing_no != null && !"".equals(drawing_no)) {
+                    ps.setString(j--, "%" + drawing_no.trim() + "%");
+                }
+                if (building_no != null && !"".equals(building_no)) {
+                    ps.setString(j--, "%" + building_no.trim() + "%");
+                }
+                if (floor_no != null && !"".equals(floor_no)) {
+                    ps.setString(j--, "%" + floor_no.trim() + "%");
+                }
+                if (planname != null && !"".equals(planname)) {
+                    ps.setString(j--, "%" + planname.trim() + "%");
                 }
                 if (plannumber != null && !"".equals(plannumber)) {
                     ps2.setString(j, plannumber);

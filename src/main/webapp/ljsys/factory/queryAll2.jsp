@@ -15,34 +15,36 @@
 </script>
 <div style="height: 100%;width:100%;background-color:white;">
     <form name="query" class="form-inline" style="width:89%;height:16%;margin-left: 8%;padding-top:2%">
-        <div class="form-group">
-            <label>堆场名称：</label><input type="text" id="factoryName"
-                                       style="height:10%;" class="form-control">
+        <div class="form-group" style="width: 20%;">
+            <label>堆场信息：</label>
+            <input style="height:10%;width: 68%" name="factoryName"
+                   id="factoryName"
+                   onclick="openPop()" class="form-control">
         </div>
-        <div class="form-group" style="margin-left:3%;">
-            <label>项目：</label><input type="text" id="planname"
-                                     style="height:10%;" class="form-control">
+        <div class="form-group" style="margin-left:3%;width: 20%;">
+            <label>项目名称：</label><input type="text" id="planname"
+                                       style="height:10%;width: 68%" class="form-control">
         </div>
-        <div class="form-group" style="margin-left:3%;">
+        <div class="form-group" style="margin-left:3%;width: 20%;">
             <label>楼栋：</label><input type="text" id="building_no"
-                                     style="height:10%;" class="form-control">
+                                     style="height:10%;width: 68%" class="form-control">
         </div>
         <div class="form-group" style="margin-left:3%;">
             <label>楼层：</label><input type="text" id="floor_no"
                                      style="height:10%;" class="form-control">
         </div>
         <br><br>
-        <div class="form-group" style="">
+        <div class="form-group" style="width: 20%">
             <label>物料编码：</label><input type="text" id="materialcode"
-                                       style="height:10%;" class="form-control">
+                                       style="height:10%;width: 68%" class="form-control">
         </div>
-        <div class="form-group" style="margin-left:3%;">
+        <div class="form-group" style="margin-left:3%;width: 20%">
             <label>构件类型：</label><input type="text" id="build_type"
-                                       style="height:10%;" class="form-control">
+                                       style="height:10%;width: 68%" class="form-control">
         </div>
-        <div class="form-group" style="margin-left:3%;">
+        <div class="form-group" style="margin-left:3%;width: 20%">
             <label>图号：</label><input type="text" id="drawing_no"
-                                     style="height:10%;" class="form-control">
+                                     style="height:10%;width: 68%" class="form-control">
         </div>
         <button type="button" class="btn btn-primary btn-sm" style="margin-left: 5%"
                 onclick="getTableData(1)">
@@ -109,355 +111,511 @@
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
                             aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title" id="myModalLabel">添加仓库</h4>
+                    <h4 class="modal-title" id="myModal_title">选择货位信息</h4>
                 </div>
                 <div class="modal-body">
                     <div class="form-horizontal">
-                        <div class="form-group" style="height: 100%;margin-top: 5%">
-                            <label for="newFactoryName" style="width: 28%;text-align: left;padding-right: 0"
-                                   class="col-sm-2 control-label">仓库名:</label>
-                            <input type="text" class="form-control" style="width:50%;" id="newFactoryName"
-                                   name="newFactoryName"><br>
-                            <label for="newFactoryAddress" style="width: 28%;text-align: left;padding-right: 0"
-                                   class="col-sm-2 control-label">仓库地址:</label>
-                            <input type="text" class="form-control" style="width:50%;" id="newFactoryAddress"
-                                   name="newFactoryAddress">
+                        <div class="form-group" style="margin-top: 5%">
+                            <label for="myModal_name1" style="width: 28%;text-align: left;padding-right: 0"
+                                   class="col-sm-2 control-label">堆场信息:</label>
+                            <select class="form-control" style="width:50%;" id="myModal_name1"
+                                    name="myModal_name1" onchange="getRegionData()"></select><br>
+                            <label for="myModal_name2" style="width: 28%;text-align: left;padding-right: 0"
+                                   class="col-sm-2 control-label">区域信息:</label>
+                            <select class="form-control" style="width:50%;" id="myModal_name2"
+                                    name="myModal_name2" onchange="getLocation()"></select><br>
+                            <label for="myModal_name" style="width: 28%;text-align: left;padding-right: 0"
+                                   class="col-sm-2 control-label">货位信息:</label>
+                            <select type="text" class="form-control" style="width:50%;" id="myModal_name"
+                                    name="myModal_name"></select>
                         </div>
                     </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" onclick="reset()">重置</button>
-                    <button type="button" class="btn btn-primary" onclick="addFactory()()">保存</button>
+                    <button type="button" id="myModal_save" onclick="save()" class="btn btn-primary">保存</button>
                 </div>
             </div>
         </div>
     </div>
-    <script type="text/javascript">
-        var pageCur = 1;
-        var pageAll = 1;
-        let pageMax = 10;   //一页多少条数据
-        let jsonObj = [];
+</div>
+<script type="text/javascript">
+    var pageCur = 1;
+    var pageAll = 1;
+    let pageMax = 10;   //一页多少条数据
+    let jsonObj = [];
 
-        window.onload = getTableData(1);
 
-        function getTableData(newPage) {
-            let factoryName = $('#factoryName').val();
-            let planname = $('#planname').val();
-            let building_no = $('#building_no').val();
-            let floor_no = $('#floor_no').val();
-            let materialcode = $('#materialcode').val();
-            let build_type = $('#build_type').val();
-            let drawing_no = $('#drawing_no').val();
-            let obj = {
-                factoryName: factoryName,
-                planname: planname,
-                building_no: building_no,
-                floor_no: floor_no,
-                materialcode: materialcode,
-                build_type: build_type,
-                drawing_no: drawing_no,
-                pageCur: newPage,
-                pageMax: pageMax
+    window.onload = getYardData(1);
+
+    function openPop() {
+        $('#myModal').modal('show')
+    }
+
+    function save() {
+        let myModal_name1 = $("#myModal_name1 option:selected").text() ? $("#myModal_name1 option:selected").text() + '/' : '../'
+        let myModal_name2 = $("#myModal_name2 option:selected").text() ? $("#myModal_name2 option:selected").text() + '/' : '../'
+        let myModal_name3 = $("#myModal_name3 option:selected").text() ? $("#myModal_name3 option:selected").text() : '..'
+        let str
+        if (myModal_name1 === '' && myModal_name2 === '' && myModal_name3 === '') {
+            str = ''
+        } else {
+            str = myModal_name1 + myModal_name2 + myModal_name3
+        }
+        $("#factoryName").val(str)
+        $('#myModal').modal('hide')
+    }
+
+    function getYardData() {
+        $.post("${pageContext.request.contextPath}/GetFactory", {
+            type: '1',
+            pageCur: '1',
+            pageMax: '999'
+        }, function (result) {
+            result = JSON.parse(result);
+            let yard = result.data
+            $('#myModal_name1').empty()
+            $('#myModal_name1').append($("<option value=''></option>"))
+            for (let o of yard) {
+                let item = $("<option value='" + o['id'] + "'>" + o['name'] + "</option>")
+                $('#myModal_name1').append(item)
             }
-            $.ajax({
-                url: "${pageContext.request.contextPath}/GetWarehouseInfo",
-                type: 'post',
-                dataType: 'json',
-                data: obj,
-                contentType: 'application/x-www-form-urlencoded;charset=utf-8',
-                success: function (res) {
-                    if (res !== undefined) {
-                        jsonObj = res.warehouseInfo;
-                        updateTable();
-                        $('#total').html(res.cnt + "条，共" + res.pageAll + "页");
-                        // 重置查询为第一页
-                        pageCur = newPage;
-                        // 重置总页数
-                        pageAll = parseInt(res.pageAll);
-                        for (let i = 1; i < 6; i++) {
-                            let k = i % 5;
-                            if (i > pageAll) {
-                                $('#a_' + k).text('.');
+
+        })
+    }
+
+    function getRegionData() {
+        let pid = $('#myModal_name1 option:selected').val()
+        if (pid === "") {
+            alert("请选择堆场信息")
+            $('#myModal_name').empty()
+            $('#myModal_name2').empty()
+            return
+        }
+        $.post("${pageContext.request.contextPath}/GetFactory", {
+            type: '2',
+            pid: pid,
+            pageCur: '1',
+            pageMax: '999'
+        }, function (result) {
+            result = JSON.parse(result);
+            let yard = result.data
+            $('#myModal_name2').empty()
+            $('#myModal_name2').append($("<option value=''></option>"))
+            for (let o of yard) {
+                let item = $("<option value='" + o['id'] + "'>" + o['name'] + "</option>")
+                $('#myModal_name2').append(item)
+            }
+        })
+
+    }
+
+    function getLocation() {
+        let pid = $('#myModal_name2 option:selected').val()
+        $('#myModal_name').empty()
+        $.post("${pageContext.request.contextPath}/GetFactory", {
+            type: '3',
+            pid: pid,
+            pageCur: '1',
+            pageMax: '999'
+        }, function (result) {
+            result = JSON.parse(result);
+            let yard = result.data
+            $('#myModal_name').append($("<option value=''></option>"))
+            for (let o of yard) {
+                let item = $("<option value='" + o['id'] + "'>" + o['name'] + "</option>")
+                $('#myModal_name').append(item)
+            }
+        })
+    }
+
+    function getTableData(newPage) {
+        let myModal_name1 = $("#myModal_name1 option:selected").val()
+        let myModal_name2 = $("#myModal_name2 option:selected").val()
+        let myModal_name = $("#myModal_name option:selected").val()
+        let factoryName = '';
+        if (myModal_name1) {
+            factoryName = myModal_name1
+        }
+        if (myModal_name2) {
+            factoryName = myModal_name2
+        }
+        if (myModal_name) {
+            factoryName = myModal_name
+        }
+        let planname = $('#planname').val();
+        let building_no = $('#building_no').val();
+        let floor_no = $('#floor_no').val();
+        let materialcode = $('#materialcode').val();
+        let build_type = $('#build_type').val();
+        let drawing_no = $('#drawing_no').val();
+        let obj = {
+            factoryName: factoryName,
+            planname: planname,
+            building_no: building_no,
+            floor_no: floor_no,
+            materialcode: materialcode,
+            build_type: build_type,
+            drawing_no: drawing_no,
+            pageCur: newPage,
+            pageMax: pageMax
+        }
+        $.ajax({
+            url: "${pageContext.request.contextPath}/GetWarehouseInfo",
+            type: 'post',
+            dataType: 'json',
+            data: obj,
+            contentType: 'application/x-www-form-urlencoded;charset=utf-8',
+            success: function (res) {
+                if (res !== undefined) {
+                    jsonObj = res.warehouseInfo;
+                    updateTable();
+                    $('#total').html(res.cnt + "条，共" + res.pageAll + "页");
+                    // 重置查询为第一页
+                    pageCur = newPage;
+                    // 重置总页数
+                    pageAll = parseInt(res.pageAll);
+                    for (let i = 1; i < 6; i++) {
+                        let k = i % 5;
+                        if (i > pageAll) {
+                            $('#a_' + k).text('.');
+                        } else {
+                            $('#li_' + newPage % 5).addClass('active');
+                            if (k === 0) {
+                                $('#a_' + k).text(5);
+                                $('#a_' + k).attr('onclick', 'jumpToNewPage1(5)');
+                                continue;
                             } else {
-                                $('#li_' + newPage % 5).addClass('active');
-                                if (k === 0) {
-                                    $('#a_' + k).text(5);
-                                    $('#a_' + k).attr('onclick', 'jumpToNewPage1(5)');
-                                    continue;
-                                } else {
-                                    $('#a_' + k).text(k);
-                                    $('#a_' + k).attr('onclick', 'jumpToNewPage1(' + k + ')');
-                                }
+                                $('#a_' + k).text(k);
+                                $('#a_' + k).attr('onclick', 'jumpToNewPage1(' + k + ')');
                             }
                         }
-                    } else {
-                        jsonObj = []
-                        updateTable(pageCur);
                     }
-                },
-                error: function () {
-                    jsonObj = [];
+                } else {
+                    jsonObj = []
                     updateTable(pageCur);
-                    alert("查询失败！")
                 }
-            })
+            },
+            error: function () {
+                jsonObj = [];
+                updateTable(pageCur);
+                alert("查询失败！")
+            }
+        })
+    }
+
+
+    function updateTable() {
+        let str = '';
+        for (let i = 0; i < jsonObj.length; i++) {
+            str += "<tr><td class='tdStyle_body' title='" + jsonObj[i]['materialcode'] + "'>" + jsonObj[i]['materialcode'] +
+                "</td><td class='tdStyle_body' title='" + jsonObj[i]['materialname'] + "'>" + jsonObj[i]['materialname'] +
+                "</td><td class='tdStyle_body' title='" + jsonObj[i]['build_type'] + "'>" + jsonObj[i]['build_type'] +
+                "</td><td class='tdStyle_body' title='" + jsonObj[i]['planname'] + "'>" + jsonObj[i]['planname'] +
+                "</td><td class='tdStyle_body' title='" + jsonObj[i]['building_no'] + "'>" + jsonObj[i]['building_no'] +
+                "</td><td class='tdStyle_body' title='" + jsonObj[i]['floor_no'] + "'>" + jsonObj[i]['floor_no'] +
+                "</td><td class='tdStyle_body' title='" + jsonObj[i]['drawing_no'] + "'>" + jsonObj[i]['drawing_no'] +
+                "</td><td class='tdStyle_body' title='" + jsonObj[i]['path'] + "'>" + jsonObj[i]['path'] +
+                "</td></tr>";
         }
+        $("#archTableText").html(str);
+    }
 
-
-        function updateTable() {
-            let str = '';
-            for (let i = 0; i < jsonObj.length; i++) {
-                str += "<tr><td class='tdStyle_body' title='" + jsonObj[i]['materialcode'] + "'>" + jsonObj[i]['materialcode'] +
-                    "</td><td class='tdStyle_body' title='" + jsonObj[i]['materialname'] + "'>" + jsonObj[i]['materialname'] +
-                    "</td><td class='tdStyle_body' title='" + jsonObj[i]['build_type'] + "'>" + jsonObj[i]['build_type'] +
-                    "</td><td class='tdStyle_body' title='" + jsonObj[i]['planname'] + "'>" + jsonObj[i]['planname'] +
-                    "</td><td class='tdStyle_body' title='" + jsonObj[i]['building_no'] + "'>" + jsonObj[i]['building_no'] +
-                    "</td><td class='tdStyle_body' title='" + jsonObj[i]['floor_no'] + "'>" + jsonObj[i]['floor_no'] +
-                    "</td><td class='tdStyle_body' title='" + jsonObj[i]['drawing_no'] + "'>" + jsonObj[i]['drawing_no'] +
-                    "</td><td class='tdStyle_body' title='" + jsonObj[i]['path'] + "'>" + jsonObj[i]['path'] +
-                    "</td></tr>";
-            }
-            $("#archTableText").html(str);
-        }
-
-        function jumpToNewPage(newPageCode) {
-            let newPage = 1;
-            if (newPageCode === 1) newPage = 1;
-            if (newPageCode === 2) {
-                if (pageCur === 1) {
-                    window.alert("已经在第一页!");
-                    return
-                } else {
-                    newPage = pageCur - 1;
-                }
-            }
-            if (newPageCode === 3) {
-                if (pageCur === pageAll) {
-                    window.alert("已经在最后一页!");
-                    return
-                } else {
-                    newPage = pageCur + 1;
-                }
-            }
-            let materialcode = $('#materialcode').val();
-            let materialname = $('#materialname').val();
-            let obj = {
-                materialcode: materialcode,
-                materialname: materialname,
-                isPrint: "true",
-                isPour: "true",
-                inspectState: '2',
-                pageCur: newPage,
-                pageMax: pageMax
-            }
-            $.ajax({
-                url: "${pageContext.request.contextPath}/GetWarehouseInfo",
-                type: 'post',
-                dataType: 'json',
-                data: obj,
-                contentType: 'application/x-www-form-urlencoded;charset=utf-8',
-                success: function (res) {
-                    if (res.data.length !== 0) {
-                        jsonObj = res.data;
-                        updateTable();
-                        if (newPageCode === 3) {
-                            setFooter(3, res.pageAll, pageCur, newPage);
-                        }
-                        if (newPageCode === 2) {
-                            setFooter(2, res.pageAll, pageCur, newPage);
-                        }
-                        // 重置查询为第一页
-                        pageCur = newPage;
-                        // 重置总页数
-                        pageAll = parseInt(res.pageAll);
-                    } else {
-                        jsonObj = []
-                        updateTable();
-                    }
-                },
-                error: function () {
-                    jsonObj = [];
-                    updateTable();
-                    alert("查询失败！")
-                }
-            })
-        }
-
-        function jumpToNewPage1(newPage) {
-            let materialcode = $('#materialcode').val();
-            let materialname = $('#materialname').val();
-            let obj = {
-                materialcode: materialcode,
-                materialname: materialname,
-                inspectState: '2',
-                isPrint: "true",
-                isPour: "true",
-                pageCur: newPage,
-                pageMax: pageMax
-            }
-            $.ajax({
-                url: "${pageContext.request.contextPath}/GetWarehouseInfo",
-                type: 'post',
-                dataType: 'json',
-                data: obj,
-                contentType: 'application/x-www-form-urlencoded;charset=utf-8',
-                success: function (res) {
-                    if (res.data.length !== 0) {
-                        jsonObj = res.data;
-                        updateTable();
-                        $('#li_' + newPage % 5).addClass('active');
-                        $('#li_' + pageCur % 5).removeClass('active');
-                        pageCur = newPage;
-                    } else {
-                        jsonObj = []
-                        updateTable();
-                    }
-                },
-                error: function () {
-                    jsonObj = [];
-                    updateTable();
-                    alert("查询失败！")
-                }
-            })
-        }
-
-        function jumpToNewPage2() {
-            let newPage = parseInt($('#jump_to').val());
-            let materialcode = $('#materialcode').val();
-            let materialname = $('#materialname').val();
-            if (newPage == "" || isNaN(newPage))
-                return;
-            if (newPage > pageAll) {
-                alert("超过最大页数")
+    function jumpToNewPage(newPageCode) {
+        let newPage = 1;
+        if (newPageCode === 1) newPage = 1;
+        if (newPageCode === 2) {
+            if (pageCur === 1) {
+                window.alert("已经在第一页!");
                 return
+            } else {
+                newPage = pageCur - 1;
             }
-            let obj = {
-                materialcode: materialcode,
-                materialname: materialname,
-                inspectState: '2',
-                isPrint: "true",
-                isPour: "true",
-                pageCur: newPage,
-                pageMax: pageMax
-            }
-            $.ajax({
-                url: "${pageContext.request.contextPath}/GetWarehouseInfo",
-                type: 'post',
-                dataType: 'json',
-                data: obj,
-                contentType: 'application/x-www-form-urlencoded;charset=utf-8',
-                success: function (res) {
-                    if (res.data.length !== 0) {
-                        jsonObj = res.data;
-                        updateTable();
-                        jump2(newPage, res.pageAll);
-                        // 重置查询为第一页
-                        pageCur = newPage;
-                        // 重置总页数
-                        pageAll = parseInt(res.pageAll);
-                    } else {
-                        jsonObj = []
-                        updateTable();
-                    }
-                },
-                error: function () {
-                    jsonObj = [];
-                    updateTable();
-                    alert("查询失败！")
-                }
-            })
         }
+        if (newPageCode === 3) {
+            if (pageCur === pageAll) {
+                window.alert("已经在最后一页!");
+                return
+            } else {
+                newPage = pageCur + 1;
+            }
+        }
+        let myModal_name1 = $("#myModal_name1 option:selected").val()
+        let myModal_name2 = $("#myModal_name2 option:selected").val()
+        let myModal_name = $("#myModal_name option:selected").val()
+        let factoryName = '';
+        if (myModal_name1) {
+            factoryName = myModal_name1
+        }
+        if (myModal_name2) {
+            factoryName = myModal_name2
+        }
+        if (myModal_name) {
+            factoryName = myModal_name
+        }
+        let planname = $('#planname').val();
+        let building_no = $('#building_no').val();
+        let floor_no = $('#floor_no').val();
+        let materialcode = $('#materialcode').val();
+        let build_type = $('#build_type').val();
+        let drawing_no = $('#drawing_no').val();
+        let obj = {
+            factoryName: factoryName,
+            planname: planname,
+            building_no: building_no,
+            floor_no: floor_no,
+            materialcode: materialcode,
+            build_type: build_type,
+            drawing_no: drawing_no,
+            pageCur: newPage,
+            pageMax: pageMax
+        }
+        $.ajax({
+            url: "${pageContext.request.contextPath}/GetWarehouseInfo",
+            type: 'post',
+            dataType: 'json',
+            data: obj,
+            contentType: 'application/x-www-form-urlencoded;charset=utf-8',
+            success: function (res) {
+                if (res.warehouseInfo.length !== 0) {
+                    jsonObj = res.warehouseInfo;
+                    updateTable();
+                    if (newPageCode === 3) {
+                        setFooter(3, res.pageAll, pageCur, newPage);
+                    }
+                    if (newPageCode === 2) {
+                        setFooter(2, res.pageAll, pageCur, newPage);
+                    }
+                    // 重置查询为第一页
+                    pageCur = newPage;
+                    // 重置总页数
+                    pageAll = parseInt(res.pageAll);
+                } else {
+                    jsonObj = []
+                    updateTable();
+                }
+            },
+            error: function () {
+                jsonObj = [];
+                updateTable();
+                alert("查询失败！")
+            }
+        })
+    }
 
-        function jump2(newPage, pageAll) {
-            if (newPage <= 5) {
+    function jumpToNewPage1(newPage) {
+        let myModal_name1 = $("#myModal_name1 option:selected").val()
+        let myModal_name2 = $("#myModal_name2 option:selected").val()
+        let myModal_name = $("#myModal_name option:selected").val()
+        let factoryName = '';
+        if (myModal_name1) {
+            factoryName = myModal_name1
+        }
+        if (myModal_name2) {
+            factoryName = myModal_name2
+        }
+        if (myModal_name) {
+            factoryName = myModal_name
+        }
+        let planname = $('#planname').val();
+        let building_no = $('#building_no').val();
+        let floor_no = $('#floor_no').val();
+        let materialcode = $('#materialcode').val();
+        let build_type = $('#build_type').val();
+        let drawing_no = $('#drawing_no').val();
+        let obj = {
+            factoryName: factoryName,
+            planname: planname,
+            building_no: building_no,
+            floor_no: floor_no,
+            materialcode: materialcode,
+            build_type: build_type,
+            drawing_no: drawing_no,
+            pageCur: newPage,
+            pageMax: pageMax
+        }
+        $.ajax({
+            url: "${pageContext.request.contextPath}/GetWarehouseInfo",
+            type: 'post',
+            dataType: 'json',
+            data: obj,
+            contentType: 'application/x-www-form-urlencoded;charset=utf-8',
+            success: function (res) {
+                if (res.warehouseInfo.length !== 0) {
+                    jsonObj = res.warehouseInfo;
+                    updateTable();
+                    $('#li_' + newPage % 5).addClass('active');
+                    $('#li_' + pageCur % 5).removeClass('active');
+                    pageCur = newPage;
+                } else {
+                    jsonObj = []
+                    updateTable();
+                }
+            },
+            error: function () {
+                jsonObj = [];
+                updateTable();
+                alert("查询失败！")
+            }
+        })
+    }
+
+    function jumpToNewPage2() {
+        let newPage = parseInt($('#jump_to').val());
+        let myModal_name1 = $("#myModal_name1 option:selected").val()
+        let myModal_name2 = $("#myModal_name2 option:selected").val()
+        let myModal_name = $("#myModal_name option:selected").val()
+        let factoryName = '';
+        if (myModal_name1) {
+            factoryName = myModal_name1
+        }
+        if (myModal_name2) {
+            factoryName = myModal_name2
+        }
+        if (myModal_name) {
+            factoryName = myModal_name
+        }
+        let planname = $('#planname').val();
+        let building_no = $('#building_no').val();
+        let floor_no = $('#floor_no').val();
+        let materialcode = $('#materialcode').val();
+        let build_type = $('#build_type').val();
+        let drawing_no = $('#drawing_no').val();
+        let obj = {
+            factoryName: factoryName,
+            planname: planname,
+            building_no: building_no,
+            floor_no: floor_no,
+            materialcode: materialcode,
+            build_type: build_type,
+            drawing_no: drawing_no,
+            pageCur: newPage,
+            pageMax: pageMax
+        }
+        if (newPage == "" || isNaN(newPage))
+            return;
+        if (newPage > pageAll) {
+            alert("超过最大页数")
+            return
+        }
+        $.ajax({
+            url: "${pageContext.request.contextPath}/GetWarehouseInfo",
+            type: 'post',
+            dataType: 'json',
+            data: obj,
+            contentType: 'application/x-www-form-urlencoded;charset=utf-8',
+            success: function (res) {
+                if (res.warehouseInfo.length !== 0) {
+                    jsonObj = res.warehouseInfo;
+                    updateTable();
+                    jump2(newPage, res.pageAll);
+                    // 重置查询为第一页
+                    pageCur = newPage;
+                    // 重置总页数
+                    pageAll = parseInt(res.pageAll);
+                } else {
+                    jsonObj = []
+                    updateTable();
+                }
+            },
+            error: function () {
+                jsonObj = [];
+                updateTable();
+                alert("查询失败！")
+            }
+        })
+    }
+
+    function jump2(newPage, pageAll) {
+        if (newPage <= 5) {
+            for (let i = 1; i < 6; i++) {
+                let k = i % 5;
+                if (i > pageAll) {
+                    $('#a_' + k).text('.');
+                } else {
+                    if (k === 0) {
+                        $('#a_' + k).text(5);
+                    } else {
+                        $('#a_' + k).text(k);
+                        $('#a_' + k).attr('onclick', 'jumpToNewPage1(' + k + ')');
+                    }
+                }
+            }
+            $('#li_' + pageCur % 5).removeClass('active');
+            $('#li_' + newPage % 5).addClass('active');
+        } else {
+            let j = Math.floor(newPage / 5);
+            let m = j * 5;
+            if (newPage % 5 == 0) {
                 for (let i = 1; i < 6; i++) {
                     let k = i % 5;
-                    if (i > pageAll) {
+                    let n = m - 5 + i;
+                    if (n > pageAll) {
                         $('#a_' + k).text('.');
                     } else {
-                        if (k === 0) {
-                            $('#a_' + k).text(5);
-                        } else {
-                            $('#a_' + k).text(k);
-                            $('#a_' + k).attr('onclick', 'jumpToNewPage1(' + k + ')');
-                        }
+                        $('#a_' + k).text(n);
+                        $('#a_' + k).attr('onclick', 'jumpToNewPage1(' + n + ')');
                     }
                 }
-                $('#li_' + pageCur % 5).removeClass('active');
-                $('#li_' + newPage % 5).addClass('active');
             } else {
+                for (let i = 1; i < 6; i++) {
+                    let k = i % 5;
+                    if (++m > pageAll) {
+                        $('#a_' + k).text('.');
+                    } else {
+                        $('#a_' + k).text(m);
+                        $('#a_' + k).attr('onclick', 'jumpToNewPage1(' + m + ')');
+                    }
+                }
+            }
+            $('#li_' + pageCur % 5).removeClass('active');
+            $('#li_' + newPage % 5).addClass('active');
+        }
+    }
+
+    function setFooter(newPageCode, pageAll, pageCur, newPage) {
+        if (newPageCode === 3) {
+            if (pageCur % 5 === 0) {
                 let j = Math.floor(newPage / 5);
                 let m = j * 5;
-                if (newPage % 5 == 0) {
-                    for (let i = 1; i < 6; i++) {
-                        let k = i % 5;
-                        let n = m - 5 + i;
-                        if (n > pageAll) {
-                            $('#a_' + k).text('.');
-                        } else {
-                            $('#a_' + k).text(n);
-                            $('#a_' + k).attr('onclick', 'jumpToNewPage1(' + n + ')');
-                        }
-                    }
-                } else {
-                    for (let i = 1; i < 6; i++) {
-                        let k = i % 5;
-                        if (++m > pageAll) {
-                            $('#a_' + k).text('.');
-                        } else {
-                            $('#a_' + k).text(m);
-                            $('#a_' + k).attr('onclick', 'jumpToNewPage1(' + m + ')');
-                        }
-                    }
-                }
-                $('#li_' + pageCur % 5).removeClass('active');
-                $('#li_' + newPage % 5).addClass('active');
-            }
-        }
-
-        function setFooter(newPageCode, pageAll, pageCur, newPage) {
-            if (newPageCode === 3) {
-                if (pageCur % 5 === 0) {
-                    let j = Math.floor(newPage / 5);
-                    let m = j * 5;
-                    for (let i = 1; i < 6; i++) {
-                        let k = i % 5;
-                        if (++m > pageAll) {
-                            $('#a_' + k).text('.');
-                        } else {
-                            $('#a_' + k).text(m);
-                            $('#a_' + k).attr('onclick', 'jumpToNewPage1(' + m + ')');
-                        }
-                    }
-
-                }
-                $('#li_' + newPage % 5).addClass('active');
-                $('#li_' + pageCur % 5).removeClass('active');
-            } else {
-                if (pageCur % 5 === 1) {
-                    let j = Math.floor(newPage / 5);
-                    let m
-                    if (j < 0) {
-                        m = 5;    //5*1
+                for (let i = 1; i < 6; i++) {
+                    let k = i % 5;
+                    if (++m > pageAll) {
+                        $('#a_' + k).text('.');
                     } else {
-                        m = j * 5;
-                    }
-                    for (let i = 5; i > 0; i--) {
-                        let k = i % 5;
-                        if (m > pageAll) {
-                            $('#a_' + k).text('');
-                            m--;
-                        } else {
-                            $('#a_' + k).text(m);
-                            $('#a_' + k).attr('onclick', 'jumpToNewPage1(' + m-- + ')');
-                        }
+                        $('#a_' + k).text(m);
+                        $('#a_' + k).attr('onclick', 'jumpToNewPage1(' + m + ')');
                     }
                 }
-                $('#li_' + newPage % 5).addClass('active');
-                $('#li_' + pageCur % 5).removeClass('active');
+
             }
+            $('#li_' + newPage % 5).addClass('active');
+            $('#li_' + pageCur % 5).removeClass('active');
+        } else {
+            if (pageCur % 5 === 1) {
+                let j = Math.floor(newPage / 5);
+                let m
+                if (j < 0) {
+                    m = 5;    //5*1
+                } else {
+                    m = j * 5;
+                }
+                for (let i = 5; i > 0; i--) {
+                    let k = i % 5;
+                    if (m > pageAll) {
+                        $('#a_' + k).text('');
+                        m--;
+                    } else {
+                        $('#a_' + k).text(m);
+                        $('#a_' + k).attr('onclick', 'jumpToNewPage1(' + m-- + ')');
+                    }
+                }
+            }
+            $('#li_' + newPage % 5).addClass('active');
+            $('#li_' + pageCur % 5).removeClass('active');
         }
-    </script>
+    }
+</script>
 </div>
 <style>
     table {

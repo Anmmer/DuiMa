@@ -397,7 +397,7 @@
             <li id="patch_library_query_li">
                 <button class="li_ItemStyle" id="patch_library_query"
                         onclick="jumpTo('patchLibraryQueryAll.jsp','patch_library_query')">
-                    <span style="margin-left: 15%;margin-right: 5%;" class="glyphicon glyphicon-grain"></span>修补库查询
+                    <span style="margin-left: 15%;margin-right: 5%;" class="glyphicon glyphicon-grain"></span>修补库管理
                 </button>
             </li>
             <li id="production_in_out__warehouse_li">
@@ -415,7 +415,7 @@
             <li id="warehouse_log_li">
                 <button class="li_ItemStyle" id="warehouse_log"
                         onclick="jumpTo('productWarehouseLogQuery.jsp','warehouse_log')"><span
-                        style="margin-left: 15%;margin-right: 5%;" class="glyphicon glyphicon-grain"></span>出入库单打印
+                        style="margin-left: 15%;margin-right: 5%;" class="glyphicon glyphicon-grain"></span>出入库明细
                 </button>
             </li>
         </ul>

@@ -8,11 +8,19 @@
 
 </script>
 <div style="height: 95%;width:100%;background-color:white;">
-    <form name="query" class="form-inline" style="width:85%;height:10%;margin-left: 8%;padding-top:2%">
+    <form name="query" class="form-inline" style="width:85%;height:16%;margin-left: 8%;padding-top:2%">
         <label>物料编码：</label><input type="text" name="materialcode" id="materialcode"
                                    style="width: 13%;height: 30px" class="form-control">
-        <label>物料名称：</label><input type="text" name="materialname" id="materialname"
-                                   style="width: 13%;height: 30px" class="form-control">
+        <label style="margin-left: 3%">物料名称：</label><input type="text" name="materialname" id="materialname"
+                                                           style="width: 13%;height: 30px" class="form-control">
+        <label style="margin-left: 3%">项目名称：</label><input type="text" id="planname"
+                                   style="height: 30px;width: 13%" class="form-control">
+        <label style="margin-left: 3%">楼栋：</label><input type="text" id="building_no"
+                                                         style="height: 30px;width: 13%" class="form-control"><br><br>
+        <label>楼层：</label><input type="text" id="floor_no"
+                                                         style="height: 30px;width: 13%" class="form-control">
+        <label style="margin-left: 3%">图号：</label><input type="text" id="drawing_no"
+                                                         style="height: 30px;width: 13%" class="form-control">
         <%--        <label style="margin-left: 2%">操作人：</label><input type="text" name="inspect_user" id="inspect_user"--%>
         <%--                                                          style="width: 13%;height: 30px" class="form-control"><br><br>--%>
         <%--        <label for="inspect_startDate">操作日期从：</label><input id="inspect_startDate" class="form-control"--%>
@@ -30,11 +38,11 @@
     <div style="width:85%;height:80%;margin:0 auto;">
         <div class="page-header" style="margin-top: 0;margin-bottom: 1%">
             <h3 style="margin-bottom: 0;margin-top: 0"><small>报废库信息</small></h3>
-            <button type="button" onclick="outWarehouse()" style="position: absolute;right: 15%;top:10%;width: 60px"
+            <button type="button" onclick="outWarehouse()" style="position: absolute;right: 15%;top:16%;width: 60px"
                     class="btn btn-primary btn-sm">
                 出&nbsp;&nbsp;库
             </button>
-            <button type="button" onclick="openPop()" style="position: absolute;right: 9%;top:10%;width: 60px"
+            <button type="button" onclick="openPop()" style="position: absolute;right: 9%;top:16%;width: 60px"
                     class="btn btn-primary btn-sm">
                 入&nbsp;&nbsp;库
             </button>
@@ -209,15 +217,23 @@
         function getTableData(newPage) {
             let materialcode = $('#materialcode').val();
             let materialname = $('#materialname').val();
-            let inspect_user = $('#inspect_user').val();
-            let inspect_startDate = $('#inspect_startDate').val();
-            let inspect_endDate = $('#inspect_endDate').val();
+            let planname = $('#planname').val();
+            let building_no = $('#building_no').val();
+            let floor_no = $('#floor_no').val();
+            let drawing_no = $('#drawing_no').val();
+            // let inspect_user = $('#inspect_user').val();
+            // let inspect_startDate = $('#inspect_startDate').val();
+            // let inspect_endDate = $('#inspect_endDate').val();
             let obj = {
                 materialcode: materialcode,
                 materialname: materialname,
-                inspect_user: inspect_user,
-                inspect_startDate: inspect_startDate,
-                inspect_endDate: inspect_endDate,
+                planname: planname,
+                building_no: building_no,
+                floor_no: floor_no,
+                drawing_no: drawing_no,
+                // inspect_user: inspect_user,
+                // inspect_startDate: inspect_startDate,
+                // inspect_endDate: inspect_endDate,
                 isPrint: "true",
                 isPour: "true",
                 inspectState: '3',
@@ -403,9 +419,23 @@
             }
             let materialcode = $('#materialcode').val();
             let materialname = $('#materialname').val();
+            let planname = $('#planname').val();
+            let building_no = $('#building_no').val();
+            let floor_no = $('#floor_no').val();
+            let drawing_no = $('#drawing_no').val();
+            // let inspect_user = $('#inspect_user').val();
+            // let inspect_startDate = $('#inspect_startDate').val();
+            // let inspect_endDate = $('#inspect_endDate').val();
             let obj = {
                 materialcode: materialcode,
                 materialname: materialname,
+                planname: planname,
+                building_no: building_no,
+                floor_no: floor_no,
+                drawing_no: drawing_no,
+                // inspect_user: inspect_user,
+                // inspect_startDate: inspect_startDate,
+                // inspect_endDate: inspect_endDate,
                 isPrint: "true",
                 isPour: "true",
                 inspectState: '3',
@@ -448,12 +478,26 @@
         function jumpToNewPage1(newPage) {
             let materialcode = $('#materialcode').val();
             let materialname = $('#materialname').val();
+            let planname = $('#planname').val();
+            let building_no = $('#building_no').val();
+            let floor_no = $('#floor_no').val();
+            let drawing_no = $('#drawing_no').val();
+            // let inspect_user = $('#inspect_user').val();
+            // let inspect_startDate = $('#inspect_startDate').val();
+            // let inspect_endDate = $('#inspect_endDate').val();
             let obj = {
                 materialcode: materialcode,
                 materialname: materialname,
-                inspectState: '3',
+                planname: planname,
+                building_no: building_no,
+                floor_no: floor_no,
+                drawing_no: drawing_no,
+                // inspect_user: inspect_user,
+                // inspect_startDate: inspect_startDate,
+                // inspect_endDate: inspect_endDate,
                 isPrint: "true",
                 isPour: "true",
+                inspectState: '3',
                 pageCur: newPage,
                 pageMax: pageMax
             }
@@ -487,20 +531,34 @@
             let newPage = parseInt($('#jump_to').val());
             let materialcode = $('#materialcode').val();
             let materialname = $('#materialname').val();
+            let planname = $('#planname').val();
+            let building_no = $('#building_no').val();
+            let floor_no = $('#floor_no').val();
+            let drawing_no = $('#drawing_no').val();
+            // let inspect_user = $('#inspect_user').val();
+            // let inspect_startDate = $('#inspect_startDate').val();
+            // let inspect_endDate = $('#inspect_endDate').val();
+            let obj = {
+                materialcode: materialcode,
+                materialname: materialname,
+                planname: planname,
+                building_no: building_no,
+                floor_no: floor_no,
+                drawing_no: drawing_no,
+                // inspect_user: inspect_user,
+                // inspect_startDate: inspect_startDate,
+                // inspect_endDate: inspect_endDate,
+                isPrint: "true",
+                isPour: "true",
+                inspectState: '3',
+                pageCur: newPage,
+                pageMax: pageMax
+            }
             if (newPage == "" || isNaN(newPage))
                 return;
             if (newPage > pageAll) {
                 alert("超过最大页数")
                 return
-            }
-            let obj = {
-                materialcode: materialcode,
-                materialname: materialname,
-                inspectState: '3',
-                isPrint: "true",
-                isPour: "true",
-                pageCur: newPage,
-                pageMax: pageMax
             }
             $.ajax({
                 url: "${pageContext.request.contextPath}/GetPreProduct",

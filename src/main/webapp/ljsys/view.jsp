@@ -214,6 +214,7 @@
             fangliang: "STRING",
             building_no: "STRING",
             floor_no: "STRING",
+            time: "STRING",
             plantime: "STRING",
             concretegrade: "STRING",
             unit_consumption: "STRING",
@@ -238,7 +239,7 @@
                 }
                 str_body += "<tr><td>" + "构件种类" + "</td><td>" + jsonobj.build_type + "</td></tr>"
                 str_body += "<tr><td>" + "构件尺寸(mm)" + "</td><td>" + jsonobj.standard + "</td></tr>"
-                str_body += "<tr><td>" + "构件重量(T)" + "</td><td>" + jsonobj.fangliang * 2.4.toFixed(2) + "</td></tr>"
+                str_body += "<tr><td>" + "构件重量(T)" + "</td><td>" + (jsonobj.fangliang * 2.4).toFixed(2) + "</td></tr>"
                 str_body += "<tr><td>" + "使用部位" + "</td><td>" + jsonobj.building_no + jsonobj.floor_no + "</td></tr>"
                 str_body += "<tr><td>" + "构件制作日期" + "</td><td>" + jsonobj.time + "</td></tr>"
                 str_body += "<tr><td>" + "构件出厂检验日期" + "</td><td>" + jsonobj.plantime + "</td></tr>"

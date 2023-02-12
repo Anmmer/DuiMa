@@ -11,8 +11,10 @@
     <form name="query" class="form-inline" style="width:85%;height:20%;margin-left: 8%;padding-top:2%">
         <label>物料编码：</label><input type="text" name="materialcode" id="materialcode"
                                    style="width: 13%;height: 30px" class="form-control">
-        <label>物料名称：</label><input type="text" name="materialname" id="materialname"
-                                   style="width: 13%;height: 30px" class="form-control">
+        <label style="margin-left: 2%">物料名称：</label><input type="text" name="materialname" id="materialname"
+                                                           style="width: 13%;height: 30px" class="form-control">
+        <label style="margin-left: 2%">项目名称：</label><input type="text" name="planname" id="planname"
+                                                           style="width: 13%;height: 30px" class="form-control">
         <label style="margin-left: 2%">操作人：</label><input type="text" name="inspect_user" id="inspect_user"
                                                           style="width: 13%;height: 30px" class="form-control"><br><br>
         <label for="inspect_startDate">操作日期从：</label><input id="inspect_startDate" class="form-control"
@@ -85,6 +87,7 @@
 
         function getTableData(newPage) {
             let materialcode = $('#materialcode').val();
+            let planname = $('#planname').val();
             let materialname = $('#materialname').val();
             let inspect_user = $('#inspect_user').val();
             let inspect_startDate = $('#inspect_startDate').val();
@@ -92,6 +95,7 @@
             let obj = {
                 materialcode: materialcode,
                 materialname: materialname,
+                plannamne: planname,
                 inspect_user: inspect_user,
                 inspect_startDate: inspect_startDate,
                 inspect_endDate: inspect_endDate,
@@ -228,10 +232,18 @@
                 }
             }
             let materialcode = $('#materialcode').val();
+            let planname = $('#planname').val();
             let materialname = $('#materialname').val();
+            let inspect_user = $('#inspect_user').val();
+            let inspect_startDate = $('#inspect_startDate').val();
+            let inspect_endDate = $('#inspect_endDate').val();
             let obj = {
                 materialcode: materialcode,
                 materialname: materialname,
+                plannamne: planname,
+                inspect_user: inspect_user,
+                inspect_startDate: inspect_startDate,
+                inspect_endDate: inspect_endDate,
                 isPrint: "true",
                 isPour: "true",
                 inspectState: '2',
@@ -273,13 +285,21 @@
 
         function jumpToNewPage1(newPage) {
             let materialcode = $('#materialcode').val();
+            let planname = $('#planname').val();
             let materialname = $('#materialname').val();
+            let inspect_user = $('#inspect_user').val();
+            let inspect_startDate = $('#inspect_startDate').val();
+            let inspect_endDate = $('#inspect_endDate').val();
             let obj = {
                 materialcode: materialcode,
                 materialname: materialname,
-                inspectState: '2',
+                plannamne: planname,
+                inspect_user: inspect_user,
+                inspect_startDate: inspect_startDate,
+                inspect_endDate: inspect_endDate,
                 isPrint: "true",
                 isPour: "true",
+                inspectState: '2',
                 pageCur: newPage,
                 pageMax: pageMax
             }
@@ -312,7 +332,11 @@
         function jumpToNewPage2() {
             let newPage = parseInt($('#jump_to').val());
             let materialcode = $('#materialcode').val();
+            let planname = $('#planname').val();
             let materialname = $('#materialname').val();
+            let inspect_user = $('#inspect_user').val();
+            let inspect_startDate = $('#inspect_startDate').val();
+            let inspect_endDate = $('#inspect_endDate').val();
             if (newPage == "" || isNaN(newPage))
                 return;
             if (newPage > pageAll) {
@@ -322,9 +346,13 @@
             let obj = {
                 materialcode: materialcode,
                 materialname: materialname,
-                inspectState: '2',
+                plannamne: planname,
+                inspect_user: inspect_user,
+                inspect_startDate: inspect_startDate,
+                inspect_endDate: inspect_endDate,
                 isPrint: "true",
                 isPour: "true",
+                inspectState: '2',
                 pageCur: newPage,
                 pageMax: pageMax
             }

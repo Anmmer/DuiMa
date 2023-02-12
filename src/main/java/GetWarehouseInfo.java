@@ -18,7 +18,7 @@ public class GetWarehouseInfo extends HttpServlet {
         response.setContentType("text/javascript;charset=UTF-8");
         PrintWriter out = response.getWriter();
         // 获取、转换参数
-        String name = request.getParameter("name");
+        String name = request.getParameter("factoryName");
         String planname = request.getParameter("planname");
         String floor_no = request.getParameter("floor_no");
         String building_no = request.getParameter("building_no");
@@ -39,44 +39,44 @@ public class GetWarehouseInfo extends HttpServlet {
             conn = DbUtil.getCon();
             int i = 0;
             int j = 0;
-            StringBuilder sql = new StringBuilder("select warehouse_info.materialcode,build_table.materialname,build_type,planname,floor_no,building_no,drawing_no,path from warehouse, warehouse_info,build_table where warehouse_info.warehouse_id = warehouse.id and warehouse_info.materialcode = build_table.materialcode and build_table.is_delete=0 and warehouse_info.is_effective = '1'");
-            StringBuilder sql2 = new StringBuilder("select count(*) as num from warehouse, warehouse_info,build_table,preproduct where warehouse_info.warehouse_id = warehouse.id and warehouse_info.materialcode = preproduct.materialcode and preproduct.materialcode=build_table.materialcode and build_table.is_delete = 0 and warehouse_info.is_effective = '1'");
+            StringBuilder sql = new StringBuilder("select warehouse_info.materialcode,preproduct.materialname,build_type,planname,floor_no,building_no,drawing_no,path from warehouse, warehouse_info,preproduct where warehouse_info.warehouse_id = warehouse.id and warehouse_info.materialcode = preproduct.materialcode  and warehouse_info.is_effective = '1'");
+            StringBuilder sql2 = new StringBuilder("select count(*) as num from warehouse, warehouse_info,preproduct where warehouse_info.warehouse_id = warehouse.id and warehouse_info.materialcode = preproduct.materialcode  and warehouse_info.is_effective = '1'");
             if (name != null && !"".equals(name)) {
                 sql.append(" and warehouse.id in (with recursive temp as (\n" +
                         "select id,pid from warehouse p where  id= ?\n" +
                         "union \n" +
-                        " select t.id from warehouse t inner join temp t2 on t2.id = t.pid \n" +
+                        " select t.id,t.pid from warehouse t inner join temp t2 on t2.id = t.pid \n" +
                         ") select id from temp )");
                 sql2.append(" and warehouse.id in (with recursive temp as (\n" +
-                        "select id,pid from warehouse p where  name= ?\n" +
+                        "select id,pid from warehouse p where  id= ?\n" +
                         "union \n" +
-                        " select t.id from warehouse t inner join temp t2 on t2.id = t.pid \n" +
+                        " select t.id,t.pid from warehouse t inner join temp t2 on t2.id = t.pid \n" +
                         ") select id from temp )");
                 i++;
             }
             if (planname != null && !"".equals(planname)) {
-                sql.append(" and build_table.planname= ?");
-                sql2.append(" and build_table.planname= ?");
+                sql.append(" and planname like ?");
+                sql2.append(" and planname like ?");
                 i++;
             }
             if (floor_no != null && !"".equals(floor_no)) {
-                sql.append(" and build_table.floor_no= ?");
-                sql2.append(" and build_table.floor_no= ?");
+                sql.append(" and preproduct.floor_no like ?");
+                sql2.append(" and preproduct.floor_no like ?");
                 i++;
             }
             if (building_no != null && !"".equals(building_no)) {
-                sql.append(" and build_table.building_no= ?");
-                sql2.append(" and build_table.building_no= ?");
+                sql.append(" and preproduct.building_no like ?");
+                sql2.append(" and preproduct.building_no like ?");
                 i++;
             }
             if (build_type != null && !"".equals(build_type)) {
-                sql.append(" and build_table.build_type= ?");
-                sql2.append(" and build_table.build_type= ?");
+                sql.append(" and preproduct.build_type like ?");
+                sql2.append(" and preproduct.build_type like ?");
                 i++;
             }
             if (drawing_no != null && !"".equals(drawing_no)) {
-                sql.append(" and build_table.drawing_no= ?");
-                sql2.append(" and build_table.drawing_no= ?");
+                sql.append(" and preproduct.drawing_no= ?");
+                sql2.append(" and preproduct.drawing_no= ?");
                 i++;
             }
             if (materialcode != null && !"".equals(materialcode)) {
@@ -100,22 +100,22 @@ public class GetWarehouseInfo extends HttpServlet {
                 ps.setString(i--, id);
             }
             if (materialcode != null && !"".equals(materialcode)) {
-                ps.setString(i--, materialcode);
+                ps.setString(i--, "%" + materialcode.trim() + "%");
             }
             if (drawing_no != null && !"".equals(drawing_no)) {
                 ps.setString(i--, drawing_no);
             }
             if (build_type != null && !"".equals(build_type)) {
-                ps.setString(i--, build_type);
+                ps.setString(i--, "%" + build_type.trim() + "%");
             }
             if (building_no != null && !"".equals(building_no)) {
-                ps.setString(i--, building_no);
+                ps.setString(i--, "%" + building_no.trim() + "%");
             }
             if (floor_no != null && !"".equals(floor_no)) {
-                ps.setString(i--, floor_no);
+                ps.setString(i--, "%" + floor_no.trim() + "%");
             }
             if (planname != null && !"".equals(planname)) {
-                ps.setString(i--, planname);
+                ps.setString(i--, "%" + planname.trim() + "%");
             }
             if (name != null && !"".equals(name)) {
                 ps.setString(i, name);

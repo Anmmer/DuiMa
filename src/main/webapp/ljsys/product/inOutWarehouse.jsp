@@ -1,27 +1,46 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <div style="height: 100%;width:100%;background-color:white;">
-    <form name="query" class="form-inline" style="width:85%;height:10%;margin-left: 8%;padding-top:2%">
-        <div class="form-group" style="width: 100%;">
-            <label for="factoryName">堆场名称：</label>
-            <select id="factoryName" onchange="getRegionData()" style="width:13%" class="form-control"></select>
-            <label for="area" style="margin-left: 2%">区域：</label>
-            <select type="text" id="area" style="width:13%" onchange="getLocation()" class="form-control"></select>
-            <label for="location" style="margin-left: 2%">货位：</label>
-            <select id="location" style="width:13%" class="form-control"></select>
-            <button type="button" class="btn btn-primary btn-sm" style="margin-left: 5%"
-                    onclick="getTableData(1)">
-                查 询
-            </button>
+    <form name="query" class="form-inline" style="width:89%;height:16%;margin-left: 8%;padding-top:2%">
+        <div class="form-group" style="width: 20%;">
+            <label>堆场信息：</label>
+            <input style="height:34%;width: 68%" name="factoryName"
+                   id="factoryName"
+                   onclick="openPop1()" class="form-control">
         </div>
+        <div class="form-group" style="margin-left:3%;width: 20%;">
+            <label>项目名称：</label><input type="text" id="planname"
+                                       style="height:34%;width: 68%" class="form-control">
+        </div>
+        <div class="form-group" style="margin-left:3%;width: 20%;">
+            <label>楼栋：</label><input type="text" id="building_no"
+                                     style="height:34%;width: 68%" class="form-control">
+        </div>
+        <div class="form-group" style="margin-left:3%;">
+            <label>楼层：</label><input type="text" id="floor_no"
+                                     style="height:34%;" class="form-control">
+        </div>
+        <br><br>
+        <div class="form-group" style="width: 20%">
+            <label>物料编码：</label><input type="text" id="materialcode"
+                                       style="height:34%;width: 68%" class="form-control">
+        </div>
+        <div class="form-group" style="margin-left:3%;width: 20%">
+            <label>图号：</label><input type="text" id="drawing_no"
+                                     style="height:34%;width: 68%" class="form-control">
+        </div>
+        <button type="button" class="btn btn-primary btn-sm" style="margin-left: 5%"
+                onclick="getTableData(1)">
+            查 询
+        </button>
     </form>
     <div style="width:85%;height:78%;margin:0 auto;">
         <div class="page-header" style="margin-top: 0;margin-bottom: 1%">
             <h3 style="margin-bottom: 0;margin-top: 0"><small>仓库信息</small></h3>
-            <button type="button" onclick="openOutPop()" style="position: absolute;right: 15%;top:10%;width: 60px"
+            <button type="button" onclick="openOutPop()" style="position: absolute;right: 15%;top:16%;width: 60px"
                     class="btn btn-primary btn-sm">
                 出&nbsp;&nbsp;库
             </button>
-            <button type="button" onclick="openPop()" style="position: absolute;right: 9%;top:10%;width: 60px"
+            <button type="button" onclick="openPop()" style="position: absolute;right: 9%;top:16%;width: 60px"
                     class="btn btn-primary btn-sm">
                 入&nbsp;&nbsp;库
             </button>
@@ -187,7 +206,7 @@
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
                             aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title" id="myModal3_title1">选择货位</h4>
+                    <h4 class="modal-title" id="myModal3_title1">选择目标货位</h4>
                 </div>
                 <div class="modal-body">
                     <div class="form-horizontal">
@@ -215,6 +234,41 @@
             </div>
         </div>
     </div>
+    <div class="modal fade" id="myModal4" tabindex="-1" style="position: absolute;left: 15%;top: 12%;" role="dialog"
+         data-backdrop="false"
+         aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content" style="width:60%">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModal_title">选择货位信息</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="form-horizontal">
+                        <div class="form-group" style="margin-top: 5%">
+                            <label for="myModal_name1" style="width: 28%;text-align: left;padding-right: 0"
+                                   class="col-sm-2 control-label">堆场信息:</label>
+                            <select class="form-control" style="width:50%;" id="myModal_name1"
+                                    name="myModal_name1" onchange="getRegionData()"></select><br>
+                            <label for="myModal_name2" style="width: 28%;text-align: left;padding-right: 0"
+                                   class="col-sm-2 control-label">区域信息:</label>
+                            <select class="form-control" style="width:50%;" id="myModal_name2"
+                                    name="myModal_name2" onchange="getLocation()"></select><br>
+                            <label for="myModal_name" style="width: 28%;text-align: left;padding-right: 0"
+                                   class="col-sm-2 control-label">货位信息:</label>
+                            <select type="text" class="form-control" style="width:50%;" id="location"
+                                    name="location"></select>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" onclick="reset()">重置</button>
+                    <button type="button" id="myModal_save" onclick="save()" class="btn btn-primary">保存</button>
+                </div>
+            </div>
+        </div>
+    </div>
     <script type="text/javascript">
         let pageCur = 1;
         let pageAll = 1;
@@ -223,6 +277,24 @@
         let pop_pageDate = []
 
         window.onload = getYardData();
+
+        function openPop1() {
+            $('#myModal4').modal('show')
+        }
+
+        function save() {
+            let myModal_name1 = $("#myModal_name1 option:selected").text() ? $("#myModal_name1 option:selected").text() + '/' : '../'
+            let myModal_name2 = $("#myModal_name2 option:selected").text() ? $("#myModal_name2 option:selected").text() + '/' : '../'
+            let myModal_name3 = $("#location option:selected").text() ? $("#location option:selected").text() : '..'
+            let str
+            if (myModal_name1 === '' && myModal_name2 === '' && myModal_name3 === '') {
+                str = ''
+            } else {
+                str = myModal_name1 + myModal_name2 + myModal_name3
+            }
+            $("#factoryName").val(str)
+            $('#myModal4').modal('hide')
+        }
 
         function inWarehouseSave() {
             let location = $("#location").val()
@@ -274,12 +346,13 @@
             }, function (result) {
                 result = JSON.parse(result);
                 let yard = result.data
-                $('#factoryName').empty()
-                $('#factoryName').append($("<option value=''></option>"))
+                $('#myModal_name1').empty()
+                $('#myModal_name1').append($("<option value=''></option>"))
                 for (let o of yard) {
                     let item = $("<option value='" + o['id'] + "'>" + o['name'] + "</option>")
-                    $('#factoryName').append(item)
+                    $('#myModal_name1').append(item)
                 }
+
             })
         }
 
@@ -301,9 +374,13 @@
         }
 
         function getRegionData() {
-            let pid = $('#factoryName').val()
-            $('#location').empty()
-            $('#area').empty()
+            let pid = $('#myModal_name1 option:selected').val()
+            if (pid === "") {
+                alert("请选择堆场信息")
+                $('#myModal_name').empty()
+                $('#myModal_name2').empty()
+                return
+            }
             $.post("${pageContext.request.contextPath}/GetFactory", {
                 type: '2',
                 pid: pid,
@@ -312,10 +389,11 @@
             }, function (result) {
                 result = JSON.parse(result);
                 let yard = result.data
-                $('#area').append($("<option value=''></option>"))
+                $('#myModal_name2').empty()
+                $('#myModal_name2').append($("<option value=''></option>"))
                 for (let o of yard) {
                     let item = $("<option value='" + o['id'] + "'>" + o['name'] + "</option>")
-                    $('#area').append(item)
+                    $('#myModal_name2').append(item)
                 }
             })
         }
@@ -341,7 +419,7 @@
         }
 
         function getLocation() {
-            let pid = $('#area').val()
+            let pid = $('#myModal_name2 option:selected').val()
             $('#location').empty()
             $.post("${pageContext.request.contextPath}/GetFactory", {
                 type: '3',
@@ -351,9 +429,7 @@
             }, function (result) {
                 result = JSON.parse(result);
                 let yard = result.data
-                if (yard.length == 0) {
-                    $('#location').empty()
-                }
+                $('#location').append($("<option value=''></option>"))
                 for (let o of yard) {
                     let item = $("<option value='" + o['id'] + "'>" + o['name'] + "</option>")
                     $('#location').append(item)
@@ -388,8 +464,18 @@
                 alert("请选择堆场货位信息")
                 return
             }
+            let planname = $('#planname').val();
+            let building_no = $('#building_no').val();
+            let floor_no = $('#floor_no').val();
+            let materialcode = $('#materialcode').val();
+            let drawing_no = $('#drawing_no').val();
             let obj = {
                 id: location,
+                planname: planname,
+                building_no: building_no,
+                floor_no: floor_no,
+                materialcode: materialcode,
+                drawing_no: drawing_no,
                 pageCur: newPage,
                 pageMax: pageMax
             }
@@ -636,13 +722,15 @@
         }
 
         function openOutPop(materialcode) {
+            if (!materialcode) {
+                let ids = []
+                $('#archTableText').find('input:checked').each(function () {
+                    ids.push($(this).attr('data-id'));   //找到对应checkbox中data-id属性值，然后push给空数组ids
+                });
+                if (!ids.length) {
+                    alert("请勾选")
 
-            let ids = []
-            $('#archTableText').find('input:checked').each(function () {
-                ids.push($(this).attr('data-id'));   //找到对应checkbox中data-id属性值，然后push给空数组ids
-            });
-            if (!ids.length) {
-                alert("请勾选")
+                }
                 return;
             }
             $('#myModal2').modal('show')
@@ -716,8 +804,18 @@
                 }
             }
             let location = $('#location').val();
+            let planname = $('#planname').val();
+            let building_no = $('#building_no').val();
+            let floor_no = $('#floor_no').val();
+            let materialcode = $('#materialcode').val();
+            let drawing_no = $('#drawing_no').val();
             let obj = {
                 id: location,
+                planname: planname,
+                building_no: building_no,
+                floor_no: floor_no,
+                materialcode: materialcode,
+                drawing_no: drawing_no,
                 pageCur: newPage,
                 pageMax: pageMax
             }
@@ -756,8 +854,18 @@
 
         function jumpToNewPage1(newPage) {
             let location = $('#location').val();
+            let planname = $('#planname').val();
+            let building_no = $('#building_no').val();
+            let floor_no = $('#floor_no').val();
+            let materialcode = $('#materialcode').val();
+            let drawing_no = $('#drawing_no').val();
             let obj = {
                 id: location,
+                planname: planname,
+                building_no: building_no,
+                floor_no: floor_no,
+                materialcode: materialcode,
+                drawing_no: drawing_no,
                 pageCur: newPage,
                 pageMax: pageMax
             }
@@ -796,8 +904,18 @@
                 return
             }
             let location = $('#location').val();
+            let planname = $('#planname').val();
+            let building_no = $('#building_no').val();
+            let floor_no = $('#floor_no').val();
+            let materialcode = $('#materialcode').val();
+            let drawing_no = $('#drawing_no').val();
             let obj = {
                 id: location,
+                planname: planname,
+                building_no: building_no,
+                floor_no: floor_no,
+                materialcode: materialcode,
+                drawing_no: drawing_no,
                 pageCur: newPage,
                 pageMax: pageMax
             }
