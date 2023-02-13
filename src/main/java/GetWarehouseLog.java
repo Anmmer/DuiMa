@@ -1,4 +1,5 @@
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
 import com.example.DbUtil;
 
 import javax.servlet.ServletException;
@@ -27,6 +28,12 @@ public class GetWarehouseLog extends HttpServlet {
         resp.setContentType("text/html;charset=UTF-8");
         PrintWriter out = resp.getWriter();
         String type = req.getParameter("type");
+        String planname = req.getParameter("planname");
+        String materialcode = req.getParameter("materialcode");
+        String materialcodes = req.getParameter("materialcodes");
+        String floor_no = req.getParameter("floor_no");
+        String building_no = req.getParameter("building_no");
+        String drawing_no = req.getParameter("drawing_no");
         String startDate = req.getParameter("startDate");
         String endDate = req.getParameter("endDate");
         int pageCur = Integer.parseInt(req.getParameter("pageCur"));
@@ -79,8 +86,8 @@ public class GetWarehouseLog extends HttpServlet {
                     "\t\tb.id = a.out_warehouse_id \n" +
                     "\t) AS out_warehouse_path \n" +
                     "FROM\n" +
-                    "\twarehouse_info_log a left join build_table c on a.materialcode = c.materialcode left join preproduct d on a.materialcode = d.materialcode where 1=1";
-            String sql2 = "select count(*) as num from warehouse_info_log a left join build_table c on a.materialcode = c.materialcode left join preproduct d on a.materialcode = d.materialcode where 1=1";
+                    "\twarehouse_info_log a left join preproduct c on a.materialcode = c.materialcode  where 1=1";
+            String sql2 = "select count(*) as num from warehouse_info_log a left join preproduct c on a.materialcode = c.materialcode where 1=1";
             if (type != null && !"".equals(type)) {
                 sql += " and type = ?";
                 sql2 += " and type = ?";
@@ -91,12 +98,71 @@ public class GetWarehouseLog extends HttpServlet {
                 sql2 += " and create_date < ? and create_date > ?";
                 i += 2;
             }
+            if (planname != null && !"".equals(planname)) {
+                sql += " and preproduct.planname like ?";
+                sql2 += " and preproduct.planname like ?";
+                i++;
+            }
+            if (floor_no != null && !"".equals(floor_no)) {
+                sql += " and preproduct.floor_no like ?";
+                sql2 += " and preproduct.floor_no like ?";
+                i++;
+            }
+            if (building_no != null && !"".equals(building_no)) {
+                sql += " and preproduct.building_no like ?";
+                sql2 += " and preproduct.building_no like ?";
+                i++;
+            }
+            if (drawing_no != null && !"".equals(drawing_no)) {
+                sql += " and preproduct.drawing_no like ?";
+                sql2 += " and preproduct.drawing_no like ?";
+                i++;
+            }
+            if (materialcode != null && !"".equals(materialcode)) {
+                sql += " and a.materialcode like ?";
+                sql2 += " and a.materialcode like ?";
+                i++;
+            }
+            if (materialcodes != null && !"".equals(materialcodes)) {
+                JSONArray jsonArray = JSON.parseArray(materialcodes);
+                String o = "(";
+                for (int a = 0; a < jsonArray.size() - 1; a++) {
+                    o += "?,";
+                    i++;
+                }
+                o += "?)";
+                i++;
+                sql += " and a.materialcode in " + o;
+                sql2 += " and a.materialcode in " + o;
+
+            }
             j = i;
             sql += " limit ?,?";
             i += 2;
             ps = con.prepareStatement(sql);
             ps.setInt(i--, pageMax);
             ps.setInt(i--, (pageCur - 1) * pageMax);
+            if (materialcodes != null && !"".equals(materialcodes)) {
+                JSONArray jsonArray = JSON.parseArray(materialcodes);
+                for (int a = 0; a < jsonArray.size(); a++) {
+                    ps.setString(i--, jsonArray.getString(a).trim());
+                }
+            }
+            if (materialcode != null && !"".equals(materialcode)) {
+                ps.setString(i--, "%" + materialcode.trim() + "%");
+            }
+            if (drawing_no != null && !"".equals(drawing_no)) {
+                ps.setString(i--, "%" + drawing_no.trim() + "%");
+            }
+            if (building_no != null && !"".equals(building_no)) {
+                ps.setString(i--, "%" + building_no.trim() + "%");
+            }
+            if (floor_no != null && !"".equals(floor_no)) {
+                ps.setString(i--, "%" + floor_no.trim() + "%");
+            }
+            if (planname != null && !"".equals(planname)) {
+                ps.setString(i--, "%" + planname.trim() + "%");
+            }
             if ((startDate != null && !"".equals(startDate)) && (endDate != null && !"".equals(endDate))) {
                 ps.setString(i--, startDate);
                 ps.setString(i--, endDate);
@@ -123,6 +189,27 @@ public class GetWarehouseLog extends HttpServlet {
             }
 
             ps2 = con.prepareStatement(sql2);
+            if (materialcodes != null && !"".equals(materialcodes)) {
+                JSONArray jsonArray = JSON.parseArray(materialcodes);
+                for (int a = 0; a < jsonArray.size(); a++) {
+                    ps2.setString(j--, jsonArray.getString(a).trim());
+                }
+            }
+            if (materialcode != null && !"".equals(materialcode)) {
+                ps2.setString(j--, "%" + materialcode.trim() + "%");
+            }
+            if (drawing_no != null && !"".equals(drawing_no)) {
+                ps2.setString(j--, "%" + drawing_no.trim() + "%");
+            }
+            if (building_no != null && !"".equals(building_no)) {
+                ps2.setString(j--, "%" + building_no.trim() + "%");
+            }
+            if (floor_no != null && !"".equals(floor_no)) {
+                ps2.setString(j--, "%" + floor_no.trim() + "%");
+            }
+            if (planname != null && !"".equals(planname)) {
+                ps2.setString(j--, "%" + planname.trim() + "%");
+            }
             if ((startDate != null && !"".equals(startDate)) && (endDate != null && !"".equals(endDate))) {
                 ps2.setString(j--, startDate);
                 ps2.setString(j--, endDate);

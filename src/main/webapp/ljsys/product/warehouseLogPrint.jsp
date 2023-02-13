@@ -1,17 +1,27 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <div style="height: 95%;width: 100%">
-    <form name="query" class="form-inline" style="width:85%;height:10%;margin-left: 6%;padding-top:2%">
+    <form name="query" class="form-inline" style="width:90%;height:16%;margin-left: 6%;padding-top:2%">
         <label for="type" style="margin-left: 2%">类型：</label>
-        <select type="text" name="type" id="type" style="width: 13%;height: 30px" class="form-control">
+        <select type="text" name="type" id="type" style="width: 10%;height: 30px" class="form-control">
             <option value=""></option>
             <option value="1">入库</option>
             <option value="2">出库</option>
             <option value="3">移库</option>
         </select>
         <label for="startDate" style="margin-left: 3%">操作日期从：</label>
-        <input id="startDate" class="form-control" type="date" style="width: 13%;height: 30px">
+        <input id="startDate" class="form-control" type="date" style="width: 10%;height: 30px">
         <label for="endDate" style="margin-left: 2%">至：</label>
-        <input id="endDate" class="form-control" type="date" style="width: 13%;height: 30px">
+        <input id="endDate" class="form-control" type="date" style="width: 10%;height: 30px">
+        <label style="margin-left: 3%">物料编码：</label><input type="text" name="materialcode" id="materialcode"
+                                                           style="width: 10%;height: 30px" class="form-control">
+        <label style="margin-left: 3%">项目名称：</label><input type="text" id="planname"
+                                                           style="height: 30px;width: 10%" class="form-control"><br><br>
+        <label style="margin-left: 2%">楼栋：</label><input type="text" id="building_no"
+                                                         style="height: 30px;width: 10%" class="form-control">
+        <label style="margin-left: 3%">楼层：</label><input type="text" id="floor_no"
+                                                         style="height: 30px;width: 10%" class="form-control">
+        <label style="margin-left: 3%">图号：</label><input type="text" id="drawing_no"
+                                                         style="height: 30px;width: 10%" class="form-control">
         <button type="button" class="btn btn-primary btn-sm" style="margin-left: 3%"
                 onclick="getTableData(1)">
             查 询
@@ -20,17 +30,26 @@
     <div style="width:85%;height:80%;margin:0 auto;">
         <div class="page-header" style="margin-top: 0;margin-bottom: 1%">
             <h3 style="margin-bottom: 0;margin-top: 0"><small>出入库信息</small></h3>
-            <button type="button" style="position: absolute;right: 10%;top:10%" class="btn btn-primary btn-sm"
+            <button type="button" style="position: absolute;right: 17%;top:16%" class="btn btn-primary btn-sm"
                     data-toggle="modal"
-                    onclick="printDataF()">
+                    onclick="printDataF(true)">
                 打印单据
+            </button>
+            <button type="button" style="position: absolute;right: 10%;top:16%" class="btn btn-primary btn-sm"
+                    data-toggle="modal"
+                    onclick="printDataF(false)">
+                全部打印
             </button>
         </div>
         <div style="height: 85%">
             <table class="table table-hover" cellspacing="0" cellpadding="0" width="100%"
                    align="center">
                 <tr>
-                    <td class='tdStyle_title table_td active' style="width: 10%">物料编码</td>
+                    <td class='table_tr_print tdStyle_title active' style="width: 2%;"><input
+                            id="detail_checkbok"
+                            type="checkbox"></td>
+                    <td class='tdStyle_title table_td active' style="width: 7%">物料编码</td>
+                    <td class='tdStyle_title table_td active' style="width: 7%">构建类型</td>
                     <td class='tdStyle_title table_td active' style="width: 5%">类型</td>
                     <td class='tdStyle_title table_td active' style="width: 8%">方式</td>
                     <td class='tdStyle_title table_td active' style="width: 10%">入库地址</td>
@@ -113,12 +132,18 @@
     let pageAll = 1;
     let pageMax = 10;   //一页多少条数据
     let printData = []  //打印数据
+    let det_i = 0;
 
 
     function getTableData(newPage) {
         let type = $('#type').val();
         let endDate = $('#endDate').val();
         let startDate = $('#startDate').val();
+        let materialcode = $('#materialcode').val();
+        let planname = $('#planname').val();
+        let building_no = $('#building_no').val();
+        let floor_no = $('#floor_no').val();
+        let drawing_no = $('#drawing_no').val();
         if (!type) {
             alert("请选择类型")
             return
@@ -128,6 +153,11 @@
             return
         }
         let obj = {
+            materialcode: materialcode,
+            planname: planname,
+            building_no: building_no,
+            floor_no: floor_no,
+            drawing_no: drawing_no,
             type: type,
             startDate: startDate,
             endDate: endDate,
@@ -178,8 +208,20 @@
         })
     }
 
+    //全选
+    $("#detail_checkbok").on("click", function () {
+        if (det_i == 0) {
+            //把所有复选框选中
+            $("#detailTableText td :checkbox").prop("checked", true);
+            det_i = 1;
+        } else {
+            $("#detailTableText td :checkbox").prop("checked", false);
+            det_i = 0;
+        }
 
-    function printDataF() {
+    });
+
+    function printDataF(flag) {
         let type = $('#type').val();
         let endDate = $('#endDate').val();
         let startDate = $('#startDate').val();
@@ -190,6 +232,16 @@
         if (!startDate || !endDate) {
             alert("请选择操作日期")
             return
+        }
+        let materialcodes = []
+        if (flag) {
+            $('#archTableText').find('input:checked').each(function () {
+                materialcodes.push($(this).attr('data-id'));   //找到对应checkbox中data-id属性值，然后push给空数组pids
+            });
+            if (materialcodes.length === 0) {
+                alert("请勾选！");
+                return;
+            }
         }
         $('#myModal').modal('show')
         document.getElementById("print_name").innerText = "制单人：" + sessionStorage.getItem("userName")
@@ -226,6 +278,9 @@
         let obj = {
             type: type, endDate: endDate, startDate: startDate, pageCur: 1,
             pageMax: 500
+        }
+        if (flag) {
+            obj.materialcodes = JSON.stringify(materialcodes)
         }
         getPrintData(obj)
 
@@ -309,7 +364,9 @@
                     jsonObj[i]['type'] = "移库"
                     break;
             }
-            str += "<tr><td class='tdStyle_body' title='" + jsonObj[i]['materialcode'] + "'>" + jsonObj[i]['materialcode'] +
+            str += "<tr><td class='tdStyle_body' style='padding: 5px;'><input type='checkbox' data-id=" + jsonObj[i]["materialcode"] + "></td>" +
+                "<td class='tdStyle_body' title='" + jsonObj[i]['materialcode'] + "'>" + jsonObj[i]['materialcode'] +
+                "</td><td class='tdStyle_body' title='" + jsonObj[i]['build_type'] + "'>" + jsonObj[i]['build_type'] +
                 "</td><td class='tdStyle_body' title='" + jsonObj[i]['type'] + "'>" + jsonObj[i]['type'] +
                 "</td><td class='tdStyle_body' title='" + jsonObj[i]['method'] + "'>" + jsonObj[i]['method'] +
                 "</td><td class='tdStyle_body' title='" + jsonObj[i]['in_warehouse_path'] + "'>" + jsonObj[i]['in_warehouse_path'] +
@@ -318,6 +375,7 @@
                 "</td><td class='tdStyle_body' title='" + jsonObj[i]['create_date'] + "'>" + jsonObj[i]['create_date'] +
                 "</td></tr>";
         }
+        document.getElementById('detail_checkbok').checked = false
         $("#archTableText").html(str);
     }
 
@@ -344,7 +402,17 @@
         let type = $('#type').val();
         let endDate = $('#endDate').val();
         let startDate = $('#startDate').val();
+        let materialcode = $('#materialcode').val();
+        let planname = $('#planname').val();
+        let building_no = $('#building_no').val();
+        let floor_no = $('#floor_no').val();
+        let drawing_no = $('#drawing_no').val();
         let obj = {
+            materialcode: materialcode,
+            planname: planname,
+            building_no: building_no,
+            floor_no: floor_no,
+            drawing_no: drawing_no,
             type: type,
             startDate: startDate,
             endDate: endDate,
@@ -388,7 +456,17 @@
         let type = $('#type').val();
         let endDate = $('#endDate').val();
         let startDate = $('#startDate').val();
+        let materialcode = $('#materialcode').val();
+        let planname = $('#planname').val();
+        let building_no = $('#building_no').val();
+        let floor_no = $('#floor_no').val();
+        let drawing_no = $('#drawing_no').val();
         let obj = {
+            materialcode: materialcode,
+            planname: planname,
+            building_no: building_no,
+            floor_no: floor_no,
+            drawing_no: drawing_no,
             type: type,
             startDate: startDate,
             endDate: endDate,
@@ -422,10 +500,13 @@
     }
 
     function jumpToNewPage2() {
+        let type = $('#type').val();
         let newPage = parseInt($('#jump_to').val())
         let materialcode = $('#materialcode').val();
-        let materialname = $('#materialname').val();
-        let pourState = $('#pourState').val();
+        let planname = $('#planname').val();
+        let building_no = $('#building_no').val();
+        let floor_no = $('#floor_no').val();
+        let drawing_no = $('#drawing_no').val();
         if (newPage == "" || isNaN(newPage))
             return;
         if (newPage > pageAll) {
@@ -434,8 +515,11 @@
         }
         let obj = {
             materialcode: materialcode,
-            materialname: materialname,
-            pourState: pourState,
+            planname: planname,
+            building_no: building_no,
+            floor_no: floor_no,
+            drawing_no: drawing_no,
+            type: type,
             isPrint: "true",
             pageCur: newPage,
             pageMax: pageMax
