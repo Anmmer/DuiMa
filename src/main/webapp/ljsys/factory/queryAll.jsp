@@ -151,7 +151,7 @@
         jQuery('#qrcode').qrcode({
             // new QRCode(document.getElementById("qrcode_" + idx), {
             render: "canvas",
-            text: "货位号:" + id,
+            text: 'https://mes.ljzggroup.com/DuiMaTest/ToView?warehouseId=' + id + '&id=2',
             width: 100,
             height: 100,
             colorDark: "#000000",
