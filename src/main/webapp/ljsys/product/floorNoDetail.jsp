@@ -16,9 +16,15 @@
                                      disabled class="form-control">
         </div>
     </form>
-    <div style="width:100%;height:30%;margin:0 auto;display: flex">
-        <div id="pie1" style="height:100%;width: 50%"></div>
-        <div id="pie2" style="height:100%;width: 50%"></div>
+    <div style="width:100%;height:60%;margin:0 auto;">
+        <div style="width:100%;height:50%;display: flex">
+            <div id="pie1" style="height:100%;width: 50%"></div>
+            <div id="pie2" style="height:100%;width: 50%"></div>
+        </div>
+        <div style="width:100%;height:50%;display: flex">
+            <div id="pie3" style="height:100%;width: 50%"></div>
+            <div id="pie4" style="height:100%;width: 50%"></div>
+        </div>
     </div>
     <div style="width:85%;height:75%;margin:0 auto;">
         <div class="page-header" style="margin-top: 0;margin-bottom: 1%">
@@ -156,10 +162,16 @@
             success: function (res) {
                 let pie1 = res.pie1;
                 let pie2 = res.pie2;
+                let pie3 = res.pie3;
+                let pie4 = res.pie4;
                 let chartDom1 = document.getElementById('pie1');
                 let chartDom2 = document.getElementById('pie2');
+                let chartDom3 = document.getElementById('pie3');
+                let chartDom4 = document.getElementById('pie4');
                 let myChart1 = echarts.init(chartDom1);
                 let myChart2 = echarts.init(chartDom2);
+                let myChart3 = echarts.init(chartDom3);
+                let myChart4 = echarts.init(chartDom4);
                 let option1 = {
                     tooltip: {
                         trigger: 'item',
@@ -236,8 +248,86 @@
                         }
                     ]
                 };
+                let option3 = {
+                    tooltip: {
+                        trigger: 'item',
+                        formatter: '{a} <br/>{b} : {c} ({d}%)'
+                    },
+                    legend: {
+                        top: '5%',
+                        left: 'center'
+                    },
+                    series: [
+                        {
+                            name: '构建数量占比',
+                            type: 'pie',
+                            radius: ['40%', '70%'],
+                            avoidLabelOverlap: false,
+                            itemStyle: {
+                                borderRadius: 10,
+                                borderColor: '#fff',
+                                borderWidth: 2
+                            },
+                            label: {
+                                show: false,
+                                position: 'center'
+                            },
+                            emphasis: {
+                                label: {
+                                    show: true,
+                                    fontSize: '40',
+                                    fontWeight: 'bold'
+                                }
+                            },
+                            labelLine: {
+                                show: false
+                            },
+                            data: pie3
+                        }
+                    ]
+                };
+                let option4 = {
+                    tooltip: {
+                        trigger: 'item',
+                        formatter: '{a} <br/>{b} : {c} ({d}%)'
+                    },
+                    legend: {
+                        top: '5%',
+                        left: 'center'
+                    },
+                    series: [
+                        {
+                            name: '构建方量占比',
+                            type: 'pie',
+                            radius: ['40%', '70%'],
+                            avoidLabelOverlap: false,
+                            itemStyle: {
+                                borderRadius: 10,
+                                borderColor: '#fff',
+                                borderWidth: 2
+                            },
+                            label: {
+                                show: false,
+                                position: 'center'
+                            },
+                            emphasis: {
+                                label: {
+                                    show: true,
+                                    fontSize: '40',
+                                    fontWeight: 'bold'
+                                }
+                            },
+                            labelLine: {
+                                show: false
+                            },
+                            data: pie4
+                        }
+                    ]
+                };
                 option1 && myChart1.setOption(option1);
                 option2 && myChart2.setOption(option2);
+                option3 && myChart3.setOption(option3);
+                option4 && myChart4.setOption(option4);
             }
         })
     }

@@ -8,6 +8,7 @@ public class Warehouse {
     private String pid;
     private String name;
     private String type;
+    private String path;
     private final List<Warehouse> children = new ArrayList<>();
 
     public static List<Warehouse> build(List<Warehouse> list, String topId) {
@@ -30,6 +31,14 @@ public class Warehouse {
             }
         }
         return warehouse;
+    }
+
+    public String getPath() {
+        return path;
+    }
+
+    public void setPath(String path) {
+        this.path = path;
     }
 
     public String getId() {

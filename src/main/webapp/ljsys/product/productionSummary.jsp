@@ -18,11 +18,13 @@
             <table class="table table-hover" style="text-align: center">
                 <tr>
                     <td class="tdStyle_title active" style="width: 15%">项目名称</td>
-                    <td class="tdStyle_title active" style="width: 15%">项目总量</td>
-                    <td class="tdStyle_title active" style="width: 15%;text-align: center">浇捣总量</td>
-                    <td class="tdStyle_title active" style="width: 15%;text-align: center">产成品总量</td>
-                    <td class="tdStyle_title active" style="width: 15%;text-align: center">入库总量</td>
+                    <td class="tdStyle_title active" style="width: 12%">项目总量</td>
+                    <td class="tdStyle_title active" style="width: 12%;text-align: center">浇捣总量</td>
+                    <td class="tdStyle_title active" style="width: 12%;text-align: center">产成品总量</td>
+                    <td class="tdStyle_title active" style="width: 12%;text-align: center">入库总量</td>
                     <td class="tdStyle_title active" style="width: 10%;text-align: center">出库总量</td>
+                    <td class="tdStyle_title active" style="width: 10%;text-align: center">已完工</td>
+                    <td class="tdStyle_title active" style="width: 10%;text-align: center">已交付</td>
                     <td class="tdStyle_title active" style="width: 5%;text-align: center">操作</td>
                 </tr>
                 <tbody id="archTableText">
@@ -131,12 +133,17 @@
             let inspect_sum = jsonObj[i]['inspect_sum'] === void 0 ? '0件/0方量' : jsonObj[i]['inspect_sum']
             let stock_in_sum = jsonObj[i]['stock_in_sum'] === void 0 ? '0件/0方量' : jsonObj[i]['stock_in_sum']
             let stock_out_sum = jsonObj[i]['stock_out_sum'] === void 0 ? '0件/0方量' : jsonObj[i]['stock_out_sum']
+            if (jsonObj[i].all_num === "0") {
+                jsonObj[i].all_num = "1"
+            }
             str += "<tr><td class='tdStyle_body'>" + jsonObj[i]['planname'] +
                 "<td class='tdStyle_body'>" + plannumber_sum + "</td>" +
                 "<td class='tdStyle_body'>" + pourmade_sum + "</td>" +
                 "<td class='tdStyle_body'>" + inspect_sum + "</td>" +
                 "<td class='tdStyle_body'>" + stock_in_sum + "</td>" +
                 "<td class='tdStyle_body'>" + stock_out_sum + "</td>" +
+                "<td class='tdStyle_body'>" + (jsonObj[i].finished_num * 100 / jsonObj[i].all_num).toFixed(2) + "%" + "</td>" +
+                "<td class='tdStyle_body'>" + (jsonObj[i].out_num * 100 / jsonObj[i].all_num).toFixed(2) + "%" + "</td>" +
                 "<td class='tdStyle_body'><a href='buildingNoSummaryQueryAll.jsp?planname=" + jsonObj[i]['planname'] + "'>楼栋</a></td></tr>";
         }
         $("#archTableText").html(str);

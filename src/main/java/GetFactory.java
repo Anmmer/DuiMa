@@ -40,7 +40,7 @@ public class GetFactory extends HttpServlet {
             con = DbUtil.getCon();
             int i = 0;
             int j = 0;
-            String sql1 = "select id,pid,name,type from warehouse where is_delete = '0' ";
+            String sql1 = "select id,pid,name,type,path from warehouse where is_delete = '0' ";
             String sql2 = "select count(*) num from warehouse where is_delete = '0' ";
             List<Warehouse> list = new ArrayList<>();
             if (type != null && !type.equals("")) {
@@ -93,6 +93,7 @@ public class GetFactory extends HttpServlet {
                 warehouse.setPid(rs.getString("pid"));
                 warehouse.setName(rs.getString("name"));
                 warehouse.setType(rs.getString("type"));
+                warehouse.setPath(rs.getString("path"));
                 list.add(warehouse);
             }
             if (type != null && !type.equals("")) {

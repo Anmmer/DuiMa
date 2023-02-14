@@ -58,6 +58,7 @@
         String qrcodeid = request.getParameter("id");
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("materialcode", materialcode);
+        jsonObject.put("warehouseId", warehouseId);
         jsonObject.put("qrcodeid", qrcodeid);
     %>
     <div id="information">构建信息</div>
@@ -69,7 +70,7 @@
 <script>
     const json = <%=jsonObject%>;
     let materialcode = <%=materialcode%>;
-    let warehouseId = <%=warehouseId%>;
+    let warehouseId = json.warehouseId;
     if (typeof materialcode == 'number') {
         materialcode = json.materialcode
     }
@@ -138,8 +139,9 @@
                 }
             }
         }).then(() => {
+            console.log(warehouseId)
             if (warehouseId) {
-                getWarehouseData
+                getWarehouseData()
             } else {
                 getData();
             }
@@ -149,14 +151,15 @@
     function getWarehouseData() {
         $.post("${pageContext.request.contextPath}/GetFactory", {
                 id: warehouseId,
+                type: '3',
+                pageCur: 1,
+                pageMax: 500
             }, function (result) {
                 result = JSON.parse(result);
                 let obj = result.data[0];
                 let tmp = qrstyle.qRCode.qRCodeContent
                 let str_body = ''
-                for (let j = 0; j < tmp.length; j++) {
-                    str_body += "<tr><td>" + fieldmap[tmp[j]] + "</td><td>" + obj[tmp[j]] + "</td></tr>"
-                }
+                str_body += "<tr><td>" + "堆场信息" + "</td><td>" + obj.path + "</td></tr>"
                 $("#tbody").html(str_body);
             }
         )

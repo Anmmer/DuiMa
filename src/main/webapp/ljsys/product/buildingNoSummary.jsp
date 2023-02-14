@@ -16,11 +16,15 @@
             查 询
         </button>
     </form>
-    <div style="width:100%;height:60%;margin:0 auto;display: flex">
-        <div id="pie1" style="height:100%;width: 50%"></div>
-        <div id="pie2" style="height:100%;width: 50%"></div>
-        <div id="pie3" style="height:100%;width: 50%"></div>
-        <div id="pie4" style="height:100%;width: 50%"></div>
+    <div style="width:100%;height:60%;margin:0 auto;">
+        <div style="width:100%;height:50%;display: flex">
+            <div id="pie1" style="height:100%;width: 50%"></div>
+            <div id="pie2" style="height:100%;width: 50%"></div>
+        </div>
+        <div style="width:100%;height:50%;display: flex">
+            <div id="pie3" style="height:100%;width: 50%"></div>
+            <div id="pie4" style="height:100%;width: 50%"></div>
+        </div>
     </div>
     <div style="width:85%;height:75%;margin:0 auto;">
         <div class="page-header" style="margin-top: 0;margin-bottom: 1%">
@@ -272,7 +276,7 @@
                             labelLine: {
                                 show: false
                             },
-                            data: pie2
+                            data: pie3
                         }
                     ]
                 };
@@ -310,7 +314,7 @@
                             labelLine: {
                                 show: false
                             },
-                            data: pie2
+                            data: pie4
                         }
                     ]
                 };
