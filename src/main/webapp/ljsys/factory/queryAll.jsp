@@ -82,10 +82,10 @@
                 if (res.data.length !== 0) {
                     jsonObj = [];
                     for (let o of res.data) {
-                        let obj = {
-                            yard: o.name
-                        }
                         for (let d of o.children) {
+                            let obj = {
+                                yard: o.name
+                            }
                             obj.region = d.name
                             for (let e of d.children) {
                                 obj.location = e.name
@@ -130,6 +130,7 @@
         }
         $("#archTableText").html(str);
     }
+
     let det_i = 0;        //两个函数的绑定全选
     //全选
     $("#detail_checkbok").on("click", function () {

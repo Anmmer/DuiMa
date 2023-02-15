@@ -95,7 +95,7 @@
             let obj = {
                 materialcode: materialcode,
                 materialname: materialname,
-                plannamne: planname,
+                planname: planname,
                 inspect_user: inspect_user,
                 inspect_startDate: inspect_startDate,
                 inspect_endDate: inspect_endDate,

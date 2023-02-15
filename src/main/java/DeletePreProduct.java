@@ -10,10 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.math.BigDecimal;
-import java.sql.Connection;
-import java.sql.Date;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
+import java.sql.*;
 import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import java.util.Map;
@@ -35,10 +32,12 @@ public class DeletePreProduct extends HttpServlet {
         PreparedStatement ps1 = null;
         PreparedStatement ps2 = null;
         PreparedStatement ps3 = null;
+        ResultSet rs = null;
         PrintWriter out = resp.getWriter();
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         StringBuilder sql1 = new StringBuilder("update preproduct set product_delete = 1,print = 0 where pid in (");
         String sql2 = "update plan set tasknum = tasknum - ? , tasksqure = tasksqure - ? where plannumber = ?";
+        String sql4 = "select count(*) num from preproduct where pourmade = 1  and product_delete = 0 and pid = ?";
         StringBuilder sql3 = new StringBuilder("update plan set updatedate = ?");
         if (jsonArray.size() == 1) {
             sql1.append("?)");
@@ -52,6 +51,20 @@ public class DeletePreProduct extends HttpServlet {
         Map<String, Object> map = new HashMap<>();
         try {
             con = DbUtil.getCon();
+            ps1 = con.prepareStatement(sql4);
+            for (int j = 0; j < jsonArray.size(); j++) {
+                ps1.setInt(1, jsonArray.getInteger(j));
+                rs = ps1.executeQuery();
+                while (rs.next()) {
+                    int num = rs.getInt("num");
+                    if (num > 0) {
+                        map.put("message", "该构建已生产，不能删除");
+                        map.put("flag", false);
+                        out.write(JSON.toJSONString(map));
+                        return;
+                    }
+                }
+            }
             ps1 = con.prepareStatement(sql1.toString());
             ps2 = con.prepareStatement(sql2);
             ps2.setInt(1, jsonArray.size());

@@ -100,7 +100,7 @@ public class GetWarehouseInfo extends HttpServlet {
                 ps.setString(i--, id);
             }
             if (materialcode != null && !"".equals(materialcode)) {
-                ps.setString(i--, "%" + materialcode.trim() + "%");
+                ps.setString(i--, materialcode.trim());
             }
             if (drawing_no != null && !"".equals(drawing_no)) {
                 ps.setString(i--, drawing_no);
