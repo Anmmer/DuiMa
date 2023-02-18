@@ -38,8 +38,8 @@ public class GetFloorNoDetail extends HttpServlet {
         PreparedStatement ps2 = null;
         try {
             con = DbUtil.getCon();
-            String sql = "select a.materialcode,a.materialname,a.standard,a.drawing_no,a.build_type,a.building_no,a.floor_no, a.pourmade,a.inspect,a.stock_status from preproduct a left join plan b on a.plannumber = b.plannumber where a.product_delete = 0 and a.building_no = ? and a.floor_no = ? and a.planname = ? ";
-            String sql2 = "select count(*) as num from preproduct a left join plan b on a.plannumber = b.plannumber where a.product_delete = 0 and a.building_no = ? and a.floor_no = ? and a.planname = ? ";
+            String sql = "select a.materialcode,a.materialname,a.standard,a.drawing_no,a.build_type,a.building_no,a.floor_no, a.pourmade,a.inspect,a.stock_status from preproduct a left join plan b on a.plannumber = b.plannumber where a.isdelete = 0 and a.building_no = ? and a.floor_no = ? and a.planname = ? ";
+            String sql2 = "select count(*) as num from preproduct a left join plan b on a.plannumber = b.plannumber where a.isdelete = 0 and a.building_no = ? and a.floor_no = ? and a.planname = ? ";
             sql += " limit ?,?";
             ps = con.prepareStatement(sql);
             ps.setString(1, building_no);

@@ -596,7 +596,7 @@
                         "</td><td class='tdStyle_body' title='" + jsonObj[i]['building_no'] + "'>" + jsonObj[i]['building_no'] +
                         "</td><td class='tdStyle_body' title='" + jsonObj[i]['floor_no'] + "'>" + jsonObj[i]['floor_no'] +
                         "</td><td class='tdStyle_body' title='" + jsonObj[i]['path'] + "'>" + jsonObj[i]['path'] +
-                        "</td><td class='tdStyle_body' > <a href='#' onclick=openOutPop('" + jsonObj[i]['materialcode'] + "')>出库</a> <a href='#' onclick=moveWarehouse('" + jsonObj[i]['materialcode'] + "')>移库</a> <a onclick=delete('" + jsonObj[i]['materialcode'] + "')>删除</a>  </td></tr>";
+                        "</td><td class='tdStyle_body' > <a href='#' onclick=openOutPop('" + jsonObj[i]['materialcode'] + "')>出库</a> <a href='#' onclick=moveWarehouse('" + jsonObj[i]['materialcode'] + "')>移库</a> </td></tr>";
                 }
                 $("#archTableText").html(str);
             } else {

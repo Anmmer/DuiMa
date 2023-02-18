@@ -478,6 +478,9 @@
                                 continue
                             }
                             for (let e of d.children) {
+                                let obj = {}
+                                obj.region = d.name
+                                obj.region_id = d.id
                                 obj.location = e.name
                                 obj.location_id = e.id
                                 jsonObj.push(obj)

@@ -83,11 +83,11 @@
                     jsonObj = [];
                     for (let o of res.data) {
                         for (let d of o.children) {
-                            let obj = {
-                                yard: o.name
-                            }
-                            obj.region = d.name
                             for (let e of d.children) {
+                                let obj = {
+                                    yard: o.name
+                                }
+                                obj.region = d.name
                                 obj.location = e.name
                                 obj.id = e.id
                                 jsonObj.push(obj)

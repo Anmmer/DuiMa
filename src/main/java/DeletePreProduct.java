@@ -37,7 +37,7 @@ public class DeletePreProduct extends HttpServlet {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         StringBuilder sql1 = new StringBuilder("update preproduct set product_delete = 1,print = 0 where pid in (");
         String sql2 = "update plan set tasknum = tasknum - ? , tasksqure = tasksqure - ? where plannumber = ?";
-        String sql4 = "select count(*) num from preproduct where pourmade = 1  and product_delete = 0 and pid = ?";
+        String sql4 = "select materialcode from preproduct where pourmade = 1  and product_delete = 0 and pid = ?";
         StringBuilder sql3 = new StringBuilder("update plan set updatedate = ?");
         if (jsonArray.size() == 1) {
             sql1.append("?)");
@@ -56,13 +56,11 @@ public class DeletePreProduct extends HttpServlet {
                 ps1.setInt(1, jsonArray.getInteger(j));
                 rs = ps1.executeQuery();
                 while (rs.next()) {
-                    int num = rs.getInt("num");
-                    if (num > 0) {
-                        map.put("message", "该构建已生产，不能删除");
-                        map.put("flag", false);
-                        out.write(JSON.toJSONString(map));
-                        return;
-                    }
+                    String materialcode = rs.getString("materialcode");
+                    map.put("message", "物料编码为：" + materialcode + "的构建已生产，不能删除");
+                    map.put("flag", false);
+                    out.write(JSON.toJSONString(map));
+                    return;
                 }
             }
             ps1 = con.prepareStatement(sql1.toString());
