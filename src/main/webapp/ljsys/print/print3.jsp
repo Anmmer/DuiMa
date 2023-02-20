@@ -237,11 +237,11 @@
         </div>
         <!-- Modal -->
         <div class="modal fade" id="myModal1"
-             style="position: absolute;height: 90%;width: 70%;left: 12%;top: 8%;z-index: 6" role="dialog"
+             style="position: absolute;height: 100%;width: 70%;left: 12%;top: 0%;z-index: 6" role="dialog"
              data-backdrop="false"
              aria-labelledby="myModalLabel">
-            <div class="modal-dialog" role="document" style="width: 90%;">
-                <div class="modal-content" style="width:100%">
+            <div class="modal-dialog" role="document" style="width: 100%;height: 92%">
+                <div class="modal-content" style="width:100%;height: 100%">
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
                                 aria-hidden="true">&times;</span></button>
@@ -249,7 +249,34 @@
                     </div>
                     <div class="modal-body">
                         <div class="form-inline" style="width: 100%;">
-                            <div class="form-group" style="width: 100%;margin-top: 5%">
+                            <div class="form-group" style="width: 100%;">
+                                <label for="pop_name1_query" style="width: 15%;">施工单位名称：</label><input
+                                    id="pop_name1_query"
+                                    class="form-control" onblur="getConstructionUnit()"
+                                    style="width: 25%;height: 30px">
+                                <label for="pop_name2_query" style="width: 15%;margin-left: 5%">工地编号：</label><input
+                                    id="pop_name2_query" onblur="getSiteInfo()"
+                                    class="form-control"
+                                    style="width: 25%;height: 30px"><br><br>
+                                <label for="pop_name3_query" style="width: 15%;">钢筋生产企业备案证编号：</label><input
+                                    id="pop_name3_query" onblur="getFillingInfo()"
+                                    class="form-control"
+                                    style="width: 25%;height: 30px">
+                                <label for="pop_name1_query"
+                                       style="width: 15%;margin-left: 5%">水泥生产企业备案证编号：</label><input
+                                    id="pop_name4_query" onblur="getFillingInfo1()"
+                                    class="form-control"
+                                    style="width: 25%;height: 30px"><br><br>
+                                <label for="pop_name1_query" style="width: 15%;">混凝土用沙产地：</label><input
+                                    id="pop_name5_query" onblur="getConcreteMaterialsArea()"
+                                    class="form-control"
+                                    style="width: 25%;height: 30px">
+                                <label for="pop_name1_query" style="width: 15%;margin-left: 5%">混凝土用石产地：</label><input
+                                    id="pop_name6_query" onblur="getConcreteMaterialsArea1()"
+                                    class="form-control"
+                                    style="width: 25%;height: 30px"><br><br>
+                                <div style="background-color:#ddd;height: 1px;width: 100%"></div>
+                                <br>
                                 <label for="pop_name1" style="width: 15%;">施工单位名称：</label><select id="pop_name1"
                                                                                                   class="form-control"
                                                                                                   style="width: 25%;height: 30px"></select>
@@ -399,6 +426,125 @@
     $('.recover-btn').click(() => {
         reset();
     })
+
+    function getConstructionUnit() {
+        let name = $("#pop_name1_query").val()
+        $.post("${pageContext.request.contextPath}/ConstructionUnit", {
+            type: '1',
+            pageCur: '1',
+            name: name,
+            pageMax: '999'
+        }, function (result) {
+            result = JSON.parse(result);
+            let data = result.data
+            $('#pop_name1').empty()
+            $('#pop_name1').append($("<option value=''></option>"))
+            for (let o of data) {
+                let item = $("<option value='" + o['id'] + "'>" + o['name'] + "</option>")
+                $('#pop_name1').append(item)
+            }
+        })
+    }
+
+    function getSiteInfo() {
+        let name = $("#pop_name2_query").val()
+        $.post("${pageContext.request.contextPath}/SiteInfo", {
+            type: '1',
+            pageCur: '1',
+            name: name,
+            pageMax: '999'
+        }, function (result) {
+            result = JSON.parse(result);
+            let data = result.data
+            $('#pop_name2').empty()
+            $('#pop_name2').append($("<option value=''></option>"))
+            for (let o of data) {
+                let item = $("<option value='" + o['id'] + "'>" + o['number'] + "</option>")
+                $('#pop_name2').append(item)
+            }
+        })
+    }
+
+    function getFillingInfo() {
+        let name = $("#pop_name3_query").val()
+        $.post("${pageContext.request.contextPath}/FillingInfo", {
+            type: '1',
+            pageCur: '1',
+            query_type: '1',
+            name: name,
+            pageMax: '999'
+        }, function (result) {
+            result = JSON.parse(result);
+            let data = result.data
+            $('#pop_name5').empty()
+            $('#pop_name5').append($("<option value=''></option>"))
+            for (let o of data) {
+                let item = $("<option value='" + o['id'] + "'>" + o['number'] + "</option>")
+                $('#pop_name5').append(item)
+            }
+        })
+    }
+
+
+    function getFillingInfo1() {
+        let name = $("#pop_name4_query").val()
+        $.post("${pageContext.request.contextPath}/FillingInfo", {
+            type: '1',
+            pageCur: '1',
+            query_type: '2',
+            name: name,
+            pageMax: '999'
+        }, function (result) {
+            result = JSON.parse(result);
+            let data = result.data
+            $('#pop_name8').empty()
+            $('#pop_name8').append($("<option value=''></option>"))
+            for (let o of data) {
+                let item = $("<option value='" + o['id'] + "'>" + o['number'] + "</option>")
+                $('#pop_name8').append(item)
+            }
+        })
+    }
+
+    function getConcreteMaterialsArea() {
+        let name = $("#pop_name5_query").val()
+        $.post("${pageContext.request.contextPath}/ConcreteMaterialsArea", {
+            type: '1',
+            pageCur: '1',
+            query_type: '1',
+            name: name,
+            pageMax: '999'
+        }, function (result) {
+            result = JSON.parse(result);
+            let data = result.data
+            $('#pop_name9').empty()
+            $('#pop_name9').append($("<option value=''></option>"))
+            for (let o of data) {
+                let item = $("<option value='" + o['id'] + "'>" + o['address'] + "</option>")
+                $('#pop_name9').append(item)
+            }
+        })
+    }
+
+    function getConcreteMaterialsArea1() {
+        let name = $("#pop_name6_query").val()
+        $.post("${pageContext.request.contextPath}/ConcreteMaterialsArea", {
+            type: '1',
+            pageCur: '1',
+            query_type: '2',
+            name: name,
+            pageMax: '999'
+        }, function (result) {
+            result = JSON.parse(result);
+            let data = result.data
+            $('#pop_name10').empty()
+            $('#pop_name10').append($("<option value=''></option>"))
+            for (let o of data) {
+                let item = $("<option value='" + o['id'] + "'>" + o['address'] + "</option>")
+                $('#pop_name10').append(item)
+            }
+        })
+    }
 
     function preCheck() {
         if ($("#qrcodestyles option:selected").text() == '打印模板（上海）') {
@@ -955,8 +1101,8 @@
                 }
                 str += "<tr><td class='tdStyle_body'><input type='checkbox' data-id=" + jsonObj[i]["plannumber"] + ">" +
                     "</td><td class='tdStyle_body' title='" + jsonObj[i]['plannumber'] + "'>" + jsonObj[i]['plannumber'] +
-                    "</td><td class='tdStyle_body' title='" + jsonObj[i]['plannumber'] + "'>" + jsonObj[i]['planname'] +
-                    "</td><td class='tdStyle_body' title='" + jsonObj[i]['state'] + "'" + style + ">" + state +
+                    "</td><td class='tdStyle_body' title='" + jsonObj[i]['planname'] + "'>" + jsonObj[i]['planname'] +
+                    "</td><td class='tdStyle_body' title='" + state + "'" + style + ">" + state +
                     "</td><td class='tdStyle_body' title='" + jsonObj[i]['plant'] + "'>" + jsonObj[i]['plant'] +
                     "</td><td class='tdStyle_body' title='" + jsonObj[i]['plantime'] + "'>" + jsonObj[i]['plantime'] +
                     "</td><td class='tdStyle_body' title='" + jsonObj[i]['line'] + "'>" + jsonObj[i]['line'] +

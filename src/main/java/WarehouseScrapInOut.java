@@ -41,7 +41,7 @@ public class WarehouseScrapInOut extends HttpServlet {
         PreparedStatement ps = null;
         PreparedStatement ps1 = null;
         Map<String, Object> map = new HashMap<>();
-        StringBuilder sql = new StringBuilder("update preproduct set inspect = 3,scrap_library=?,scrap_remark=?,scrap_in_user = ?,scrap_in_time=date_format(now(),'%Y-%m-%d') where materialcode in (");
+        StringBuilder sql = new StringBuilder("update preproduct set inspect = 2,scrap_library=?,scrap_remark=?,scrap_in_user = ?,scrap_in_time=date_format(now(),'%Y-%m-%d') where materialcode in (");
         StringBuilder sql2 = new StringBuilder("update preproduct set inspect = 4,scrap_out_user = ?,scrap_out_time=date_format(now(),'%Y-%m-%d') where materialcode in (");
 
         try {

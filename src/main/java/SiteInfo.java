@@ -47,8 +47,8 @@ public class SiteInfo extends HttpServlet {
                 int pageCur = Integer.parseInt(req.getParameter("pageCur"));
                 int pageMax = Integer.parseInt(req.getParameter("pageMax"));
                 if (name != null && !"".equals(name)) {
-                    sql1 += " and number = ?";
-                    sql1_page += " and number = ?";
+                    sql1 += " and number like ?";
+                    sql1_page += " and number like ?";
                     i++;
                 }
                 j = i;
@@ -58,7 +58,7 @@ public class SiteInfo extends HttpServlet {
                 ps.setInt(i--, pageMax);
                 ps.setInt(i--, (pageCur - 1) * pageMax);
                 if (name != null && !"".equals(name)) {
-                    ps.setString(i, name);
+                    ps.setString(i, "%" + name + "%");
                 }
                 ResultSet rs = ps.executeQuery();
                 while (rs.next()) {

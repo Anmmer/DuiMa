@@ -562,7 +562,7 @@
             <li id="rebar_name_manage_li">
                 <button class="li_ItemStyle" id="rebar_name_manage"
                         onclick="jumpTo('archivesRebarNameManage.jsp','rebar_name_manage')"><span
-                        style="margin-left: 15%;margin-right: 5%;" class="glyphicon glyphicon-grain"></span>构建用钢筋名称
+                        style="margin-left: 15%;margin-right: 5%;" class="glyphicon glyphicon-grain"></span>构件用钢筋名称
                 </button>
             </li>
             <li id="production_unit_manage_li">

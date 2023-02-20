@@ -35,7 +35,8 @@
     <div style="width:85%;height:80%;margin:0 auto;">
         <div class="page-header" style="margin-top: 0;margin-bottom: 1%">
             <h3 style="margin-bottom: 0;margin-top: 0"><small>修补库信息</small></h3>
-            <button type="button" style="position: absolute;right: 16%;top:18%;width: 60px" class="btn btn-primary btn-sm"
+            <button type="button" style="position: absolute;right: 16%;top:18%;width: 60px"
+                    class="btn btn-primary btn-sm"
                     data-toggle="modal"
                     onclick="inspect()">
                 合&nbsp;&nbsp;格
@@ -123,12 +124,8 @@
                                         type="checkbox"></td>
                                 <td class='tdStyle_title active' style="width: 15%">物料编码</td>
                                 <td class='tdStyle_title active' style="width: 15%">物料名称</td>
-                                <td class='tdStyle_title active' style="width: 15%">计划编号</td>
-                                <td class='tdStyle_title active' style="width: 15%">不合格原因</td>
-                                <td class='tdStyle_title active' style="width: 15%">修补库地址</td>
-                                <td class='tdStyle_title active' style="width: 10%">操作日期</td>
-                                <td class='tdStyle_title active' style="width: 10%">备注</td>
-                                <td class='tdStyle_title active' style="width: 10%">操作人</td>
+                                <td class='tdStyle_title active' style="width: 15%">规格</td>
+                                <td class='tdStyle_title active' style="width: 15%">状态</td>
                             </tr>
                             <tbody id="detailTableText">
                             </tbody>
@@ -307,6 +304,7 @@
         }
 
         let pre = 0
+        let det_i = 0
         //全选
         $("#pre_checkbok").on("click", function () {
             if (pre == 0) {
@@ -319,31 +317,71 @@
             }
         });
 
-        function updateTable() {
-            document.getElementById('pre_checkbok').checked = false
-            pre = 0
-            let str = '';
-            for (let i = 0; i < jsonObj.length; i++) {
-                if (jsonObj[i]['inspect'] === 0) {
-                    jsonObj[i]['inspect'] = '未质检'
-                } else {
-                    jsonObj[i]['inspect'] = '质检不合格'
-                }
-                jsonObj[i]['checktime'] = jsonObj[i]['checktime'] === undefined ? '--' : jsonObj[i]['checktime'];
-                jsonObj[i]['inspect_user'] = jsonObj[i]['inspect_user'] === undefined ? '--' : jsonObj[i]['inspect_user'];
-                jsonObj[i]['inspect_remark'] = jsonObj[i]['inspect_remark'] === undefined ? '' : jsonObj[i]['inspect_remark'];
-                str += "<tr><td class='tdStyle_body'><input type='checkbox' data-id=" + jsonObj[i]['pid'] + ">" +
-                    "<td class='tdStyle_body' title='" + jsonObj[i]['materialcode'] + "'>" + jsonObj[i]['materialcode'] +
-                    "</td><td class='tdStyle_body' title='" + jsonObj[i]['materialname'] + "'>" + jsonObj[i]['materialname'] +
-                    "</td><td class='tdStyle_body' title='" + jsonObj[i]['plannumber'] + "'>" + jsonObj[i]['plannumber'] +
-                    "</td><td class='tdStyle_body' title='" + jsonObj[i]['failure_reason'] + "'>" + jsonObj[i]['failure_reason'] +
-                    "</td><td class='tdStyle_body' title='" + jsonObj[i]['patch_library'] + "'>" + jsonObj[i]['patch_library'] +
-                    "</td><td class='tdStyle_body' title='" + jsonObj[i]['checktime'] + "'>" + jsonObj[i]['checktime'] +
-                    "</td><td class='tdStyle_body' title='" + jsonObj[i]['inspect_remark'] + "'>" + jsonObj[i]['inspect_remark'] +
-                    "</td><td class='tdStyle_body' title='" + jsonObj[i]['inspect_user'] + "'>" + jsonObj[i]['inspect_user'] +
-                    "</td></tr>";
+        //全选
+        $("#detail_checkbok").on("click", function () {
+            if (det_i == 0) {
+                //把所有复选框选中
+                $("#detailTableText td :checkbox").prop("checked", true);
+                det_i = 1;
+            } else {
+                $("#detailTableText td :checkbox").prop("checked", false);
+                det_i = 0;
             }
-            $("#archTableText").html(str);
+
+        });
+
+        function updateTable(flag) {
+            document.getElementById('pre_checkbok').checked = false
+            document.getElementById('detail_checkbok').checked = false
+            pre = 0
+            det_i = 0
+            let str = '';
+            if (flag) {
+                for (let i = 0; i < pop_pageDate.length; i++) {
+                    switch (pop_pageDate[i]['stock_status']) {
+                        case '0' :
+                            pop_pageDate[i]['stock_status'] = '待入库';
+                            return;
+                        case '1':
+                            pop_pageDate[i]['stock_status'] = '已入库';
+                            return;
+                        case '2':
+                            pop_pageDate[i]['stock_status'] = '已出库';
+                            return;
+                        default:
+                            pop_pageDate[i]['stock_status'] = '待入库';
+                    }
+                    str += "<tr><td class='tdStyle_body' style='padding: 5px;'><input type='checkbox' data-id=" + pop_pageDate[i]["materialcode"] + ">" +
+                        "</td><td class='tdStyle_body' title='" + pop_pageDate[i]['materialcode'] + "'>" + pop_pageDate[i]['materialcode'] +
+                        "</td><td class='tdStyle_body' title='" + pop_pageDate[i]['materialname'] + "'>" + pop_pageDate[i]['materialname'] +
+                        "</td><td class='tdStyle_body' title='" + pop_pageDate[i]['standard'] + "'>" + pop_pageDate[i]['standard'] +
+                        "</td><td class='tdStyle_body' title='" + pop_pageDate[i]['stock_status'] + "'>" + pop_pageDate[i]['stock_status'] +
+                        "</td></tr>";
+                }
+                $("#detailTableText").html(str);
+            } else {
+                for (let i = 0; i < jsonObj.length; i++) {
+                    if (jsonObj[i]['inspect'] === 0) {
+                        jsonObj[i]['inspect'] = '未质检'
+                    } else {
+                        jsonObj[i]['inspect'] = '质检不合格'
+                    }
+                    jsonObj[i]['checktime'] = jsonObj[i]['checktime'] === undefined ? '--' : jsonObj[i]['checktime'];
+                    jsonObj[i]['inspect_user'] = jsonObj[i]['inspect_user'] === undefined ? '--' : jsonObj[i]['inspect_user'];
+                    jsonObj[i]['inspect_remark'] = jsonObj[i]['inspect_remark'] === undefined ? '' : jsonObj[i]['inspect_remark'];
+                    str += "<tr><td class='tdStyle_body'><input type='checkbox' data-id=" + jsonObj[i]['pid'] + ">" +
+                        "<td class='tdStyle_body' title='" + jsonObj[i]['materialcode'] + "'>" + jsonObj[i]['materialcode'] +
+                        "</td><td class='tdStyle_body' title='" + jsonObj[i]['materialname'] + "'>" + jsonObj[i]['materialname'] +
+                        "</td><td class='tdStyle_body' title='" + jsonObj[i]['plannumber'] + "'>" + jsonObj[i]['plannumber'] +
+                        "</td><td class='tdStyle_body' title='" + jsonObj[i]['failure_reason'] + "'>" + jsonObj[i]['failure_reason'] +
+                        "</td><td class='tdStyle_body' title='" + jsonObj[i]['patch_library'] + "'>" + jsonObj[i]['patch_library'] +
+                        "</td><td class='tdStyle_body' title='" + jsonObj[i]['checktime'] + "'>" + jsonObj[i]['checktime'] +
+                        "</td><td class='tdStyle_body' title='" + jsonObj[i]['inspect_remark'] + "'>" + jsonObj[i]['inspect_remark'] +
+                        "</td><td class='tdStyle_body' title='" + jsonObj[i]['inspect_user'] + "'>" + jsonObj[i]['inspect_user'] +
+                        "</td></tr>";
+                }
+                $("#archTableText").html(str);
+            }
         }
 
         function jumpToNewPage(newPageCode) {
@@ -615,14 +653,14 @@
             $.post("${pageContext.request.contextPath}/GetPreProduct", {
                 materialcode: materialcode,
                 materialname: materialname,
-                stock_status: '2',
+                stockStatus: '2',
                 pageCur: newPage,
                 pageMax: pageMax
             }, function (result) {
                 result = JSON.parse(result);
                 if (result.data !== undefined) {
                     pop_pageDate = result.data;
-                    updateTable(false);
+                    updateTable(true);
                     $('#total_d').html(result.cnt + "条，共" + result.pageAll + "页");
                     $('#li_d1').addClass('active');
                     // 重置查询为第一页
@@ -680,7 +718,7 @@
                 result = JSON.parse(result);
                 if (result.data !== undefined) {
                     pop_pageDate = result.data;
-                    updateTable(false);
+                    updateTable(true);
                     if (newPageCode === 3) {
                         setFooter_d(3, pop_pageAll, pop_pageCur, newPage);
                     }
@@ -706,7 +744,7 @@
                 result = JSON.parse(result);
                 if (result.data !== undefined) {
                     pop_pageDate = result.data;
-                    updateTable(false);
+                    updateTable(true);
                     $('#li_d' + newPage % 5).addClass('active');
                     $('#li_d' + pop_pageCur % 5).removeClass('active');
                     pop_pageCur = newPage;
@@ -735,7 +773,7 @@
                 result = JSON.parse(result);
                 if (result.data !== undefined) {
                     pop_pageDate = result.data;
-                    updateTable(false);
+                    updateTable(true);
                     pop_pageCur = newPage;
                     jump_d2(newPage, pop_pageAll);
                 }

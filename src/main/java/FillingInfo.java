@@ -44,8 +44,8 @@ public class FillingInfo extends HttpServlet {
                 int pageMax = Integer.parseInt(req.getParameter("pageMax"));
                 i++;
                 if (name != null && !"".equals(name)) {
-                    sql1 += " and number = ?";
-                    sql1_page += " and number = ?";
+                    sql1 += " and number like ?";
+                    sql1_page += " and number like ?";
                     i++;
                 }
                 j = i;
@@ -54,12 +54,13 @@ public class FillingInfo extends HttpServlet {
                 ps = con.prepareStatement(sql1);
                 ps.setInt(i--, pageMax);
                 ps.setInt(i--, (pageCur - 1) * pageMax);
-                if (query_type != null && !"".equals(query_type)) {
-                    ps.setString(i--, query_type);
-                }
                 if (name != null && !"".equals(name)) {
-                    ps.setString(i, name);
+                    ps.setString(i--, "%" + name.trim() + "%");
                 }
+                if (query_type != null && !"".equals(query_type)) {
+                    ps.setString(i, query_type);
+                }
+
 
                 ResultSet rs = ps.executeQuery();
                 while (rs.next()) {

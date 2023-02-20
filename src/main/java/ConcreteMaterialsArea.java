@@ -48,8 +48,8 @@ public class ConcreteMaterialsArea extends HttpServlet {
                     i++;
                 }
                 if (name != null && !"".equals(name)) {
-                    sql1 += " and address = ?";
-                    sql1_page += " and address = ?";
+                    sql1 += " and address like ?";
+                    sql1_page += " and address like ?";
                     i++;
                 }
                 j = i;
@@ -58,11 +58,11 @@ public class ConcreteMaterialsArea extends HttpServlet {
                 ps = con.prepareStatement(sql1);
                 ps.setInt(i--, pageMax);
                 ps.setInt(i--, (pageCur - 1) * pageMax);
-                if (query_type != null && !"".equals(query_type)) {
-                    ps.setString(i--, query_type);
-                }
                 if (name != null && !"".equals(name)) {
-                    ps.setString(i, name);
+                    ps.setString(i--, "%" + name + "%");
+                }
+                if (query_type != null && !"".equals(query_type)) {
+                    ps.setString(i, query_type);
                 }
                 ResultSet rs = ps.executeQuery();
                 while (rs.next()) {
@@ -78,7 +78,7 @@ public class ConcreteMaterialsArea extends HttpServlet {
                     ps.setString(j--, query_type);
                 }
                 if (name != null && !"".equals(name)) {
-                    ps.setString(j, name);
+                    ps.setString(j, "%" + name + "%");
                 }
                 ResultSet rs2 = ps.executeQuery();
                 while (rs2.next()) {
