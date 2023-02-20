@@ -3,6 +3,8 @@
 <script type="text/javascript">
     var pageCur = 1;
     var pageAll = 1;
+    let pop_pageAll = 1;
+    let pop_pageCur = 1;
     let pageMax = 10;   //一页多少条数据
     let jsonObj = [];
 
