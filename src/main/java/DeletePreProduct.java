@@ -97,7 +97,9 @@ public class DeletePreProduct extends HttpServlet {
             try {
                 con.close();
                 ps1.close();
-                ps2.close();
+                if (ps2 != null) {
+                    ps2.close();
+                }
                 out.close();
             } catch (SQLException throwables) {
                 throwables.printStackTrace();

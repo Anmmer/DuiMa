@@ -31,8 +31,7 @@ public class WarehouseScrapInOut extends HttpServlet {
         resp.setContentType("text/html;charset=UTF-8");
         PrintWriter out = resp.getWriter();
         String pids = req.getParameter("pids");
-        String scrap_in_user = req.getParameter("scrap_in_user");
-        String scrap_out_user = req.getParameter("scrap_out_user");
+        String scrap_user = req.getParameter("scrap_user");
         String scrap_library = req.getParameter("scrap_library");
         String scrap_remark = req.getParameter("scrap_remark");
         String type = req.getParameter("type");
@@ -41,8 +40,8 @@ public class WarehouseScrapInOut extends HttpServlet {
         PreparedStatement ps = null;
         PreparedStatement ps1 = null;
         Map<String, Object> map = new HashMap<>();
-        StringBuilder sql = new StringBuilder("update preproduct set inspect = 2,scrap_library=?,scrap_remark=?,scrap_in_user = ?,scrap_in_time=date_format(now(),'%Y-%m-%d') where materialcode in (");
-        StringBuilder sql2 = new StringBuilder("update preproduct set inspect = 4,scrap_out_user = ?,scrap_out_time=date_format(now(),'%Y-%m-%d') where materialcode in (");
+        StringBuilder sql = new StringBuilder("update preproduct set inspect = 3,stock_status = '1',scrap_library=?,scrap_remark=?,scrap_in_user = ?,scrap_in_time=date_format(now(),'%Y-%m-%d') where materialcode in (");
+        StringBuilder sql2 = new StringBuilder("update preproduct set inspect = 4,stock_status = '2',scrap_out_user = ?,scrap_out_time=date_format(now(),'%Y-%m-%d') where materialcode in (");
 
         try {
             con = DbUtil.getCon();
@@ -60,13 +59,13 @@ public class WarehouseScrapInOut extends HttpServlet {
                 ps = con.prepareStatement(sql.toString());
                 ps.setString(1, scrap_library);
                 ps.setString(2, scrap_remark);
-                ps.setString(3, scrap_in_user);
+                ps.setString(3, scrap_user);
                 for (int j = 0; j < list.size(); j++) {
                     ps.setString(j + 4, list.getString(j));
                 }
             } else {
                 ps = con.prepareStatement(sql2.toString());
-                ps.setString(1, scrap_out_user);
+                ps.setString(1, scrap_user);
                 for (int j = 0; j < list.size(); j++) {
                     ps.setString(j + 2, list.getString(j));
                 }
@@ -76,7 +75,7 @@ public class WarehouseScrapInOut extends HttpServlet {
             for (int j = 0; j < list.size(); j++) {
                 ps1 = con.prepareStatement(sql3);
                 ps1.setString(1, UUID.randomUUID().toString().toLowerCase().replace("-", ""));
-                ps1.setString(2, scrap_in_user);
+                ps1.setString(2, scrap_user);
                 ps1.setString(3, type);
                 if ("1".equals(type)) {
                     ps1.setString(4, "000000001");

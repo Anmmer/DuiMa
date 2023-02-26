@@ -425,16 +425,16 @@ public class GetPreProduct extends HttpServlet {
                     ps2.setString(j--, "%" + materialcode.trim() + "%");
                 }
                 if (drawing_no != null && !"".equals(drawing_no)) {
-                    ps.setString(j--, "%" + drawing_no.trim() + "%");
+                    ps2.setString(j--, "%" + drawing_no.trim() + "%");
                 }
                 if (building_no != null && !"".equals(building_no)) {
-                    ps.setString(j--, "%" + building_no.trim() + "%");
+                    ps2.setString(j--, "%" + building_no.trim() + "%");
                 }
                 if (floor_no != null && !"".equals(floor_no)) {
-                    ps.setString(j--, "%" + floor_no.trim() + "%");
+                    ps2.setString(j--, "%" + floor_no.trim() + "%");
                 }
                 if (planname != null && !"".equals(planname)) {
-                    ps.setString(j--, "%" + planname.trim() + "%");
+                    ps2.setString(j--, "%" + planname.trim() + "%");
                 }
                 if (plannumber != null && !"".equals(plannumber)) {
                     ps2.setString(j, plannumber);

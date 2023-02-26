@@ -255,10 +255,10 @@
                                    class="col-sm-2 control-label">区域信息:</label>
                             <select class="form-control" style="width:50%;" id="myModal_name2"
                                     name="myModal_name2" onchange="getLocation()"></select><br>
-                            <label for="myModal_name" style="width: 28%;text-align: left;padding-right: 0"
+                            <label for="location" style="width: 28%;text-align: left;padding-right: 0"
                                    class="col-sm-2 control-label">货位信息:</label>
                             <select type="text" class="form-control" style="width:50%;" id="location"
-                                    name="location"></select>
+                                    name="location" onchange="setLocation()" ></select>
                         </div>
                     </div>
                 </div>
@@ -352,7 +352,12 @@
                     let item = $("<option value='" + o['id'] + "'>" + o['name'] + "</option>")
                     $('#myModal_name1').append(item)
                 }
-
+                $('#myModal3_name1').empty()
+                $('#myModal3_name1').append($("<option value=''></option>"))
+                for (let o of yard) {
+                    let item = $("<option value='" + o['id'] + "'>" + o['name'] + "</option>")
+                    $('#myModal3_name1').append(item)
+                }
             })
         }
 
@@ -395,6 +400,13 @@
                     let item = $("<option value='" + o['id'] + "'>" + o['name'] + "</option>")
                     $('#myModal_name2').append(item)
                 }
+                $('#myModal3_name1').val(pid)
+                $('#myModal3_name2').empty()
+                $('#myModal3_name2').append($("<option value=''></option>"))
+                for (let o of yard) {
+                    let item = $("<option value='" + o['id'] + "'>" + o['name'] + "</option>")
+                    $('#myModal3_name2').append(item)
+                }
             })
         }
 
@@ -410,6 +422,7 @@
             }, function (result) {
                 result = JSON.parse(result);
                 let yard = result.data
+                $('#myModal3_name2').empty()
                 $('#myModal3_name2').append($("<option value=''></option>"))
                 for (let o of yard) {
                     let item = $("<option value='" + o['id'] + "'>" + o['name'] + "</option>")
@@ -429,11 +442,19 @@
             }, function (result) {
                 result = JSON.parse(result);
                 let yard = result.data
+                $('#location').empty()
                 $('#location').append($("<option value=''></option>"))
                 for (let o of yard) {
                     let item = $("<option value='" + o['id'] + "'>" + o['name'] + "</option>")
                     $('#location').append(item)
                 }
+                $('#myModal3_name3').empty()
+                $('#myModal3_name3').append($("<option value=''></option>"))
+                for (let o of yard) {
+                    let item = $("<option value='" + o['id'] + "'>" + o['name'] + "</option>")
+                    $('#myModal3_name3').append(item)
+                }
+                $('#myModal3_name2').val(pid)
             })
         }
 
@@ -456,6 +477,10 @@
                     $('#myModal3_name3').append(item)
                 }
             })
+        }
+
+        function setLocation() {
+            $('#myModal3_name3').val($('#location option:selected').val())
         }
 
         function getTableData(newPage) {
@@ -641,7 +666,7 @@
 
         function moveWarehouse(materialcode) {
             $('#myModal3').modal('show')
-            getYardDataPop()
+            // getYardDataPop()
             $("#myModal3_save").attr('onclick', "moveWarehouseSave('" + materialcode + "')");
         }
 
@@ -729,9 +754,8 @@
                 });
                 if (!ids.length) {
                     alert("请勾选")
-
+                    return;
                 }
-                return;
             }
             $('#myModal2').modal('show')
             getOutWarehouseMethod('2')

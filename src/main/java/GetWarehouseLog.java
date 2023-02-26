@@ -28,6 +28,7 @@ public class GetWarehouseLog extends HttpServlet {
         resp.setContentType("text/html;charset=UTF-8");
         PrintWriter out = resp.getWriter();
         String type = req.getParameter("type");
+        String method = req.getParameter("method");
         String planname = req.getParameter("planname");
         String materialcode = req.getParameter("materialcode");
         String materialcodes = req.getParameter("materialcodes");
@@ -91,6 +92,11 @@ public class GetWarehouseLog extends HttpServlet {
             if (type != null && !"".equals(type)) {
                 sql += " and type = ?";
                 sql2 += " and type = ?";
+                i++;
+            }
+            if (method != null && !"".equals(method)) {
+                sql += " and method = ?";
+                sql2 += " and method = ?";
                 i++;
             }
             if (startDate != null && !"".equals(startDate) && endDate != null && !"".equals(endDate)) {
@@ -167,6 +173,9 @@ public class GetWarehouseLog extends HttpServlet {
                 ps.setString(i--, startDate);
                 ps.setString(i--, endDate);
             }
+            if (method != null && !"".equals(method)) {
+                ps.setString(i--, method);
+            }
             if (type != null && !"".equals(type)) {
                 ps.setString(i, type);
             }
@@ -213,6 +222,9 @@ public class GetWarehouseLog extends HttpServlet {
             if ((startDate != null && !"".equals(startDate)) && (endDate != null && !"".equals(endDate))) {
                 ps2.setString(j--, startDate);
                 ps2.setString(j--, endDate);
+            }
+            if (method != null && !"".equals(method)) {
+                ps2.setString(j--, method);
             }
             if (type != null && !"".equals(type)) {
                 ps2.setString(j, type);

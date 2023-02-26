@@ -282,17 +282,18 @@
             let remark = $("#remark").val()
             if (!path) {
                 alert("请填写地址")
+                return;
             }
             // let r = confirm("亲，确认质检！");
             // if (r === false) {
             //     return;
             // }
-            $.post("${pageContext.request.contextPath}/WarehouseScrapInOut", {
+            $.post("${pageContext.request.contextPath}/InspectNo", {
                 pids: JSON.stringify(obj),
-                type: "1",
-                scrap_in_user: sessionStorage.getItem("userName"),
-                scrap_library: path,
-                scrap_remark: remark
+                // failure_reason: remark,
+                patch_library: path,
+                inspect_remark: remark,
+                inspect_user: sessionStorage.getItem("userName")
             }, function (result) {
                 result = JSON.parse(result);
                 alert(result.message);
@@ -341,13 +342,13 @@
                     switch (pop_pageDate[i]['stock_status']) {
                         case '0' :
                             pop_pageDate[i]['stock_status'] = '待入库';
-                            return;
+                            break;
                         case '1':
                             pop_pageDate[i]['stock_status'] = '已入库';
-                            return;
+                            break;
                         case '2':
                             pop_pageDate[i]['stock_status'] = '已出库';
-                            return;
+                            break;
                         default:
                             pop_pageDate[i]['stock_status'] = '待入库';
                     }
@@ -369,7 +370,8 @@
                     jsonObj[i]['checktime'] = jsonObj[i]['checktime'] === undefined ? '--' : jsonObj[i]['checktime'];
                     jsonObj[i]['inspect_user'] = jsonObj[i]['inspect_user'] === undefined ? '--' : jsonObj[i]['inspect_user'];
                     jsonObj[i]['inspect_remark'] = jsonObj[i]['inspect_remark'] === undefined ? '' : jsonObj[i]['inspect_remark'];
-                    str += "<tr><td class='tdStyle_body'><input type='checkbox' data-id=" + jsonObj[i]['pid'] + ">" +
+                    jsonObj[i]['failure_reason'] = jsonObj[i]['failure_reason'] === undefined ? '' : jsonObj[i]['failure_reason'];
+                    str += "<tr><td class='tdStyle_body'><input type='checkbox' data-id=" + jsonObj[i]['materialcode'] + ">" +
                         "<td class='tdStyle_body' title='" + jsonObj[i]['materialcode'] + "'>" + jsonObj[i]['materialcode'] +
                         "</td><td class='tdStyle_body' title='" + jsonObj[i]['materialname'] + "'>" + jsonObj[i]['materialname'] +
                         "</td><td class='tdStyle_body' title='" + jsonObj[i]['plannumber'] + "'>" + jsonObj[i]['plannumber'] +

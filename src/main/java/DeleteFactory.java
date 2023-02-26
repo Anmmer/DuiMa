@@ -32,6 +32,17 @@ public class DeleteFactory extends HttpServlet {
         try {
             con = DbUtil.getCon();
             String sql = "update warehouse set is_delete = '1' where id = ?";
+            String sql2 = "select count(*) num from warehouse_info where warehouse_id in (WITH recursive temp AS (SELECT id,pid,type FROM warehouse p WHERE id = ? UNION SELECT t.id,t.pid,t.type FROM warehouse t INNER JOIN temp t2 ON t2.id = t.pid ) SELECT id FROM temp where type = '3') and is_effective = '1'";
+            ps = con.prepareStatement(sql2);
+            ps.setString(1, id);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                if (rs.getInt("num") > 0) {
+                    result.put("message", "该仓库正在使用，不能删除");
+                    result.put("flag", true);
+                    out.write(JSON.toJSONString(result));
+                }
+            }
             ps = con.prepareStatement(sql);
             ps.setString(1, id);
             int i = ps.executeUpdate();

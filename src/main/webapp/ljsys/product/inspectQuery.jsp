@@ -506,7 +506,7 @@
             }
             jsonObj[i]['checktime'] = jsonObj[i]['checktime'] === undefined ? '--' : jsonObj[i]['checktime'];
             jsonObj[i]['inspect_user'] = jsonObj[i]['inspect_user'] === undefined ? '--' : jsonObj[i]['inspect_user'];
-            str += "<tr><td class='tdStyle_body' ><input type='checkbox' data-id=" + jsonObj[i]['pid'] + ">" +
+            str += "<tr><td class='tdStyle_body' ><input type='checkbox' data-id=" + jsonObj[i]['materialcode'] + ">" +
                 "</td><td class='tdStyle_body'>" + jsonObj[i]['materialcode'] +
                 "</td><td class='tdStyle_body'>" + jsonObj[i]['materialname'] +
                 "</td><td class='tdStyle_body'>" + jsonObj[i]['plannumber'] +

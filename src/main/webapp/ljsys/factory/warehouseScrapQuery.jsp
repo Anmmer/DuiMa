@@ -139,12 +139,12 @@
                         </div>
                         <div style="display: flex;width: 100%; justify-content: space-between;">
                             <div class="form-inline" style="width: 45%;">
-                                <label for="path">地址：</label>
-                                <input id="path" class="form-control" style="width: 35%;height: 30px">
+<%--                                <label for="path">地址：</label>--%>
+<%--                                <input id="path" class="form-control" style="width: 35%;height: 30px">--%>
                                 <label for="remark" style="margin-left: 1%">备注：</label>
                                 <input id="remark" class="form-control" style="width: 35%;height: 30px">
                             </div>
-                            <button type="button" style="height:10%;width: 100px"
+                            <button type="button" style="height:10%;width: 100px;margin-right: 10px"
                                     onclick="save()"
                                     class="btn btn-primary btn-sm">保 存
                             </button>
@@ -205,7 +205,7 @@
             $.post("${pageContext.request.contextPath}/WarehouseScrapInOut", {
                 pids: JSON.stringify(obj),
                 type: "2",
-                scrap_out_user: sessionStorage.getItem("userName"),
+                scrap_user: sessionStorage.getItem("userName"),
             }, function (result) {
                 result = JSON.parse(result);
                 alert(result.message);
@@ -297,9 +297,9 @@
             }
             let path = $("#path").val()
             let remark = $("#remark").val()
-            if (!path) {
-                alert("请填写地址")
-            }
+            // if (!path) {
+            //     alert("请填写地址")
+            // }
             // let r = confirm("亲，确认质检！");
             // if (r === false) {
             //     return;
@@ -307,8 +307,8 @@
             $.post("${pageContext.request.contextPath}/WarehouseScrapInOut", {
                 pids: JSON.stringify(obj),
                 type: "1",
-                scrap_in_user: sessionStorage.getItem("userName"),
-                scrap_library: path,
+                scrap_user: sessionStorage.getItem("userName"),
+                scrap_library: "报废库",
                 scrap_remark: remark
             }, function (result) {
                 result = JSON.parse(result);
@@ -362,6 +362,7 @@
                     jsonObj[i]['scrap_in_time'] = jsonObj[i]['scrap_in_time'] === undefined ? '' : jsonObj[i]['scrap_in_time'];
                     jsonObj[i]['scrap_in_user'] = jsonObj[i]['scrap_in_user'] === undefined ? '' : jsonObj[i]['scrap_in_user'];
                     jsonObj[i]['scrap_remark'] = jsonObj[i]['scrap_remark'] === undefined ? '' : jsonObj[i]['scrap_remark'];
+                    jsonObj[i]['failure_reason'] = jsonObj[i]['failure_reason'] === undefined ? '' : jsonObj[i]['failure_reason'];
                     str += "<tr><td class='tdStyle_body'><input type='checkbox' data-id=" + jsonObj[i]['materialcode'] + ">" +
                         "<td class='tdStyle_body' title='" + jsonObj[i]['materialcode'] + "'>" + jsonObj[i]['materialcode'] +
                         "</td><td class='tdStyle_body' title='" + jsonObj[i]['materialname'] + "'>" + jsonObj[i]['materialname'] +
@@ -384,6 +385,7 @@
                     pop_pageDate[i]['checktime'] = pop_pageDate[i]['checktime'] === undefined ? '--' : pop_pageDate[i]['checktime'];
                     pop_pageDate[i]['inspect_user'] = pop_pageDate[i]['inspect_user'] === undefined ? '--' : pop_pageDate[i]['inspect_user'];
                     pop_pageDate[i]['inspect_remark'] = pop_pageDate[i]['inspect_remark'] === undefined ? '' : pop_pageDate[i]['inspect_remark'];
+                    pop_pageDate[i]['failure_reason'] = pop_pageDate[i]['failure_reason'] === undefined ? '' : pop_pageDate[i]['failure_reason'];
                     str += "<tr><td class='tdStyle_body'><input type='checkbox' data-id=" + pop_pageDate[i]['materialcode'] + ">" +
                         "<td class='tdStyle_body' title='" + pop_pageDate[i]['materialcode'] + "'>" + pop_pageDate[i]['materialcode'] +
                         "</td><td class='tdStyle_body' title='" + pop_pageDate[i]['materialname'] + "'>" + pop_pageDate[i]['materialname'] +

@@ -215,6 +215,10 @@
     //打开修改弹窗
     function openEditPop(region_id, index, location_id, region, location) {
         if (index === '1') {
+            if(location_id === 'undefined'){
+                alert("请先新增货位")
+                return
+            }
             $('#myModal1').modal('show')
             $("#myModal1_title1").hide();
             $("#myModal1_title2").show();
@@ -413,7 +417,7 @@
             alert("请输入！");
             return;
         }
-        if (obj.pid === '') {
+        if (obj.pid === '' || obj.pid === null) {
             alert("请选择！");
             return;
         }
@@ -487,7 +491,6 @@
                             }
                         }
                     }
-                    console.log(jsonObj)
                     updateTable();
                 } else {
                     jsonObj = []

@@ -2,20 +2,24 @@
 <div style="height: 95%;width: 100%">
     <form name="query" class="form-inline" style="width:90%;height:16%;margin-left: 6%;padding-top:2%">
         <label for="type" style="margin-left: 2%">类型：</label>
-        <select type="text" name="type" id="type" style="width: 10%;height: 30px" class="form-control">
+        <select type="text" name="type" id="type" style="width: 10%;height: 30px" onchange="setWay()"
+                class="form-control">
             <option value=""></option>
             <option value="1">入库</option>
             <option value="2">出库</option>
             <option value="3">移库</option>
+        </select>
+        <label for="method" style="margin-left: 2%">方式：</label>
+        <select type="text" name="method" id="method" style="width: 10%;height: 30px" class="form-control">
         </select>
         <label for="startDate" style="margin-left: 3%">操作日期从：</label>
         <input id="startDate" class="form-control" type="date" style="width: 10%;height: 30px">
         <label for="endDate" style="margin-left: 2%">至：</label>
         <input id="endDate" class="form-control" type="date" style="width: 10%;height: 30px">
         <label style="margin-left: 3%">物料编码：</label><input type="text" name="materialcode" id="materialcode"
-                                                           style="width: 10%;height: 30px" class="form-control">
-        <label style="margin-left: 3%">项目名称：</label><input type="text" id="planname"
-                                                           style="height: 30px;width: 10%" class="form-control"><br><br>
+                                                           style="width: 10%;height: 30px" class="form-control"><br><br>
+        <label style="margin-left: 2%">项目名称：</label><input type="text" id="planname"
+                                                           style="height: 30px;width: 10%" class="form-control">
         <label style="margin-left: 2%">楼栋：</label><input type="text" id="building_no"
                                                          style="height: 30px;width: 10%" class="form-control">
         <label style="margin-left: 3%">楼层：</label><input type="text" id="floor_no"
@@ -135,8 +139,34 @@
     let det_i = 0;
 
 
+    function setWay() {
+        let type = $('#type').val();
+        let obj = {
+            type: type,
+            'pageCur': 1,
+            'pageMax': 999
+        }
+        $.ajax({
+            url: "${pageContext.request.contextPath}/GetInOutWarehouseMethod",
+            type: 'post',
+            dataType: 'json',
+            data: obj,
+            contentType: 'application/x-www-form-urlencoded;charset=utf-8',
+            success: function (res) {
+                let method = res.data
+                $('#method').empty()
+                $('#method').append($("<option value=''></option>"))
+                for (let o of method) {
+                    let item = $("<option value='" + o['id'] + "'>" + o['name'] + "</option>")
+                    $('#method').append(item)
+                }
+            }
+        })
+    }
+
     function getTableData(newPage) {
         let type = $('#type').val();
+        let method = $('#method option:selected').text();
         let endDate = $('#endDate').val();
         let startDate = $('#startDate').val();
         let materialcode = $('#materialcode').val();
@@ -159,6 +189,7 @@
             floor_no: floor_no,
             drawing_no: drawing_no,
             type: type,
+            method: method,
             startDate: startDate,
             endDate: endDate,
             pageCur: newPage,

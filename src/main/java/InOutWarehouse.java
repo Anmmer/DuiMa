@@ -27,7 +27,7 @@ public class InOutWarehouse extends HttpServlet {
         String type = request.getParameter("type");                    // 出库，入库类型	1为入库，2为出库  ,3为移库
         String id = request.getParameter("userId");                    // 操作人工号
         String name = request.getParameter("userName");                // 操作人名
-        String method = request.getParameter("method");                // 操作人名
+        String method = request.getParameter("method");                // 入库方式
         // 需要返回的数据
         HashMap<String, Object> ret = new HashMap<>();
         // 连接数据库查询

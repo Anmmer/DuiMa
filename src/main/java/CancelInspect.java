@@ -29,7 +29,7 @@ public class CancelInspect extends HttpServlet {
         Connection con = null;
         PreparedStatement ps = null;
         Map<String, Object> map = new HashMap<>();
-        StringBuilder sql = new StringBuilder("update preproduct set inspect = 0,checktime=date_format(now(),'%Y-%m-%d') where pid in (");
+        StringBuilder sql = new StringBuilder("update preproduct set inspect = 0,checktime=date_format(now(),'%Y-%m-%d') where materialcode in (");
         if (list.size() == 1) {
             sql.append("?)");
         } else {

@@ -222,7 +222,7 @@
         if (r === false) {
             return;
         }
-        $.post("${pageContext.request.contextPath}/DeletePlanName", {id: id, planname: planname}, function (result) {
+        $.post("${pageContext.request.contextPath}/DeleteFactory", {id: id, planname: planname}, function (result) {
             result = JSON.parse(result);
             if (result.flag) {
                 getTableData(1);

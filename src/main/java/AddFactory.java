@@ -36,7 +36,7 @@ public class AddFactory extends HttpServlet {
             while (rs.next()) {
                 num = rs.getInt("num");
             }
-            if (num > 1) {
+            if (num > 0) {
                 result.put("message", "录入信息已存在");
                 result.put("flag", false);
                 out.write(JSON.toJSONString(result));
