@@ -561,11 +561,11 @@
             $('#myModal2_name1').empty()
         })
 
-        $('#myModal3').on('hidden.bs.modal', function (e) {
-            $('#myModal3_name1').empty()
-            $('#myModal3_name2').empty()
-            $('#myModal3_name3').empty()
-        })
+        // $('#myModal3').on('hidden.bs.modal', function (e) {
+        //     $('#myModal3_name1').empty()
+        //     $('#myModal3_name2').empty()
+        //     $('#myModal3_name3').empty()
+        // })
 
         let det_i = 0
         let main_i = 0

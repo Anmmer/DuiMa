@@ -396,14 +396,14 @@
                     break;
             }
             str += "<tr><td class='tdStyle_body' style='padding: 5px;'><input type='checkbox' data-id=" + jsonObj[i]["materialcode"] + "></td>" +
-                "<td class='tdStyle_body' title='" + jsonObj[i]['materialcode'] + "'>" + jsonObj[i]['materialcode'] +
-                "</td><td class='tdStyle_body' title='" + jsonObj[i]['build_type'] + "'>" + jsonObj[i]['build_type'] +
-                "</td><td class='tdStyle_body' title='" + jsonObj[i]['type'] + "'>" + jsonObj[i]['type'] +
-                "</td><td class='tdStyle_body' title='" + jsonObj[i]['method'] + "'>" + jsonObj[i]['method'] +
-                "</td><td class='tdStyle_body' title='" + jsonObj[i]['in_warehouse_path'] + "'>" + jsonObj[i]['in_warehouse_path'] +
-                "</td><td class='tdStyle_body' title='" + jsonObj[i]['out_warehouse_path'] + "'>" + jsonObj[i]['out_warehouse_path'] +
-                "</td><td class='tdStyle_body' title='" + jsonObj[i]['user_name'] + "'>" + jsonObj[i]['user_name'] +
-                "</td><td class='tdStyle_body' title='" + jsonObj[i]['create_date'] + "'>" + jsonObj[i]['create_date'] +
+                "<td class='tdStyle_body table_td' title='" + jsonObj[i]['materialcode'] + "'>" + jsonObj[i]['materialcode'] +
+                "</td><td class='tdStyle_body table_td' title='" + jsonObj[i]['build_type'] + "'>" + jsonObj[i]['build_type'] +
+                "</td><td class='tdStyle_body table_td' title='" + jsonObj[i]['type'] + "'>" + jsonObj[i]['type'] +
+                "</td><td class='tdStyle_body table_td' title='" + jsonObj[i]['method'] + "'>" + jsonObj[i]['method'] +
+                "</td><td class='tdStyle_body table_td' title='" + jsonObj[i]['in_warehouse_path'] + "'>" + jsonObj[i]['in_warehouse_path'] +
+                "</td><td class='tdStyle_body table_td' title='" + jsonObj[i]['out_warehouse_path'] + "'>" + jsonObj[i]['out_warehouse_path'] +
+                "</td><td class='tdStyle_body table_td' title='" + jsonObj[i]['user_name'] + "'>" + jsonObj[i]['user_name'] +
+                "</td><td class='tdStyle_body table_td' title='" + jsonObj[i]['create_date'] + "'>" + jsonObj[i]['create_date'] +
                 "</td></tr>";
         }
         document.getElementById('detail_checkbok').checked = false
@@ -685,4 +685,5 @@
         overflow: hidden; /* 内容超出宽度时隐藏超出部分的内容 */
         text-overflow: ellipsis; /* 当对象内⽂本溢出时显⽰省略标记(...) ；需与overflow:hidden;⼀起使⽤。*/
     }
+
 </style>
