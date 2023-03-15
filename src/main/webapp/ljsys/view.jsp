@@ -139,7 +139,6 @@
                 }
             }
         }).then(() => {
-            console.log(warehouseId)
             if (warehouseId) {
                 getWarehouseData()
             } else {

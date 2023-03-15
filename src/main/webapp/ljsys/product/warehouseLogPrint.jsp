@@ -8,6 +8,7 @@
             <option value="1">入库</option>
             <option value="2">出库</option>
             <option value="3">移库</option>
+            <option value="4">盘库</option>
         </select>
         <label for="method" style="margin-left: 2%">方式：</label>
         <select type="text" name="method" id="method" style="width: 10%;height: 30px" class="form-control">
@@ -260,6 +261,14 @@
             alert("请选择类型")
             return
         }
+        if(type==='4'){
+            alert("盘库无法打印")
+            return;
+        }
+        if(type==='4'){
+            alert("盘库无法打印")
+            return;
+        }
         if (!startDate || !endDate) {
             alert("请选择操作日期")
             return
@@ -393,6 +402,9 @@
                     break;
                 case '3':
                     jsonObj[i]['type'] = "移库"
+                    break;
+                case '4':
+                    jsonObj[i]['type'] = "盘库"
                     break;
             }
             str += "<tr><td class='tdStyle_body' style='padding: 5px;'><input type='checkbox' data-id=" + jsonObj[i]["materialcode"] + "></td>" +

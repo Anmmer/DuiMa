@@ -24,7 +24,7 @@ public class InOutWarehouse extends HttpServlet {
         List<String> products = JSON.parseArray(pids, String.class);
         String out_warehouse_id = request.getParameter("out_warehouse_id");            // 出库货位编号
         String in_warehouse_id = request.getParameter("in_warehouse_id");            // 入库货位编号
-        String type = request.getParameter("type");                    // 出库，入库类型	1为入库，2为出库  ,3为移库
+        String type = request.getParameter("type");                    // 出库，入库类型	1为入库，2为出库  ,3为移库，4为盘库
         String id = request.getParameter("userId");                    // 操作人工号
         String name = request.getParameter("userName");                // 操作人名
         String method = request.getParameter("method");                // 入库方式
@@ -61,7 +61,6 @@ public class InOutWarehouse extends HttpServlet {
                     out.print(JSON.toJSONString(ret));
                     return;
                 }
-
             }
             for (int i = 0; i < products.size(); i++) {
                 String productId = products.get(i);

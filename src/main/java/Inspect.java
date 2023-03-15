@@ -57,6 +57,9 @@ public class Inspect extends HttpServlet {
             out.write(JSON.toJSONString(map));
         } catch (Exception e) {
             e.printStackTrace();
+            map.put("flag", false);
+            map.put("message", "质检失败");
+            out.write(JSON.toJSONString(map));
         } finally {
             try {
                 con.close();

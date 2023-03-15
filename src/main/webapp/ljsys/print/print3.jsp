@@ -1858,10 +1858,7 @@
                     printsData = result.data;
                 }
             }).then(() => {
-                for (let i = 0; i < printsData.length; i++) {
-                    pids.push({pid: printsData[i].pid})
-                }
-                if (pids.length === 0) {
+                if (printsData.length === 0) {
                     alert("暂无打印数据");
                     return;
                 }
@@ -1886,9 +1883,11 @@
                     dataType: 'json',
                     contentType: 'application/x-www-form-urlencoded;charset=utf-8',
                     data: {
-                        productIds: JSON.stringify(pids),
+                        productIds: JSON.stringify(printsData.map((item) => {
+                            return {pid: item.pid}
+                        })),
                         plannumber: printsData[0].plannumber,
-                        tasknum: printsData[0].tasknum
+                        // tasknum: printsData[0].tasknum
                     },
                     success: function (res) {
                         if (res.flag) {
@@ -1979,6 +1978,9 @@
         let startitem = $(startStr)
         $("#printArea").empty()
         $("#printArea").append(startitem)
+        $("#printArea").append($("<div class=\"gif\" style=\"z-index: 999;display: flex\">\n" +
+            "            <img src=\"./img/loading.gif\"/>\n" +
+            "        </div>"))
         for (let i = 0; i < printsData.length; i++) {
             //二维码设置
             let qrCode = {}
@@ -1988,9 +1990,7 @@
             // 先填充内容，后设置位置
             let item_draw = "<div id='draw" + i + "' style='page-break-after:always;position:relative;width:" + xsize + "px;height:" + ysize + "px;'></div>"
             $("#printArea").append($(item_draw))
-            $("#printArea").append($("<div class=\"gif\" style=\"z-index: 999;display: flex\">\n" +
-                "            <img src=\"./img/loading.gif\"/>\n" +
-                "        </div>"))
+
             // start
             // 放置二维码,后续需要往里面填充内容
             let xsituation = qrstyle.qRCode['xsituation']
@@ -2127,7 +2127,7 @@
     }
 
     // 打印标签
-    function printLabels() {
+    async function printLabels() {
         let bdhtml = window.document.body.innerHTML;
         let sprnstr = "<!--startprint-->";
         let eprnstr = "<!--endprint-->";
@@ -2142,33 +2142,56 @@
                 set(i, qrstyle.items.length, qrstyle.qr_wh_value)
             }
         }
-        setTimeout(() => {
-                for (let i = 0; i < printsData.length; i++) {
-                    const holder = document.getElementById("draw" + i)
-                    var opts = {
-                        // dpi: window.devicePixelRatio * 2,
-                        dpi: 96,
-                        scale: 2.67,
-                        logging: true,
-                        width: holder.offsetWidth,
-                        height: holder.offsetHeight
-                    };
-                    html2canvas(holder, opts).then(canvas => {
-                        let url = canvas.toDataURL("image/jpg");
-                        let a = document.createElement('a');
-                        a.download = "相城绿建" + printsData[i].materialcode + ".jpg";
-                        a.href = url;
-                        a.click();
-                    });
+
+        let p = new Promise((resolve, reject) => {
+            render(resolve)
+        })
+
+        p.then(() => {
+            $(".gif").css("display", "none");
+            window.document.body.innerHTML = bdhtml;
+            location.reload();
+        })
+    }
+
+    async function render(resolve) {
+        await pause()
+        for (let i = 0; i < printsData.length; i++) {
+            const holder = document.getElementById("draw" + i)
+            var opts = {
+                // dpi: window.devicePixelRatio * 2,
+                dpi: 96,
+                scale: 2.67,
+                logging: true,
+                width: holder.offsetWidth,
+                height: holder.offsetHeight
+            };
+
+
+            html2canvas(holder, opts).then(canvas => {
+                let url = canvas.toDataURL("image/jpg");
+                let a = document.createElement('a');
+                a.download = "相城绿建" + printsData[i].materialcode + ".jpg";
+                a.href = url;
+                a.click();
+                console.log(i)
+                if (printsData.length === i + 1) {
+                    resolve()
                 }
-            }, 500
-        )
-        setTimeout(() => {
-                $(".gif").css("display", "none");
-                window.document.body.innerHTML = bdhtml;
-                location.reload();
-            }, 1000
-        )
+            });
+            if (i % 10 === 9) {
+                await pause(1000)
+                console.log("await")
+            }
+        }
+    }
+
+    function pause(msec) {
+        return new Promise(
+            (resolve, reject) => {
+                setTimeout(resolve, msec || 1000);
+            }
+        );
     }
 
 

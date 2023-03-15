@@ -19,7 +19,6 @@ import java.util.Map;
 public class GetInOutWarehouseMethod extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        super.doGet(req, resp);
     }
 
     @Override

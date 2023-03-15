@@ -260,7 +260,10 @@
                 return;
             }
 
-            $.post("${pageContext.request.contextPath}/Inspect", {pids: JSON.stringify(obj)}, function (result) {
+            $.post("${pageContext.request.contextPath}/Inspect", {
+                pids: JSON.stringify(obj),
+                inspect_user: sessionStorage.getItem("userName")
+            }, function (result) {
                 result = JSON.parse(result);
                 alert(result.message);
                 if (result.flag) {

@@ -88,7 +88,7 @@ public class PrintPreProduct extends HttpServlet {
         PreparedStatement ps1 = null;
         PreparedStatement ps2 = null;
         PreparedStatement ps3 = null;
-        String sql1 = "select count(print) print from preproduct where plannumber = ? and isdelete = 0 and print>0";
+        String sql1 = "select count(*) print from preproduct where plannumber = ? and product_delete = 0 and print>0";
         String sql2 = "select tasknum from plan where plannumber = ? and isdelete = 0";
 
         try {

@@ -19,7 +19,7 @@ import java.util.stream.Collectors;
 
 public class GetFactory extends HttpServlet {
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        doPost(request, response);
+
     }
 
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
