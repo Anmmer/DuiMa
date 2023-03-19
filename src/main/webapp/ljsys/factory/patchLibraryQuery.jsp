@@ -39,7 +39,7 @@
                     class="btn btn-primary btn-sm"
                     data-toggle="modal"
                     onclick="inspect()">
-                合&nbsp;&nbsp;格
+                修&nbsp;&nbsp;补
             </button>
             <button type="button" onclick="openPop()" style="position: absolute;right: 9%;top:18%;width: 60px"
                     class="btn btn-primary btn-sm">

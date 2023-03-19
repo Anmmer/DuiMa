@@ -258,7 +258,7 @@
                             <label for="location" style="width: 28%;text-align: left;padding-right: 0"
                                    class="col-sm-2 control-label">货位信息:</label>
                             <select type="text" class="form-control" style="width:50%;" id="location"
-                                    name="location" onchange="setLocation()" ></select>
+                                    name="location" onchange="setLocation()"></select>
                         </div>
                     </div>
                 </div>
@@ -712,6 +712,7 @@
             let materialname = $('#materialname_pop').val();
             $.post("${pageContext.request.contextPath}/GetPreProduct", {
                 stockStatus: "0",
+                inspectState: "1",
                 materialcode: materialcode,
                 materialname: materialname,
                 pageCur: newPage,
@@ -1087,6 +1088,7 @@
                 materialcode: materialcode,
                 materialname: materialname,
                 stockStatus: "0",
+                inspectState: "1",
                 pageCur: newPage,
                 pageMax: pageMax
             }, function (result) {
@@ -1113,6 +1115,7 @@
                 materialname: materialname,
                 materialcode: materialcode,
                 stockStatus: "0",
+                inspectState: "1",
                 pageCur: newPage,
                 pageMax: pageMax
             }, function (result) {
@@ -1142,6 +1145,7 @@
                 materialname: materialname,
                 materialcode: materialcode,
                 stockStatus: "0",
+                inspectState: "1",
                 pageCur: newPage,
                 pageMax: pageMax
             }, function (result) {

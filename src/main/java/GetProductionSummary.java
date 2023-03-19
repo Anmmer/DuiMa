@@ -41,8 +41,8 @@ public class GetProductionSummary extends HttpServlet {
                     "\ta.planname,(SELECT concat( count(*), '件/', sum( fangliang ), '方量' ) FROM preproduct b  WHERE b.planname = a.planname and b.isdelete = 0 ) plannumber_sum,\n" +
                     "\t(SELECT concat( count(*), '件/', sum( fangliang ), '方量' ) FROM preproduct b LEFT JOIN plan c ON b.plannumber = c.plannumber WHERE c.planname = a.planname AND b.pourmade = 1 and b.product_delete = 0 ) pourmade_sum,\n" +
                     "\t(SELECT concat( count(*), '件/', sum( fangliang ), '方量' ) FROM preproduct b LEFT JOIN plan c ON b.plannumber = c.plannumber WHERE c.planname = a.planname AND b.inspect = 1 and b.product_delete = 0) inspect_sum,\n" +
-                    "\t(SELECT concat( count(*), '件/', sum( fangliang ), '方量' ) FROM preproduct b LEFT JOIN plan c ON b.plannumber = c.plannumber WHERE c.planname = a.planname AND b.stock_status = '1' and b.product_delete = 0) stock_in_sum,\n" +
-                    "\t(SELECT concat( count(*), '件/', sum( fangliang ), '方量' ) FROM preproduct b LEFT JOIN plan c ON b.plannumber = c.plannumber WHERE c.planname = a.planname AND b.stock_status = '2' and b.product_delete = 0) stock_out_sum, \n" +
+                    "\t(SELECT concat( count(*), '件/', sum( fangliang ), '方量' ) FROM preproduct b LEFT JOIN plan c ON b.plannumber = c.plannumber WHERE c.planname = a.planname AND b.stock_status = '1' and inspect = 1 and b.product_delete = 0) stock_in_sum,\n" +
+                    "\t(SELECT concat( count(*), '件/', sum( fangliang ), '方量' ) FROM preproduct b LEFT JOIN plan c ON b.plannumber = c.plannumber WHERE c.planname = a.planname AND b.stock_status = '2' and inspect = 1 and b.product_delete = 0) stock_out_sum, \n" +
                     "(select count(*) from preproduct c where c.planname = a.planname and c.inspect = 1 and c.product_delete = 0) finished_num,"+
                     "(select count(*) from preproduct c where c.planname = a.planname and c.isdelete = 0) all_num,"+
                     "(select count(*) from preproduct c where c.planname = a.planname and c.stock_status = 2 and c.product_delete = 0) out_num "+

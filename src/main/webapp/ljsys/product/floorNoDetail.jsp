@@ -345,6 +345,9 @@
             if (jsonObj[i].stock_status === "1") {
                 state = "已入库"
             }
+            if (jsonObj[i].stock_status === "2") {
+                state = "已出库"
+            }
 
             str += "<tr><td class='tdStyle_body' style='padding: 5px;' title='" + jsonObj[i]['materialcode'] + "'>" + jsonObj[i]['materialcode'] +
                 "</td><td class='tdStyle_body' style='padding: 5px;' title='" + jsonObj[i]['materialname'] + "'>" + jsonObj[i]['materialname'] +

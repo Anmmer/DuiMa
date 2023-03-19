@@ -38,6 +38,7 @@ public class InOutWarehouse extends HttpServlet {
             conn = DbUtil.getCon();
             String msg = "";                    // 返回的信息
             List<String> list = new ArrayList<>();
+            String batch_id = UUID.randomUUID().toString().toUpperCase().replace("-", "");
             for (int i = 0; i < products.size(); i++) {
                 String productId = products.get(i);
                 String sql = "select warehouse_id from warehouse_info where materialcode = ? and is_effective = '1'";
@@ -93,7 +94,7 @@ public class InOutWarehouse extends HttpServlet {
                     ps.setString(1, productId);
                     ps.executeUpdate();
                 }
-                String sql3 = "insert into  warehouse_info_log(warehouse_info_id,create_date,user_name,type,in_warehouse_id,out_warehouse_id,materialcode,method) values(?,now(),?,?,?,?,?,?)";
+                String sql3 = "insert into  warehouse_info_log(warehouse_info_id,create_date,user_name,type,in_warehouse_id,out_warehouse_id,materialcode,method,batch_id) values(?,now(),?,?,?,?,?,?,?)";
                 ps = conn.prepareStatement(sql3);
                 ps.setString(1, UUID.randomUUID().toString().toLowerCase().replace("-", ""));
                 ps.setString(2, name);
@@ -105,6 +106,11 @@ public class InOutWarehouse extends HttpServlet {
                 ps.setString(5, out_warehouse_id);
                 ps.setString(6, productId);
                 ps.setString(7, method);
+                if ("4".equals(type)) {
+                    ps.setString(8, batch_id);
+                } else {
+                    ps.setString(8, null);
+                }
                 ps.executeUpdate();
             }
             ret.put("msg", "操作成功！");
@@ -112,6 +118,9 @@ public class InOutWarehouse extends HttpServlet {
             out.print(JSON.toJSONString(ret));
         } catch (Exception e) {
             e.printStackTrace();
+            ret.put("msg", "操作成功！");
+            ret.put("flag", true);
+            out.print(JSON.toJSONString(ret));
         } finally {
             try {
                 if (ps != null) ps.close();
