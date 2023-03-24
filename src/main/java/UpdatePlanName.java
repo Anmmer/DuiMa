@@ -39,6 +39,7 @@ public class UpdatePlanName extends HttpServlet {
             con = DbUtil.getCon();
             String sql = "update planname set planname = ?,unit_consumption=? where id = ? and isdelete = 0";
             String sql2 = "update plan set planname = ? where planname = ? and isdelete = 0";
+            String sql3 = "update preproduct set planname = ? where planname = ? and isdelete = 0";
             ps = con.prepareStatement(sql2);
             ps.setString(1, planname.trim());
             ps.setString(2, planname_old.trim());
@@ -47,6 +48,9 @@ public class UpdatePlanName extends HttpServlet {
             ps.setString(1, planname.trim());
             ps.setString(2, unit_consumption.trim());
             ps.setInt(3, Integer.parseInt(id));
+            ps = con.prepareStatement(sql3);
+            ps.setString(1, planname.trim());
+            ps.setString(2, planname_old.trim());
             int i = ps.executeUpdate();
             if (i > 0) {
                 result.put("message", "修改成功");

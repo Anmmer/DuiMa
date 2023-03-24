@@ -41,6 +41,7 @@ public class DeleteFactory extends HttpServlet {
                     result.put("message", "该仓库正在使用，不能删除");
                     result.put("flag", true);
                     out.write(JSON.toJSONString(result));
+                    return;
                 }
             }
             ps = con.prepareStatement(sql);

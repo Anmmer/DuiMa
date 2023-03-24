@@ -118,10 +118,13 @@
             for (let i = 0; i < jsonobj.length; i++) {
                 let select1 = $("#valuesFrom")
                 let select2 = $("#itemNames")
-                let item1 = $("<option value='" + jsonobj[i]['pi_key'] + "'>" + jsonobj[i]['pi_value'] + "</option>")
-                let item2 = $("<option value='" + jsonobj[i]['pi_key'] + "'>" + jsonobj[i]['pi_value'] + "</option>")
-                select1.append(item1)
-                select2.append(item2)
+                if (!jsonobj[i]['pi_key'].includes('name')) {
+                    let item1 = $("<option value='" + jsonobj[i]['pi_key'] + "'>" + jsonobj[i]['pi_value'] + "</option>")
+                    let item2 = $("<option value='" + jsonobj[i]['pi_key'] + "'>" + jsonobj[i]['pi_value'] + "</option>")
+                    select1.append(item1)
+                    select2.append(item2)
+                }
+
             }
             startpage()
         },

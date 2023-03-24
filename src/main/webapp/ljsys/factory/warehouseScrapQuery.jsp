@@ -42,7 +42,7 @@
             <h3 style="margin-bottom: 0;margin-top: 0"><small>报废库信息</small></h3>
             <button type="button" onclick="outWarehouse()" style="position: absolute;right: 15%;top:16%;width: 60px"
                     class="btn btn-primary btn-sm">
-                出&nbsp;&nbsp;库
+                报&nbsp;&nbsp;废
             </button>
             <button type="button" onclick="openPop()" style="position: absolute;right: 9%;top:16%;width: 60px"
                     class="btn btn-primary btn-sm">
@@ -204,7 +204,7 @@
             }
             $.post("${pageContext.request.contextPath}/WarehouseScrapInOut", {
                 pids: JSON.stringify(obj),
-                type: "2",
+                type: "5",
                 scrap_user: sessionStorage.getItem("userName"),
             }, function (result) {
                 result = JSON.parse(result);

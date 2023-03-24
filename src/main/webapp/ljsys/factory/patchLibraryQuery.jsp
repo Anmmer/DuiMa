@@ -658,6 +658,7 @@
             $.post("${pageContext.request.contextPath}/GetPreProduct", {
                 materialcode: materialcode,
                 materialname: materialname,
+                inspectState:'1',
                 stockStatus: '2',
                 pageCur: newPage,
                 pageMax: pageMax
@@ -716,6 +717,7 @@
             $.post("${pageContext.request.contextPath}/GetPreProduct", {
                 materialcode: materialcode,
                 materialname: materialname,
+                inspectState:'1',
                 stock_status: '2',
                 pageCur: newPage,
                 pageMax: pageMax
@@ -742,6 +744,7 @@
             $.post("${pageContext.request.contextPath}/GetPreProduct", {
                 materialcode: materialcode,
                 materialname: materialname,
+                inspectState:'1',
                 stock_status: '2',
                 pageCur: newPage,
                 pageMax: pageMax
@@ -771,6 +774,7 @@
             $.post("${pageContext.request.contextPath}/GetPreProduct", {
                 materialcode: materialcode,
                 materialname: materialname,
+                inspectState:'1',
                 stock_status: '2',
                 pageCur: newPage,
                 pageMax: pageMax

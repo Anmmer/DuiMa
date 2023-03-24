@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
-<div style="height: 125%;width: 100%">
+<div style="height: 100%;width: 100%">
     <button onclick="returnLastPage()" style="position: absolute;left: 4%;top: 4%" class="btn btn-primary btn-sm">返回
     </button>
     <form name="query" class="form-inline" style="width:85%;height:10%;margin-left: 8%;padding-top:2%">
@@ -15,12 +15,18 @@
             <label>楼层：</label><input type="text" name="query_floor_no" id="query_floor_no"
                                      class="form-control">
         </div>
+
         <button type="button" class="btn btn-primary btn-sm" style="margin-left: 5%"
                 onclick="getTableData(1)">
             查 询
         </button>
+        <button id="show-button" type="button" class="btn btn-primary btn-sm" style="margin-left: 5%"
+                onclick="show()">
+            展开图表
+        </button>
     </form>
-    <div style="width:100%;height:60%;margin:0 auto;">
+    <div id="charts"
+         style="width:100%;height:0;position:sticky;margin:0 auto;will-change: height;transition: all 0.3s linear;">
         <div style="width:100%;height:50%;display: flex">
             <div id="pie1" style="height:100%;width: 50%"></div>
             <div id="pie2" style="height:100%;width: 50%"></div>
@@ -90,12 +96,36 @@
     let planname = null;
     let build_no = null;
     let floor_no = null;
+    let pieData = null;
 
     window.onload = getTableData(1);
 
 
     function returnLastPage() {
         window.history.go(-1);
+    }
+
+    function show() {
+        if (document.getElementById("show-button").innerText === '展开图表') {
+            document.getElementById("charts").style.height = "85%"
+            document.getElementById("charts").style.opacity = "1"
+            document.getElementById("charts").style.zIndex = "0"
+            document.getElementById("show-button").innerText = '关闭图表'
+            if (!pieData) {
+                setTimeout(() => {
+                        getPieData()
+                    }, 300
+                )
+            }
+
+        } else {
+            document.getElementById("charts").style.height = "0"
+            document.getElementById("charts").style.opacity = "0"
+            document.getElementById("charts").style.zIndex = "-1"
+            document.getElementById("show-button").innerText = '展开图表'
+        }
+
+
     }
 
     function getTableData(newPage) {
@@ -111,7 +141,6 @@
             'pageCur': newPage,
             'pageMax': pageMax
         }
-        getPieData()
         $.ajax({
             url: "${pageContext.request.contextPath}/GetFloorNoSummary",
             type: 'post',
@@ -163,6 +192,7 @@
             data: {planname: planname, building_no: build_no, floor_no: floor_no},
             contentType: 'application/x-www-form-urlencoded;charset=utf-8',
             success: function (res) {
+                pieData = res
                 let pie1 = res.pie1;
                 let pie2 = res.pie2;
                 let pie3 = res.pie3;

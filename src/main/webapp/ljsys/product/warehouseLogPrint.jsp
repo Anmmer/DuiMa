@@ -9,6 +9,7 @@
             <option value="2">出库</option>
             <option value="3">移库</option>
             <option value="4">盘库</option>
+            <option value="5">报废</option>
         </select>
         <label for="method" style="margin-left: 2%">方式：</label>
         <select type="text" name="method" id="method" style="width: 10%;height: 30px" class="form-control">
@@ -27,6 +28,12 @@
                                                          style="height: 30px;width: 10%" class="form-control">
         <label style="margin-left: 3%">图号：</label><input type="text" id="drawing_no"
                                                          style="height: 30px;width: 10%" class="form-control">
+        <div class="form-group" style="width: 20%;">
+            <label>堆场信息：</label>
+            <input style="height:34%;width: 68%" name="factoryName"
+                   id="factoryName"
+                   onclick="openPop1()" class="form-control">
+        </div>
         <button type="button" class="btn btn-primary btn-sm" style="margin-left: 3%"
                 onclick="getTableData(1)">
             查 询
@@ -123,6 +130,41 @@
             </div>
         </div>
     </div>
+    <div class="modal fade" id="myModal4" tabindex="-1" style="position: absolute;left: 15%;top: 12%;" role="dialog"
+         data-backdrop="false"
+         aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content" style="width:60%">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModal_title">选择货位信息</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="form-horizontal">
+                        <div class="form-group" style="margin-top: 5%">
+                            <label for="myModal_name1" style="width: 28%;text-align: left;padding-right: 0"
+                                   class="col-sm-2 control-label">堆场信息:</label>
+                            <select class="form-control" style="width:50%;" id="myModal_name1"
+                                    name="myModal_name1" onchange="getRegionData()"></select><br>
+                            <label for="myModal_name2" style="width: 28%;text-align: left;padding-right: 0"
+                                   class="col-sm-2 control-label">区域信息:</label>
+                            <select class="form-control" style="width:50%;" id="myModal_name2"
+                                    name="myModal_name2" onchange="getLocation()"></select><br>
+                            <label for="location" style="width: 28%;text-align: left;padding-right: 0"
+                                   class="col-sm-2 control-label">货位信息:</label>
+                            <select type="text" class="form-control" style="width:50%;" id="location"
+                                    name="location"></select>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" onclick="reset()">重置</button>
+                    <button type="button" id="myModal_save" onclick="save()" class="btn btn-primary">保存</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
 </div>
 <script type="text/javascript">
@@ -139,6 +181,90 @@
     let printData = []  //打印数据
     let det_i = 0;
 
+    window.onload = getYardData()
+
+    function openPop1() {
+        $('#myModal4').modal('show')
+    }
+
+    function getYardData() {
+        $.post("${pageContext.request.contextPath}/GetFactory", {
+            type: '1',
+            pageCur: '1',
+            pageMax: '999'
+        }, function (result) {
+            result = JSON.parse(result);
+            let yard = result.data
+            $('#myModal_name1').empty()
+            $('#myModal_name1').append($("<option value=''></option>"))
+            for (let o of yard) {
+                let item = $("<option value='" + o['id'] + "'>" + o['name'] + "</option>")
+                $('#myModal_name1').append(item)
+            }
+        })
+    }
+
+
+    function getRegionData() {
+        let pid = $('#myModal_name1 option:selected').val()
+        if (pid === "") {
+            alert("请选择堆场信息")
+            $('#myModal_name').empty()
+            $('#myModal_name2').empty()
+            return
+        }
+        $.post("${pageContext.request.contextPath}/GetFactory", {
+            type: '2',
+            pid: pid,
+            pageCur: '1',
+            pageMax: '999'
+        }, function (result) {
+            result = JSON.parse(result);
+            let yard = result.data
+            $('#location').empty()
+            $('#myModal_name2').empty()
+            $('#myModal_name2').append($("<option value=''></option>"))
+            for (let o of yard) {
+                let item = $("<option value='" + o['id'] + "'>" + o['name'] + "</option>")
+                $('#myModal_name2').append(item)
+            }
+        })
+    }
+
+
+    function getLocation() {
+        let pid = $('#myModal_name2 option:selected').val()
+        $('#location').empty()
+        $.post("${pageContext.request.contextPath}/GetFactory", {
+            type: '3',
+            pid: pid,
+            pageCur: '1',
+            pageMax: '999'
+        }, function (result) {
+            result = JSON.parse(result);
+            let yard = result.data
+            $('#location').empty()
+            $('#location').append($("<option value=''></option>"))
+            for (let o of yard) {
+                let item = $("<option value='" + o['id'] + "'>" + o['name'] + "</option>")
+                $('#location').append(item)
+            }
+        })
+    }
+
+    function save() {
+        let myModal_name1 = $("#myModal_name1 option:selected").text() ? $("#myModal_name1 option:selected").text() + '/' : '../'
+        let myModal_name2 = $("#myModal_name2 option:selected").text() ? $("#myModal_name2 option:selected").text() + '/' : '../'
+        let myModal_name3 = $("#location option:selected").text() ? $("#location option:selected").text() : '..'
+        let str
+        if (myModal_name1 === '' && myModal_name2 === '' && myModal_name3 === '') {
+            str = ''
+        } else {
+            str = myModal_name1 + myModal_name2 + myModal_name3
+        }
+        $("#factoryName").val(str)
+        $('#myModal4').modal('hide')
+    }
 
     function setWay() {
         let type = $('#type').val();
@@ -183,8 +309,22 @@
             alert("请选择操作日期")
             return
         }
+        let myModal_name1 = $("#myModal_name1 option:selected").val()
+        let myModal_name2 = $("#myModal_name2 option:selected").val()
+        let location = $("#location option:selected").val()
+        let factoryName = '';
+        if (myModal_name1) {
+            factoryName = myModal_name1
+        }
+        if (myModal_name2) {
+            factoryName = myModal_name2
+        }
+        if (location) {
+            factoryName = location
+        }
         let obj = {
             materialcode: materialcode,
+            warehouseId: factoryName,
             planname: planname,
             building_no: building_no,
             floor_no: floor_no,
@@ -261,11 +401,11 @@
             alert("请选择类型")
             return
         }
-        if(type==='4'){
+        if (type === '4') {
             alert("盘库无法打印")
             return;
         }
-        if(type==='4'){
+        if (type === '4') {
             alert("盘库无法打印")
             return;
         }
@@ -406,6 +546,9 @@
                 case '4':
                     jsonObj[i]['type'] = "盘库"
                     break;
+                case '5':
+                    jsonObj[i]['type'] = "报废"
+                    break;
             }
             str += "<tr><td class='tdStyle_body' style='padding: 5px;'><input type='checkbox' data-id=" + jsonObj[i]["materialcode"] + "></td>" +
                 "<td class='tdStyle_body table_td' title='" + jsonObj[i]['materialcode'] + "'>" + jsonObj[i]['materialcode'] +
@@ -442,6 +585,19 @@
                 newPage = pageCur + 1;
             }
         }
+        let myModal_name1 = $("#myModal_name1 option:selected").val()
+        let myModal_name2 = $("#myModal_name2 option:selected").val()
+        let location = $("#location option:selected").val()
+        let factoryName = '';
+        if (myModal_name1) {
+            factoryName = myModal_name1
+        }
+        if (myModal_name2) {
+            factoryName = myModal_name2
+        }
+        if (location) {
+            factoryName = location
+        }
         let type = $('#type').val();
         let endDate = $('#endDate').val();
         let startDate = $('#startDate').val();
@@ -452,6 +608,7 @@
         let drawing_no = $('#drawing_no').val();
         let obj = {
             materialcode: materialcode,
+            warehouseId: factoryName,
             planname: planname,
             building_no: building_no,
             floor_no: floor_no,
@@ -496,6 +653,19 @@
     }
 
     function jumpToNewPage1(newPage) {
+        let myModal_name1 = $("#myModal_name1 option:selected").val()
+        let myModal_name2 = $("#myModal_name2 option:selected").val()
+        let location = $("#location option:selected").val()
+        let factoryName = '';
+        if (myModal_name1) {
+            factoryName = myModal_name1
+        }
+        if (myModal_name2) {
+            factoryName = myModal_name2
+        }
+        if (location) {
+            factoryName = location
+        }
         let type = $('#type').val();
         let endDate = $('#endDate').val();
         let startDate = $('#startDate').val();
@@ -506,6 +676,7 @@
         let drawing_no = $('#drawing_no').val();
         let obj = {
             materialcode: materialcode,
+            warehouseId: factoryName,
             planname: planname,
             building_no: building_no,
             floor_no: floor_no,
@@ -543,6 +714,19 @@
     }
 
     function jumpToNewPage2() {
+        let myModal_name1 = $("#myModal_name1 option:selected").val()
+        let myModal_name2 = $("#myModal_name2 option:selected").val()
+        let location = $("#location option:selected").val()
+        let factoryName = '';
+        if (myModal_name1) {
+            factoryName = myModal_name1
+        }
+        if (myModal_name2) {
+            factoryName = myModal_name2
+        }
+        if (location) {
+            factoryName = location
+        }
         let type = $('#type').val();
         let newPage = parseInt($('#jump_to').val())
         let materialcode = $('#materialcode').val();
@@ -558,6 +742,7 @@
         }
         let obj = {
             materialcode: materialcode,
+            warehouseId: factoryName,
             planname: planname,
             building_no: building_no,
             floor_no: floor_no,

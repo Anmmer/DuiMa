@@ -397,7 +397,7 @@
             <li id="patch_library_query_li">
                 <button class="li_ItemStyle" id="patch_library_query"
                         onclick="jumpTo('patchLibraryQueryAll.jsp','patch_library_query')">
-                    <span style="margin-left: 15%;margin-right: 5%;" class="glyphicon glyphicon-grain"></span>修补库管理
+                    <span style="margin-left: 15%;margin-right: 5%;" class="glyphicon glyphicon-grain"></span>修补库
                 </button>
             </li>
             <li id="production_in_out__warehouse_li">
@@ -409,7 +409,7 @@
             <li id="warehouse_scrap_li">
                 <button class="li_ItemStyle" id="warehouse_scrap"
                         onclick="jumpTo('productWarehouseScrapQuery.jsp','warehouse_scrap')"><span
-                        style="margin-left: 15%;margin-right: 5%;" class="glyphicon glyphicon-grain"></span>报废出入库
+                        style="margin-left: 15%;margin-right: 5%;" class="glyphicon glyphicon-grain"></span>报废库
                 </button>
             </li>
             <li id="warehouse_log_li">

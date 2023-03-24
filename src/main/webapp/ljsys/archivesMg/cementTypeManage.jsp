@@ -200,7 +200,7 @@
         if (r === false) {
             return;
         }
-        $.post("${pageContext.request.contextPath}/DeletePlanName", {id: id}, function (result) {
+        $.post("${pageContext.request.contextPath}/CementType", {type: '4', id: id}, function (result) {
             result = JSON.parse(result);
             if (result.flag) {
                 getTableData(1);
@@ -234,7 +234,7 @@
         let obj = {
             name: $('#pop_name').val(),
             id: id,
-            type:"3"
+            type: "3"
         }
         if (obj.name === '') {
             alert("请输入！");

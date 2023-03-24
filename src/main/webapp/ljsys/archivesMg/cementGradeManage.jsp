@@ -3,7 +3,7 @@
     <form name="query" class="form-inline" style="width:70%;height:10%;margin-left: 14%;padding-top:2%">
         <div class="form-group">
             <label>水泥等级：</label><input type="text" name="query_name" id="query_name"
-                                           style="" class="form-control">
+                                       style="" class="form-control">
         </div>
         <button type="button" class="btn btn-primary btn-sm" style="margin-left: 5%"
                 onclick="getTableData(1)">
@@ -200,7 +200,7 @@
         if (r === false) {
             return;
         }
-        $.post("${pageContext.request.contextPath}/DeletePlanName", {id: id}, function (result) {
+        $.post("${pageContext.request.contextPath}/CementGrade", {type: '4', id: id}, function (result) {
             result = JSON.parse(result);
             if (result.flag) {
                 getTableData(1);
@@ -234,7 +234,7 @@
         let obj = {
             name: $('#pop_name').val(),
             id: id,
-            type:"3"
+            type: "3"
         }
         if (obj.name === '') {
             alert("请输入！");

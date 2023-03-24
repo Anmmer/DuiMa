@@ -30,6 +30,7 @@ public class GetWarehouseLog extends HttpServlet {
         String type = req.getParameter("type");
         String method = req.getParameter("method");
         String planname = req.getParameter("planname");
+        String warehouseId = req.getParameter("warehouseId");
         String materialcode = req.getParameter("materialcode");
         String materialcodes = req.getParameter("materialcodes");
         String floor_no = req.getParameter("floor_no");
@@ -89,6 +90,32 @@ public class GetWarehouseLog extends HttpServlet {
                     "FROM\n" +
                     "\twarehouse_info_log a left join preproduct c on a.materialcode = c.materialcode  where 1=1";
             String sql2 = "select count(*) as num from warehouse_info_log a left join preproduct c on a.materialcode = c.materialcode where 1=1";
+            if ("1".equals(type) && warehouseId != null && !"".equals(warehouseId)) {
+                sql += " and in_warehouse_id in (with recursive temp as (\n" +
+                        "select id,pid from warehouse p where  id= ?\n" +
+                        "union \n" +
+                        " select t.id,t.pid from warehouse t inner join temp t2 on t2.id = t.pid \n" +
+                        ") select id from temp )";
+                sql2 += " and in_warehouse_id in (with recursive temp as (\n" +
+                        "select id,pid from warehouse p where  id= ?\n" +
+                        "union \n" +
+                        " select t.id,t.pid from warehouse t inner join temp t2 on t2.id = t.pid \n" +
+                        ") select id from temp )";
+                i++;
+            }
+            if ("2".equals(type) && warehouseId != null && !"".equals(warehouseId)) {
+                sql += " and out_warehouse_id in (with recursive temp as (\n" +
+                        "select id,pid from warehouse p where  id= ?\n" +
+                        "union \n" +
+                        " select t.id,t.pid from warehouse t inner join temp t2 on t2.id = t.pid \n" +
+                        ") select id from temp )";
+                sql2 += " and in_warehouse_id in (with recursive temp as (\n" +
+                        "select id,pid from warehouse p where  id= ?\n" +
+                        "union \n" +
+                        " select t.id,t.pid from warehouse t inner join temp t2 on t2.id = t.pid \n" +
+                        ") select id from temp )";
+                i++;
+            }
             if (type != null && !"".equals(type)) {
                 sql += " and type = ?";
                 sql2 += " and type = ?";
@@ -177,7 +204,13 @@ public class GetWarehouseLog extends HttpServlet {
                 ps.setString(i--, method);
             }
             if (type != null && !"".equals(type)) {
-                ps.setString(i, type);
+                ps.setString(i--, type);
+            }
+            if ("2".equals(type) && warehouseId != null && !"".equals(warehouseId)) {
+                ps.setString(i--, warehouseId);
+            }
+            if ("1".equals(type) && warehouseId != null && !"".equals(warehouseId)) {
+                ps.setString(i, warehouseId);
             }
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
@@ -227,7 +260,13 @@ public class GetWarehouseLog extends HttpServlet {
                 ps2.setString(j--, method);
             }
             if (type != null && !"".equals(type)) {
-                ps2.setString(j, type);
+                ps2.setString(j--, type);
+            }
+            if ("2".equals(type) && warehouseId != null && !"".equals(warehouseId)) {
+                ps2.setString(j--, warehouseId);
+            }
+            if ("1".equals(type) && warehouseId != null && !"".equals(warehouseId)) {
+                ps2.setString(j, warehouseId);
             }
             ResultSet rs2 = ps2.executeQuery();
             while (rs2.next()) {

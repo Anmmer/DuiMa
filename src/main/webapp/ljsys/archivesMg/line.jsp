@@ -2,7 +2,7 @@
 <div style="height: 100%;width: 100%">
     <form name="query" class="form-inline" style="width:70%;height:10%;margin-left: 14%;padding-top:2%">
         <div class="form-group">
-            <label>工号：</label><input type="text" name="query_line" id="query_line"
+            <label>产线名称：</label><input type="text" name="query_line" id="query_line"
                                      style="" class="form-control">
         </div>
         <button type="button" class="btn btn-primary btn-sm" style="margin-left: 5%"

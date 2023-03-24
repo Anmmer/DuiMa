@@ -33,6 +33,15 @@ public class UpdateInOutWarehouseMethod extends HttpServlet {
         try {
             con = DbUtil.getCon();
             String sql = "update in_out_warehouse_method set  ";
+            String sql2 = "update warehouse_info_log set method = ? where method = ? ";
+            String sql3 = "select name from in_out_warehouse_method where id =?";
+            ps = con.prepareStatement(sql3);
+            ps.setString(1, id);
+            ResultSet resultSet = ps.executeQuery();
+            String nameOld = null;
+            if (resultSet.next()) {
+                nameOld = resultSet.getString("name");
+            }
             if (name != null) {
                 sql += "name = ?";
                 if (isEffective != null) {
@@ -52,6 +61,11 @@ public class UpdateInOutWarehouseMethod extends HttpServlet {
                 ps.setString(2, id);
             }
             int i = ps.executeUpdate();
+
+            ps = con.prepareStatement(sql2);
+            ps.setString(1, name);
+            ps.setString(2, nameOld);
+            ps.executeUpdate();
             if (i > 0) {
                 result.put("message", "修改成功");
                 result.put("flag", true);
