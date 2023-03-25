@@ -110,10 +110,11 @@
 
     //打开修改弹窗
     function openEditPop(id, line) {
-        queryData(id);
+        // queryData(id);
         $('#myModal').modal('show')
         $("#title1").hide();
         $("#title2").show();
+        $('#pop_line').val(line);
         $("#save").attr('onclick', "edit('" + id + "','" + line + "')");
     }
 

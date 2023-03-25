@@ -59,6 +59,9 @@ public class GetWarehouseLog extends HttpServlet {
             out.write(JSON.toJSONString(result));
             return;
         }
+
+        endDate = endDate+": 23:59:59";
+
         int i = 0;
         int j = 0;
         try {
@@ -170,7 +173,7 @@ public class GetWarehouseLog extends HttpServlet {
 
             }
             j = i;
-            sql += " limit ?,?";
+            sql += " order by a.create_date desc limit ?,? ";
             i += 2;
             ps = con.prepareStatement(sql);
             ps.setInt(i--, pageMax);

@@ -198,7 +198,7 @@
                 alert("请勾选！")
                 return;
             }
-            let r = confirm("亲，确认出库！");
+            let r = confirm("亲，确认报废！");
             if (r === false) {
                 return;
             }

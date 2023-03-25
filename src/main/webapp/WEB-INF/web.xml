@@ -943,4 +943,12 @@
         <servlet-name>deleteBuild</servlet-name>
         <url-pattern>/DeleteBuild</url-pattern>
     </servlet-mapping>
+    <servlet>
+        <servlet-name>getInitPreproduct</servlet-name>
+        <servlet-class>GetInitPreproduct</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>getInitPreproduct</servlet-name>
+        <url-pattern>/GetInitPreproduct</url-pattern>
+    </servlet-mapping>
 </web-app>

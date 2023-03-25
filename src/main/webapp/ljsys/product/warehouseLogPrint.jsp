@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <div style="height: 95%;width: 100%">
-    <form name="query" class="form-inline" style="width:90%;height:16%;margin-left: 6%;padding-top:2%">
+    <form name="query" class="form-inline" style="width:90%;height:18%;margin-left: 6%;padding-top:2%">
         <label for="type" style="margin-left: 2%">类型：</label>
         <select type="text" name="type" id="type" style="width: 10%;height: 30px" onchange="setWay()"
                 class="form-control">
@@ -42,12 +42,12 @@
     <div style="width:85%;height:80%;margin:0 auto;">
         <div class="page-header" style="margin-top: 0;margin-bottom: 1%">
             <h3 style="margin-bottom: 0;margin-top: 0"><small>出入库信息</small></h3>
-            <button type="button" style="position: absolute;right: 17%;top:16%" class="btn btn-primary btn-sm"
+            <button type="button" style="position: absolute;right: 17%;top:18%" class="btn btn-primary btn-sm"
                     data-toggle="modal"
                     onclick="printDataF(true)">
                 打印单据
             </button>
-            <button type="button" style="position: absolute;right: 10%;top:16%" class="btn btn-primary btn-sm"
+            <button type="button" style="position: absolute;right: 10%;top:18%" class="btn btn-primary btn-sm"
                     data-toggle="modal"
                     onclick="printDataF(false)">
                 全部打印
@@ -384,10 +384,10 @@
     $("#detail_checkbok").on("click", function () {
         if (det_i == 0) {
             //把所有复选框选中
-            $("#detailTableText td :checkbox").prop("checked", true);
+            $("#archTableText td :checkbox").prop("checked", true);
             det_i = 1;
         } else {
-            $("#detailTableText td :checkbox").prop("checked", false);
+            $("#archTableText td :checkbox").prop("checked", false);
             det_i = 0;
         }
 
@@ -405,8 +405,8 @@
             alert("盘库无法打印")
             return;
         }
-        if (type === '4') {
-            alert("盘库无法打印")
+        if (type === '5') {
+            alert("报废操作无法打印")
             return;
         }
         if (!startDate || !endDate) {
@@ -455,12 +455,50 @@
                 break;
         }
         document.getElementById("title").innerText = typeName
-        let obj = {
-            type: type, endDate: endDate, startDate: startDate, pageCur: 1,
-            pageMax: 500
-        }
+        let method = $('#method option:selected').text();
+        let materialcode = $('#materialcode').val();
+        let planname = $('#planname').val();
+        let building_no = $('#building_no').val();
+        let floor_no = $('#floor_no').val();
+        let drawing_no = $('#drawing_no').val();
+        let obj = {}
         if (flag) {
             obj.materialcodes = JSON.stringify(materialcodes)
+            obj.pageCur = 1
+            obj.pageMax = 999
+            obj.startDate = startDate
+            obj.endDate = endDate
+            obj.type = type
+        } else {
+
+            let myModal_name1 = $("#myModal_name1 option:selected").val()
+            let myModal_name2 = $("#myModal_name2 option:selected").val()
+            let location = $("#location option:selected").val()
+            let factoryName = '';
+            if (myModal_name1) {
+                factoryName = myModal_name1
+            }
+            if (myModal_name2) {
+                factoryName = myModal_name2
+            }
+            if (location) {
+                factoryName = location
+            }
+            obj = {
+                materialcode: materialcode,
+                warehouseId: factoryName,
+                planname: planname,
+                building_no: building_no,
+                floor_no: floor_no,
+                drawing_no: drawing_no,
+                type: type,
+                method: method,
+                startDate: startDate,
+                endDate: endDate,
+                pageCur: 1,
+                pageMax: 999
+            }
+
         }
         getPrintData(obj)
 
@@ -468,6 +506,7 @@
 
 
     function getPrintData(obj) {
+
         $.ajax({
             url: "${pageContext.request.contextPath}/GetWarehouseLog",
             type: 'post',
@@ -475,6 +514,10 @@
             data: obj,
             contentType: 'application/x-www-form-urlencoded;charset=utf-8',
             success: function (res) {
+                if (res.flag == false) {
+                    alert(res.msg)
+                    return
+                }
                 if (res.data.length !== 0) {
                     printData = res.data;
                     updatePrintTable();
@@ -494,7 +537,9 @@
         for (let i = 0; i < printData.length; i++) {
             let some = printData[i]['build_type'] + " " + printData[i]['standard'] + " " + printData[i]['drawing_no']
             printData[i]['method'] = printData[i]['method'] === void 0 ? "" : printData[i]['method']
-            let path = !!printData[i]['in_warehouse_path'] ? printData[i]['in_warehouse_path'] : printData[i]['out_warehouse_path']
+            let path = printData[i]['in_warehouse_path'] ? printData[i]['in_warehouse_path'] : printData[i]['out_warehouse_path']
+            printData[i]['out_warehouse_path'] = printData[i]['out_warehouse_path'] ? printData[i]['out_warehouse_path'] : ''
+            printData[i]['in_warehouse_path'] = printData[i]['in_warehouse_path'] ? printData[i]['in_warehouse_path'] : ''
             str += "<tr><td class='tdStyle_body' title='" + printData[i]['materialcode'] + "'>" + printData[i]['materialcode'] +
                 "</td><td class='tdStyle_body' title='" + some + "'>" + some +
                 "</td><td class='tdStyle_body' title='" + printData[i]['fangliang'] + "'>" + printData[i]['fangliang'] +

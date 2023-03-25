@@ -1,18 +1,21 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <div style="height: 100%;width:100%;background-color:white;">
-    <form name="query" class="form-inline" style="width:70%;height:10%;margin-left: 14%;padding-top:2%">
+    <form name="query" class="form-inline" style="width:89%;height:10%;margin-left: 8%;padding-top:2%">
         <div class="form-group" style="width: 100%;">
-            <label>堆场名称：</label><select style="width:20%" name="query_yard"
+            <label>堆场名称：</label><select style="width:15%" name="query_yard"
                                         id="query_yard"
-                                        onchange="getTableData(1)" class="form-control"></select>
-            <%--            <button type="button" class="btn btn-primary btn-sm" style="margin-left: 5%"--%>
-            <%--                    onclick="">--%>
-            <%--                查 询--%>
-            <%--            </button>--%>
+                                        onchange="getRegionDataQuery()" class="form-control"></select>
+            <label style="margin-left: 10px">区域名称：</label><select style="width:15%;" name="query_region"
+                                                                  id="query_region"
+                                                                  class="form-control"></select>
+            <button type="button" class="btn btn-primary btn-sm" style="margin-left: 5%"
+                    onclick="getTableData(1)">
+                查 询
+            </button>
         </div>
 
     </form>
-    <div style="width:70%;height:80%;margin:0 auto;">
+    <div style="width:75%;height:80%;margin-left: 8%;">
         <div class="page-header" style="margin-top: 0;margin-bottom: 1%">
             <h3 style="margin-bottom: 0;margin-top: 0"><small>项目信息</small></h3>
             <button type="button" class="btn btn-primary btn-sm" style="position:absolute;right: 21%;top:11%"
@@ -215,7 +218,7 @@
     //打开修改弹窗
     function openEditPop(region_id, index, location_id, region, location) {
         if (index === '1') {
-            if(location_id === 'undefined'){
+            if (location_id === 'undefined') {
                 alert("请先新增货位")
                 return
             }
@@ -356,6 +359,31 @@
 
     }
 
+    function getRegionDataQuery() {
+        let pid = $('#query_yard').val()
+        if (pid === "") {
+            alert("请选择堆场信息")
+            return
+        }
+        $.post("${pageContext.request.contextPath}/GetFactory", {
+            type: '2',
+            pid: pid,
+            pageCur: '1',
+            pageMax: '999'
+        }, function (result) {
+            result = JSON.parse(result);
+            let yard = result.data
+            $("#query_region").empty()
+            let item = $("<option value=''></option>")
+            $('#query_region').append(item)
+            for (let o of yard) {
+                let item = $("<option value='" + o['id'] + "'>" + o['name'] + "</option>")
+                $('#query_region').append(item)
+            }
+        })
+
+    }
+
 
     function yard_save() {
         let obj = {
@@ -458,9 +486,11 @@
     })
 
     function getTableData(newPage) {
-        let query_yard = $('#query_yard option:selected').text();
+        let factoryId = $('#query_yard option:selected').val();
+        let regionId = $('#query_region option:selected').val();
         let obj = {
-            'planname': query_yard,
+            factoryId: factoryId,
+            regionId: regionId
         }
         $.ajax({
             url: "${pageContext.request.contextPath}/GetFactory",
@@ -518,6 +548,51 @@
             for (let o of yard) {
                 let item = $("<option value='" + o['id'] + "'>" + o['name'] + "</option>")
                 $('#query_yard').append(item)
+            }
+        })
+    }
+
+    function getRegionData() {
+        let pid = $('#myModal_name1 option:selected').val()
+        if (pid === "") {
+            alert("请选择堆场信息")
+            $('#myModal_name').empty()
+            $('#myModal_name2').empty()
+            return
+        }
+        $.post("${pageContext.request.contextPath}/GetFactory", {
+            type: '2',
+            pid: pid,
+            pageCur: '1',
+            pageMax: '999'
+        }, function (result) {
+            result = JSON.parse(result);
+            let yard = result.data
+            $('#myModal_name2').empty()
+            $('#myModal_name2').append($("<option value=''></option>"))
+            for (let o of yard) {
+                let item = $("<option value='" + o['id'] + "'>" + o['name'] + "</option>")
+                $('#myModal_name2').append(item)
+            }
+        })
+
+    }
+
+    function getLocation() {
+        let pid = $('#myModal_name2 option:selected').val()
+        $('#myModal_name').empty()
+        $.post("${pageContext.request.contextPath}/GetFactory", {
+            type: '3',
+            pid: pid,
+            pageCur: '1',
+            pageMax: '999'
+        }, function (result) {
+            result = JSON.parse(result);
+            let yard = result.data
+            $('#myModal_name').append($("<option value=''></option>"))
+            for (let o of yard) {
+                let item = $("<option value='" + o['id'] + "'>" + o['name'] + "</option>")
+                $('#myModal_name').append(item)
             }
         })
     }

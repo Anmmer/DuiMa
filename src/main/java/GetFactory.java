@@ -32,6 +32,9 @@ public class GetFactory extends HttpServlet {
             String pid = request.getParameter("pid");
             String id = request.getParameter("id");
             String planname = request.getParameter("planname");
+            String factoryId = request.getParameter("factoryId");
+            String regionId = request.getParameter("regionId");
+            String locationId = request.getParameter("locationId");
             int pageCur = 0, pageMax = 0;
             if (request.getParameter("pageCur") != null) {
                 pageCur = Integer.parseInt(request.getParameter("pageCur"));
@@ -43,6 +46,15 @@ public class GetFactory extends HttpServlet {
             String sql1 = "select id,pid,name,type,path from warehouse where is_delete = '0' ";
             String sql2 = "select count(*) num from warehouse where is_delete = '0' ";
             List<Warehouse> list = new ArrayList<>();
+            if (factoryId != null && !factoryId.equals("")) {
+                sql1 += " and id in (with recursive temp as (\n" +
+                        "select id,pid from warehouse p where  id= ?\n" +
+                        "union \n" +
+                        " select t.id,t.pid from warehouse t inner join temp t2 on t2.id = t.pid \n" +
+                        ") select id from temp )";
+                i++;
+            }
+
             if (type != null && !type.equals("")) {
                 sql1 += " and type = ?";
                 sql2 += " and type = ?";
@@ -84,7 +96,10 @@ public class GetFactory extends HttpServlet {
                 if (planname != null && !planname.equals("")) {
                     ps.setString(i--, '%' + planname + '%');
                 }
-                ps.setString(i, type);
+                ps.setString(i--, type);
+            }
+            if (factoryId != null && !factoryId.equals("")) {
+                ps.setString(i, factoryId);
             }
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
@@ -126,8 +141,15 @@ public class GetFactory extends HttpServlet {
                 result.put("data", list);
             } else {
                 List<Warehouse> list1 = Warehouse.build(list, "0");
-                if (planname != null && !planname.equals("")) {
-                    list1 = list1.stream().filter(s -> s.getName().contains(planname)).collect(Collectors.toList());
+                if ((factoryId != null && !factoryId.equals("")) && (regionId != null && !regionId.equals(""))) {
+                    List<Warehouse> temp = list1.get(0).getChildren().stream().filter(s -> regionId.equals(s.getId())).collect(Collectors.toList());
+                    list1.get(0).getChildren().clear();
+                    list1.get(0).getChildren().addAll(temp);
+                    if (locationId != null && !locationId.equals("")) {
+                        temp = list1.get(0).getChildren().get(0).getChildren().stream().filter(s -> locationId.equals(s.getId())).collect(Collectors.toList());
+                        list1.get(0).getChildren().get(0).getChildren().clear();
+                        list1.get(0).getChildren().get(0).getChildren().addAll(temp);
+                    }
                 }
                 result.put("data", list1);
             }

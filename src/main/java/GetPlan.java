@@ -66,18 +66,18 @@ public class GetPlan extends HttpServlet {
                 i++;
             }
             if (!"".equals(materialcode) && materialcode != null) {
-                sql += " and plannumber in (select plannumber from preproduct where materialcode = ?)";
-                sql2 += " and plannumber in (select plannumber from preproduct where materialcode = ?)";
+                sql += " and plannumber in (select plannumber from preproduct where materialcode = ? and product_delete = '0')";
+                sql2 += " and plannumber in (select plannumber from preproduct where materialcode = ? and product_delete = '0')";
                 i++;
             }
             if (!"".equals(materialname) && materialname != null) {
-                sql += " and plannumber in (select plannumber from preproduct where materialname like ?)";
-                sql2 += " and plannumber in (select plannumber from preproduct where materialname like ?)";
+                sql += " and plannumber in (select plannumber from preproduct where materialname like ? and product_delete = '0')";
+                sql2 += " and plannumber in (select plannumber from preproduct where materialname like ? and product_delete = '0')";
                 i++;
             }
             if (!"".equals(preproductid) && preproductid != null) {
-                sql += " and plannumber in (select plannumber from preproduct where preproductid like ?)";
-                sql2 += " and plannumber in (select plannumber from preproduct where preproductid like ?)";
+                sql += " and plannumber in (select plannumber from preproduct where preproductid like ? and product_delete = '0')";
+                sql2 += " and plannumber in (select plannumber from preproduct where preproductid like ? and product_delete = '0')";
                 i++;
             }
             if (!"".equals(line) && line != null) {
@@ -87,20 +87,20 @@ public class GetPlan extends HttpServlet {
             }
             if ("0".equals(productState)) {
                 if ("1".equals(on_or_off)) {
-                    sql += " and ( SELECT count( 1 ) FROM preproduct WHERE preproduct.plannumber = plan.plannumber AND preproduct.pourmade = 1 and preproduct.inspect = 1 and covert_test = 1) !=tasknum";
-                    sql2 += " and ( SELECT count( 1 ) FROM preproduct WHERE preproduct.plannumber = plan.plannumber AND preproduct.pourmade = 1 AND preproduct.inspect = 1 and covert_test = 1)!=tasknum";
+                    sql += " and ( SELECT count( 1 ) FROM preproduct WHERE preproduct.plannumber = plan.plannumber AND preproduct.pourmade = 1 and preproduct.inspect = 1 and covert_test = 1 and product_delete = '0') !=tasknum";
+                    sql2 += " and ( SELECT count( 1 ) FROM preproduct WHERE preproduct.plannumber = plan.plannumber AND preproduct.pourmade = 1 AND preproduct.inspect = 1 and covert_test = 1 and product_delete = '0')!=tasknum";
                 } else {
-                    sql += " and ( SELECT count( 1 ) FROM preproduct WHERE preproduct.plannumber = plan.plannumber AND preproduct.pourmade = 1 and preproduct.inspect = 1) !=tasknum";
-                    sql2 += " and ( SELECT count( 1 ) FROM preproduct WHERE preproduct.plannumber = plan.plannumber AND preproduct.pourmade = 1 AND preproduct.inspect = 1)!=tasknum";
+                    sql += " and ( SELECT count( 1 ) FROM preproduct WHERE preproduct.plannumber = plan.plannumber AND preproduct.pourmade = 1 and preproduct.inspect = 1 and product_delete = '0') !=tasknum";
+                    sql2 += " and ( SELECT count( 1 ) FROM preproduct WHERE preproduct.plannumber = plan.plannumber AND preproduct.pourmade = 1 AND preproduct.inspect = 1 and product_delete = '0')!=tasknum";
                 }
             }
             if ("1".equals(productState)) {
                 if ("1".equals(on_or_off)) {
-                    sql += " and ( SELECT count( 1 ) FROM preproduct WHERE preproduct.plannumber = plan.plannumber AND preproduct.pourmade = 1 and preproduct.inspect = 1 and covert_test = 1) =tasknum";
-                    sql2 += " and ( SELECT count( 1 ) FROM preproduct WHERE preproduct.plannumber = plan.plannumber AND preproduct.pourmade = 1 AND preproduct.inspect = 1 and covert_test = 1) =tasknum";
+                    sql += " and ( SELECT count( 1 ) FROM preproduct WHERE preproduct.plannumber = plan.plannumber AND preproduct.pourmade = 1 and preproduct.inspect = 1 and covert_test = 1 and product_delete = '0') =tasknum";
+                    sql2 += " and ( SELECT count( 1 ) FROM preproduct WHERE preproduct.plannumber = plan.plannumber AND preproduct.pourmade = 1 AND preproduct.inspect = 1 and covert_test = 1 and product_delete = '0') =tasknum";
                 } else {
-                    sql += " and ( SELECT count( 1 ) FROM preproduct WHERE preproduct.plannumber = plan.plannumber AND preproduct.pourmade = 1 and preproduct.inspect = 1) =tasknum";
-                    sql2 += " and ( SELECT count( 1 ) FROM preproduct WHERE preproduct.plannumber = plan.plannumber AND preproduct.pourmade = 1 and preproduct.inspect = 1) =tasknum";
+                    sql += " and ( SELECT count( 1 ) FROM preproduct WHERE preproduct.plannumber = plan.plannumber AND preproduct.pourmade = 1 and preproduct.inspect = 1 and product_delete = '0') =tasknum";
+                    sql2 += " and ( SELECT count( 1 ) FROM preproduct WHERE preproduct.plannumber = plan.plannumber AND preproduct.pourmade = 1 and preproduct.inspect = 1 and product_delete = '0') =tasknum";
                 }
             }
             if (!"".equals(printstate) && printstate != null) {

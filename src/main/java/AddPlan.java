@@ -37,7 +37,7 @@ public class AddPlan extends HttpServlet {
         try {
             con = DbUtil.getCon();
             String sql1 = "insert into plan(plannumber,printstate,plant,plantime,line,liner,planname,build,tasksqure,tasknum,updatedate,isdelete) values(?,0,?,?,?,?,?,?,?,?,?,0)";
-            String sql2 = "update preproduct set preproductid =?,weigh = ?,fangliang =?,qc =?,print = 0,plannumber =?,concretegrade =?,isdelete=0,pourmade=0,inspect=0,covert_test=0,product_delete=0 where materialcode =?";
+            String sql2 = "update preproduct set preproductid =?,weigh = ?,fangliang =?,qc =?,print = 0,plannumber =?,concretegrade =?,pourmade=0,inspect=0,checktime=null,pourtime=null,failure_reason=null,patch_library=null,covert_test=null,covert_test_time=null,covert_test_failure_reason=null,inspect_remark=null,inspect_user=null,covert_test_remark=null,covert_test_user=null,pourmade_user=null,scrap_library=null,scrap_remark=null,scrap_in_user=null,scrap_in_time=null,scrap_out_time=null,scrap_out_user=null,print_index=null,covert_test=0,product_delete=0,stock_status='0' where materialcode =?";
             String sql3 = "select count(*) num from preproduct where materialcode = ? and isdelete = 0";
             PreparedStatement ps3 = con.prepareStatement(sql3);
             for (Object o : preProduct) {

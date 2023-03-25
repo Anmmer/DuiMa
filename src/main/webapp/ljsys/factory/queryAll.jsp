@@ -1,38 +1,75 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <div style="height: 100%;width:100%;background-color:white;">
-    <form name="query" class="form-inline" style="width:70%;height:10%;margin-left: 14%;padding-top:2%">
-        <div class="form-group">
-            <label>堆场名称：</label><input type="text" name="query_planname" id="query_planname"
-                                       style="" class="form-control">
+    <form name="query" class="form-inline" style="width:89%;height:10%;margin-left: 8%;padding-top:2%">
+        <div class="form-group" style="width: 20%;">
+            <label>堆场信息：</label>
+            <input style="height:10%;width: 68%" name="factoryName"
+                   id="factoryName"
+                   onclick="openPop()" class="form-control">
         </div>
         <button type="button" class="btn btn-primary btn-sm" style="margin-left: 5%"
                 onclick="getTableData(1)">
             查 询
         </button>
     </form>
-    <div style="width:70%;height:80%;margin:0 auto;">
+    <div style="width:75%;height:80%;margin-left: 8%;">
         <div class="page-header" style="margin-top: 0;margin-bottom: 1%">
             <h3 style="margin-bottom: 0;margin-top: 0"><small>堆场信息</small></h3>
-            <button type="button" style="position: absolute;right: 15%;top:10%" class="btn btn-primary btn-sm"
+            <button type="button" style="position: absolute;right: 18%;top:10%" class="btn btn-primary btn-sm"
                     data-toggle="modal"
                     onclick="getStyle()">
-                打印
+                打&nbsp;&nbsp;印
             </button>
         </div>
-        <div style="height: 85%">
+        <div style="height: 85%;overflow-y: scroll">
             <table class="table table-hover" style="text-align: center">
                 <tr>
                     <td class='table_tr_print tdStyle_title active' style="width: 2%;"><input
                             id="detail_checkbok"
                             type="checkbox"></td>
-                    <td class="tdStyle_title active" style="width: 25%">堆场</td>
-                    <td class="tdStyle_title active" style="width: 25%">区域</td>
-                    <td class="tdStyle_title active" style="width: 25%">货位</td>
-                    <td class="tdStyle_title active" style="width: 25%;text-align: center">操作</td>
+                    <td class="tdStyle_title active" style="width: 28%">堆场</td>
+                    <td class="tdStyle_title active" style="width: 28%">区域</td>
+                    <td class="tdStyle_title active" style="width: 28%">货位</td>
+                    <td class="tdStyle_title active" style="width: 15%;text-align: center">操作</td>
                 </tr>
                 <tbody id="archTableText">
                 </tbody>
             </table>
+        </div>
+    </div>
+    <div class="modal fade" id="myModal" tabindex="-1" style="position: absolute;left: 15%;top: 12%;" role="dialog"
+         data-backdrop="false"
+         aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content" style="width:60%">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModal_title">选择货位信息</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="form-horizontal">
+                        <div class="form-group" style="margin-top: 5%">
+                            <label for="myModal_name1" style="width: 28%;text-align: left;padding-right: 0"
+                                   class="col-sm-2 control-label">堆场信息:</label>
+                            <select class="form-control" style="width:50%;" id="myModal_name1"
+                                    name="myModal_name1" onchange="getRegionData()"></select><br>
+                            <label for="myModal_name2" style="width: 28%;text-align: left;padding-right: 0"
+                                   class="col-sm-2 control-label">区域信息:</label>
+                            <select class="form-control" style="width:50%;" id="myModal_name2"
+                                    name="myModal_name2" onchange="getLocation()"></select><br>
+                            <label for="myModal_name" style="width: 28%;text-align: left;padding-right: 0"
+                                   class="col-sm-2 control-label">货位信息:</label>
+                            <select type="text" class="form-control" style="width:50%;" id="myModal_name"
+                                    name="myModal_name"></select>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" onclick="reset()">重置</button>
+                    <button type="button" id="myModal_save" onclick="save()" class="btn btn-primary">保存</button>
+                </div>
+            </div>
         </div>
     </div>
     <div style="position: absolute;right:5%;top: 17%;">
@@ -64,13 +101,103 @@
     // 字段映射
     let fieldmap = {}
 
-    window.onload = getTableData(1);
+    window.onload = getYardData();
+
+    function openPop() {
+        $('#myModal').modal('show')
+    }
+
+    function save() {
+        let myModal_name1 = $("#myModal_name1 option:selected").text() ? $("#myModal_name1 option:selected").text() + '/' : '../'
+        let myModal_name2 = $("#myModal_name2 option:selected").text() ? $("#myModal_name2 option:selected").text() + '/' : '../'
+        let myModal_name3 = $("#myModal_name3 option:selected").text() ? $("#myModal_name3 option:selected").text() : '..'
+        let str
+        if (myModal_name1 === '' && myModal_name2 === '' && myModal_name3 === '') {
+            str = ''
+        } else {
+            str = myModal_name1 + myModal_name2 + myModal_name3
+        }
+        $("#factoryName").val(str)
+        $('#myModal').modal('hide')
+    }
+
+    function getYardData() {
+        getTableData(1)
+        getFieldMap();
+        $.post("${pageContext.request.contextPath}/GetFactory", {
+            type: '1',
+            pageCur: '1',
+            pageMax: '999'
+        }, function (result) {
+            result = JSON.parse(result);
+            let yard = result.data
+            $('#myModal_name1').empty()
+            $('#myModal_name1').append($("<option value=''></option>"))
+            for (let o of yard) {
+                let item = $("<option value='" + o['id'] + "'>" + o['name'] + "</option>")
+                $('#myModal_name1').append(item)
+            }
+
+        })
+    }
+
+    function getRegionData() {
+        let pid = $('#myModal_name1 option:selected').val()
+        if (pid === "") {
+            alert("请选择堆场信息")
+            $('#myModal_name').empty()
+            $('#myModal_name2').empty()
+            return
+        }
+        $.post("${pageContext.request.contextPath}/GetFactory", {
+            type: '2',
+            pid: pid,
+            pageCur: '1',
+            pageMax: '999'
+        }, function (result) {
+            result = JSON.parse(result);
+            let yard = result.data
+            $('#myModal_name2').empty()
+            $('#myModal_name2').append($("<option value=''></option>"))
+            for (let o of yard) {
+                let item = $("<option value='" + o['id'] + "'>" + o['name'] + "</option>")
+                $('#myModal_name2').append(item)
+            }
+        })
+
+    }
+
+    function getLocation() {
+        let pid = $('#myModal_name2 option:selected').val()
+        $('#myModal_name').empty()
+        $.post("${pageContext.request.contextPath}/GetFactory", {
+            type: '3',
+            pid: pid,
+            pageCur: '1',
+            pageMax: '999'
+        }, function (result) {
+            result = JSON.parse(result);
+            let yard = result.data
+            $('#myModal_name').append($("<option value=''></option>"))
+            for (let o of yard) {
+                let item = $("<option value='" + o['id'] + "'>" + o['name'] + "</option>")
+                $('#myModal_name').append(item)
+            }
+        })
+    }
 
     function getTableData(newPage) {
-        getFieldMap();
-        let query_planname = $('#query_planname').val();
+        let myModal_name1 = $("#myModal_name1 option:selected").val()
+        let regionId = $("#myModal_name2 option:selected").val()
+        let locationId = $("#myModal_name option:selected").val()
+        let factoryId = '';
+        if (myModal_name1) {
+            factoryId = myModal_name1
+        }
         let obj = {
-            'planname': query_planname,
+            factoryId: factoryId,
+            regionId: regionId,
+            locationId: locationId
         }
         $.ajax({
             url: "${pageContext.request.contextPath}/GetFactory",

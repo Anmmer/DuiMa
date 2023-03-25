@@ -48,9 +48,6 @@ public class UpdatePlanName extends HttpServlet {
             ps.setString(1, planname.trim());
             ps.setString(2, unit_consumption.trim());
             ps.setInt(3, Integer.parseInt(id));
-            ps = con.prepareStatement(sql3);
-            ps.setString(1, planname.trim());
-            ps.setString(2, planname_old.trim());
             int i = ps.executeUpdate();
             if (i > 0) {
                 result.put("message", "修改成功");
@@ -61,6 +58,10 @@ public class UpdatePlanName extends HttpServlet {
                 result.put("flag", false);
                 out.write(JSON.toJSONString(result));
             }
+            ps = con.prepareStatement(sql3);
+            ps.setString(1, planname.trim());
+            ps.setString(2, planname_old.trim());
+
 
         } catch (Exception e) {
             e.printStackTrace();

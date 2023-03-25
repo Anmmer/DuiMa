@@ -8,12 +8,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 /**
  * @description:
@@ -23,7 +23,6 @@ import java.util.UUID;
 public class WarehouseScrapInOut extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        super.doGet(req, resp);
     }
 
     @Override
@@ -41,8 +40,9 @@ public class WarehouseScrapInOut extends HttpServlet {
         PreparedStatement ps1 = null;
         Map<String, Object> map = new HashMap<>();
         StringBuilder sql = new StringBuilder("update preproduct set inspect = 3,stock_status = '1',scrap_library=?,scrap_remark=?,scrap_in_user = ?,scrap_in_time=date_format(now(),'%Y-%m-%d') where materialcode in (");
-        StringBuilder sql2 = new StringBuilder("update preproduct set inspect = 4,stock_status = '2',scrap_out_user = ?,scrap_out_time=date_format(now(),'%Y-%m-%d') where materialcode in (");
-
+        StringBuilder sql2 = new StringBuilder("update preproduct set product_delete = '1' where materialcode in (");
+        String sql4 = "update plan set tasknum = tasknum - 1 , tasksqure = tasksqure - ? where plannumber = ?";
+        String sql5 = "select plannumber,fangliang from preproduct where materialcode = ?";
         try {
             con = DbUtil.getCon();
             if (list.size() == 1) {
@@ -55,6 +55,7 @@ public class WarehouseScrapInOut extends HttpServlet {
                 sql.append("?)");
                 sql2.append("?)");
             }
+            List<Map<String, String>> maps = new ArrayList<>();
             if ("1".equals(type)) {
                 ps = con.prepareStatement(sql.toString());
                 ps.setString(1, scrap_library);
@@ -65,12 +66,28 @@ public class WarehouseScrapInOut extends HttpServlet {
                 }
             } else {
                 ps = con.prepareStatement(sql2.toString());
-                ps.setString(1, scrap_user);
                 for (int j = 0; j < list.size(); j++) {
-                    ps.setString(j + 2, list.getString(j));
+                    ps1 = con.prepareStatement(sql5);
+                    ps1.setString(1, list.getString(j));
+                    ResultSet rs = ps1.executeQuery();
+                    while (rs.next()) {
+                        Map<String, String> map1 = new HashMap<>();
+                        map1.put("plannumber", rs.getString("plannumber"));
+                        map1.put("fangliang", rs.getString("fangliang"));
+                        maps.add(map1);
+                    }
+                    ps.setString(j + 1, list.getString(j));
                 }
             }
             int i = ps.executeUpdate();
+            if ("5".equals(type)) {
+                for (Map<String, String> map1 : maps) {
+                    ps1 = con.prepareStatement(sql4);
+                    ps1.setBigDecimal(1, new BigDecimal(map1.get("fangliang")));
+                    ps1.setString(2, map1.get("plannumber"));
+                    ps1.executeUpdate();
+                }
+            }
             String sql3 = "insert into  warehouse_info_log(warehouse_info_id,create_date,user_name,type,in_warehouse_id,out_warehouse_id,materialcode,method) values(?,now(),?,?,?,?,?,?)";
             for (int j = 0; j < list.size(); j++) {
                 ps1 = con.prepareStatement(sql3);
