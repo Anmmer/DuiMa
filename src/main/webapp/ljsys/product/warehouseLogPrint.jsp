@@ -465,7 +465,7 @@
         if (flag) {
             obj.materialcodes = JSON.stringify(materialcodes)
             obj.pageCur = 1
-            obj.pageMax = 999
+            obj.pageMax = materialcodes.length
             obj.startDate = startDate
             obj.endDate = endDate
             obj.type = type
@@ -556,19 +556,19 @@
                 "</td></tr>";
         }
         $("#printTableText").html(str);
-        setTimeout(() => {
-            let printhtml = document.getElementById("print").innerHTML;
-            $('#myModal').modal('hide')
-            let bdhtml = window.document.body.innerHTML;
-            let sprnstr = "<!--startprint-->";
-            let eprnstr = "<!--endprint-->";
-            let prnhtml = printhtml.substr(printhtml.indexOf(sprnstr) + 17);
-            prnhtml = prnhtml.substring(0, prnhtml.indexOf(eprnstr));
-            window.document.body.innerHTML = prnhtml;
-            window.print();
-            window.document.body.innerHTML = bdhtml;
-            location.reload()
-        }, 500)
+        // setTimeout(() => {
+        //     let printhtml = document.getElementById("print").innerHTML;
+        //     $('#myModal').modal('hide')
+        //     let bdhtml = window.document.body.innerHTML;
+        //     let sprnstr = "<!--startprint-->";
+        //     let eprnstr = "<!--endprint-->";
+        //     let prnhtml = printhtml.substr(printhtml.indexOf(sprnstr) + 17);
+        //     prnhtml = prnhtml.substring(0, prnhtml.indexOf(eprnstr));
+        //     window.document.body.innerHTML = prnhtml;
+        //     window.print();
+        //     window.document.body.innerHTML = bdhtml;
+        //     location.reload()
+        // }, 500)
 
     }
 

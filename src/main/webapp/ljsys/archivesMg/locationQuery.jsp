@@ -350,7 +350,7 @@
         }, function (result) {
             result = JSON.parse(result);
             let yard = result.data
-
+            console.log(yard)
             for (let o of yard) {
                 let item = $("<option value='" + o['id'] + "'>" + o['name'] + "</option>")
                 $('#myModal3_name2').append(item)
@@ -552,31 +552,7 @@
         })
     }
 
-    function getRegionData() {
-        let pid = $('#myModal_name1 option:selected').val()
-        if (pid === "") {
-            alert("请选择堆场信息")
-            $('#myModal_name').empty()
-            $('#myModal_name2').empty()
-            return
-        }
-        $.post("${pageContext.request.contextPath}/GetFactory", {
-            type: '2',
-            pid: pid,
-            pageCur: '1',
-            pageMax: '999'
-        }, function (result) {
-            result = JSON.parse(result);
-            let yard = result.data
-            $('#myModal_name2').empty()
-            $('#myModal_name2').append($("<option value=''></option>"))
-            for (let o of yard) {
-                let item = $("<option value='" + o['id'] + "'>" + o['name'] + "</option>")
-                $('#myModal_name2').append(item)
-            }
-        })
 
-    }
 
     function getLocation() {
         let pid = $('#myModal_name2 option:selected').val()
