@@ -39,7 +39,7 @@ public class AutoLogin extends HttpServlet {
         int i = 0;
         try {
             con = DbUtil.getCon();
-            String sql = "select user.user_id,user_name, gp_name from user ,user_gp ,gp where user.user_id = user_gp.user_id and user_gp.gp_id = gp.gp_id and user_wxid = ?";
+            String sql = "select user.user_id,user_name, gp_name from user ,user_gp ,gp where user.user_id = user_gp.user_id and user_gp.gp_id = gp.gp_id and user.isdelete = '1' and user_wxid = ?";
             ps = con.prepareStatement(sql);
             ps.setString(1, openid);
             ResultSet rs = ps.executeQuery();

@@ -951,4 +951,12 @@
         <servlet-name>getInitPreproduct</servlet-name>
         <url-pattern>/GetInitPreproduct</url-pattern>
     </servlet-mapping>
+    <servlet>
+        <servlet-name>getOpenid</servlet-name>
+        <servlet-class>GetOpenid</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>getOpenid</servlet-name>
+        <url-pattern>/GetOpenid</url-pattern>
+    </servlet-mapping>
 </web-app>

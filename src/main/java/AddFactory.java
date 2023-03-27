@@ -27,20 +27,23 @@ public class AddFactory extends HttpServlet {
             String sql = "insert into warehouse(id,pid,name,type,create_date,is_delete,path) values(?,?,?,?,now(),0,?)";
             String sql2 = "select count(*) as num from warehouse where is_delete = 0 and name=? and type = ?";
             String sql3 = "select path  from warehouse where is_delete = 0 and id=?";
-            ps = con.prepareStatement(sql2);
-            ps.setString(1, name);
-            ps.setString(2, type);
-            ResultSet rs = ps.executeQuery();
-            List<String> list = new ArrayList<>();
-            int num = 0;
-            while (rs.next()) {
-                num = rs.getInt("num");
-            }
-            if (num > 0) {
-                result.put("message", "录入信息已存在");
-                result.put("flag", false);
-                out.write(JSON.toJSONString(result));
-                return;
+            ResultSet rs = null;
+            if (!"3".equals(type)) {
+                ps = con.prepareStatement(sql2);
+                ps.setString(1, name);
+                ps.setString(2, type);
+                rs = ps.executeQuery();
+                List<String> list = new ArrayList<>();
+                int num = 0;
+                while (rs.next()) {
+                    num = rs.getInt("num");
+                }
+                if (num > 0) {
+                    result.put("message", "录入信息已存在");
+                    result.put("flag", false);
+                    out.write(JSON.toJSONString(result));
+                    return;
+                }
             }
             ps = con.prepareStatement(sql3);
             ps.setString(1, pid);

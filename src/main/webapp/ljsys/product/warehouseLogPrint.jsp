@@ -292,7 +292,7 @@
     }
 
     function getTableData(newPage) {
-        let type = $('#type').val();
+        let type = $('#type option:selected').text();
         let method = $('#method option:selected').text();
         let endDate = $('#endDate').val();
         let startDate = $('#startDate').val();
@@ -394,7 +394,7 @@
     });
 
     function printDataF(flag) {
-        let type = $('#type').val();
+        let type = $('#type option:selected').text();
         let endDate = $('#endDate').val();
         let startDate = $('#startDate').val();
         if (!type) {
@@ -556,19 +556,19 @@
                 "</td></tr>";
         }
         $("#printTableText").html(str);
-        // setTimeout(() => {
-        //     let printhtml = document.getElementById("print").innerHTML;
-        //     $('#myModal').modal('hide')
-        //     let bdhtml = window.document.body.innerHTML;
-        //     let sprnstr = "<!--startprint-->";
-        //     let eprnstr = "<!--endprint-->";
-        //     let prnhtml = printhtml.substr(printhtml.indexOf(sprnstr) + 17);
-        //     prnhtml = prnhtml.substring(0, prnhtml.indexOf(eprnstr));
-        //     window.document.body.innerHTML = prnhtml;
-        //     window.print();
-        //     window.document.body.innerHTML = bdhtml;
-        //     location.reload()
-        // }, 500)
+        setTimeout(() => {
+            let printhtml = document.getElementById("print").innerHTML;
+            $('#myModal').modal('hide')
+            let bdhtml = window.document.body.innerHTML;
+            let sprnstr = "<!--startprint-->";
+            let eprnstr = "<!--endprint-->";
+            let prnhtml = printhtml.substr(printhtml.indexOf(sprnstr) + 17);
+            prnhtml = prnhtml.substring(0, prnhtml.indexOf(eprnstr));
+            window.document.body.innerHTML = prnhtml;
+            window.print();
+            window.document.body.innerHTML = bdhtml;
+            location.reload()
+        }, 500)
 
     }
 
@@ -643,7 +643,7 @@
         if (location) {
             factoryName = location
         }
-        let type = $('#type').val();
+        let type = $('#type option:selected').text();
         let endDate = $('#endDate').val();
         let startDate = $('#startDate').val();
         let materialcode = $('#materialcode').val();
@@ -711,7 +711,7 @@
         if (location) {
             factoryName = location
         }
-        let type = $('#type').val();
+        let type = $('#type option:selected').text();
         let endDate = $('#endDate').val();
         let startDate = $('#startDate').val();
         let materialcode = $('#materialcode').val();
@@ -772,7 +772,7 @@
         if (location) {
             factoryName = location
         }
-        let type = $('#type').val();
+        let type = $('#type option:selected').text();
         let newPage = parseInt($('#jump_to').val())
         let materialcode = $('#materialcode').val();
         let planname = $('#planname').val();

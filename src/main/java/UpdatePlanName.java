@@ -61,7 +61,7 @@ public class UpdatePlanName extends HttpServlet {
             ps = con.prepareStatement(sql3);
             ps.setString(1, planname.trim());
             ps.setString(2, planname_old.trim());
-
+            ps.executeUpdate();
 
         } catch (Exception e) {
             e.printStackTrace();

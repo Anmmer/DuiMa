@@ -35,8 +35,8 @@ public class GetBatchNum extends HttpServlet {
         PreparedStatement ps2 = null;
         try {
             con = DbUtil.getCon();
-            String sql = "select a.user_name,a.date,a.batch_id, b.num from (select user_name,date,batch_id from batch where planname = ?) a left join (select count(*) num,batch_id from preproduct where isdelete = 0 group by batch_id) b on a.batch_id = b.batch_id  order by a.date";
-            String sql2 = "select count(*) as num from (select user_name,date,batch_id from batch where planname = ?) a left join (select count(*) num,batch_id from preproduct where isdelete = 0 group by batch_id) b on a.batch_id = b.batch_id order by a.date";
+            String sql = "select a.user_name,a.date,a.batch_id, b.num from batch a left join (select count(*) num,planname,batch_id from preproduct where isdelete = 0 group by batch_id,planname) b on a.batch_id = b.batch_id where b.planname = ? order by a.date";
+            String sql2 = "select count(*) as num from batch a left join (select count(*) num,planname,batch_id from preproduct where isdelete = 0 group by batch_id,planname) b on a.batch_id = b.batch_id where b.planname = ? order by a.date";
             sql += " limit ?,?";
             ps = con.prepareStatement(sql);
             ps.setString(1, planname);

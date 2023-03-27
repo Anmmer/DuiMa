@@ -42,23 +42,27 @@ public class UpdateInOutWarehouseMethod extends HttpServlet {
             if (resultSet.next()) {
                 nameOld = resultSet.getString("name");
             }
+            int j = 0;
             if (name != null) {
                 sql += "name = ?";
                 if (isEffective != null) {
                     sql += ", ";
                 }
+                j++;
             }
             if (isEffective != null) {
-                sql += "is_effective = ?";
+                sql += "is_effective = ? ";
+                j++;
             }
             sql += "where id = ?";
+            j++;
             ps = con.prepareStatement(sql);
-            ps.setString(1, name);
+            ps.setString(j--, id);
             if (isEffective != null) {
-                ps.setString(2, isEffective);
-                ps.setString(3, id);
-            } else {
-                ps.setString(2, id);
+                ps.setString(j--, isEffective);
+            }
+            if (name != null) {
+                ps.setString(j, name);
             }
             int i = ps.executeUpdate();
 
