@@ -28,8 +28,13 @@ public class InOutWarehouse extends HttpServlet {
         String id = request.getParameter("userId");                    // 操作人工号
         String name = request.getParameter("userName");                // 操作人名
         String method = request.getParameter("method");                // 入库方式
+        String initInWarehouse = request.getParameter("isInitInWarehouse");  //是否期初导入
+        Boolean isInitInWarehouse = false;
         // 需要返回的数据
         HashMap<String, Object> ret = new HashMap<>();
+        if (initInWarehouse != null) {
+            isInitInWarehouse = Boolean.valueOf(initInWarehouse);
+        }
         // 连接数据库查询
         Connection conn = null;
         PreparedStatement ps = null;
@@ -39,6 +44,7 @@ public class InOutWarehouse extends HttpServlet {
             String msg = "";                    // 返回的信息
             List<String> list = new ArrayList<>();
             String batch_id = UUID.randomUUID().toString().toUpperCase().replace("-", "");
+            String initSql = "update preproduct set stock_status = '1' , inspect = '1',pourmade = '1',pourmade = '1',product_delete = '0' where materialcode = ?";
             for (int i = 0; i < products.size(); i++) {
                 String productId = products.get(i);
                 String sql = "select warehouse_id from warehouse_info where materialcode = ? and is_effective = '1'";
@@ -81,6 +87,11 @@ public class InOutWarehouse extends HttpServlet {
                     ps.executeUpdate();
                 }
                 if ("1".equals(type) || "3".equals(type)) {
+                    if (isInitInWarehouse) {
+                        ps = conn.prepareStatement(initSql);
+                        ps.setString(1, productId);
+                        ps.executeUpdate();
+                    }
                     // 入库操作
                     String sql2 = "insert into  warehouse_info(create_date,materialcode,user_name,id,warehouse_id,is_effective) values(now(),?,?,?,?,'1')";
                     String sql3 = "update preproduct set stock_status = '1' where materialcode = ?";

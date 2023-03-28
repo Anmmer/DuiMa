@@ -42,7 +42,7 @@ public class WarehouseScrapInOut extends HttpServlet {
         StringBuilder sql = new StringBuilder("update preproduct set inspect = 3,stock_status = '1',scrap_library=?,scrap_remark=?,scrap_in_user = ?,scrap_in_time=date_format(now(),'%Y-%m-%d') where materialcode in (");
         StringBuilder sql2 = new StringBuilder("update preproduct set product_delete = '1' where materialcode in (");
         String sql4 = "update plan set tasknum = tasknum - 1 , tasksqure = tasksqure - ? where plannumber = ?";
-        String sql5 = "select plannumber,fangliang from preproduct where materialcode = ?";
+        String sql5 = "select plannumber,fangliang,inspect from preproduct where materialcode = ?";
         try {
             con = DbUtil.getCon();
             if (list.size() == 1) {
@@ -74,6 +74,13 @@ public class WarehouseScrapInOut extends HttpServlet {
                         Map<String, String> map1 = new HashMap<>();
                         map1.put("plannumber", rs.getString("plannumber"));
                         map1.put("fangliang", rs.getString("fangliang"));
+                        map1.put("inspect", rs.getString("inspect"));
+                        if (rs.getString("inspect") != "3") {
+                            map.put("flag", false);
+                            map.put("message", "不在报废库中，无法操作");
+                            out.write(JSON.toJSONString(map));
+                            return;
+                        }
                         maps.add(map1);
                     }
                     ps.setString(j + 1, list.getString(j));
