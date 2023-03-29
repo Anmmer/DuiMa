@@ -45,10 +45,10 @@ public class GetBuildingNoSummary extends HttpServlet {
             con = DbUtil.getCon();
             String sql = "SELECT\n" +
                     "\ta.building_no,(SELECT  concat_ws( '/',concat(count(*), '件'), concat(sum( fangliang ), '方量') ) FROM preproduct b  WHERE b.building_no = a.building_no AND b.planname = ? and b.isdelete = 0 ) building_no_sum,\n" +
-                    "\t(SELECT concat( count(*), '件/', sum( fangliang ), '方量' ) FROM preproduct b left join plan c on b.plannumber = c.plannumber WHERE b.building_no = a.building_no AND c.planname = ? AND b.pourmade = 1 and b.isdelete = 0 ) pourmade_sum,\n" +
-                    "\t(SELECT concat( count(*), '件/', sum( fangliang ), '方量' ) FROM preproduct b left join plan c on b.plannumber = c.plannumber WHERE b.building_no = a.building_no AND c.planname = ? AND b.inspect = 1 and b.isdelete = 0 ) inspect_sum,\n" +
-                    "\t(SELECT concat( count(*), '件/', sum( fangliang ), '方量' ) FROM preproduct b left join plan c on b.plannumber = c.plannumber WHERE b.building_no = a.building_no AND c.planname = ? AND b.stock_status = '1' and b.isdelete = 0 ) stock_in_sum,\n" +
-                    "\t(SELECT concat( count(*), '件/', sum( fangliang ), '方量' ) FROM preproduct b left join plan c on b.plannumber = c.plannumber WHERE b.building_no = a.building_no AND c.planname = ? AND b.stock_status = '2' and b.isdelete = 0 ) stock_out_sum \n" +
+                    "\t(SELECT concat( count(*), '件/', sum( fangliang ), '方量' ) FROM preproduct c  WHERE c.building_no = a.building_no AND c.planname = ? AND c.pourmade = 1 and c.isdelete = 0 ) pourmade_sum,\n" +
+                    "\t(SELECT concat( count(*), '件/', sum( fangliang ), '方量' ) FROM preproduct c  WHERE c.building_no = a.building_no AND c.planname = ? AND c.inspect = 1 and c.isdelete = 0 ) inspect_sum,\n" +
+                    "\t(SELECT concat( count(*), '件/', sum( fangliang ), '方量' ) FROM preproduct c  WHERE c.building_no = a.building_no AND c.planname = ? AND c.stock_status = '1' and c.isdelete = 0 ) stock_in_sum,\n" +
+                    "\t(SELECT concat( count(*), '件/', sum( fangliang ), '方量' ) FROM preproduct c  WHERE c.building_no = a.building_no AND c.planname = ? AND c.stock_status = '2' and c.isdelete = 0 ) stock_out_sum \n" +
                     "FROM\n" +
                     "( SELECT building_no FROM preproduct b WHERE b.planname = ? and b.isdelete = 0  GROUP BY building_no ) a";
             String sql2 = "select count(*) as num from (SELECT building_no FROM preproduct a WHERE a.planname = ? and a.isdelete = 0 ";

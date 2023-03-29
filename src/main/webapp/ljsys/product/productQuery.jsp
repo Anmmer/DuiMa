@@ -247,10 +247,10 @@
                     state = '报废入库'
                     style = "style='background-color: red;'"
                 }
-                if (pop_pageDate[i]['pourmade'] === 1 && pop_pageDate[i]['inspect'] === 4) {
-                    state = '报废出库'
-                    style = "style='background-color: red;'"
-                }
+                // if (pop_pageDate[i]['pourmade'] === 1 && pop_pageDate[i]['inspect'] === 4) {
+                //     state = '报废出库'
+                //     style = "style='background-color: red;'"
+                // }
                 if (on_or_off == '1') {
                     if (pop_pageDate[i]['covert_test'] === 1 && pop_pageDate[i]['inspect'] === 0 && pop_pageDate[i]['pourmade'] === 0) {
                         state = '待浇捣'

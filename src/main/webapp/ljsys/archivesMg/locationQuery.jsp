@@ -628,7 +628,7 @@
         jQuery('#qrcode').qrcode({
             // new QRCode(document.getElementById("qrcode_" + idx), {
             render: "canvas",
-            text: 'https://mes.ljzggroup.com/DuiMaTest/ToView?warehouseId=' + id + '&id=2',
+            text: 'https://mes.ljzggroup.com/DuiMaNew/ToView?warehouseId=' + id + '&id=2',
             width: 100,
             height: 100,
             colorDark: "#000000",

@@ -287,6 +287,10 @@
                     let item = $("<option value='" + o['id'] + "'>" + o['name'] + "</option>")
                     $('#method').append(item)
                 }
+                if (type === "1") {
+                    $('#method').append($("<option value='报废入库'>报废入库</option>"))
+                    $('#method').append($("<option value='修补入库'>修补入库</option>"))
+                }
             }
         })
     }
@@ -644,6 +648,7 @@
             factoryName = location
         }
         let type = $('#type').val();
+        let method = $('#method option:selected').text();
         let endDate = $('#endDate').val();
         let startDate = $('#startDate').val();
         let materialcode = $('#materialcode').val();
@@ -657,6 +662,7 @@
             planname: planname,
             building_no: building_no,
             floor_no: floor_no,
+            method: method,
             drawing_no: drawing_no,
             type: type,
             startDate: startDate,
@@ -712,6 +718,7 @@
             factoryName = location
         }
         let type = $('#type').val();
+        let method = $('#method option:selected').text();
         let endDate = $('#endDate').val();
         let startDate = $('#startDate').val();
         let materialcode = $('#materialcode').val();
@@ -727,6 +734,7 @@
             floor_no: floor_no,
             drawing_no: drawing_no,
             type: type,
+            method: method,
             startDate: startDate,
             endDate: endDate,
             pageCur: newPage,

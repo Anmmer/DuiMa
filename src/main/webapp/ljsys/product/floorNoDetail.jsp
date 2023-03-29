@@ -364,12 +364,27 @@
         let str = '';
         for (let i = 0; i < jsonObj.length; i++) {
             let state = '待浇捣'
-            if (jsonObj[i].pourmade === "1") {
-                state = "已浇捣"
+            if (jsonObj[i]['pourmade'] === 0 && jsonObj[i]['inspect'] === 0) {
+                state = '待浇捣'
+                style = "style='background-color: grey;'"
             }
-            if (jsonObj[i].inspect === "1") {
-                state = "已质检"
+            if (jsonObj[i]['pourmade'] === 1 && jsonObj[i]['inspect'] === 0) {
+                state = '待质检'
+                style = "style='background-color: #f78f00;'"
             }
+            if (jsonObj[i]['pourmade'] === 1 && jsonObj[i]['inspect'] === 1) {
+                state = '成品检验合格'
+                style = "style='background-color: green;'"
+            }
+            if (jsonObj[i]['pourmade'] === 1 && jsonObj[i]['inspect'] === 2) {
+                state = '成品检验不合格'
+                style = "style='background-color: red;'"
+            }
+            if (jsonObj[i]['pourmade'] === 1 && jsonObj[i]['inspect'] === 3) {
+                state = '报废入库'
+                style = "style='background-color: red;'"
+            }
+
             if (jsonObj[i].stock_status === "1") {
                 state = "已入库"
             }
