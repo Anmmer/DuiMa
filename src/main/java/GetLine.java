@@ -43,7 +43,7 @@ public class GetLine extends HttpServlet {
         int j = 0;
         try {
             con = DbUtil.getCon();
-            String sql = "select line,id from line where isdelete = 0";
+            String sql = "select line,liner,id from line where isdelete = 0";
             String sql2 = "select count(*) as num from line where isdelete = 0";
             if (id != null && !"".equals(id)) {
                 sql += " and id = ?";
@@ -90,6 +90,7 @@ public class GetLine extends HttpServlet {
             while (rs.next()) {
                 Map<String, Object> map = new HashMap<>();
                 map.put("line", rs.getString("line"));
+                map.put("liner", rs.getString("liner"));
                 map.put("id", rs.getString("id"));
                 list.add(map);
             }

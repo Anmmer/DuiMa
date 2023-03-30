@@ -25,6 +25,7 @@
                 <td class='tdStyle_title active' style="width: 10%">构建类型</td>
                 <td class='tdStyle_title active' style="width: 10%">楼栋号</td>
                 <td class='table_tr_print tdStyle_title active' style="width: 10%">楼层号</td>
+                <td class='table_tr_print tdStyle_title active' style="width: 10%">方量</td>
             </tr>
             <tbody id="detailTableText">
             </tbody>
@@ -149,6 +150,7 @@
                 "</td><td class='tdStyle_body' style='padding: 5px;' title='" + pop_pageDate[i]['build_type'] + "'>" + pop_pageDate[i]['build_type'] +
                 "</td><td class='tdStyle_body' style='padding: 5px;' title='" + pop_pageDate[i]['building_no'] + "'>" + pop_pageDate[i]['building_no'] +
                 "</td><td class='tdStyle_body' style='padding: 5px;' title='" + pop_pageDate[i]['floor_no'] + "'>" + pop_pageDate[i]['floor_no'] +
+                "</td><td class='tdStyle_body' style='padding: 5px;' title='" + pop_pageDate[i]['fangliang'] + "'>" + pop_pageDate[i]['fangliang'] +
                 "</td></tr>";
 
         }

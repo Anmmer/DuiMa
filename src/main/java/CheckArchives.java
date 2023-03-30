@@ -35,9 +35,10 @@ public class CheckArchives extends HttpServlet {
             con = DbUtil.getCon();
             String sql = "select count(1) num from planname where planname = ? and isdelete = 0";
             String sql2 = "select count(1) num from line where line = ? and isdelete = 0";
+            String sql4 = "select liner from line where line = ? and isdelete = 0";
             String sql3 = "select count(1) num from plant where plant = ? and isdelete = 0";
             ps = con.prepareStatement(sql);
-            ps.setString(1, planname);
+            ps.setString(1, planname.trim());
             rs = ps.executeQuery();
             while (rs.next()) {
                 int i = rs.getInt("num");
@@ -49,7 +50,7 @@ public class CheckArchives extends HttpServlet {
                 }
             }
             ps = con.prepareStatement(sql2);
-            ps.setString(1, line);
+            ps.setString(1, line.trim());
             rs = ps.executeQuery();
             while (rs.next()) {
                 int i = rs.getInt("num");
@@ -61,7 +62,7 @@ public class CheckArchives extends HttpServlet {
                 }
             }
             ps = con.prepareStatement(sql3);
-            ps.setString(1, plant);
+            ps.setString(1, plant.trim());
             rs = ps.executeQuery();
             while (rs.next()) {
                 int i = rs.getInt("num");
@@ -71,6 +72,24 @@ public class CheckArchives extends HttpServlet {
                     out.write(JSON.toJSONString(result));
                     return;
                 }
+            }
+            ps = con.prepareStatement(sql4);
+            ps.setString(1, line.trim());
+            rs = ps.executeQuery();
+            if (rs.next()) {
+                String liner = rs.getString("liner");
+                if (liner == null || "".equals(liner)) {
+                    result.put("message", "改产线尚未录入线长");
+                    result.put("flag", false);
+                    out.write(JSON.toJSONString(result));
+                    return;
+                }
+                result.put("liner", liner);
+            } else {
+                result.put("message", "改产线尚未录入线长");
+                result.put("flag", false);
+                out.write(JSON.toJSONString(result));
+                return;
             }
             result.put("flag", true);
             out.write(JSON.toJSONString(result));

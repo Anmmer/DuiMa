@@ -309,10 +309,10 @@
             alert("请选择类型")
             return
         }
-        if (!startDate || !endDate) {
-            alert("请选择操作日期")
-            return
-        }
+        // if (!startDate || !endDate) {
+        //     alert("请选择操作日期")
+        //     return
+        // }
         let myModal_name1 = $("#myModal_name1 option:selected").val()
         let myModal_name2 = $("#myModal_name2 option:selected").val()
         let location = $("#location option:selected").val()

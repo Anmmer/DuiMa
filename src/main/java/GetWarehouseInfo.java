@@ -21,6 +21,7 @@ public class GetWarehouseInfo extends HttpServlet {
         String name = request.getParameter("factoryName");
         String planname = request.getParameter("planname");
         String floor_no = request.getParameter("floor_no");
+        String preproductid = request.getParameter("preproductid");
         String building_no = request.getParameter("building_no");
         String materialcode = request.getParameter("materialcode");
         String build_type = request.getParameter("build_type");
@@ -39,7 +40,7 @@ public class GetWarehouseInfo extends HttpServlet {
             conn = DbUtil.getCon();
             int i = 0;
             int j = 0;
-            StringBuilder sql = new StringBuilder("select warehouse_info.materialcode,preproduct.materialname,build_type,planname,floor_no,building_no,drawing_no,path from warehouse, warehouse_info,preproduct where warehouse_info.warehouse_id = warehouse.id and warehouse_info.materialcode = preproduct.materialcode  and warehouse_info.is_effective = '1'");
+            StringBuilder sql = new StringBuilder("select warehouse_info.materialcode,preproduct.materialname,build_type,planname,floor_no,building_no,drawing_no,path,preproductid,fangliang from warehouse, warehouse_info,preproduct where warehouse_info.warehouse_id = warehouse.id and warehouse_info.materialcode = preproduct.materialcode  and warehouse_info.is_effective = '1'");
             StringBuilder sql2 = new StringBuilder("select count(*) as num from warehouse, warehouse_info,preproduct where warehouse_info.warehouse_id = warehouse.id and warehouse_info.materialcode = preproduct.materialcode  and warehouse_info.is_effective = '1'");
             if (name != null && !"".equals(name)) {
                 sql.append(" and warehouse.id in (with recursive temp as (\n" +
@@ -89,6 +90,11 @@ public class GetWarehouseInfo extends HttpServlet {
                 sql2.append(" and warehouse.id= ?");
                 i++;
             }
+            if (preproductid != null && !"".equals(preproductid)) {
+                sql.append(" and preproduct.preproductid like ?");
+                sql2.append(" and preproduct.preproductid like ?");
+                i++;
+            }
             j = i;
             sql.append(" limit ?,?");
             i += 2;
@@ -96,6 +102,9 @@ public class GetWarehouseInfo extends HttpServlet {
             ps = conn.prepareStatement(sql.toString());
             ps.setInt(i--, pageMax);
             ps.setInt(i--, (pageCur - 1) * pageMax);
+            if (preproductid != null && !"".equals(preproductid)) {
+                ps.setString(i--, "%" + preproductid.trim() + "%");
+            }
             if (id != null && !"".equals(id)) {
                 ps.setString(i--, id);
             }
@@ -131,10 +140,15 @@ public class GetWarehouseInfo extends HttpServlet {
                 insertmap.put("build_type", rs.getString("build_type"));
                 insertmap.put("drawing_no", rs.getString("drawing_no"));
                 insertmap.put("path", rs.getString("path"));
+                insertmap.put("preproductid", rs.getString("preproductid"));
+                insertmap.put("fangliang", rs.getString("fangliang"));
                 maptmp.add(insertmap);
             }
             data.put("warehouseInfo", maptmp);
             ps = conn.prepareStatement(sql2.toString());
+            if (preproductid != null && !"".equals(preproductid)) {
+                ps.setString(j--, "%" + preproductid.trim() + "%");
+            }
             if (id != null && !"".equals(id)) {
                 ps.setString(j--, id);
             }

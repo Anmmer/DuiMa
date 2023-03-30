@@ -391,7 +391,7 @@
             </li>
             <li id="factory_query_li">
                 <button class="li_ItemStyle" id="factory_query" onclick="jumpTo('factoryQueryAll.jsp','factory_query')">
-                    <span style="margin-left: 15%;margin-right: 5%;" class="glyphicon glyphicon-grain"></span>堆场查询
+                    <span style="margin-left: 15%;margin-right: 5%;" class="glyphicon glyphicon-grain"></span>库存查询
                 </button>
             </li>
             <li id="patch_library_query_li">
@@ -457,13 +457,13 @@
             <li id="build_upload_li">
                 <button class="li_ItemStyle" id="build_upload"
                         onclick="jumpTo('archivesBuildUpload.jsp','build_upload')"><span
-                        style="margin-left: 15%;margin-right: 5%;" class="glyphicon glyphicon-grain"></span>构件上传
+                        style="margin-left: 15%;margin-right: 5%;" class="glyphicon glyphicon-grain"></span>BOM构件上传
                 </button>
             </li>
             <li id="build_query_li">
                 <button class="li_ItemStyle" id="build_query"
                         onclick="jumpTo('archivesBuildQuery.jsp','build_query')"><span
-                        style="margin-left: 15%;margin-right: 5%;" class="glyphicon glyphicon-grain"></span>构件查询
+                        style="margin-left: 15%;margin-right: 5%;" class="glyphicon glyphicon-grain"></span>BOM构件查询
                 </button>
             </li>
             <li id="production_summary_li">

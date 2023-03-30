@@ -32,16 +32,18 @@ public class AddLine extends HttpServlet {
         resp.setContentType("text/html;charset=UTF-8");
         PrintWriter out = resp.getWriter();
         String line = req.getParameter("line");
+        String liner = req.getParameter("liner");
         Map<String, Object> result = new HashMap<>();
         Connection con = null;
         PreparedStatement ps = null;
         PreparedStatement ps2 = null;
         try {
             con = DbUtil.getCon();
-            String sql = "insert into line(line,isdelete) values(?,0)";
+            String sql = "insert into line(line,liner,isdelete) values(?,?,0)";
             String sql2 = "select line from line where isdelete = 0";
             ps = con.prepareStatement(sql);
             ps.setString(1, line);
+            ps.setString(2, liner);
             ps2 = con.prepareStatement(sql2);
             ResultSet rs = ps2.executeQuery();
             List<String> list = new ArrayList<>();

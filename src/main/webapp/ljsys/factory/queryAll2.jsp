@@ -14,7 +14,7 @@
     }
 </script>
 <div style="height: 100%;width:100%;background-color:white;">
-    <form name="query" class="form-inline" style="width:89%;height:16%;margin-left: 8%;padding-top:2%">
+    <form name="query" class="form-inline" style="width:95%;height:16%;margin-left: 5%;padding-top:2%">
         <div class="form-group" style="width: 20%;">
             <label>堆场信息：</label>
             <input style="height:10%;width: 68%" name="factoryName"
@@ -43,15 +43,19 @@
                                        style="height:10%;width: 68%" class="form-control">
         </div>
         <div class="form-group" style="margin-left:3%;width: 20%">
+            <label>构件编号：</label><input type="text" id="preproductid"
+                                       style="height:10%;width: 68%" class="form-control">
+        </div>
+        <div class="form-group" style="margin-left:3%;width: 20%">
             <label>图号：</label><input type="text" id="drawing_no"
                                      style="height:10%;width: 68%" class="form-control">
         </div>
-        <button type="button" class="btn btn-primary btn-sm" style="margin-left: 5%"
+        <button type="button" class="btn btn-primary btn-sm"
                 onclick="getTableData(1)">
             查 询
         </button>
     </form>
-    <div style="width:85%;height:78%;margin:0 auto;">
+    <div style="width:90%;height:78%;margin:0 auto;">
         <div class="page-header" style="margin-top: 0;margin-bottom: 1%">
             <h3 style="margin-bottom: 0;margin-top: 0"><small>仓库信息</small></h3>
             <%--            <button type="button" style="position: absolute;right: 15%;top:15%" class="btn btn-primary btn-sm"--%>
@@ -63,12 +67,14 @@
         <div style="height: 85%">
             <table class="table table-hover" cellspacing="0" cellpadding="0" align="center">
                 <tr>
-                    <td class='tdStyle_title  active' style="width: 100px">物料编码</td>
+                    <td class='tdStyle_title  active' style="width: 150px">物料编码</td>
                     <td class='tdStyle_title active' style="width: 150px">构件名称</td>
-                    <td class='tdStyle_title active' style="width: 50px">构件类型</td>
+                    <td class='tdStyle_title active' style="width: 150px">构件编号</td>
+                    <td class='tdStyle_title active' style="width: 100px">构件类型</td>
                     <td class='tdStyle_title active' style="width: 100px">所属项目</td>
                     <td class='tdStyle_title active' style="width: 50px">楼栋</td>
                     <td class='tdStyle_title active' style="width: 50px">楼层</td>
+                    <td class='tdStyle_title active' style="width: 80px">方量</td>
                     <td class='tdStyle_title active' style="width: 100px">图号</td>
                     <%--                    <td class='tdStyle_title active' style="width: 10%">方量</td>--%>
                     <td class='tdStyle_title active' style="width: 150px">库位</td>
@@ -249,9 +255,11 @@
         let materialcode = $('#materialcode').val();
         let build_type = $('#build_type').val();
         let drawing_no = $('#drawing_no').val();
+        let preproductid = $('#preproductid').val();
         let obj = {
             factoryName: factoryName,
             planname: planname,
+            preproductid: preproductid,
             building_no: building_no,
             floor_no: floor_no,
             materialcode: materialcode,
@@ -310,10 +318,12 @@
         for (let i = 0; i < jsonObj.length; i++) {
             str += "<tr><td class='tdStyle_body' title='" + jsonObj[i]['materialcode'] + "'>" + jsonObj[i]['materialcode'] +
                 "</td><td class='tdStyle_body' title='" + jsonObj[i]['materialname'] + "'>" + jsonObj[i]['materialname'] +
+                "</td><td class='tdStyle_body' title='" + jsonObj[i]['preproductid'] + "'>" + jsonObj[i]['preproductid'] +
                 "</td><td class='tdStyle_body' title='" + jsonObj[i]['build_type'] + "'>" + jsonObj[i]['build_type'] +
                 "</td><td class='tdStyle_body' title='" + jsonObj[i]['planname'] + "'>" + jsonObj[i]['planname'] +
                 "</td><td class='tdStyle_body' title='" + jsonObj[i]['building_no'] + "'>" + jsonObj[i]['building_no'] +
                 "</td><td class='tdStyle_body' title='" + jsonObj[i]['floor_no'] + "'>" + jsonObj[i]['floor_no'] +
+                "</td><td class='tdStyle_body' title='" + jsonObj[i]['fangliang'] + "'>" + jsonObj[i]['fangliang'] +
                 "</td><td class='tdStyle_body' title='" + jsonObj[i]['drawing_no'] + "'>" + jsonObj[i]['drawing_no'] +
                 "</td><td class='tdStyle_body' title='" + jsonObj[i]['path'] + "'>" + jsonObj[i]['path'] +
                 "</td></tr>";
@@ -359,9 +369,11 @@
         let materialcode = $('#materialcode').val();
         let build_type = $('#build_type').val();
         let drawing_no = $('#drawing_no').val();
+        let preproductid = $('#preproductid').val();
         let obj = {
             factoryName: factoryName,
             planname: planname,
+            preproductid: preproductid,
             building_no: building_no,
             floor_no: floor_no,
             materialcode: materialcode,
@@ -423,9 +435,11 @@
         let materialcode = $('#materialcode').val();
         let build_type = $('#build_type').val();
         let drawing_no = $('#drawing_no').val();
+        let preproductid = $('#preproductid').val();
         let obj = {
             factoryName: factoryName,
             planname: planname,
+            preproductid: preproductid,
             building_no: building_no,
             floor_no: floor_no,
             materialcode: materialcode,
@@ -481,9 +495,11 @@
         let materialcode = $('#materialcode').val();
         let build_type = $('#build_type').val();
         let drawing_no = $('#drawing_no').val();
+        let preproductid = $('#preproductid').val();
         let obj = {
             factoryName: factoryName,
             planname: planname,
+            preproductid: preproductid,
             building_no: building_no,
             floor_no: floor_no,
             materialcode: materialcode,

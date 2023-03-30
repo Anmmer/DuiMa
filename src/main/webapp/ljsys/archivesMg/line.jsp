@@ -3,7 +3,7 @@
     <form name="query" class="form-inline" style="width:70%;height:10%;margin-left: 14%;padding-top:2%">
         <div class="form-group">
             <label>产线名称：</label><input type="text" name="query_line" id="query_line"
-                                     style="" class="form-control">
+                                       style="" class="form-control">
         </div>
         <button type="button" class="btn btn-primary btn-sm" style="margin-left: 5%"
                 onclick="getTableData(1)">
@@ -24,6 +24,7 @@
             <table class="table table-hover" style="text-align: center">
                 <tr>
                     <td class="tdStyle_title active" style="width: 35%">产线信息</td>
+                    <td class="tdStyle_title active" style="width: 35%">线长</td>
                     <td class="tdStyle_title active" style="width: 30%;text-align: center">操作</td>
                 </tr>
                 <tbody id="archTableText">
@@ -74,7 +75,11 @@
                             <label for="pop_line" style="width: 28%;text-align: left;padding-right: 0"
                                    class="col-sm-2 control-label">产线信息:</label>
                             <input type="text" class="form-control" style="width:50%;" id="pop_line"
-                                   name="newGroupName">
+                                   name="pop_line"><br>
+                            <label for="pop_liner" style="width: 28%;text-align: left;padding-right: 0"
+                                   class="col-sm-2 control-label">线长:</label>
+                            <input type="text" class="form-control" style="width:50%;" id="pop_liner"
+                                   name="pop_liner">
                         </div>
                     </div>
                 </div>
@@ -125,12 +130,12 @@
     }
 
     //打开修改弹窗
-    function openEditPop(id, line) {
+    function openEditPop(id, line, liner) {
         queryData(id);
         $('#myModal').modal('show')
         $("#title1").hide();
         $("#title2").show();
-        $("#save").attr('onclick', "edit('" + id + "','" + line + "')");
+        $("#save").attr('onclick', "edit('" + id + "','" + line + "','" + liner + "')");
     }
 
     //关闭弹窗
@@ -141,6 +146,7 @@
 
     $('#myModal').on('hidden.bs.modal', function (e) {
         $('#pop_line').val('');
+        $('#pop_liner').val('');
     })
 
     //重置弹窗
@@ -202,7 +208,8 @@
         let str = '';
         for (let i = 0; i < jsonObj.length; i++) {
             str += "<tr><td class='tdStyle_body'>" + jsonObj[i]['line'] +
-                "</td><td class='tdStyle_body'><a href='#' onclick=openEditPop('" + jsonObj[i]['id'] + "','" + jsonObj[i]['line'] + "')>修改</a> <a href='#' onclick=delTableData('" + jsonObj[i]['id'] + "','" + jsonObj[i]['line'] + "')>删除</a></td></tr>";
+                "</td><td class='tdStyle_body'>" + (jsonObj[i]['liner'] ? jsonObj[i]['liner'] : '') +
+                "</td><td class='tdStyle_body'><a href='#' onclick=openEditPop('" + jsonObj[i]['id'] + "','" + jsonObj[i]['line'] + "','" + jsonObj[i]['liner'] + "')>修改</a> <a href='#' onclick=delTableData('" + jsonObj[i]['id'] + "','" + jsonObj[i]['line'] + "')>删除</a></td></tr>";
         }
         $("#archTableText").html(str);
     }
@@ -222,6 +229,7 @@
             success: function (res) {
                 if (res.data.length !== 0) {
                     $('#pop_line').val(res.data[0].line);
+                    $('#pop_liner').val(res.data[0].liner);
                 }
             },
             error: function () {
@@ -249,9 +257,14 @@
     function save() {
         let obj = {
             line: $('#pop_line').val(),
+            liner: $('#pop_liner').val(),
         }
         if (obj.line === '') {
-            alert("请输入！");
+            alert("请输入产线信息！");
+            return;
+        }
+        if (obj.liner === '') {
+            alert("请输入线长信息！");
             return;
         }
         $.post("${pageContext.request.contextPath}/AddLine", obj, function (result) {
@@ -267,14 +280,16 @@
     function edit(id, line) {
         let obj = {
             line: $('#pop_line').val(),
+            liner: $('#pop_liner').val(),
             id: id,
             line_old: line
         }
         if (obj.line === '') {
-            alert("请输入！");
+            alert("请输入产线！");
             return;
         }
-        if ($('#pop_line').val() == line) {
+        if (obj.liner === '') {
+            alert("请输入线长信息！");
             return;
         }
 

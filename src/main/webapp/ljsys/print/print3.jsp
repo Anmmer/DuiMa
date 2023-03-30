@@ -1163,6 +1163,7 @@
                         alert(result.message)
                         return
                     } else {
+                        excelData.plan.liner = result.liner
                         $.post("${pageContext.request.contextPath}/GetPreProductMaterialcode", {
                             materialcodes: JSON.stringify(excelData.preProduct.map((val) => {
                                 return val.materialcode

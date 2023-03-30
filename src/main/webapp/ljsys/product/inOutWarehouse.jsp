@@ -28,6 +28,10 @@
             <label>图号：</label><input type="text" id="drawing_no"
                                      style="height:34%;width: 68%" class="form-control">
         </div>
+        <div class="form-group" style="margin-left:3%;width: 20%">
+            <label>构建编号：</label><input type="text" id="preproductid"
+                                       style="height:34%;width: 68%" class="form-control">
+        </div>
         <button type="button" class="btn btn-primary btn-sm" style="margin-left: 5%"
                 onclick="getTableData(1)">
             查 询
@@ -53,6 +57,8 @@
                             type="checkbox"></td>
                     <td class='tdStyle_title  active' style="width: 10%">物料编码</td>
                     <td class='tdStyle_title active' style="width: 10%">构件名称</td>
+                    <td class='tdStyle_title active' style="width: 10%">构件编号</td>
+                    <td class='tdStyle_title active' style="width: 10%">方量</td>
                     <td class='tdStyle_title active' style="width: 10%">构件类型</td>
                     <td class='tdStyle_title active' style="width: 10%">所属项目</td>
                     <td class='tdStyle_title active' style="width: 10%">楼栋</td>
@@ -484,19 +490,34 @@
         }
 
         function getTableData(newPage) {
-            let location = $('#location').val();
-            if (location === null) {
-                alert("请选择堆场货位信息")
-                return
+            let location = $('#location option:selected').val();
+            let name = null;
+            let myModal_name1 = $('#myModal_name1 option:selected').val()
+            let myModal_name2 = $('#myModal_name2 option:selected').val()
+            if (myModal_name1) {
+                name = myModal_name1
             }
+            if (myModal_name2) {
+                name = myModal_name2
+            }
+            if (location) {
+                name = location
+            }
+
+            // if (location === null) {
+            //     alert("请选择堆场货位信息")
+            //     return
+            // }
             let planname = $('#planname').val();
+            let preproductid = $('#preproductid').val();
             let building_no = $('#building_no').val();
             let floor_no = $('#floor_no').val();
             let materialcode = $('#materialcode').val();
             let drawing_no = $('#drawing_no').val();
             let obj = {
-                id: location,
+                factoryName: name,
                 planname: planname,
+                preproductid: preproductid,
                 building_no: building_no,
                 floor_no: floor_no,
                 materialcode: materialcode,
@@ -616,6 +637,8 @@
                     str += "<tr><td class='tdStyle_body' style='padding: 5px;'><input type='checkbox' data-id=" + jsonObj[i]["materialcode"] + ">" +
                         "</td><td class='tdStyle_body' title='" + jsonObj[i]['materialcode'] + "'>" + jsonObj[i]['materialcode'] +
                         "</td><td class='tdStyle_body' title='" + jsonObj[i]['materialname'] + "'>" + jsonObj[i]['materialname'] +
+                        "</td><td class='tdStyle_body' title='" + jsonObj[i]['preproductid'] + "'>" + jsonObj[i]['preproductid'] +
+                        "</td><td class='tdStyle_body' title='" + jsonObj[i]['fangliang'] + "'>" + jsonObj[i]['fangliang'] +
                         "</td><td class='tdStyle_body' title='" + jsonObj[i]['build_type'] + "'>" + jsonObj[i]['build_type'] +
                         "</td><td class='tdStyle_body' title='" + jsonObj[i]['planname'] + "'>" + jsonObj[i]['planname'] +
                         "</td><td class='tdStyle_body' title='" + jsonObj[i]['building_no'] + "'>" + jsonObj[i]['building_no'] +
@@ -828,14 +851,28 @@
                     newPage = pageCur + 1;
                 }
             }
-            let location = $('#location').val();
+            let location = $('#location option:selected').val();
+            let name = null;
+            let myModal_name1 = $('#myModal_name1 option:selected').val()
+            let myModal_name2 = $('#myModal_name2 option:selected').val()
+            if (myModal_name1) {
+                name = myModal_name1
+            }
+            if (myModal_name2) {
+                name = myModal_name2
+            }
+            if (location) {
+                name = location
+            }
             let planname = $('#planname').val();
+            let preproductid = $('#preproductid').val();
             let building_no = $('#building_no').val();
             let floor_no = $('#floor_no').val();
             let materialcode = $('#materialcode').val();
             let drawing_no = $('#drawing_no').val();
             let obj = {
-                id: location,
+                factoryName: name,
+                preproductid: preproductid,
                 planname: planname,
                 building_no: building_no,
                 floor_no: floor_no,
@@ -878,15 +915,29 @@
         }
 
         function jumpToNewPage1(newPage) {
-            let location = $('#location').val();
+            let location = $('#location option:selected').val();
+            let name = null;
+            let myModal_name1 = $('#myModal_name1 option:selected').val()
+            let myModal_name2 = $('#myModal_name2 option:selected').val()
+            let preproductid = $('#preproductid').val();
+            if (myModal_name1) {
+                name = myModal_name1
+            }
+            if (myModal_name2) {
+                name = myModal_name2
+            }
+            if (location) {
+                name = location
+            }
             let planname = $('#planname').val();
             let building_no = $('#building_no').val();
             let floor_no = $('#floor_no').val();
             let materialcode = $('#materialcode').val();
             let drawing_no = $('#drawing_no').val();
             let obj = {
-                id: location,
+                factoryName: name,
                 planname: planname,
+                preproductid: preproductid,
                 building_no: building_no,
                 floor_no: floor_no,
                 materialcode: materialcode,
@@ -928,14 +979,28 @@
                 alert("超过最大页数")
                 return
             }
-            let location = $('#location').val();
             let planname = $('#planname').val();
             let building_no = $('#building_no').val();
             let floor_no = $('#floor_no').val();
             let materialcode = $('#materialcode').val();
             let drawing_no = $('#drawing_no').val();
+            let location = $('#location option:selected').val();
+            let name = null;
+            let myModal_name1 = $('#myModal_name1 option:selected').val()
+            let myModal_name2 = $('#myModal_name2 option:selected').val()
+            if (myModal_name1) {
+                name = myModal_name1
+            }
+            if (myModal_name2) {
+                name = myModal_name2
+            }
+            if (location) {
+                name = location
+            }
+            let preproductid = $('#preproductid').val();
             let obj = {
-                id: location,
+                factoryName: name,
+                preproductid: preproductid,
                 planname: planname,
                 building_no: building_no,
                 floor_no: floor_no,

@@ -30,21 +30,23 @@ public class UpdateLine extends HttpServlet {
         PrintWriter out = resp.getWriter();
         String id = req.getParameter("id");
         String line = req.getParameter("line");
+        String liner = req.getParameter("liner");
         String line_old = req.getParameter("line_old");
         Map<String, Object> result = new HashMap<>();
         Connection con = null;
         PreparedStatement ps = null;
         try {
             con = DbUtil.getCon();
-            String sql = "update line set line = ? where id = ? and isdelete = 0";
+            String sql = "update line set line = ?,liner = ? where id = ? and isdelete = 0";
             String sql2 = "update plan set line = ? where line = ? and isdelete = 0";
             ps = con.prepareStatement(sql);
             ps.setString(1, line.trim());
-            ps.setInt(2, Integer.parseInt(id));
+            ps.setString(2, liner.trim());
+            ps.setInt(3, Integer.parseInt(id));
             int i = ps.executeUpdate();
             ps = con.prepareStatement(sql2);
-            ps.setString(1,line.trim());
-            ps.setString(2,line_old.trim());
+            ps.setString(1, line.trim());
+            ps.setString(2, line_old.trim());
             ps.executeUpdate();
             if (i > 0) {
                 result.put("message", "修改成功");
@@ -63,7 +65,7 @@ public class UpdateLine extends HttpServlet {
             try {
                 if (con != null)
                     con.close();
-                if (ps!=null)
+                if (ps != null)
                     ps.close();
             } catch (SQLException throwables) {
                 throwables.printStackTrace();
