@@ -1,19 +1,19 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <div style="height: 100%;width: 100%">
-    <form name="query" class="form-inline" style="width:80%;height:10%;margin-left: 10%;padding-top:2%">
+    <form name="query" class="form-inline" style="width:70%;height:10%;margin-left: 14%;padding-top:2%">
         <div class="form-group">
-            <label>项目名称：</label><input type="text" name="query_planname" id="query_planname"
-                                       style="" class="form-control">
+            <label>现场联系人：</label><input type="text" name="query_name" id="query_name"
+                                        style="" class="form-control">
         </div>
         <button type="button" class="btn btn-primary btn-sm" style="margin-left: 5%"
                 onclick="getTableData(1)">
             查 询
         </button>
     </form>
-    <div style="width:80%;height:80%;margin:0 auto;">
+    <div style="width:70%;height:80%;margin:0 auto;">
         <div class="page-header" style="margin-top: 0;margin-bottom: 1%">
-            <h3 style="margin-bottom: 0;margin-top: 0"><small>项目信息</small></h3>
-            <button type="button" style="position: absolute;right: 15%;top:10%" class="btn btn-primary btn-sm"
+            <h3 style="margin-bottom: 0;margin-top: 0"><small>现场联系人信息</small></h3>
+            <button type="button" style="position: absolute;right: 15%;top:11%" class="btn btn-primary btn-sm"
                     data-toggle="modal"
                     onclick="openAddPop()">
                 新 增
@@ -23,13 +23,9 @@
         <div style="height: 85%">
             <table class="table table-hover" style="text-align: center">
                 <tr>
-                    <td class="tdStyle_title active" style="width: 16%">项目信息</td>
-                    <td class="tdStyle_title active" style="width: 16%">客户名称</td>
-                    <td class="tdStyle_title active" style="width: 16%">现场联系人</td>
-                    <td class="tdStyle_title active" style="width: 16%">送货地址</td>
-                    <td class="tdStyle_title active" style="width: 16%">收料员</td>
-                    <td class="tdStyle_title active" style="width: 10%">每方钢筋用量(kg)</td>
-                    <td class="tdStyle_title active" style="width: 16%;text-align: center">操作</td>
+                    <td class="tdStyle_title active" style="width: 35%">现场联系人姓名</td>
+                    <td class="tdStyle_title active" style="width: 35%">手机号</td>
+                    <td class="tdStyle_title active" style="width: 30%;text-align: center">操作</td>
                 </tr>
                 <tbody id="archTableText">
                 </tbody>
@@ -61,82 +57,34 @@
             </ul>
         </nav>
         <!-- Modal -->
-        <div class="modal fade" id="myModal" tabindex="1" style="position: absolute;left: 15%;top: 12%;" role="dialog"
+        <div class="modal fade" id="myModal" tabindex="-1" style="position: absolute;left: 15%;top: 12%;" role="dialog"
              data-backdrop="false"
              aria-labelledby="myModalLabel">
             <div class="modal-dialog" role="document">
-                <div class="modal-content" style="width:75%">
+                <div class="modal-content" style="width:70%">
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
                                 aria-hidden="true">&times;</span></button>
-                        <h4 class="modal-title" id="title1">项目新增</h4>
-                        <h4 class="modal-title" id="title2">项目修改</h4>
+                        <h4 class="modal-title" id="title1">现场联系人新增</h4>
+                        <h4 class="modal-title" id="title2">现场联系人修改</h4>
                     </div>
                     <div class="modal-body">
                         <div class="form-horizontal">
-                            <div class="form-group" style="margin-left:2%;margin-top: 5%">
-                                <label for="pop_planname" style="width: 32%;text-align: left;padding-right: 0"
-                                       class="col-sm-2 control-label">项目信息:</label>
-                                <input type="text" class="form-control" style="width:50%;" id="pop_planname"
-                                       name="pop_planname"><br>
-                                <label for="pop_planname" style="width: 32%;text-align: left;padding-right: 0"
-                                       class="col-sm-2 control-label">客户名称:</label>
-                                <input type="text" class="form-control" style="width:50%;" id="pop_customer_name"
-                                       name="pop_customer_name"><br>
-                                <label for="pop_planname" style="width: 32%;text-align: left;padding-right: 0"
-                                       class="col-sm-2 control-label">现场联系人:</label>
-                                <input type="text" class="form-control" onclick="openName(1)" style="width:50%;"
-                                       id="pop_contact_name"
-                                       name="pop_contact_name"><br>
-                                <label for="pop_planname" style="width: 32%;text-align: left;padding-right: 0"
-                                       class="col-sm-2 control-label">送货地址:</label>
-                                <input type="text" class="form-control" style="width:50%;" id="pop_address"
-                                       name="pop_address"><br>
-                                <label for="pop_planname" style="width: 32%;text-align: left;padding-right: 0"
-                                       class="col-sm-2 control-label">收料员:</label>
-                                <input type="text" class="form-control" onclick="openName(2)" style="width:50%;"
-                                       id="pop_material_receiver"
-                                       name="pop_material_receiver"><br>
-                                <label for="pop_consumption" style="width: 32%;text-align: left;padding-right: 0"
-                                       class="col-sm-2 control-label">每方钢筋用量(kg):</label>
-                                <input type="text" class="form-control" style="width:50%;" id="pop_consumption"
-                                       name="pop_consumption">
+                            <div class="form-group" style="margin-top: 5%">
+                                <label for="pop_name" style="width: 30%;text-align: left;padding-right: 0"
+                                       class="col-sm-2 control-label">现场联系人姓名:</label>
+                                <input type="text" class="form-control" style="width:50%;" id="pop_name"
+                                       name="pop_name"><br>
+                                <label for="pop_name" style="width: 30%;text-align: left;padding-right: 0"
+                                       class="col-sm-2 control-label">手机号:</label>
+                                <input type="text" class="form-control" style="width:50%;" id="pop_phone"
+                                       name="pop_name">
                             </div>
                         </div>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-default" onclick="reset()">重置</button>
                         <button type="button" id="save" class="btn btn-primary">保存</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- Modal -->
-        <div class="modal fade" id="myModal1" tabindex="2" style="position: absolute;left: 15%;top: 12%;" role="dialog"
-             data-backdrop="false"
-             aria-labelledby="myModalLabel">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content" style="width:80%">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
-                                aria-hidden="true">&times;</span></button>
-                        <h4 class="modal-title" id="name1">现场联系人</h4>
-                        <h4 class="modal-title" id="name2">收料员</h4>
-                    </div>
-                    <div class="modal-body" style="height: 50%;">
-                        <table class="table table-hover" style="text-align: center">
-                            <tr>
-                                <td class="tdStyle_title active" style="width: 10%">勾选</td>
-                                <td class="tdStyle_title active" id="table_name" style="width: 35%">收料员姓名</td>
-                                <td class="tdStyle_title active" style="width: 35%">手机号</td>
-                            </tr>
-                            <tbody id="nameTableText">
-                            </tbody>
-                        </table>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-default" onclick="reset()">重置</button>
-                        <button type="button" id="save_name" class="btn btn-primary">保存</button>
                     </div>
                 </div>
             </div>
@@ -155,7 +103,6 @@
     let pageAll = 1;
     let pageMax = 10;   //一页多少条数据
     let planname_old = null;
-    let jsonObjName = []
 
     window.onload = getTableData(1);
 
@@ -167,89 +114,15 @@
         $("#save").attr('onclick', 'save()');
     }
 
-    function openName(index) {
-        if (index === 1) {
-            $('#myModal1').modal('show')
-            $("#name1").show();
-            $("#name2").hide();
-            document.getElementById("table_name").innerText = "现场联系人"
-            $.ajax({
-                url: "${pageContext.request.contextPath}/Contact",
-                type: 'post',
-                dataType: 'json',
-                data: {
-                    type: '1',
-                    pageCur: 1,
-                    pageMax: 999
-                },
-                contentType: 'application/x-www-form-urlencoded;charset=utf-8',
-                success: function (res) {
-                    if (res.data.length !== 0) {
-                        jsonObjName = res.data
-                        updateNameTable()
-                    }
-                }
-            })
-        } else {
-            $('#myModal1').modal('show')
-            $("#name1").hide();
-            $("#name2").show();
-            document.getElementById("table_name").innerText = "收料员"
-            $.ajax({
-                url: "${pageContext.request.contextPath}/MaterialReceiver",
-                type: 'post',
-                dataType: 'json',
-                data: {
-                    type: '1',
-                    pageCur: 1,
-                    pageMax: 999
-                },
-                contentType: 'application/x-www-form-urlencoded;charset=utf-8',
-                success: function (res) {
-                    if (res.data.length !== 0) {
-                        jsonObjName = res.data
-                        updateNameTable()
-                    }
-                }
-            })
-        }
-
-        $("#save_name").attr('onclick', 'saveName(' + index + ')');
-    }
-
-    function saveName(index) {
-        let arr = []
-        $('#nameTableText').find('input:checked').each(function () {
-            //找到对应checkbox中data-id属性值，然后push给空数组pids
-            console.log($(this).attr('data-id'))
-            let id = $(this).attr('data-id')
-            let obj = jsonObjName.find((val) => {
-                return id === val.id
-            })
-            if (obj) {
-                arr.push(obj)
-            }
-        });
-        console.log(arr)
-        let str = arr.map((val) => {
-            return val.name + ' ' + val.phone
-        }).join('，')
-        if (index === 1) {
-            $("#pop_contact_name").val(str)
-        } else {
-            $("#pop_material_receiver").val(str)
-        }
-        $('#myModal1').modal('hide')
-    }
-
     //打开修改弹窗
-    function openEditPop(id, planname, unit_consumption) {
+    function openEditPop(id, planname, phone) {
         planname_old = planname
-        queryData(id);
+        $('#pop_name').val(planname);
+        $('#pop_phone').val(phone);
         $('#myModal').modal('show')
         $("#title1").hide();
         $("#title2").show();
-        $("#save").attr('onclick', 'edit(' + id + ')');
+        $("#save").attr('onclick', "edit('" + id + "')");
     }
 
     //关闭弹窗
@@ -260,33 +133,24 @@
 
     //重置弹窗
     function reset() {
-        $('#pop_planname').val('');
+        $('#pop_name').val('');
     }
 
     $('#myModal').on('hidden.bs.modal', function (e) {
-        $('#pop_planname').val('');
+        $('#pop_name').val('');
+        $('#pop_phone').val('');
     })
 
-    function updateNameTable() {
-        let str = '';
-        for (let i = 0; i < jsonObjName.length; i++) {
-            str += "<tr><td class='tdStyle_body'><input type='checkbox' data-id=" + jsonObjName[i]["id"] + ">" +
-                "</td><td class='tdStyle_body'>" + jsonObjName[i]['name'] +
-                "</td><td class='tdStyle_body'>" + jsonObjName[i]['phone'] +
-                "</td></tr>";
-        }
-        $("#nameTableText").html(str);
-    }
-
     function getTableData(newPage) {
-        let query_planname = $('#query_planname').val();
+        let query_name = $('#query_name').val();
         let obj = {
-            'planname': query_planname,
-            'pageCur': newPage,
-            'pageMax': pageMax
+            name: query_name,
+            type: '1',
+            pageCur: newPage,
+            pageMax: pageMax
         }
         $.ajax({
-            url: "${pageContext.request.contextPath}/GetPlanName",
+            url: "${pageContext.request.contextPath}/Contact",
             type: 'post',
             dataType: 'json',
             data: obj,
@@ -331,47 +195,20 @@
     function updateTable() {
         let str = '';
         for (let i = 0; i < jsonObj.length; i++) {
-            str += "<tr><td class='tdStyle_body' title='" + (jsonObj[i]['planname'] || '') + "'>" + jsonObj[i]['planname'] +
-                "</td><td class='tdStyle_body' title='" + (jsonObj[i]['customer_name'] || '') + "'>" + (jsonObj[i]['customer_name'] || '') +
-                "</td><td class='tdStyle_body' title='" + (jsonObj[i]['contact_name'] || '') + "'>" + (jsonObj[i]['contact_name'] || '') +
-                "</td><td class='tdStyle_body' title='" + (jsonObj[i]['address'] || '') + "'>" + (jsonObj[i]['address'] || '') +
-                "</td><td class='tdStyle_body' title='" + (jsonObj[i]['material_receiver'] || '') + "'>" + (jsonObj[i]['material_receiver'] || '') +
-                "</td><td class='tdStyle_body' title='" + (jsonObj[i]['unit_consumption'] || '') + "'>" + (jsonObj[i]['unit_consumption'] || '') +
-                "</td><td class='tdStyle_body'><a href='#' onclick=openEditPop('" + jsonObj[i]['id'] + "','" + jsonObj[i]['planname'] + "','" + jsonObj[i]['unit_consumption'] + "')>修改</a> <a href='#' onclick=delTableData('" + jsonObj[i]['id'] + "','" + jsonObj[i]['planname'] + "')>删除</a></td></tr>";
+            str += "<tr><td class='tdStyle_body'>" + jsonObj[i]['name'] +
+                "</td><td class='tdStyle_body'>" + jsonObj[i]['phone'] +
+                "</td><td class='tdStyle_body'><a href='#' onclick=openEditPop('" + jsonObj[i]['id'] + "','" + jsonObj[i]['name'] + "','" + jsonObj[i]['phone'] + "')>修改</a> <a href='#' onclick=delTableData('" + jsonObj[i]['id'] + "','" + jsonObj[i]['name'] + "')>删除</a></td></tr>";
         }
         $("#archTableText").html(str);
     }
 
-    function queryData(id) {
-        let obj = {
-            'id': id,
-            'pageCur': 1,
-            'pageMax': pageMax
-        }
-        $.ajax({
-            url: "${pageContext.request.contextPath}/GetPlanName",
-            type: 'post',
-            dataType: 'json',
-            data: obj,
-            contentType: 'application/x-www-form-urlencoded;charset=utf-8',
-            success: function (res) {
-                if (res.data.length !== 0) {
-                    $('#pop_planname').val(res.data[0].planname);
-                    $('#pop_consumption').val(res.data[0].unit_consumption);
-                }
-            },
-            error: function () {
-                alert("查询失败！")
-            }
-        })
-    }
 
     function delTableData(id, planname) {
         let r = confirm("亲，确认删除！");
         if (r === false) {
             return;
         }
-        $.post("${pageContext.request.contextPath}/DeletePlanName", {id: id, planname: planname}, function (result) {
+        $.post("${pageContext.request.contextPath}/Contact", {type: '4', id: id}, function (result) {
             result = JSON.parse(result);
             if (result.flag) {
                 getTableData(1);
@@ -384,43 +221,36 @@
 
     function save() {
         let obj = {
-            planname: $('#pop_planname').val(),
-            unit_consumption: $('#pop_consumption').val(),
-            customer_name: $('#pop_customer_name').val(),
-            contact_name: $('#pop_contact_name').val(),
-            address: $('#pop_address').val(),
-            material_receiver: $('#pop_material_receiver').val(),
+            name: $('#pop_name').val(),
+            phone: $('#pop_phone').val(),
+            type: '2'
         }
-        if (obj.planname === '') {
-            alert("请输入项目名称！");
+        if (obj.name === '') {
+            alert("请输入！");
             return;
         }
-        $.post("${pageContext.request.contextPath}/AddPlanName", obj, function (result) {
+        $.post("${pageContext.request.contextPath}/Contact", obj, function (result) {
             result = JSON.parse(result);
             alert(result.message);
             if (result.flag) {
                 $('#myModal').modal('hide');
-                getTableData(1);
+                getTableData(1)
             }
         })
     }
 
     function edit(id) {
         let obj = {
-            planname: $('#pop_planname').val(),
-            planname_old: planname_old,
-            unit_consumption: $('#pop_consumption').val(),
-            customer_name: $('#pop_customer_name').val(),
-            contact_name: $('#pop_contact_name').val(),
-            address: $('#pop_address').val(),
-            material_receiver: $('#pop_material_receiver').val(),
-            id: id
+            name: $('#pop_name').val(),
+            phone: $('#pop_phone').val(),
+            id: id,
+            type: "3"
         }
-        if (obj.planname === '') {
+        if (obj.name === '') {
             alert("请输入！");
             return;
         }
-        $.post("${pageContext.request.contextPath}/UpdatePlanName", obj, function (result) {
+        $.post("${pageContext.request.contextPath}/Contact", obj, function (result) {
             result = JSON.parse(result);
             alert(result.message);
             if (result.flag) {
@@ -453,14 +283,15 @@
                 newPage = pageCur + 1;
             }
         }
-        let query_planname = $('#query_planname').val();
+        let query_name = $('#query_name').val();
         let obj = {
-            'planname': query_planname,
+            'planname': query_name,
             'pageCur': newPage,
+            type: '1',
             'pageMax': 10
         }
         $.ajax({
-            url: "${pageContext.request.contextPath}/GetPlanName",
+            url: "${pageContext.request.contextPath}/Contact",
             type: 'post',
             dataType: 'json',
             data: obj,
@@ -493,14 +324,15 @@
     }
 
     function jumpToNewPage1(newPage) {
-        let query_planname = $('#query_planname').val();
+        let query_name = $('#query_name').val();
         let obj = {
-            'planname': query_planname,
+            'planname': query_name,
             'pageCur': newPage,
+            type: '1',
             'pageMax': 10
         }
         $.ajax({
-            url: "${pageContext.request.contextPath}/GetPlanName",
+            url: "${pageContext.request.contextPath}/Contact",
             type: 'post',
             dataType: 'json',
             data: obj,
@@ -526,18 +358,19 @@
     }
 
     function jumpToNewPage2() {
-        let query_planname = $('#query_planname').val();
+        let query_name = $('#query_name').val();
         var newPage = $('#jump_to').val();
         if (newPage > pageAll) {
             alert("超过最大页数")
         }
         let obj = {
-            'planname': query_planname,
+            'planname': query_name,
             'pageCur': newPage,
+            type: '1',
             'pageMax': 10
         }
         $.ajax({
-            url: "${pageContext.request.contextPath}/GetPlanName",
+            url: "${pageContext.request.contextPath}/Contact",
             type: 'post',
             dataType: 'json',
             data: obj,

@@ -157,6 +157,18 @@
                 $('#plan_name_li').css('display', 'none');
                 index++;
             }
+            if (checkAuthority("41")) {
+                $('#contact_li').css('display', 'block');
+            } else {
+                $('#contact_li').css('display', 'none');
+                index++;
+            }
+            if (checkAuthority("42")) {
+                $('#material_receiver_li').css('display', 'block');
+            } else {
+                $('#material_receiver_li').css('display', 'none');
+                index++;
+            }
             if (checkAuthority("10")) {
                 $('#plan_line_li').css('display', 'block');
             } else {
@@ -243,7 +255,7 @@
             }
 
             //权限判断隐藏大节点
-            if (index === 20) {
+            if (index === 22) {
                 $('#equipmentManage').css('display', 'none');
             } else {
                 $('#equipmentManage').css('display', 'block');
@@ -518,6 +530,17 @@
             <li id="plan_name_li">
                 <button class="li_ItemStyle" id="plan_name" onclick="jumpTo('archivesPlanName.jsp','plan_name')"><span
                         style="margin-left: 15%;margin-right: 5%;" class="glyphicon glyphicon-grain"></span>项目管理
+                </button>
+            </li>
+            <li id="contact_li">
+                <button class="li_ItemStyle" id="contact" onclick="jumpTo('archivesContactQuery.jsp','contact')"><span
+                        style="margin-left: 15%;margin-right: 5%;" class="glyphicon glyphicon-grain"></span>现场联系人管理
+                </button>
+            </li>
+            <li id="material_receiver_li">
+                <button class="li_ItemStyle" id="material_receiver"
+                        onclick="jumpTo('archivesMaterialReceiver.jsp','material_receiver')"><span
+                        style="margin-left: 15%;margin-right: 5%;" class="glyphicon glyphicon-grain"></span>收料员管理
                 </button>
             </li>
             <li id="plan_line_li">

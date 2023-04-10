@@ -1,11 +1,14 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <div style="height: 95%;width: 100%;">
     <form class="form-inline" style="width:85%;margin: 0 auto;height:15%;padding-top:2%">
-        <div class="form-group" style="width: 30%">
+        <div class="form-group" style="width: 20%">
             <label for="excel-file">文件上传</label>
             <input type="file" id="excel-file"
                    accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.ms-excel"
                    style="height: 24px;width: 60%;font-size: 12px;margin-bottom: 5px">
+        </div>
+        <div class="form-group" style="width: 30%">
+            <button onclick="downloadFile()" class="btn btn-primary btn-sm" style="margin-left: 5%">下载模板</button>
         </div>
         <div class="form-group" style="width: 30%">
             <label for="planname" style="margin-left: 1%">项目名称：</label><input id="planname" class="form-control"
@@ -88,6 +91,12 @@
             let jsonObject = JSON.parse(result)
             alert(jsonObject.message);
             document.getElementsByClassName("save-btn").disabled = true;
+        })
+    }
+
+    function downloadFile(){
+        $.post("${pageContext.request.contextPath}/DownloadFile", {
+        }, function (result) {
         })
     }
 

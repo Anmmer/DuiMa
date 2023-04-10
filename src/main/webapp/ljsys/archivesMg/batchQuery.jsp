@@ -142,9 +142,32 @@
                 "<td class='tdStyle_body'>" + num + "</td>" +
                 "<td class='tdStyle_body'>" + jsonObj[i]['user_name'] + "</td>" +
                 "<td class='tdStyle_body'>" + jsonObj[i]['date'] + "</td>" +
-                "<td class='tdStyle_body'><a href='archivesBatchDetailQuery.jsp?batch_id=" + jsonObj[i]['batch_id'] + "&index=" + jsonObj[i]['index'] + "&planname=" + query_planname + "'>详情</a></td></tr>";
+                "<td class='tdStyle_body'><a href='archivesBatchDetailQuery.jsp?batch_id=" + jsonObj[i]['batch_id'] + "&index=" + jsonObj[i]['index'] + "&planname=" + query_planname + "'>详情</a> <a href='#' onclick=delDetailData('" + jsonObj[i]['batch_id'] + "')>删除</a></td></tr>";
         }
         $("#archTableText").html(str);
+    }
+
+    function delDetailData(batch_id) {
+        let r = confirm("亲，确认删除！");
+        if (r === false) {
+            return;
+        }
+        $.ajax({
+            url: "${pageContext.request.contextPath}/DeleteBuild",
+            type: 'post',
+            dataType: 'json',
+            data: {batchId: batch_id},
+            contentType: 'application/x-www-form-urlencoded;charset=utf-8',
+            success: function (res) {
+                alert(res.message);
+                if (res.flag) {
+                    getTableData(pageCur)
+                }
+            },
+            error: function () {
+                alert("查询失败！")
+            }
+        })
     }
 
     function queryData(id) {

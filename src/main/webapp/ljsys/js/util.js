@@ -97,7 +97,7 @@ function checkAuthority(au) {
 function outputWorkbook2(workbook) {
     let persons = []; // 存储获取到的数据
     let data = []
-    let zn_title = ['存货编码', '存货名称', '规格', '图号', '构建类型', '楼栋号', '楼层','方量'];
+    let zn_title = ['存货编码', '存货名称', '构件规格', '图号', '构建类型', '楼栋号', '楼层','方量'];
     let en_title = ['materialcode', 'materialname', 'standard', 'drawing_no', 'build_type', 'building_no', 'floor_no','fangliang'];
     // 遍历每张表读取
     // 表格的表格范围，可用于判断表头是否数量是否正确

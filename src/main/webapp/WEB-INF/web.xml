@@ -959,4 +959,28 @@
         <servlet-name>getOpenid</servlet-name>
         <url-pattern>/GetOpenid</url-pattern>
     </servlet-mapping>
+    <servlet>
+        <servlet-name>downloadFile</servlet-name>
+        <servlet-class>DownloadFile</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>downloadFile</servlet-name>
+        <url-pattern>/DownloadFile</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>contact</servlet-name>
+        <servlet-class>Contact</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>contact</servlet-name>
+        <url-pattern>/Contact</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>materialReceiver</servlet-name>
+        <servlet-class>MaterialReceiver</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>materialReceiver</servlet-name>
+        <url-pattern>/MaterialReceiver</url-pattern>
+    </servlet-mapping>
 </web-app>

@@ -30,6 +30,10 @@ public class UpdatePlanName extends HttpServlet {
         PrintWriter out = resp.getWriter();
         String id = req.getParameter("id");
         String planname = req.getParameter("planname");
+        String customer_name = req.getParameter("customer_name");
+        String material_receiver = req.getParameter("material_receiver");
+        String contact_name = req.getParameter("contact_name");
+        String address = req.getParameter("address");
         String planname_old = req.getParameter("planname_old");
         String unit_consumption = req.getParameter("unit_consumption");
         Map<String, Object> result = new HashMap<>();
@@ -37,7 +41,7 @@ public class UpdatePlanName extends HttpServlet {
         PreparedStatement ps = null;
         try {
             con = DbUtil.getCon();
-            String sql = "update planname set planname = ?,unit_consumption=? where id = ? and isdelete = 0";
+            String sql = "update planname set planname = ?,unit_consumption=?,customer_name=?,contact_name=?,address=?,material_receiver=? where id = ? and isdelete = 0";
             String sql2 = "update plan set planname = ? where planname = ? and isdelete = 0";
             String sql3 = "update preproduct set planname = ? where planname = ? and isdelete = 0";
             ps = con.prepareStatement(sql2);
@@ -47,7 +51,11 @@ public class UpdatePlanName extends HttpServlet {
             ps = con.prepareStatement(sql);
             ps.setString(1, planname.trim());
             ps.setString(2, unit_consumption.trim());
-            ps.setInt(3, Integer.parseInt(id));
+            ps.setString(3, customer_name.trim());
+            ps.setString(4, contact_name.trim());
+            ps.setString(5, address.trim());
+            ps.setString(6, material_receiver.trim());
+            ps.setInt(7, Integer.parseInt(id));
             int i = ps.executeUpdate();
             if (i > 0) {
                 result.put("message", "修改成功");

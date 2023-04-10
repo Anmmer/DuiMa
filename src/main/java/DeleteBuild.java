@@ -30,21 +30,38 @@ public class DeleteBuild extends HttpServlet {
         resp.setContentType("text/html;charset=UTF-8");
         PrintWriter out = resp.getWriter();
         String materialcode = req.getParameter("materialcode");
+        String batchId = req.getParameter("batchId");
         Map<String, Object> result = new HashMap<>();
         Connection con = null;
         PreparedStatement ps = null;
         ResultSet rs = null;
         try {
             con = DbUtil.getCon();
-            String sql = "update preproduct set isdelete = 1 where materialcode = ?";
-            String sql2 = "select count(*) num from preproduct where materialcode = ? and product_delete = 0";
+            String sql = "update preproduct set isdelete = 1 where ";
+            String sql2 = "select count(*) num from preproduct where  product_delete = 0 ";
+            if (materialcode != null && !"".equals(materialcode)) {
+                sql += "materialcode = ? ";
+                sql2 += " and materialcode = ? ";
+            }
+            if (batchId != null && !"".equals(batchId)) {
+                sql += "batch_id = ? ";
+                sql2 += " and batch_id = ? ";
+            }
             ps = con.prepareStatement(sql2);
-            ps.setString(1, materialcode);
+            if (materialcode != null && !"".equals(materialcode)) {
+                ps.setString(1, materialcode);
+            } else {
+                ps.setString(1, batchId);
+            }
             rs = ps.executeQuery();
             while (rs.next()) {
                 int num = rs.getInt("num");
                 if (num > 0) {
-                    result.put("message", "该构建已上传计划单，不能删除");
+                    if (materialcode != null && !"".equals(materialcode)) {
+                        result.put("message", "该构建已上传计划单，不能删除");
+                    }else {
+                        result.put("message", "该批次存在构建已上传计划单，不能删除");
+                    }
                     result.put("flag", false);
                     out.write(JSON.toJSONString(result));
                     return;
