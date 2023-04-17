@@ -32,6 +32,7 @@ public class GetPreProduct extends HttpServlet {
         String plannumber = req.getParameter("plannumber");
         String planname = req.getParameter("planname");
         String materialcode = req.getParameter("materialcode");
+        String product_delete = req.getParameter("product_delete");
         String initFlag = req.getParameter("initFlag");
         String materialname = req.getParameter("materialname");
         String floor_no = req.getParameter("floor_no");
@@ -52,6 +53,7 @@ public class GetPreProduct extends HttpServlet {
         String pourmade_endDate = req.getParameter("pourmade_endDate");
         String inspect_startDate = req.getParameter("inspect_startDate");
         String inspect_endDate = req.getParameter("inspect_endDate");
+        String inspect_stockStatus = req.getParameter("inspect_stockStatus");
         String inspect_user = req.getParameter("inspect_user");
         String line = req.getParameter("line");
         String isPour = req.getParameter("isPour");
@@ -74,8 +76,12 @@ public class GetPreProduct extends HttpServlet {
             PrintWriter out = resp.getWriter();
             con = DbUtil.getCon();
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-            String sql = "select pid,materialcode,preproductid,standard,materialname,weigh,qc,fangliang,build,preproduct.plannumber,print,concretegrade,pourmade,inspect,covert_test,covert_test_time,covert_test_failure_reason,failure_reason,patch_library,pourtime,checktime,line,inspect_remark,inspect_user,covert_test_remark,covert_test_user,pourmade_user,stock_status,scrap_library,scrap_remark,scrap_in_user,scrap_in_time from preproduct,plan where  preproduct.isdelete = 0 and preproduct.plannumber = plan.plannumber";
-            String sql2 = "select count(*) as num from preproduct,plan where preproduct.product_delete = 0 and preproduct.isdelete = 0  and preproduct.plannumber = plan.plannumber";
+            String sql = "select pid,materialcode,preproductid,standard,materialname,weigh,qc,fangliang,build,preproduct.plannumber,print,concretegrade,pourmade,inspect,covert_test,covert_test_time,covert_test_failure_reason,failure_reason,patch_library,pourtime,checktime,line,inspect_remark,inspect_user,covert_test_remark,covert_test_user,pourmade_user,stock_status,scrap_library,scrap_remark,scrap_in_user,scrap_in_time,drawing_no from preproduct left join plan on preproduct.plannumber = plan.plannumber where  preproduct.isdelete = 0 ";
+            String sql2 = "select count(*) as num from preproduct left join plan on preproduct.plannumber = plan.plannumber where preproduct.isdelete = 0 ";
+            if ("null".equals(product_delete)) {
+                sql += " and preproduct.product_delete is null ";
+                sql2 += " and preproduct.product_delete is null ";
+            }
             if (initFlag == null) {
                 sql += " and preproduct.product_delete = 0 ";
                 sql2 += " and preproduct.product_delete = 0 ";
@@ -214,13 +220,13 @@ public class GetPreProduct extends HttpServlet {
             }
 
             if (!"".equals(covert_test_startDate) && covert_test_startDate != null) {
-                covert_test_startDate = covert_test_startDate+" 00:00:00";
+                covert_test_startDate = covert_test_startDate + " 00:00:00";
                 sql += " and covert_test_time >= ?";
                 sql2 += " and covert_test_time >= ?";
                 i++;
             }
             if (!"".equals(covert_test_endDate) && covert_test_endDate != null) {
-                covert_test_endDate = covert_test_endDate+" 23:59:59";
+                covert_test_endDate = covert_test_endDate + " 23:59:59";
                 sql += " and covert_test_time <= ?";
                 sql2 += " and covert_test_time <= ?";
                 i++;
@@ -233,13 +239,13 @@ public class GetPreProduct extends HttpServlet {
             }
 
             if (!"".equals(pourmade_startDate) && pourmade_startDate != null) {
-                pourmade_startDate = pourmade_startDate+" 00:00:00";
+                pourmade_startDate = pourmade_startDate + " 00:00:00";
                 sql += " and pourtime >= ?";
                 sql2 += " and pourtime >= ?";
                 i++;
             }
             if (!"".equals(pourmade_endDate) && pourmade_endDate != null) {
-                pourmade_endDate = pourmade_endDate+" 23:59:59";
+                pourmade_endDate = pourmade_endDate + " 23:59:59";
                 sql += " and pourtime <= ?";
                 sql2 += " and pourtime <= ?";
                 i++;
@@ -251,13 +257,13 @@ public class GetPreProduct extends HttpServlet {
                 i++;
             }
             if (!"".equals(inspect_startDate) && inspect_startDate != null) {
-                inspect_startDate = inspect_startDate+" 00:00:00";
+                inspect_startDate = inspect_startDate + " 00:00:00";
                 sql += " and checktime >= ?";
                 sql2 += " and checktime >= ?";
                 i++;
             }
             if (!"".equals(inspect_endDate) && inspect_endDate != null) {
-                inspect_endDate = inspect_endDate+" 23:59:59";
+                inspect_endDate = inspect_endDate + " 23:59:59";
                 sql += " and checktime <= ?";
                 sql2 += " and checktime <= ?";
                 i++;
@@ -280,6 +286,17 @@ public class GetPreProduct extends HttpServlet {
                 sql2 += " and stock_status = ?";
                 i++;
             }
+
+            if (!"".equals(inspect_stockStatus) && inspect_stockStatus != null) {
+                sql += " and (inspect = 0 or inspect =1 or inspect = 2) ";
+                sql2 += " and (inspect = 0 or inspect =1 or inspect =2) ";
+            }
+            Map<String, Object> data = new HashMap<>();
+//            if (i == 0) {
+//                data.put("message", "请输入查询条件");
+//                data.put("flag", false);
+//            }
+
 
             j = i;
 
@@ -351,7 +368,7 @@ public class GetPreProduct extends HttpServlet {
                 ps.setString(i, plannumber);
             }
             ResultSet rs = ps.executeQuery();
-            Map<String, Object> data = new HashMap<>();
+
             List<Map<String, Object>> list = new ArrayList<>();
             while (rs.next()) {
                 Map<String, Object> map = new HashMap<>();
@@ -387,6 +404,7 @@ public class GetPreProduct extends HttpServlet {
                 map.put("scrap_remark", rs.getString("scrap_remark"));
                 map.put("scrap_in_user", rs.getString("scrap_in_user"));
                 map.put("scrap_in_time", rs.getString("scrap_in_time"));
+                map.put("drawing_no", rs.getString("drawing_no"));
                 list.add(map);
             }
             if (pageCur != 0 && pageMax != 0) {

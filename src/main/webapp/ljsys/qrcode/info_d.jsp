@@ -119,7 +119,7 @@
                 let select1 = $("#valuesFrom")
                 let item1 = $("<option value='" + jsonobj[i]['pi_key'] + "'>" + jsonobj[i]['pi_value'] + "</option>")
                 select1.append(item1)
-                if (!jsonobj[i]['pi_key'].includes('name')) {
+                if (!jsonobj[i]['pi_key'].includes('name') || jsonobj[i]['pi_key'] === "planname" || jsonobj[i]['pi_key'] === "materialname") {
                     let select2 = $("#itemNames")
                     let item2 = $("<option value='" + jsonobj[i]['pi_key'] + "'>" + jsonobj[i]['pi_value'] + "</option>")
                     select2.append(item2)

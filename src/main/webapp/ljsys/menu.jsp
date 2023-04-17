@@ -107,6 +107,12 @@
                 $('#warehouse_log_li').css('display', 'none');
                 index++;
             }
+            if (checkAuthority("43")) {
+                $('#outbound_order_li').css('display', 'block');
+            } else {
+                $('#outbound_order_li').css('display', 'none');
+                index++;
+            }
             if (checkAuthority("30")) {
                 $('#warehouse_scrap_li').css('display', 'block');
             } else {
@@ -114,7 +120,7 @@
                 index++;
             }
             //权限判断隐藏大节点
-            if (index === 5) {
+            if (index === 6) {
                 $('#factoryManage').css('display', 'none');
             } else {
                 $('#factoryManage').css('display', 'block');
@@ -324,6 +330,20 @@
             } else {
                 $('#productManage').css('display', 'block');
             }
+            index = 0;
+            if (checkAuthority("44")) {
+                $('#pour_statistic_li').css('display', 'block');
+            } else {
+                $('#pour_statistic_li').css('display', 'none');
+                index++;
+            }
+            if (checkAuthority("45")) {
+                $('#inventory_li').css('display', 'block');
+            } else {
+                $('#inventory_li').css('display', 'none');
+                index++;
+            }
+
         }
     </script>
 </head>
@@ -430,6 +450,12 @@
                         style="margin-left: 15%;margin-right: 5%;" class="glyphicon glyphicon-grain"></span>出入库明细
                 </button>
             </li>
+            <li id="outbound_order_li">
+                <button class="li_ItemStyle" id="outbound_order"
+                        onclick="jumpTo('outboundOrderQuery.jsp','outbound_order')"><span
+                        style="margin-left: 15%;margin-right: 5%;" class="glyphicon glyphicon-grain"></span>出入单
+                </button>
+            </li>
         </ul>
     </ul>
     <!--生产管理-->
@@ -486,7 +512,33 @@
             </li>
         </ul>
     </ul>
-    <!--基础档案-->
+    <!--统计分析-->
+    <ul class="ul_TopListStyle" id="statisticAnalysis">
+        <li class="li_TopItemStyle" onclick="ShowOrHide('statistic','statistic_icon')">
+            <button style="width: 95%;height:40px;background-color: rgb(50, 64, 87);border: none;text-align:left">
+                <div style="float: left;margin-left: 10%;width: 80%;text-align: left">
+                <span style="margin-right: 5%;"
+                      class="glyphicon glyphicon-tree-conifer"></span>统计分析
+                </div>
+                <span id="statistic_icon" style="float: right;margin-top: 7%;color: #909399;font-size: 12px"
+                      class="glyphicon glyphicon-menu-left"></span>
+            </button>
+        </li>
+        <ul class="ul_ListStyle" style="display: none;" id="statistic">
+            <li id="pour_statistic_li">
+                <button class="li_ItemStyle" id="pour_statistic"
+                        onclick="jumpTo('pourStatistics.jsp','pour_statistic')"><span
+                        style="margin-left: 15%;margin-right: 5%;" class="glyphicon glyphicon-grain"></span>浇捣统计
+                </button>
+            </li>
+            <li id="inventory_li">
+                <button class="li_ItemStyle" id="inventory"
+                        onclick="jumpTo('inventoryStatistics.jsp','inventory')"><span
+                        style="margin-left: 15%;margin-right: 5%;" class="glyphicon glyphicon-grain"></span>库存统计
+                </button>
+            </li>
+        </ul>
+    </ul>
     <ul class="ul_TopListStyle" id="equipmentManage">
         <li class="li_TopItemStyle" onclick="ShowOrHide('Equipment','equipment_icon')">
             <button style="width: 95%;height:40px;background-color: rgb(50, 64, 87);border: none;text-align:left">

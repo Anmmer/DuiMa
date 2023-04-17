@@ -255,6 +255,7 @@
             alert("请勾选！")
             return;
         }
+        debugger
         let authority = JSON.parse(sessionStorage.getItem("authority"));
         if (groupIds.length === authority.length) {
             return;

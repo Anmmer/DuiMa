@@ -222,6 +222,7 @@
             inspectState: inspectState,
             inspect_startDate: inspect_startDate,
             inspect_endDate: inspect_endDate,
+            inspect_stockStatus : '1',
             isPrint: "true",
             isPour: "true",
             pageCur: newPage,

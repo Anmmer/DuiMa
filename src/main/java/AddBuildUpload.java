@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.math.BigDecimal;
 import java.sql.*;
 import java.util.HashMap;
 import java.util.Map;
@@ -33,7 +34,7 @@ public class AddBuildUpload extends HttpServlet {
         try {
             con = DbUtil.getCon();
             String sql1 = "insert into batch(batch_id,planname,user_name,date,is_delete) values(?,?,?,NOW(),0 )";
-            String sql2 = "insert into preproduct(materialcode,materialname,standard,drawing_no,build_type,building_no,floor_no,batch_id,planname,isdelete,fangliang) values(?,?,?,?,?,?,?,?,?,0,?)";
+            String sql2 = "insert into preproduct(materialcode,materialname,standard,drawing_no,build_type,building_no,floor_no,batch_id,planname,isdelete,fangliang,preproductid) values(?,?,?,?,?,?,?,?,?,0,?,?)";
             String sql3 = "select count(*) num from planname where planname = ? and isdelete = 0";
             String sql4 = "select count(*) num from preproduct where materialcode = ? and isdelete = 0";
             PreparedStatement ps = con.prepareStatement(sql3);
@@ -90,7 +91,8 @@ public class AddBuildUpload extends HttpServlet {
                 ps2.setString(7, jsonObject.getString("floor_no"));
                 ps2.setString(8, batch_id);
                 ps2.setString(9, planname);
-                ps2.setBigDecimal(10, jsonObject.getBigDecimal("fangliang"));
+                ps2.setBigDecimal(10, new BigDecimal(jsonObject.getString("fangliang").trim()));
+                ps2.setString(11, jsonObject.getString("drawing_no"));
                 ps2.addBatch();
             }
             int[] rs2 = ps2.executeBatch();

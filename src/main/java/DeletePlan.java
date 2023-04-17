@@ -33,7 +33,7 @@ public class DeletePlan extends HttpServlet {
         PrintWriter out = resp.getWriter();
         String sql3 = "select materialcode from preproduct where (pourmade = 1 or stock_status > 0) and plannumber in ( ";
         StringBuilder sql_plan = new StringBuilder("update plan set isdelete = 1 where plannumber in (");
-        StringBuilder sql_pre = new StringBuilder("update preproduct set isdelete = 1 where plannumber in (");
+        StringBuilder sql_pre = new StringBuilder("update preproduct set product_delete = 1 where plannumber in (");
         if (jsonArray.size() == 1) {
             sql_plan.append("?)");
             sql_pre.append("?)");

@@ -983,4 +983,28 @@
         <servlet-name>materialReceiver</servlet-name>
         <url-pattern>/MaterialReceiver</url-pattern>
     </servlet-mapping>
+    <servlet>
+        <servlet-name>outboundOrder</servlet-name>
+        <servlet-class>OutboundOrder</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>outboundOrder</servlet-name>
+        <url-pattern>/OutboundOrder</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>remanufacture</servlet-name>
+        <servlet-class>Remanufacture</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>remanufacture</servlet-name>
+        <url-pattern>/Remanufacture</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>statistics</servlet-name>
+        <servlet-class>Statistics</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>statistics</servlet-name>
+        <url-pattern>/Statistics</url-pattern>
+    </servlet-mapping>
 </web-app>

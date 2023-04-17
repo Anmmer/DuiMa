@@ -7,12 +7,12 @@
                    accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.ms-excel"
                    style="height: 24px;width: 60%;font-size: 12px;margin-bottom: 5px">
         </div>
+        <%--        <div class="form-group" style="width: 30%">--%>
+        <%--            <button onclick="downloadFile()" class="btn btn-primary btn-sm" style="margin-left: 5%">下载模板</button>--%>
+        <%--        </div>--%>
         <div class="form-group" style="width: 30%">
-            <button onclick="downloadFile()" class="btn btn-primary btn-sm" style="margin-left: 5%">下载模板</button>
-        </div>
-        <div class="form-group" style="width: 30%">
-            <label for="planname" style="margin-left: 1%">项目名称：</label><input id="planname" class="form-control"
-                                                                              style="width: 50%;">
+            <label for="planname" style="margin-left: 1%">项目名称：</label><select id="planname" class="form-control"
+                                                                               style="width: 50%;"></select>
         </div>
     </form>
     <div style="width:85%;height: 75%;margin: 0 auto;">
@@ -21,13 +21,13 @@
         </div>
         <table class="table table-hover" style="text-align: center;">
             <tr id="table_tr">
-                <td class='tdStyle_title active' style="width: 14%">物料编号</td>
-                <td class='tdStyle_title active' style="width: 14%">物料名称</td>
-                <td class='tdStyle_title active' style="width: 10%">规格</td>
+                <td class='tdStyle_title active' style="width: 14%">构件编码</td>
+                <td class='tdStyle_title active' style="width: 14%">构件名称</td>
+                <td class='tdStyle_title active' style="width: 10%">构件规格</td>
                 <td class='tdStyle_title active' style="width: 10%">图号</td>
-                <td class='tdStyle_title active' style="width: 10%">构建类型</td>
-                <td class='tdStyle_title active' style="width: 10%">楼栋号</td>
-                <td class='table_tr_print tdStyle_title active' style="width: 10%">楼层号</td>
+                <td class='tdStyle_title active' style="width: 10%">类型</td>
+                <td class='tdStyle_title active' style="width: 10%">楼栋</td>
+                <td class='table_tr_print tdStyle_title active' style="width: 10%">楼层</td>
                 <td class='table_tr_print tdStyle_title active' style="width: 10%">方量</td>
             </tr>
             <tbody id="detailTableText">
@@ -73,8 +73,33 @@
     let pop_pageDate = []
     let pop_pageAll = 1;  //分页总页数
 
+    window.onload = GetPlanName()
+
+    function GetPlanName() {
+        $.ajax({
+            url: "${pageContext.request.contextPath}/GetPlanName",
+            type: 'post',
+            dataType: 'json',
+            data: {
+                'pageCur': 1,
+                'pageMax': 999
+            },
+            contentType: 'application/x-www-form-urlencoded;charset=utf-8',
+            success: function (res) {
+                $('#planname').empty()
+                $('#planname').append($("<option value=''></option>"))
+                if (res.data.length !== 0) {
+                    for (let v of res.data) {
+                        let item = $("<option value='" + v['id'] + "'>" + v['planname'] + "</option>")
+                        $('#planname').append(item)
+                    }
+                }
+            }
+        })
+    }
+
     function save() {
-        let planname = $('#planname').val()
+        let planname = $('#planname option:selected').text()
         if (planname == '' || planname == undefined) {
             alert('项目名称不能为空')
             return
@@ -84,9 +109,9 @@
             return;
         }
         $.post("${pageContext.request.contextPath}/AddBuildUpload", {
-            str: JSON.stringify(excelData),
             planname: planname,
-            user_name: sessionStorage.getItem("userName")
+            user_name: sessionStorage.getItem("userName"),
+            str: JSON.stringify(excelData)
         }, function (result) {
             let jsonObject = JSON.parse(result)
             alert(jsonObject.message);
@@ -94,9 +119,8 @@
         })
     }
 
-    function downloadFile(){
-        $.post("${pageContext.request.contextPath}/DownloadFile", {
-        }, function (result) {
+    function downloadFile() {
+        $.post("${pageContext.request.contextPath}/DownloadFile", {}, function (result) {
         })
     }
 
@@ -118,6 +142,9 @@
             let data = event.target.result;
             let workbook = XLSX.read(data, {type: 'binary'});
             excelData = outputWorkbook2(workbook)
+            if (!excelData) {
+                return
+            }
             pop_count = Math.ceil(excelData.length / 10);
             // 重置查询为第一页
             pop_pageCur = 1;

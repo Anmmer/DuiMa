@@ -12,8 +12,8 @@
 </script>
 <div style="height: 95%;width:100%;background-color:white;">
     <form name="query" class="form-inline" style="width:85%;height:20%;margin-left: 8%;padding-top:2%">
-        <label>物料编码：</label><input type="text" name="materialcode" id="materialcode"
-                                   style="width: 13%;height: 30px" class="form-control">
+        <label>图号：</label><input type="text" name="drawing_no" id="drawing_no"
+                                 style="width: 13%;height: 30px" class="form-control">
         <label style="margin-left: 2%">物料名称：</label><input type="text" name="materialname" id="materialname"
                                                            style="width: 13%;height: 30px" class="form-control">
         <label style="margin-left: 2%">项目名称：</label><input type="text" name="planname" id="planname"
@@ -35,6 +35,12 @@
     <div style="width:85%;height:80%;margin:0 auto;">
         <div class="page-header" style="margin-top: 0;margin-bottom: 1%">
             <h3 style="margin-bottom: 0;margin-top: 0"><small>修补库信息</small></h3>
+            <button type="button" style="position: absolute;right: 23%;top:18%;width: 60px"
+                    class="btn btn-primary btn-sm"
+                    data-toggle="modal"
+                    onclick="openPop(true)">
+                再制造
+            </button>
             <button type="button" style="position: absolute;right: 16%;top:18%;width: 60px"
                     class="btn btn-primary btn-sm"
                     data-toggle="modal"
@@ -50,7 +56,7 @@
             <table class="table table-hover" cellspacing="0" cellpadding="0" width="100%" align="center">
                 <tr>
                     <td class='tdStyle_title active' style="width: 5%"><input id="pre_checkbok" type="checkbox"></td>
-                    <td class='tdStyle_title active' style="width: 15%">物料编码</td>
+                    <td class='tdStyle_title active' style="width: 15%">图号</td>
                     <td class='tdStyle_title active' style="width: 15%">物料名称</td>
                     <td class='tdStyle_title active' style="width: 15%">计划编号</td>
                     <td class='tdStyle_title active' style="width: 15%">不合格原因</td>
@@ -104,8 +110,8 @@
                 <div class="modal-body" style="height: 90%;width: 100%">
                     <div name="query" id="pop_query" class="form-inline" style="width: 100%;height: 8%">
                         <div class="form-group" style="width: 100%;">
-                            <label for="materialcode_pop">物料编码：</label>
-                            <input id="materialcode_pop" class="form-control" style="width: 15%;height: 30px">
+                            <label for="drawing_no_pop">图号：</label>
+                            <input id="drawing_no_pop" class="form-control" style="width: 15%;height: 30px">
                             <label for="materialname_pop" style="margin-left: 1%">物料名称：</label>
                             <input id="materialname_pop" class="form-control" style="width: 15%;height: 30px">
                             <button id="pop_query_button" class="btn btn-primary" onclick="getDetailData(1)"
@@ -122,7 +128,7 @@
                                 <td class='tdStyle_title active' style="width: 2%"><input
                                         id="detail_checkbok"
                                         type="checkbox"></td>
-                                <td class='tdStyle_title active' style="width: 15%">物料编码</td>
+                                <td class='tdStyle_title active' style="width: 15%">图号</td>
                                 <td class='tdStyle_title active' style="width: 15%">物料名称</td>
                                 <td class='tdStyle_title active' style="width: 15%">规格</td>
                                 <td class='tdStyle_title active' style="width: 15%">状态</td>
@@ -132,19 +138,21 @@
                         </table>
                     </div>
                     <div style="display: flex;width: 100%; justify-content: space-between;">
-                        <div class="form-inline" style="width: 45%;">
-                            <label for="path">地址：</label>
-                            <input id="path" class="form-control" style="width: 35%;height: 30px">
-                            <label for="remark" style="margin-left: 1%">备注：</label>
-                            <input id="remark" class="form-control" style="width: 35%;height: 30px">
+                        <div class="form-inline" style="width: 40%;">
+                            <div id="pop_input" style="width: 100%;">
+                                <label for="path">地址：</label>
+                                <input id="path" class="form-control" style="width: 35%;height: 30px">
+                                <label for="remark" style="margin-left: 1%">备注：</label>
+                                <input id="remark" class="form-control" style="width: 35%;height: 30px">
+                            </div>
                         </div>
-                        <button type="button" style="height:10%;width: 100px"
-                                onclick="save()"
+                        <button type="button" style="height:10%;width: 80px;margin-right: 20px"
+                                onclick="save()" id="save"
                                 class="btn btn-primary btn-sm">保 存
                         </button>
-                        <nav aria-label="Page navigation" style="width:45%;height:10%;" id="page">
+                        <nav aria-label="Page navigation" style="width:50%;height:10%;" id="page">
                             <ul class="pagination" style="margin-top: 0;width: 100%">
-                                <li><span id="total_d" style="width: 22%">0条，共0页</span></li>
+                                <li><span id="total_d" style="width: 25%">0条，共0页</span></li>
                                 <li>
                                     <a href="#" onclick="jumpToNewPage_p(2)" aria-label="Previous">
                                         <span aria-hidden="true">&laquo;</span>
@@ -173,24 +181,43 @@
         </div>
     </div>
     <script type="text/javascript">
+        let obj = {}
 
         window.onload = getTableData(1);
 
-        function openPop() {
-            $('#myModal').modal('show')
-            getDetailData(1)
+        function openPop(flag) {
+            if (flag) {
+                let obj = []
+                $('#archTableText').find('input:checked').each(function () {
+                    obj.push($(this).attr('data-id'));   //找到对应checkbox中data-id属性值，然后push给空数组pids
+                });
+                if (obj.length === 0) {
+                    alert("请勾选！")
+                    return;
+                }
+                $('#myModal').modal('show')
+                $("#pop_input").hide()
+                getRemanufactureData(1)
+                $("#save").attr('onclick', 'remanufacture()')
+            } else {
+                $('#myModal').modal('show')
+                $("#pop_input").show()
+                getDetailData(1)
+                $("#save").attr('onclick', 'save()')
+            }
+
         }
 
 
         function getTableData(newPage) {
-            let materialcode = $('#materialcode').val();
+            let drawing_no = $('#drawing_no').val();
             let planname = $('#planname').val();
             let materialname = $('#materialname').val();
             let inspect_user = $('#inspect_user').val();
             let inspect_startDate = $('#inspect_startDate').val();
             let inspect_endDate = $('#inspect_endDate').val();
             let obj = {
-                materialcode: materialcode,
+                drawing_no: drawing_no,
                 materialname: materialname,
                 planname: planname,
                 inspect_user: inspect_user,
@@ -246,6 +273,51 @@
             })
         }
 
+
+        function remanufacture() {
+            let obj = []
+            $('#archTableText').find('input:checked').each(function () {
+                obj.push($(this).attr('data-id'));   //找到对应checkbox中data-id属性值，然后push给空数组pids
+            });
+            if (obj.length === 0) {
+                alert("请勾选需要修补的构建信息！")
+                return;
+            }
+            let obj_z = []
+            $('#detailTableText').find('input:checked').each(function () {
+                obj_z.push($(this).attr('data-id'));   //找到对应checkbox中data-id属性值，然后push给空数组pids
+            });
+            if (obj_z.length === 0) {
+                alert("请勾选新构建信息！")
+                return;
+            }
+            if (obj.length !== obj_z.length) {
+                alert("两次勾选数量需一致！")
+                return;
+            }
+            let r = confirm("亲，确认再制造！");
+            if (r === false) {
+                return;
+            }
+            $.ajax({
+                url: "${pageContext.request.contextPath}/Remanufacture",
+                type: 'post',
+                dataType: 'json',
+                data: {
+                    materialcodes: JSON.stringify(obj_z),
+                    materialcode_zs: JSON.stringify(obj),
+                    user: sessionStorage.getItem("userName")
+                },
+                contentType: 'application/x-www-form-urlencoded;charset=utf-8',
+                success: function (res) {
+                    alert(res.message)
+                    if (res.flag) {
+                        location.reload()
+                    }
+                }
+            })
+        }
+
         function inspect() {
             let obj = [];
             $('#archTableText').find('input:checked').each(function () {
@@ -255,7 +327,7 @@
                 alert("请勾选！")
                 return;
             }
-            let r = confirm("亲，确认质检！");
+            let r = confirm("亲，确认修补！");
             if (r === false) {
                 return;
             }
@@ -353,10 +425,10 @@
                             pop_pageDate[i]['stock_status'] = '已出库';
                             break;
                         default:
-                            pop_pageDate[i]['stock_status'] = '待入库';
+                            pop_pageDate[i]['stock_status'] = '待上传计划';
                     }
                     str += "<tr><td class='tdStyle_body' style='padding: 5px;'><input type='checkbox' data-id=" + pop_pageDate[i]["materialcode"] + ">" +
-                        "</td><td class='tdStyle_body' title='" + pop_pageDate[i]['materialcode'] + "'>" + pop_pageDate[i]['materialcode'] +
+                        "</td><td class='tdStyle_body' title='" + pop_pageDate[i]['drawing_no'] + "'>" + pop_pageDate[i]['drawing_no'] +
                         "</td><td class='tdStyle_body' title='" + pop_pageDate[i]['materialname'] + "'>" + pop_pageDate[i]['materialname'] +
                         "</td><td class='tdStyle_body' title='" + pop_pageDate[i]['standard'] + "'>" + pop_pageDate[i]['standard'] +
                         "</td><td class='tdStyle_body' title='" + pop_pageDate[i]['stock_status'] + "'>" + pop_pageDate[i]['stock_status'] +
@@ -370,12 +442,12 @@
                     } else {
                         jsonObj[i]['inspect'] = '质检不合格'
                     }
-                    jsonObj[i]['checktime'] = jsonObj[i]['checktime'] === undefined ? '--' : jsonObj[i]['checktime'];
-                    jsonObj[i]['inspect_user'] = jsonObj[i]['inspect_user'] === undefined ? '--' : jsonObj[i]['inspect_user'];
+                    jsonObj[i]['checktime'] = jsonObj[i]['checktime'] === undefined ? '' : jsonObj[i]['checktime'];
+                    jsonObj[i]['inspect_user'] = jsonObj[i]['inspect_user'] === undefined ? '' : jsonObj[i]['inspect_user'];
                     jsonObj[i]['inspect_remark'] = jsonObj[i]['inspect_remark'] === undefined ? '' : jsonObj[i]['inspect_remark'];
                     jsonObj[i]['failure_reason'] = jsonObj[i]['failure_reason'] === undefined ? '' : jsonObj[i]['failure_reason'];
                     str += "<tr><td class='tdStyle_body'><input type='checkbox' data-id=" + jsonObj[i]['materialcode'] + ">" +
-                        "<td class='tdStyle_body' title='" + jsonObj[i]['materialcode'] + "'>" + jsonObj[i]['materialcode'] +
+                        "<td class='tdStyle_body' title='" + jsonObj[i]['drawing_no'] + "'>" + jsonObj[i]['drawing_no'] +
                         "</td><td class='tdStyle_body' title='" + jsonObj[i]['materialname'] + "'>" + jsonObj[i]['materialname'] +
                         "</td><td class='tdStyle_body' title='" + jsonObj[i]['plannumber'] + "'>" + jsonObj[i]['plannumber'] +
                         "</td><td class='tdStyle_body' title='" + jsonObj[i]['failure_reason'] + "'>" + jsonObj[i]['failure_reason'] +
@@ -651,15 +723,61 @@
             }
         }
 
-        //获取明细数据
-        function getDetailData(newPage) {
-            let materialcode = $('#materialcode_pop').val();
+        function getRemanufactureData(newPage) {
+            obj = {
+                product_delete: "null",
+                initFlag: true,
+            }
+            let drawing_no = $('#drawing_no_pop').val();
             let materialname = $('#materialname_pop').val();
             $.post("${pageContext.request.contextPath}/GetPreProduct", {
-                materialcode: materialcode,
+                drawing_no: drawing_no,
                 materialname: materialname,
-                inspectState:'1',
-                stockStatus: '2',
+                ...obj,
+                pageCur: newPage,
+                pageMax: pageMax
+            }, function (result) {
+                result = JSON.parse(result);
+                if (result.data !== undefined) {
+                    pop_pageDate = result.data;
+                    updateTable(true);
+                    $('#total_d').html(result.cnt + "条，共" + result.pageAll + "页");
+                    $('#li_d1').addClass('active');
+                    // 重置查询为第一页
+                    pop_pageCur = 1;
+                    // 重置总页数
+                    pop_pageAll = parseInt(result.pageAll);
+                    for (let i = 1; i < 6; i++) {
+                        let k = i % 5;
+                        if (i > pop_pageAll) {
+                            $('#a_d' + k).text('.');
+                        } else {
+                            if (k === 0) {
+                                $('#a_d' + k).text(5);
+                                $('#a_d' + k).attr('onclick', 'jumpToNewPage_d1(5)');
+                                continue;
+                            } else {
+                                $('#a_d' + k).text(i);
+                                $('#a_d' + k).attr('onclick', 'jumpToNewPage_d1(' + k + ')');
+                            }
+                        }
+                    }
+                }
+            })
+        }
+
+        //获取明细数据
+        function getDetailData(newPage) {
+            obj = {
+                inspectState: '1',
+                stock_status: '2',
+            }
+            let drawing_no = $('#drawing_no_pop').val();
+            let materialname = $('#materialname_pop').val();
+            $.post("${pageContext.request.contextPath}/GetPreProduct", {
+                drawing_no: drawing_no,
+                materialname: materialname,
+                ...obj,
                 pageCur: newPage,
                 pageMax: pageMax
             }, function (result) {
@@ -712,13 +830,12 @@
                     newPage = pop_pageCur + 1;
                 }
             }
-            let materialcode = $('#materialcode_pop').val();
+            let drawing_no = $('#drawing_no_pop').val();
             let materialname = $('#materialname_pop').val();
             $.post("${pageContext.request.contextPath}/GetPreProduct", {
-                materialcode: materialcode,
+                drawing_no: drawing_no,
                 materialname: materialname,
-                inspectState:'1',
-                stock_status: '2',
+                ...obj,
                 pageCur: newPage,
                 pageMax: pageMax
             }, function (result) {
@@ -739,13 +856,12 @@
 
         function jumpToNewPage_d1(newPage) {
             pop_pageDate = []
-            let materialcode = $('#materialcode_pop').val();
+            let drawing_no = $('#drawing_no_pop').val();
             let materialname = $('#materialname').val();
             $.post("${pageContext.request.contextPath}/GetPreProduct", {
-                materialcode: materialcode,
+                drawing_no: drawing_no,
                 materialname: materialname,
-                inspectState:'1',
-                stock_status: '2',
+                ...obj,
                 pageCur: newPage,
                 pageMax: pageMax
             }, function (result) {
@@ -769,13 +885,12 @@
                 alert("超过最大页数")
                 return
             }
-            let materialcode = $('#materialcode_pop').val();
+            let drawing_no = $('#drawing_no_pop').val();
             let materialname = $('#materialname').val();
             $.post("${pageContext.request.contextPath}/GetPreProduct", {
-                materialcode: materialcode,
+                drawing_no: drawing_no,
                 materialname: materialname,
-                inspectState:'1',
-                stock_status: '2',
+                ...obj,
                 pageCur: newPage,
                 pageMax: pageMax
             }, function (result) {

@@ -25,6 +25,7 @@ public class GetWarehouseInfo extends HttpServlet {
         String building_no = request.getParameter("building_no");
         String materialcode = request.getParameter("materialcode");
         String build_type = request.getParameter("build_type");
+        String isOrder = request.getParameter("isOrder");
         String id = request.getParameter("id");
         String drawing_no = request.getParameter("drawing_no");
         int pageCur = Integer.parseInt(request.getParameter("pageCur"));
@@ -40,8 +41,17 @@ public class GetWarehouseInfo extends HttpServlet {
             conn = DbUtil.getCon();
             int i = 0;
             int j = 0;
-            StringBuilder sql = new StringBuilder("select warehouse_info.materialcode,preproduct.materialname,build_type,planname,floor_no,building_no,drawing_no,path,preproductid,fangliang from warehouse, warehouse_info,preproduct where warehouse_info.warehouse_id = warehouse.id and warehouse_info.materialcode = preproduct.materialcode  and warehouse_info.is_effective = '1'");
-            StringBuilder sql2 = new StringBuilder("select count(*) as num from warehouse, warehouse_info,preproduct where warehouse_info.warehouse_id = warehouse.id and warehouse_info.materialcode = preproduct.materialcode  and warehouse_info.is_effective = '1'");
+            StringBuilder sql = new StringBuilder("select warehouse_info.materialcode,preproduct.materialname,build_type,planname,floor_no,building_no,drawing_no,path,preproductid,fangliang from warehouse, warehouse_info,preproduct where warehouse_info.warehouse_id = warehouse.id and warehouse_info.materialcode = preproduct.materialcode  and warehouse_info.is_effective = '1' and warehouse.is_delete = '0'  and preproduct.product_delete = '0' and preproduct.isdelete = '0'");
+            StringBuilder sql2 = new StringBuilder("select count(*) as num from warehouse, warehouse_info,preproduct where  warehouse_info.warehouse_id = warehouse.id and warehouse_info.materialcode = preproduct.materialcode  and warehouse_info.is_effective = '1' and warehouse.is_delete = '0'  and preproduct.product_delete = '0' and preproduct.isdelete = '0'");
+            if ("true".equals(isOrder)) {
+                sql.append(" and preproduct.materialcode in (select materialcode from outbound_order_product where is_effective = '1')");
+                sql2.append(" and preproduct.materialcode in (select materialcode from outbound_order_product where is_effective = '1')");
+            }
+            if ("false".equals(isOrder)) {
+                sql.append(" and preproduct.materialcode not in (select materialcode from outbound_order_product where is_effective = '1')");
+                sql2.append(" and preproduct.materialcode not in (select materialcode from outbound_order_product where is_effective = '1')");
+            }
+
             if (name != null && !"".equals(name)) {
                 sql.append(" and warehouse.id in (with recursive temp as (\n" +
                         "select id,pid from warehouse p where  id= ?\n" +

@@ -59,7 +59,7 @@ public class DeleteBuild extends HttpServlet {
                 if (num > 0) {
                     if (materialcode != null && !"".equals(materialcode)) {
                         result.put("message", "该构建已上传计划单，不能删除");
-                    }else {
+                    } else {
                         result.put("message", "该批次存在构建已上传计划单，不能删除");
                     }
                     result.put("flag", false);
@@ -68,7 +68,11 @@ public class DeleteBuild extends HttpServlet {
                 }
             }
             ps = con.prepareStatement(sql);
-            ps.setString(1, materialcode);
+            if (materialcode != null) {
+                ps.setString(1, materialcode);
+            } else {
+                ps.setString(1, batchId);
+            }
             int i = ps.executeUpdate();
             if (i > 0) {
                 result.put("message", "删除成功");

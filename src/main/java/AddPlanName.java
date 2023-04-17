@@ -43,7 +43,7 @@ public class AddPlanName extends HttpServlet {
         PreparedStatement ps2 = null;
         try {
             con = DbUtil.getCon();
-            String sql = "insert into planname(planname,unit_consumption,customer_name,contact_name,address,material_receiver,create_time,isdelete) values(?,?,?,?,?,now(),0)";
+            String sql = "insert into planname(planname,unit_consumption,customer_name,contact_name,address,material_receiver,create_time,isdelete) values(?,?,?,?,?,?,now(),0)";
             String sql2 = "select planname from planname where isdelete = 0";
             ps = con.prepareStatement(sql);
             ps.setString(1, planname.trim());

@@ -28,11 +28,20 @@
             <label>图号：</label><input type="text" id="drawing_no"
                                      style="height:34%;width: 68%" class="form-control">
         </div>
-        <div class="form-group" style="margin-left:3%;width: 20%">
+        <div class="form-group" style="margin-left:1%;width: 20%">
             <label>构建编号：</label><input type="text" id="preproductid"
                                        style="height:34%;width: 68%" class="form-control">
         </div>
-        <button type="button" class="btn btn-primary btn-sm" style="margin-left: 5%"
+        <div class="form-group" style="margin-left:3%;width: 20%">
+            <label>出库单：</label>
+            <select type="text" id="isOrder"
+                    style="height:34%;width: 68%" class="form-control">
+                <option value=""></option>
+                <option value="true">已生成</option>
+                <option value="false">未生成</option>
+            </select>
+        </div>
+        <button type="button" class="btn btn-primary btn-sm" style="margin-left: 5%;"
                 onclick="getTableData(1)">
             查 询
         </button>
@@ -514,6 +523,7 @@
             let floor_no = $('#floor_no').val();
             let materialcode = $('#materialcode').val();
             let drawing_no = $('#drawing_no').val();
+            let isOrder = $('#isOrder option:selected').val();
             let obj = {
                 factoryName: name,
                 planname: planname,
@@ -522,6 +532,7 @@
                 floor_no: floor_no,
                 materialcode: materialcode,
                 drawing_no: drawing_no,
+                isOrder: isOrder,
                 pageCur: newPage,
                 pageMax: pageMax
             }
@@ -699,11 +710,11 @@
                 alert("请选择移库货位信息")
                 return
             }
-            let location = $("#location").val()
-            if (!location) {
-                alert("请选择查询货位信息")
-                return
-            }
+            // let location = $("#location").val()
+            // if (!location) {
+            //     alert("请选择查询货位信息")
+            //     return
+            // }
             let ids = []
             ids.push(materialcode)
             $.ajax({
@@ -713,7 +724,7 @@
                 data: {
                     'ids': JSON.stringify(ids),
                     'in_warehouse_id': location_pop,
-                    'out_warehouse_id': location,
+                    // 'out_warehouse_id': location,
                     'userName': sessionStorage.getItem("userName"),
                     'type': '3'
                 },
@@ -799,11 +810,11 @@
                     return;
                 }
             }
-            let location = $("#location").val()
-            if (!location) {
-                alert("请选择查询货位信息")
-                return
-            }
+            // let location = $("#location").val()
+            // if (!location) {
+            //     alert("请选择查询货位信息")
+            //     return
+            // }
             let method = $("#myModal2_name1").val()
             if (!method) {
                 alert("请选择出库方式信息")
@@ -815,7 +826,7 @@
                 dataType: 'json',
                 data: {
                     ids: JSON.stringify(ids),
-                    out_warehouse_id: location,
+                    // out_warehouse_id: location,
                     userName: sessionStorage.getItem("userName"),
                     method: method,
                     type: '2'
@@ -870,6 +881,7 @@
             let floor_no = $('#floor_no').val();
             let materialcode = $('#materialcode').val();
             let drawing_no = $('#drawing_no').val();
+            let isOrder = $('#isOrder option:selected').val();
             let obj = {
                 factoryName: name,
                 preproductid: preproductid,
@@ -878,6 +890,7 @@
                 floor_no: floor_no,
                 materialcode: materialcode,
                 drawing_no: drawing_no,
+                isOrder: isOrder,
                 pageCur: newPage,
                 pageMax: pageMax
             }
@@ -934,6 +947,7 @@
             let floor_no = $('#floor_no').val();
             let materialcode = $('#materialcode').val();
             let drawing_no = $('#drawing_no').val();
+            let isOrder = $('#isOrder option:selected').val();
             let obj = {
                 factoryName: name,
                 planname: planname,
@@ -942,6 +956,7 @@
                 floor_no: floor_no,
                 materialcode: materialcode,
                 drawing_no: drawing_no,
+                isOrder: isOrder,
                 pageCur: newPage,
                 pageMax: pageMax
             }
@@ -998,6 +1013,7 @@
                 name = location
             }
             let preproductid = $('#preproductid').val();
+            let isOrder = $('#isOrder option:selected').val();
             let obj = {
                 factoryName: name,
                 preproductid: preproductid,
@@ -1005,6 +1021,7 @@
                 building_no: building_no,
                 floor_no: floor_no,
                 materialcode: materialcode,
+                isOrder: isOrder,
                 drawing_no: drawing_no,
                 pageCur: newPage,
                 pageMax: pageMax

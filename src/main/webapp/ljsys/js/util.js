@@ -97,8 +97,8 @@ function checkAuthority(au) {
 function outputWorkbook2(workbook) {
     let persons = []; // 存储获取到的数据
     let data = []
-    let zn_title = ['存货编码', '存货名称', '构件规格', '图号', '构建类型', '楼栋号', '楼层','方量'];
-    let en_title = ['materialcode', 'materialname', 'standard', 'drawing_no', 'build_type', 'building_no', 'floor_no','fangliang'];
+    let zn_title = ['构件编码', '构件名称', '构件规格', '图号', '类型', '楼栋', '楼层', '方量'];
+    let en_title = ['materialcode', 'materialname', 'standard', 'drawing_no', 'build_type', 'building_no', 'floor_no', 'fangliang'];
     // 遍历每张表读取
     // 表格的表格范围，可用于判断表头是否数量是否正确
     var fromTo = '';
@@ -111,8 +111,41 @@ function outputWorkbook2(workbook) {
         }
     }
     for (let d of persons) {
-        if (d['构建类型'] == void 0 && d['楼栋号'] == void 0 && d['楼号'] == void 0)
+        if (d['构件编码'] == void 0 && d['构件名称'] == void 0 && d['构件规格'] == void 0
+            && d['图号'] == void 0 && d['类型'] == void 0 && d['楼栋'] == void 0 && d['楼层'] == void 0 && d['方量'] == void 0)
             break
+        if (d['构件编码'] == void 0) {
+            alert("构件编码不能为空")
+            return
+        }
+        if (d['构件名称'] == void 0) {
+            alert("构件名称不能为空")
+            return
+        }
+        if (d['构件规格'] == void 0) {
+            alert("构件规格不能为空")
+            return
+        }
+        if (d['图号'] == void 0) {
+            alert("图号不能为空")
+            return
+        }
+        if (d['类型'] == void 0) {
+            alert("类型不能为空")
+            return
+        }
+        if (d['楼栋'] == void 0) {
+            alert("楼栋不能为空")
+            return
+        }
+        if (d['楼层'] == void 0) {
+            alert("楼层不能为空")
+            return
+        }
+        if (d['方量'] == void 0) {
+            alert("方量不能为空")
+            return
+        }
         let object = {};
         for (let i = 0; i < zn_title.length; i++) {
             let s = zn_title[i]

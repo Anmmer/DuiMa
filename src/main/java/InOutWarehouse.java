@@ -42,17 +42,20 @@ public class InOutWarehouse extends HttpServlet {
         try {
             conn = DbUtil.getCon();
             String msg = "";                    // 返回的信息
-            List<String> list = new ArrayList<>();
+            List<Map<String, String>> list = new ArrayList<>();
             String batch_id = UUID.randomUUID().toString().toUpperCase().replace("-", "");
             String initSql = "update preproduct set stock_status = '1' , inspect = '1',pourmade = '1',pourmade = '1',product_delete = '0' where materialcode = ?";
             for (int i = 0; i < products.size(); i++) {
                 String productId = products.get(i);
-                String sql = "select warehouse_id from warehouse_info where materialcode = ? and is_effective = '1'";
+                String sql = "select warehouse_id,outbound_order_id from warehouse_info a left join outbound_order_product b on a.materialcode = b.materialcode where a.materialcode = ? and a.is_effective = '1'";
                 ps = conn.prepareStatement(sql);
                 ps.setString(1, productId);
                 rs = ps.executeQuery();
                 while (rs.next()) {
-                    list.add(rs.getString("warehouse_id"));
+                    Map<String, String> map = new HashMap<>();
+                    map.put("warehouse_id", rs.getString("warehouse_id"));
+                    map.put("outbound_order_id", rs.getString("outbound_order_id"));
+                    list.add(map);
                 }
                 if ("1".equals(type) && list.size() != 0) {
                     msg = "物料编码为：" + productId + " 的构建已入库，请勿重复入库";
@@ -63,6 +66,13 @@ public class InOutWarehouse extends HttpServlet {
                 }
                 if (!"1".equals(type) && list.size() == 0) {
                     msg = "物料编码为：" + productId + " 的构建未入库，请先入库";
+                    ret.put("msg", msg);
+                    ret.put("flag", false);
+                    out.print(JSON.toJSONString(ret));
+                    return;
+                }
+                if ("2".equals(type) && list.get(i).get("outbound_order_id") == null) {
+                    msg = "物料编码为：" + productId + " 的构建请先生成出库单再出库";
                     ret.put("msg", msg);
                     ret.put("flag", false);
                     out.print(JSON.toJSONString(ret));
@@ -112,7 +122,7 @@ public class InOutWarehouse extends HttpServlet {
                 ps.setString(3, type);
                 ps.setString(4, in_warehouse_id);
                 if (!"1".equals(type) && out_warehouse_id == null) {
-                    out_warehouse_id = list.get(i);
+                    out_warehouse_id = list.get(i).get("warehouse_id");
                 }
                 ps.setString(5, out_warehouse_id);
                 ps.setString(6, productId);

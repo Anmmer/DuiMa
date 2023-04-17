@@ -42,16 +42,16 @@
     <div style="width:85%;height:80%;margin:0 auto;">
         <div class="page-header" style="margin-top: 0;margin-bottom: 1%">
             <h3 style="margin-bottom: 0;margin-top: 0"><small>出入库信息</small></h3>
-            <button type="button" style="position: absolute;right: 17%;top:18%" class="btn btn-primary btn-sm"
-                    data-toggle="modal"
-                    onclick="printDataF(true)">
-                打印单据
-            </button>
-            <button type="button" style="position: absolute;right: 10%;top:18%" class="btn btn-primary btn-sm"
-                    data-toggle="modal"
-                    onclick="printDataF(false)">
-                全部打印
-            </button>
+<%--            <button type="button" style="position: absolute;right: 17%;top:18%" class="btn btn-primary btn-sm"--%>
+<%--                    data-toggle="modal"--%>
+<%--                    onclick="printDataF(true)">--%>
+<%--                打印单据--%>
+<%--            </button>--%>
+<%--            <button type="button" style="position: absolute;right: 10%;top:18%" class="btn btn-primary btn-sm"--%>
+<%--                    data-toggle="modal"--%>
+<%--                    onclick="printDataF(false)">--%>
+<%--                全部打印--%>
+<%--            </button>--%>
         </div>
         <div style="height: 85%">
             <table class="table table-hover" cellspacing="0" cellpadding="0" width="100%"
@@ -290,6 +290,9 @@
                 if (type === "1") {
                     $('#method').append($("<option value='报废入库'>报废入库</option>"))
                     $('#method').append($("<option value='修补入库'>修补入库</option>"))
+                }
+                if (type === "2") {
+                    $('#method').append($("<option value='再制造出库'>再制造出库</option>"))
                 }
             }
         })

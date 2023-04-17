@@ -23,6 +23,7 @@
                     <td class='tdStyle_title active' style="width: 14%">物料名称</td>
                     <td class='tdStyle_title active' style="width: 10%">规格</td>
                     <td class='tdStyle_title active' style="width: 10%">图号</td>
+                    <td class='tdStyle_title active' style="width: 10%">方量</td>
                     <td class='tdStyle_title active' style="width: 10%">构建类型</td>
                     <td class='tdStyle_title active' style="width: 10%">楼栋号</td>
                     <td class='table_tr_print tdStyle_title active' style="width: 10%">楼层号</td>
@@ -110,7 +111,7 @@
                     jsonObj = res.data;
                     updateTable();
                     $('#total').html(res.cnt + "条，共" + res.pageAll + "页");
-                    if(newPage===1){
+                    if (newPage === 1) {
                         $('#li_1').addClass('active');
                     }
                     // 重置查询为第一页
@@ -155,6 +156,7 @@
                 "</td><td class='tdStyle_body' style='padding: 5px;' title='" + jsonObj[i]['materialname'] + "'>" + jsonObj[i]['materialname'] +
                 "</td><td class='tdStyle_body' style='padding: 5px;' title='" + jsonObj[i]['standard'] + "'>" + jsonObj[i]['standard'] +
                 "</td><td class='tdStyle_body' style='padding: 5px;' title='" + jsonObj[i]['drawing_no'] + "'>" + jsonObj[i]['drawing_no'] +
+                "</td><td class='tdStyle_body' style='padding: 5px;' title='" + jsonObj[i]['fangliang'] + "'>" + jsonObj[i]['fangliang'] +
                 "</td><td class='tdStyle_body' style='padding: 5px;' title='" + jsonObj[i]['build_type'] + "'>" + jsonObj[i]['build_type'] +
                 "</td><td class='tdStyle_body' style='padding: 5px;' title='" + jsonObj[i]['building_no'] + "'>" + jsonObj[i]['building_no'] +
                 "</td><td class='tdStyle_body' style='padding: 5px;' title='" + jsonObj[i]['floor_no'] + "'>" + jsonObj[i]['floor_no'] +

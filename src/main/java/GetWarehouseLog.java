@@ -46,19 +46,19 @@ public class GetWarehouseLog extends HttpServlet {
         PreparedStatement ps = null;
         PreparedStatement ps2 = null;
 
-        if (startDate == null || "".equals(startDate) || endDate == null || "".equals(endDate)) {
-            result.put("flag", false);
-            result.put("msg", "请选择起止日期！");
-            out.write(JSON.toJSONString(result));
-            return;
-        }
-
-        if (type == null || "".equals(type)) {
-            result.put("flag", false);
-            result.put("msg", "请选择出入库类型！");
-            out.write(JSON.toJSONString(result));
-            return;
-        }
+//        if (startDate == null || "".equals(startDate) || endDate == null || "".equals(endDate)) {
+//            result.put("flag", false);
+//            result.put("msg", "请选择起止日期！");
+//            out.write(JSON.toJSONString(result));
+//            return;
+//        }
+//
+//        if (type == null || "".equals(type)) {
+//            result.put("flag", false);
+//            result.put("msg", "请选择出入库类型！");
+//            out.write(JSON.toJSONString(result));
+//            return;
+//        }patchLibraryQueryAll
 
         endDate = endDate+": 23:59:59";
 
