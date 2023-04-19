@@ -89,22 +89,22 @@
 
                         <div class="title_text"
                              style="line-height: 25px;width: 100%;display: flex;justify-content: space-between;">
-                            <div id="create_time" class="title_item" style="width: 250px;"></div>
-                            <div id="order_id" class="title_item" style="width: 250px;"></div>
+                            <div id="create_time" class="title_item" style="max-width: 250px;"></div>
+                            <div id="order_id" class="title_item" style="max-width: 250px;"></div>
                         </div>
                         <div class="title_text"
                              style="line-height: 25px;width: 100%;display: flex;justify-content: space-between;">
-                            <div id="customer_name_print" class="title_item" style="width: 250px;"></div>
-                            <div id="contact_name_print" class="title_item" style="width: 250px;"></div>
+                            <div id="customer_name_print" class="title_item" style="max-width: 250px;"></div>
+                            <div id="contact_name_print" class="title_item" style="max-width: 250px;"></div>
                         </div>
                         <div class="title_text"
                              style="line-height: 25px;width: 100%;display: flex;justify-content: space-between;">
-                            <div id="planname_print" class="title_item" style="width: 250px;"></div>
-                            <div id="material_receiver_print" class="title_item" style="width: 250px;"></div>
+                            <div id="planname_print" class="title_item" style="max-width: 250px;"></div>
+                            <div id="material_receiver_print" class="title_item" style="max-width: 250px;"></div>
                         </div>
                         <div class="title_text"
                              style="line-height: 25px;width: 100%;display: flex;justify-content: space-between;">
-                            <div id="address_print" class="title_item" style="width: 250px;"></div>
+                            <div id="address_print" class="title_item" style="max-width: 250px;"></div>
                         </div>
 
                     </div>

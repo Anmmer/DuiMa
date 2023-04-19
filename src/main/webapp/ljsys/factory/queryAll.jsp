@@ -21,7 +21,7 @@
                 打&nbsp;&nbsp;印
             </button>
         </div>
-        <div style="height: 85%;overflow-y: scroll">
+        <div style="height: 85%;overflow-y: auto">
             <table class="table table-hover" style="text-align: center">
                 <tr>
                     <td class='table_tr_print tdStyle_title active' style="width: 2%;"><input
