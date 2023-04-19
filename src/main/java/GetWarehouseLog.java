@@ -91,8 +91,8 @@ public class GetWarehouseLog extends HttpServlet {
                     "\t\tb.id = a.out_warehouse_id \n" +
                     "\t) AS out_warehouse_path \n" +
                     "FROM\n" +
-                    "\twarehouse_info_log a left join preproduct c on a.materialcode = c.materialcode  where 1=1";
-            String sql2 = "select count(*) as num from warehouse_info_log a left join preproduct c on a.materialcode = c.materialcode where 1=1";
+                    "\twarehouse_info_log a left join preproduct c on a.materialcode = c.materialcode  where c.isdelete=0 and c.product_delete = '0' ";
+            String sql2 = "select count(*) as num from warehouse_info_log a left join preproduct c on a.materialcode = c.materialcode where c.isdelete=0 and c.product_delete = '0' ";
             if ("1".equals(type) && warehouseId != null && !"".equals(warehouseId)) {
                 sql += " and in_warehouse_id in (with recursive temp as (\n" +
                         "select id,pid from warehouse p where  id= ?\n" +

@@ -170,7 +170,7 @@ public class OutboundOrder extends HttpServlet {
                 }
             }
             if ("5".equals(type)) {
-                String sql7 = "select materialname,preproductid,standard,fangliang from outbound_order_product a left join preproduct b on a.materialcode = b.materialcode where a.outbound_order_id = ? and a.is_effective = '1'";
+                String sql7 = "select materialname,preproductid,standard,fangliang from outbound_order_product a left join preproduct b on a.materialcode = b.materialcode where a.outbound_order_id = ? and a.is_effective = '1' and b.product_delete = '0' and b.isdelete=0";
                 ps = con.prepareStatement(sql7);
                 ps.setString(1, id);
                 ResultSet rs = ps.executeQuery();

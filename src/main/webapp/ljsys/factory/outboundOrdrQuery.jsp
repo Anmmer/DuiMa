@@ -89,22 +89,22 @@
 
                         <div class="title_text"
                              style="line-height: 25px;width: 100%;display: flex;justify-content: space-between;">
-                            <div id="create_time" class="title_item" style="width: 300px;"></div>
-                            <div id="order_id" class="title_item" style="width: 300px;"></div>
+                            <div id="create_time" class="title_item" style="width: 250px;"></div>
+                            <div id="order_id" class="title_item" style="width: 250px;"></div>
                         </div>
                         <div class="title_text"
                              style="line-height: 25px;width: 100%;display: flex;justify-content: space-between;">
-                            <div id="customer_name_print" class="title_item" style="width: 300px;"></div>
-                            <div id="contact_name_print" class="title_item" style="width: 300px;"></div>
+                            <div id="customer_name_print" class="title_item" style="width: 250px;"></div>
+                            <div id="contact_name_print" class="title_item" style="width: 250px;"></div>
                         </div>
                         <div class="title_text"
                              style="line-height: 25px;width: 100%;display: flex;justify-content: space-between;">
-                            <div id="planname_print" class="title_item" style="width: 300px;"></div>
-                            <div id="material_receiver_print" class="title_item" style="width: 300px;"></div>
+                            <div id="planname_print" class="title_item" style="width: 250px;"></div>
+                            <div id="material_receiver_print" class="title_item" style="width: 250px;"></div>
                         </div>
                         <div class="title_text"
                              style="line-height: 25px;width: 100%;display: flex;justify-content: space-between;">
-                            <div id="address_print" class="title_item" style="width: 300px;"></div>
+                            <div id="address_print" class="title_item" style="width: 250px;"></div>
                         </div>
 
                     </div>
@@ -257,7 +257,7 @@
                                                 id="detail_checkbok"
                                                 type="checkbox"></td>
                                         <td class='tdStyle_title active' style="width: 150px">物料编码</td>
-                                        <td class='tdStyle_title active' style="width: 200px">物料名称</td>
+                                        <td class='tdStyle_title active' style="width: 250px">物料名称</td>
                                         <td class='tdStyle_title active' style="width: 150px">图号</td>
                                         <td class='tdStyle_title active' style="width: 150px">所属项目</td>
                                         <td class='tdStyle_title active' style="width: 100px">楼栋</td>
@@ -700,7 +700,7 @@
         document.getElementById("customer_name_print").innerText = "客户名称：" + jsonObj[i]['customer_name']
         document.getElementById("contact_name_print").innerText = "现场联系人：" + jsonObj[i]['contact_name']
         document.getElementById("planname_print").innerText = "项目名称：" + jsonObj[i]['planname']
-        document.getElementById("material_receiver_print").innerText = "收料员：" + jsonObj[i]['contact_name']
+        document.getElementById("material_receiver_print").innerText = "收料员：" + jsonObj[i]['material_receiver']
         document.getElementById("address_print").innerText = "送货地址：" + jsonObj[i]['address']
         document.getElementById("create_time").innerText = "出货日期：" + jsonObj[i]['create_time']
         let str = ''
@@ -1398,7 +1398,7 @@
     }
 
     .title_item {
-        width: 300px;
+        width: 250px;
     }
 
     .table_td {

@@ -33,6 +33,12 @@ public class AddBuildUpload extends HttpServlet {
         Connection con = null;
         try {
             con = DbUtil.getCon();
+            if (planname == null && str == null) {
+                result.put("flag", false);
+                result.put("message", "数据接受失败");
+                out.write(JSON.toJSONString(result));
+                return;
+            }
             String sql1 = "insert into batch(batch_id,planname,user_name,date,is_delete) values(?,?,?,NOW(),0 )";
             String sql2 = "insert into preproduct(materialcode,materialname,standard,drawing_no,build_type,building_no,floor_no,batch_id,planname,isdelete,fangliang,preproductid) values(?,?,?,?,?,?,?,?,?,0,?,?)";
             String sql3 = "select count(*) num from planname where planname = ? and isdelete = 0";
