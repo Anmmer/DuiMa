@@ -2,21 +2,22 @@
 <div style="height: 100%;width: 100%">
     <div style="width: 100%;height: 10px"></div>
     <div style="width: 100%;display: flex;flex-flow: row wrap">
-        <div class="frame">
+        <div class="frame" style="width: 100%">
             <div class="title">项目库存信息统计（个）</div>
             <div id="inventory_planname" class="pie"></div>
         </div>
-        <div class="frame">
-            <div class="title">库存按构件类型统计（个）</div>
-            <div id="inventory_type" class="pie"></div>
-        </div>
-        <div class="frame">
+
+        <div class="frame" style="height: 470px;">
             <div class="title">仓库构件数量统计（个）</div>
-            <div id="inventory_factory" class="pie"></div>
+            <div id="inventory_factory" class="pie" style="height: 440px;"></div>
         </div>
         <div class="frame" style="height: 450px;">
             <div class="title">仓库构件数量统计（个）</div>
             <div id="inventory_planname_type" class="pie" style="height: 440px;"></div>
+        </div>
+        <div class="frame">
+            <div class="title">库存按构件类型统计（个）</div>
+            <div id="inventory_type" class="pie"></div>
         </div>
     </div>
 </div>
@@ -65,6 +66,11 @@
                 let option = {
                     xAxis: {
                         type: 'category',
+                        axisLabel: {
+                            interval: 0,
+                            rotate: 20,
+                            margin: 2,
+                        },
                         data: res.xAxis
                     },
                     yAxis: {
@@ -230,12 +236,12 @@
 
     .frame {
         width: 46%;
-        height: 360px;
-        margin: 0 20px;
+        height: 375px;
+        margin: 0 20px 10px 20px;
     }
 
     .pie {
         width: 100%;
-        height: 330px;
+        height: 345px;
     }
 </style>

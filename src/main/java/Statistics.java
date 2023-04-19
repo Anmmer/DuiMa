@@ -164,20 +164,21 @@ public class Statistics extends HttpServlet {
                 for (int i1 = 0; i1 < list1.size(); i1++) {
                     Map<String, Object> map = new HashMap<>();
                     List<Integer> list3 = new ArrayList<>();
-                    map.put("name", list1.get(i));
+                    map.put("name", list1.get(i1));
                     map.put("data", list3);
                     list2.add(map);
-                    inventoryPlannameType += ",(select count(*) from warehouse_info a left join preproduct b on a.materialcode = b.materialcode where a.is_effective = '1' and b.product_delete = '0' and b.planname = c.planname and b.build_type ='" + list1.get(i1) + "' ) type" + i;
+                    inventoryPlannameType += ",(select count(*) from warehouse_info a left join preproduct b on a.materialcode = b.materialcode where a.is_effective = '1' and b.product_delete = '0' and b.planname = c.planname and b.build_type ='" + list1.get(i1) + "' ) type" + i1;
                 }
                 inventoryPlannameType += " from planname c";
                 ps = con.prepareStatement(inventoryPlannameType);
                 rs = ps.executeQuery();
                 List<String> yAxis = new ArrayList<>();
-                int j = 0;
                 while (rs.next()) {
                     yAxis.add(rs.getString("planname"));
-                    List<Integer> list3 = (List<Integer>) list2.get(j).get("data");
-                    list3.add(rs.getInt("type" + i));
+                    for (int j = 0; j < list2.size(); j++) {
+                        List<Integer> list3 = (List<Integer>) list2.get(j).get("data");
+                        list3.add(rs.getInt("type" + j));
+                    }
                 }
                 result.put("yAxis", yAxis);
                 result.put("data", list2);
