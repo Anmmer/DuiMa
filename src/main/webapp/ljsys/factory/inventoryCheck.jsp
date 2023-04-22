@@ -2,38 +2,24 @@
 <div style="height: 100%;width:100%;background-color:white;">
     <form name="query" class="form-inline" style="width:89%;height:16%;margin-left: 8%;padding-top:2%">
         <div class="form-group" style="width: 20%;">
-            <label>堆场信息：</label>
-            <input style="height:34%;width: 68%" name="factoryName"
-                   id="factoryName"
-                   onclick="openPop1()" class="form-control">
+            <label>盘库批次号：</label>
+            <input style="height:34%;width: 68%" name="batch_id"
+                   id="batch_id"
+                   class="form-control">
         </div>
         <div class="form-group" style="margin-left:3%;width: 20%;">
-            <label>项目名称：</label><input type="text" id="planname"
-                                       style="height:34%;width: 68%" class="form-control">
+            <label>制单人：</label><input type="text" id="user_name"
+                                      style="height:34%;width: 68%" class="form-control">
         </div>
-        <div class="form-group" style="margin-left:3%;width: 20%;">
-            <label>楼栋：</label><input type="text" id="building_no"
-                                     style="height:34%;width: 68%" class="form-control">
-        </div>
-        <div class="form-group" style="margin-left:3%;">
-            <label>楼层：</label><input type="text" id="floor_no"
-                                     style="height:34%;" class="form-control">
+        <div class="form-group" style="margin-left:3%;width: 40%;">
+            <label for="startDate" style="margin-left: 3%">操作日期从：</label>
+            <input id="startDate" class="form-control" type="date" style="width: 30%;height: 30px">
+            <label for="endDate" style="margin-left: 2%">至：</label>
+            <input id="endDate" class="form-control" type="date" style="width: 30%;height: 30px">
         </div>
         <br><br>
-        <div class="form-group" style="width: 20%">
-            <label>物料编码：</label><input type="text" id="materialcode"
-                                       style="height:34%;width: 68%" class="form-control">
-        </div>
         <div class="form-group" style="margin-left:3%;width: 20%">
-            <label>图号：</label><input type="text" id="drawing_no"
-                                     style="height:34%;width: 68%" class="form-control">
-        </div>
-        <div class="form-group" style="margin-left:1%;width: 20%">
-            <label>构建编号：</label><input type="text" id="preproductid"
-                                       style="height:34%;width: 68%" class="form-control">
-        </div>
-        <div class="form-group" style="margin-left:3%;width: 20%">
-            <label>出库单：</label>
+            <label>状态：</label>
             <select type="text" id="isOrder"
                     style="height:34%;width: 68%" class="form-control">
                 <option value=""></option>
@@ -48,32 +34,25 @@
     </form>
     <div style="width:85%;height:78%;margin:0 auto;">
         <div class="page-header" style="margin-top: 0;margin-bottom: 1%">
-            <h3 style="margin-bottom: 0;margin-top: 0"><small id="small">仓库信息 合计方量：0</small></h3>
-            <button type="button" onclick="openOutPop()" style="position: absolute;right: 15%;top:16%;width: 60px"
-                    class="btn btn-primary btn-sm">
-                出&nbsp;&nbsp;库
-            </button>
+            <h3 style="margin-bottom: 0;margin-top: 0"><small id="small">盘库单信息</small></h3>
             <button type="button" onclick="openPop()" style="position: absolute;right: 9%;top:16%;width: 60px"
                     class="btn btn-primary btn-sm">
-                入&nbsp;&nbsp;库
+                新&nbsp;&nbsp;增
             </button>
         </div>
         <div style="height: 85%">
             <table class="table table-hover" cellspacing="0" cellpadding="0" width="100%" align="center">
                 <tr>
-                    <td class='tdStyle_title active' style="width: 2%"><input
-                            id="checkbok"
-                            type="checkbox"></td>
-                    <td class='tdStyle_title  active' style="width: 10%">物料编码</td>
-                    <td class='tdStyle_title active' style="width: 10%">构件名称</td>
-                    <td class='tdStyle_title active' style="width: 10%">构件编号</td>
-                    <td class='tdStyle_title active' style="width: 10%">方量</td>
-                    <td class='tdStyle_title active' style="width: 10%">构件类型</td>
-                    <td class='tdStyle_title active' style="width: 10%">所属项目</td>
-                    <td class='tdStyle_title active' style="width: 10%">楼栋</td>
-                    <td class='tdStyle_title active' style="width: 10%">楼层</td>
-                    <td class='tdStyle_title active' style="width: 15%">库位</td>
-                    <td class='tdStyle_title active' style="width: 15%">操作</td>
+                    <%--                    <td class='tdStyle_title active' style="width: 2%"><input--%>
+                    <%--                            id="checkbok"--%>
+                    <%--                            type="checkbox"></td>--%>
+                    <td class='tdStyle_title  active' style="width: 10%">盘库批次号</td>
+                    <td class='tdStyle_title active' style="width: 10%">创建日期</td>
+                    <td class='tdStyle_title active' style="width: 10%">制单人</td>
+                    <td class='tdStyle_title active' style="width: 10%">应盘数量（个）</td>
+                    <td class='tdStyle_title active' style="width: 10%">已盘数量（个）</td>
+                    <td class='tdStyle_title active' style="width: 10%">状态</td>
+                    <td class='tdStyle_title active' style="width: 10%">操作</td>
                 </tr>
                 <tbody id="archTableText">
                 </tbody>
@@ -121,10 +100,14 @@
                 <div class="modal-body" style="height: 90%;width: 100%">
                     <div name="query" id="pop_query" class="form-inline" style="width: 100%;height: 8%">
                         <div class="form-group" style="width: 100%;">
-                            <label for="materialcode_pop">物料编码：</label>
-                            <input id="materialcode_pop" class="form-control" style="width: 15%;height: 30px">
-                            <label for="materialname_pop" style="margin-left: 1%">物料名称：</label>
-                            <input id="materialname_pop" class="form-control" style="width: 15%;height: 30px">
+                            <label>堆场信息：</label>
+                            <input style="height:30px;width: 15%" name="factoryName"
+                                   id="factoryName"
+                                   onclick="openPop1()" class="form-control">
+                            <label for="planname" style="margin-left: 1%">项目名称：</label>
+                            <input id="planname" class="form-control" style="width: 15%;height: 30px">
+                            <label for="build_type" style="margin-left: 1%">构建类型：</label>
+                            <input id="build_type" class="form-control" style="width: 15%;height: 30px">
                             <button id="pop_query_button" class="btn btn-primary" onclick="getDetailData(1)"
                                     style="margin-left:3%;height: 30px;padding: 0 10px">查&nbsp;&nbsp;询
                             </button>
@@ -136,13 +119,17 @@
                         </div>
                         <table class="table table-hover" style="text-align: center;">
                             <tr id="table_tr">
-                                <td class='tdStyle_title active' style="width: 2%"><input
-                                        id="detail_checkbok"
-                                        type="checkbox"></td>
-                                <td class='tdStyle_title active' style="width: 15%">物料编号</td>
-                                <td class='tdStyle_title active' style="width: 15%">物料名称</td>
-                                <td class='tdStyle_title active' style="width: 10%">规格</td>
-                                <td class='tdStyle_title active' style="width: 10%">状态</td>
+                                <%--                                <td class='tdStyle_title active' style="width: 2%"><input--%>
+                                <%--                                        id="detail_checkbok"--%>
+                                <%--                                        type="checkbox"></td>--%>
+                                <td class='tdStyle_title active' style="width: 10%">物料编码</td>
+                                <td class='tdStyle_title active' style="width: 10%">物料名称</td>
+                                <td class='tdStyle_title active' style="width: 10%">图号</td>
+                                <td class='tdStyle_title active' style="width: 10%">项目名称</td>
+                                <td class='tdStyle_title active' style="width: 10%">类型</td>
+                                <td class='tdStyle_title active' style="width: 10%">仓库</td>
+                                <td class='tdStyle_title active' style="width: 10%">楼栋</td>
+                                <td class='tdStyle_title active' style="width: 10%">楼层</td>
                             </tr>
                             <tbody id="detailTableText">
                             </tbody>
@@ -150,10 +137,10 @@
                     </div>
                     <div style="display: flex;width: 100%; justify-content: space-between;">
                         <div class="form-inline" style="width: 30%;">
-                            <label for="select">入库方式:</label>
-                            <select id="select" class="form-control" style="width: 60%"></select>
+                            <%--                            <label for="select">入库方式:</label>--%>
+                            <%--                            <select id="select" class="form-control" style="width: 60%"></select>--%>
                         </div>
-                        <button type="button" style="height:10%;width: 100px" onclick="inWarehouseSave()"
+                        <button type="button" style="height:10%;width: 100px" onclick="inventorySave()"
                                 class="btn btn-primary btn-sm">保 存
                         </button>
                         <nav aria-label="Page navigation" style="width:50%;height:10%;" id="page">
@@ -311,47 +298,10 @@
             $('#myModal4').modal('hide')
         }
 
-        function inWarehouseSave() {
-            let location = $("#location").val()
-            if (location === null || location === '') {
-                alert("请选择货位信息")
-                return;
-            }
-            let ids = []
-            $('#detailTableText').find('input:checked').each(function () {
-                ids.push($(this).attr('data-id'));   //找到对应checkbox中data-id属性值，然后push给空数组ids
-            });
-            if (ids.length === 0) {
-                alert("请选择入库构建")
-                return;
-            }
-            let select = $("#select").val()
-            if (select === '') {
-                alert("请选择入库方式")
-                return;
-            }
-            $.ajax({
-                url: "${pageContext.request.contextPath}/InOutWarehouse",
-                type: 'post',
-                dataType: 'json',
-                data: {
-                    ids: JSON.stringify(ids),
-                    in_warehouse_id: location,
-                    userName: sessionStorage.getItem("userName"),
-                    method: select,
-                    type: '1'
-                },
-                contentType: 'application/x-www-form-urlencoded;charset=utf-8',
-                success: function (result) {
-                    alert(result.msg)
-                    if (result.flag) {
-                        $('#myModal').modal('hide');
-                        getTableData(1)
-                    }
-                }
-            })
+        function inventorySave() {
 
         }
+
 
         function getYardData() {
             $.post("${pageContext.request.contextPath}/GetFactory", {
@@ -498,53 +448,28 @@
         }
 
         function getTableData(newPage) {
-            let location = $('#location option:selected').val();
-            let name = null;
-            let myModal_name1 = $('#myModal_name1 option:selected').val()
-            let myModal_name2 = $('#myModal_name2 option:selected').val()
-            if (myModal_name1) {
-                name = myModal_name1
-            }
-            if (myModal_name2) {
-                name = myModal_name2
-            }
-            if (location) {
-                name = location
-            }
-
-            // if (location === null) {
-            //     alert("请选择堆场货位信息")
-            //     return
-            // }
-            let planname = $('#planname').val();
-            let preproductid = $('#preproductid').val();
-            let building_no = $('#building_no').val();
-            let floor_no = $('#floor_no').val();
-            let materialcode = $('#materialcode').val();
-            let drawing_no = $('#drawing_no').val();
-            let isOrder = $('#isOrder option:selected').val();
+            let batch_id = $('#batch_id').val();
+            let user_name = $('#user_name').val();
+            let startDate = $('#startDate').val();
+            let endDate = $('#endDate').val();
             let obj = {
-                factoryName: name,
-                planname: planname,
-                preproductid: preproductid,
-                building_no: building_no,
-                floor_no: floor_no,
-                materialcode: materialcode,
-                drawing_no: drawing_no,
-                isOrder: isOrder,
+                batch_id: batch_id,
+                user_name: user_name,
+                type: '0',
+                startDate: startDate,
+                endDate: endDate,
                 pageCur: newPage,
                 pageMax: pageMax
             }
             $.ajax({
-                url: "${pageContext.request.contextPath}/GetWarehouseInfo",
+                url: "${pageContext.request.contextPath}/InventoryCheck",
                 type: 'post',
                 dataType: 'json',
                 data: obj,
                 contentType: 'application/x-www-form-urlencoded;charset=utf-8',
                 success: function (res) {
                     if (res !== undefined) {
-                        document.getElementById("small").innerText = "仓库信息 合计方量：" + (res.fangliang || 0)
-                        jsonObj = res.warehouseInfo;
+                        jsonObj = res.data;
                         updateTable(true);
                         $('#total').html(res.cnt + "条，共" + res.pageAll + "页");
                         // 重置查询为第一页
@@ -627,45 +552,37 @@
         });
 
         function openPop() {
-            let location = $("#location").val()
-            if (location === null || location === '') {
-                alert("请选择货位信息")
-                return;
-            }
             $('#myModal').modal('show')
             getDetailData(1)
-            getInWarehouseMethod('1')
         }
 
         function updateTable(flag) {
-            document.getElementById('detail_checkbok').checked = false
-            document.getElementById('checkbok').checked = false
+            // document.getElementById('detail_checkbok').checked = false
+            // document.getElementById('checkbok').checked = false
             det_i = 0
             main_i = 0
             let str = '';
             if (flag) {
                 for (let i = 0; i < jsonObj.length; i++) {
-                    str += "<tr><td class='tdStyle_body' style='padding: 5px;'><input type='checkbox' data-id=" + jsonObj[i]["materialcode"] + ">" +
-                        "</td><td class='tdStyle_body' title='" + jsonObj[i]['materialcode'] + "'>" + jsonObj[i]['materialcode'] +
-                        "</td><td class='tdStyle_body' title='" + jsonObj[i]['materialname'] + "'>" + jsonObj[i]['materialname'] +
-                        "</td><td class='tdStyle_body' title='" + jsonObj[i]['preproductid'] + "'>" + jsonObj[i]['preproductid'] +
-                        "</td><td class='tdStyle_body' title='" + jsonObj[i]['fangliang'] + "'>" + jsonObj[i]['fangliang'] +
-                        "</td><td class='tdStyle_body' title='" + jsonObj[i]['build_type'] + "'>" + jsonObj[i]['build_type'] +
-                        "</td><td class='tdStyle_body' title='" + jsonObj[i]['planname'] + "'>" + jsonObj[i]['planname'] +
-                        "</td><td class='tdStyle_body' title='" + jsonObj[i]['building_no'] + "'>" + jsonObj[i]['building_no'] +
-                        "</td><td class='tdStyle_body' title='" + jsonObj[i]['floor_no'] + "'>" + jsonObj[i]['floor_no'] +
-                        "</td><td class='tdStyle_body' title='" + jsonObj[i]['path'] + "'>" + jsonObj[i]['path'] +
+                    str += "<tr><td class='tdStyle_body' title='" + jsonObj[i]['batch_id'] + "'>" + jsonObj[i]['batch_id'] +
+                    "</td><td class='tdStyle_body' title='" + jsonObj[i]['create_time'] + "'>" + jsonObj[i]['create_time'] +
+                    "</td><td class='tdStyle_body' title='" + jsonObj[i]['user_name'] + "'>" + jsonObj[i]['user_name'] +
+                    "</td><td class='tdStyle_body' title='" + jsonObj[i]['should_check_num'] + "'>" + jsonObj[i]['should_check_num'] +
+                    "</td><td class='tdStyle_body' title='" + jsonObj[i]['real_check_num'] + "'>" + jsonObj[i]['real_check_num'] +
+                    "</td><td class='tdStyle_body' title='" + jsonObj[i]['status'] + "'>" + jsonObj[i]['status'] === '1' ? '已完成' : '未完成' +
                         "</td><td class='tdStyle_body' > <a href='#' onclick=openOutPop('" + jsonObj[i]['materialcode'] + "')>出库</a> <a href='#' onclick=moveWarehouse('" + jsonObj[i]['materialcode'] + "')>移库</a> </td></tr>";
                 }
                 $("#archTableText").html(str);
             } else {
                 for (let i = 0; i < pop_pageDate.length; i++) {
-                    pop_pageDate[i]['stock_status'] = pop_pageDate[i]['stock_status'] === '0' ? '待入库' : '已入库';
-                    str += "<tr><td class='tdStyle_body' style='padding: 5px;'><input type='checkbox' data-id=" + pop_pageDate[i]["materialcode"] + ">" +
-                        "</td><td class='tdStyle_body' title='" + pop_pageDate[i]['materialcode'] + "'>" + pop_pageDate[i]['materialcode'] +
+                    str += "<tr><td class='tdStyle_body' title='" + pop_pageDate[i]['materialcode'] + "'>" + pop_pageDate[i]['materialcode'] +
                         "</td><td class='tdStyle_body' title='" + pop_pageDate[i]['materialname'] + "'>" + pop_pageDate[i]['materialname'] +
-                        "</td><td class='tdStyle_body' title='" + pop_pageDate[i]['standard'] + "'>" + pop_pageDate[i]['standard'] +
-                        "</td><td class='tdStyle_body' title='" + pop_pageDate[i]['stock_status'] + "'>" + pop_pageDate[i]['stock_status'] +
+                        "</td><td class='tdStyle_body' title='" + pop_pageDate[i]['drawing_no'] + "'>" + pop_pageDate[i]['drawing_no'] +
+                        "</td><td class='tdStyle_body' title='" + pop_pageDate[i]['planname'] + "'>" + pop_pageDate[i]['planname'] +
+                        "</td><td class='tdStyle_body' title='" + pop_pageDate[i]['build_type'] + "'>" + pop_pageDate[i]['build_type'] +
+                        "</td><td class='tdStyle_body' title='" + pop_pageDate[i]['path'] + "'>" + pop_pageDate[i]['path'] +
+                        "</td><td class='tdStyle_body' title='" + pop_pageDate[i]['building_no'] + "'>" + pop_pageDate[i]['building_no'] +
+                        "</td><td class='tdStyle_body' title='" + pop_pageDate[i]['floor_no'] + "'>" + pop_pageDate[i]['floor_no'] +
                         "</td></tr>";
                 }
                 $("#detailTableText").html(str);
@@ -742,19 +659,31 @@
 
         //获取明细数据
         function getDetailData(newPage) {
-            let materialcode = $('#materialcode_pop').val();
-            let materialname = $('#materialname_pop').val();
-            $.post("${pageContext.request.contextPath}/GetPreProduct", {
-                stockStatus: "0",
-                inspectState: "1",
-                materialcode: materialcode,
-                materialname: materialname,
+            let location = $('#location option:selected').val();
+            let name = null;
+            let myModal_name1 = $('#myModal_name1 option:selected').val()
+            let myModal_name2 = $('#myModal_name2 option:selected').val()
+            if (myModal_name1) {
+                name = myModal_name1
+            }
+            if (myModal_name2) {
+                name = myModal_name2
+            }
+            if (location) {
+                name = location
+            }
+            let planname = $('#planname').val();
+            let build_type = $('#build_type').val();
+            $.post("${pageContext.request.contextPath}/GetWarehouseInfo", {
+                factoryName: name,
+                planname: planname,
+                build_type: build_type,
                 pageCur: newPage,
                 pageMax: pageMax
             }, function (result) {
                 result = JSON.parse(result);
-                if (result.data !== undefined) {
-                    pop_pageDate = result.data;
+                if (result.warehouseInfo !== undefined) {
+                    pop_pageDate = result.warehouseInfo;
                     updateTable(false);
                     $('#total_d').html(result.cnt + "条，共" + result.pageAll + "页");
                     $('#li_d1').addClass('active');

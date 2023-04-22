@@ -113,6 +113,12 @@
                 $('#outbound_order_li').css('display', 'none');
                 index++;
             }
+            if (checkAuthority("46")) {
+                $('#inventory_check_li').css('display', 'block');
+            } else {
+                $('#inventory_check_li').css('display', 'none');
+                index++;
+            }
             if (checkAuthority("30")) {
                 $('#warehouse_scrap_li').css('display', 'block');
             } else {
@@ -120,7 +126,7 @@
                 index++;
             }
             //权限判断隐藏大节点
-            if (index === 6) {
+            if (index === 8) {
                 $('#factoryManage').css('display', 'none');
             } else {
                 $('#factoryManage').css('display', 'block');
@@ -453,7 +459,13 @@
             <li id="outbound_order_li">
                 <button class="li_ItemStyle" id="outbound_order"
                         onclick="jumpTo('outboundOrderQuery.jsp','outbound_order')"><span
-                        style="margin-left: 15%;margin-right: 5%;" class="glyphicon glyphicon-grain"></span>出入单
+                        style="margin-left: 15%;margin-right: 5%;" class="glyphicon glyphicon-grain"></span>出库单
+                </button>
+            </li>
+            <li id="inventory_check_li">
+                <button class="li_ItemStyle" id="inventory_check"
+                        onclick="jumpTo('factoryInventoryCheck.jsp','inventory_check')"><span
+                        style="margin-left: 15%;margin-right: 5%;" class="glyphicon glyphicon-grain"></span>盘库单
                 </button>
             </li>
         </ul>

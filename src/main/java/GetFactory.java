@@ -107,6 +107,7 @@ public class GetFactory extends HttpServlet {
                 warehouse.setId(rs.getString("id"));
                 warehouse.setPid(rs.getString("pid"));
                 warehouse.setName(rs.getString("name"));
+                warehouse.setText(rs.getString("name"));
                 warehouse.setType(rs.getString("type"));
                 warehouse.setPath(rs.getString("path"));
                 list.add(warehouse);

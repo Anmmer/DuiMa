@@ -57,7 +57,7 @@
     </form>
     <div style="width:90%;height:78%;margin:0 auto;">
         <div class="page-header" style="margin-top: 0;margin-bottom: 1%">
-            <h3 style="margin-bottom: 0;margin-top: 0"><small>仓库信息</small></h3>
+            <h3 style="margin-bottom: 0;margin-top: 0"><small id="small">仓库信息 合计方量：0</small></h3>
             <%--            <button type="button" style="position: absolute;right: 15%;top:15%" class="btn btn-primary btn-sm"--%>
             <%--                    data-toggle="modal"--%>
             <%--                    data-target="#myModal">--%>
@@ -277,6 +277,7 @@
             success: function (res) {
                 if (res !== undefined) {
                     jsonObj = res.warehouseInfo;
+                    document.getElementById("small").innerText = "仓库信息 合计方量：" + (res.fangliang || 0)
                     updateTable();
                     $('#total').html(res.cnt + "条，共" + res.pageAll + "页");
                     // 重置查询为第一页

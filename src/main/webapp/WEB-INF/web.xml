@@ -1007,4 +1007,12 @@
         <servlet-name>statistics</servlet-name>
         <url-pattern>/Statistics</url-pattern>
     </servlet-mapping>
+    <servlet>
+        <servlet-name>inventoryCheck</servlet-name>
+        <servlet-class>InventoryCheck</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>inventoryCheck</servlet-name>
+        <url-pattern>/InventoryCheck</url-pattern>
+    </servlet-mapping>
 </web-app>

@@ -1,6 +1,7 @@
 import java.io.*;
 import javax.servlet.*;
 import javax.servlet.http.*;
+import java.math.BigDecimal;
 import java.sql.*;
 import java.util.*;
 
@@ -42,7 +43,7 @@ public class GetWarehouseInfo extends HttpServlet {
             int i = 0;
             int j = 0;
             StringBuilder sql = new StringBuilder("select warehouse_info.materialcode,preproduct.materialname,build_type,planname,floor_no,building_no,drawing_no,path,preproductid,fangliang from warehouse, warehouse_info,preproduct where warehouse_info.warehouse_id = warehouse.id and warehouse_info.materialcode = preproduct.materialcode  and warehouse_info.is_effective = '1' and warehouse.is_delete = '0'  and preproduct.product_delete = '0' and preproduct.isdelete = '0'");
-            StringBuilder sql2 = new StringBuilder("select count(*) as num from warehouse, warehouse_info,preproduct where  warehouse_info.warehouse_id = warehouse.id and warehouse_info.materialcode = preproduct.materialcode  and warehouse_info.is_effective = '1' and warehouse.is_delete = '0'  and preproduct.product_delete = '0' and preproduct.isdelete = '0'");
+            StringBuilder sql2 = new StringBuilder("select count(*) as num,sum(fangliang) fangliang from warehouse, warehouse_info,preproduct where  warehouse_info.warehouse_id = warehouse.id and warehouse_info.materialcode = preproduct.materialcode  and warehouse_info.is_effective = '1' and warehouse.is_delete = '0'  and preproduct.product_delete = '0' and preproduct.isdelete = '0'");
             if ("true".equals(isOrder)) {
                 sql.append(" and preproduct.materialcode in (select materialcode from outbound_order_product where is_effective = '1')");
                 sql2.append(" and preproduct.materialcode in (select materialcode from outbound_order_product where is_effective = '1')");
@@ -172,13 +173,13 @@ public class GetWarehouseInfo extends HttpServlet {
                 ps.setString(j--, build_type);
             }
             if (building_no != null && !"".equals(building_no)) {
-                ps.setString(j--, building_no);
+                ps.setString(j--, "%" + building_no.trim() + "%");
             }
             if (floor_no != null && !"".equals(floor_no)) {
-                ps.setString(j--, floor_no);
+                ps.setString(j--, "%" + floor_no.trim() + "%");
             }
             if (planname != null && !"".equals(planname)) {
-                ps.setString(j--, planname);
+                ps.setString(j--, "%" + planname.trim() + "%");
             }
             if (name != null && !"".equals(name)) {
                 ps.setString(j, name);
@@ -186,7 +187,9 @@ public class GetWarehouseInfo extends HttpServlet {
             ResultSet rs2 = ps.executeQuery();
             while (rs2.next()) {
                 int num = rs2.getInt("num");
+                BigDecimal fangliang = rs2.getBigDecimal("fangliang");
                 data.put("cnt", num);
+                data.put("fangliang", fangliang);
                 data.put("pageAll", Math.ceil((double) num / pageMax));
             }
             out.write(JSON.toJSONString(data));

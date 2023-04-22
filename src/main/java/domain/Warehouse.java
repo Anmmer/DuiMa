@@ -7,6 +7,7 @@ public class Warehouse {
     private String id;
     private String pid;
     private String name;
+    private String text;
     private String type;
     private String path;
     private final List<Warehouse> children = new ArrayList<>();
@@ -31,6 +32,14 @@ public class Warehouse {
             }
         }
         return warehouse;
+    }
+
+    public String getText() {
+        return text;
+    }
+
+    public void setText(String text) {
+        this.text = text;
     }
 
     public String getPath() {
