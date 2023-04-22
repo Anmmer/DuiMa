@@ -72,7 +72,7 @@ public class ConcealedProcess extends HttpServlet {
                 }
             }
             int i = ps.executeUpdate();
-            if (i < 0) {
+            if (i <= 0) {
                 map.put("flag", false);
                 map.put("message", "检验失败");
             } else {
