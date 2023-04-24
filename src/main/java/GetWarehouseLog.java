@@ -135,23 +135,23 @@ public class GetWarehouseLog extends HttpServlet {
                 i += 2;
             }
             if (planname != null && !"".equals(planname)) {
-                sql += " and preproduct.planname like ?";
-                sql2 += " and preproduct.planname like ?";
+                sql += " and c.planname like ?";
+                sql2 += " and c.planname like ?";
                 i++;
             }
             if (floor_no != null && !"".equals(floor_no)) {
-                sql += " and preproduct.floor_no like ?";
-                sql2 += " and preproduct.floor_no like ?";
+                sql += " and c.floor_no like ?";
+                sql2 += " and c.floor_no like ?";
                 i++;
             }
             if (building_no != null && !"".equals(building_no)) {
-                sql += " and preproduct.building_no like ?";
-                sql2 += " and preproduct.building_no like ?";
+                sql += " and c.building_no like ?";
+                sql2 += " and c.building_no like ?";
                 i++;
             }
             if (drawing_no != null && !"".equals(drawing_no)) {
-                sql += " and preproduct.drawing_no like ?";
-                sql2 += " and preproduct.drawing_no like ?";
+                sql += " and c.drawing_no like ?";
+                sql2 += " and c.drawing_no like ?";
                 i++;
             }
             if (materialcode != null && !"".equals(materialcode)) {

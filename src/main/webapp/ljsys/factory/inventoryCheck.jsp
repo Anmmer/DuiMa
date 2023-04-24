@@ -34,7 +34,7 @@
     </form>
     <div style="width:85%;height:78%;margin:0 auto;">
         <div class="page-header" style="margin-top: 0;margin-bottom: 1%">
-            <h3 style="margin-bottom: 0;margin-top: 0"><small id="small">盘库单信息</small></h3>
+            <h3 style="margin-bottom: 0;margin-top: 0"><small>盘库单信息</small></h3>
             <button type="button" onclick="openPop()" style="position: absolute;right: 9%;top:16%;width: 60px"
                     class="btn btn-primary btn-sm">
                 新&nbsp;&nbsp;增
@@ -98,24 +98,65 @@
                     <h5 class="modal-title">构建信息</h5>
                 </div>
                 <div class="modal-body" style="height: 90%;width: 100%">
-                    <div name="query" id="pop_query" class="form-inline" style="width: 100%;height: 8%">
+                    <div>
+                        <div name="query" id="pop_query" class="form-inline" style="width: 100%;height: 8%">
+                            <div class="form-group" style="width: 100%;">
+                                <label>堆场信息：</label>
+                                <input style="height:30px;width: 15%" name="factoryName"
+                                       id="factoryName"
+                                       onclick="openPop1()" class="form-control">
+                                <label for="planname" style="margin-left: 1%">项目名称：</label>
+                                <select id="planname" class="form-control" style="width: 15%;height: 30px"></select>
+                                <label for="build_type" style="margin-left: 1%">构建类型：</label>
+                                <input id="build_type" class="form-control" style="width: 15%;height: 30px">
+                                <button id="pop_query_button" class="btn btn-primary" onclick="getDetailData(1)"
+                                        style="margin-left:3%;height: 30px;padding: 0 10px">查&nbsp;&nbsp;询
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div name="query" id="pop_query1" class="form-inline" style="width: 100%;height: 16%">
                         <div class="form-group" style="width: 100%;">
                             <label>堆场信息：</label>
-                            <input style="height:30px;width: 15%" name="factoryName"
-                                   id="factoryName"
-                                   onclick="openPop1()" class="form-control">
-                            <label for="planname" style="margin-left: 1%">项目名称：</label>
-                            <input id="planname" class="form-control" style="width: 15%;height: 30px">
-                            <label for="build_type" style="margin-left: 1%">构建类型：</label>
-                            <input id="build_type" class="form-control" style="width: 15%;height: 30px">
-                            <button id="pop_query_button" class="btn btn-primary" onclick="getDetailData(1)"
-                                    style="margin-left:3%;height: 30px;padding: 0 10px">查&nbsp;&nbsp;询
+                            <input style="height:30px;width: 15%" name="factoryName1"
+                                   id="factoryName1" disabled class="form-control">
+                            <label for="planname1" style="margin-left: 1%">项目名称：</label>
+                            <input id="planname1" disabled class="form-control" style="width: 15%;height: 30px">
+                            <label for="build_type1" style="margin-left: 1%">构建类型：</label>
+                            <input id="build_type1" disabled class="form-control"
+                                   style="width: 15%;height: 30px">
+                            <button id="pop_query_button1" class="btn btn-primary"
+                                    onclick="getCheckData('should_check')"
+                                    style="margin-left:3%;height: 30px;padding: 0 10px">应盘构件：0个
+                            </button>
+                            <button id="pop_query_button2" class="btn btn-primary" onclick="getCheckData('real_check')"
+                                    style="margin-left:3%;height: 30px;padding: 0 10px">实盘构件：0个
+                            </button>
+                            <button id="pop_query_button3" class="btn btn-primary" onclick="getCheckData('leak_check')"
+                                    style="margin-left:3%;height: 30px;padding: 0 10px">漏盘构件：0个
+                            </button>
+                            <br><br>
+                            <label style="margin-left: 1%">制单人：</label>
+                            <input style="height:30px;width: 15%" disabled name="user_name1"
+                                   id="user_name1" class="form-control">
+                            <label for="batch_id1" style="margin-left: 1%">批 次 号 ：</label>
+                            <input id="batch_id1" disabled class="form-control" style="width: 15%;height: 30px">
+                            <label for="create_time1" style="margin-left: 1%">创建日期：</label>
+                            <input id="create_time1" disabled class="form-control" style="width: 15%;height: 30px">
+
+                            <button id="pop_query_button4" class="btn btn-primary" onclick="getCheckData('full_check')"
+                                    style="margin-left:3%;height: 30px;padding: 0 10px">盈盘构件：0个
+                            </button>
+                            <button id="pop_query_button5" class="btn btn-primary" onclick="finish()"
+                                    style="margin-left:3%;height: 30px;padding: 0 10px">盘库结束
                             </button>
                         </div>
                     </div>
-                    <div style="height: 85%;">
+                    <div style="height: 80%;">
                         <div class="page-header" style="margin-top: 0;margin-bottom: 1%">
-                            <h3 style="margin-bottom: 0;margin-top: 0" id="inputDetail"><small>构建信息</small></h3>
+                            <h3 style="margin-bottom: 0;margin-top: 0" id="inputDetail"><small id="small">构建信息</small>
+                            </h3>
                         </div>
                         <table class="table table-hover" style="text-align: center;">
                             <tr id="table_tr">
@@ -130,6 +171,11 @@
                                 <td class='tdStyle_title active' style="width: 10%">仓库</td>
                                 <td class='tdStyle_title active' style="width: 10%">楼栋</td>
                                 <td class='tdStyle_title active' style="width: 10%">楼层</td>
+                                <td class='tdStyle_title active remark' style="width: 10%">备注</td>
+                                <td class='tdStyle_title active real' style="width: 10%">操作人</td>
+                                <td class='tdStyle_title active real' style="width: 10%">操作时间</td>
+                                <td class='tdStyle_title active detail_action' style="width: 10%">操作</td>
+
                             </tr>
                             <tbody id="detailTableText">
                             </tbody>
@@ -140,8 +186,12 @@
                             <%--                            <label for="select">入库方式:</label>--%>
                             <%--                            <select id="select" class="form-control" style="width: 60%"></select>--%>
                         </div>
-                        <button type="button" style="height:10%;width: 100px" onclick="inventorySave()"
+                        <button type="button" id="inventorySave" style="height:10%;width: 100px"
+                                onclick="inventorySave()"
                                 class="btn btn-primary btn-sm">保 存
+                        </button>
+                        <button type="button" id="export" style="height:10%;width: 100px" onclick="exportData()"
+                                class="btn btn-primary btn-sm">导出数据
                         </button>
                         <nav aria-label="Page navigation" style="width:50%;height:10%;" id="page">
                             <ul class="pagination" style="margin-top: 0;width: 100%">
@@ -169,69 +219,6 @@
                             </ul>
                         </nav>
                     </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="modal fade" id="myModal2" tabindex="-1" style="position: absolute;left: 15%;top: 12%;" role="dialog"
-         data-backdrop="false"
-         aria-labelledby="myModalLabel">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content" style="width:60%">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
-                            aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title" id="myModal2_title1">出库方式</h4>
-                </div>
-                <div class="modal-body">
-                    <div class="form-horizontal">
-                        <div class="form-group" style="margin-top: 5%">
-                            <label for="myModal2_name1" style="width: 28%;text-align: left;padding-right: 0"
-                                   class="col-sm-2 control-label">出库方式:</label>
-                            <select class="form-control" style="width:50%;" id="myModal2_name1"
-                                    name="myModal2_name1" onchange="getRegionDataPop()"></select><br>
-                        </div>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" onclick="reset()">重置</button>
-                    <button type="button" id="myModal2_save" class="btn btn-primary">保存</button>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="modal fade" id="myModal3" tabindex="-1" style="position: absolute;left: 15%;top: 12%;" role="dialog"
-         data-backdrop="false"
-         aria-labelledby="myModalLabel">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content" style="width:60%">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
-                            aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title" id="myModal3_title1">选择目标货位</h4>
-                </div>
-                <div class="modal-body">
-                    <div class="form-horizontal">
-                        <div class="form-group" style="margin-top: 5%">
-                            <label for="myModal3_name1" style="width: 28%;text-align: left;padding-right: 0"
-                                   class="col-sm-2 control-label">堆场信息:</label>
-                            <select class="form-control" style="width:50%;" id="myModal3_name1"
-                                    name="myModal3_name1" onchange="getRegionDataPop()"></select><br>
-                            <label for="myModal3_name2" style="width: 28%;text-align: left;padding-right: 0"
-                                   class="col-sm-2 control-label">区域信息:</label>
-                            <select class="form-control" onchange="getLocationPop()" style="width:50%;"
-                                    id="myModal3_name2"
-                                    name="myModal3_name2"></select><br>
-                            <label for="myModal3_name3" style="width: 28%;text-align: left;padding-right: 0"
-                                   class="col-sm-2 control-label">货位信息:</label>
-                            <select type="text" class="form-control" style="width:50%;" id="myModal3_name3"
-                                    name="myModal3_name"></select>
-                        </div>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" onclick="reset()">重置</button>
-                    <button type="button" id="myModal3_save" class="btn btn-primary">保存</button>
                 </div>
             </div>
         </div>
@@ -271,14 +258,56 @@
             </div>
         </div>
     </div>
+    <div class="modal fade" id="myModal5" tabindex="-1" style="position: absolute;left: 15%;top: 15%;" role="dialog"
+         data-backdrop="false"
+         aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content" style="width:60%">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">备注信息</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="form-horizontal">
+                        <div class="form-group" style="margin-top: 5%">
+                            <label for="myModal_name1" style="width: 25%;text-align: left;padding-right: 0"
+                                   class="col-sm-2 control-label">备注:</label>
+                            <input class="form-control" style="width:60%;" id="myModal_name5"
+                                   name="myModal_name1">
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" onclick="reset()">重置</button>
+                    <button type="button" id="myModal_save5" class="btn btn-primary">保存</button>
+                </div>
+            </div>
+        </div>
+    </div>
     <script type="text/javascript">
         let pageCur = 1;
         let pageAll = 1;
         let pageMax = 10;   //一页多少条数据
         let jsonObj = [];
         let pop_pageDate = []
+        let pop_pageCur = 1;
+        let check_id = ''
+        let check_type = ''
+        let allData = []
 
         window.onload = getYardData();
+
+        $('#myModal').on('hidden.bs.modal', function (e) {
+            $('#li_d' + pop_pageCur % 5).removeClass('active');
+            pop_pageDate = []
+            pop_pageCur = 1
+            check_id = ''
+            check_type = ''
+            $("#factoryName").val('')
+            $("#planname").val('')
+            $("#build_type").val('')
+        })
 
         function openPop1() {
             $('#myModal4').modal('show')
@@ -298,8 +327,102 @@
             $('#myModal4').modal('hide')
         }
 
-        function inventorySave() {
+        function GetPlanName() {
+            $.ajax({
+                url: "${pageContext.request.contextPath}/GetPlanName",
+                type: 'post',
+                dataType: 'json',
+                data: {
+                    'pageCur': 1,
+                    'pageMax': 999
+                },
+                contentType: 'application/x-www-form-urlencoded;charset=utf-8',
+                success: function (res) {
+                    $('#planname').empty()
+                    $('#planname').append($("<option value=''></option>"))
+                    if (res.data.length !== 0) {
+                        for (let v of res.data) {
+                            let item = $("<option value='" + v['id'] + "'>" + v['planname'] + "</option>")
+                            $('#planname').append(item)
+                        }
+                    }
+                }
+            })
+        }
 
+        function exportData() {
+            const data = [
+                ["序号", "物料编码", "名称"],
+                [101, 10001, "第一个"],
+                [102, 10002, "第二个"]
+            ]
+            // 定义工作演
+            const worksheet = XLSX.utils.aoa_to_sheet(data)
+            // 定义工作名称
+            const workbook = XLSX.utils.book_new()
+            XLSX.utils.book_append_sheet(workbook, worksheet, 'sheet1')
+            // 导出Excel文件
+            XLSX.writeFile(workbook, 'yourfile.xlsx')
+
+            return
+            let obj = {
+                check_id: check_id,
+                check_type: check_type,
+                type: '4',
+                pageCur: 1,
+                pageMax: 9999
+            }
+            $.ajax({
+                url: "${pageContext.request.contextPath}/InventoryCheck",
+                type: 'post',
+                dataType: 'json',
+                data: obj,
+                contentType: 'application/x-www-form-urlencoded;charset=utf-8',
+                success: function (result) {
+
+                }
+            })
+        }
+
+        function inventorySave() {
+            if (!allData.length) {
+                alert("查询数据不能为空")
+                return
+            }
+            let location = $('#location option:selected').val();
+            let name = null;
+            let myModal_name1 = $('#myModal_name1 option:selected').val()
+            let myModal_name2 = $('#myModal_name2 option:selected').val()
+            if (myModal_name1) {
+                name = myModal_name1
+            }
+            if (myModal_name2) {
+                name = myModal_name2
+            }
+            if (location) {
+                name = location
+            }
+            $.ajax({
+                url: "${pageContext.request.contextPath}/InventoryCheck",
+                type: 'post',
+                dataType: 'json',
+                data: {
+                    materialcodes: JSON.stringify(allData),
+                    warehouse_id: name,
+                    planname_id: $("#planname option:selected").val(),
+                    build_type: $("#build_type").val(),
+                    user_name: sessionStorage.getItem("userName"),
+                    type: '1'
+                },
+                contentType: 'application/x-www-form-urlencoded;charset=utf-8',
+                success: function (result) {
+                    alert(result.msg)
+                    if (result.flag) {
+                        $('#myModal').modal('hide');
+                        getTableData(1)
+                    }
+                }
+            })
         }
 
 
@@ -309,6 +432,7 @@
                 pageCur: '1',
                 pageMax: '999'
             }, function (result) {
+                getTableData(1)
                 result = JSON.parse(result);
                 let yard = result.data
                 $('#myModal_name1').empty()
@@ -505,17 +629,11 @@
             })
         }
 
-        $('#myModal').on('hidden.bs.modal', function (e) {
-            $('#li_d' + pop_pageCur % 5).removeClass('active');
-            $("#detail_checkbok").prop("checked", false);
-            $("#materialcode_pop").val('')
-            $("#materialname_pop").val('')
-            pop_pageAll = 1;
-            pop_pageCur = 1;
-        })
 
         $('#myModal2').on('hidden.bs.modal', function (e) {
             $('#myModal2_name1').empty()
+            // pop_pageDate = []
+            // pop_pageCur = 1
         })
 
         // $('#myModal3').on('hidden.bs.modal', function (e) {
@@ -551,9 +669,140 @@
 
         });
 
-        function openPop() {
+        function openPop(id) {
             $('#myModal').modal('show')
-            getDetailData(1)
+            if (!id) {
+                getDetailData(1)
+                GetPlanName()
+                type = 1
+                $("#pop_query").show();
+                $("#pop_query1").hide()
+                $("#inventorySave").show()
+                $("#export").hide()
+                $(".real").hide()
+                $(".remark").hide()
+                $(".detail_action").hide()
+            } else {
+                type = 2
+                $("#pop_query").hide();
+                $("#pop_query1").show()
+                $("#inventorySave").hide()
+                $("#export").show()
+                $(".real").hide()
+                $(".remark").hide()
+                $(".detail_action").hide()
+                check_id = id
+                getCheckData('should_check')
+            }
+
+        }
+
+        function finish() {
+            $.post("${pageContext.request.contextPath}/InventoryCheck", {
+                type: '7',
+                check_id: check_id,
+            }, function (result) {
+                result = JSON.parse(result);
+                alert(result.msg)
+                if (result.flag) {
+                    $("#myModal").modal('hide')
+                    getTableData(1)
+                }
+            })
+        }
+
+        function getCheckData(type) {
+            check_type = type
+            if (type === 'should_check') {
+                document.getElementById("small").innerText = '应盘构件信息'
+                $(".remark").hide()
+                $(".real").hide()
+                $(".detail_action").hide()
+            }
+            if (type === 'real_check') {
+                document.getElementById("small").innerText = '实盘构件信息'
+                $(".remark").hide()
+                $(".real").show()
+                $(".detail_action").show()
+            }
+            if (type === 'leak_check') {
+                document.getElementById("small").innerText = '漏盘构件信息'
+                $(".remark").show()
+                $(".real").hide()
+                $(".detail_action").show()
+            }
+            if (type === 'full_check') {
+                document.getElementById("small").innerText = '盈盘构件信息'
+                $(".remark").show()
+                $(".real").hide()
+                $(".detail_action").show()
+            }
+
+            let obj = {
+                check_id: check_id,
+                check_type: check_type,
+                type: '4',
+                pageCur: pop_pageCur,
+                pageMax: pageMax
+            }
+            $.ajax({
+                url: "${pageContext.request.contextPath}/InventoryCheck",
+                type: 'post',
+                dataType: 'json',
+                data: obj,
+                contentType: 'application/x-www-form-urlencoded;charset=utf-8',
+                success: function (result) {
+                    $('#li_d' + pop_pageCur % 5).removeClass('active');
+                    $("#planname1").val(result.planname || '')
+                    $("#factoryName1").val(result.path || '')
+                    $("#build_type1").val(result.build_type || '')
+                    $("#user_name1").val(result.user_name || '')
+                    $("#batch_id1").val(result.batch_id || '')
+                    $("#create_time1").val(result.create_time || '')
+                    document.getElementById("pop_query_button1").innerText = "应盘构件：" + (result.should_check_num || 0) + "个"
+                    document.getElementById("pop_query_button2").innerText = "实盘构件：" + (result.real_check_num || 0) + "个"
+                    let num1 = result.should_check_num - result.real_check_num
+                    document.getElementById("pop_query_button3").innerText = "漏盘构件：" + (num1 > 0 ? num1 : 0) + "个"
+                    document.getElementById("pop_query_button4").innerText = "盈盘构件：" + (num1 < 0 ? -num1 : 0) + "个"
+                    if (result.status === '2') {
+                        $("#pop_query_button5").attr('disabled', 'true')
+                    }
+                    if (result.data !== undefined) {
+                        pop_pageDate = result.data;
+                        updateTable(false);
+                        $('#total_d').html(result.cnt + "条，共" + result.pageAll + "页");
+                        $('#li_d' + pop_pageCur % 5).removeClass('active');
+                        $('#li_d1').addClass('active');
+                        // 重置查询为第一页
+                        pop_pageCur = 1;
+                        // 重置总页数
+                        pop_pageAll = parseInt(result.pageAll);
+                        for (let i = 1; i < 6; i++) {
+                            let k = i % 5;
+                            if (i > pop_pageAll) {
+                                $('#a_d' + k).text('.');
+                            } else {
+                                if (k === 0) {
+                                    $('#a_d' + k).text(5);
+                                    $('#a_d' + k).attr('onclick', 'jumpToNewPage_d1(5)');
+                                    continue;
+                                } else {
+                                    $('#a_d' + k).text(i);
+                                    $('#a_d' + k).attr('onclick', 'jumpToNewPage_d1(' + k + ')');
+                                }
+                            }
+                        }
+                    } else {
+                        jsonObj = []
+                        updateTable(false);
+                    }
+                },
+                error: function () {
+                    jsonObj = [];
+                    updateTable(false);
+                    alert("查询失败！")
+                }
+            })
         }
 
         function updateTable(flag) {
@@ -565,12 +814,13 @@
             if (flag) {
                 for (let i = 0; i < jsonObj.length; i++) {
                     str += "<tr><td class='tdStyle_body' title='" + jsonObj[i]['batch_id'] + "'>" + jsonObj[i]['batch_id'] +
-                    "</td><td class='tdStyle_body' title='" + jsonObj[i]['create_time'] + "'>" + jsonObj[i]['create_time'] +
-                    "</td><td class='tdStyle_body' title='" + jsonObj[i]['user_name'] + "'>" + jsonObj[i]['user_name'] +
-                    "</td><td class='tdStyle_body' title='" + jsonObj[i]['should_check_num'] + "'>" + jsonObj[i]['should_check_num'] +
-                    "</td><td class='tdStyle_body' title='" + jsonObj[i]['real_check_num'] + "'>" + jsonObj[i]['real_check_num'] +
-                    "</td><td class='tdStyle_body' title='" + jsonObj[i]['status'] + "'>" + jsonObj[i]['status'] === '1' ? '已完成' : '未完成' +
-                        "</td><td class='tdStyle_body' > <a href='#' onclick=openOutPop('" + jsonObj[i]['materialcode'] + "')>出库</a> <a href='#' onclick=moveWarehouse('" + jsonObj[i]['materialcode'] + "')>移库</a> </td></tr>";
+                        "</td><td class='tdStyle_body' title='" + jsonObj[i]['create_time'] + "'>" + jsonObj[i]['create_time'] +
+                        "</td><td class='tdStyle_body' title='" + jsonObj[i]['user_name'] + "'>" + jsonObj[i]['user_name'] +
+                        "</td><td class='tdStyle_body' title='" + jsonObj[i]['should_check_num'] + "'>" + jsonObj[i]['should_check_num'] +
+                        "</td><td class='tdStyle_body' title='" + jsonObj[i]['real_check_num'] + "'>" + jsonObj[i]['real_check_num'] +
+                        "</td><td class='tdStyle_body' title='" + jsonObj[i]['status'] + "'>" + (jsonObj[i]['status'] === '1' ? '未完成' : '已完成') +
+                        "</td><td class='tdStyle_body' > <a href='#' onclick=openPop('" + jsonObj[i]['check_id'] + "')>详情</a>  <a href='#' onclick=deleteData('" + jsonObj[i]['check_id'] + "')>删除</a> " +
+                        "</td></tr>";
                 }
                 $("#archTableText").html(str);
             } else {
@@ -583,10 +833,78 @@
                         "</td><td class='tdStyle_body' title='" + pop_pageDate[i]['path'] + "'>" + pop_pageDate[i]['path'] +
                         "</td><td class='tdStyle_body' title='" + pop_pageDate[i]['building_no'] + "'>" + pop_pageDate[i]['building_no'] +
                         "</td><td class='tdStyle_body' title='" + pop_pageDate[i]['floor_no'] + "'>" + pop_pageDate[i]['floor_no'] +
-                        "</td></tr>";
+                        "</td>";
+                    if (check_id !== '') {
+                        if (check_type === 'real_should') {
+                            str += "<td class='tdStyle_body' title='" + pop_pageDate[i]['create_user'] + "'>" + pop_pageDate[i]['create_user'] +
+                                "</td><td class='tdStyle_body' title='" + pop_pageDate[i]['create_time'] + "'>" + pop_pageDate[i]['create_time'] +
+                                "</td><td class='tdStyle_body'> <a href='#' onclick=detailDeleteData('" + pop_pageDate[i]['id'] + "')>删除</a></td>"
+                        }
+                        if (check_type === 'leak_check') {
+                            str += "<td class='tdStyle_body' title='" + (pop_pageDate[i]['remark'] || '') + "'>" + (pop_pageDate[i]['remark'] || '') +
+                                "</td><td class='tdStyle_body'> <a href='#' onclick=remarkData('" + pop_pageDate[i]['id'] + "','" + (pop_pageDate[i]['remark'] || '') + "')>写备注</a></td>"
+                        }
+                        if (check_type === 'full_check') {
+                            str += "<td class='tdStyle_body' title='" + (pop_pageDate[i]['remark'] || '') + "'>" + (pop_pageDate[i]['remark'] || '') +
+                                "</td><td class='tdStyle_body'> <a href='#' onclick=remarkData('" + pop_pageDate[i]['id'] + "','" + (pop_pageDate[i]['remark'] || '') + "')>写备注</a></td>"
+                        }
+                    }
+                    str += "</tr>";
                 }
                 $("#detailTableText").html(str);
             }
+        }
+
+        function saveRemark(id) {
+            $.post("${pageContext.request.contextPath}/InventoryCheck", {
+                type: '6',
+                id: id,
+                remark: $("#myModal_name5").val(),
+                check_type: check_type
+            }, function (result) {
+                result = JSON.parse(result);
+                alert(result.msg)
+                if (result.flag) {
+                    $("#myModal5").modal('hide')
+                    getCheckData(check_type)
+                }
+            })
+        }
+
+        function remarkData(id, value) {
+            $("#myModal5").modal('show')
+            $("#myModal_save5").attr('onclick', "saveRemark('" + id + "')")
+            $("#myModal_name5").val(value)
+        }
+
+        function detailDeleteData(id) {
+            $.post("${pageContext.request.contextPath}/InventoryCheck", {
+                type: '3',
+                id: id
+            }, function (result) {
+                result = JSON.parse(result);
+                alert(result.msg)
+                if (result.flag) {
+                    getCheckData(check_type)
+                }
+            })
+        }
+
+        function deleteData(check_id) {
+            let r = confirm("亲，确认删除！");
+            if (r === false) {
+                return;
+            }
+            $.post("${pageContext.request.contextPath}/InventoryCheck", {
+                type: '3',
+                check_id: check_id
+            }, function (result) {
+                result = JSON.parse(result);
+                alert(result.msg)
+                if (result.flag) {
+                    getTableData(1)
+                }
+            })
         }
 
         function getInWarehouseMethod(type) {
@@ -672,16 +990,18 @@
             if (location) {
                 name = location
             }
-            let planname = $('#planname').val();
+            let planname = $('#planname option:selected').text();
             let build_type = $('#build_type').val();
             $.post("${pageContext.request.contextPath}/GetWarehouseInfo", {
                 factoryName: name,
                 planname: planname,
+                allData: true,
                 build_type: build_type,
                 pageCur: newPage,
                 pageMax: pageMax
             }, function (result) {
                 result = JSON.parse(result);
+                allData = result.allData
                 if (result.warehouseInfo !== undefined) {
                     pop_pageDate = result.warehouseInfo;
                     updateTable(false);
@@ -791,47 +1111,28 @@
                     newPage = pageCur + 1;
                 }
             }
-            let location = $('#location option:selected').val();
-            let name = null;
-            let myModal_name1 = $('#myModal_name1 option:selected').val()
-            let myModal_name2 = $('#myModal_name2 option:selected').val()
-            if (myModal_name1) {
-                name = myModal_name1
-            }
-            if (myModal_name2) {
-                name = myModal_name2
-            }
-            if (location) {
-                name = location
-            }
-            let planname = $('#planname').val();
-            let preproductid = $('#preproductid').val();
-            let building_no = $('#building_no').val();
-            let floor_no = $('#floor_no').val();
-            let materialcode = $('#materialcode').val();
-            let drawing_no = $('#drawing_no').val();
-            let isOrder = $('#isOrder option:selected').val();
+            let batch_id = $('#batch_id').val();
+            let user_name = $('#user_name').val();
+            let startDate = $('#startDate').val();
+            let endDate = $('#endDate').val();
             let obj = {
-                factoryName: name,
-                preproductid: preproductid,
-                planname: planname,
-                building_no: building_no,
-                floor_no: floor_no,
-                materialcode: materialcode,
-                drawing_no: drawing_no,
-                isOrder: isOrder,
+                batch_id: batch_id,
+                user_name: user_name,
+                type: '0',
+                startDate: startDate,
+                endDate: endDate,
                 pageCur: newPage,
                 pageMax: pageMax
             }
             $.ajax({
-                url: "${pageContext.request.contextPath}/GetWarehouseInfo",
+                url: "${pageContext.request.contextPath}/InventoryCheck",
                 type: 'post',
                 dataType: 'json',
                 data: obj,
                 contentType: 'application/x-www-form-urlencoded;charset=utf-8',
                 success: function (res) {
-                    if (res.warehouseInfo.length !== 0) {
-                        jsonObj = res.warehouseInfo;
+                    if (res.data.length !== 0) {
+                        jsonObj = res.data;
                         updateTable(true);
                         if (newPageCode === 3) {
                             setFooter(3, res.pageAll, pageCur, newPage);
@@ -857,47 +1158,28 @@
         }
 
         function jumpToNewPage1(newPage) {
-            let location = $('#location option:selected').val();
-            let name = null;
-            let myModal_name1 = $('#myModal_name1 option:selected').val()
-            let myModal_name2 = $('#myModal_name2 option:selected').val()
-            let preproductid = $('#preproductid').val();
-            if (myModal_name1) {
-                name = myModal_name1
-            }
-            if (myModal_name2) {
-                name = myModal_name2
-            }
-            if (location) {
-                name = location
-            }
-            let planname = $('#planname').val();
-            let building_no = $('#building_no').val();
-            let floor_no = $('#floor_no').val();
-            let materialcode = $('#materialcode').val();
-            let drawing_no = $('#drawing_no').val();
-            let isOrder = $('#isOrder option:selected').val();
+            let batch_id = $('#batch_id').val();
+            let user_name = $('#user_name').val();
+            let startDate = $('#startDate').val();
+            let endDate = $('#endDate').val();
             let obj = {
-                factoryName: name,
-                planname: planname,
-                preproductid: preproductid,
-                building_no: building_no,
-                floor_no: floor_no,
-                materialcode: materialcode,
-                drawing_no: drawing_no,
-                isOrder: isOrder,
+                batch_id: batch_id,
+                user_name: user_name,
+                type: '0',
+                startDate: startDate,
+                endDate: endDate,
                 pageCur: newPage,
                 pageMax: pageMax
             }
             $.ajax({
-                url: "${pageContext.request.contextPath}/GetWarehouseInfo",
+                url: "${pageContext.request.contextPath}/InventoryCheck",
                 type: 'post',
                 dataType: 'json',
                 data: obj,
                 contentType: 'application/x-www-form-urlencoded;charset=utf-8',
                 success: function (res) {
-                    if (res.warehouseInfo.length !== 0) {
-                        jsonObj = res.warehouseInfo;
+                    if (res.data.length !== 0) {
+                        jsonObj = res.data;
                         updateTable(true);
                         $('#li_' + newPage % 5).addClass('active');
                         $('#li_' + pageCur % 5).removeClass('active');
@@ -923,47 +1205,28 @@
                 alert("超过最大页数")
                 return
             }
-            let planname = $('#planname').val();
-            let building_no = $('#building_no').val();
-            let floor_no = $('#floor_no').val();
-            let materialcode = $('#materialcode').val();
-            let drawing_no = $('#drawing_no').val();
-            let location = $('#location option:selected').val();
-            let name = null;
-            let myModal_name1 = $('#myModal_name1 option:selected').val()
-            let myModal_name2 = $('#myModal_name2 option:selected').val()
-            if (myModal_name1) {
-                name = myModal_name1
-            }
-            if (myModal_name2) {
-                name = myModal_name2
-            }
-            if (location) {
-                name = location
-            }
-            let preproductid = $('#preproductid').val();
-            let isOrder = $('#isOrder option:selected').val();
+            let batch_id = $('#batch_id').val();
+            let user_name = $('#user_name').val();
+            let startDate = $('#startDate').val();
+            let endDate = $('#endDate').val();
             let obj = {
-                factoryName: name,
-                preproductid: preproductid,
-                planname: planname,
-                building_no: building_no,
-                floor_no: floor_no,
-                materialcode: materialcode,
-                isOrder: isOrder,
-                drawing_no: drawing_no,
+                batch_id: batch_id,
+                user_name: user_name,
+                type: '0',
+                startDate: startDate,
+                endDate: endDate,
                 pageCur: newPage,
                 pageMax: pageMax
             }
             $.ajax({
-                url: "${pageContext.request.contextPath}/GetWarehouseInfo",
+                url: "${pageContext.request.contextPath}/InventoryCheck",
                 type: 'post',
                 dataType: 'json',
                 data: obj,
                 contentType: 'application/x-www-form-urlencoded;charset=utf-8',
                 success: function (res) {
-                    if (res.warehouseInfo.length !== 0) {
-                        jsonObj = res.warehouseInfo;
+                    if (res.data.length !== 0) {
+                        jsonObj = res.data;
                         updateTable(true);
                         jump2(newPage, res.pageAll);
                         // 重置查询为第一页
@@ -1093,19 +1356,54 @@
                     newPage = pop_pageCur + 1;
                 }
             }
-            let materialcode = $('#materialcode_pop').val();
-            let materialname = $('#materialname_pop').val();
-            $.post("${pageContext.request.contextPath}/GetPreProduct", {
-                materialcode: materialcode,
-                materialname: materialname,
-                stockStatus: "0",
-                inspectState: "1",
-                pageCur: newPage,
-                pageMax: pageMax
-            }, function (result) {
+            let location = $('#location option:selected').val();
+            let name = null;
+            let myModal_name1 = $('#myModal_name1 option:selected').val()
+            let myModal_name2 = $('#myModal_name2 option:selected').val()
+            if (myModal_name1) {
+                name = myModal_name1
+            }
+            if (myModal_name2) {
+                name = myModal_name2
+            }
+            if (location) {
+                name = location
+            }
+            let planname = $('#planname option:selected').text();
+            let build_type = $('#build_type').val();
+            let obj
+            let url
+            if (check_id !== '') {
+                url = "${pageContext.request.contextPath}/InventoryCheck"
+                document.getElementById("small").innerText = '应盘构件信息'
+                obj = {
+                    check_id: check_id,
+                    check_type: check_type,
+                    type: '4',
+                    pageCur: newPage,
+                    pageMax: pageMax
+                }
+            } else {
+                url = "${pageContext.request.contextPath}/GetWarehouseInfo"
+                obj = {
+                    factoryName: name,
+                    planname: planname,
+                    allData: true,
+                    build_type: build_type,
+                    pageCur: newPage,
+                    pageMax: pageMax
+                }
+            }
+            $.post(url, obj, function (result) {
                 result = JSON.parse(result);
-                if (result.data !== undefined) {
-                    pop_pageDate = result.data;
+                let data
+                if (check_id !== '') {
+                    data = result.data
+                } else {
+                    data = result.warehouseInfo
+                }
+                if (data !== undefined) {
+                    pop_pageDate = data;
                     updateTable(false);
                     if (newPageCode === 3) {
                         setFooter_d(3, pop_pageAll, pop_pageCur, newPage);
@@ -1120,19 +1418,53 @@
 
         function jumpToNewPage_d1(newPage) {
             pop_pageDate = []
-            let materialcode = $('#materialcode_pop').val();
-            let materialname = $('#materialname').val();
-            $.post("${pageContext.request.contextPath}/GetPreProduct", {
-                materialname: materialname,
-                materialcode: materialcode,
-                stockStatus: "0",
-                inspectState: "1",
-                pageCur: newPage,
-                pageMax: pageMax
-            }, function (result) {
+            let location = $('#location option:selected').val();
+            let name = null;
+            let myModal_name1 = $('#myModal_name1 option:selected').val()
+            let myModal_name2 = $('#myModal_name2 option:selected').val()
+            if (myModal_name1) {
+                name = myModal_name1
+            }
+            if (myModal_name2) {
+                name = myModal_name2
+            }
+            if (location) {
+                name = location
+            }
+            let planname = $('#planname option:selected').text();
+            let build_type = $('#build_type').val();
+            let obj
+            let url
+            if (check_id !== '') {
+                url = "${pageContext.request.contextPath}/InventoryCheck"
+                obj = {
+                    check_id: check_id,
+                    check_type: check_type,
+                    type: '4',
+                    pageCur: newPage,
+                    pageMax: pageMax
+                }
+            } else {
+                url = "${pageContext.request.contextPath}/GetWarehouseInfo"
+                obj = {
+                    factoryName: name,
+                    planname: planname,
+                    allData: true,
+                    build_type: build_type,
+                    pageCur: newPage,
+                    pageMax: pageMax
+                }
+            }
+            $.post(url, obj, function (result) {
                 result = JSON.parse(result);
-                if (result.data !== undefined) {
-                    pop_pageDate = result.data;
+                let data
+                if (check_id !== '') {
+                    data = result.data
+                } else {
+                    data = result.warehouseInfo
+                }
+                if (data !== undefined) {
+                    pop_pageDate = data;
                     updateTable(false);
                     $('#li_d' + newPage % 5).addClass('active');
                     $('#li_d' + pop_pageCur % 5).removeClass('active');
@@ -1150,19 +1482,53 @@
                 alert("超过最大页数")
                 return
             }
-            let materialcode = $('#materialcode_pop').val();
-            let materialname = $('#materialname').val();
-            $.post("${pageContext.request.contextPath}/GetPreProduct", {
-                materialname: materialname,
-                materialcode: materialcode,
-                stockStatus: "0",
-                inspectState: "1",
-                pageCur: newPage,
-                pageMax: pageMax
-            }, function (result) {
+            let location = $('#location option:selected').val();
+            let name = null;
+            let myModal_name1 = $('#myModal_name1 option:selected').val()
+            let myModal_name2 = $('#myModal_name2 option:selected').val()
+            if (myModal_name1) {
+                name = myModal_name1
+            }
+            if (myModal_name2) {
+                name = myModal_name2
+            }
+            if (location) {
+                name = location
+            }
+            let planname = $('#planname option:selected').text();
+            let build_type = $('#build_type').val();
+            let obj
+            let url
+            if (check_id !== '') {
+                url = "${pageContext.request.contextPath}/InventoryCheck"
+                obj = {
+                    check_id: check_id,
+                    check_type: check_type,
+                    type: '4',
+                    pageCur: newPage,
+                    pageMax: pageMax
+                }
+            } else {
+                url = "${pageContext.request.contextPath}/GetWarehouseInfo"
+                obj = {
+                    factoryName: name,
+                    planname: planname,
+                    allData: true,
+                    build_type: build_type,
+                    pageCur: newPage,
+                    pageMax: pageMax
+                }
+            }
+            $.post(url, obj, function (result) {
                 result = JSON.parse(result);
-                if (result.data !== undefined) {
-                    pop_pageDate = result.data;
+                let data
+                if (check_id !== '') {
+                    data = result.data
+                } else {
+                    data = result.warehouseInfo
+                }
+                if (data !== undefined) {
+                    pop_pageDate = data;
                     updateTable(false);
                     pop_pageCur = newPage;
                     jump_d2(newPage, pop_pageAll);

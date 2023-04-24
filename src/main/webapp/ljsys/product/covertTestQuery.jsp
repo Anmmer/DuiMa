@@ -5,16 +5,20 @@
                                    style="width: 13%;height: 30px" class="form-control">
         <label style="margin-left: 2%">物料名称：</label><input type="text" name="materialname" id="materialname"
                                                            style="width: 13%;height: 30px" class="form-control">
+        <label style="margin-left: 2%">图号：</label><input type="text" name="drawing_no" id="drawing_no"
+                                                         style="width: 13%;height: 30px" class="form-control">
+        <label style="margin-left: 2%">项目名称：</label><input type="text" name="planname" id="planname"
+                                                           style="width: 13%;height: 30px" class="form-control">
         <label style="margin-left: 2%">质检状态：</label>
         <select id="testState" class="form-control" style="width: 13%;height: 30px">
             <option value=""></option>
             <option value="0">待检验</option>
             <option value="1">检验合格</option>
             <option value="2">检验不合格</option>
-        </select>
-        <label style="margin-left: 2%">操作人：</label><input type="text" name="covert_test_user" id="covert_test_user"
+        </select> <br><br>
+        <label style="margin-left: 1%">操作人：</label><input type="text" name="covert_test_user" id="covert_test_user"
                                                           style="width: 13%;height: 30px" class="form-control">
-        <br><br>
+
         <label for="covert_test_startDate">操作日期从：</label><input id="covert_test_startDate" class="form-control"
                                                                 type="date"
                                                                 style="width: 13%;height: 30px">
@@ -52,7 +56,7 @@
                     <td class='tdStyle_title active' style="width: 5%"><input id="pre_checkbok" type="checkbox"></td>
                     <td class='tdStyle_title active' style="width: 15%">物料编码</td>
                     <td class='tdStyle_title active' style="width: 15%">物料名称</td>
-                    <td class='tdStyle_title active' style="width: 15%">计划编号</td>
+                    <td class='tdStyle_title active' style="width: 15%">图号</td>
                     <td class='tdStyle_title active' style="width: 15%">检验状态</td>
                     <td class='tdStyle_title active' style="width: 15%">不合格原因</td>
                     <td class='tdStyle_title active' style="width: 15%">操作日期</td>
@@ -220,6 +224,8 @@
         let covert_test_user = $('#covert_test_user').val();
         let covert_test_startDate = $('#covert_test_startDate').val();
         let covert_test_endDate = $('#covert_test_endDate').val();
+        let drawing_no = $('#drawing_no').val();
+        let planname = $('#planname').val();
         let obj = {
             materialcode: materialcode,
             materialname: materialname,
@@ -227,12 +233,14 @@
             covert_test_user: covert_test_user,
             covert_test_startDate: covert_test_startDate,
             covert_test_endDate: covert_test_endDate,
+            drawing_no: drawing_no,
+            planname: planname,
             isPrint: "true",
             pageCur: newPage,
             pageMax: pageMax
         }
-        if (covert_test_endDate !== '' && covert_test_endDate !== '') {
-            if (covert_test_endDate > covert_test_endDate) {
+        if (covert_test_startDate !== '' && covert_test_endDate !== '') {
+            if (covert_test_startDate > covert_test_endDate) {
                 alert("开始时间不能大于结束时间！");
                 return;
             }
@@ -316,7 +324,7 @@
                 return false
             }
         });
-        if(flag){
+        if (flag) {
             return;
         }
         if (obj.length === 0) {
@@ -512,7 +520,7 @@
             str += "<tr><td class='tdStyle_body'><input type='checkbox'" + disable + " data-id=" + jsonObj[i]['pid'] + ">" +
                 "</td><td class='tdStyle_body' title='" + jsonObj[i]['materialcode'] + "'>" + jsonObj[i]['materialcode'] +
                 "</td><td class='tdStyle_body' title='" + jsonObj[i]['materialname'] + "'>" + jsonObj[i]['materialname'] +
-                "</td><td class='tdStyle_body' title='" + jsonObj[i]['plannumber'] + "'>" + jsonObj[i]['plannumber'] +
+                "</td><td class='tdStyle_body' title='" + jsonObj[i]['drawing_no'] + "'>" + jsonObj[i]['drawing_no'] +
                 "</td><td class='tdStyle_body'  title='" + jsonObj[i]['covert_test'] + "'" + style + ">" + jsonObj[i]['covert_test'] +
                 "</td><td class='tdStyle_body' title='" + jsonObj[i]['covert_test_failure_reason'] + "'>" + jsonObj[i]['covert_test_failure_reason'] +
                 "</td><td class='tdStyle_body' >" + jsonObj[i]['covert_test_time'] +
@@ -592,13 +600,29 @@
         let materialcode = $('#materialcode').val();
         let materialname = $('#materialname').val();
         let testState = $('#testState').val();
+        let covert_test_user = $('#covert_test_user').val();
+        let covert_test_startDate = $('#covert_test_startDate').val();
+        let covert_test_endDate = $('#covert_test_endDate').val();
+        let drawing_no = $('#drawing_no').val();
+        let planname = $('#planname').val();
         let obj = {
             materialcode: materialcode,
             materialname: materialname,
             testState: testState,
+            covert_test_user: covert_test_user,
+            covert_test_startDate: covert_test_startDate,
+            covert_test_endDate: covert_test_endDate,
+            drawing_no: drawing_no,
+            planname: planname,
             isPrint: "true",
             pageCur: newPage,
             pageMax: pageMax
+        }
+        if (covert_test_endDate !== '' && covert_test_endDate !== '') {
+            if (covert_test_endDate > covert_test_endDate) {
+                alert("开始时间不能大于结束时间！");
+                return;
+            }
         }
         $.ajax({
             url: "${pageContext.request.contextPath}/GetPreProduct",
@@ -628,22 +652,38 @@
 
     function jumpToNewPage2() {
         let newPage = parseInt($('#jump_to').val())
-        let materialcode = $('#materialcode').val();
-        let materialname = $('#materialname').val();
-        let testState = $('#testState').val();
         if (newPage == "" || isNaN(newPage))
             return;
         if (newPage > pageAll) {
             alert("超过最大页数")
             return
         }
+        let materialcode = $('#materialcode').val();
+        let materialname = $('#materialname').val();
+        let testState = $('#testState').val();
+        let covert_test_user = $('#covert_test_user').val();
+        let covert_test_startDate = $('#covert_test_startDate').val();
+        let covert_test_endDate = $('#covert_test_endDate').val();
+        let drawing_no = $('#drawing_no').val();
+        let planname = $('#planname').val();
         let obj = {
             materialcode: materialcode,
             materialname: materialname,
             testState: testState,
+            covert_test_user: covert_test_user,
+            covert_test_startDate: covert_test_startDate,
+            covert_test_endDate: covert_test_endDate,
+            drawing_no: drawing_no,
+            planname: planname,
             isPrint: "true",
             pageCur: newPage,
             pageMax: pageMax
+        }
+        if (covert_test_endDate !== '' && covert_test_endDate !== '') {
+            if (covert_test_endDate > covert_test_endDate) {
+                alert("开始时间不能大于结束时间！");
+                return;
+            }
         }
         $.ajax({
             url: "${pageContext.request.contextPath}/GetPreProduct",

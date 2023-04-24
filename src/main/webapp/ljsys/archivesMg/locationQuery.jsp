@@ -187,6 +187,7 @@
     //打开新增弹窗
     function openAddPop(index) {
         let query_yard = $('#query_yard option:selected').text();
+        let query_region = $('#query_region option:selected').val();
         if (query_yard === '') {
             alert("请选择仓库信息")
             return
@@ -209,7 +210,7 @@
             $("#myModal3_title1").show();
             $("#myModal3_title2").hide();
             $("#myModal3_name1").val(query_yard)
-            getRegionData()
+            getRegionData(query_region)
             $("#myModal3_save").attr('onclick', 'location_save()');
         }
 
@@ -336,7 +337,7 @@
         })
     }
 
-    function getRegionData() {
+    function getRegionData(query_region) {
         let pid = $('#query_yard').val()
         if (pid === "") {
             alert("请选择堆场信息")
@@ -350,11 +351,11 @@
         }, function (result) {
             result = JSON.parse(result);
             let yard = result.data
-            console.log(yard)
             for (let o of yard) {
                 let item = $("<option value='" + o['id'] + "'>" + o['name'] + "</option>")
                 $('#myModal3_name2').append(item)
             }
+            $("#myModal3_name2").val(query_region)
         })
 
     }
@@ -551,7 +552,6 @@
             }
         })
     }
-
 
 
     function getLocation() {

@@ -5,6 +5,10 @@
                                    style="width: 13%;height: 30px" class="form-control">
         <label style="margin-left: 2%">物料名称：</label><input type="text" name="materialname" id="materialname"
                                                            style="width: 13%;height: 30px" class="form-control">
+        <label style="margin-left: 2%">图号：</label><input type="text" name="drawing_no" id="drawing_no"
+                                                         style="width: 13%;height: 30px" class="form-control">
+        <label style="margin-left: 2%">项目名称：</label><input type="text" name="planname" id="planname"
+                                                           style="width: 13%;height: 30px" class="form-control">
         <label style="margin-left: 2%">质检状态：</label>
         <select id="inspectState" class="form-control" style="width: 13%;height: 30px">
             <option value=""></option>
@@ -214,19 +218,29 @@
         let materialcode = $('#materialcode').val();
         let materialname = $('#materialname').val();
         let inspectState = $('#inspectState').val();
+        let planname = $('#planname').val();
+        let drawing_no = $('#drawing_no').val();
         let inspect_startDate = $('#inspect_startDate').val();
         let inspect_endDate = $('#inspect_endDate').val();
         let obj = {
             materialcode: materialcode,
             materialname: materialname,
+            planname: planname,
+            drawing_no: drawing_no,
             inspectState: inspectState,
             inspect_startDate: inspect_startDate,
             inspect_endDate: inspect_endDate,
-            inspect_stockStatus : '1',
+            inspect_stockStatus: '1',
             isPrint: "true",
             isPour: "true",
             pageCur: newPage,
             pageMax: pageMax
+        }
+        if (inspect_endDate !== '' && inspect_startDate !== '') {
+            if (inspect_startDate > inspect_endDate) {
+                alert("开始时间不能大于结束时间！");
+                return;
+            }
         }
         if (on_or_off == '1') {
             obj.isTest = "true"
@@ -544,14 +558,29 @@
         let materialcode = $('#materialcode').val();
         let materialname = $('#materialname').val();
         let inspectState = $('#inspectState').val();
+        let planname = $('#planname').val();
+        let drawing_no = $('#drawing_no').val();
+        let inspect_startDate = $('#inspect_startDate').val();
+        let inspect_endDate = $('#inspect_endDate').val();
         let obj = {
             materialcode: materialcode,
             materialname: materialname,
+            planname: planname,
+            drawing_no: drawing_no,
             inspectState: inspectState,
+            inspect_startDate: inspect_startDate,
+            inspect_endDate: inspect_endDate,
+            inspect_stockStatus: '1',
             isPrint: "true",
             isPour: "true",
             pageCur: newPage,
             pageMax: pageMax
+        }
+        if (inspect_endDate !== '' && inspect_startDate !== '') {
+            if (inspect_startDate > inspect_endDate) {
+                alert("开始时间不能大于结束时间！");
+                return;
+            }
         }
         if (on_or_off == '1') {
             obj.isTest = "true"
@@ -592,15 +621,30 @@
     function jumpToNewPage1(newPage) {
         let materialcode = $('#materialcode').val();
         let materialname = $('#materialname').val();
-        let inspectState = $('#inspectState').val()
+        let inspectState = $('#inspectState').val();
+        let planname = $('#planname').val();
+        let drawing_no = $('#drawing_no').val();
+        let inspect_startDate = $('#inspect_startDate').val();
+        let inspect_endDate = $('#inspect_endDate').val();
         let obj = {
             materialcode: materialcode,
             materialname: materialname,
+            planname: planname,
+            drawing_no: drawing_no,
             inspectState: inspectState,
+            inspect_startDate: inspect_startDate,
+            inspect_endDate: inspect_endDate,
+            inspect_stockStatus: '1',
             isPrint: "true",
             isPour: "true",
             pageCur: newPage,
             pageMax: pageMax
+        }
+        if (inspect_endDate !== '' && inspect_startDate !== '') {
+            if (inspect_startDate > inspect_endDate) {
+                alert("开始时间不能大于结束时间！");
+                return;
+            }
         }
         if (on_or_off == '1') {
             obj.isTest = "true"
@@ -633,23 +677,38 @@
 
     function jumpToNewPage2() {
         let newPage = parseInt($('#jump_to').val())
-        let materialcode = $('#materialcode').val();
-        let materialname = $('#materialname').val();
-        let inspectState = $('#inspectState').val();
         if (newPage == "" || isNaN(newPage))
             return;
         if (newPage > pageAll) {
             alert("超过最大页数")
             return
         }
+        let materialcode = $('#materialcode').val();
+        let materialname = $('#materialname').val();
+        let inspectState = $('#inspectState').val();
+        let planname = $('#planname').val();
+        let drawing_no = $('#drawing_no').val();
+        let inspect_startDate = $('#inspect_startDate').val();
+        let inspect_endDate = $('#inspect_endDate').val();
         let obj = {
             materialcode: materialcode,
             materialname: materialname,
+            planname: planname,
+            drawing_no: drawing_no,
             inspectState: inspectState,
+            inspect_startDate: inspect_startDate,
+            inspect_endDate: inspect_endDate,
+            inspect_stockStatus: '1',
             isPrint: "true",
             isPour: "true",
             pageCur: newPage,
             pageMax: pageMax
+        }
+        if (inspect_endDate !== '' && inspect_startDate !== '') {
+            if (inspect_startDate > inspect_endDate) {
+                alert("开始时间不能大于结束时间！");
+                return;
+            }
         }
         $.ajax({
             url: "${pageContext.request.contextPath}/GetPreProduct",

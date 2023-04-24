@@ -4,23 +4,27 @@
         <label>物料编码：</label><input type="text" name="materialcode" id="materialcode"
                                    style="width: 13%;height: 30px" class="form-control">
         <label style="margin-left: 2%">物料名称：</label><input type="text" name="materialname" id="materialname"
-                                   style="width: 13%;height: 30px" class="form-control">
+                                                           style="width: 13%;height: 30px" class="form-control">
+        <label style="margin-left: 2%">图号：</label><input type="text" name="drawing_no" id="drawing_no"
+                                                         style="width: 13%;height: 30px" class="form-control">
+        <label style="margin-left: 2%">项目名称：</label><input type="text" name="planname" id="planname"
+                                                           style="width: 13%;height: 30px" class="form-control">
         <label style="margin-left: 2%">浇道状态：</label>
         <select id="pourState" class="form-control" style="width: 13%;height: 30px">
             <option value="2"></option>
             <option value="0">待浇捣</option>
             <option value="1">已浇捣</option>
-        </select>
+        </select><br><br>
         <label style="margin-left: 2%">操作人：</label><input type="text" name="pourmade_user" id="pourmade_user"
                                                           style="width: 13%;height: 30px" class="form-control">
-        <br><br>
+
         <label for="pourmade_startDate">操作日期从：</label><input id="pourmade_startDate" class="form-control"
-                                                                type="date"
-                                                                style="width: 13%;height: 30px">
+                                                             type="date"
+                                                             style="width: 13%;height: 30px">
         <label for="pourmade_endDate" style="margin-left: 2%">至：</label><input id="pourmade_endDate"
-                                                                                  class="form-control"
-                                                                                  type="date"
-                                                                                  style="width: 13%;height: 30px">
+                                                                               class="form-control"
+                                                                               type="date"
+                                                                               style="width: 13%;height: 30px">
         <button type="button" class="btn btn-primary btn-sm" style="margin-left: 5%"
                 onclick="getTableData(1)">
             查 询
@@ -128,16 +132,26 @@
         let pourmade_startDate = $('#pourmade_startDate').val();
         let pourmade_user = $('#pourmade_user').val();
         let pourState = $('#pourState').val();
+        let drawing_no = $('#drawing_no').val();
+        let planname = $('#planname').val();
         let obj = {
             materialcode: materialcode,
             materialname: materialname,
             pourmade_startDate: pourmade_startDate,
             pourmade_endDate: pourmade_endDate,
             pourmade_user: pourmade_user,
+            drawing_no: drawing_no,
+            planname: planname,
             isPrint: "true",
             pourState: pourState,
             pageCur: newPage,
             pageMax: pageMax
+        }
+        if (pourmade_endDate !== '' && pourmade_startDate !== '') {
+            if (pourmade_startDate > pourmade_endDate) {
+                alert("开始时间不能大于结束时间！");
+                return;
+            }
         }
         if (on_or_off == '1') {
             obj.isTest = "true"
@@ -409,12 +423,22 @@
     function jumpToNewPage1(newPage) {
         let materialcode = $('#materialcode').val();
         let materialname = $('#materialname').val();
+        let pourmade_endDate = $('#pourmade_endDate').val();
+        let pourmade_startDate = $('#pourmade_startDate').val();
+        let pourmade_user = $('#pourmade_user').val();
         let pourState = $('#pourState').val();
+        let drawing_no = $('#drawing_no').val();
+        let planname = $('#planname').val();
         let obj = {
             materialcode: materialcode,
             materialname: materialname,
-            pourState: pourState,
+            pourmade_startDate: pourmade_startDate,
+            pourmade_endDate: pourmade_endDate,
+            pourmade_user: pourmade_user,
+            drawing_no: drawing_no,
+            planname: planname,
             isPrint: "true",
+            pourState: pourState,
             pageCur: newPage,
             pageMax: pageMax
         }
@@ -449,20 +473,30 @@
 
     function jumpToNewPage2() {
         let newPage = parseInt($('#jump_to').val())
-        let materialcode = $('#materialcode').val();
-        let materialname = $('#materialname').val();
-        let pourState = $('#pourState').val();
         if (newPage == "" || isNaN(newPage))
             return;
         if (newPage > pageAll) {
             alert("超过最大页数")
             return
         }
+        let materialcode = $('#materialcode').val();
+        let materialname = $('#materialname').val();
+        let pourmade_endDate = $('#pourmade_endDate').val();
+        let pourmade_startDate = $('#pourmade_startDate').val();
+        let pourmade_user = $('#pourmade_user').val();
+        let pourState = $('#pourState').val();
+        let drawing_no = $('#drawing_no').val();
+        let planname = $('#planname').val();
         let obj = {
             materialcode: materialcode,
             materialname: materialname,
-            pourState: pourState,
+            pourmade_startDate: pourmade_startDate,
+            pourmade_endDate: pourmade_endDate,
+            pourmade_user: pourmade_user,
+            drawing_no: drawing_no,
+            planname: planname,
             isPrint: "true",
+            pourState: pourState,
             pageCur: newPage,
             pageMax: pageMax
         }
