@@ -119,6 +119,12 @@
                 $('#inventory_check_li').css('display', 'none');
                 index++;
             }
+            if (checkAuthority("47")) {
+                $('#init_warehouse_li').css('display', 'block');
+            } else {
+                $('#init_warehouse_li').css('display', 'none');
+                index++;
+            }
             if (checkAuthority("30")) {
                 $('#warehouse_scrap_li').css('display', 'block');
             } else {
@@ -126,7 +132,7 @@
                 index++;
             }
             //权限判断隐藏大节点
-            if (index === 8) {
+            if (index === 9) {
                 $('#factoryManage').css('display', 'none');
             } else {
                 $('#factoryManage').css('display', 'block');
@@ -466,6 +472,12 @@
                 <button class="li_ItemStyle" id="inventory_check"
                         onclick="jumpTo('factoryInventoryCheck.jsp','inventory_check')"><span
                         style="margin-left: 15%;margin-right: 5%;" class="glyphicon glyphicon-grain"></span>盘库单
+                </button>
+            </li>
+            <li id="init_warehouse_li">
+                <button class="li_ItemStyle" id="init_warehouse"
+                        onclick="jumpTo('factoryInitWarehouse.jsp','init_warehouse')"><span
+                        style="margin-left: 15%;margin-right: 5%;" class="glyphicon glyphicon-grain"></span>期初导入
                 </button>
             </li>
         </ul>

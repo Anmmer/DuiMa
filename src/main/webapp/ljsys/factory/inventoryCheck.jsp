@@ -20,11 +20,11 @@
         <br><br>
         <div class="form-group" style="margin-left:3%;width: 20%">
             <label>状态：</label>
-            <select type="text" id="isOrder"
+            <select type="text" id="status"
                     style="height:34%;width: 68%" class="form-control">
                 <option value=""></option>
-                <option value="true">已生成</option>
-                <option value="false">未生成</option>
+                <option value="1">未完成</option>
+                <option value="2">已完成</option>
             </select>
         </div>
         <button type="button" class="btn btn-primary btn-sm" style="margin-left: 5%;"
@@ -576,9 +576,11 @@
             let user_name = $('#user_name').val();
             let startDate = $('#startDate').val();
             let endDate = $('#endDate').val();
+            let status = $('#status').val();
             let obj = {
                 batch_id: batch_id,
                 user_name: user_name,
+                status: status,
                 type: '0',
                 startDate: startDate,
                 endDate: endDate,

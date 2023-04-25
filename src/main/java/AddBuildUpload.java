@@ -68,7 +68,7 @@ public class AddBuildUpload extends HttpServlet {
                 }
                 if (num1 != 0) {
                     result.put("flag", false);
-                    result.put("message", "物料编码为：" + jsonObject.getString("materialcode") + " 的构建已存在存在！");
+                    result.put("message", "物料编码为：" + jsonObject.getString("materialcode") + " 的构建已存在！");
                     out.write(JSON.toJSONString(result));
                     return;
                 }

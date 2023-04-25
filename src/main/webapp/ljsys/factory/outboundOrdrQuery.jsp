@@ -89,22 +89,22 @@
 
                         <div class="title_text"
                              style="line-height: 25px;width: 100%;display: flex;justify-content: space-between;">
-                            <div id="create_time" class="title_item" style="max-width: 250px;"></div>
-                            <div id="order_id" class="title_item" style="max-width: 250px;"></div>
+                            <div id="create_time" class="title_item" style="max-width: 400px;"></div>
+                            <div id="order_id" class="title_item" style="max-width: 400px;"></div>
                         </div>
                         <div class="title_text"
                              style="line-height: 25px;width: 100%;display: flex;justify-content: space-between;">
-                            <div id="customer_name_print" class="title_item" style="max-width: 250px;"></div>
-                            <div id="contact_name_print" class="title_item" style="max-width: 250px;"></div>
+                            <div id="customer_name_print" class="title_item" style="max-width: 400px;"></div>
+                            <div id="contact_name_print" class="title_item" style="max-width: 400px;"></div>
                         </div>
                         <div class="title_text"
                              style="line-height: 25px;width: 100%;display: flex;justify-content: space-between;">
-                            <div id="planname_print" class="title_item" style="max-width: 250px;"></div>
-                            <div id="material_receiver_print" class="title_item" style="max-width: 250px;"></div>
+                            <div id="planname_print" class="title_item" style="max-width: 400px;"></div>
+                            <div id="material_receiver_print" class="title_item" style="max-width: 400px;"></div>
                         </div>
                         <div class="title_text"
                              style="line-height: 25px;width: 100%;display: flex;justify-content: space-between;">
-                            <div id="address_print" class="title_item" style="max-width: 250px;"></div>
+                            <div id="address_print" class="title_item" style="max-width: 400px;"></div>
                         </div>
 
                     </div>
@@ -116,9 +116,8 @@
                         </tbody>
                     </table>
                     <div style="margin-top: 5px;line-height: 25px">
-                        <div style="width: 100%;text-align: center;font-weight: bolder;font-size: 13px">备注：运输（蓝）
-                            客户（红）
-                            财务（白） 工厂（黄）
+                        <div style="width: 100%;text-align: center;font-weight: bolder;font-size: 13px">备注：财务（白） 客户（红）
+                            运输（蓝） 工厂（黄）
                         </div>
                         <div>请仔细核对货物型号、数量和品质，如果有问题请于收货三日内与我司现场业务负责人联系，项目质保资料已齐全并提供，逾期视为对产品数量质量型号无异议。<br>公司总部地址：苏州相城区阳澄湖镇东横港街
                         </div>
@@ -195,13 +194,13 @@
                         <%--                            <label>项目名称：</label><input type="text" id="pop_planname"--%>
                         <%--                                                       style="height:34%;width: 68%" class="form-control">--%>
                         <%--                        </div>--%>
-                        <div class="form-group" style="margin-left:3%;width: 20%;">
+                        <div class="form-group" style="margin-left:3%;">
                             <label>楼栋：</label><input type="text" id="building_no"
-                                                     style="height:34%;width: 68%" class="form-control">
+                                                     style="height:34%;width: 80px" class="form-control">
                         </div>
                         <div class="form-group" style="margin-left:3%;">
                             <label>楼层：</label><input type="text" id="floor_no"
-                                                     style="height:34%;" class="form-control">
+                                                     style="height:34%;width: 80px" class="form-control">
                         </div>
                         <%--                        <br><br>--%>
                         <%--                        <div class="form-group" style="width: 20%">--%>
@@ -211,6 +210,10 @@
                         <div class="form-group" style="margin-left:3%;width: 20%">
                             <label>图号：</label><input type="text" id="drawing_no"
                                                      style="height:34%;width: 68%" class="form-control">
+                        </div>
+                        <div class="form-group" style="width: 20%">
+                            <label>发货日期：</label><input type="date" id="out_time"
+                                                       style="height:32px;width: 150px" class="form-control">
                         </div>
                         <%--                        <div class="form-group" style="margin-left:3%;width: 20%">--%>
                         <%--                            <label>构建编号：</label><input type="text" id="preproductid"--%>
@@ -588,6 +591,7 @@
             customer_name: $("#customer_name").val(),
             contact_name: $("#contact_name").val(),
             address: $("#address").val(),
+            out_time: $("#out_time").val(),
             material_receiver: $("#material_receiver").val(),
         }
         if (!obj.name) {
@@ -696,7 +700,7 @@
 
     function printDataF(i) {
         document.getElementById("print_name").innerText = "制单：" + sessionStorage.getItem("userName")
-        document.getElementById("order_id").innerText = "出仓单号：" + "JSLJ-" + (jsonObj[i]['planname'] || '') + (jsonObj[i]['number'] || '')
+        document.getElementById("order_id").innerText = "出仓单号：" + "JSLJ-" + (jsonObj[i]['number'] || '')
         document.getElementById("customer_name_print").innerText = "客户名称：" + jsonObj[i]['customer_name']
         document.getElementById("contact_name_print").innerText = "现场联系人：" + jsonObj[i]['contact_name']
         document.getElementById("planname_print").innerText = "项目名称：" + jsonObj[i]['planname']
@@ -792,6 +796,7 @@
 
     function updateTable2() {
         let str = ''
+        let sum = 0
         for (let i = 0; i < pop_pageDate2.length; i++) {
             str += "<tr>" +
                 "</td><td class='tdStyle_body table_td' title='" + pop_pageDate2[i]['materialname'] + "'>" + pop_pageDate2[i]['materialname'] +
@@ -799,9 +804,11 @@
                 "</td><td class='tdStyle_body table_td' title='" + pop_pageDate2[i]['planname'] + "'>" + pop_pageDate2[i]['planname'] +
                 "</td><td class='tdStyle_body table_td' ><a href='#' onclick=delTableData(" + i + ")>删除</a>" +
                 "</td></tr>";
+            sum += parseFloat(pop_pageDate2[i]['fangliang'])
         }
         $("#detailTableText1").html(str);
-        document.getElementById("title_1").innerText = '已选信息' + pop_pageDate2.length + '个'
+
+        document.getElementById("title_1").innerText = '已选信息' + pop_pageDate2.length + '个 ' + "合计方量：" + sum.toFixed(3)
         setCheckBox()
     }
 
@@ -868,7 +875,7 @@
             for (let i = 0; i < jsonObj.length; i++) {
                 jsonObj[i].orderId = "JSLJ-" + (jsonObj[i]['planname'] || '') + (jsonObj[i]['number'] || '')
                 str += "<tr><td class='tdStyle_body table_td' title='" + jsonObj[i]['orderId'] + "'>" + jsonObj[i]['orderId'] +
-                    "</td><td class='tdStyle_body table_td' title='" + jsonObj[i]['create_time'] + "'>" + (jsonObj[i]['create_time'] || '') +
+                    "</td><td class='tdStyle_body table_td' title='" + jsonObj[i]['out_time'] + "'>" + (jsonObj[i]['out_time'] || '') +
                     "</td><td class='tdStyle_body table_td' title='" + jsonObj[i]['customer_name'] + "'>" + (jsonObj[i]['customer_name'] || '') +
                     "</td><td class='tdStyle_body table_td' title='" + jsonObj[i]['address'] + "'>" + (jsonObj[i]['address'] || '') +
                     "</td><td class='tdStyle_body table_td' title='" + jsonObj[i]['contact_name'] + "'>" + (jsonObj[i]['contact_name'] || '') +

@@ -1015,4 +1015,12 @@
         <servlet-name>inventoryCheck</servlet-name>
         <url-pattern>/InventoryCheck</url-pattern>
     </servlet-mapping>
+    <servlet>
+        <servlet-name>getPreproductByMaterialcode</servlet-name>
+        <servlet-class>GetPreproductByMaterialcode</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>getPreproductByMaterialcode</servlet-name>
+        <url-pattern>/GetPreproductByMaterialcode</url-pattern>
+    </servlet-mapping>
 </web-app>

@@ -160,6 +160,41 @@ function outputWorkbook2(workbook) {
     return data
 }
 
+function outputWorkbook3(workbook) {
+    let persons = []; // 存储获取到的数据
+    let data = []
+    let zn_title = ['构件编码'];
+    let en_title = ['materialcode'];
+    // 遍历每张表读取
+    // 表格的表格范围，可用于判断表头是否数量是否正确
+    var fromTo = '';
+    for (var sheet in workbook.Sheets) {
+        if (workbook.Sheets.hasOwnProperty(sheet)) {
+            fromTo = workbook.Sheets[sheet]['!ref'];
+            // (fromTo);
+            persons = persons.concat(XLSX.utils.sheet_to_json(workbook.Sheets[sheet]));
+            break; // 如果只取第一张表，就取消注释这行
+        }
+    }
+    for (let d of persons) {
+        if (d['构件编码'] === void 0) {
+            alert("构件编码不能为空")
+            return
+        }
+        let object = {};
+        for (let i = 0; i < zn_title.length; i++) {
+            let s = zn_title[i]
+            if (d[s] !== undefined) {
+                object[en_title[i]] = d[s];
+            } else {
+                object[en_title[i]] = '';
+            }
+        }
+        data.push(object)
+    }
+    return data
+}
+
 function getQueryVariable(variable) {
     var query = window.location.href.split("?")[1];
     var vars = query.split("&");

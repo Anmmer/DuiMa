@@ -11,6 +11,8 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.math.BigDecimal;
 import java.sql.Connection;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -34,6 +36,7 @@ public class OutboundOrder extends HttpServlet {
         String contact_name = req.getParameter("contact_name");
         String address = req.getParameter("address");
         String material_receiver = req.getParameter("material_receiver");
+        String out_time = req.getParameter("out_time");
         JSONArray jsonArray = JSON.parseArray(materialcodes);
         String type = req.getParameter("type"); // 1:查询，2：新增，3：修改，4：删除，5：计划单关联查询
         Map<String, Object> result = new HashMap<>();
@@ -44,9 +47,9 @@ public class OutboundOrder extends HttpServlet {
         int j = 0;
         try {
             con = DbUtil.getCon();
-            String sql1 = "select planname,create_time,number,customer_name,contact_name,address,material_receiver,id,(select count(*) from outbound_order_product b  where a.id = b.outbound_order_id and b.is_effective = '1' ) as num from outbound_order a   where a.is_effective = 1";
+            String sql1 = "select planname,create_time,number,customer_name,contact_name,address,material_receiver,out_time,id,(select count(*) from outbound_order_product b  where a.id = b.outbound_order_id and b.is_effective = '1' ) as num from outbound_order a   where a.is_effective = 1";
             String sql1_page = "select count(*) as num from outbound_order where is_effective = 1";
-            String sql2 = "insert into outbound_order(id,planname,number,customer_name,contact_name,address,material_receiver,create_time,is_effective) values(?,?,?,?,?,?,?,now(),'1')";
+            String sql2 = "insert into outbound_order(id,planname,number,customer_name,contact_name,address,material_receiver,create_time,is_effective,out_time) values(?,?,?,?,?,?,?,now(),'1',?)";
             String sql3 = "update outbound_order set ";
             String sql4 = "update outbound_order_product set ";
             if ("1".equals(type)) {
@@ -68,7 +71,6 @@ public class OutboundOrder extends HttpServlet {
                 }
                 ResultSet rs = ps.executeQuery();
                 DecimalFormat g1 = new DecimalFormat("0000");
-
                 while (rs.next()) {
                     int number = rs.getInt("number");
                     String str = g1.format(Integer.valueOf(number));
@@ -82,6 +84,7 @@ public class OutboundOrder extends HttpServlet {
                     map.put("material_receiver", rs.getString("material_receiver"));
                     map.put("id", rs.getString("id"));
                     map.put("create_time", rs.getString("create_time"));
+                    map.put("out_time", rs.getString("out_time"));
                     list.add(map);
                 }
                 result.put("data", list);
@@ -130,6 +133,13 @@ public class OutboundOrder extends HttpServlet {
                 ps.setString(5, contact_name);
                 ps.setString(6, address);
                 ps.setString(7, material_receiver);
+                SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+                Date date = new Date(System.currentTimeMillis());
+                if (out_time == null) {
+                    out_time = simpleDateFormat.format(date);
+                }
+                ps.setString(8, out_time);
+
                 if (ps.executeUpdate() > 0) {
                     result.put("message", "录入成功");
                     result.put("flag", true);

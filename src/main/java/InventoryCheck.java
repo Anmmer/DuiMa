@@ -27,6 +27,7 @@ public class InventoryCheck extends HttpServlet {
         String check_type = request.getParameter("check_type");
         String batch_id = request.getParameter("batch_id");
         String real_id = request.getParameter("id");
+        String status = request.getParameter("status");
         String startDate = request.getParameter("startDate");
         String endDate = request.getParameter("endDate");
         String user_name = request.getParameter("user_name");
@@ -60,6 +61,11 @@ public class InventoryCheck extends HttpServlet {
                     sql2 += " and user_name = ?";
                     i++;
                 }
+                if (status != null && !"".equals(status)) {
+                    sql += " and status = ?";
+                    sql2 += " and status = ?";
+                    i++;
+                }
                 if (startDate != null && !"".equals(startDate) && endDate != null && !"".equals(endDate)) {
                     sql += " and create_time < ? and create_time > ?";
                     sql2 += " and create_time < ? and create_time > ?";
@@ -74,6 +80,9 @@ public class InventoryCheck extends HttpServlet {
                 if ((startDate != null && !"".equals(startDate)) && (endDate != null && !"".equals(endDate))) {
                     ps.setString(i--, startDate);
                     ps.setString(i--, endDate);
+                }
+                if (status != null && !"".equals(status)) {
+                    ps.setString(i--, status);
                 }
                 if (user_name != null && !"".equals(user_name)) {
                     ps.setString(i--, user_name);
@@ -102,6 +111,9 @@ public class InventoryCheck extends HttpServlet {
                     ps.setString(j--, startDate);
                     ps.setString(j--, endDate);
                 }
+                if (status != null && !"".equals(status)) {
+                    ps.setString(j--, status);
+                }
                 if (user_name != null && !"".equals(user_name)) {
                     ps.setString(j--, user_name);
                 }
@@ -120,7 +132,7 @@ public class InventoryCheck extends HttpServlet {
             if ("1".equals(type)) {
                 String sql = "insert into inventory_check values(?,?,?,?,now(),?,?,?,?)";
                 String sql2 = "select max(batch_id) batch_id from inventory_check where is_effective = '1'";
-                String sql3 = "insert into should_check values(?,?,now(),'1',?)";
+                String sql3 = "insert into should_check(id,check_id,create_time,is_effective,materialcode) values(?,?,now(),'1',?)";
                 String uuid = UUID.randomUUID().toString().toLowerCase().replace("-", "");
                 JSONArray jsonArray = JSON.parseArray(materialcodes);
                 if (jsonArray.size() == 0) {
