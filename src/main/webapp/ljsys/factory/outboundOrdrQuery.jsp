@@ -595,7 +595,7 @@
             material_receiver: $("#material_receiver").val(),
         }
         if (!obj.name) {
-            alert('请选择信息')
+            alert('请选择项目信息')
             return;
         }
         if (!obj.customer_name || !obj.contact_name || !obj.address || !obj.material_receiver) {
@@ -706,7 +706,7 @@
         document.getElementById("planname_print").innerText = "项目名称：" + jsonObj[i]['planname']
         document.getElementById("material_receiver_print").innerText = "收料员：" + jsonObj[i]['material_receiver']
         document.getElementById("address_print").innerText = "送货地址：" + jsonObj[i]['address']
-        document.getElementById("create_time").innerText = "出货日期：" + jsonObj[i]['create_time']
+        document.getElementById("create_time").innerText = "出货日期：" + jsonObj[i]['out_time']
         let str = ''
         str += "<td class='print_tdStyle_title active' style='width: 5%'>序号</td>" +
             "<td class='print_tdStyle_title active' style='width: 22%'>PC构件名称</td>" +
@@ -873,7 +873,7 @@
         } else {
             let str = '';
             for (let i = 0; i < jsonObj.length; i++) {
-                jsonObj[i].orderId = "JSLJ-" + (jsonObj[i]['planname'] || '') + (jsonObj[i]['number'] || '')
+                jsonObj[i].orderId = "JSLJ-" + (jsonObj[i]['number'] || '')
                 str += "<tr><td class='tdStyle_body table_td' title='" + jsonObj[i]['orderId'] + "'>" + jsonObj[i]['orderId'] +
                     "</td><td class='tdStyle_body table_td' title='" + jsonObj[i]['out_time'] + "'>" + (jsonObj[i]['out_time'] || '') +
                     "</td><td class='tdStyle_body table_td' title='" + jsonObj[i]['customer_name'] + "'>" + (jsonObj[i]['customer_name'] || '') +

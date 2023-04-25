@@ -287,7 +287,6 @@
             let data = event.target.result;
             let workbook = XLSX.read(data, {type: 'binary'});
             excelData = outputWorkbook3(workbook)
-            console.log(excelData)
             if (!excelData) {
                 return
             }

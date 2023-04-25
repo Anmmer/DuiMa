@@ -17,7 +17,7 @@ public class InOutWarehouse extends HttpServlet {
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         // 传入equipmentName
         // 返回 true 或者 错误信息 或者 false
-        response.setContentType("text/javascript;charset=UTF-8");
+        response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
         // 获取、转换参数
         String pids = request.getParameter("ids");            // 需要入库、出库的构件号集合

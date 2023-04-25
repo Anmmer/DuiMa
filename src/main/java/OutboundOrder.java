@@ -71,6 +71,7 @@ public class OutboundOrder extends HttpServlet {
                 }
                 ResultSet rs = ps.executeQuery();
                 DecimalFormat g1 = new DecimalFormat("0000");
+                SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
                 while (rs.next()) {
                     int number = rs.getInt("number");
                     String str = g1.format(Integer.valueOf(number));
@@ -84,7 +85,11 @@ public class OutboundOrder extends HttpServlet {
                     map.put("material_receiver", rs.getString("material_receiver"));
                     map.put("id", rs.getString("id"));
                     map.put("create_time", rs.getString("create_time"));
-                    map.put("out_time", rs.getString("out_time"));
+                    if (rs.getDate("out_time") != null) {
+                        map.put("out_time", simpleDateFormat.format(rs.getDate("out_time")));
+                    } else {
+                        map.put("out_time", null);
+                    }
                     list.add(map);
                 }
                 result.put("data", list);
@@ -135,7 +140,7 @@ public class OutboundOrder extends HttpServlet {
                 ps.setString(7, material_receiver);
                 SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
                 Date date = new Date(System.currentTimeMillis());
-                if (out_time == null) {
+                if (out_time == null || "".equals(out_time)) {
                     out_time = simpleDateFormat.format(date);
                 }
                 ps.setString(8, out_time);

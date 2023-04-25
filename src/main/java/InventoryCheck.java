@@ -206,7 +206,7 @@ public class InventoryCheck extends HttpServlet {
                     out.write(JSON.toJSONString(result));
                     return;
                 }
-                String sql = "select check_id,user_name,status,a.create_time,batch_id,(select b.path from warehouse b where a.warehouse_id = b.id and  b.is_delete = '0') path,(select c.planname from planname c where a.planname_id = c.id and c.isdelete = 0) planname ,build_type,(select count(*) from should_check d where a.check_id = d.check_id and d.is_effective = '1' ) should_check_num,(select count(*) from real_check e where a.check_id = e.check_id and e.is_effective = '1' ) real_check_num from inventory_check a where a.is_effective = '1' and check_id =?  ";
+                String sql = "select check_id,user_name,status,a.create_time,batch_id,build_type,(select b.path from warehouse b where a.warehouse_id = b.id and  b.is_delete = '0') path,(select c.planname from planname c where a.planname_id = c.id and c.isdelete = 0) planname ,build_type,(select count(*) from should_check d where a.check_id = d.check_id and d.is_effective = '1' ) should_check_num,(select count(*) from real_check e where a.check_id = e.check_id and e.is_effective = '1' ) real_check_num from inventory_check a where a.is_effective = '1' and check_id =?  ";
                 ps = conn.prepareStatement(sql);
                 ps.setString(1, check_id);
                 rs = ps.executeQuery();
@@ -217,6 +217,7 @@ public class InventoryCheck extends HttpServlet {
                     result.put("path", rs.getString("path"));
                     result.put("status", rs.getString("status"));
                     result.put("planname", rs.getString("planname"));
+                    result.put("build_type", rs.getString("build_type"));
                     result.put("should_check_num", rs.getString("should_check_num"));
                     result.put("real_check_num", rs.getString("real_check_num"));
                 }
