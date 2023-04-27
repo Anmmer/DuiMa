@@ -259,6 +259,8 @@
             let jsonObject = JSON.parse(result)
             alert(jsonObject.msg);
             if (jsonObject.flag) {
+                excelData = []
+                pop_pageDate = []
                 document.getElementsByClassName("save-btn").disabled = true;
             }
         })
@@ -291,43 +293,43 @@
                 return
             }
             $.post("${pageContext.request.contextPath}/GetPreproductByMaterialcode", {
-                materialcodes: JSON.stringify(excelData.map((v) => {
-                    return v.materialcode
-                }))
-            }, function (result) {
-                result = JSON.parse(result);
-                if (!result.flag) {
-                    alert(result.message)
-                    return
-                }
-                excelData = result.data
-                pop_count = Math.ceil(excelData.length / 10);
-                // 重置查询为第一页
-                pop_pageCur = 1;
-                for (let i = 10 * (pop_pageCur - 1); i < 10 * (pop_pageCur) && i < excelData.length; i++) {
-                    pop_pageDate.push(excelData[i]);
-                }
-                updateTable();
-                $('#total_d').html(excelData.length + "条，共" + pop_count + "页");
-                $('#li_d1').addClass('active');
-                // 重置总页数
-                pop_pageAll = parseInt(pop_count);
-                for (let i = 1; i < 6; i++) {
-                    let k = i % 5;
-                    if (i > pop_pageAll) {
-                        $('#a_d' + k).text('.');
-                    } else {
-                        if (k === 0) {
-                            $('#a_d' + k).text(5);
-                            $('#a_d' + k).attr('onclick', 'jumpToNewPage_d1(5)');
-                            continue;
+                    materialcodes: JSON.stringify(excelData)
+                }, function (result) {
+                    result = JSON.parse(result);
+                    if (!result.flag) {
+                        alert(result.message)
+                        return
+                    }
+                    document.getElementsByClassName("save-btn").disabled = false;
+                    excelData = result.data
+                    pop_count = Math.ceil(excelData.length / 10);
+                    // 重置查询为第一页
+                    pop_pageCur = 1;
+                    for (let i = 10 * (pop_pageCur - 1); i < 10 * (pop_pageCur) && i < excelData.length; i++) {
+                        pop_pageDate.push(excelData[i]);
+                    }
+                    updateTable();
+                    $('#total_d').html(excelData.length + "条，共" + pop_count + "页");
+                    $('#li_d1').addClass('active');
+                    // 重置总页数
+                    pop_pageAll = parseInt(pop_count);
+                    for (let i = 1; i < 6; i++) {
+                        let k = i % 5;
+                        if (i > pop_pageAll) {
+                            $('#a_d' + k).text('.');
                         } else {
-                            $('#a_d' + k).text(i);
-                            $('#a_d' + k).attr('onclick', 'jumpToNewPage_d1(' + k + ')');
+                            if (k === 0) {
+                                $('#a_d' + k).text(5);
+                                $('#a_d' + k).attr('onclick', 'jumpToNewPage_d1(5)');
+                                continue;
+                            } else {
+                                $('#a_d' + k).text(i);
+                                $('#a_d' + k).attr('onclick', 'jumpToNewPage_d1(' + k + ')');
+                            }
                         }
                     }
                 }
-            })
+            )
 
         }
         reader.readAsBinaryString(file);

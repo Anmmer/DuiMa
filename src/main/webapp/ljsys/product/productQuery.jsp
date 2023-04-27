@@ -2,10 +2,12 @@
 <div style="height: 95%;width: 100%">
     <form name="query" class="form-inline" style="width:85%;height:15%;margin-left: 8%;padding-top:2%">
         <div class="form-group" style="width: 100%;">
-            <label for="planname" >项目名称：</label>
+            <label for="planname">项目名称：</label>
             <input id="planname" class="form-control" style="width: 13%;height:10%;">
             <label for="materialcode" style="margin-left: 2%">物料编号：</label>
             <input id="materialcode" class="form-control" style="width: 13%;height:10%;">
+            <label for="build" style="margin-left: 2%">楼栋楼层：</label>
+            <input id="build" class="form-control" style="width: 13%;height:10%;">
             <label for="productState" style="margin-left: 2%">生产状态：</label>
             <select id="productState" class="form-control" style="width: 13%;">
                 <option value=""></option>
@@ -187,10 +189,12 @@
         let productState = $('#productState').val();
         let planname = $('#planname').val();
         let materialcode = $('#materialcode').val();
+        let build = $('#build').val();
         let obj = {
             productState: productState,
             planname: planname,
             materialcode: materialcode,
+            build: build,
             on_or_off: on_or_off,
             pageCur: newPage,
             pageMax: pageMax

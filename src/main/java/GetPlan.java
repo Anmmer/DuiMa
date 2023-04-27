@@ -29,6 +29,7 @@ public class GetPlan extends HttpServlet {
         String materialcode = req.getParameter("materialcode");
         String materialname = req.getParameter("materialname");
         String preproductid = req.getParameter("preproductid");
+        String build = req.getParameter("build");
         String productState = req.getParameter("productState");
         String printstate = req.getParameter("printstate");
         String on_or_off = req.getParameter("on_or_off");
@@ -108,12 +109,21 @@ public class GetPlan extends HttpServlet {
                 sql2 += " and printstate = ?";
                 i++;
             }
+            if (!"".equals(build) && build != null) {
+                sql += " and build like ?";
+                sql2 += " and build like ?";
+                i++;
+            }
             j = i;
             sql += " order by printstate,plantime desc,planname  limit ?,?";
             i += 2;
             ps = con.prepareStatement(sql);
             ps.setInt(i--, pageMax);
             ps.setInt(i--, (pageCur - 1) * pageMax);
+
+            if (!"".equals(build) && build != null) {
+                ps.setString(i--, "%" + build + "%");
+            }
 
             if (!"".equals(printstate) && printstate != null) {
                 ps.setInt(i--, Integer.parseInt(printstate));
@@ -164,6 +174,10 @@ public class GetPlan extends HttpServlet {
                 list.add(map);
             }
             ps2 = con.prepareStatement(sql2);
+
+            if (!"".equals(build) && build != null) {
+                ps2.setString(j--, "%" + build + "%");
+            }
 
             if (!"".equals(printstate) && printstate != null) {
                 ps2.setInt(j--, Integer.parseInt(printstate));

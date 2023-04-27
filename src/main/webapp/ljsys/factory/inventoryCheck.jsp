@@ -351,37 +351,10 @@
         }
 
         function exportData() {
-            const data = [
-                ["序号", "物料编码", "名称"],
-                [101, 10001, "第一个"],
-                [102, 10002, "第二个"]
-            ]
-            // 定义工作演
-            const worksheet = XLSX.utils.aoa_to_sheet(data)
-            // 定义工作名称
-            const workbook = XLSX.utils.book_new()
-            XLSX.utils.book_append_sheet(workbook, worksheet, 'sheet1')
-            // 导出Excel文件
-            XLSX.writeFile(workbook, 'yourfile.xlsx')
-
-            return
-            let obj = {
-                check_id: check_id,
-                check_type: check_type,
-                type: '4',
-                pageCur: 1,
-                pageMax: 9999
-            }
-            $.ajax({
-                url: "${pageContext.request.contextPath}/InventoryCheck",
-                type: 'post',
-                dataType: 'json',
-                data: obj,
-                contentType: 'application/x-www-form-urlencoded;charset=utf-8',
-                success: function (result) {
-
-                }
-            })
+            let a = document.createElement('a');
+            a.href = "${pageContext.request.contextPath}/InventoryCheck?check_id=" + check_id + '&check_type=' + check_type + '&type=' + 4
+                + '&pageCur=' + 1 + '&pageMax=' + 999999 + '&isExport=' + true;
+            a.click();
         }
 
         function inventorySave() {

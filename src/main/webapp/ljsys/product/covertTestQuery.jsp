@@ -26,6 +26,10 @@
                                                                                   class="form-control"
                                                                                   type="date"
                                                                                   style="width: 13%;height: 30px">
+        <label>楼栋：</label><input type="text" name="building_no" id="building_no"
+                                 style="width: 8%;height: 30px" class="form-control">
+        <label style="margin-left: 2%">楼层：</label><input type="text" name="floor_no" id="floor_no"
+                                                         style="width: 8%;height: 30px" class="form-control">
         <button type="button" class="btn btn-primary btn-sm" style="margin-left: 5%"
                 onclick="getTableData(1)">
             查 询
@@ -57,9 +61,11 @@
                     <td class='tdStyle_title active' style="width: 15%">物料编码</td>
                     <td class='tdStyle_title active' style="width: 15%">物料名称</td>
                     <td class='tdStyle_title active' style="width: 15%">图号</td>
-                    <td class='tdStyle_title active' style="width: 15%">检验状态</td>
+                    <td class='tdStyle_title active' style="width: 8%">楼栋</td>
+                    <td class='tdStyle_title active' style="width: 8%">楼层</td>
+                    <td class='tdStyle_title active' style="width: 12%">检验状态</td>
                     <td class='tdStyle_title active' style="width: 15%">不合格原因</td>
-                    <td class='tdStyle_title active' style="width: 15%">操作日期</td>
+                    <td class='tdStyle_title active' style="width: 10%">操作日期</td>
                     <td class='tdStyle_title active' style="width: 10%">操作人</td>
                     <td class='tdStyle_title active' style="width: 10%">备注</td>
                 </tr>
@@ -225,6 +231,8 @@
         let covert_test_startDate = $('#covert_test_startDate').val();
         let covert_test_endDate = $('#covert_test_endDate').val();
         let drawing_no = $('#drawing_no').val();
+        let building_no = $('#building_no').val();
+        let floor_no = $('#floor_no').val();
         let planname = $('#planname').val();
         let obj = {
             materialcode: materialcode,
@@ -234,6 +242,8 @@
             covert_test_startDate: covert_test_startDate,
             covert_test_endDate: covert_test_endDate,
             drawing_no: drawing_no,
+            floor_no: floor_no,
+            building_no: building_no,
             planname: planname,
             isPrint: "true",
             pageCur: newPage,
@@ -521,11 +531,13 @@
                 "</td><td class='tdStyle_body' title='" + jsonObj[i]['materialcode'] + "'>" + jsonObj[i]['materialcode'] +
                 "</td><td class='tdStyle_body' title='" + jsonObj[i]['materialname'] + "'>" + jsonObj[i]['materialname'] +
                 "</td><td class='tdStyle_body' title='" + jsonObj[i]['drawing_no'] + "'>" + jsonObj[i]['drawing_no'] +
+                "</td><td class='tdStyle_body' title='" + (jsonObj[i]['building_no'] || '') + "'>" + (jsonObj[i]['building_no'] || '') +
+                "</td><td class='tdStyle_body' title='" + (jsonObj[i]['floor_no'] || '') + "'>" + (jsonObj[i]['floor_no'] || '') +
                 "</td><td class='tdStyle_body'  title='" + jsonObj[i]['covert_test'] + "'" + style + ">" + jsonObj[i]['covert_test'] +
                 "</td><td class='tdStyle_body' title='" + jsonObj[i]['covert_test_failure_reason'] + "'>" + jsonObj[i]['covert_test_failure_reason'] +
                 "</td><td class='tdStyle_body' >" + jsonObj[i]['covert_test_time'] +
                 "</td><td class='tdStyle_body' >" + jsonObj[i]['covert_test_user'] +
-                "</td><td class='tdStyle_body' >" + jsonObj[i]['covert_test_remark'] +
+                "</td><td class='tdStyle_body' title='" + jsonObj[i]['covert_test_remark'] + "'>" + jsonObj[i]['covert_test_remark'] +
                 "</td></tr>";
         }
         document.getElementById('pre_checkbok').checked = false
@@ -556,10 +568,25 @@
         let materialcode = $('#materialcode').val();
         let materialname = $('#materialname').val();
         let testState = $('#testState').val();
+        let covert_test_user = $('#covert_test_user').val();
+        let covert_test_startDate = $('#covert_test_startDate').val();
+        let covert_test_endDate = $('#covert_test_endDate').val();
+        let drawing_no = $('#drawing_no').val();
+        let building_no = $('#building_no').val();
+        let floor_no = $('#floor_no').val();
+        let planname = $('#planname').val();
         let obj = {
             materialcode: materialcode,
             materialname: materialname,
             testState: testState,
+            covert_test_user: covert_test_user,
+            covert_test_startDate: covert_test_startDate,
+            covert_test_endDate: covert_test_endDate,
+            drawing_no: drawing_no,
+            floor_no: floor_no,
+            building_no: building_no,
+            planname: planname,
+            isPrint: "true",
             pageCur: newPage,
             pageMax: pageMax
         }
@@ -604,6 +631,8 @@
         let covert_test_startDate = $('#covert_test_startDate').val();
         let covert_test_endDate = $('#covert_test_endDate').val();
         let drawing_no = $('#drawing_no').val();
+        let building_no = $('#building_no').val();
+        let floor_no = $('#floor_no').val();
         let planname = $('#planname').val();
         let obj = {
             materialcode: materialcode,
@@ -613,6 +642,8 @@
             covert_test_startDate: covert_test_startDate,
             covert_test_endDate: covert_test_endDate,
             drawing_no: drawing_no,
+            floor_no: floor_no,
+            building_no: building_no,
             planname: planname,
             isPrint: "true",
             pageCur: newPage,
@@ -665,6 +696,8 @@
         let covert_test_startDate = $('#covert_test_startDate').val();
         let covert_test_endDate = $('#covert_test_endDate').val();
         let drawing_no = $('#drawing_no').val();
+        let building_no = $('#building_no').val();
+        let floor_no = $('#floor_no').val();
         let planname = $('#planname').val();
         let obj = {
             materialcode: materialcode,
@@ -674,6 +707,8 @@
             covert_test_startDate: covert_test_startDate,
             covert_test_endDate: covert_test_endDate,
             drawing_no: drawing_no,
+            floor_no: floor_no,
+            building_no: building_no,
             planname: planname,
             isPrint: "true",
             pageCur: newPage,

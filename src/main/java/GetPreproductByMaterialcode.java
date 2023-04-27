@@ -1,5 +1,6 @@
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 import com.example.DbUtil;
 
 import javax.servlet.ServletException;
@@ -31,18 +32,19 @@ public class GetPreproductByMaterialcode extends HttpServlet {
         try {
             PrintWriter out = resp.getWriter();
             con = DbUtil.getCon();
-            String sql = "select materialcode,materialname,standard,drawing_no,build_type,building_no,floor_no,fangliang from preproduct where materialcode = ? and isdelete = 0";
+            String sql = "select materialcode,materialname,standard,drawing_no,build_type,building_no,floor_no,fangliang from preproduct where materialcode = ? and materialname = ? and isdelete = 0";
             PreparedStatement ps = con.prepareStatement(sql);
             ResultSet rs = null;
             Map<String, Object> result = new HashMap<>();
             List<Map<String, Object>> list = new ArrayList<>();
             for (Object o : jsonArray) {
-                String jsonObject = (String) o;
-                ps.setString(1, jsonObject);
+                JSONObject jsonObject = (JSONObject) o;
+                ps.setString(1, jsonObject.getString("materialcode"));
+                ps.setString(2, jsonObject.getString("materialname"));
                 rs = ps.executeQuery();
                 if (!rs.next()) {
                     result.put("flag", false);
-                    result.put("message", "物料编码为：" + jsonObject + " 的构件未上传BOM信息！");
+                    result.put("message", "物料编码为：" + jsonObject.getString("materialcode") + " 物料名称为：" + jsonObject.getString("materialname") + " 的构件未上传BOM信息！");
                     out.write(JSON.toJSONString(result));
                     return;
                 }

@@ -83,31 +83,37 @@
                 </tbody>
             </table>
         </div>
-        <nav aria-label="Page navigation" style="margin-left:35%;width:70%;height:10%;">
-            <ul class="pagination" style="margin-top: 0;width: 70%">
-                <li><span id="total" style="width: 22%"></span></li>
-                <li>
-                    <a href="#" onclick="jumpToNewPage(2)" aria-label="Previous">
-                        <span aria-hidden="true">&laquo;</span>
-                    </a>
-                </li>
-                <li id="li_1"><a id="a_1" href="#">1</a></li>
-                <li id="li_2"><a id="a_2" href="#">2</a></li>
-                <li id="li_3"><a id="a_3" href="#">3</a></li>
-                <li id="li_4"><a id="a_4" href="#">4</a></li>
-                <li id="li_0"><a id="a_0" href="#">5</a></li>
-                <li>
-                    <a href="#" onclick="jumpToNewPage(3)" aria-label="Next">
-                        <span aria-hidden="true">&raquo;</span>
-                    </a>
-                </li>
-                <li style="border: none"><span>跳转：</span></li>
-                <li class="input-group">
-                    <input type="text" id="jump_to" class="form-control" style="width: 10%">
-                </li>
-                <li><a href="#" onclick="jumpToNewPage2()">go!</a></li>
-            </ul>
-        </nav>
+        <div style="display: flex;width: 100%; justify-content: space-between;">
+            <button type="button" id="inventorySave" style="height:10%;width: 100px"
+                    onclick="exportData()"
+                    class="btn btn-primary btn-sm">导出excel
+            </button>
+            <nav aria-label="Page navigation" style="margin-left:35%;width:70%;height:10%;">
+                <ul class="pagination" style="margin-top: 0;width: 70%">
+                    <li><span id="total" style="width: 22%"></span></li>
+                    <li>
+                        <a href="#" onclick="jumpToNewPage(2)" aria-label="Previous">
+                            <span aria-hidden="true">&laquo;</span>
+                        </a>
+                    </li>
+                    <li id="li_1"><a id="a_1" href="#">1</a></li>
+                    <li id="li_2"><a id="a_2" href="#">2</a></li>
+                    <li id="li_3"><a id="a_3" href="#">3</a></li>
+                    <li id="li_4"><a id="a_4" href="#">4</a></li>
+                    <li id="li_0"><a id="a_0" href="#">5</a></li>
+                    <li>
+                        <a href="#" onclick="jumpToNewPage(3)" aria-label="Next">
+                            <span aria-hidden="true">&raquo;</span>
+                        </a>
+                    </li>
+                    <li style="border: none"><span>跳转：</span></li>
+                    <li class="input-group">
+                        <input type="text" id="jump_to" class="form-control" style="width: 10%">
+                    </li>
+                    <li><a href="#" onclick="jumpToNewPage2()">go!</a></li>
+                </ul>
+            </nav>
+        </div>
     </div>
     <div class="modal fade" id="myModal" tabindex="-1" style="position: absolute;left: 15%;top: 12%;" role="dialog"
          data-backdrop="false"
@@ -233,6 +239,46 @@
                 $('#myModal_name').append(item)
             }
         })
+    }
+
+    function exportData() {
+        let myModal_name1 = $("#myModal_name1 option:selected").val()
+        let myModal_name2 = $("#myModal_name2 option:selected").val()
+        let myModal_name = $("#myModal_name option:selected").val()
+        let factoryName = '';
+        if (myModal_name1) {
+            factoryName = myModal_name1
+        }
+        if (myModal_name2) {
+            factoryName = myModal_name2
+        }
+        if (myModal_name) {
+            factoryName = myModal_name
+        }
+        let planname = $('#planname').val();
+        let building_no = $('#building_no').val();
+        let floor_no = $('#floor_no').val();
+        let materialcode = $('#materialcode').val();
+        let build_type = $('#build_type').val();
+        let drawing_no = $('#drawing_no').val();
+        let preproductid = $('#preproductid').val();
+        let obj = {
+            factoryName: factoryName,
+            planname: planname,
+            preproductid: preproductid,
+            building_no: building_no,
+            floor_no: floor_no,
+            materialcode: materialcode,
+            build_type: build_type,
+            drawing_no: drawing_no,
+            isExport: "true",
+            pageCur: 1,
+            pageMax: 999999
+        }
+        let a = document.createElement('a');
+        a.href = "${pageContext.request.contextPath}/GetWarehouseInfo?factoryName=" + factoryName + '&planname=' + planname + '&preproductid=' + preproductid
+            + '&building_no=' + building_no + '&isExport=' + true + '&pageCur=' + 1 + '&pageMax=' + 999999;
+        a.click();
     }
 
     function getTableData(newPage) {

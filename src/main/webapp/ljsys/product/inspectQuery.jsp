@@ -23,6 +23,10 @@
                                                                               class="form-control"
                                                                               type="date"
                                                                               style="width: 13%;height: 30px">
+        <label>楼栋：</label><input type="text" name="building_no" id="building_no"
+                                 style="width: 8%;height: 30px" class="form-control">
+        <label style="margin-left: 2%">楼层：</label><input type="text" name="floor_no" id="floor_no"
+                                                         style="width: 8%;height: 30px" class="form-control">
         <button type="button" class="btn btn-primary btn-sm" style="margin-left: 5%"
                 onclick="getTableData(1)">
             查 询
@@ -53,6 +57,8 @@
                     <td class='tdStyle_title active' style="width: 5%"><input id="pre_checkbok" type="checkbox"></td>
                     <td class='tdStyle_title active' style="width: 15%">物料编码</td>
                     <td class='tdStyle_title active' style="width: 15%">物料名称</td>
+                    <td class='tdStyle_title active' style="width: 8%">楼栋</td>
+                    <td class='tdStyle_title active' style="width: 8%">楼层</td>
                     <td class='tdStyle_title active' style="width: 15%">计划编号</td>
                     <td class='tdStyle_title active' style="width: 15%">质检状态</td>
                     <td class='tdStyle_title active' style="width: 10%">操作人</td>
@@ -220,6 +226,8 @@
         let inspectState = $('#inspectState').val();
         let planname = $('#planname').val();
         let drawing_no = $('#drawing_no').val();
+        let building_no = $('#building_no').val();
+        let floor_no = $('#floor_no').val();
         let inspect_startDate = $('#inspect_startDate').val();
         let inspect_endDate = $('#inspect_endDate').val();
         let obj = {
@@ -228,6 +236,8 @@
             planname: planname,
             drawing_no: drawing_no,
             inspectState: inspectState,
+            building_no: building_no,
+            floor_no: floor_no,
             inspect_startDate: inspect_startDate,
             inspect_endDate: inspect_endDate,
             inspect_stockStatus: '1',
@@ -524,6 +534,8 @@
             str += "<tr><td class='tdStyle_body' ><input type='checkbox' data-id=" + jsonObj[i]['materialcode'] + ">" +
                 "</td><td class='tdStyle_body' title='" + jsonObj[i]['materialcode'] + "'>" + jsonObj[i]['materialcode'] +
                 "</td><td class='tdStyle_body' title='" + jsonObj[i]['materialname'] + "'>" + jsonObj[i]['materialname'] +
+                "</td><td class='tdStyle_body' title='" + jsonObj[i]['building_no'] + "'>" + jsonObj[i]['building_no'] +
+                "</td><td class='tdStyle_body' title='" + jsonObj[i]['floor_no'] + "'>" + jsonObj[i]['floor_no'] +
                 "</td><td class='tdStyle_body' title='" + jsonObj[i]['plannumber'] + "'> " + jsonObj[i]['plannumber'] +
                 "</td><td class='tdStyle_body' title='" + jsonObj[i]['inspect'] + "'>" + jsonObj[i]['inspect'] +
                 "</td><td class='tdStyle_body' title='" + jsonObj[i]['inspect_user'] + "'>" + jsonObj[i]['inspect_user'] +
@@ -560,6 +572,8 @@
         let inspectState = $('#inspectState').val();
         let planname = $('#planname').val();
         let drawing_no = $('#drawing_no').val();
+        let building_no = $('#building_no').val();
+        let floor_no = $('#floor_no').val();
         let inspect_startDate = $('#inspect_startDate').val();
         let inspect_endDate = $('#inspect_endDate').val();
         let obj = {
@@ -568,6 +582,8 @@
             planname: planname,
             drawing_no: drawing_no,
             inspectState: inspectState,
+            building_no: building_no,
+            floor_no: floor_no,
             inspect_startDate: inspect_startDate,
             inspect_endDate: inspect_endDate,
             inspect_stockStatus: '1',
@@ -624,6 +640,8 @@
         let inspectState = $('#inspectState').val();
         let planname = $('#planname').val();
         let drawing_no = $('#drawing_no').val();
+        let building_no = $('#building_no').val();
+        let floor_no = $('#floor_no').val();
         let inspect_startDate = $('#inspect_startDate').val();
         let inspect_endDate = $('#inspect_endDate').val();
         let obj = {
@@ -632,6 +650,8 @@
             planname: planname,
             drawing_no: drawing_no,
             inspectState: inspectState,
+            building_no: building_no,
+            floor_no: floor_no,
             inspect_startDate: inspect_startDate,
             inspect_endDate: inspect_endDate,
             inspect_stockStatus: '1',
@@ -688,6 +708,8 @@
         let inspectState = $('#inspectState').val();
         let planname = $('#planname').val();
         let drawing_no = $('#drawing_no').val();
+        let building_no = $('#building_no').val();
+        let floor_no = $('#floor_no').val();
         let inspect_startDate = $('#inspect_startDate').val();
         let inspect_endDate = $('#inspect_endDate').val();
         let obj = {
@@ -696,6 +718,8 @@
             planname: planname,
             drawing_no: drawing_no,
             inspectState: inspectState,
+            building_no: building_no,
+            floor_no: floor_no,
             inspect_startDate: inspect_startDate,
             inspect_endDate: inspect_endDate,
             inspect_stockStatus: '1',

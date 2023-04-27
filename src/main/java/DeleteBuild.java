@@ -38,7 +38,7 @@ public class DeleteBuild extends HttpServlet {
         try {
             con = DbUtil.getCon();
             String sql = "update preproduct set isdelete = 1 where ";
-            String sql2 = "select count(*) num from preproduct where isdelete = 1 and product_delete = '0' ";
+            String sql2 = "select count(*) num from preproduct where isdelete = 0 and product_delete = '0' ";
             if (materialcode != null && !"".equals(materialcode)) {
                 sql += "materialcode = ? ";
                 sql2 += " and materialcode = ? ";

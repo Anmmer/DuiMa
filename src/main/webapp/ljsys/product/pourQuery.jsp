@@ -25,6 +25,10 @@
                                                                                class="form-control"
                                                                                type="date"
                                                                                style="width: 13%;height: 30px">
+        <label>楼栋：</label><input type="text" name="building_no" id="building_no"
+                                 style="width: 8%;height: 30px" class="form-control">
+        <label style="margin-left: 2%">楼层：</label><input type="text" name="floor_no" id="floor_no"
+                                                         style="width: 8%;height: 30px" class="form-control">
         <button type="button" class="btn btn-primary btn-sm" style="margin-left: 5%"
                 onclick="getTableData(1)">
             查 询
@@ -51,8 +55,10 @@
                     <td class='tdStyle_title active' style="width: 15%">物料编码</td>
                     <td class='tdStyle_title active' style="width: 15%">物料名称</td>
                     <td class='tdStyle_title active' style="width: 15%">构建编号</td>
+                    <td class='tdStyle_title active' style="width: 8%">楼栋</td>
+                    <td class='tdStyle_title active' style="width: 8%">楼层</td>
                     <td class='tdStyle_title active' style="width: 15%">线别</td>
-                    <td class='tdStyle_title active' style="width: 15%">计划编号</td>
+<%--                    <td class='tdStyle_title active' style="width: 15%">计划编号</td>--%>
                     <td class='tdStyle_title active' style="width: 10%">浇捣状态</td>
                     <td class='tdStyle_title active' style="width: 10%">操作人</td>
                     <td class='tdStyle_title active' style="width: 10%">操作日期</td>
@@ -132,6 +138,8 @@
         let pourmade_startDate = $('#pourmade_startDate').val();
         let pourmade_user = $('#pourmade_user').val();
         let pourState = $('#pourState').val();
+        let building_no = $('#building_no').val();
+        let floor_no = $('#floor_no').val();
         let drawing_no = $('#drawing_no').val();
         let planname = $('#planname').val();
         let obj = {
@@ -144,6 +152,8 @@
             planname: planname,
             isPrint: "true",
             pourState: pourState,
+            floor_no: floor_no,
+            building_no: building_no,
             pageCur: newPage,
             pageMax: pageMax
         }
@@ -341,8 +351,10 @@
                 "</td><td class='tdStyle_body' title='" + jsonObj[i]['materialcode'] + "'>" + jsonObj[i]['materialcode'] +
                 "</td><td class='tdStyle_body' title='" + jsonObj[i]['materialname'] + "'>" + jsonObj[i]['materialname'] +
                 "</td><td class='tdStyle_body' title='" + jsonObj[i]['preproductid'] + "'>" + jsonObj[i]['preproductid'] +
+                "</td><td class='tdStyle_body' title='" + jsonObj[i]['building_no'] + "'>" + jsonObj[i]['building_no'] +
+                "</td><td class='tdStyle_body' title='" + jsonObj[i]['floor_no'] + "'>" + jsonObj[i]['floor_no'] +
                 "</td><td class='tdStyle_body' title='" + jsonObj[i]['line'] + "'>" + jsonObj[i]['line'] +
-                "</td><td class='tdStyle_body' title='" + jsonObj[i]['plannumber'] + "'>" + jsonObj[i]['plannumber'] +
+                // "</td><td class='tdStyle_body' title='" + jsonObj[i]['plannumber'] + "'>" + jsonObj[i]['plannumber'] +
                 "</td><td class='tdStyle_body' title='" + jsonObj[i]['pourmade'] + "'>" + jsonObj[i]['pourmade'] +
                 "</td><td class='tdStyle_body' title='" + jsonObj[i]['pourmade_user'] + "'>" + jsonObj[i]['pourmade_user'] +
                 "</td><td class='tdStyle_body' title='" + jsonObj[i]['pourtime'] + "'>" + jsonObj[i]['pourtime'] +
@@ -375,12 +387,26 @@
         }
         let materialcode = $('#materialcode').val();
         let materialname = $('#materialname').val();
+        let pourmade_endDate = $('#pourmade_endDate').val();
+        let pourmade_startDate = $('#pourmade_startDate').val();
+        let pourmade_user = $('#pourmade_user').val();
         let pourState = $('#pourState').val();
+        let building_no = $('#building_no').val();
+        let floor_no = $('#floor_no').val();
+        let drawing_no = $('#drawing_no').val();
+        let planname = $('#planname').val();
         let obj = {
             materialcode: materialcode,
             materialname: materialname,
-            pourState: pourState,
+            pourmade_startDate: pourmade_startDate,
+            pourmade_endDate: pourmade_endDate,
+            pourmade_user: pourmade_user,
+            drawing_no: drawing_no,
+            planname: planname,
             isPrint: "true",
+            pourState: pourState,
+            floor_no: floor_no,
+            building_no: building_no,
             pageCur: newPage,
             pageMax: pageMax
         }
@@ -427,6 +453,8 @@
         let pourmade_startDate = $('#pourmade_startDate').val();
         let pourmade_user = $('#pourmade_user').val();
         let pourState = $('#pourState').val();
+        let building_no = $('#building_no').val();
+        let floor_no = $('#floor_no').val();
         let drawing_no = $('#drawing_no').val();
         let planname = $('#planname').val();
         let obj = {
@@ -439,6 +467,8 @@
             planname: planname,
             isPrint: "true",
             pourState: pourState,
+            floor_no: floor_no,
+            building_no: building_no,
             pageCur: newPage,
             pageMax: pageMax
         }
@@ -485,6 +515,8 @@
         let pourmade_startDate = $('#pourmade_startDate').val();
         let pourmade_user = $('#pourmade_user').val();
         let pourState = $('#pourState').val();
+        let building_no = $('#building_no').val();
+        let floor_no = $('#floor_no').val();
         let drawing_no = $('#drawing_no').val();
         let planname = $('#planname').val();
         let obj = {
@@ -497,6 +529,8 @@
             planname: planname,
             isPrint: "true",
             pourState: pourState,
+            floor_no: floor_no,
+            building_no: building_no,
             pageCur: newPage,
             pageMax: pageMax
         }

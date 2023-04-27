@@ -163,8 +163,8 @@ function outputWorkbook2(workbook) {
 function outputWorkbook3(workbook) {
     let persons = []; // 存储获取到的数据
     let data = []
-    let zn_title = ['构件编码'];
-    let en_title = ['materialcode'];
+    let zn_title = ['构件编码', '构件名称'];
+    let en_title = ['materialcode', 'materialname'];
     // 遍历每张表读取
     // 表格的表格范围，可用于判断表头是否数量是否正确
     var fromTo = '';

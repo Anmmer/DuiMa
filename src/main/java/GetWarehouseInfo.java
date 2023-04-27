@@ -2,22 +2,31 @@ import java.io.*;
 import javax.servlet.*;
 import javax.servlet.http.*;
 import java.math.BigDecimal;
+import java.net.URLEncoder;
 import java.sql.*;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.Date;
 
 import com.alibaba.fastjson.JSON;
 import com.example.DbUtil;
+import com.example.ExcelUtils;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
 
 public class GetWarehouseInfo extends HttpServlet {
 
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        return;
+        doPost(request, response);
     }
 
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         // 传入 warehouse_id
-        response.setContentType("text/html;charset=UTF-8");
-        PrintWriter out = response.getWriter();
+
         // 获取、转换参数
         String name = request.getParameter("factoryName");
         String planname = request.getParameter("planname");
@@ -28,6 +37,7 @@ public class GetWarehouseInfo extends HttpServlet {
         String materialcode = request.getParameter("materialcode");
         String build_type = request.getParameter("build_type");
         String isOrder = request.getParameter("isOrder");
+        String isExport = request.getParameter("isExport");
         String id = request.getParameter("id");
         String drawing_no = request.getParameter("drawing_no");
         int pageCur = Integer.parseInt(request.getParameter("pageCur"));
@@ -160,6 +170,22 @@ public class GetWarehouseInfo extends HttpServlet {
                 ps.setString(i, name);
             }
             rs = ps.executeQuery();
+            List<List<Object>> list3 = new ArrayList();
+            List<Object> list2 = new ArrayList<>();
+            if ("true".equals(isExport)) {
+                list2.add("物料编码");
+                list2.add("物料名称");
+                list2.add("构建编号");
+                list2.add("构建类型");
+                list2.add("所属项目");
+                list2.add("楼栋");
+                list2.add("楼层");
+                list2.add("方量");
+                list2.add("图号");
+                list2.add("库位");
+                list3.add(list2);
+            }
+
             while (rs.next()) {
                 HashMap<String, String> insertmap = new HashMap<>();
                 insertmap.put("materialcode", rs.getString("materialcode"));
@@ -172,9 +198,28 @@ public class GetWarehouseInfo extends HttpServlet {
                 insertmap.put("path", rs.getString("path"));
                 insertmap.put("preproductid", rs.getString("preproductid"));
                 insertmap.put("fangliang", rs.getString("fangliang"));
+                if ("true".equals(isExport)) {
+                    List<Object> list1 = new ArrayList<>();
+                    list1.add(rs.getString("materialcode"));
+                    list1.add(rs.getString("materialname"));
+                    list1.add(rs.getString("preproductid"));
+                    list1.add(rs.getString("build_type"));
+                    list1.add(rs.getString("planname"));
+                    list1.add(rs.getString("building_no"));
+                    list1.add(rs.getString("floor_no"));
+                    list1.add(rs.getString("fangliang"));
+                    list1.add(rs.getString("drawing_no"));
+                    list1.add(rs.getString("path"));
+                    list3.add(list1);
+                }
                 maptmp.add(insertmap);
             }
             data.put("warehouseInfo", maptmp);
+            if ("true".equals(isExport)) {
+                DateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+                ExcelUtils.export(response, "仓库信息导出" + sdf.format(new Date()), "仓库信息", list3);
+                return;
+            }
             if ("true".equals(allData)) {
                 ps = conn.prepareStatement(sql3.toString());
                 if (preproductid != null && !"".equals(preproductid)) {
@@ -248,6 +293,8 @@ public class GetWarehouseInfo extends HttpServlet {
                 data.put("fangliang", fangliang);
                 data.put("pageAll", Math.ceil((double) num / pageMax));
             }
+            response.setContentType("text/html;charset=UTF-8");
+            PrintWriter out = response.getWriter();
             out.write(JSON.toJSONString(data));
         } catch (Exception e) {
             e.printStackTrace();
