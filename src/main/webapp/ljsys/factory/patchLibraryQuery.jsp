@@ -371,10 +371,13 @@
                 inspect_user: sessionStorage.getItem("userName")
             }, function (result) {
                 result = JSON.parse(result);
-                alert(result.message);
+
                 if (result.flag) {
+                    alert("操作成功");
                     getTableData(pageCur);
                     $('#myModal').modal('hide')
+                } else {
+                    alert("操作失败");
                 }
             });
         }

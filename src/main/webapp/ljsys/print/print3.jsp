@@ -2122,8 +2122,8 @@
             height: qRCode.qr_wh_value,
             colorDark: "#000000",
             colorLight: "#ffffff",
-            src: './img/qr.jpg'
-            // correctLevel: QRCode.CorrectLevel.H
+            src: './img/qr.jpg',
+            correctLevel: QRCode.CorrectLevel.H
         })
     }
 
@@ -2143,23 +2143,23 @@
                 set(i, qrstyle.items.length, qrstyle.qr_wh_value)
             }
         }
-        setTimeout(() => {
-            $(".gif").css("display", "none");
-            window.print();
-            window.document.body.innerHTML = bdhtml;
-            location.reload();
-        }, 1000)
-
-
-        // let p = new Promise((resolve, reject) => {
-        //     render(resolve)
-        // })
-        //
-        // p.then(() => {
+        // setTimeout(() => {
         //     $(".gif").css("display", "none");
+        //     window.print();
         //     window.document.body.innerHTML = bdhtml;
         //     location.reload();
-        // })
+        // }, 1000)
+
+
+        let p = new Promise((resolve, reject) => {
+            render(resolve)
+        })
+
+        p.then(() => {
+            $(".gif").css("display", "none");
+            window.document.body.innerHTML = bdhtml;
+            location.reload();
+        })
     }
 
     async function render(resolve) {

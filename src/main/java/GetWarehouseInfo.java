@@ -35,6 +35,7 @@ public class GetWarehouseInfo extends HttpServlet {
         String preproductid = request.getParameter("preproductid");
         String building_no = request.getParameter("building_no");
         String materialcode = request.getParameter("materialcode");
+        String materialname = request.getParameter("materialname");
         String build_type = request.getParameter("build_type");
         String isOrder = request.getParameter("isOrder");
         String isExport = request.getParameter("isExport");
@@ -54,7 +55,7 @@ public class GetWarehouseInfo extends HttpServlet {
             int i = 0;
             int j = 0;
             int k = 0;
-            StringBuilder sql = new StringBuilder("select warehouse_info.materialcode,preproduct.materialname,build_type,planname,floor_no,building_no,drawing_no,path,preproductid,fangliang from warehouse, warehouse_info,preproduct where warehouse_info.warehouse_id = warehouse.id and warehouse_info.materialcode = preproduct.materialcode  and warehouse_info.is_effective = '1' and warehouse.is_delete = '0'  and preproduct.product_delete = '0' and preproduct.isdelete = '0'");
+            StringBuilder sql = new StringBuilder("select warehouse_info.materialcode,preproduct.materialname,build_type,planname,floor_no,building_no,drawing_no,path,preproductid,fangliang,(select count(*) from outbound_order_product where outbound_order_product.is_effective = '1' and outbound_order_product.materialcode = warehouse_info.materialcode) isOrder from warehouse, warehouse_info,preproduct where warehouse_info.warehouse_id = warehouse.id and warehouse_info.materialcode = preproduct.materialcode  and warehouse_info.is_effective = '1' and warehouse.is_delete = '0'  and preproduct.product_delete = '0' and preproduct.isdelete = '0'");
             StringBuilder sql2 = new StringBuilder("select count(*) as num,sum(fangliang) fangliang from warehouse, warehouse_info,preproduct where  warehouse_info.warehouse_id = warehouse.id and warehouse_info.materialcode = preproduct.materialcode  and warehouse_info.is_effective = '1' and warehouse.is_delete = '0'  and preproduct.product_delete = '0' and preproduct.isdelete = '0'");
             StringBuilder sql3 = new StringBuilder("select warehouse_info.materialcode as materialcode from warehouse, warehouse_info,preproduct where warehouse_info.warehouse_id = warehouse.id and warehouse_info.materialcode = preproduct.materialcode  and warehouse_info.is_effective = '1' and warehouse.is_delete = '0'  and preproduct.product_delete = '0' and preproduct.isdelete = '0'");
             if ("true".equals(isOrder)) {
@@ -122,6 +123,12 @@ public class GetWarehouseInfo extends HttpServlet {
                 sql3.append(" and warehouse_info.materialcode= ?");
                 i++;
             }
+            if (materialname != null && !"".equals(materialname)) {
+                sql.append(" and preproduct.materialname like ?");
+                sql2.append(" and preproduct.materialname like ?");
+                sql3.append(" and preproduct.materialname like ?");
+                i++;
+            }
             if (id != null && !"".equals(id)) {
                 sql.append(" and warehouse.id= ?");
                 sql2.append(" and warehouse.id= ?");
@@ -148,11 +155,14 @@ public class GetWarehouseInfo extends HttpServlet {
             if (id != null && !"".equals(id)) {
                 ps.setString(i--, id);
             }
+            if (materialname != null && !"".equals(materialname)) {
+                ps.setString(i--, "%" + materialname.trim() + "%");
+            }
             if (materialcode != null && !"".equals(materialcode)) {
                 ps.setString(i--, materialcode.trim());
             }
             if (drawing_no != null && !"".equals(drawing_no)) {
-                ps.setString(i--, drawing_no);
+                ps.setString(i--, "%" + drawing_no + "%");
             }
             if (build_type != null && !"".equals(build_type)) {
                 ps.setString(i--, "%" + build_type.trim() + "%");
@@ -196,6 +206,7 @@ public class GetWarehouseInfo extends HttpServlet {
                 insertmap.put("build_type", rs.getString("build_type"));
                 insertmap.put("drawing_no", rs.getString("drawing_no"));
                 insertmap.put("path", rs.getString("path"));
+                insertmap.put("isOrder", rs.getString("isOrder"));
                 insertmap.put("preproductid", rs.getString("preproductid"));
                 insertmap.put("fangliang", rs.getString("fangliang"));
                 if ("true".equals(isExport)) {
@@ -228,11 +239,14 @@ public class GetWarehouseInfo extends HttpServlet {
                 if (id != null && !"".equals(id)) {
                     ps.setString(k--, id);
                 }
+                if (materialname != null && !"".equals(materialname)) {
+                    ps.setString(k--, "%" + materialname.trim() + "%");
+                }
                 if (materialcode != null && !"".equals(materialcode)) {
                     ps.setString(k--, materialcode.trim());
                 }
                 if (drawing_no != null && !"".equals(drawing_no)) {
-                    ps.setString(k--, drawing_no);
+                    ps.setString(k--, "%" + drawing_no + "%");
                 }
                 if (build_type != null && !"".equals(build_type)) {
                     ps.setString(k--, "%" + build_type.trim() + "%");
@@ -264,11 +278,14 @@ public class GetWarehouseInfo extends HttpServlet {
             if (id != null && !"".equals(id)) {
                 ps.setString(j--, id);
             }
+            if (materialname != null && !"".equals(materialname)) {
+                ps.setString(j--, "%" + materialname.trim() + "%");
+            }
             if (materialcode != null && !"".equals(materialcode)) {
                 ps.setString(j--, materialcode);
             }
             if (drawing_no != null && !"".equals(drawing_no)) {
-                ps.setString(j--, drawing_no);
+                ps.setString(j--, "%" + drawing_no + "%");
             }
             if (build_type != null && !"".equals(build_type)) {
                 ps.setString(j--, build_type);

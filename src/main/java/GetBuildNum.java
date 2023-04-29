@@ -45,8 +45,8 @@ public class GetBuildNum extends HttpServlet {
             String sql = "select c.planname,(select count(*) num from preproduct a where planname = c.planname and  a.isdelete = 0 ) as num from planname c where c.isdelete = 0";
             String sql2 = "select count(*) as num from planname where isdelete = 0";
             if (planname != null && !"".equals(planname)) {
-                sql += " and b.planname like  ?";
-                sql2 += " and planname = ?";
+                sql += " and c.planname like  ?";
+                sql2 += " and planname like ?";
                 i++;
             }
             if (id != null && !"".equals(id)) {
