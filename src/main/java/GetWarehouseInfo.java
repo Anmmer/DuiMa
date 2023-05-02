@@ -55,7 +55,7 @@ public class GetWarehouseInfo extends HttpServlet {
             int i = 0;
             int j = 0;
             int k = 0;
-            StringBuilder sql = new StringBuilder("select warehouse_info.materialcode,preproduct.materialname,build_type,planname,floor_no,building_no,drawing_no,path,preproductid,fangliang,(select count(*) from outbound_order_product where outbound_order_product.is_effective = '1' and outbound_order_product.materialcode = warehouse_info.materialcode) isOrder from warehouse, warehouse_info,preproduct where warehouse_info.warehouse_id = warehouse.id and warehouse_info.materialcode = preproduct.materialcode  and warehouse_info.is_effective = '1' and warehouse.is_delete = '0'  and preproduct.product_delete = '0' and preproduct.isdelete = '0'");
+            StringBuilder sql = new StringBuilder("select warehouse_info.materialcode,preproduct.materialname,build_type,planname,floor_no,building_no,drawing_no,path,preproductid,fangliang,(select count(*) from outbound_order_product where outbound_order_product.is_effective = '1' and outbound_order_product.materialcode = warehouse_info.materialcode) isOrder,warehouse_info.create_date,warehouse_info.user_name from warehouse, warehouse_info,preproduct where warehouse_info.warehouse_id = warehouse.id and warehouse_info.materialcode = preproduct.materialcode  and warehouse_info.is_effective = '1' and warehouse.is_delete = '0'  and preproduct.product_delete = '0' and preproduct.isdelete = '0'");
             StringBuilder sql2 = new StringBuilder("select count(*) as num,sum(fangliang) fangliang from warehouse, warehouse_info,preproduct where  warehouse_info.warehouse_id = warehouse.id and warehouse_info.materialcode = preproduct.materialcode  and warehouse_info.is_effective = '1' and warehouse.is_delete = '0'  and preproduct.product_delete = '0' and preproduct.isdelete = '0'");
             StringBuilder sql3 = new StringBuilder("select warehouse_info.materialcode as materialcode from warehouse, warehouse_info,preproduct where warehouse_info.warehouse_id = warehouse.id and warehouse_info.materialcode = preproduct.materialcode  and warehouse_info.is_effective = '1' and warehouse.is_delete = '0'  and preproduct.product_delete = '0' and preproduct.isdelete = '0'");
             if ("true".equals(isOrder)) {
@@ -209,6 +209,8 @@ public class GetWarehouseInfo extends HttpServlet {
                 insertmap.put("isOrder", rs.getString("isOrder"));
                 insertmap.put("preproductid", rs.getString("preproductid"));
                 insertmap.put("fangliang", rs.getString("fangliang"));
+                insertmap.put("create_date", rs.getString("create_date"));//入库日期
+                insertmap.put("user_name", rs.getString("user_name"));//入库人
                 if ("true".equals(isExport)) {
                     List<Object> list1 = new ArrayList<>();
                     list1.add(rs.getString("materialcode"));
