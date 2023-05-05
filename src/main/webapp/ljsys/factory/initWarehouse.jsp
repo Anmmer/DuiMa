@@ -234,7 +234,7 @@
 
     function save() {
         let location = $("#location").val()
-        let method = $('#select option:selected').val()
+        let method = $('#select option:selected').text()
         if (location == '' || location == undefined) {
             alert('请选择货位信息')
             return
@@ -254,6 +254,7 @@
             ids: JSON.stringify(excelData.map((val) => {
                 return val.materialcode
             })),
+            method: method,
             isInitInWarehouse: true
         }, function (result) {
             let jsonObject = JSON.parse(result)

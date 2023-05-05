@@ -2123,7 +2123,8 @@
             colorDark: "#000000",
             colorLight: "#ffffff",
             src: './img/qr.jpg',
-            correctLevel: QRCode.CorrectLevel.H
+            // correctLevel: QRCode.CorrectLevel.H,
+            correctLevel: QRErrorCorrectLevel.Q,
         })
     }
 
@@ -2143,23 +2144,56 @@
                 set(i, qrstyle.items.length, qrstyle.qr_wh_value)
             }
         }
-        // setTimeout(() => {
-        //     $(".gif").css("display", "none");
-        //     window.print();
-        //     window.document.body.innerHTML = bdhtml;
-        //     location.reload();
-        // }, 1000)
 
+        getDefault_set_print().then(function (result) {
+            // 在此处处理返回的结果
+            console.log("打印输出格式查询的值为：" + result);
+            if (result == 1) {
+                console.log("执行PDF循环查询的值为：" + result)
+                setTimeout(() => {
+                    $(".gif").css("display", "none");
+                    window.print();
+                    window.document.body.innerHTML = bdhtml;
+                    location.reload();
+                }, 1000)
+            } else {
+                console.log("执行图片打印查询的值为：" + result)
+                let p = new Promise((resolve, reject) => {
+                    render(resolve)
+                })
+                p.then(() => {
+                    $(".gif").css("display", "none");
+                    window.document.body.innerHTML = bdhtml;
+                    location.reload();
+                })
+            }
+        }).catch(function (error) {
+            // 在此处处理错误
+            console.error(error);
+        });
+    }
 
-        let p = new Promise((resolve, reject) => {
-            render(resolve)
-        })
-
-        p.then(() => {
-            $(".gif").css("display", "none");
-            window.document.body.innerHTML = bdhtml;
-            location.reload();
-        })
+    function getDefault_set_print() {
+        return new Promise(function (resolve, reject) {
+            $.ajax({
+                url: "${pageContext.request.contextPath}/GetPrintSet",
+                type: 'post',
+                dataType: 'json',
+                data: null,
+                contentType: 'application/x-www-form-urlencoded;charset=utf-8',
+                success: function (res1) {
+                    if (res1.data !== undefined) {
+                        res1.data.forEach((item) => {
+                            console.log("执行该方法，值为：" + item.on_or_off);
+                            resolve(item.on_or_off);
+                        });
+                    }
+                },
+                error: function (error) {
+                    reject(error);
+                }
+            });
+        });
     }
 
     async function render(resolve) {

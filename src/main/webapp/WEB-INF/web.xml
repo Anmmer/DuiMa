@@ -1023,4 +1023,20 @@
         <servlet-name>getPreproductByMaterialcode</servlet-name>
         <url-pattern>/GetPreproductByMaterialcode</url-pattern>
     </servlet-mapping>
+    <servlet>
+        <servlet-name>getPrintSet</servlet-name>
+        <servlet-class>GetPrintSet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>getPrintSet</servlet-name>
+        <url-pattern>/GetPrintSet</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>updatePrintSet</servlet-name>
+        <servlet-class>UpdatePrintSet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>updatePrintSet</servlet-name>
+        <url-pattern>/UpdatePrintSet</url-pattern>
+    </servlet-mapping>
 </web-app>

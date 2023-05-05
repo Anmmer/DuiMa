@@ -76,7 +76,7 @@ public class GetPreProduct extends HttpServlet {
             PrintWriter out = resp.getWriter();
             con = DbUtil.getCon();
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-            String sql = "select pid,materialcode,preproductid,standard,materialname,weigh,qc,fangliang,build,preproduct.plannumber,print,concretegrade,pourmade,inspect,covert_test,covert_test_time,covert_test_failure_reason,failure_reason,patch_library,pourtime,checktime,line,inspect_remark,inspect_user,covert_test_remark,covert_test_user,pourmade_user,stock_status,scrap_library,scrap_remark,scrap_in_user,scrap_in_time,drawing_no,building_no,floor_no from preproduct left join plan on preproduct.plannumber = plan.plannumber where  preproduct.isdelete = 0 ";
+            String sql = "select pid,materialcode,preproductid,standard,materialname,weigh,qc,fangliang,build,preproduct.plannumber,print,concretegrade,pourmade,inspect,covert_test,covert_test_time,covert_test_failure_reason,failure_reason,patch_library,pourtime,checktime,line,inspect_remark,inspect_user,covert_test_remark,covert_test_user,pourmade_user,stock_status,scrap_library,scrap_remark,scrap_in_user,scrap_in_time,drawing_no,building_no,floor_no,preproduct.planname from preproduct left join plan on preproduct.plannumber = plan.plannumber where  preproduct.isdelete = 0 ";
             String sql2 = "select count(*) as num from preproduct left join plan on preproduct.plannumber = plan.plannumber where preproduct.isdelete = 0 ";
             if ("null".equals(product_delete)) {
                 sql += " and preproduct.product_delete is null ";
@@ -405,6 +405,7 @@ public class GetPreProduct extends HttpServlet {
                 map.put("scrap_in_user", rs.getString("scrap_in_user"));
                 map.put("scrap_in_time", rs.getString("scrap_in_time"));
                 map.put("drawing_no", rs.getString("drawing_no"));
+                map.put("planname", rs.getString("planname"));
                 map.put("building_no", rs.getString("building_no"));
                 map.put("floor_no", rs.getString("floor_no"));
                 list.add(map);

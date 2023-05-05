@@ -9,9 +9,24 @@
             </label>
         </div>
     </div>
+    <div style="width:70%;margin: 0 auto">
+        <div style="height:12%;padding-top:2%">
+            <span style="font-weight: 700">二维码标签格式输出：</span>
+            <label for="yes1">
+                <input type="radio" name="concealed_print" id="yes1" value="1" onclick="setPrintData('yes1')"/> PDF格式
+                <input type="radio" name="concealed_print" id="no1" value="0" onclick="setPrintData('no1')"/> 图片格式
+            </label>
+        </div>
+    </div>
 </div>
+
 <script>
-    window.onload = getData();
+    // window.onload = getData();
+    // window.onload=getPrintData();
+    window.onload=function (){
+        getData();
+        getPrintData();
+    }
 
     function getData() {
         $.ajax({
@@ -39,6 +54,41 @@
             type: 'post',
             dataType: 'json',
             data: {name: 'concealed_process', on_or_off: val},
+            contentType: 'application/x-www-form-urlencoded;charset=utf-8',
+            success: function (res) {
+                if (res.flag) {
+                    alert(res.message)
+                }
+            }
+        })
+    }
+
+    function getPrintData() {
+        $.ajax({
+            url: "${pageContext.request.contextPath}/GetPrintSet",
+            type: 'post',
+            dataType: 'json',
+            data: null,
+            contentType: 'application/x-www-form-urlencoded;charset=utf-8',
+            success: function (res1) {
+                if (res1.data !== undefined) {
+                    res1.data.forEach((item) => {
+                        if (item.name === 'concealed_print') {
+                            item.on_or_off === '1' ? $('#yes1').attr("checked", true) : $('#no1').attr("checked", true);
+                        }
+                    })
+                }
+            }
+        })
+    }
+
+    function setPrintData(id) {
+        let val = document.getElementById(id).value;
+        $.ajax({
+            url: "${pageContext.request.contextPath}/UpdatePrintSet",
+            type: 'post',
+            dataType: 'json',
+            data: {name: 'concealed_print', on_or_off: val},
             contentType: 'application/x-www-form-urlencoded;charset=utf-8',
             success: function (res) {
                 if (res.flag) {
