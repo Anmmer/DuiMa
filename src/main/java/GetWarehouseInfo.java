@@ -136,7 +136,6 @@ public class GetWarehouseInfo extends HttpServlet {
                 i++;
             }
             if (preproductid != null && !"".equals(preproductid)) {
-                sql.append(" and preproduct.preproductid like ?");
                 sql2.append(" and preproduct.preproductid like ?");
                 sql3.append(" and preproduct.preproductid like ?");
                 i++;
@@ -290,7 +289,7 @@ public class GetWarehouseInfo extends HttpServlet {
                 ps.setString(j--, "%" + drawing_no + "%");
             }
             if (build_type != null && !"".equals(build_type)) {
-                ps.setString(j--, build_type);
+                ps.setString(j--, "%" + build_type.trim() + "%");
             }
             if (building_no != null && !"".equals(building_no)) {
                 ps.setString(j--, "%" + building_no.trim() + "%");

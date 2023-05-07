@@ -26,7 +26,7 @@ public class InventoryCheck extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
 
         String materialcodes = request.getParameter("materialcodes");
-        String type = request.getParameter("type");//0：盘库单查询 1：盘库单新增 2：盘库单修改 3：盘库单删除 4：查看详情 5：实盘删除 6：写备注 7：结束
+        String type = request.getParameter("type");//0：盘库单查询 1：盘库单新增 2：盘库单修改 3：盘库单删除 4：查看详情 5：实盘删除 6：写备注 7：结束 8：盘库
         String check_type = request.getParameter("check_type");
         String batch_id = request.getParameter("batch_id");
         String real_id = request.getParameter("id");
@@ -77,10 +77,10 @@ public class InventoryCheck extends HttpServlet {
                 }
                 String sql2 = "select a.materialcode,materialname,drawing_no,planname,build_type,building_no,floor_no,(select path from warehouse_info c left join warehouse d on d.id = c.warehouse_id where c.materialcode = a.materialcode and c.is_effective = '1' and d.is_delete = '0' limit 0,1  ) path from should_check a left join preproduct b on a.materialcode = b.materialcode where a.is_effective = '1' and b.isdelete = '0' and a.check_id = ? and b.product_delete = '0'  limit ?,? ";
                 String sql2_page = "select count(*) num from should_check a left join preproduct b on a.materialcode = b.materialcode where a.is_effective = '1' and b.isdelete = '0' and a.check_id = ? and b.product_delete = '0'  ";
-                String sql3 = "select a.id, a.materialcode,a.create_user,materialname,drawing_no,planname,build_type,building_no,floor_no,(select path from warehouse_info c left join warehouse d on d.id = c.warehouse_id where c.materialcode = a.materialcode and c.is_effective = '1' and d.is_delete = '0' limit 0,1  ) path from real_check a left join preproduct b on a.materialcode = b.materialcode where a.is_effective = '1' and b.isdelete = '0' and b.product_delete = '0' and a.check_id = ? limit ?,? ";
+                String sql3 = "select a.id, a.materialcode,a.create_user,a.create_time,materialname,drawing_no,planname,build_type,building_no,floor_no,(select path from warehouse_info c left join warehouse d on d.id = c.warehouse_id where c.materialcode = a.materialcode and c.is_effective = '1' and d.is_delete = '0' limit 0,1  ) path from real_check a left join preproduct b on a.materialcode = b.materialcode where a.is_effective = '1' and b.isdelete = '0' and b.product_delete = '0' and a.check_id = ? limit ?,? ";
                 String sql3_page = "select count(*) num from real_check a left join preproduct b on a.materialcode = b.materialcode where a.is_effective = '1' and b.isdelete = '0' and a.check_id = ? and b.product_delete = '0' ";
-                String sql4 = "select a.id, a.materialcode,a.remark,materialname,drawing_no,planname,build_type,building_no,floor_no,(select path from warehouse_info c left join warehouse d on d.id = c.warehouse_id where c.materialcode = a.materialcode and c.is_effective = '1' and d.is_delete = '0' limit 0,1  ) path from should_check a left join real_check e on a.materialcode = e.materialcode left join preproduct b on a.materialcode = b.materialcode where a.is_effective = '1' and b.isdelete = '0' and b.product_delete = '0' and a.check_id = ? and e.materialcode is null limit ?,? ";
-                String sql4_page = "select count(*) num from should_check a left join real_check e on a.materialcode = e.materialcode left join preproduct b on a.materialcode = b.materialcode where a.is_effective = '1' and b.isdelete = '0' and b.product_delete = '0'  and a.check_id = ? and e.materialcode is null ";
+                String sql4 = "select a.id, a.materialcode,a.remark,materialname,drawing_no,planname,build_type,building_no,floor_no,(select path from warehouse_info c left join warehouse d on d.id = c.warehouse_id where c.materialcode = a.materialcode and c.is_effective = '1' and d.is_delete = '0' limit 0,1  ) path from should_check a left join (select * from real_check where is_effective = '1') e on a.materialcode = e.materialcode left join preproduct b on a.materialcode = b.materialcode where a.is_effective = '1' and b.isdelete = '0' and b.product_delete = '0' and a.check_id = ? and e.materialcode is null limit ?,? ";
+                String sql4_page = "select count(*) num from should_check a left join (select * from real_check where is_effective = '1') e on a.materialcode = e.materialcode left join preproduct b on a.materialcode = b.materialcode where a.is_effective = '1' and b.isdelete = '0' and b.product_delete = '0'  and a.check_id = ? and e.materialcode is null ";
                 String sql5 = "select a.id, a.materialcode,a.remark,materialname,drawing_no,planname,build_type,building_no,floor_no,(select path from warehouse_info c left join warehouse d on d.id = c.warehouse_id where c.materialcode = a.materialcode  and c.is_effective = '1' and d.is_delete = '0' limit 0,1 ) path from real_check a left join should_check e on a.materialcode = e.materialcode left join preproduct b on a.materialcode = b.materialcode where a.is_effective = '1' and b.isdelete = '0' and b.product_delete = '0' and a.check_id = ? and e.materialcode is null limit ?,? ";
                 String sql5_page = "select count(*) num from real_check a left join should_check e on a.materialcode = e.materialcode left join preproduct b on a.materialcode = b.materialcode where a.is_effective = '1' and b.isdelete = '0' and b.product_delete = '0'  and a.check_id = ? and e.materialcode is null ";
                 List<List<Object>> list3 = new ArrayList();
@@ -157,6 +157,8 @@ public class InventoryCheck extends HttpServlet {
                         map.put("planname", rs.getString("planname"));
                         map.put("build_type", rs.getString("build_type"));
                         map.put("path", rs.getString("path"));
+                        map.put("create_time", rs.getString("create_time"));
+                        map.put("create_user", rs.getString("create_user"));
                         map.put("building_no", rs.getString("building_no"));
                         map.put("floor_no", rs.getString("floor_no"));
                         shouldList.add(map);
@@ -169,6 +171,8 @@ public class InventoryCheck extends HttpServlet {
                             list1.add(rs.getString("planname"));
                             list1.add(rs.getString("building_no"));
                             list1.add(rs.getString("floor_no"));
+                            list1.add(rs.getString("create_time"));
+                            list1.add(rs.getString("create_user"));
 //                            list1.add(rs.getString("fangliang"));
                             list1.add(rs.getString("drawing_no"));
                             list1.add(rs.getString("path"));
@@ -520,6 +524,45 @@ public class InventoryCheck extends HttpServlet {
                     out.write(JSON.toJSONString(result));
                     return;
                 }
+            }
+            if ("8".equals(type)) {
+                if (materialcodes == null || "".equals(materialcodes)) {
+                    result.put("msg", "参数不全");
+                    result.put("flag", false);
+                    out.write(JSON.toJSONString(result));
+                    return;
+                }
+                String sql = "insert into real_check(id,check_id,create_time,is_effective,materialcode,create_user) values(?,?,now(),'1',?,?)";
+                String sql2 = "select materialcode from real_check where check_id = ?";
+                ps = conn.prepareStatement(sql2);
+                ps.setString(1, check_id);
+                rs = ps.executeQuery();
+                List<String> list = new ArrayList<>();
+                while (rs.next()) {
+                    list.add(rs.getString("materialcode"));
+                }
+                JSONArray jsonArray = JSON.parseArray(materialcodes);
+                ps = conn.prepareStatement(sql);
+                for (Object o : jsonArray) {
+                    String materialcode = (String) o;
+                    for (String s : list) {
+                        if (s.equals(o)) {
+                            result.put("msg", "该构建已盘库！");
+                            result.put("flag", false);
+                            out.print(JSON.toJSONString(result));
+                            return;
+                        }
+                    }
+                    ps.setString(1, UUID.randomUUID().toString().toLowerCase().replace("-", ""));
+                    ps.setString(2, check_id);
+                    ps.setString(3, materialcode);
+                    ps.setString(4, user_name);
+                    ps.addBatch();
+                }
+                ps.executeBatch();
+                result.put("msg", "操作成功！");
+                result.put("flag", true);
+                out.print(JSON.toJSONString(result));
             }
         } catch (Exception e) {
             e.printStackTrace();

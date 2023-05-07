@@ -337,9 +337,12 @@
                 inspect_user: sessionStorage.getItem("userName")
             }, function (result) {
                 result = JSON.parse(result);
-                alert(result.message);
+
                 if (result.flag) {
+                    alert("修补成功");
                     getTableData(pageCur);
+                } else {
+                    alert("修补失败");
                 }
             });
         }

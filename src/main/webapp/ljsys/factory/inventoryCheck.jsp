@@ -163,14 +163,14 @@
                                 <%--                                <td class='tdStyle_title active' style="width: 2%"><input--%>
                                 <%--                                        id="detail_checkbok"--%>
                                 <%--                                        type="checkbox"></td>--%>
-                                <td class='tdStyle_title active' style="width: 10%">物料编码</td>
-                                <td class='tdStyle_title active' style="width: 10%">物料名称</td>
-                                <td class='tdStyle_title active' style="width: 10%">图号</td>
+                                <td class='tdStyle_title active' style="width: 12%">物料编码</td>
+                                <td class='tdStyle_title active' style="width: 12%">物料名称</td>
+                                <td class='tdStyle_title active' style="width: 8%">图号</td>
                                 <td class='tdStyle_title active' style="width: 10%">项目名称</td>
-                                <td class='tdStyle_title active' style="width: 10%">类型</td>
+                                <td class='tdStyle_title active' style="width: 8%">类型</td>
                                 <td class='tdStyle_title active' style="width: 10%">仓库</td>
-                                <td class='tdStyle_title active' style="width: 10%">楼栋</td>
-                                <td class='tdStyle_title active' style="width: 10%">楼层</td>
+                                <td class='tdStyle_title active' style="width: 8%">楼栋</td>
+                                <td class='tdStyle_title active' style="width: 8%">楼层</td>
                                 <td class='tdStyle_title active remark' style="width: 10%">备注</td>
                                 <td class='tdStyle_title active real' style="width: 10%">操作人</td>
                                 <td class='tdStyle_title active real' style="width: 10%">操作时间</td>
@@ -810,7 +810,7 @@
                         "</td><td class='tdStyle_body' title='" + pop_pageDate[i]['floor_no'] + "'>" + pop_pageDate[i]['floor_no'] +
                         "</td>";
                     if (check_id !== '') {
-                        if (check_type === 'real_should') {
+                        if (check_type === 'real_check') {
                             str += "<td class='tdStyle_body' title='" + pop_pageDate[i]['create_user'] + "'>" + pop_pageDate[i]['create_user'] +
                                 "</td><td class='tdStyle_body' title='" + pop_pageDate[i]['create_time'] + "'>" + pop_pageDate[i]['create_time'] +
                                 "</td><td class='tdStyle_body'> <a href='#' onclick=detailDeleteData('" + pop_pageDate[i]['id'] + "')>删除</a></td>"
@@ -853,8 +853,12 @@
         }
 
         function detailDeleteData(id) {
+            let r = confirm("亲，确认删除！");
+            if (r === false) {
+                return;
+            }
             $.post("${pageContext.request.contextPath}/InventoryCheck", {
-                type: '3',
+                type: '5',
                 id: id
             }, function (result) {
                 result = JSON.parse(result);

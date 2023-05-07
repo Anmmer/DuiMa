@@ -122,7 +122,7 @@
                         <div>请仔细核对货物型号、数量和品质，如果有问题请于收货三日内与我司现场业务负责人联系，项目质保资料已齐全并提供，逾期视为对产品数量质量型号无异议。<br>公司总部地址：苏州相城区阳澄湖镇东横港街
                         </div>
                     </div>
-                    <div style="display: flex;margin-top: 30px">
+                    <div style="display: flex;justify-content: space-between;margin-top: 30px">
                         <div id="print_name" style="width: 120px"></div>
                         <div id="qc" style="width: 120px">质检：</div>
                         <div id="deliver_goods" style="width: 120px">送货员：</div>
@@ -194,7 +194,7 @@
                         <%--                            <label>项目名称：</label><input type="text" id="pop_planname"--%>
                         <%--                                                       style="height:34%;width: 68%" class="form-control">--%>
                         <%--                        </div>--%>
-                        <div class="form-group" style="margin-left:3%;">
+                        <div class="form-group" style="">
                             <label>楼栋：</label><input type="text" id="building_no"
                                                      style="height:34%;width: 80px" class="form-control">
                         </div>
@@ -207,11 +207,15 @@
                         <%--                            <label>物料编码：</label><input type="text" id="materialcode"--%>
                         <%--                                                       style="height:34%;width: 68%" class="form-control">--%>
                         <%--                        </div>--%>
-                        <div class="form-group" style="margin-left:3%;width: 20%">
+                        <div class="form-group" style="margin-left:3%;width: 15%">
                             <label>图号：</label><input type="text" id="drawing_no"
                                                      style="height:34%;width: 68%" class="form-control">
                         </div>
-                        <div class="form-group" style="width: 20%">
+                        <div class="form-group" style="width: 15%">
+                            <label>构件类型：</label><input type="text" id="build_type"
+                                                       style="height:34%;width: 55%" class="form-control">
+                        </div>
+                        <div class="form-group" style="width: 15%">
                             <label>发货日期：</label><input type="date" id="out_time"
                                                        style="height:32px;width: 150px" class="form-control">
                         </div>
@@ -236,16 +240,16 @@
                                                        style="height:34%;width: 60%" class="form-control">
                         </div>
                         <div class="form-group" style="margin-left:1%;width: 18%;">
-                            <label>现场联系人：</label><input disabled type="text" id="contact_name"
-                                                        style="height:34%;width: 60%" class="form-control">
+                            <label>现场联系人：</label><select type="text" id="contact_name"
+                                                         style="height:34%;width: 60%" class="form-control"></select>
                         </div>
                         <div class="form-group" style="margin-left:1%;width: 18%;">
                             <label>收货地址：</label><input disabled type="text" id="address"
                                                        style="height:34%;width: 60%" class="form-control">
                         </div>
                         <div class="form-group" style="margin-left:1%;width: 18%;">
-                            <label>收料员：</label><input disabled type="text" id="material_receiver"
-                                                      style="height:34%;width: 60%" class="form-control">
+                            <label>收料员：</label><select type="text" id="material_receiver"
+                                                       style="height:34%;width: 60%" class="form-control"></select>
                         </div>
                     </div>
                     <div style="height: 75%;display: flex">
@@ -261,6 +265,7 @@
                                                 type="checkbox"></td>
                                         <td class='tdStyle_title active' style="width: 150px">物料编码</td>
                                         <td class='tdStyle_title active' style="width: 250px">物料名称</td>
+                                        <td class='tdStyle_title active' style="width: 250px">构件类型</td>
                                         <td class='tdStyle_title active' style="width: 150px">图号</td>
                                         <td class='tdStyle_title active' style="width: 150px">所属项目</td>
                                         <td class='tdStyle_title active' style="width: 100px">楼栋</td>
@@ -339,6 +344,8 @@
     let pop_pageCur = 1;    //弹框分页当前页
     let pop_pageAll = 1;  //弹框分页总页数
     let pop_pageDate2 = []
+    let list = []   //现场联系人
+    let list2 = []   //现场联系人
     let det_i = 0;
 
     window.onload = getTableData(1)
@@ -366,6 +373,48 @@
                     for (let v of res.data) {
                         let item = $("<option value='" + v['id'] + "'>" + v['planname'] + "</option>")
                         $('#pop_planname').append(item)
+                    }
+                }
+            }
+        })
+        $.ajax({
+            url: "${pageContext.request.contextPath}/Contact",
+            type: 'post',
+            dataType: 'json',
+            data: {
+                type: '1',
+                'pageCur': 1,
+                'pageMax': 999
+            },
+            contentType: 'application/x-www-form-urlencoded;charset=utf-8',
+            success: function (res) {
+                $('#contact_name').empty()
+                list = res.data
+                if (res.data.length !== 0) {
+                    for (let v of res.data) {
+                        let item = $("<option>" + v['name'] + " " + v['phone'] + "</option>")
+                        $('#contact_name').append(item)
+                    }
+                }
+            }
+        })
+        $.ajax({
+            url: "${pageContext.request.contextPath}/MaterialReceiver",
+            type: 'post',
+            dataType: 'json',
+            data: {
+                type: '1',
+                'pageCur': 1,
+                'pageMax': 999
+            },
+            contentType: 'application/x-www-form-urlencoded;charset=utf-8',
+            success: function (res) {
+                $('#material_receiver').empty()
+                list2 = res.data
+                if (res.data.length !== 0) {
+                    for (let v of res.data) {
+                        let item = $("<option>" + v['name'] + " " + v['phone'] + "</option>")
+                        $('#material_receiver').append(item)
                     }
                 }
             }
@@ -472,9 +521,25 @@
             success: function (result) {
                 if (result.data[0]) {
                     $("#customer_name").val(result.data[0].customer_name)
-                    $("#contact_name").val(result.data[0].contact_name)
                     $("#address").val(result.data[0].address)
-                    $("#material_receiver").val(result.data[0].material_receiver)
+                    if (result.data[0].contact_name) {
+                        $('#contact_name').empty()
+                        for (let v of list) {
+                            if (result.data[0].contact_name.includes(v['name'])) {
+                                let item = $("<option>" + v['name'] + " " + v['phone'] + "</option>")
+                                $('#contact_name').append(item)
+                            }
+                        }
+                    }
+                    if (result.data[0].material_receiver) {
+                        $('#material_receiver').empty()
+                        for (let v of list2) {
+                            if (result.data[0].material_receiver.includes(v['name'])) {
+                                let item = $("<option>" + v['name'] + " " + v['phone'] + "</option>")
+                                $('#material_receiver').append(item)
+                            }
+                        }
+                    }
                 }
                 getDetailData(1)
             }
@@ -589,10 +654,10 @@
             })),
             name: $('#pop_planname option:selected').text(),
             customer_name: $("#customer_name").val(),
-            contact_name: $("#contact_name").val(),
+            contact_name: $("#contact_nameoption option:selected").text(),
             address: $("#address").val(),
             out_time: $("#out_time").val(),
-            material_receiver: $("#material_receiver").val(),
+            material_receiver: $("#material_receiver option:selected").text(),
         }
         if (!obj.name) {
             alert('请选择项目信息')
@@ -646,6 +711,7 @@
         let floor_no = $('#floor_no').val();
         let materialcode = $('#materialcode').val();
         let drawing_no = $('#drawing_no').val();
+        let build_type = $('#build_type').val();
         let obj = {
             factoryName: name,
             planname: planname,
@@ -654,6 +720,7 @@
             floor_no: floor_no,
             materialcode: materialcode,
             drawing_no: drawing_no,
+            build_type: build_type,
             isOrder: false,
             pageCur: 1,
             pageMax: pageMax
@@ -861,6 +928,7 @@
                 str += "<tr><td class='tdStyle_body table_td' style='padding: 5px;'><input id='checkbox_" + pop_pageDate[i]['materialcode'] + "' type='checkbox'  onclick=change(" + i + ") data-id=" + pop_pageDate[i]["materialcode"] + "></td>" +
                     "</td><td class='tdStyle_body table_td' title='" + pop_pageDate[i]['materialcode'] + "'>" + pop_pageDate[i]['materialcode'] +
                     "</td><td class='tdStyle_body table_td' title='" + pop_pageDate[i]['materialname'] + "'>" + pop_pageDate[i]['materialname'] +
+                    "</td><td class='tdStyle_body table_td' title='" + pop_pageDate[i]['build_type'] + "'>" + pop_pageDate[i]['build_type'] +
                     "</td><td class='tdStyle_body table_td' title='" + pop_pageDate[i]['preproductid'] + "'>" + pop_pageDate[i]['preproductid'] +
                     "</td><td class='tdStyle_body table_td' title='" + pop_pageDate[i]['planname'] + "'>" + pop_pageDate[i]['planname'] +
                     "</td><td class='tdStyle_body table_td' title='" + pop_pageDate[i]['building_no'] + "'>" + pop_pageDate[i]['building_no'] +

@@ -122,9 +122,15 @@
                     <div name="query" id="pop_query" class="form-inline" style="width: 100%;height: 8%">
                         <div class="form-group" style="width: 100%;">
                             <label for="materialcode_pop">物料编码：</label>
-                            <input id="materialcode_pop" class="form-control" style="width: 15%;height: 30px">
+                            <input id="materialcode_pop" class="form-control" style="width: 10%;height: 30px">
                             <label for="materialname_pop" style="margin-left: 1%">物料名称：</label>
-                            <input id="materialname_pop" class="form-control" style="width: 15%;height: 30px">
+                            <input id="materialname_pop" class="form-control" style="width: 10%;height: 30px">
+                            <label for="planname_pop">项目名称：</label>
+                            <input id="planname_pop" class="form-control" style="width: 10%;height: 30px">
+                            <label for="building_no_pop" style="margin-left: 1%">楼栋：</label>
+                            <input id="building_no_pop" class="form-control" style="width: 10%;height: 30px">
+                            <label for="floor_no_pop" style="margin-left: 1%">楼层：</label>
+                            <input id="floor_no_pop" class="form-control" style="width: 10%;height: 30px">
                             <button id="pop_query_button" class="btn btn-primary" onclick="getDetailData(1)"
                                     style="margin-left:3%;height: 30px;padding: 0 10px">查&nbsp;&nbsp;询
                             </button>
@@ -141,6 +147,9 @@
                                         type="checkbox"></td>
                                 <td class='tdStyle_title active' style="width: 15%">物料编号</td>
                                 <td class='tdStyle_title active' style="width: 15%">物料名称</td>
+                                <td class='tdStyle_title active' style="width: 15%">图号</td>
+                                <td class='tdStyle_title active' style="width: 15%">楼栋</td>
+                                <td class='tdStyle_title active' style="width: 15%">楼层</td>
                                 <td class='tdStyle_title active' style="width: 10%">规格</td>
                                 <td class='tdStyle_title active' style="width: 10%">状态</td>
                             </tr>
@@ -345,8 +354,8 @@
                 success: function (result) {
                     alert(result.msg)
                     if (result.flag) {
-                        $('#myModal').modal('hide');
-                        getTableData(1)
+                        // $('#myModal').modal('hide');
+                        getTableData(pageCur)
                     }
                 }
             })
@@ -664,6 +673,9 @@
                     str += "<tr><td class='tdStyle_body' style='padding: 5px;'><input type='checkbox' data-id=" + pop_pageDate[i]["materialcode"] + ">" +
                         "</td><td class='tdStyle_body' title='" + pop_pageDate[i]['materialcode'] + "'>" + pop_pageDate[i]['materialcode'] +
                         "</td><td class='tdStyle_body' title='" + pop_pageDate[i]['materialname'] + "'>" + pop_pageDate[i]['materialname'] +
+                        "</td><td class='tdStyle_body' title='" + pop_pageDate[i]['drawing_no'] + "'>" + pop_pageDate[i]['drawing_no'] +
+                        "</td><td class='tdStyle_body' title='" + pop_pageDate[i]['building_no'] + "'>" + pop_pageDate[i]['building_no'] +
+                        "</td><td class='tdStyle_body' title='" + pop_pageDate[i]['floor_no'] + "'>" + pop_pageDate[i]['floor_no'] +
                         "</td><td class='tdStyle_body' title='" + pop_pageDate[i]['standard'] + "'>" + pop_pageDate[i]['standard'] +
                         "</td><td class='tdStyle_body' title='" + pop_pageDate[i]['stock_status'] + "'>" + pop_pageDate[i]['stock_status'] +
                         "</td></tr>";
@@ -744,11 +756,17 @@
         function getDetailData(newPage) {
             let materialcode = $('#materialcode_pop').val();
             let materialname = $('#materialname_pop').val();
+            let planname = $('#planname_pop').val();
+            let building_no = $('#building_no_pop').val();
+            let floor_no = $('#floor_no_pop').val();
             $.post("${pageContext.request.contextPath}/GetPreProduct", {
                 stockStatus: "0",
                 inspectState: "1",
                 materialcode: materialcode,
                 materialname: materialname,
+                planname: planname,
+                building_no: building_no,
+                floor_no: floor_no,
                 pageCur: newPage,
                 pageMax: pageMax
             }, function (result) {
