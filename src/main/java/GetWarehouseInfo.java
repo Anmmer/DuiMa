@@ -94,15 +94,15 @@ public class GetWarehouseInfo extends HttpServlet {
                 i++;
             }
             if (floor_no != null && !"".equals(floor_no)) {
-                sql.append(" and preproduct.floor_no like ?");
-                sql2.append(" and preproduct.floor_no like ?");
-                sql3.append(" and preproduct.floor_no like ?");
+                sql.append(" and preproduct.floor_no = ?");
+                sql2.append(" and preproduct.floor_no = ?");
+                sql3.append(" and preproduct.floor_no = ?");
                 i++;
             }
             if (building_no != null && !"".equals(building_no)) {
-                sql.append(" and preproduct.building_no like ?");
-                sql2.append(" and preproduct.building_no like ?");
-                sql3.append(" and preproduct.building_no like ?");
+                sql.append(" and preproduct.building_no = ?");
+                sql2.append(" and preproduct.building_no = ?");
+                sql3.append(" and preproduct.building_no = ?");
                 i++;
             }
             if (build_type != null && !"".equals(build_type)) {
@@ -136,6 +136,7 @@ public class GetWarehouseInfo extends HttpServlet {
                 i++;
             }
             if (preproductid != null && !"".equals(preproductid)) {
+                sql.append(" and preproduct.preproductid like ?");
                 sql2.append(" and preproduct.preproductid like ?");
                 sql3.append(" and preproduct.preproductid like ?");
                 i++;
@@ -161,16 +162,16 @@ public class GetWarehouseInfo extends HttpServlet {
                 ps.setString(i--, materialcode.trim());
             }
             if (drawing_no != null && !"".equals(drawing_no)) {
-                ps.setString(i--, "%" + drawing_no + "%");
+                ps.setString(i--, drawing_no );
             }
             if (build_type != null && !"".equals(build_type)) {
                 ps.setString(i--, "%" + build_type.trim() + "%");
             }
             if (building_no != null && !"".equals(building_no)) {
-                ps.setString(i--, "%" + building_no.trim() + "%");
+                ps.setString(i--,  building_no.trim());
             }
             if (floor_no != null && !"".equals(floor_no)) {
-                ps.setString(i--, "%" + floor_no.trim() + "%");
+                ps.setString(i--,  floor_no.trim());
             }
             if (planname != null && !"".equals(planname)) {
                 ps.setString(i--, "%" + planname.trim() + "%");
@@ -247,16 +248,16 @@ public class GetWarehouseInfo extends HttpServlet {
                     ps.setString(k--, materialcode.trim());
                 }
                 if (drawing_no != null && !"".equals(drawing_no)) {
-                    ps.setString(k--, "%" + drawing_no + "%");
+                    ps.setString(k--,  drawing_no );
                 }
                 if (build_type != null && !"".equals(build_type)) {
                     ps.setString(k--, "%" + build_type.trim() + "%");
                 }
                 if (building_no != null && !"".equals(building_no)) {
-                    ps.setString(k--, "%" + building_no.trim() + "%");
+                    ps.setString(k--, building_no.trim());
                 }
                 if (floor_no != null && !"".equals(floor_no)) {
-                    ps.setString(k--, "%" + floor_no.trim() + "%");
+                    ps.setString(k--, floor_no.trim());
                 }
                 if (planname != null && !"".equals(planname)) {
                     ps.setString(k--, "%" + planname.trim() + "%");
@@ -286,16 +287,16 @@ public class GetWarehouseInfo extends HttpServlet {
                 ps.setString(j--, materialcode);
             }
             if (drawing_no != null && !"".equals(drawing_no)) {
-                ps.setString(j--, "%" + drawing_no + "%");
+                ps.setString(j--,  drawing_no );
             }
             if (build_type != null && !"".equals(build_type)) {
                 ps.setString(j--, "%" + build_type.trim() + "%");
             }
             if (building_no != null && !"".equals(building_no)) {
-                ps.setString(j--, "%" + building_no.trim() + "%");
+                ps.setString(j--,  building_no.trim());
             }
             if (floor_no != null && !"".equals(floor_no)) {
-                ps.setString(j--, "%" + floor_no.trim() + "%");
+                ps.setString(j--, floor_no.trim());
             }
             if (planname != null && !"".equals(planname)) {
                 ps.setString(j--, "%" + planname.trim() + "%");

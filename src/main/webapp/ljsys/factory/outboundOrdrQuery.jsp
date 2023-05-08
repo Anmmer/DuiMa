@@ -264,10 +264,10 @@
                                                 id="detail_checkbok"
                                                 type="checkbox"></td>
                                         <td class='tdStyle_title active' style="width: 150px">物料编码</td>
-                                        <td class='tdStyle_title active' style="width: 250px">物料名称</td>
+                                        <td class='tdStyle_title active' style="width: 400px">物料名称</td>
                                         <td class='tdStyle_title active' style="width: 250px">构件类型</td>
                                         <td class='tdStyle_title active' style="width: 150px">图号</td>
-                                        <td class='tdStyle_title active' style="width: 150px">所属项目</td>
+                                        <td class='tdStyle_title active' style="width: 500px">所属项目</td>
                                         <td class='tdStyle_title active' style="width: 100px">楼栋</td>
                                         <td class='tdStyle_title active' style="width: 100px">楼层</td>
                                         <td class='tdStyle_title active' style="width: 250px">货位</td>
