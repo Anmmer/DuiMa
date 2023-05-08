@@ -654,7 +654,7 @@
             })),
             name: $('#pop_planname option:selected').text(),
             customer_name: $("#customer_name").val(),
-            contact_name: $("#contact_nameoption option:selected").text(),
+            contact_name: $("#contact_name option:selected").text(),
             address: $("#address").val(),
             out_time: $("#out_time").val(),
             material_receiver: $("#material_receiver option:selected").text(),
