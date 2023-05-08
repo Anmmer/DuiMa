@@ -32,6 +32,7 @@
                     <td class='tdStyle_title table_td active' style="width: 15%">送货地址</td>
                     <td class='tdStyle_title table_td active' style="width: 10%">现场联系人</td>
                     <td class='tdStyle_title table_td active' style="width: 10%">收料员</td>
+                    <td class='tdStyle_title table_td active' style="width: 10%">项目名称</td>
                     <td class='tdStyle_title table_td active' style="width: 8%">构建数量</td>
                     <td class='tdStyle_title table_td active' style="width: 8%">操作</td>
                 </tr>
@@ -948,6 +949,7 @@
                     "</td><td class='tdStyle_body table_td' title='" + jsonObj[i]['address'] + "'>" + (jsonObj[i]['address'] || '') +
                     "</td><td class='tdStyle_body table_td' title='" + jsonObj[i]['contact_name'] + "'>" + (jsonObj[i]['contact_name'] || '') +
                     "</td><td class='tdStyle_body table_td' title='" + jsonObj[i]['material_receiver'] + "'>" + (jsonObj[i]['material_receiver'] || '') +
+                    "</td><td class='tdStyle_body table_td' title='" + jsonObj[i]['planname'] + "'>" + (jsonObj[i]['planname'] || '') +
                     "</td><td class='tdStyle_body table_td' title='" + jsonObj[i]['num'] + "'>" + (jsonObj[i]['num'] || '') +
                     "</td><td class='tdStyle_body table_td' ><a href='#' onclick=printDataF(" + i + ")>打印</a> <a href='#' onclick=delTableData1('" + jsonObj[i].id + "')>删除</a>" +
                     "</td></tr>";
@@ -977,7 +979,7 @@
             }
         }
         let obj = {
-            name: $("#planname"),
+            name: $("#planname").val(),
             type: "1",
             pageCur: newPage,
             pageMax: pageMax
@@ -1017,7 +1019,7 @@
 
     function jumpToNewPage1(newPage) {
         let obj = {
-            name: $("#planname"),
+            name: $("#planname").val(),
             type: "1",
             pageCur: newPage,
             pageMax: pageMax
@@ -1057,7 +1059,7 @@
             return
         }
         let obj = {
-            name: $("#planname"),
+            name: $("#planname").val(),
             type: "1",
             pageCur: newPage,
             pageMax: pageMax

@@ -61,7 +61,7 @@ public class OutboundOrder extends HttpServlet {
                     i++;
                 }
                 j = i;
-                sql1 += " limit ?,?";
+                sql1 += " order by planname ,number limit ?,?";
                 i += 2;
                 ps = con.prepareStatement(sql1);
                 ps.setInt(i--, pageMax);

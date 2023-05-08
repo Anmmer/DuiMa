@@ -116,14 +116,14 @@
              data-backdrop="false"
              aria-labelledby="myModalLabel">
             <div class="modal-dialog" role="document">
-                <div class="modal-content" style="width:80%">
+                <div class="modal-content" style="width:80%;">
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
                                 aria-hidden="true">&times;</span></button>
                         <h4 class="modal-title" id="name1">现场联系人</h4>
                         <h4 class="modal-title" id="name2">收料员</h4>
                     </div>
-                    <div class="modal-body" style="height: 50%;">
+                    <div class="modal-body" style="height: 50%;overflow: auto">
                         <table class="table table-hover" style="text-align: center">
                             <tr>
                                 <td class="tdStyle_title active" style="width: 10%">勾选</td>
