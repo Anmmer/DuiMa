@@ -60,7 +60,7 @@ public class InventoryCheck extends HttpServlet {
                     out.write(JSON.toJSONString(result));
                     return;
                 }
-                String sql = "select check_id,user_name,status,a.create_time,batch_id,build_type,(select b.path from warehouse b where a.warehouse_id = b.id and  b.is_delete = '0') path,(select c.planname from planname c where a.planname_id = c.id and c.isdelete = 0) planname ,build_type,(select count(*) from should_check d where a.check_id = d.check_id and d.is_effective = '1' ) should_check_num,(select count(*) from real_check e where a.check_id = e.check_id and e.is_effective = '1' ) real_check_num from inventory_check a where a.is_effective = '1' and check_id =?  ";
+                String sql = "select check_id,user_name,status,a.create_time,batch_id,build_type,(select b.path from warehouse b where a.warehouse_id = b.id and  b.is_delete = '0') path,(select c.planname from planname c where a.planname_id = c.id and c.isdelete = 0) planname ,build_type,(select count(*) from should_check d where a.check_id = d.check_id and d.is_effective = '1' ) should_check_num,(select count(*) from real_check e where a.check_id = e.check_id and e.is_effective = '1' ) real_check_num,(select count(*) num from should_check b left join (select * from real_check where is_effective = '1') e on b.materialcode = e.materialcode  where b.is_effective = '1'  and b.check_id = a.check_id and e.materialcode is null ) leak_num,(select count(*) num from real_check b left join should_check e on b.materialcode = e.materialcode  where b.is_effective = '1'  and b.check_id = a.check_id and e.materialcode is null ) full_num from inventory_check a where a.is_effective = '1' and check_id =?  ";
                 ps = conn.prepareStatement(sql);
                 ps.setString(1, check_id);
                 rs = ps.executeQuery();
@@ -74,6 +74,8 @@ public class InventoryCheck extends HttpServlet {
                     result.put("build_type", rs.getString("build_type"));
                     result.put("should_check_num", rs.getString("should_check_num"));
                     result.put("real_check_num", rs.getString("real_check_num"));
+                    result.put("leak_num", rs.getString("leak_num"));
+                    result.put("full_num", rs.getString("full_num"));
                 }
                 String sql2 = "select a.materialcode,materialname,drawing_no,planname,build_type,building_no,floor_no,(select path from warehouse_info c left join warehouse d on d.id = c.warehouse_id where c.materialcode = a.materialcode and c.is_effective = '1' and d.is_delete = '0' limit 0,1  ) path from should_check a left join preproduct b on a.materialcode = b.materialcode where a.is_effective = '1' and b.isdelete = '0' and a.check_id = ? and b.product_delete = '0'  limit ?,? ";
                 String sql2_page = "select count(*) num from should_check a left join preproduct b on a.materialcode = b.materialcode where a.is_effective = '1' and b.isdelete = '0' and a.check_id = ? and b.product_delete = '0'  ";

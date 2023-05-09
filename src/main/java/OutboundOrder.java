@@ -35,6 +35,9 @@ public class OutboundOrder extends HttpServlet {
         String customer_name = req.getParameter("customer_name");
         String contact_name = req.getParameter("contact_name");
         String address = req.getParameter("address");
+        String building_no = req.getParameter("building_no");
+        String floor_no = req.getParameter("floor_no");
+        String build_type = req.getParameter("build_type");
         String material_receiver = req.getParameter("material_receiver");
         String out_time = req.getParameter("out_time");
         JSONArray jsonArray = JSON.parseArray(materialcodes);
@@ -47,9 +50,9 @@ public class OutboundOrder extends HttpServlet {
         int j = 0;
         try {
             con = DbUtil.getCon();
-            String sql1 = "select planname,create_time,number,customer_name,contact_name,address,material_receiver,out_time,id,(select count(*) from outbound_order_product b  where a.id = b.outbound_order_id and b.is_effective = '1' ) as num from outbound_order a   where a.is_effective = 1";
+            String sql1 = "select planname,create_time,number,customer_name,contact_name,address,material_receiver,out_time,id,(select count(*) from outbound_order_product b  where a.id = b.outbound_order_id and b.is_effective = '1' ) as num,building_no,floor_no,build_type from outbound_order a   where a.is_effective = 1";
             String sql1_page = "select count(*) as num from outbound_order where is_effective = 1";
-            String sql2 = "insert into outbound_order(id,planname,number,customer_name,contact_name,address,material_receiver,create_time,is_effective,out_time) values(?,?,?,?,?,?,?,now(),'1',?)";
+            String sql2 = "insert into outbound_order(id,planname,number,customer_name,contact_name,address,material_receiver,create_time,is_effective,out_time,building_no,floor_no,build_type) values(?,?,?,?,?,?,?,now(),'1',?,?,?,?)";
             String sql3 = "update outbound_order set ";
             String sql4 = "update outbound_order_product set ";
             if ("1".equals(type)) {
@@ -84,6 +87,9 @@ public class OutboundOrder extends HttpServlet {
                     map.put("address", rs.getString("address"));
                     map.put("material_receiver", rs.getString("material_receiver"));
                     map.put("id", rs.getString("id"));
+                    map.put("building_no", rs.getString("building_no"));
+                    map.put("floor_no", rs.getString("floor_no"));
+                    map.put("build_type", rs.getString("build_type"));
                     map.put("create_time", rs.getString("create_time"));
                     if (rs.getDate("out_time") != null) {
                         map.put("out_time", simpleDateFormat.format(rs.getDate("out_time")));
@@ -144,6 +150,9 @@ public class OutboundOrder extends HttpServlet {
                     out_time = simpleDateFormat.format(date);
                 }
                 ps.setString(8, out_time);
+                ps.setString(9, building_no);
+                ps.setString(10, floor_no);
+                ps.setString(11, build_type);
 
                 if (ps.executeUpdate() > 0) {
                     result.put("message", "录入成功");

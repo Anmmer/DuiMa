@@ -26,10 +26,12 @@
             <table class="table table-hover" cellspacing="0" cellpadding="0" width="100%"
                    align="center">
                 <tr>
-                    <td class='tdStyle_title table_td active' style="width: 20%">出库单号</td>
+                    <td class='tdStyle_title table_td active' style="width: 10%">出库单号</td>
                     <td class='tdStyle_title table_td active' style="width: 8%">出库时间</td>
                     <td class='tdStyle_title table_td active' style="width: 10%">客户名称</td>
-                    <td class='tdStyle_title table_td active' style="width: 15%">送货地址</td>
+                    <td class='tdStyle_title table_td active' style="width: 8%">楼栋</td>
+                    <td class='tdStyle_title table_td active' style="width: 8%">楼层</td>
+                    <td class='tdStyle_title table_td active' style="width: 8%">构件类型</td>
                     <td class='tdStyle_title table_td active' style="width: 10%">现场联系人</td>
                     <td class='tdStyle_title table_td active' style="width: 10%">收料员</td>
                     <td class='tdStyle_title table_td active' style="width: 10%">项目名称</td>
@@ -648,6 +650,18 @@
             alert("请勾选构建信息！")
             return
         }
+        let building_nos = pop_pageDate2.map((v) => {
+            return v.building_no
+        })
+        building_nos = Array.from(new Set(building_nos))
+        let floor_nos = pop_pageDate2.map((v) => {
+            return v.floor_no
+        })
+        floor_nos = Array.from(new Set(floor_nos))
+        let build_types = pop_pageDate2.map((v) => {
+            return v.build_type
+        })
+        build_types = Array.from(new Set(build_types))
         let obj = {
             type: '2',
             materialcodes: JSON.stringify(pop_pageDate2.map((v) => {
@@ -659,6 +673,9 @@
             address: $("#address").val(),
             out_time: $("#out_time").val(),
             material_receiver: $("#material_receiver option:selected").text(),
+            building_no: building_nos.join('/'),
+            floor_no: floor_nos.join('/'),
+            build_type: build_types.join('/'),
         }
         if (!obj.name) {
             alert('请选择项目信息')
@@ -946,7 +963,9 @@
                 str += "<tr><td class='tdStyle_body table_td' title='" + jsonObj[i]['orderId'] + "'>" + jsonObj[i]['orderId'] +
                     "</td><td class='tdStyle_body table_td' title='" + jsonObj[i]['out_time'] + "'>" + (jsonObj[i]['out_time'] || '') +
                     "</td><td class='tdStyle_body table_td' title='" + jsonObj[i]['customer_name'] + "'>" + (jsonObj[i]['customer_name'] || '') +
-                    "</td><td class='tdStyle_body table_td' title='" + jsonObj[i]['address'] + "'>" + (jsonObj[i]['address'] || '') +
+                    "</td><td class='tdStyle_body table_td' title='" + jsonObj[i]['building_no'] + "'>" + (jsonObj[i]['building_no'] || '') +
+                    "</td><td class='tdStyle_body table_td' title='" + jsonObj[i]['floor_no'] + "'>" + (jsonObj[i]['floor_no'] || '') +
+                    "</td><td class='tdStyle_body table_td' title='" + jsonObj[i]['build_type'] + "'>" + (jsonObj[i]['build_type'] || '') +
                     "</td><td class='tdStyle_body table_td' title='" + jsonObj[i]['contact_name'] + "'>" + (jsonObj[i]['contact_name'] || '') +
                     "</td><td class='tdStyle_body table_td' title='" + jsonObj[i]['material_receiver'] + "'>" + (jsonObj[i]['material_receiver'] || '') +
                     "</td><td class='tdStyle_body table_td' title='" + jsonObj[i]['planname'] + "'>" + (jsonObj[i]['planname'] || '') +
@@ -1225,6 +1244,7 @@
         let building_no = $('#building_no').val();
         let floor_no = $('#floor_no').val();
         let materialcode = $('#materialcode').val();
+        let build_type = $('#build_type').val();
         let drawing_no = $('#drawing_no').val();
         let obj = {
             factoryName: name,
@@ -1234,6 +1254,7 @@
             floor_no: floor_no,
             materialcode: materialcode,
             drawing_no: drawing_no,
+            build_type: build_type,
             isOrder: false,
             pageCur: newPage,
             pageMax: pageMax
@@ -1288,6 +1309,7 @@
         let floor_no = $('#floor_no').val();
         let materialcode = $('#materialcode').val();
         let drawing_no = $('#drawing_no').val();
+        let build_type = $('#build_type').val();
         let obj = {
             factoryName: name,
             planname: planname,
@@ -1296,6 +1318,7 @@
             floor_no: floor_no,
             materialcode: materialcode,
             drawing_no: drawing_no,
+            build_type: build_type,
             isOrder: false,
             pageCur: newPage,
             pageMax: pageMax
@@ -1352,6 +1375,7 @@
         let floor_no = $('#floor_no').val();
         let materialcode = $('#materialcode').val();
         let drawing_no = $('#drawing_no').val();
+        let build_type = $('#build_type').val();
         let obj = {
             factoryName: name,
             planname: planname,
@@ -1360,6 +1384,7 @@
             floor_no: floor_no,
             materialcode: materialcode,
             drawing_no: drawing_no,
+            build_type: build_type,
             isOrder: false,
             pageCur: newPage,
             pageMax: pageMax

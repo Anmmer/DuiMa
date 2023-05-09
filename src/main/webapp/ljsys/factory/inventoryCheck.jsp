@@ -737,8 +737,8 @@
                     document.getElementById("pop_query_button1").innerText = "应盘构件：" + (result.should_check_num || 0) + "个"
                     document.getElementById("pop_query_button2").innerText = "实盘构件：" + (result.real_check_num || 0) + "个"
                     let num1 = result.should_check_num - result.real_check_num
-                    document.getElementById("pop_query_button3").innerText = "漏盘构件：" + (num1 > 0 ? num1 : 0) + "个"
-                    document.getElementById("pop_query_button4").innerText = "盈盘构件：" + (num1 < 0 ? -num1 : 0) + "个"
+                    document.getElementById("pop_query_button3").innerText = "漏盘构件：" + (result.leak_num || 0) + "个"
+                    document.getElementById("pop_query_button4").innerText = "盈盘构件：" + (result.full_num || 0) + "个"
                     if (result.status === '2') {
                         $("#pop_query_button5").attr('disabled', 'true')
                     }
@@ -805,7 +805,7 @@
                         "</td><td class='tdStyle_body' title='" + pop_pageDate[i]['drawing_no'] + "'>" + pop_pageDate[i]['drawing_no'] +
                         "</td><td class='tdStyle_body' title='" + pop_pageDate[i]['planname'] + "'>" + pop_pageDate[i]['planname'] +
                         "</td><td class='tdStyle_body' title='" + pop_pageDate[i]['build_type'] + "'>" + pop_pageDate[i]['build_type'] +
-                        "</td><td class='tdStyle_body' title='" + pop_pageDate[i]['path'] + "'>" + pop_pageDate[i]['path'] +
+                        "</td><td class='tdStyle_body' title='" + pop_pageDate[i]['path'] + "'>" + (pop_pageDate[i]['path'] || '已出库') +
                         "</td><td class='tdStyle_body' title='" + pop_pageDate[i]['building_no'] + "'>" + pop_pageDate[i]['building_no'] +
                         "</td><td class='tdStyle_body' title='" + pop_pageDate[i]['floor_no'] + "'>" + pop_pageDate[i]['floor_no'] +
                         "</td>";
