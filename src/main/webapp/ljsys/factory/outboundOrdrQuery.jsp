@@ -267,12 +267,12 @@
                                                 id="detail_checkbok"
                                                 type="checkbox"></td>
                                         <td class='tdStyle_title active' style="width: 150px">物料编码</td>
-                                        <td class='tdStyle_title active' style="width: 400px">物料名称</td>
-                                        <td class='tdStyle_title active' style="width: 250px">构件类型</td>
                                         <td class='tdStyle_title active' style="width: 150px">图号</td>
-                                        <td class='tdStyle_title active' style="width: 500px">所属项目</td>
+                                        <td class='tdStyle_title active' style="width: 100px">构件类型</td>
                                         <td class='tdStyle_title active' style="width: 100px">楼栋</td>
                                         <td class='tdStyle_title active' style="width: 100px">楼层</td>
+                                        <td class='tdStyle_title active' style="width: 300px">物料名称</td>
+                                        <td class='tdStyle_title active' style="width: 300px">所属项目</td>
                                         <td class='tdStyle_title active' style="width: 250px">货位</td>
                                     </tr>
                                     <tbody id="detailTableText">
@@ -739,6 +739,7 @@
             materialcode: materialcode,
             drawing_no: drawing_no,
             build_type: build_type,
+            orderByDrawing_no: true,
             isOrder: false,
             pageCur: 1,
             pageMax: pageMax
@@ -945,12 +946,12 @@
             for (let i = 0; i < pop_pageDate.length; i++) {
                 str += "<tr><td class='tdStyle_body table_td' style='padding: 5px;'><input id='checkbox_" + pop_pageDate[i]['materialcode'] + "' type='checkbox'  onclick=change(" + i + ") data-id=" + pop_pageDate[i]["materialcode"] + "></td>" +
                     "</td><td class='tdStyle_body table_td' title='" + pop_pageDate[i]['materialcode'] + "'>" + pop_pageDate[i]['materialcode'] +
-                    "</td><td class='tdStyle_body table_td' title='" + pop_pageDate[i]['materialname'] + "'>" + pop_pageDate[i]['materialname'] +
-                    "</td><td class='tdStyle_body table_td' title='" + pop_pageDate[i]['build_type'] + "'>" + pop_pageDate[i]['build_type'] +
                     "</td><td class='tdStyle_body table_td' title='" + pop_pageDate[i]['preproductid'] + "'>" + pop_pageDate[i]['preproductid'] +
-                    "</td><td class='tdStyle_body table_td' title='" + pop_pageDate[i]['planname'] + "'>" + pop_pageDate[i]['planname'] +
+                    "</td><td class='tdStyle_body table_td' title='" + pop_pageDate[i]['build_type'] + "'>" + pop_pageDate[i]['build_type'] +
                     "</td><td class='tdStyle_body table_td' title='" + pop_pageDate[i]['building_no'] + "'>" + pop_pageDate[i]['building_no'] +
                     "</td><td class='tdStyle_body table_td' title='" + pop_pageDate[i]['floor_no'] + "'>" + pop_pageDate[i]['floor_no'] +
+                    "</td><td class='tdStyle_body table_td' title='" + pop_pageDate[i]['materialname'] + "'>" + pop_pageDate[i]['materialname'] +
+                    "</td><td class='tdStyle_body table_td' title='" + pop_pageDate[i]['planname'] + "'>" + pop_pageDate[i]['planname'] +
                     "</td><td class='tdStyle_body table_td' title='" + pop_pageDate[i]['path'] + "'>" + pop_pageDate[i]['path'] +
                     "</td></tr>";
             }

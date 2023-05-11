@@ -38,6 +38,7 @@ public class GetWarehouseInfo extends HttpServlet {
         String materialname = request.getParameter("materialname");
         String build_type = request.getParameter("build_type");
         String isOrder = request.getParameter("isOrder");
+        String orderByDrawing_no = request.getParameter("orderByDrawing_no");
         String isExport = request.getParameter("isExport");
         String id = request.getParameter("id");
         String drawing_no = request.getParameter("drawing_no");
@@ -143,6 +144,11 @@ public class GetWarehouseInfo extends HttpServlet {
             }
             j = i;
             k = i;
+            if ("true".equals(orderByDrawing_no)) {
+                sql.append(" order by drawing_no");
+                sql2.append(" order by drawing_no");
+                sql3.append(" order by drawing_no");
+            }
             sql.append(" limit ?,?");
             i += 2;
             // 获取该仓库具有的products
@@ -162,16 +168,16 @@ public class GetWarehouseInfo extends HttpServlet {
                 ps.setString(i--, materialcode.trim());
             }
             if (drawing_no != null && !"".equals(drawing_no)) {
-                ps.setString(i--, drawing_no );
+                ps.setString(i--, drawing_no);
             }
             if (build_type != null && !"".equals(build_type)) {
                 ps.setString(i--, "%" + build_type.trim() + "%");
             }
             if (building_no != null && !"".equals(building_no)) {
-                ps.setString(i--,  building_no.trim());
+                ps.setString(i--, building_no.trim());
             }
             if (floor_no != null && !"".equals(floor_no)) {
-                ps.setString(i--,  floor_no.trim());
+                ps.setString(i--, floor_no.trim());
             }
             if (planname != null && !"".equals(planname)) {
                 ps.setString(i--, "%" + planname.trim() + "%");
@@ -248,7 +254,7 @@ public class GetWarehouseInfo extends HttpServlet {
                     ps.setString(k--, materialcode.trim());
                 }
                 if (drawing_no != null && !"".equals(drawing_no)) {
-                    ps.setString(k--,  drawing_no );
+                    ps.setString(k--, drawing_no);
                 }
                 if (build_type != null && !"".equals(build_type)) {
                     ps.setString(k--, "%" + build_type.trim() + "%");
@@ -287,13 +293,13 @@ public class GetWarehouseInfo extends HttpServlet {
                 ps.setString(j--, materialcode);
             }
             if (drawing_no != null && !"".equals(drawing_no)) {
-                ps.setString(j--,  drawing_no );
+                ps.setString(j--, drawing_no);
             }
             if (build_type != null && !"".equals(build_type)) {
                 ps.setString(j--, "%" + build_type.trim() + "%");
             }
             if (building_no != null && !"".equals(building_no)) {
-                ps.setString(j--,  building_no.trim());
+                ps.setString(j--, building_no.trim());
             }
             if (floor_no != null && !"".equals(floor_no)) {
                 ps.setString(j--, floor_no.trim());

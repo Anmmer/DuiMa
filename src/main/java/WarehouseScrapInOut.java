@@ -51,6 +51,7 @@ public class WarehouseScrapInOut extends HttpServlet {
             } else {
                 for (int j = 0; j < list.size() - 1; j++) {
                     sql.append("? , ");
+                    sql2.append("? , ");
                 }
                 sql.append("?)");
                 sql2.append("?)");

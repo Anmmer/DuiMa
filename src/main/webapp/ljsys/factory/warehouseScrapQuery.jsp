@@ -55,7 +55,7 @@
                     <td class='tdStyle_title active' style="width: 5%"><input id="pre_checkbok" type="checkbox"></td>
                     <td class='tdStyle_title active' style="width: 15%">物料编码</td>
                     <td class='tdStyle_title active' style="width: 15%">物料名称</td>
-                    <td class='tdStyle_title active' style="width: 15%">计划编号</td>
+                    <td class='tdStyle_title active' style="width: 15%">图号</td>
                     <td class='tdStyle_title active' style="width: 15%">不合格原因</td>
                     <td class='tdStyle_title active' style="width: 15%">报废库地址</td>
                     <td class='tdStyle_title active' style="width: 10%">操作日期</td>
@@ -126,7 +126,7 @@
                                             type="checkbox"></td>
                                     <td class='tdStyle_title active' style="width: 15%">物料编码</td>
                                     <td class='tdStyle_title active' style="width: 15%">物料名称</td>
-                                    <td class='tdStyle_title active' style="width: 15%">计划编号</td>
+                                    <td class='tdStyle_title active' style="width: 15%">图号</td>
                                     <td class='tdStyle_title active' style="width: 15%">不合格原因</td>
                                     <td class='tdStyle_title active' style="width: 15%">修补库地址</td>
                                     <td class='tdStyle_title active' style="width: 10%">操作日期</td>
@@ -366,7 +366,7 @@
                     str += "<tr><td class='tdStyle_body'><input type='checkbox' data-id=" + jsonObj[i]['materialcode'] + ">" +
                         "<td class='tdStyle_body' title='" + jsonObj[i]['materialcode'] + "'>" + jsonObj[i]['materialcode'] +
                         "</td><td class='tdStyle_body' title='" + jsonObj[i]['materialname'] + "'>" + jsonObj[i]['materialname'] +
-                        "</td><td class='tdStyle_body' title='" + jsonObj[i]['plannumber'] + "'>" + jsonObj[i]['plannumber'] +
+                        "</td><td class='tdStyle_body' title='" + jsonObj[i]['drawing_no'] + "'>" + jsonObj[i]['drawing_no'] +
                         "</td><td class='tdStyle_body' title='" + jsonObj[i]['failure_reason'] + "'>" + jsonObj[i]['failure_reason'] +
                         "</td><td class='tdStyle_body' title='" + jsonObj[i]['scrap_library'] + "'>" + jsonObj[i]['scrap_library'] +
                         "</td><td class='tdStyle_body' title='" + jsonObj[i]['scrap_in_time'] + "'>" + jsonObj[i]['scrap_in_time'] +
@@ -389,7 +389,7 @@
                     str += "<tr><td class='tdStyle_body'><input type='checkbox' data-id=" + pop_pageDate[i]['materialcode'] + ">" +
                         "<td class='tdStyle_body' title='" + pop_pageDate[i]['materialcode'] + "'>" + pop_pageDate[i]['materialcode'] +
                         "</td><td class='tdStyle_body' title='" + pop_pageDate[i]['materialname'] + "'>" + pop_pageDate[i]['materialname'] +
-                        "</td><td class='tdStyle_body' title='" + pop_pageDate[i]['plannumber'] + "'>" + pop_pageDate[i]['plannumber'] +
+                        "</td><td class='tdStyle_body' title='" + pop_pageDate[i]['drawing_no'] + "'>" + pop_pageDate[i]['drawing_no'] +
                         "</td><td class='tdStyle_body' title='" + pop_pageDate[i]['failure_reason'] + "'>" + pop_pageDate[i]['failure_reason'] +
                         "</td><td class='tdStyle_body' title='" + pop_pageDate[i]['patch_library'] + "'>" + pop_pageDate[i]['patch_library'] +
                         "</td><td class='tdStyle_body' title='" + pop_pageDate[i]['checktime'] + "'>" + pop_pageDate[i]['checktime'] +
