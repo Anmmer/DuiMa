@@ -357,6 +357,10 @@
             success: function (res) {
                 if (res.data.length !== 0) {
                     $('#pop_planname').val(res.data[0].planname);
+                    $('#pop_customer_name').val(res.data[0].customer_name);
+                    $('#pop_contact_name').val(res.data[0].contact_name);
+                    $('#pop_address').val(res.data[0].address);
+                    $('#pop_material_receiver').val(res.data[0].material_receiver);
                     $('#pop_consumption').val(res.data[0].unit_consumption);
                 }
             },

@@ -11,8 +11,8 @@
             <label for="productState" style="margin-left: 2%">生产状态：</label>
             <select id="productState" class="form-control" style="width: 13%;">
                 <option value=""></option>
-                <option value="0">待生产</option>
-                <option value="1">已生产</option>
+                <option value="0">未完成</option>
+                <option value="1">已完成</option>
             </select>
             <button type="button" class="btn btn-primary btn-sm" style="margin-left: 1%"
                     onclick="getTableData(1)">
@@ -251,24 +251,32 @@
                     state = '报废入库'
                     style = "style='background-color: red;'"
                 }
+                if (pop_pageDate[i]['stock_status'] === '1') {
+                    state = '完工入库'
+                    style = "style='background-color: blue;color: #fff;'"
+                }
+                if (pop_pageDate[i]['stock_status'] === '2') {
+                    state = '已出库'
+                    style = "style='background-color: white;'"
+                }
                 // if (pop_pageDate[i]['pourmade'] === 1 && pop_pageDate[i]['inspect'] === 4) {
                 //     state = '报废出库'
                 //     style = "style='background-color: red;'"
                 // }
-                if (on_or_off == '1') {
-                    if (pop_pageDate[i]['covert_test'] === 1 && pop_pageDate[i]['inspect'] === 0 && pop_pageDate[i]['pourmade'] === 0) {
-                        state = '待浇捣'
-                        style = "style='background-color: yellow;'"
-                    }
-                    if (pop_pageDate[i]['covert_test'] === 0) {
-                        state = '待生产'
-                        style = "style='background-color: grey;'"
-                    }
-                    if (pop_pageDate[i]['covert_test'] === 2) {
-                        state = '隐蔽检验不合格'
-                        style = "style='background-color: #a94442;'"
-                    }
-                }
+                // if (on_or_off == '1') {
+                //     if (pop_pageDate[i]['covert_test'] === 1 && pop_pageDate[i]['inspect'] === 0 && pop_pageDate[i]['pourmade'] === 0) {
+                //         state = '待浇捣'
+                //         style = "style='background-color: yellow;'"
+                //     }
+                //     if (pop_pageDate[i]['covert_test'] === 0) {
+                //         state = '待生产'
+                //         style = "style='background-color: grey;'"
+                //     }
+                //     if (pop_pageDate[i]['covert_test'] === 2) {
+                //         state = '隐蔽检验不合格'
+                //         style = "style='background-color: #a94442;'"
+                //     }
+                // }
                 pop_pageDate[i]['pourmade'] = pop_pageDate[i]['pourmade'] === 0 ? '未浇捣' : '已浇捣'
                 if (pop_pageDate[i]['inspect'] === 0) {
                     pop_pageDate[i]['inspect'] = '未质检'
@@ -309,7 +317,7 @@
             for (let i = 0; i < jsonObj.length; i++) {
                 let style = ''
                 let state = ''
-                if (jsonObj[i]['pourmadestate'] === 1 && jsonObj[i]['checkstate'] === 1) {
+                if (jsonObj[i]['pourmadestate'] === 1 && jsonObj[i]['checkstate'] === 1 && jsonObj[i]['stock_status'] === '1') {
                     state = '已完成'
                     style = "style='background-color: green;'"
                 } else {

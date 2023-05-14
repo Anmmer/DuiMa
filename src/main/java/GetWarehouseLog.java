@@ -1,6 +1,7 @@
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.example.DbUtil;
+import com.example.ExcelUtils;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -12,21 +13,20 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 public class GetWarehouseLog extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        super.doGet(req, resp);
+        doPost(req, resp);
     }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         resp.setContentType("text/html;charset=UTF-8");
-        PrintWriter out = resp.getWriter();
+        PrintWriter out = null;
         String type = req.getParameter("type");
         String method = req.getParameter("method");
         String planname = req.getParameter("planname");
@@ -38,6 +38,7 @@ public class GetWarehouseLog extends HttpServlet {
         String drawing_no = req.getParameter("drawing_no");
         String startDate = req.getParameter("startDate");
         String endDate = req.getParameter("endDate");
+        String isExport = req.getParameter("isExport");
         int pageCur = Integer.parseInt(req.getParameter("pageCur"));
         int pageMax = Integer.parseInt(req.getParameter("pageMax"));
         Map<String, Object> result = new HashMap<>();
@@ -60,7 +61,7 @@ public class GetWarehouseLog extends HttpServlet {
 //            return;
 //        }patchLibraryQueryAll
 
-        endDate = endDate+": 23:59:59";
+        endDate = endDate + ": 23:59:59";
 
         int i = 0;
         int j = 0;
@@ -71,6 +72,9 @@ public class GetWarehouseLog extends HttpServlet {
                     "\tbuild_type,\n" +
                     "\tc.standard,\n" +
                     "\tdrawing_no,\n" +
+                    "\tplanname,\n" +
+                    "\tbuilding_no,\n" +
+                    "\tfloor_no,\n" +
                     "\tweigh,\n" +
                     "\tfangliang,\n" +
                     "\ttype,\n" +
@@ -92,7 +96,7 @@ public class GetWarehouseLog extends HttpServlet {
                     "\t) AS out_warehouse_path \n" +
                     "FROM\n" +
                     "\twarehouse_info_log a left join preproduct c on a.materialcode = c.materialcode  where c.isdelete=0 and c.product_delete = '0' ";
-            String sql2 = "select count(*) as num from warehouse_info_log a left join preproduct c on a.materialcode = c.materialcode where c.isdelete=0 and c.product_delete = '0' ";
+            String sql2 = "select count(*) as num,sum(fangliang) fangliang from warehouse_info_log a left join preproduct c on a.materialcode = c.materialcode where c.isdelete=0 and c.product_delete = '0' ";
             if ("1".equals(type) && warehouseId != null && !"".equals(warehouseId)) {
                 sql += " and in_warehouse_id in (with recursive temp as (\n" +
                         "select id,pid from warehouse p where  id= ?\n" +
@@ -216,6 +220,23 @@ public class GetWarehouseLog extends HttpServlet {
                 ps.setString(i, warehouseId);
             }
             ResultSet rs = ps.executeQuery();
+            List<List<Object>> list3 = new ArrayList();
+            List<Object> list2 = new ArrayList<>();
+            if ("true".equals(isExport)) {
+                list2.add("物料编码");
+                list2.add("构建类型");
+                list2.add("类型");
+                list2.add("方式");
+                list2.add("项目名称");
+                list2.add("楼栋");
+                list2.add("楼层");
+                list2.add("图号");
+                list2.add("操作人");
+                list2.add("操作日期");
+                list2.add("入库地址");
+                list2.add("出库地址");
+                list3.add(list2);
+            }
             while (rs.next()) {
                 Map<String, Object> map = new HashMap<>();
                 map.put("materialcode", rs.getString("materialcode"));
@@ -225,14 +246,37 @@ public class GetWarehouseLog extends HttpServlet {
                 map.put("drawing_no", rs.getString("drawing_no"));
                 map.put("weigh", rs.getString("weigh"));
                 map.put("fangliang", rs.getString("fangliang"));
+                map.put("planname", rs.getString("planname"));
+                map.put("building_no", rs.getString("building_no"));
+                map.put("floor_no", rs.getString("floor_no"));
                 map.put("create_date", rs.getString("create_date"));
                 map.put("user_name", rs.getString("user_name"));
                 map.put("method", rs.getString("method"));
                 map.put("in_warehouse_path", rs.getString("in_warehouse_path"));
                 map.put("out_warehouse_path", rs.getString("out_warehouse_path"));
                 list.add(map);
+                if ("true".equals(isExport)) {
+                    List<Object> list1 = new ArrayList<>();
+                    list1.add(rs.getString("materialcode"));
+                    list1.add(rs.getString("build_type"));
+                    list1.add(rs.getString("type"));
+                    list1.add(rs.getString("method"));
+                    list1.add(rs.getString("planname"));
+                    list1.add(rs.getString("building_no"));
+                    list1.add(rs.getString("floor_no"));
+                    list1.add(rs.getString("drawing_no"));
+                    list1.add(rs.getString("user_name"));
+                    list1.add(rs.getString("create_date"));
+                    list1.add(rs.getString("in_warehouse_path"));
+                    list1.add(rs.getString("out_warehouse_path"));
+                    list3.add(list1);
+                }
             }
-
+            if ("true".equals(isExport)) {
+                DateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+                ExcelUtils.export(resp, "出入库明细" + sdf.format(new Date()), "出入库明细", list3);
+                return;
+            }
             ps2 = con.prepareStatement(sql2);
             if (materialcodes != null && !"".equals(materialcodes)) {
                 JSONArray jsonArray = JSON.parseArray(materialcodes);
@@ -275,9 +319,11 @@ public class GetWarehouseLog extends HttpServlet {
             while (rs2.next()) {
                 int num = rs2.getInt("num");
                 result.put("cnt", num);
+                result.put("fangliang", rs2.getString("fangliang"));
                 result.put("pageAll", Math.ceil((double) num / pageMax));
             }
             result.put("data", list);
+            out = resp.getWriter();
             out.write(JSON.toJSONString(result));
         } catch (Exception e) {
             e.printStackTrace();

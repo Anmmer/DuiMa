@@ -12,7 +12,7 @@
     </form>
     <div style="width:85%;height:80%;margin:0 auto;">
         <div class="page-header" style="margin-top: 0;margin-bottom: 1%">
-            <h3 style="margin-bottom: 0;margin-top: 0"><small>项目导入构建数量信息</small></h3>
+            <h3 style="margin-bottom: 0;margin-top: 0"><small>导入项目构件数量信息</small></h3>
         </div>
         <div style="height: 85%">
             <table class="table table-hover" style="text-align: center">

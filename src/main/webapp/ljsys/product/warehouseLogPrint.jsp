@@ -41,17 +41,17 @@
     </form>
     <div style="width:85%;height:80%;margin:0 auto;">
         <div class="page-header" style="margin-top: 0;margin-bottom: 1%">
-            <h3 style="margin-bottom: 0;margin-top: 0"><small>出入库信息</small></h3>
-<%--            <button type="button" style="position: absolute;right: 17%;top:18%" class="btn btn-primary btn-sm"--%>
-<%--                    data-toggle="modal"--%>
-<%--                    onclick="printDataF(true)">--%>
-<%--                打印单据--%>
-<%--            </button>--%>
-<%--            <button type="button" style="position: absolute;right: 10%;top:18%" class="btn btn-primary btn-sm"--%>
-<%--                    data-toggle="modal"--%>
-<%--                    onclick="printDataF(false)">--%>
-<%--                全部打印--%>
-<%--            </button>--%>
+            <h3 style="margin-bottom: 0;margin-top: 0"><small id="small">出入库信息</small></h3>
+            <%--            <button type="button" style="position: absolute;right: 17%;top:18%" class="btn btn-primary btn-sm"--%>
+            <%--                    data-toggle="modal"--%>
+            <%--                    onclick="printDataF(true)">--%>
+            <%--                打印单据--%>
+            <%--            </button>--%>
+            <%--            <button type="button" style="position: absolute;right: 10%;top:18%" class="btn btn-primary btn-sm"--%>
+            <%--                    data-toggle="modal"--%>
+            <%--                    onclick="printDataF(false)">--%>
+            <%--                全部打印--%>
+            <%--            </button>--%>
         </div>
         <div style="height: 85%">
             <table class="table table-hover" cellspacing="0" cellpadding="0" width="100%"
@@ -64,8 +64,10 @@
                     <td class='tdStyle_title table_td active' style="width: 7%">构建类型</td>
                     <td class='tdStyle_title table_td active' style="width: 5%">类型</td>
                     <td class='tdStyle_title table_td active' style="width: 8%">方式</td>
-                    <td class='tdStyle_title table_td active' style="width: 10%">入库地址</td>
-                    <td class='tdStyle_title table_td active' style="width: 15%">出库地址</td>
+                    <td class='tdStyle_title table_td active' style="width: 10%">项目名称</td>
+                    <td class='tdStyle_title table_td active' style="width: 5%">楼栋</td>
+                    <td class='tdStyle_title table_td active' style="width: 5%">楼层</td>
+                    <td class='tdStyle_title table_td active' style="width: 5%">图号</td>
                     <td class='tdStyle_title table_td active' style="width: 5%">操作人</td>
                     <td class='tdStyle_title table_td active' style="width: 10%">操作日期</td>
                 </tr>
@@ -73,31 +75,37 @@
                 </tbody>
             </table>
         </div>
-        <nav aria-label="Page navigation" style="margin-left:35%;width:70%;height:10%;">
-            <ul class="pagination" style="margin-top: 0;width: 100%">
-                <li><span id="total"></span></li>
-                <li>
-                    <a href="#" onclick="jumpToNewPage(2)" aria-label="Previous">
-                        <span aria-hidden="true">&laquo;</span>
-                    </a>
-                </li>
-                <li id="li_1"><a id="a_1" href="#">1</a></li>
-                <li id="li_2"><a id="a_2" href="#">2</a></li>
-                <li id="li_3"><a id="a_3" href="#">3</a></li>
-                <li id="li_4"><a id="a_4" href="#">4</a></li>
-                <li id="li_0"><a id="a_0" href="#">5</a></li>
-                <li>
-                    <a href="#" onclick="jumpToNewPage(3)" aria-label="Next">
-                        <span aria-hidden="true">&raquo;</span>
-                    </a>
-                </li>
-                <li style="border: none"><span>跳转：</span></li>
-                <li class="input-group">
-                    <input type="text" id="jump_to" class="form-control" style="width: 10%">
-                </li>
-                <li><a href="#" onclick="jumpToNewPage2()">go!</a></li>
-            </ul>
-        </nav>
+        <div style="display: flex;width: 100%; justify-content: space-between;">
+            <button type="button" id="inventorySave" style="height:10%;width: 100px"
+                    onclick="exportData()"
+                    class="btn btn-primary btn-sm">导出excel
+            </button>
+            <nav aria-label="Page navigation" style="margin-left:35%;width:70%;height:10%;">
+                <ul class="pagination" style="margin-top: 0;width: 100%">
+                    <li><span id="total"></span></li>
+                    <li>
+                        <a href="#" onclick="jumpToNewPage(2)" aria-label="Previous">
+                            <span aria-hidden="true">&laquo;</span>
+                        </a>
+                    </li>
+                    <li id="li_1"><a id="a_1" href="#">1</a></li>
+                    <li id="li_2"><a id="a_2" href="#">2</a></li>
+                    <li id="li_3"><a id="a_3" href="#">3</a></li>
+                    <li id="li_4"><a id="a_4" href="#">4</a></li>
+                    <li id="li_0"><a id="a_0" href="#">5</a></li>
+                    <li>
+                        <a href="#" onclick="jumpToNewPage(3)" aria-label="Next">
+                            <span aria-hidden="true">&raquo;</span>
+                        </a>
+                    </li>
+                    <li style="border: none"><span>跳转：</span></li>
+                    <li class="input-group">
+                        <input type="text" id="jump_to" class="form-control" style="width: 10%">
+                    </li>
+                    <li><a href="#" onclick="jumpToNewPage2()">go!</a></li>
+                </ul>
+            </nav>
+        </div>
     </div>
     <div class="modal fade" id="myModal"
          style="position: absolute;left: 2%;height: 95%;top: 3%;width: 95%;z-index: 5" role="dialog"
@@ -298,6 +306,51 @@
         })
     }
 
+    function exportData() {
+        let type = $('#type').val();
+        let method = $('#method option:selected').text();
+        let endDate = $('#endDate').val();
+        let startDate = $('#startDate').val();
+        let materialcode = $('#materialcode').val();
+        let planname = $('#planname').val();
+        let building_no = $('#building_no').val();
+        let floor_no = $('#floor_no').val();
+        let drawing_no = $('#drawing_no').val();
+        if (!type) {
+            alert("请选择类型")
+            return
+        }
+        let myModal_name1 = $("#myModal_name1 option:selected").val()
+        let myModal_name2 = $("#myModal_name2 option:selected").val()
+        let location = $("#location option:selected").val()
+        let factoryName = '';
+        if (myModal_name1) {
+            factoryName = myModal_name1
+        }
+        if (myModal_name2) {
+            factoryName = myModal_name2
+        }
+        if (location) {
+            factoryName = location
+        }
+        let obj = {
+            materialcode: materialcode,
+            warehouseId: factoryName,
+            planname: planname,
+            building_no: building_no,
+            floor_no: floor_no,
+            drawing_no: drawing_no,
+            type: type,
+            method: method,
+            startDate: startDate,
+            endDate: endDate,
+        }
+        let a = document.createElement('a');
+        a.href = "${pageContext.request.contextPath}/GetWarehouseLog?materialcode=" + obj.materialcode + '&warehouseId=' + obj.warehouseId + '&building_no=' + obj.building_no
+            + '&floor_no=' + obj.floor_no + '&drawing_no=' + obj.drawing_no + '&type=' + obj.type + '&method=' + obj.method + '&startDate=' + obj.startDate + '&endDate=' + obj.endDate + '&isExport=' + true + '&pageCur=' + 1 + '&pageMax=' + 9999999;
+        a.click();
+    }
+
     function getTableData(newPage) {
         let type = $('#type').val();
         let method = $('#method option:selected').text();
@@ -352,6 +405,7 @@
             success: function (res) {
                 if (res.data.length !== 0) {
                     jsonObj = res.data;
+                    document.getElementById("small").innerText = '项目信息 合计方量：' + res.fangliang
                     updateTable();
                     $('#total').html(res.cnt + "条，共" + res.pageAll + "页");
                     // 重置查询为第一页
@@ -607,8 +661,10 @@
                 "</td><td class='tdStyle_body table_td' title='" + jsonObj[i]['build_type'] + "'>" + jsonObj[i]['build_type'] +
                 "</td><td class='tdStyle_body table_td' title='" + jsonObj[i]['type'] + "'>" + jsonObj[i]['type'] +
                 "</td><td class='tdStyle_body table_td' title='" + jsonObj[i]['method'] + "'>" + jsonObj[i]['method'] +
-                "</td><td class='tdStyle_body table_td' title='" + jsonObj[i]['in_warehouse_path'] + "'>" + jsonObj[i]['in_warehouse_path'] +
-                "</td><td class='tdStyle_body table_td' title='" + jsonObj[i]['out_warehouse_path'] + "'>" + jsonObj[i]['out_warehouse_path'] +
+                "</td><td class='tdStyle_body table_td' title='" + jsonObj[i]['planname'] + "'>" + jsonObj[i]['planname'] +
+                "</td><td class='tdStyle_body table_td' title='" + jsonObj[i]['building_no'] + "'>" + jsonObj[i]['building_no'] +
+                "</td><td class='tdStyle_body table_td' title='" + jsonObj[i]['floor_no'] + "'>" + jsonObj[i]['floor_no'] +
+                "</td><td class='tdStyle_body table_td' title='" + jsonObj[i]['drawing_no'] + "'>" + jsonObj[i]['drawing_no'] +
                 "</td><td class='tdStyle_body table_td' title='" + jsonObj[i]['user_name'] + "'>" + jsonObj[i]['user_name'] +
                 "</td><td class='tdStyle_body table_td' title='" + jsonObj[i]['create_date'] + "'>" + jsonObj[i]['create_date'] +
                 "</td></tr>";

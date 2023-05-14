@@ -36,7 +36,7 @@ public class GetBatchDetail extends HttpServlet {
         try {
             con = DbUtil.getCon();
             String sql = "select materialcode,materialname,standard,drawing_no,build_type,building_no,floor_no,fangliang from preproduct where isdelete = 0 and batch_id = ? ";
-            String sql2 = "select count(*) as num from preproduct where isdelete = 0 and batch_id = ?";
+            String sql2 = "select count(*) as num,sum(fangliang) fangliang from preproduct where isdelete = 0 and batch_id = ?";
             sql += " limit ?,?";
             ps = con.prepareStatement(sql);
             ps.setString(1, batch_id);
@@ -48,6 +48,7 @@ public class GetBatchDetail extends HttpServlet {
             while (rs2.next()) {
                 int num = rs2.getInt("num");
                 result.put("cnt", num);
+                result.put("fangliang", rs2.getString("fangliang"));
                 int res_num;
                 if (num % pageMax == 0) {
                     res_num = num / pageMax;

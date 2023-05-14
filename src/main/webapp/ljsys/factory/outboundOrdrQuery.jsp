@@ -3,6 +3,12 @@
     <form name="query" class="form-inline" style="width:90%;height:12%;margin-left: 6%;padding-top:2%">
         <label style="margin-left: 2%">项目名称：</label><input type="text" id="planname"
                                                            style="height: 30px;width: 10%" class="form-control">
+        <div class="form-group" style="margin-left:3%;width: 40%;">
+            <label for="startDate" style="margin-left: 3%">操作日期从：</label>
+            <input id="startDate" class="form-control" type="date" style="width: 30%;height: 30px">
+            <label for="endDate" style="margin-left: 2%">至：</label>
+            <input id="endDate" class="form-control" type="date" style="width: 30%;height: 30px">
+        </div>
         <button type="button" class="btn btn-primary btn-sm" style="margin-left: 3%"
                 onclick="getTableData(1)">
             查 询
@@ -26,47 +32,55 @@
             <table class="table table-hover" cellspacing="0" cellpadding="0" width="100%"
                    align="center">
                 <tr>
-                    <td class='tdStyle_title table_td active' style="width: 10%">出库单号</td>
-                    <td class='tdStyle_title table_td active' style="width: 8%">出库时间</td>
+                    <td class='tdStyle_title table_td active' style="width: 10%" onclick="orderByNum()">出库单号</td>
+                    <td class='tdStyle_title table_td active' style="width: 8%" onclick="orderBytime()">出库时间</td>
+                    <td class='tdStyle_title table_td active' style="width: 5%">状态</td>
                     <td class='tdStyle_title table_td active' style="width: 10%">客户名称</td>
-                    <td class='tdStyle_title table_td active' style="width: 8%">楼栋</td>
-                    <td class='tdStyle_title table_td active' style="width: 8%">楼层</td>
+                    <td class='tdStyle_title table_td active' style="width: 5%">楼栋</td>
+                    <td class='tdStyle_title table_td active' style="width: 5%">楼层</td>
                     <td class='tdStyle_title table_td active' style="width: 8%">构件类型</td>
                     <td class='tdStyle_title table_td active' style="width: 10%">现场联系人</td>
-                    <td class='tdStyle_title table_td active' style="width: 10%">收料员</td>
+                    <%--                    <td class='tdStyle_title table_td active' style="width: 10%">收料员</td>--%>
                     <td class='tdStyle_title table_td active' style="width: 10%">项目名称</td>
-                    <td class='tdStyle_title table_td active' style="width: 8%">构建数量</td>
+                    <td class='tdStyle_title table_td active' style="width: 5%">数量</td>
+                    <td class='tdStyle_title table_td active' style="width: 5%">方量</td>
                     <td class='tdStyle_title table_td active' style="width: 8%">操作</td>
                 </tr>
                 <tbody id="archTableText">
                 </tbody>
             </table>
         </div>
-        <nav aria-label="Page navigation" style="margin-left:35%;width:70%;height:10%;">
-            <ul class="pagination" style="margin-top: 0;width: 100%">
-                <li><span id="total"></span></li>
-                <li>
-                    <a href="#" onclick="jumpToNewPage(2)" aria-label="Previous">
-                        <span aria-hidden="true">&laquo;</span>
-                    </a>
-                </li>
-                <li id="li_1"><a id="a_1" href="#">1</a></li>
-                <li id="li_2"><a id="a_2" href="#">2</a></li>
-                <li id="li_3"><a id="a_3" href="#">3</a></li>
-                <li id="li_4"><a id="a_4" href="#">4</a></li>
-                <li id="li_0"><a id="a_0" href="#">5</a></li>
-                <li>
-                    <a href="#" onclick="jumpToNewPage(3)" aria-label="Next">
-                        <span aria-hidden="true">&raquo;</span>
-                    </a>
-                </li>
-                <li style="border: none"><span>跳转：</span></li>
-                <li class="input-group">
-                    <input type="text" id="jump_to" class="form-control" style="width: 10%">
-                </li>
-                <li><a href="#" onclick="jumpToNewPage2()">go!</a></li>
-            </ul>
-        </nav>
+        <div style="display: flex;width: 100%; justify-content: space-between;">
+            <button type="button" id="inventorySave" style="height:10%;width: 100px"
+                    onclick="exportData()"
+                    class="btn btn-primary btn-sm">导出excel
+            </button>
+            <nav aria-label="Page navigation" style="margin-left:35%;width:70%;height:10%;">
+                <ul class="pagination" style="margin-top: 0;width: 100%">
+                    <li><span id="total"></span></li>
+                    <li>
+                        <a href="#" onclick="jumpToNewPage(2)" aria-label="Previous">
+                            <span aria-hidden="true">&laquo;</span>
+                        </a>
+                    </li>
+                    <li id="li_1"><a id="a_1" href="#">1</a></li>
+                    <li id="li_2"><a id="a_2" href="#">2</a></li>
+                    <li id="li_3"><a id="a_3" href="#">3</a></li>
+                    <li id="li_4"><a id="a_4" href="#">4</a></li>
+                    <li id="li_0"><a id="a_0" href="#">5</a></li>
+                    <li>
+                        <a href="#" onclick="jumpToNewPage(3)" aria-label="Next">
+                            <span aria-hidden="true">&raquo;</span>
+                        </a>
+                    </li>
+                    <li style="border: none"><span>跳转：</span></li>
+                    <li class="input-group">
+                        <input type="text" id="jump_to" class="form-control" style="width: 10%">
+                    </li>
+                    <li><a href="#" onclick="jumpToNewPage2()">go!</a></li>
+                </ul>
+            </nav>
+        </div>
     </div>
     <div class="modal fade" id="myModal"
          style="position: absolute;left: 10%;height: 95%;top: 3%;width: 82%;z-index: 5" role="dialog"
@@ -330,6 +344,64 @@
         </div>
     </div>
 
+    <div class="modal fade" id="myModal2"
+         style="position: absolute;left: 6%;height: 85%;top: 3%;width: 87%;z-index: 5" role="dialog"
+         data-backdrop="false"
+         aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document" style="width: 100%;height: 100%;margin: 0">
+            <div class="modal-content" style="width: 100%;height: 100%">
+                <div class="modal-header" style="height: 7%">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
+                    <h5 class="modal-title">详情</h5>
+                </div>
+                <div class="modal-body" style="height: 90%;width: 100%">
+                    <div style="height: 85%;">
+                        <div class="page-header" style="margin-top: 0;margin-bottom: 1%">
+                            <h3 style="margin-bottom: 0;margin-top: 0" id="inputDetail"><small>构建信息</small></h3>
+                        </div>
+                        <table class="table table-hover" style="text-align: center;">
+                            <tr id="table_tr2">
+                                <td class='print_tdStyle_title active' style='width: 22%'>PC构件名称</td>
+                                <td class='print_tdStyle_title active' style='width: 18%'>构件编号</td>
+                                <td class='print_tdStyle_title active' style='width: 15%'>长*宽*高</td>
+                                <td class='print_tdStyle_title active' style='width: 10%'>体积(m3)</td>
+                                <td class='print_tdStyle_title active' style='width: 10%'>状态</td>
+                            </tr>
+                            <tbody id="detailTableText2">
+                            </tbody>
+                        </table>
+                    </div>
+                    <nav aria-label="Page navigation" style="width:50%;height:10%;" id="page1">
+                        <ul class="pagination" style="margin-top: 0;width: 100%">
+                            <li><span id="total_d1" style="width: 22%">0条，共0页</span></li>
+                            <li>
+                                <a href="#" onclick="jumpToNewPage_p1(2)" aria-label="Previous">
+                                    <span aria-hidden="true">&laquo;</span>
+                                </a>
+                            </li>
+                            <li id="li_d11"><a id="a_d11" href="#">1</a></li>
+                            <li id="li_d12"><a id="a_d12" href="#">2</a></li>
+                            <li id="li_d13"><a id="a_d13" href="#">3</a></li>
+                            <li id="li_d14"><a id="a_d14" href="#">4</a></li>
+                            <li id="li_d10"><a id="a_d10" href="#">5</a></li>
+                            <li>
+                                <a href="#" onclick="jumpToNewPage_p1(3)" aria-label="Next">
+                                    <span aria-hidden="true">&raquo;</span>
+                                </a>
+                            </li>
+                            <li style="border: none"><span>跳转：</span></li>
+                            <li class="input-group">
+                                <input type="text" id="jump_to_d1" class="form-control" style="width: 10%">
+                            </li>
+                            <li><a href="#" onclick="jumpToNewPage_d21()">go!</a></li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+
 </div>
 <script type="text/javascript">
     if (sessionStorage.getItem("userName") == null) {
@@ -346,16 +418,41 @@
     let pop_pageDate = []  //弹框数据
     let pop_pageCur = 1;    //弹框分页当前页
     let pop_pageAll = 1;  //弹框分页总页数
+    let detail_pageDate = []  //详情数据
+    let detail_pageCur = 1;    //详情当前页
+    let detail_pageAll = 1;  //详情总页数
+    let detail_pageDate2 = []
     let pop_pageDate2 = []
+    let detail_id = ''
     let list = []   //现场联系人
     let list2 = []   //现场联系人
     let det_i = 0;
+    let orderByNumber = 'number_desc';
+    let orderByTime = 'out_time_desc';
 
     window.onload = getTableData(1)
 
     $('#myModal1').on('hidden.bs.modal', function (e) {
         location.reload()
     })
+
+    function orderByNum() {
+        if (orderByNumber === 'number_desc') {
+            orderByNumber = 'number_asc'
+        } else {
+            orderByNumber = 'number_desc'
+        }
+        getTableData(1)
+    }
+
+    function orderBytime() {
+        if (orderByTime === 'out_time_desc') {
+            orderByTime = 'out_time_asc'
+        } else {
+            orderByTime = 'out_time_desc'
+        }
+        getTableData(1)
+    }
 
     function addOrder() {
         $('#myModal1').modal('show')
@@ -424,6 +521,22 @@
         })
     }
 
+    function exportData() {
+        let planname = $('#planname').val();
+        let startDate = $('#startDate').val();
+        let endDate = $('#endDate').val();
+        let obj = {
+            name: planname,
+            type: '1',
+            startDate: startDate,
+            endDate: endDate,
+        }
+        let a = document.createElement('a');
+        a.href = "${pageContext.request.contextPath}/OutboundOrder?name=" + obj.name + '&type=' + obj.type + '&startDate=' + obj.startDate
+            + '&endDate=' + obj.endDate + '&isExport=' + true + '&pageCur=' + 1 + '&pageMax=' + 9999999;
+        a.click();
+    }
+
     function openPop1() {
         $('#myModal4').modal('show')
     }
@@ -456,9 +569,15 @@
 
     function getTableData(newPage) {
         let planname = $('#planname').val();
+        let startDate = $('#startDate').val();
+        let endDate = $('#endDate').val();
         let obj = {
             name: planname,
             type: '1',
+            startDate: startDate,
+            orderByNumber: orderByNumber,
+            orderByTime: orderByTime,
+            endDate: endDate,
             pageCur: newPage,
             pageMax: pageMax
         }
@@ -807,6 +926,67 @@
 
     }
 
+    function getDetailData1(id) {
+        $('#myModal2').modal('show')
+        detail_id = id
+        $.ajax({
+            url: "${pageContext.request.contextPath}/OutboundOrder",
+            type: 'post',
+            dataType: 'json',
+            data: {
+                id: id,
+                type: '6',
+                pageCur: '1',
+                pageMax: '10'
+            },
+            contentType: 'application/x-www-form-urlencoded;charset=utf-8',
+            success: function (res) {
+                if (res.data) {
+                    detail_pageDate = res.data;
+                    updateData()
+                    $('#total_d1').html(res.cnt + "条，共" + res.pageAll + "页");
+                    $('#li_d11').addClass('active');
+                    // 重置查询为第一页
+                    detail_pageCur = 1;
+                    // 重置总页数
+                    detail_pageAll = parseInt(res.pageAll);
+                    for (let i = 1; i < 6; i++) {
+                        let k = i % 5;
+                        if (i > detail_pageAll) {
+                            $('#a_d1' + k).text('.');
+                        } else {
+                            if (k === 0) {
+                                $('#a_d1' + k).text(5);
+                                $('#a_d1' + k).attr('onclick', 'jumpToNewPage_d11(5)');
+                                continue;
+                            } else {
+                                $('#a_d1' + k).text(i);
+                                $('#a_d1' + k).attr('onclick', 'jumpToNewPage_d11(' + k + ')');
+                            }
+                        }
+                    }
+                }
+            },
+            error: function () {
+                detail_pageDate = [];
+                alert("查询失败！")
+            }
+        })
+    }
+
+    function updateData() {
+        let str = ''
+        for (let i = 0; i < detail_pageDate.length; i++) {
+            let state = detail_pageDate[i]['stock_status'] === 1 ? '待出库' : '已出库'
+            str += "<tr><td class='tdStyle_body' title='" + detail_pageDate[i]['materialname'] + "'>" + detail_pageDate[i]['materialname'] +
+                "</td><td class='tdStyle_body' title='" + detail_pageDate[i]['preproductid'] + "'>" + detail_pageDate[i]['preproductid'] +
+                "</td><td class='tdStyle_body' title='" + detail_pageDate[i]['standard'] + "'>" + detail_pageDate[i]['standard'] +
+                "</td><td class='tdStyle_body' title='" + detail_pageDate[i]['fangliang'] + "'>" + detail_pageDate[i]['fangliang'] +
+                "</td><td class='tdStyle_body' title='" + state + "'>" + state +
+                "</td></tr>";
+        }
+        $("#detailTableText2").html(str);
+    }
 
     function getPrintData(id) {
         $.ajax({
@@ -961,17 +1141,21 @@
             let str = '';
             for (let i = 0; i < jsonObj.length; i++) {
                 jsonObj[i].orderId = "JSLJ-" + (jsonObj[i]['number'] || '')
+                let state = jsonObj[i]['out_num'] === jsonObj[i]['num'] ? '已完成' : '未完成'
+                let style = jsonObj[i]['out_num'] === jsonObj[i]['num'] ? "style='background-color: green;'" : "style='background-color: red;'"
                 str += "<tr><td class='tdStyle_body table_td' title='" + jsonObj[i]['orderId'] + "'>" + jsonObj[i]['orderId'] +
                     "</td><td class='tdStyle_body table_td' title='" + jsonObj[i]['out_time'] + "'>" + (jsonObj[i]['out_time'] || '') +
+                    "</td><td class='tdStyle_body table_td' title='" + state + "'" + style + ">" + state +
                     "</td><td class='tdStyle_body table_td' title='" + jsonObj[i]['customer_name'] + "'>" + (jsonObj[i]['customer_name'] || '') +
                     "</td><td class='tdStyle_body table_td' title='" + jsonObj[i]['building_no'] + "'>" + (jsonObj[i]['building_no'] || '') +
                     "</td><td class='tdStyle_body table_td' title='" + jsonObj[i]['floor_no'] + "'>" + (jsonObj[i]['floor_no'] || '') +
                     "</td><td class='tdStyle_body table_td' title='" + jsonObj[i]['build_type'] + "'>" + (jsonObj[i]['build_type'] || '') +
                     "</td><td class='tdStyle_body table_td' title='" + jsonObj[i]['contact_name'] + "'>" + (jsonObj[i]['contact_name'] || '') +
-                    "</td><td class='tdStyle_body table_td' title='" + jsonObj[i]['material_receiver'] + "'>" + (jsonObj[i]['material_receiver'] || '') +
+                    // "</td><td class='tdStyle_body table_td' title='" + jsonObj[i]['material_receiver'] + "'>" + (jsonObj[i]['material_receiver'] || '') +
                     "</td><td class='tdStyle_body table_td' title='" + jsonObj[i]['planname'] + "'>" + (jsonObj[i]['planname'] || '') +
                     "</td><td class='tdStyle_body table_td' title='" + jsonObj[i]['num'] + "'>" + (jsonObj[i]['num'] || '') +
-                    "</td><td class='tdStyle_body table_td' ><a href='#' onclick=printDataF(" + i + ")>打印</a> <a href='#' onclick=delTableData1('" + jsonObj[i].id + "')>删除</a>" +
+                    "</td><td class='tdStyle_body table_td' title='" + jsonObj[i]['fangliang'] + "'>" + (jsonObj[i]['fangliang'] || '') +
+                    "</td><td class='tdStyle_body table_td' ><a href='#' onclick=printDataF(" + i + ")>打印</a> <a href='#' onclick=getDetailData1('" + jsonObj[i].id + "')>详情</a> <a href='#' onclick=delTableData1('" + jsonObj[i].id + "')>删除</a>" +
                     "</td></tr>";
             }
             $("#archTableText").html(str);
@@ -998,9 +1182,16 @@
                 newPage = pageCur + 1;
             }
         }
+        let planname = $('#planname').val();
+        let startDate = $('#startDate').val();
+        let endDate = $('#endDate').val();
         let obj = {
-            name: $("#planname").val(),
-            type: "1",
+            name: planname,
+            type: '1',
+            startDate: startDate,
+            orderByNumber: orderByNumber,
+            orderByTime: orderByTime,
+            endDate: endDate,
             pageCur: newPage,
             pageMax: pageMax
         }
@@ -1038,9 +1229,16 @@
     }
 
     function jumpToNewPage1(newPage) {
+        let planname = $('#planname').val();
+        let startDate = $('#startDate').val();
+        let endDate = $('#endDate').val();
         let obj = {
-            name: $("#planname").val(),
-            type: "1",
+            name: planname,
+            type: '1',
+            startDate: startDate,
+            orderByNumber: orderByNumber,
+            orderByTime: orderByTime,
+            endDate: endDate,
             pageCur: newPage,
             pageMax: pageMax
         }
@@ -1078,9 +1276,16 @@
             alert("超过最大页数")
             return
         }
+        let planname = $('#planname').val();
+        let startDate = $('#startDate').val();
+        let endDate = $('#endDate').val();
         let obj = {
-            name: $("#planname").val(),
-            type: "1",
+            name: planname,
+            type: '1',
+            startDate: startDate,
+            orderByNumber: orderByNumber,
+            orderByTime: orderByTime,
+            endDate: endDate,
             pageCur: newPage,
             pageMax: pageMax
         }
@@ -1256,6 +1461,7 @@
             materialcode: materialcode,
             drawing_no: drawing_no,
             build_type: build_type,
+            orderByDrawing_no: true,
             isOrder: false,
             pageCur: newPage,
             pageMax: pageMax
@@ -1268,7 +1474,6 @@
             contentType: 'application/x-www-form-urlencoded;charset=utf-8',
             success: function (result) {
                 // result = JSON.parse(result);
-                console.log(result)
                 if (result.warehouseInfo !== undefined) {
                     pop_pageDate = result.warehouseInfo;
                     updateTable(true);
@@ -1320,6 +1525,7 @@
             materialcode: materialcode,
             drawing_no: drawing_no,
             build_type: build_type,
+            orderByDrawing_no: true,
             isOrder: false,
             pageCur: newPage,
             pageMax: pageMax
@@ -1386,6 +1592,7 @@
             materialcode: materialcode,
             drawing_no: drawing_no,
             build_type: build_type,
+            orderByDrawing_no: true,
             isOrder: false,
             pageCur: newPage,
             pageMax: pageMax
@@ -1481,6 +1688,166 @@
             }
             $('#li_d' + newPage % 5).addClass('active');
             $('#li_d' + pageCur % 5).removeClass('active');
+        }
+    }
+
+    function jumpToNewPage_p1(newPageCode) {
+        detail_pageDate = []
+        let newPage = 1;
+        if (newPageCode === 1) newPage = 1;
+        if (newPageCode === 2) {
+            if (detail_pageCur == 1) {
+                window.alert("已经在第一页!");
+                return
+            } else {
+                newPage = detail_pageCur - 1;
+            }
+        }
+        if (newPageCode === 3) {
+            if (detail_pageCur == detail_pageAll) {
+                window.alert("已经在最后一页!");
+                return
+            } else {
+                newPage = detail_pageCur + 1;
+            }
+        }
+        $.post("${pageContext.request.contextPath}/OutboundOrder", {
+            id: detail_id,
+            type: '6',
+            pageCur: newPage,
+            pageMax: pageMax
+        }, function (result) {
+            result = JSON.parse(result);
+            if (result.data !== undefined) {
+                detail_pageDate = result.data;
+                updateData();
+                if (newPageCode === 3) {
+                    setFooter_d1(3, detail_pageAll, detail_pageCur, newPage);
+                }
+                if (newPageCode === 2) {
+                    setFooter_d1(2, detail_pageAll, detail_pageCur, newPage);
+                }
+                detail_pageCur = newPage;
+            }
+        });
+    }
+
+    function jumpToNewPage_d11(newPage) {
+        $.post("${pageContext.request.contextPath}/OutboundOrder", {
+            id: detail_id,
+            type: '6',
+            pageCur: newPage,
+            pageMax: pageMax
+        }, function (result) {
+            result = JSON.parse(result);
+            if (result.data !== undefined) {
+                detail_pageDate = result.data;
+                updateData();
+                $('#li_d1' + newPage % 5).addClass('active');
+                $('#li_d1' + detail_pageCur % 5).removeClass('active');
+                detail_pageCur = newPage;
+            }
+        });
+    }
+
+    function jumpToNewPage_d21() {
+        var newPage = parseInt($('#jump_to_d1').val());
+        if (newPage == "" || isNaN(newPage))
+            return;
+        if (newPage > detail_pageAll) {
+            alert("超过最大页数")
+            return
+        }
+        $.post("${pageContext.request.contextPath}/OutboundOrder", {
+            id: detail_id,
+            type: '6',
+            pageCur: newPage,
+            pageMax: pageMax
+        }, function (result) {
+            result = JSON.parse(result);
+            if (result.data !== undefined) {
+                detail_pageDate = result.data;
+                updateData();
+                detail_pageCur = newPage;
+                jump_d21(newPage, detail_pageAll);
+            }
+        });
+    }
+
+    function jump_d21(newPage, pageAll) {
+        if (newPage <= 5) {
+            for (let i = 1; i < 6; i++) {
+                let k = i % 5;
+                if (i > pageAll) {
+                    $('#a_1' + k).text('.');
+                } else {
+                    if (k === 0) {
+                        $('#a_1' + k).text(5);
+                    } else {
+                        $('#a_1' + k).text(k);
+                        $('#a_1' + k).attr('onclick', 'jumpToNewPage_d11(' + k + ')');
+                    }
+                }
+            }
+            $('#li_1' + detail_pageCur % 5).removeClass('active');
+            $('#li_1' + newPage % 5).addClass('active');
+        } else {
+            let j = Math.floor(newPage / 5);
+            let m = j * 5;
+            for (let i = 1; i < 6; i++) {
+                let k = i % 5;
+                if (++m > pageAll) {
+                    $('#a_1' + k).text('.');
+                } else {
+                    $('#a_1' + k).text(m);
+                    $('#a_1' + k).attr('onclick', 'jumpToNewPage_d11(' + m + ')');
+                }
+            }
+            $('#li_1' + detail_pageCur % 5).removeClass('active');
+            $('#li_1' + newPage % 5).addClass('active');
+        }
+    }
+
+    function setFooter_d1(newPageCode, pageAll, pageCur, newPage) {
+        if (newPageCode === 3) {
+            if (pageCur % 5 === 0) {
+                let j = Math.floor(newPage / 5);
+                let m = j * 5;
+                for (let i = 1; i < 6; i++) {
+                    let k = i % 5;
+                    if (++m > pageAll) {
+                        $('#a_d1' + k).text('.');
+                    } else {
+                        $('#a_d1' + k).text(m);
+                        $('#a_d1' + k).attr('onclick', 'jumpToNewPage_d11(' + m + ')');
+                    }
+                }
+
+            }
+            $('#li_d1' + newPage % 5).addClass('active');
+            $('#li_d1' + pageCur % 5).removeClass('active');
+        } else {
+            if (pageCur % 5 === 1) {
+                let j = Math.floor(newPage / 5);
+                let m
+                if (j < 0) {
+                    m = 5;    //5*1
+                } else {
+                    m = j * 5;
+                }
+                for (let i = 5; i > 0; i--) {
+                    let k = i % 5;
+                    if (m > pageAll) {
+                        $('#a_d1' + k).text('');
+                        m--;
+                    } else {
+                        $('#a_d1' + k).text(m);
+                        $('#a_d1' + k).attr('onclick', 'jumpToNewPage_d11(' + m-- + ')');
+                    }
+                }
+            }
+            $('#li_d1' + newPage % 5).addClass('active');
+            $('#li_d1' + pageCur % 5).removeClass('active');
         }
     }
 </script>

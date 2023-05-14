@@ -14,7 +14,7 @@
     </form>
     <div style="width:80%;height:80%;margin:0 auto;">
         <div class="page-header" style="margin-top: 0;margin-bottom: 1%">
-            <h3 style="margin-bottom: 0;margin-top: 0"><small>批次信息</small></h3>
+            <h3 style="margin-bottom: 0;margin-top: 0"><small id="small">批次信息</small></h3>
         </div>
         <div style="height: 85%">
             <table class="table table-hover" style="text-align: center">
@@ -109,6 +109,7 @@
             success: function (res) {
                 if (res.data.length !== 0) {
                     jsonObj = res.data;
+                    document.getElementById("small").innerText = "批次信息 合计方量：" + res.fangliang
                     updateTable();
                     $('#total').html(res.cnt + "条，共" + res.pageAll + "页");
                     if (newPage === 1) {

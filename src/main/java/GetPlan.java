@@ -47,7 +47,7 @@ public class GetPlan extends HttpServlet {
             out = resp.getWriter();
             con = DbUtil.getCon();
             String sql = "select plannumber,plant,plantime,line,liner,planname,build,tasksqure,tasknum,updatedate,CASE ( SELECT count( 1 ) FROM preproduct WHERE preproduct.plannumber = plan.plannumber AND preproduct.product_delete = 0 AND preproduct.inspect = 1 ) WHEN tasknum THEN 1 ELSE 0 END AS checkstate," +
-                    "CASE ( SELECT count( 1 ) FROM preproduct WHERE preproduct.plannumber = plan.plannumber AND preproduct.product_delete = 0 AND preproduct.pourmade = 1 ) WHEN tasknum THEN 1 ELSE 0 END AS pourmadestate ," +
+                    "CASE ( SELECT count( 1 ) FROM preproduct WHERE preproduct.plannumber = plan.plannumber AND preproduct.product_delete = 0 AND preproduct.pourmade = 1 ) WHEN tasknum THEN 1 ELSE 0 END AS pourmadestate ,CASE ( SELECT count( 1 ) FROM preproduct WHERE preproduct.plannumber = plan.plannumber AND preproduct.product_delete = 0 AND preproduct.stock_status > 0 AND preproduct.stock_status is not null ) WHEN tasknum THEN 1 ELSE 0 END AS stock_status," +
                     " printstate " +
                     "from plan where isdelete = 0 ";
             String sql2 = "select count(1) as num from plan where isdelete = 0";
@@ -88,20 +88,20 @@ public class GetPlan extends HttpServlet {
             }
             if ("0".equals(productState)) {
                 if ("1".equals(on_or_off)) {
-                    sql += " and ( SELECT count( 1 ) FROM preproduct WHERE preproduct.plannumber = plan.plannumber AND preproduct.pourmade = 1 and preproduct.inspect = 1 and covert_test = 1 and product_delete = '0') !=tasknum";
-                    sql2 += " and ( SELECT count( 1 ) FROM preproduct WHERE preproduct.plannumber = plan.plannumber AND preproduct.pourmade = 1 AND preproduct.inspect = 1 and covert_test = 1 and product_delete = '0')!=tasknum";
+                    sql += " and ( SELECT count( 1 ) FROM preproduct WHERE preproduct.plannumber = plan.plannumber AND preproduct.pourmade = 1 and preproduct.inspect = 1  and product_delete = '0' AND preproduct.stock_status > 0 AND preproduct.stock_status is not null ) !=tasknum";
+                    sql2 += " and ( SELECT count( 1 ) FROM preproduct WHERE preproduct.plannumber = plan.plannumber AND preproduct.pourmade = 1 AND preproduct.inspect = 1  and product_delete = '0' AND preproduct.stock_status > 0 AND preproduct.stock_status is not null )!=tasknum";
                 } else {
-                    sql += " and ( SELECT count( 1 ) FROM preproduct WHERE preproduct.plannumber = plan.plannumber AND preproduct.pourmade = 1 and preproduct.inspect = 1 and product_delete = '0') !=tasknum";
-                    sql2 += " and ( SELECT count( 1 ) FROM preproduct WHERE preproduct.plannumber = plan.plannumber AND preproduct.pourmade = 1 AND preproduct.inspect = 1 and product_delete = '0')!=tasknum";
+                    sql += " and ( SELECT count( 1 ) FROM preproduct WHERE preproduct.plannumber = plan.plannumber AND preproduct.pourmade = 1 and preproduct.inspect = 1 and product_delete = '0' AND preproduct.stock_status > 0 AND preproduct.stock_status is not null ) !=tasknum";
+                    sql2 += " and ( SELECT count( 1 ) FROM preproduct WHERE preproduct.plannumber = plan.plannumber AND preproduct.pourmade = 1 AND preproduct.inspect = 1 and product_delete = '0' AND preproduct.stock_status > 0 AND preproduct.stock_status is not null )!=tasknum";
                 }
             }
             if ("1".equals(productState)) {
                 if ("1".equals(on_or_off)) {
-                    sql += " and ( SELECT count( 1 ) FROM preproduct WHERE preproduct.plannumber = plan.plannumber AND preproduct.pourmade = 1 and preproduct.inspect = 1 and covert_test = 1 and product_delete = '0') =tasknum";
-                    sql2 += " and ( SELECT count( 1 ) FROM preproduct WHERE preproduct.plannumber = plan.plannumber AND preproduct.pourmade = 1 AND preproduct.inspect = 1 and covert_test = 1 and product_delete = '0') =tasknum";
+                    sql += " and ( SELECT count( 1 ) FROM preproduct WHERE preproduct.plannumber = plan.plannumber AND preproduct.pourmade = 1 and preproduct.inspect = 1  and product_delete = '0' AND preproduct.stock_status > 0 AND preproduct.stock_status is not null) =tasknum";
+                    sql2 += " and ( SELECT count( 1 ) FROM preproduct WHERE preproduct.plannumber = plan.plannumber AND preproduct.pourmade = 1 AND preproduct.inspect = 1  and product_delete = '0' AND preproduct.stock_status > 0 AND preproduct.stock_status is not null) =tasknum";
                 } else {
-                    sql += " and ( SELECT count( 1 ) FROM preproduct WHERE preproduct.plannumber = plan.plannumber AND preproduct.pourmade = 1 and preproduct.inspect = 1 and product_delete = '0') =tasknum";
-                    sql2 += " and ( SELECT count( 1 ) FROM preproduct WHERE preproduct.plannumber = plan.plannumber AND preproduct.pourmade = 1 and preproduct.inspect = 1 and product_delete = '0') =tasknum";
+                    sql += " and ( SELECT count( 1 ) FROM preproduct WHERE preproduct.plannumber = plan.plannumber AND preproduct.pourmade = 1 and preproduct.inspect = 1 and product_delete = '0' AND preproduct.stock_status > 0 AND preproduct.stock_status is not null) =tasknum";
+                    sql2 += " and ( SELECT count( 1 ) FROM preproduct WHERE preproduct.plannumber = plan.plannumber AND preproduct.pourmade = 1 and preproduct.inspect = 1 and product_delete = '0' AND preproduct.stock_status > 0 AND preproduct.stock_status is not null) =tasknum";
                 }
             }
             if (!"".equals(printstate) && printstate != null) {
@@ -168,6 +168,7 @@ public class GetPlan extends HttpServlet {
                 map.put("build", rs.getString("build"));
                 map.put("tasksqure", rs.getString("tasksqure"));
                 map.put("tasknum", rs.getString("tasknum"));
+                map.put("stock_status", rs.getString("stock_status"));
                 map.put("updatedate", rs.getDate("updatedate"));
                 map.put("pourmadestate", rs.getInt("pourmadestate"));
                 map.put("checkstate", rs.getInt("checkstate"));

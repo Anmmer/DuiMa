@@ -36,7 +36,7 @@ public class GetBatchNum extends HttpServlet {
         try {
             con = DbUtil.getCon();
             String sql = "select a.user_name,a.date,a.batch_id, b.num from batch a left join (select count(*) num,planname,batch_id from preproduct where isdelete = 0 group by batch_id,planname) b on a.batch_id = b.batch_id where b.planname = ? order by a.date";
-            String sql2 = "select count(*) as num from batch a left join (select count(*) num,planname,batch_id from preproduct where isdelete = 0 group by batch_id,planname) b on a.batch_id = b.batch_id where b.planname = ? order by a.date";
+            String sql2 = "select count(*) as num,sum(fangliang) fangliang from batch a left join (select count(*) num,sum(fangliang) fangliang,planname,batch_id from preproduct where isdelete = 0 group by batch_id,planname) b on a.batch_id = b.batch_id where b.planname = ? order by a.date";
             sql += " limit ?,?";
             ps = con.prepareStatement(sql);
             ps.setString(1, planname);
@@ -48,6 +48,7 @@ public class GetBatchNum extends HttpServlet {
             while (rs2.next()) {
                 int num = rs2.getInt("num");
                 result.put("cnt", num);
+                result.put("fangliang", rs2.getString("fangliang"));
                 int res_num;
                 if (num % pageMax == 0) {
                     res_num = num / pageMax;

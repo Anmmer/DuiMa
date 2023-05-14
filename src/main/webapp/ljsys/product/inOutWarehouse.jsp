@@ -49,6 +49,10 @@
     <div style="width:85%;height:78%;margin:0 auto;">
         <div class="page-header" style="margin-top: 0;margin-bottom: 1%">
             <h3 style="margin-bottom: 0;margin-top: 0"><small id="small">仓库信息 合计方量：0</small></h3>
+<%--            <button type="button" onclick="outWarehouseAll()" style="position: absolute;right: 21%;top:16%;width: 80px"--%>
+<%--                    class="btn btn-primary btn-sm">--%>
+<%--                一键出库--%>
+<%--            </button>--%>
             <button type="button" onclick="openOutPop()" style="position: absolute;right: 15%;top:16%;width: 60px"
                     class="btn btn-primary btn-sm">
                 出&nbsp;&nbsp;库
@@ -355,7 +359,7 @@
                     alert(result.msg)
                     if (result.flag) {
                         // $('#myModal').modal('hide');
-                        getTableData(pageCur)
+                        getDetailData(1)
                     }
                 }
             })
@@ -586,6 +590,57 @@
                     updateTable(true);
                     alert("查询失败！")
                 }
+            })
+        }
+
+        function outWarehouseAll() {
+            let location = $('#location option:selected').val();
+            let name = null;
+            let myModal_name1 = $('#myModal_name1 option:selected').val()
+            let myModal_name2 = $('#myModal_name2 option:selected').val()
+            if (myModal_name1) {
+                name = myModal_name1
+            }
+            if (myModal_name2) {
+                name = myModal_name2
+            }
+            if (location) {
+                name = location
+            }
+
+            if (isOrder === 'false') {
+                alert("请选择已生成出库单")
+                return
+            }
+            let planname = $('#planname').val();
+            let preproductid = $('#preproductid').val();
+            let building_no = $('#building_no').val();
+            let floor_no = $('#floor_no').val();
+            let materialcode = $('#materialcode').val();
+            let drawing_no = $('#drawing_no').val();
+            let isOrder = $('#isOrder option:selected').val();
+            let obj = {
+                factoryName: name,
+                planname: planname,
+                preproductid: preproductid,
+                building_no: building_no,
+                floor_no: floor_no,
+                materialcode: materialcode,
+                drawing_no: drawing_no,
+                isOrder: isOrder,
+                pageCur: newPage,
+                pageMax: pageMax
+            }
+            $.ajax({
+                url: "${pageContext.request.contextPath}/GetWarehouseInfo",
+                type: 'post',
+                dataType: 'json',
+                data: obj,
+                contentType: 'application/x-www-form-urlencoded;charset=utf-8',
+                success: function (res) {
+                    let arr = res.warehouseInfo
+
+                },
             })
         }
 
