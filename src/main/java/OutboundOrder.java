@@ -47,6 +47,7 @@ public class OutboundOrder extends HttpServlet {
         String isExport = req.getParameter("isExport");
         String orderByNumber = req.getParameter("orderByNumber");
         String orderByTime = req.getParameter("orderByTime");
+        String state = req.getParameter("state");
         JSONArray jsonArray = JSON.parseArray(materialcodes);
         String type = req.getParameter("type"); // 1:查询，2：新增，3：修改，4：删除，5：计划单关联查询 6:查看详情
         Map<String, Object> result = new HashMap<>();
@@ -58,7 +59,7 @@ public class OutboundOrder extends HttpServlet {
         try {
             con = DbUtil.getCon();
             String sql1 = "select planname,create_time,number,customer_name,contact_name,address,material_receiver,out_time,id,(select count(*) from outbound_order_product b  where a.id = b.outbound_order_id and b.is_effective = '1' ) as num,(select count(*) from outbound_order_product b left join preproduct c on b.materialcode = c.materialcode  where a.id = b.outbound_order_id and c.isdelete = '0' and c.stock_status = '2' and b.is_effective = '1' ) as out_num,(select sum(fangliang) from outbound_order_product b left join preproduct c on b.materialcode = c.materialcode  where a.id = b.outbound_order_id and c.isdelete = '0' and b.is_effective = '1' ) as fangliang,building_no,floor_no,build_type from outbound_order a   where a.is_effective = 1";
-            String sql1_page = "select count(*) as num from outbound_order where is_effective = 1";
+            String sql1_page = "select count(*) as num from outbound_order a where is_effective = 1";
             String sql2 = "insert into outbound_order(id,planname,number,customer_name,contact_name,address,material_receiver,create_time,is_effective,out_time,building_no,floor_no,build_type) values(?,?,?,?,?,?,?,now(),'1',?,?,?,?)";
             String sql3 = "update outbound_order set ";
             String sql4 = "update outbound_order_product set ";
@@ -74,6 +75,15 @@ public class OutboundOrder extends HttpServlet {
                     sql1 += " and out_time < ? and out_time > ?";
                     sql1_page += " and out_time < ? and out_time > ?";
                     i += 2;
+                }
+                if ("1".equals(state)) {
+                    sql1 += " and (select count(*) from outbound_order_product b  where a.id = b.outbound_order_id and b.is_effective = '1' ) = (select count(*) from outbound_order_product b left join preproduct c on b.materialcode = c.materialcode  where a.id = b.outbound_order_id and c.isdelete = '0' and c.stock_status = '2' and b.is_effective = '1' )";
+                    sql1_page += " and (select count(*) from outbound_order_product b  where a.id = b.outbound_order_id and b.is_effective = '1' ) = (select count(*) from outbound_order_product b left join preproduct c on b.materialcode = c.materialcode  where a.id = b.outbound_order_id and c.isdelete = '0' and c.stock_status = '2' and b.is_effective = '1' )";
+                }
+
+                if ("0".equals(state)) {
+                    sql1 += " and (select count(*) from outbound_order_product b  where a.id = b.outbound_order_id and b.is_effective = '1' ) != (select count(*) from outbound_order_product b left join preproduct c on b.materialcode = c.materialcode  where a.id = b.outbound_order_id and c.isdelete = '0' and c.stock_status = '2' and b.is_effective = '1' )";
+                    sql1_page += " and (select count(*) from outbound_order_product b  where a.id = b.outbound_order_id and b.is_effective = '1' ) != (select count(*) from outbound_order_product b left join preproduct c on b.materialcode = c.materialcode  where a.id = b.outbound_order_id and c.isdelete = '0' and c.stock_status = '2' and b.is_effective = '1' )";
                 }
                 j = i;
                 sql1 += " order by planname  ";
@@ -118,6 +128,7 @@ public class OutboundOrder extends HttpServlet {
                     list2.add("构件类型");
                     list2.add("现场联系人");
                     list2.add("收料员");
+                    list2.add("方量");
                     list2.add("项目名称");
                     list2.add("构建数量");
                     list2.add("收货地址");
@@ -160,6 +171,7 @@ public class OutboundOrder extends HttpServlet {
                         list1.add(rs.getString("build_type"));
                         list1.add(rs.getString("contact_name"));
                         list1.add(rs.getString("material_receiver"));
+                        list1.add(rs.getString("fangliang"));
                         list1.add(rs.getString("planname"));
                         list1.add(rs.getString("num"));
                         list1.add(rs.getString("address"));

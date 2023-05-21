@@ -16,11 +16,11 @@
         <label style="margin-left: 3%">物料名称：</label><input type="text" name="materialname" id="materialname"
                                                            style="width: 13%;height: 30px" class="form-control">
         <label style="margin-left: 3%">项目名称：</label><input type="text" id="planname"
-                                   style="height: 30px;width: 13%" class="form-control">
+                                                           style="height: 30px;width: 13%" class="form-control">
         <label style="margin-left: 3%">楼栋：</label><input type="text" id="building_no"
                                                          style="height: 30px;width: 13%" class="form-control"><br><br>
         <label>楼层：</label><input type="text" id="floor_no"
-                                                         style="height: 30px;width: 13%" class="form-control">
+                                 style="height: 30px;width: 13%" class="form-control">
         <label style="margin-left: 3%">图号：</label><input type="text" id="drawing_no"
                                                          style="height: 30px;width: 13%" class="form-control">
         <%--        <label style="margin-left: 2%">操作人：</label><input type="text" name="inspect_user" id="inspect_user"--%>
@@ -40,14 +40,14 @@
     <div style="width:85%;height:80%;margin:0 auto;">
         <div class="page-header" style="margin-top: 0;margin-bottom: 1%">
             <h3 style="margin-bottom: 0;margin-top: 0"><small>报废库信息</small></h3>
-            <button type="button" onclick="outWarehouse()" style="position: absolute;right: 15%;top:16%;width: 60px"
+            <button type="button" onclick="outWarehouse()" style="position: absolute;right: 9%;top:15%;width: 60px"
                     class="btn btn-primary btn-sm">
                 报&nbsp;&nbsp;废
             </button>
-            <button type="button" onclick="openPop()" style="position: absolute;right: 9%;top:16%;width: 60px"
-                    class="btn btn-primary btn-sm">
-                入&nbsp;&nbsp;库
-            </button>
+            <%--            <button type="button" onclick="openPop()" style="position: absolute;right: 9%;top:16%;width: 60px"--%>
+            <%--                    class="btn btn-primary btn-sm">--%>
+            <%--                入&nbsp;&nbsp;库--%>
+            <%--            </button>--%>
         </div>
         <div style="height: 85%">
             <table class="table table-hover" cellspacing="0" cellpadding="0" width="100%" align="center">
@@ -139,8 +139,8 @@
                         </div>
                         <div style="display: flex;width: 100%; justify-content: space-between;">
                             <div class="form-inline" style="width: 45%;">
-<%--                                <label for="path">地址：</label>--%>
-<%--                                <input id="path" class="form-control" style="width: 35%;height: 30px">--%>
+                                <%--                                <label for="path">地址：</label>--%>
+                                <%--                                <input id="path" class="form-control" style="width: 35%;height: 30px">--%>
                                 <label for="remark" style="margin-left: 1%">备注：</label>
                                 <input id="remark" class="form-control" style="width: 35%;height: 30px">
                             </div>

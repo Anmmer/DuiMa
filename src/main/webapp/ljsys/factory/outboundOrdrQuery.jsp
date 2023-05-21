@@ -9,6 +9,12 @@
             <label for="endDate" style="margin-left: 2%">至：</label>
             <input id="endDate" class="form-control" type="date" style="width: 30%;height: 30px">
         </div>
+        <label for="state" style="margin-left: 2%">状态：</label>
+        <select id="state" style="height: 30px;width: 10%" class="form-control">
+            <option value=""></option>
+            <option value="0">未完成</option>
+            <option value="1">已完成</option>
+        </select>
         <button type="button" class="btn btn-primary btn-sm" style="margin-left: 3%"
                 onclick="getTableData(1)">
             查 询
@@ -525,14 +531,16 @@
         let planname = $('#planname').val();
         let startDate = $('#startDate').val();
         let endDate = $('#endDate').val();
+        let state = $('#state').val();
         let obj = {
             name: planname,
             type: '1',
+            state: state,
             startDate: startDate,
             endDate: endDate,
         }
         let a = document.createElement('a');
-        a.href = "${pageContext.request.contextPath}/OutboundOrder?name=" + obj.name + '&type=' + obj.type + '&startDate=' + obj.startDate
+        a.href = "${pageContext.request.contextPath}/OutboundOrder?name=" + obj.name + '&type=' + obj.type + '&state=' + obj.state + '&startDate=' + obj.startDate
             + '&endDate=' + obj.endDate + '&isExport=' + true + '&pageCur=' + 1 + '&pageMax=' + 9999999;
         a.click();
     }
@@ -571,10 +579,12 @@
         let planname = $('#planname').val();
         let startDate = $('#startDate').val();
         let endDate = $('#endDate').val();
+        let state = $('#state').val();
         let obj = {
             name: planname,
             type: '1',
             startDate: startDate,
+            state: state,
             orderByNumber: orderByNumber,
             orderByTime: orderByTime,
             endDate: endDate,
@@ -1185,10 +1195,12 @@
         let planname = $('#planname').val();
         let startDate = $('#startDate').val();
         let endDate = $('#endDate').val();
+        let state = $('#state').val();
         let obj = {
             name: planname,
             type: '1',
             startDate: startDate,
+            state: state,
             orderByNumber: orderByNumber,
             orderByTime: orderByTime,
             endDate: endDate,
@@ -1232,10 +1244,12 @@
         let planname = $('#planname').val();
         let startDate = $('#startDate').val();
         let endDate = $('#endDate').val();
+        let state = $('#state').val();
         let obj = {
             name: planname,
             type: '1',
             startDate: startDate,
+            state: state,
             orderByNumber: orderByNumber,
             orderByTime: orderByTime,
             endDate: endDate,
@@ -1279,10 +1293,12 @@
         let planname = $('#planname').val();
         let startDate = $('#startDate').val();
         let endDate = $('#endDate').val();
+        let state = $('#state').val();
         let obj = {
             name: planname,
             type: '1',
             startDate: startDate,
+            state: state,
             orderByNumber: orderByNumber,
             orderByTime: orderByTime,
             endDate: endDate,

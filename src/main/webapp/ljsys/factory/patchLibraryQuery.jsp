@@ -35,6 +35,12 @@
     <div style="width:85%;height:80%;margin:0 auto;">
         <div class="page-header" style="margin-top: 0;margin-bottom: 1%">
             <h3 style="margin-bottom: 0;margin-top: 0"><small>修补库信息</small></h3>
+            <button type="button" style="position: absolute;right: 30%;top:18%;width: 70px"
+                    class="btn btn-primary btn-sm"
+                    data-toggle="modal"
+                    onclick="openPop2()">
+                申请报废
+            </button>
             <button type="button" style="position: absolute;right: 23%;top:18%;width: 60px"
                     class="btn btn-primary btn-sm"
                     data-toggle="modal"
@@ -47,9 +53,9 @@
                     onclick="inspect()">
                 修&nbsp;&nbsp;补
             </button>
-            <button type="button" onclick="openPop()" style="position: absolute;right: 9%;top:18%;width: 60px"
+            <button type="button" onclick="openPop()" style="position: absolute;right: 9%;top:18%;width: 70px"
                     class="btn btn-primary btn-sm">
-                入&nbsp;&nbsp;库
+                出库退回
             </button>
         </div>
         <div style="height: 85%">
@@ -180,10 +186,41 @@
             </div>
         </div>
     </div>
+    <div class="modal fade" id="myModal2"
+         style="position: absolute;left: 35%;top: 20%;width: 30%;z-index: 5" role="dialog"
+         data-backdrop="false"
+         aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document" style="margin: 0">
+            <div class="modal-content" style="width:60%">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
+                    <h5 class="modal-title">备注</h5>
+                </div>
+                <div class="modal-body">
+                    <div class="form-horizontal">
+                        <div class="form-group" style="margin-top: 5%">
+                            <label for="remark2" style="width: 28%;text-align: left;padding-right: 0"
+                                   class="col-sm-2 control-label">备注:</label>
+                            <input class="form-control" style="width:50%;" id="remark2"
+                                   name="remark2">
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" onclick="warehouseScrapInOut()" class="btn btn-primary">保存</button>
+                </div>
+            </div>
+        </div>
+    </div>
     <script type="text/javascript">
         let obj = {}
 
         window.onload = getTableData(1);
+
+        function openPop2() {
+            $('#myModal2').modal('show')
+        }
 
         function openPop(flag) {
             if (flag) {
@@ -208,6 +245,38 @@
 
         }
 
+        function warehouseScrapInOut() {
+            let obj = [];
+            $('#archTableText').find('input:checked').each(function () {
+                obj.push($(this).attr('data-id'));   //找到对应checkbox中data-id属性值，然后push给空数组pids
+            });
+            if (obj.length === 0) {
+                alert("请勾选！")
+                return;
+            }
+            let remark = $("#remark2").val()
+            // if (!path) {
+            //     alert("请填写地址")
+            // }
+            let r = confirm("亲，确认申请报废！");
+            if (r === false) {
+                return;
+            }
+            $.post("${pageContext.request.contextPath}/WarehouseScrapInOut", {
+                pids: JSON.stringify(obj),
+                type: "1",
+                scrap_user: sessionStorage.getItem("userName"),
+                scrap_library: "报废库",
+                scrap_remark: remark
+            }, function (result) {
+                result = JSON.parse(result);
+                alert(result.message);
+                if (result.flag) {
+                    getTableData(pageCur);
+                    $('#myModal2').modal('hide')
+                }
+            });
+        }
 
         function getTableData(newPage) {
             let drawing_no = $('#drawing_no').val();

@@ -38,7 +38,7 @@ public class GetProductionSummary extends HttpServlet {
         try {
             con = DbUtil.getCon();
             String sql = "SELECT\n" +
-                    "\ta.planname,(SELECT concat( count(*), '件/', sum( fangliang ), '方量' ) FROM preproduct b  WHERE b.planname = a.planname and b.isdelete = 0 and b.product_delete = 0) plannumber_sum,\n" +
+                    "\ta.planname,(SELECT concat( count(*), '件/', sum( fangliang ), '方量' ) FROM preproduct b  WHERE b.planname = a.planname and b.isdelete = 0 ) plannumber_sum,\n" +
                     "\t(SELECT concat( count(*), '件/' ) FROM preproduct c  WHERE c.planname = a.planname AND c.pourmade = 1 and c.product_delete = 0  and c.isdelete = 0 ) pourmade_num,\n" +
                     "\t(SELECT concat(sum( fangliang ), '方量' ) FROM preproduct b LEFT JOIN plan c ON b.plannumber = c.plannumber WHERE c.planname = a.planname AND b.pourmade = 1 and b.product_delete = 0  and b.isdelete = 0 ) pourmade_sum,\n" +
                     "\t(SELECT concat( count(*), '件/') FROM preproduct c  WHERE c.planname = a.planname AND c.inspect = 1 and c.product_delete = 0 and c.isdelete = 0) inspect_num,\n" +

@@ -3,20 +3,20 @@
     <div style="width: 100%;height: 10px"></div>
     <div style="width: 100%;display: flex;flex-flow: row wrap">
         <div class="frame" style="width: 100%">
-            <div class="title">项目库存信息统计（个）</div>
+            <div class="title">项目库存信息统计（方量）</div>
             <div id="inventory_planname" class="pie"></div>
         </div>
 
         <div class="frame" style="height: 470px;">
-            <div class="title">仓库构件数量统计（个）</div>
+            <div class="title">仓库构件统计（方量）</div>
             <div id="inventory_factory" class="pie" style="height: 440px;"></div>
         </div>
         <div class="frame" style="height: 450px;">
-            <div class="title">仓库构件数量统计（个）</div>
+            <div class="title">仓库构件统计（方量）</div>
             <div id="inventory_planname_type" class="pie" style="height: 440px;"></div>
         </div>
         <div class="frame">
-            <div class="title">库存按构件类型统计（个）</div>
+            <div class="title">库存按构件类型统计（方量）</div>
             <div id="inventory_type" class="pie"></div>
         </div>
     </div>
@@ -64,6 +64,13 @@
             success: function (res) {
                 let inventory_planname = echarts.init(document.getElementById("inventory_planname"));
                 let option = {
+                    tooltip: {
+                        trigger: 'axis',
+                        axisPointer: {
+                            // Use axis to trigger tooltip
+                            type: 'shadow' // 'shadow' as default; can also be 'line' or 'shadow'
+                        }
+                    },
                     xAxis: {
                         type: 'category',
                         axisLabel: {
@@ -85,7 +92,8 @@
                         {
                             data: res.data,
                             type: 'line',
-                            smooth: true
+                            smooth: true,
+
                         }
                     ]
                 };
@@ -104,6 +112,13 @@
             success: function (res) {
                 let inventory_type = echarts.init(document.getElementById("inventory_type"));
                 let option = {
+                    tooltip: {
+                        trigger: 'axis',
+                        axisPointer: {
+                            // Use axis to trigger tooltip
+                            type: 'shadow' // 'shadow' as default; can also be 'line' or 'shadow'
+                        }
+                    },
                     xAxis: {
                         type: 'category',
                         data: res.xAxis
@@ -141,26 +156,40 @@
             contentType: 'application/x-www-form-urlencoded;charset=utf-8',
             success: function (res) {
                 let inventory_type = echarts.init(document.getElementById("inventory_factory"));
+                let data = []
+                res.data.forEach((v, i) => {
+                    data.push({value: v, name: res.xAxis[i]})
+                })
                 let option = {
-                    xAxis: {
-                        type: 'category',
-                        data: res.xAxis
-                    },
-                    yAxis: {
-                        type: 'value'
+                    title: {
+                        text: '仓库构件统计',
+                        subtext: '方量',
+                        left: 'center'
                     },
                     toolbox: {
                         feature: {
                             dataView: {}
                         }
                     },
+                    tooltip: {
+                        trigger: 'item'
+                    },
+                    legend: {
+                        orient: 'vertical',
+                        left: 'left'
+                    },
                     series: [
                         {
-                            data: res.data,
-                            type: 'bar',
-                            showBackground: true,
-                            backgroundStyle: {
-                                color: 'rgba(180, 180, 180, 0.2)'
+                            name: '仓库构件数量统计',
+                            type: 'pie',
+                            radius: '50%',
+                            data: data,
+                            emphasis: {
+                                itemStyle: {
+                                    shadowBlur: 10,
+                                    shadowOffsetX: 0,
+                                    shadowColor: 'rgba(0, 0, 0, 0.5)'
+                                }
                             }
                         }
                     ]

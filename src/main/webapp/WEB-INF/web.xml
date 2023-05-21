@@ -1039,4 +1039,12 @@
         <servlet-name>updatePrintSet</servlet-name>
         <url-pattern>/UpdatePrintSet</url-pattern>
     </servlet-mapping>
+    <servlet>
+        <servlet-name>reportDataStatistics</servlet-name>
+        <servlet-class>ReportDataStatistics</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>reportDataStatistics</servlet-name>
+        <url-pattern>/ReportDataStatistics</url-pattern>
+    </servlet-mapping>
 </web-app>

@@ -99,6 +99,11 @@
                     xAxis: {
                         data: res.xAxisData,
                         name: '项目名称',
+                        axisLabel: {
+                            interval: 0,
+                            rotate: 20,
+                            margin: 2,
+                        },
                         axisLine: {onZero: true},
                         splitLine: {show: false},
                         splitArea: {show: false}

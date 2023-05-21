@@ -37,16 +37,16 @@ public class Statistics extends HttpServlet {
         try {
             int i = 0;
             con = DbUtil.getCon();
-            String pourAll = "select (select sum(fangliang) from preproduct where (pourmade = 1 or pourmade = 2) and isdelete = '0') pour_sum,(select sum(fangliang) from preproduct where (pourmade = 0 or pourmade is null)  and isdelete = '0') no_pour_sum from dual";
-            String pourPlanname = "select planname,(select sum(fangliang) from preproduct b where b.planname = a.planname and (b.pourmade = 1 or b.pourmade = 2) and b.isdelete = '0' ) as pour_sum,(select sum(fangliang) from preproduct b where b.planname = a.planname and (pourmade = 0 or pourmade is null) and b.isdelete = '0' ) as no_pour_sum from planname a where isdelete = 0";
-            String pourPlannameType = "select a.build_type,(select sum(fangliang) from preproduct b where " +
-                    (planname == null ? "" : "planname =? and ") + "  b.build_type = a.build_type  and (pourmade = 1 or pourmade = 2) and isdelete = '0') pour_sum,(select sum(fangliang) from preproduct b where " +
-                    (planname == null ? "" : "planname =? and ") + " (pourmade = 0 or pourmade is null) and b.isdelete = '0' and b.build_type = a.build_type ) as no_pour_sum from (select build_type from preproduct " +
+            String pourAll = "select IFNULL((select sum(fangliang) from preproduct where (pourmade = 1 or pourmade = 2) and isdelete = '0'),0) pour_sum,IFNULL((select sum(fangliang) from preproduct where (pourmade = 0 or pourmade is null)  and isdelete = '0'),0) no_pour_sum from dual";
+            String pourPlanname = "select planname,IFNULL((select sum(fangliang) from preproduct b where b.planname = a.planname and (b.pourmade = 1 or b.pourmade = 2) and b.isdelete = '0' ),0) as pour_sum,IFNULL((select sum(fangliang) from preproduct b where b.planname = a.planname and (pourmade = 0 or pourmade is null) and b.isdelete = '0' ),0) as no_pour_sum from planname a where isdelete = 0";
+            String pourPlannameType = "select a.build_type,IFNULL((select sum(fangliang) from preproduct b where " +
+                    (planname == null ? "" : "planname =? and ") + "  b.build_type = a.build_type  and (pourmade = 1 or pourmade = 2) and isdelete = '0'),0) pour_sum,IFNULL((select sum(fangliang) from preproduct b where " +
+                    (planname == null ? "" : "planname =? and ") + " (pourmade = 0 or pourmade is null) and b.isdelete = '0' and b.build_type = a.build_type ),0) as no_pour_sum from (select build_type from preproduct " +
                     (planname == null ? "" : "where planname =? ") + "  group by build_type) a";
-            String inventoryPlanname = "select planname,(select count(*) from preproduct a inner join warehouse_info b on a.materialcode = b.materialcode where b.is_effective = '1' and c.planname = a.planname  ) num from planname c where isdelete = 0";
-            String inventoryType = "select a.build_type,count(*) num from preproduct a inner join warehouse_info b on a.materialcode = b.materialcode where b.is_effective = '1' group by a.build_type";
-            String inventoryFactory = "SELECT NAME,(SELECT count(*) FROM warehouse_info WHERE is_effective = '1' and warehouse_id IN " +
-                    "( SELECT d.id FROM warehouse b LEFT JOIN warehouse c ON b.id = c.pid LEFT JOIN warehouse d ON c.id = d.pid WHERE b.type = '1'  AND d.type = '3'  AND a.id = b.id  ) ) num " +
+            String inventoryPlanname = "select planname,IFNULL((select sum(fangliang) from preproduct a inner join warehouse_info b on a.materialcode = b.materialcode where a.isdelete = 0 and b.is_effective = '1' and c.planname = a.planname  ),0) num from planname c where isdelete = 0";
+            String inventoryType = "select a.build_type,IFNULL(sum(fangliang),0) num from preproduct a inner join warehouse_info b on a.materialcode = b.materialcode where a.isdelete = 0 and b.is_effective = '1' group by a.build_type";
+            String inventoryFactory = "SELECT NAME,IFNULL((SELECT sum(fangliang) FROM warehouse_info c left join preproduct d on c.materialcode = d.materialcode WHERE d.isdelete = 0 and is_effective = '1' and warehouse_id IN " +
+                    "( SELECT d.id FROM warehouse b LEFT JOIN warehouse c ON b.id = c.pid LEFT JOIN warehouse d ON c.id = d.pid WHERE b.type = '1'  AND d.type = '3'  AND a.id = b.id  ) ),0) num " +
                     "FROM warehouse a WHERE type = '1'  AND is_delete = '0'";
             if ("pourAll".equals(type)) {
                 ps = con.prepareStatement(pourAll);
@@ -163,11 +163,11 @@ public class Statistics extends HttpServlet {
                 List<Map<String, Object>> list2 = new ArrayList<>();
                 for (int i1 = 0; i1 < list1.size(); i1++) {
                     Map<String, Object> map = new HashMap<>();
-                    List<Integer> list3 = new ArrayList<>();
+                    List<BigDecimal> list3 = new ArrayList<>();
                     map.put("name", list1.get(i1));
                     map.put("data", list3);
                     list2.add(map);
-                    inventoryPlannameType += ",(select count(*) from warehouse_info a left join preproduct b on a.materialcode = b.materialcode where a.is_effective = '1' and b.product_delete = '0' and b.planname = c.planname and b.build_type ='" + list1.get(i1) + "' ) type" + i1;
+                    inventoryPlannameType += ",(select sum(fangliang) from warehouse_info a left join preproduct b on a.materialcode = b.materialcode where a.is_effective = '1' and b.product_delete = '0' and b.planname = c.planname and b.build_type ='" + list1.get(i1) + "' ) type" + i1;
                 }
                 inventoryPlannameType += " from planname c";
                 ps = con.prepareStatement(inventoryPlannameType);
@@ -176,8 +176,8 @@ public class Statistics extends HttpServlet {
                 while (rs.next()) {
                     yAxis.add(rs.getString("planname"));
                     for (int j = 0; j < list2.size(); j++) {
-                        List<Integer> list3 = (List<Integer>) list2.get(j).get("data");
-                        list3.add(rs.getInt("type" + j));
+                        List<BigDecimal> list3 = (List<BigDecimal>) list2.get(j).get("data");
+                        list3.add(rs.getBigDecimal("type" + j));
                     }
                 }
                 result.put("yAxis", yAxis);
