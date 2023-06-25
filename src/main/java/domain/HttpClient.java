@@ -20,8 +20,8 @@ import java.util.List;
 
 public class HttpClient {
     private final static CloseableHttpClient httpClient = HttpClients.createDefault();
-    private static String appid = "wx791d077604afc99f";
-    private static String secret = "c40c401ac1fbd590231c87d5dc351382";
+    private static String appid = "";
+    private static String secret = "";
 
 
     private void close() throws IOException {
